@@ -63,6 +63,8 @@ export const common: Messages["common"] = {
   menu: "Menü",
   openMenu: "Gezinti menüsünü aç",
   closeMenu: "Gezinti menüsünü kapat",
+  expandNavigation: "Gezinmeyi genişlet",
+  collapseNavigation: "Gezinmeyi daralt",
   toggleTheme: "Temayı değiştir",
   themeLight: "Açık",
   themeDark: "Koyu",

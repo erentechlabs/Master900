@@ -208,7 +208,7 @@ function ChatMessage({ message }: { message: TutorMessageView }) {
   const isUser = message.role === "USER";
   return (
     <article className={cn("rounded-lg border bg-card p-3", isUser ? "ml-auto max-w-3xl border-primary/30" : "max-w-4xl")}>
-      <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{isUser ? t("tutor.you") : t("tutor.assistant")}</p>
+      <p className="mb-2 text-xs font-semibold text-muted-foreground">{isUser ? t("tutor.you") : t("tutor.assistant")}</p>
       <Markdown>{message.content}</Markdown>
       {message.flagged && !isUser ? <p className="mt-2 text-xs text-warning">{t("tutor.flagged")}</p> : null}
       {!isUser && message.citations.length ? (

@@ -66,7 +66,7 @@ export function FlashcardSession({ cards }: { cards: FlashcardReviewCard[] }) {
       <CardContent className="space-y-4">
         {card.lessonTitle ? <p className="text-sm text-muted-foreground">{t("learner.flashcards.fromLesson", { lesson: card.lessonTitle })}</p> : null}
         <button type="button" className="min-h-48 w-full rounded-xl border bg-card p-6 text-left shadow-sm transition motion-safe:hover:scale-[1.01]" onClick={() => setFlipped((value) => !value)} aria-pressed={flipped}>
-          <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">{flipped ? t("learner.flashcards.back") : t("learner.flashcards.front")}</span>
+          <span className="mb-2 block text-xs font-semibold text-muted-foreground">{flipped ? t("learner.flashcards.back") : t("learner.flashcards.front")}</span>
           <span className="text-lg font-medium">{flipped ? card.back : card.front}</span>
         </button>
         {!flipped ? (

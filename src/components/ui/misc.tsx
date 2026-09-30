@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
+/** WinUI ProgressBar: 1px track with a 3-4px rounded accent indicator. */
 export function Progress({
   value,
   max = 100,
@@ -24,9 +25,10 @@ export function Progress({
       aria-valuemin={0}
       aria-valuemax={max}
       aria-valuenow={Math.round(value)}
-      className={cn("h-2 w-full overflow-hidden rounded-full bg-muted", className)}
+      className={cn("relative h-1 w-full rounded-full", className)}
     >
-      <div className={cn("h-full rounded-full bg-primary transition-all", indicatorClassName)} style={{ width: `${pct}%`, ...style }} />
+      <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-[hsl(var(--input))] opacity-70" aria-hidden="true" />
+      <div className={cn("relative h-full rounded-full bg-primary transition-[width] duration-300 ease-fluent", indicatorClassName)} style={{ width: `${pct}%`, ...style }} />
     </div>
   );
 }
@@ -40,15 +42,16 @@ export function Separator({ className, orientation = "horizontal" }: { className
     <div
       role="separator"
       aria-orientation={orientation}
-      className={cn("shrink-0 bg-border", orientation === "horizontal" ? "h-px w-full" : "h-full w-px", className)}
+      className={cn("shrink-0 bg-stroke-divider", orientation === "horizontal" ? "h-px w-full" : "h-full w-px", className)}
     />
   );
 }
 
+/** WinUI ProgressRing (indeterminate). */
 export function Spinner({ className, label }: { className?: string; label?: string }) {
   return (
     <span role="status" className={cn("inline-flex items-center gap-2", className)}>
-      <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden="true" />
+      <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-r-transparent border-t-transparent" aria-hidden="true" />
       {label ? <span className="sr-only">{label}</span> : null}
     </span>
   );
@@ -59,5 +62,5 @@ export function VisuallyHidden({ children }: { children: React.ReactNode }) {
 }
 
 export function Kbd({ children }: { children: React.ReactNode }) {
-  return <kbd className="rounded border bg-muted px-1.5 py-0.5 font-mono text-[11px]">{children}</kbd>;
+  return <kbd className="rounded border border-control-stroke border-b-control-stroke-strong bg-control px-1.5 py-0.5 font-mono text-[11px]">{children}</kbd>;
 }

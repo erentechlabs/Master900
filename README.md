@@ -20,7 +20,7 @@ grounded AI tutor, a personal study planner and transparent readiness analytics,
 | Personalization | Onboarding → diagnostic → study plan (ICS export, missed-session adjustment), dashboard with next best action, readiness estimate with explanations, optional gamification |
 | AI tutor | Grounded in approved content with citations; explain, simplify, analogy, compare, quiz me, explain my mistake, summarize, flashcards; works fully offline by default |
 | CMS | Editorial workflow (draft → technical review → editorial review → approved → published/scheduled), revisions & rollback, question bank, lab builder, AI-assisted drafts, import/export, audit log, jobs, anonymous analytics |
-| Quality | WCAG 2.2 AA-minded UI, EN/TR UI with typed keys, strict TypeScript, zod validation, RBAC, security headers, 350+ unit tests (including a solving walkthrough for every portal lab), integration, smoke and lab UI replay scripts |
+| Quality | Windows 11 / WinUI (Fluent) design system in light and dark, WCAG 2.2 AA-checked UI (axe), EN/TR UI with typed keys, strict TypeScript, zod validation, RBAC, security headers, 350+ unit tests (including a solving walkthrough for every portal lab), integration, smoke and lab UI replay scripts |
 
 Demo content: complete learning paths for **AZ-900** (22 lessons, 140 questions, 11 labs) and **AI-901** (11 lessons,
 71 questions, 5 labs), and hands-on lab packages for **DP-900** (5 labs), **SC-900** (6), **PL-900** (5), **AB-900**
@@ -50,7 +50,7 @@ npm run db:seed                 # catalog, course and lab packages for all seven
 npm run dev                     # http://127.0.0.1:3000 (localhost only)
 ```
 
-The app is single-user by default. Opening it provisions one local learner profile with admin access; there is no sign-in, sign-up or sign-out UI.
+The app is single-user by default. Opening it provisions one local learner profile with admin access; there is no sign-in, sign-up or sign-out UI and no account menu — profile, preferences and privacy are under **Settings** at the bottom of the navigation pane.
 
 ## Docker
 

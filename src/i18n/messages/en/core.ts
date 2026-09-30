@@ -11,7 +11,6 @@ export const nav = {
   bookmarks: "Bookmarks",
   admin: "Admin",
   settings: "Settings",
-  profile: "Profile and settings",
   glossary: "Glossary",
   compare: "Compare",
   concepts: "Concept map",
@@ -20,7 +19,6 @@ export const nav = {
   reminders: "Reminders",
   noReminders: "You're all caught up.",
   mainNavigation: "Main navigation",
-  userMenu: "Profile menu",
 };
 
 export const legal = {

@@ -42,6 +42,9 @@ describe("i18n", () => {
     expect(t("common.cancel")).toBe(en.common.cancel);
     expect(t("common.minutes", { count: 5 })).toBe("5 min");
     expect(interpolate("{a} and {b}", { a: 1 })).toBe("1 and {b}");
+    expect(interpolate("{count} {count|day|days}", { count: 1 })).toBe("1 day");
+    expect(interpolate("{count} {count|day|days}", { count: 3 })).toBe("3 days");
+    expect(interpolate("{count} {count|day|days}", {})).toBe("{count} {count|day|days}");
     expect(getMessages("tr").common.appName).toBeTruthy();
   });
 

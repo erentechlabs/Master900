@@ -52,7 +52,7 @@ export function QuestionView({ question, value, onChange, disabled, review, idPr
       ) : null}
       {question.scenario ? (
         <section aria-label={t("assessment.runner.scenario")} className="rounded-lg border bg-muted/40 p-4">
-          <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t("assessment.runner.scenario")}</p>
+          <p className="mb-1 text-xs font-semibold text-muted-foreground">{t("assessment.runner.scenario")}</p>
           <Markdown>{question.scenario}</Markdown>
         </section>
       ) : null}
@@ -480,14 +480,14 @@ export function ReviewPanel({ review }: { review: QuestionReview }) {
         title={review.isCorrect ? t("assessment.runner.correct") : partial ? t("assessment.runner.partiallyCorrect") : t("assessment.runner.incorrect")}
       >
         <div className="text-foreground">
-          <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t("assessment.runner.explanation")}</p>
+          <p className="mb-1 text-xs font-semibold text-muted-foreground">{t("assessment.runner.explanation")}</p>
           <Markdown>{review.explanation}</Markdown>
         </div>
       </Alert>
       {review.details ? (
         <div className="overflow-x-auto rounded-lg border">
           <table className="w-full text-sm">
-            <thead className="bg-muted/60 text-left text-xs uppercase tracking-wide text-muted-foreground">
+            <thead className="border-b text-left text-xs font-semibold text-muted-foreground">
               <tr>
                 <th scope="col" className="p-2.5">
                   <span className="sr-only">{t("assessment.runner.item")}</span>

@@ -38,6 +38,8 @@ const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
   reactStrictMode: true,
+  // Keep the development badge away from the navigation pane footer (Settings) in the bottom-left corner.
+  devIndicators: { position: "bottom-right" },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

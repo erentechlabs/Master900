@@ -123,7 +123,7 @@ export function LabPlayer({ initialData }: { initialData: LabPlayerData }) {
             <ChevronLeft className="h-4 w-4" aria-hidden="true" />
             {t("labs.backToLabs")}
           </Link>
-          <h1 className="mt-1 text-xl font-semibold tracking-tight sm:text-2xl">{data.lab.title}</h1>
+          <h1 className="mt-1 font-display text-subtitle sm:text-[24px] sm:leading-8">{data.lab.title}</h1>
           <div className="mt-2 flex flex-wrap items-center gap-2">
             <Link href={`/certifications/${data.lab.certification.code}`} className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
               <Badge variant="outline">{data.lab.certification.code}</Badge>
@@ -208,7 +208,7 @@ function InstructionsPanel({
 }) {
   const { t } = useI18n();
   return (
-    <aside className={cn("min-w-0 space-y-4 rounded-xl border bg-card p-3 lg:overflow-auto", height === "full" ? "lg:h-[calc(100vh-5.5rem)]" : "lg:h-[clamp(560px,calc(100vh-12rem),1100px)]")} aria-label={t("labs.vm.instructions")}>
+    <aside className={cn("min-w-0 space-y-4 rounded-lg border bg-card p-3 lg:overflow-auto", height === "full" ? "lg:h-[calc(100dvh-5.5rem)]" : "lg:h-[clamp(560px,calc(100dvh-13rem),1100px)]")} aria-label={t("labs.vm.instructions")}>
       <CompletionCard data={data} completedSteps={completedSteps} />
       <Tabs defaultValue="tasks">
         <TabsList className="grid w-full grid-cols-3">
@@ -217,17 +217,17 @@ function InstructionsPanel({
           <TabsTrigger value="resources">{t("labs.vm.resources")}</TabsTrigger>
         </TabsList>
         <TabsContent value="tasks" className="space-y-4">
-          <Progress value={completedSteps} max={Math.max(1, data.lab.steps.length)} label={t("labs.steps")} />
+          <Progress value={completedSteps} max={Math.max(1, data.lab.steps.length)} label={t("labs.steps")} className="mt-1" />
           <ol className="space-y-3">
             {data.lab.steps.map((step, index) => {
               const status = data.run.stepStatus.find((s) => s.key === step.key);
               const passed = status?.passed === true;
               return (
-                <li key={step.key} className={cn("rounded-lg border p-3", passed ? "border-success/40 bg-success/5" : firstOpenStepKey === step.key ? "border-warning/60" : "bg-background")}>
+                <li key={step.key} aria-current={!passed && firstOpenStepKey === step.key ? "step" : undefined} className={cn("relative rounded-md border p-3", passed ? "border-transparent bg-tint-success" : firstOpenStepKey === step.key ? "border-control-stroke bg-layer before:absolute before:left-0 before:top-3 before:h-5 before:w-[3px] before:rounded-full before:bg-primary" : "border-transparent bg-layer")}>
                   <div className="flex items-start gap-2">
-                    {passed ? <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" /> : <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border text-[10px]">{index + 1}</span>}
+                    {passed ? <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-success" aria-hidden="true" /> : <span className={cn("mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[11px] font-semibold", firstOpenStepKey === step.key ? "border-primary bg-primary text-primary-foreground" : "border-control-stroke-strong text-muted-foreground")}>{index + 1}</span>}
                     <div className="min-w-0 flex-1">
-                      <p className="font-medium">{step.title}</p>
+                      <p className="font-semibold">{step.title}</p>
                       {data.lab.mode !== "CHALLENGE" ? <Markdown className="mt-1 text-sm text-muted-foreground">{step.instruction}</Markdown> : null}
                       {passed && step.explanation ? <Markdown className="mt-2 text-xs text-muted-foreground">{step.explanation}</Markdown> : null}
                       {showFeedback && status?.outcomes.some((o) => !o.passed && o.feedback) ? <ul className="mt-2 space-y-1 text-xs text-destructive">{status.outcomes.filter((o) => !o.passed && o.feedback).map((o, outcomeIndex) => <li key={outcomeIndex}>{o.feedback}</li>)}</ul> : null}
@@ -239,7 +239,9 @@ function InstructionsPanel({
             })}
           </ol>
           {hint ? <Alert variant="info" title={t("labs.hintTitle")} role="status"><Markdown>{hint}</Markdown></Alert> : null}
-          <Button className="w-full" onClick={onCheck} disabled={pending || data.run.completed}><Play aria-hidden="true" />{pending ? t("labs.checking") : t("labs.checkWork")}</Button>
+          <div className="sticky -bottom-3 -mx-3 -mb-3 border-t border-stroke-divider bg-card p-3">
+            <Button className="w-full" onClick={onCheck} disabled={pending || data.run.completed}><Play aria-hidden="true" />{pending ? t("labs.checking") : t("labs.checkWork")}</Button>
+          </div>
         </TabsContent>
         <TabsContent value="overview" className="space-y-4">
           <p className="text-sm text-muted-foreground">{data.lab.summary}</p>
@@ -256,9 +258,9 @@ function InstructionsPanel({
               <DialogContent closeLabel={t("common.close")}>
                 <DialogTitle>{t("labs.showSolution")}</DialogTitle>
                 <DialogDescription>{t("labs.solutionWarning")}</DialogDescription>
-                <div className="flex justify-end gap-2">
+                <div className="-mx-6 -mb-6 mt-2 grid grid-cols-2 gap-2 rounded-b-lg border-t border-stroke-divider bg-background p-6">
+                  <DialogClose asChild><Button onClick={onReveal}>{t("common.confirm")}</Button></DialogClose>
                   <DialogClose asChild><Button variant="outline">{t("common.cancel")}</Button></DialogClose>
-                  <DialogClose asChild><Button variant="destructive" onClick={onReveal}>{t("common.confirm")}</Button></DialogClose>
                 </div>
               </DialogContent>
             </Dialog>
@@ -288,5 +290,5 @@ function CompletionCard({ data, completedSteps }: { data: LabPlayerData; complet
 }
 
 function PanelSection({ title, children }: { title: string; children: React.ReactNode }) {
-  return <section className="rounded-lg border bg-background p-3"><h3 className="mb-2 font-medium">{title}</h3>{children}</section>;
+  return <section className="rounded-md bg-layer p-3"><h3 className="mb-2 font-semibold">{title}</h3>{children}</section>;
 }

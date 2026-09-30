@@ -4,6 +4,7 @@ import { Inbox } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 
+/** Page title (WinUI "Title", 28px semibold) with an optional caption above and a description below. */
 export function PageHeader({
   title,
   description,
@@ -20,9 +21,9 @@ export function PageHeader({
   return (
     <div className={cn("mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between", className)}>
       <div className="min-w-0 space-y-1">
-        {eyebrow ? <div className="text-sm font-medium text-primary">{eyebrow}</div> : null}
-        <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{title}</h1>
-        {description ? <p className="max-w-3xl text-muted-foreground">{description}</p> : null}
+        {eyebrow ? <div className="text-sm text-primary">{eyebrow}</div> : null}
+        <h1 className="font-display text-[24px] font-semibold leading-8 sm:text-title">{title}</h1>
+        {description ? <p className="max-w-3xl text-sm text-muted-foreground">{description}</p> : null}
       </div>
       {actions ? <div className="flex flex-wrap gap-2">{actions}</div> : null}
     </div>
@@ -43,12 +44,14 @@ export function EmptyState({
   className?: string;
 }) {
   return (
-    <div className={cn("flex flex-col items-center justify-center rounded-xl border border-dashed p-8 text-center", className)}>
-      <Icon className="mb-3 h-8 w-8 text-muted-foreground" aria-hidden="true" />
-      <p className="font-medium">{title}</p>
+    <div className={cn("flex flex-col items-center justify-center rounded-lg border bg-card px-6 py-10 text-center", className)}>
+      <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-tint-brand text-primary">
+        <Icon className="h-6 w-6" aria-hidden="true" />
+      </span>
+      <p className="font-display text-base font-semibold">{title}</p>
       {description ? <p className="mt-1 max-w-md text-sm text-muted-foreground">{description}</p> : null}
       {action ? (
-        <Button asChild className="mt-4" size="sm">
+        <Button asChild className="mt-5">
           <Link href={action.href}>{action.label}</Link>
         </Button>
       ) : null}
@@ -70,21 +73,26 @@ export function StatCard({
   className?: string;
 }) {
   return (
-    <div className={cn("rounded-xl border bg-card p-4 shadow-sm", className)}>
-      <div className="flex items-center justify-between gap-2 text-sm text-muted-foreground">
-        <span>{label}</span>
-        {Icon ? <Icon className="h-4 w-4" aria-hidden="true" /> : null}
+    <div className={cn("rounded-lg border bg-card p-4", className)}>
+      <div className="flex items-start justify-between gap-2">
+        <span className="text-sm text-muted-foreground">{label}</span>
+        {Icon ? (
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-tint-brand text-primary">
+            <Icon className="h-4 w-4" aria-hidden="true" />
+          </span>
+        ) : null}
       </div>
-      <div className="mt-1 text-2xl font-semibold tabular-nums">{value}</div>
+      <div className="mt-1 font-display text-2xl font-semibold tabular-nums">{value}</div>
       {hint ? <div className="mt-1 text-xs text-muted-foreground">{hint}</div> : null}
     </div>
   );
 }
 
+/** Section heading (WinUI "Subtitle", 20px semibold). */
 export function SectionTitle({ children, action, id }: { children: React.ReactNode; action?: React.ReactNode; id?: string }) {
   return (
     <div className="mb-3 flex items-center justify-between gap-2">
-      <h2 id={id} className="text-lg font-semibold tracking-tight">
+      <h2 id={id} className="font-display text-subtitle">
         {children}
       </h2>
       {action}

@@ -13,7 +13,6 @@ export const nav: Messages["nav"] = {
   bookmarks: "Yer işaretleri",
   admin: "Yönetici",
   settings: "Ayarlar",
-  profile: "Profil ve ayarlar",
   glossary: "Sözlük",
   compare: "Karşılaştır",
   concepts: "Kavram haritası",
@@ -22,7 +21,6 @@ export const nav: Messages["nav"] = {
   reminders: "Anımsatıcılar",
   noReminders: "Tüm işleriniz tamam.",
   mainNavigation: "Ana gezinti",
-  userMenu: "Profil menüsü",
 };
 
 export const legal: Messages["legal"] = {

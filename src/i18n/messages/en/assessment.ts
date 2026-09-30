@@ -151,7 +151,7 @@ export const assessment = {
     questionsAvailable: "{count} published questions available",
     recommended: "Suggested for you",
     allDomainsHint: "Leave all unchecked to include every domain.",
-    mistakesCount: "{count} questions to revisit, {due} due for review today.",
+    mistakesCount: "{count} {count|question|questions} to revisit, {due} due for review today.",
     reviewMistakes: "Review mistakes",
     enrollHint: "Enrol in this certification for a personalized plan.",
     endsAt: "ends {time}",

@@ -151,6 +151,14 @@ tests/                    Vitest suites
    parity and placeholder consistency.
 7. **Graceful AI.** The platform is fully functional without any external AI service. External providers are opt-in,
    use keys from the environment only, and fall back to the local provider on failure.
+8. **Windows 11 / WinUI design system.** The UI follows Fluent (WinUI 3): a title bar and a `NavigationView`-style pane
+   (expanded or compact; the choice is kept in a cookie, the lab page opens compact) on a Mica-like base, a content
+   layer with a rounded top-left corner, Segoe UI Variable type ramp (Caption 12 · Body 14 · Subtitle 20 · Title 28),
+   4px control / 8px overlay corners, standard buttons with an elevation stroke, text boxes with the accent focus
+   underline, acrylic menus and flyouts, InfoBars, SelectorBar tabs and ToggleSwitches. Tokens (layer, card, control,
+   stroke, tint and shadow colours for light and dark) live in `globals.css` and `tailwind.config.ts`; the UI kit in
+   `src/components/ui` maps them to controls. There is no account avatar or user menu: profile, preferences and
+   privacy live under **Settings**, pinned at the bottom of the pane. Contrast is checked with axe (WCAG 2.2 AA).
 
 ---
 

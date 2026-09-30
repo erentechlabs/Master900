@@ -11,7 +11,7 @@ import {
   type UiSimEvent,
   type UiSimState,
 } from "@/modules/labs/engine/ui-simulation";
-import { BrowserApp } from "@/components/labs/portal/portal-renderer";
+import { BrowserApp, BrowserTab } from "@/components/labs/portal/portal-renderer";
 import { SimTerminal } from "@/components/labs/portal/sim-terminal";
 import { VmShell } from "@/components/labs/vm/vm-shell";
 
@@ -78,6 +78,7 @@ export function UiSimulationPlayer({
       id: "browser",
       title: t("labs.vm.browser"),
       icon: <Globe className="h-4 w-4" aria-hidden="true" />,
+      titleBar: <BrowserTab config={config} state={localState} />,
       content: <BrowserApp config={config} state={localState} targetId={targetId} onEvent={send} />,
     },
     ...(hasTerminalApp

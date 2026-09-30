@@ -37,7 +37,7 @@ export const labs = {
   stepDone: "Step completed",
   hint: "Show hint",
   hintTitle: "Hint",
-  hintsUsed: "{count} hints used",
+  hintsUsed: "{count} {count|hint|hints} used",
   explanation: "What you just did",
   checkWork: "Check my work",
   checking: "Checking…",

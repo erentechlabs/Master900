@@ -46,7 +46,7 @@ export default async function LearnPage() {
                 </div>
                 <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg bg-muted/50 p-3">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t("common.continue")}</p>
+                    <p className="text-xs font-semibold text-muted-foreground">{t("common.continue")}</p>
                     <p className="font-medium">{path.nextLesson?.title ?? t("learner.dashboard.noContinue")}</p>
                   </div>
                   <Button asChild>

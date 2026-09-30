@@ -9,6 +9,7 @@ import {
   Cloud,
   Copy,
   ExternalLink,
+  Globe,
   Grid3x3,
   HelpCircle,
   Lock,
@@ -165,11 +166,8 @@ export function BrowserApp({
   const canBack = trail.length > 1 || !!errorUrl;
   const address = errorUrl ?? pageUrl(config, page, ctx);
   return (
-    <div className="flex h-full min-h-0 flex-col bg-background" data-sim-page={page.id}>
-      <div className="flex items-center gap-2 border-b bg-muted/50 px-2 py-1.5">
-        <div className="max-w-[16rem] truncate rounded-t-lg border bg-background px-3 py-1 text-xs font-medium">{errorUrl ?? renderText(page.title, ctx)}</div>
-      </div>
-      <div className="flex items-center gap-1 border-b px-2 py-2">
+    <div className="flex h-full min-h-0 flex-col bg-card" data-sim-page={page.id}>
+      <div className="flex items-center gap-1 border-b border-stroke-divider bg-card px-2 py-1.5">
         <Button size="iconSm" variant="ghost" disabled={!canBack} data-sim-back="" onClick={() => onEvent({ type: "back" })}>
           <ChevronLeft className="h-4 w-4" aria-hidden="true" />
           <span className="sr-only">{t("labs.portal.back")}</span>
@@ -192,22 +190,34 @@ export function BrowserApp({
   );
 }
 
+/** The browser's tab, drawn in the VM window's caption bar (Edge style). */
+export function BrowserTab({ config, state }: { config: UiSimConfig; state: UiSimState }) {
+  const page = currentPage(config, state);
+  const title = state.__meta.browserError?.url ?? renderText(page.title, buildContext(config, state));
+  return (
+    <div className="flex h-7 min-w-36 max-w-60 items-center gap-2 rounded-t-lg bg-card px-3 text-xs">
+      <Globe className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true" />
+      <span className="truncate">{title}</span>
+    </div>
+  );
+}
+
 function AddressForm({ initialAddress, onOpen }: { initialAddress: string; onOpen: (url: string) => void }) {
   const { t } = useI18n();
   const [address, setAddress] = React.useState(initialAddress);
   return (
     <form
-      className="flex min-w-0 flex-1 items-center gap-2 rounded-md border bg-background px-2"
+      className="mx-1 flex h-8 min-w-0 flex-1 items-center gap-2 rounded-full bg-muted px-3 transition-shadow focus-within:bg-control-focus focus-within:shadow-[inset_0_0_0_2px_hsl(var(--primary))]"
       onSubmit={(event) => {
         event.preventDefault();
         onOpen(address);
       }}
     >
-      <Lock className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
+      <Lock className="h-3.5 w-3.5 shrink-0 text-muted-foreground" aria-hidden="true" />
       <label className="sr-only" htmlFor="sim-address-bar">
         {t("labs.portal.address")}
       </label>
-      <input id="sim-address-bar" value={address} onChange={(event) => setAddress(event.currentTarget.value)} className="h-8 min-w-0 flex-1 bg-transparent text-xs outline-none" />
+      <input id="sim-address-bar" value={address} onChange={(event) => setAddress(event.currentTarget.value)} className="h-8 min-w-0 flex-1 bg-transparent text-[13px] outline-none" />
     </form>
   );
 }
@@ -217,7 +227,7 @@ function BrowserError({ url }: { url: string }) {
   return (
     <div className="mx-auto flex max-w-2xl flex-col items-start gap-3 p-10">
       <TriangleAlert className="h-10 w-10 text-muted-foreground" aria-hidden="true" />
-      <h2 className="text-2xl font-semibold">{t("labs.portal.siteUnreachable")}</h2>
+      <h2 className="font-display text-subtitle">{t("labs.portal.siteUnreachable")}</h2>
       <p className="text-sm text-muted-foreground">{t("labs.portal.siteUnreachableBody", { url })}</p>
     </div>
   );

@@ -12,7 +12,7 @@ import { EmptyState, PageHeader } from "@/components/page";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input, Select } from "@/components/ui/form";
+import { Field, Input, Select } from "@/components/ui/form";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getI18n();
@@ -62,24 +62,34 @@ export default async function LabsPage({
   return (
     <div>
       <PageHeader title={t("labs.title")} description={t("labs.subtitle")} />
-      <form role="search" aria-label={t("labs.searchLabel")} className="mb-6 grid gap-2 md:grid-cols-[1fr_repeat(4,12rem)_auto] md:items-end">
-        <Input name="q" defaultValue={params.q ?? ""} placeholder={t("labs.searchLabel")} aria-label={t("labs.searchLabel")} />
-        <Select name="certification" defaultValue={params.certification ?? ""} aria-label={t("labs.filterCert")}>
-          <option value="">{t("common.all")}</option>
-          {certifications.map((cert) => <option key={cert.id} value={cert.code}>{cert.code}</option>)}
-        </Select>
-        <Select name="type" defaultValue={params.type ?? ""} aria-label={t("labs.filterType")}>
-          <option value="">{t("common.all")}</option>
-          {TYPES.map((type) => <option key={type} value={type}>{t(`enums.labType.${type}` as MessageKey)}</option>)}
-        </Select>
-        <Select name="complexity" defaultValue={params.complexity ?? ""} aria-label={t("labs.filterComplexity")}>
-          <option value="">{t("common.all")}</option>
-          {COMPLEXITIES.map((complexity) => <option key={complexity} value={complexity}>{t(`enums.labComplexity.${complexity}` as MessageKey)}</option>)}
-        </Select>
-        <Select name="status" defaultValue={params.status ?? ""} aria-label={t("labs.filterStatus")}>
-          <option value="">{t("common.all")}</option>
-          {STATUSES.map((status) => <option key={status} value={status}>{t(`labs.status.${status}` as MessageKey)}</option>)}
-        </Select>
+      <form role="search" aria-label={t("labs.searchLabel")} className="mb-6 grid gap-3 sm:grid-cols-2 md:grid-cols-[1fr_repeat(4,11rem)_auto] md:items-end">
+        <Field id="lab-filter-q" label={t("labs.searchLabel")}>
+          <Input name="q" type="search" defaultValue={params.q ?? ""} placeholder={t("common.searchPlaceholder")} />
+        </Field>
+        <Field id="lab-filter-certification" label={t("labs.filterCert")}>
+          <Select name="certification" defaultValue={params.certification ?? ""}>
+            <option value="">{t("common.all")}</option>
+            {certifications.map((cert) => <option key={cert.id} value={cert.code}>{cert.code}</option>)}
+          </Select>
+        </Field>
+        <Field id="lab-filter-type" label={t("labs.filterType")}>
+          <Select name="type" defaultValue={params.type ?? ""}>
+            <option value="">{t("common.all")}</option>
+            {TYPES.map((type) => <option key={type} value={type}>{t(`enums.labType.${type}` as MessageKey)}</option>)}
+          </Select>
+        </Field>
+        <Field id="lab-filter-complexity" label={t("labs.filterComplexity")}>
+          <Select name="complexity" defaultValue={params.complexity ?? ""}>
+            <option value="">{t("common.all")}</option>
+            {COMPLEXITIES.map((complexity) => <option key={complexity} value={complexity}>{t(`enums.labComplexity.${complexity}` as MessageKey)}</option>)}
+          </Select>
+        </Field>
+        <Field id="lab-filter-status" label={t("labs.filterStatus")}>
+          <Select name="status" defaultValue={params.status ?? ""}>
+            <option value="">{t("common.all")}</option>
+            {STATUSES.map((status) => <option key={status} value={status}>{t(`labs.status.${status}` as MessageKey)}</option>)}
+          </Select>
+        </Field>
         <Button type="submit" variant="secondary"><Search aria-hidden="true" />{t("common.filter")}</Button>
       </form>
 

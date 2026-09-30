@@ -2,18 +2,19 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
+/** Fluent badges: 4px corners, caption text, tinted status backgrounds. */
 export const badgeVariants = cva(
-  "inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium [&_svg]:size-3",
+  "inline-flex h-5 items-center gap-1 whitespace-nowrap rounded border px-1.5 text-xs font-semibold leading-none [&_svg]:size-3",
   {
     variants: {
       variant: {
         default: "border-transparent bg-primary text-primary-foreground",
         secondary: "border-transparent bg-secondary text-secondary-foreground",
-        outline: "text-foreground",
-        success: "border-transparent bg-success/15 text-success dark:bg-success/20",
-        warning: "border-transparent bg-warning/15 text-warning dark:bg-warning/20",
-        destructive: "border-transparent bg-destructive/12 text-destructive dark:bg-destructive/20",
-        info: "border-transparent bg-primary/10 text-primary",
+        outline: "border-control-stroke bg-control text-foreground",
+        success: "border-transparent bg-tint-success text-success",
+        warning: "border-transparent bg-tint-warning text-warning",
+        destructive: "border-transparent bg-tint-danger text-destructive",
+        info: "border-transparent bg-tint-brand text-primary",
         purple: "border-transparent bg-accent text-accent-foreground",
       },
     },

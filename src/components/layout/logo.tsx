@@ -2,14 +2,14 @@ import Link from "next/link";
 import { GraduationCap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-/** Product mark: a graduation cap on a blue-to-purple tile (intentionally not resembling any Microsoft logo). */
+/** App icon and title as shown in a WinUI title bar (graduation cap tile; intentionally not resembling any Microsoft logo). */
 export function Logo({ className, label = "Fundamentals Academy" }: { className?: string; label?: string }) {
   return (
-    <Link href="/" className={cn("flex items-center gap-2 rounded-md font-semibold tracking-tight", className)}>
-      <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-blue to-brand-purple text-white shadow-sm">
-        <GraduationCap className="h-5 w-5" aria-hidden="true" />
+    <Link href="/" className={cn("flex h-8 items-center gap-3 rounded-md px-1", className)}>
+      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-[5px] bg-gradient-to-br from-[#0078d4] to-[#6b4fbb] text-white">
+        <GraduationCap className="h-3.5 w-3.5" aria-hidden="true" />
       </span>
-      <span className="hidden text-base sm:inline">{label}</span>
+      <span className="truncate text-xs">{label}</span>
     </Link>
   );
 }

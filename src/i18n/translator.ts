@@ -20,12 +20,22 @@ export function resolveMessage(messages: unknown, key: string): string | undefin
   return typeof node === "string" ? node : undefined;
 }
 
+/**
+ * Replace {name} placeholders. `{name|singular|plural}` picks a word form by the numeric value of `name`
+ * (e.g. "{count} {count|day|days}"); languages without plural nouns after numbers simply omit it.
+ */
 export function interpolate(template: string, vars?: TranslateVars): string {
   if (!vars) return template;
-  return template.replace(/\{(\w+)\}/g, (match, name: string) => {
-    const value = vars[name];
-    return value === undefined || value === null ? match : String(value);
-  });
+  return template
+    .replace(/\{(\w+)\|([^|{}]*)\|([^|{}]*)\}/g, (match, name: string, one: string, other: string) => {
+      const value = vars[name];
+      if (value === undefined || value === null) return match;
+      return Number(value) === 1 ? one : other;
+    })
+    .replace(/\{(\w+)\}/g, (match, name: string) => {
+      const value = vars[name];
+      return value === undefined || value === null ? match : String(value);
+    });
 }
 
 export function createTranslator(messages: Messages): TFunction {

@@ -37,7 +37,7 @@ export default async function CertificationDetailPage({ params }: { params: Prom
 
   return (
     <div className="space-y-8">
-      <header className="relative overflow-hidden rounded-2xl border bg-card p-6 shadow-sm">
+      <header className="relative overflow-hidden rounded-lg border bg-card p-6">
         <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: cert.themeColor }} aria-hidden="true" />
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
           <CertIcon icon={cert.icon} color={cert.themeColor} size="lg" />
@@ -142,7 +142,7 @@ export default async function CertificationDetailPage({ params }: { params: Prom
                 ) : null}
               </CardHeader>
               <CardContent>
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t("catalog.skillAreas")}</p>
+                <p className="mb-2 text-xs font-semibold text-muted-foreground">{t("catalog.skillAreas")}</p>
                 <ul className="grid gap-1 text-sm sm:grid-cols-2">
                   {d.objectives.map((o) => (
                     <li key={o.code} className="flex gap-2">
