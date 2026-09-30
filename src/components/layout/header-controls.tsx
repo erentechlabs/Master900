@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useTheme } from "next-themes";
-import { signOut } from "next-auth/react";
-import { Bell, Languages, LogOut, Monitor, Moon, Settings, Sun, User, BarChart3 } from "lucide-react";
+import { Bell, Languages, Monitor, Moon, Settings, Sun, User, BarChart3 } from "lucide-react";
 import { useI18n } from "@/i18n/client";
 import { LOCALE_LABELS, LOCALES } from "@/i18n/config";
 import { setLocaleAction } from "@/app/actions/locale";
@@ -127,17 +126,18 @@ export function Reminders({ items }: { items: ReminderView[] }) {
 
 export function UserMenu({ name, email }: { name: string | null; email: string }) {
   const { t } = useI18n();
+  const displayName = name?.trim() || t("common.learner");
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="rounded-full" aria-label={t("nav.userMenu")}>
           <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/15 text-xs font-semibold text-primary">
-            {initials(name, email)}
+            {initials(displayName, email)}
           </span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-64">
-        <DropdownMenuLabel className="truncate">{t("nav.signedInAs", { email })}</DropdownMenuLabel>
+        <DropdownMenuLabel className="truncate">{displayName}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link href="/settings">
@@ -156,11 +156,6 @@ export function UserMenu({ name, email }: { name: string | null; email: string }
             <Settings aria-hidden="true" />
             {t("nav.settings")}
           </Link>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={() => void signOut({ callbackUrl: "/" })}>
-          <LogOut aria-hidden="true" />
-          {t("common.signOut")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

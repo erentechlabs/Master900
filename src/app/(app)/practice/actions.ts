@@ -67,8 +67,7 @@ export async function startPracticeAction(input: PracticeStartInput): Promise<Ac
 
 /** Form-friendly variant used by the practice hub (works without JavaScript). */
 export async function startPracticeFormAction(formData: FormData): Promise<void> {
-  const user = await authorize("learn:use").catch(() => null);
-  if (!user) redirect("/sign-in?callbackUrl=/practice");
+  const user = await authorize("learn:use");
   const mode = String(formData.get("mode") ?? "QUICK");
   const input: PracticeStartInput = {
     mode: mode as PracticeStartInput["mode"],
@@ -103,8 +102,7 @@ export async function startPracticeFormAction(formData: FormData): Promise<void>
 }
 
 export async function startQuizAction(quizId: string): Promise<void> {
-  const user = await authorize("learn:use").catch(() => null);
-  if (!user) redirect("/sign-in");
+  const user = await authorize("learn:use");
   let id: string;
   try {
     id = await startQuiz(user, quizId);
@@ -115,8 +113,7 @@ export async function startQuizAction(quizId: string): Promise<void> {
 }
 
 export async function startDiagnosticAction(code: string): Promise<void> {
-  const user = await authorize("learn:use").catch(() => null);
-  if (!user) redirect(`/sign-in?callbackUrl=/diagnostic/${code}`);
+  const user = await authorize("learn:use");
   const quiz = await prisma.quiz.findFirst({ where: { kind: "DIAGNOSTIC", certification: { code } } });
   if (!quiz) redirect(`/diagnostic/${code}`);
   let id: string;
@@ -129,8 +126,7 @@ export async function startDiagnosticAction(code: string): Promise<void> {
 }
 
 export async function startSimilarAction(questionId: string): Promise<void> {
-  const user = await authorize("learn:use").catch(() => null);
-  if (!user) redirect("/sign-in");
+  const user = await authorize("learn:use");
   let href = "/practice?error=no_questions";
   try {
     const similar = await similarQuestionIds(user, questionId, 3);

@@ -1,0 +1,73 @@
+{
+  "certification": "AI-901",
+  "lab": "deploy-model-chat-playground",
+  "note": "Use Microsoft Foundry to choose a chat-capable model, create a deployment, tune the model playground, and test a scoped support assistant prompt.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "discover-models"
+    },
+    {
+      "type": "click",
+      "componentId": "filter-chat"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "model-catalog",
+      "rowKey": "gpt-4o-mini"
+    },
+    {
+      "type": "click",
+      "componentId": "model-deploy"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "deploy-wizard",
+      "values": {
+        "project": "proj-support-assistant",
+        "model": "gpt-4o-mini",
+        "deploymentName": "contoso-support-chat",
+        "deploymentType": "Global Standard",
+        "capacityUnits": 20,
+        "contentFilter": "DefaultV2"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "open-playground"
+    },
+    {
+      "type": "setField",
+      "componentId": "playground-settings",
+      "fieldId": "deployment",
+      "value": "contoso-support-chat"
+    },
+    {
+      "type": "chat",
+      "componentId": "support-chat",
+      "message": "Where is Contoso order C-1042?"
+    },
+    {
+      "type": "setField",
+      "componentId": "playground-settings",
+      "fieldId": "systemMessage",
+      "value": "Answer only about Contoso orders. Be polite. Refuse other topics and explain that you can only help with Contoso order support."
+    },
+    {
+      "type": "setField",
+      "componentId": "playground-settings",
+      "fieldId": "temperature",
+      "value": "0.2"
+    },
+    {
+      "type": "chat",
+      "componentId": "support-chat",
+      "message": "Where is Contoso order C-1042?"
+    },
+    {
+      "type": "chat",
+      "componentId": "support-chat",
+      "message": "Write a sports joke"
+    }
+  ]
+}

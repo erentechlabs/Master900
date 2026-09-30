@@ -1,0 +1,68 @@
+{
+  "certification": "PL-900",
+  "lab": "create-dataverse-table-canvas-app",
+  "note": "Create Dataverse table, columns, rows, generated canvas app, publish and share as User.",
+  "events": [
+    { "type": "navigate", "page": "tables" },
+    { "type": "click", "componentId": "tables-new" },
+    {
+      "type": "submitForm",
+      "componentId": "table-properties",
+      "values": {
+        "displayName": "Equipment Request",
+        "pluralName": "Equipment Requests",
+        "primaryColumn": "Request title",
+        "description": "Tracks Contoso equipment requests for review and approval."
+      }
+    },
+    { "type": "click", "componentId": "add-columns" },
+    {
+      "type": "submitForm",
+      "componentId": "columns-form",
+      "values": {
+        "requestDateType": "Date Only",
+        "statusType": "Choice",
+        "statusChoices": "New; Approved; Rejected",
+        "quantityType": "Whole Number",
+        "requestedByType": "Text"
+      }
+    },
+    { "type": "click", "componentId": "open-edit-data" },
+    {
+      "type": "submitForm",
+      "componentId": "sample-rows-form",
+      "values": {
+        "rowOneTitle": "Replacement keyboard",
+        "rowOneQuantity": 2,
+        "rowTwoTitle": "Visitor badges",
+        "rowTwoQuantity": 25,
+        "rowThreeTitle": "Conference room adapters",
+        "rowThreeQuantity": 4
+      }
+    },
+    { "type": "navigate", "page": "apps" },
+    { "type": "click", "componentId": "apps-create" },
+    { "type": "click", "componentId": "create-options", "itemId": "start-with-data" },
+    {
+      "type": "submitForm",
+      "componentId": "create-canvas-app",
+      "values": {
+        "dataSource": "Dataverse",
+        "tableName": "Equipment Request",
+        "appName": "Equipment Requests Canvas"
+      }
+    },
+    { "type": "click", "componentId": "app-save" },
+    { "type": "click", "componentId": "app-publish" },
+    { "type": "click", "componentId": "app-share" },
+    {
+      "type": "submitForm",
+      "componentId": "share-app-form",
+      "values": {
+        "recipient": "Equipment requesters",
+        "permission": "User",
+        "message": "Use this app to submit and track equipment requests."
+      }
+    }
+  ]
+}

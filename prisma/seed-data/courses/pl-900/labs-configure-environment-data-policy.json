@@ -1,0 +1,1514 @@
+{
+  "labs": [
+    {
+      "slug": "configure-environment-data-policy",
+      "type": "UI_SIMULATION",
+      "title": "Create a governed Power Platform development environment",
+      "summary": "Create a Sandbox environment with Dataverse, restrict it to a security group, and scope a data policy to that environment in a simulated Power Platform admin center.",
+      "scenario": "Contoso needs a safe Power Platform environment for makers building prototypes. In the **simulated Power Platform admin center**, create **Contoso Dev** as a **Sandbox** in **Europe**. Add a **Dataverse data store**, restrict access to **PP Contoso Dev Makers**, and use English language and US dollar currency. Do not create a Production, Developer, or Trial environment for this test scenario. After the environment reaches **Ready**, create **Contoso Dev collaboration policy**. Put **SharePoint**, **Office 365 Outlook**, and **Microsoft Dataverse** in **Business**; block **Facebook** as the social connector; leave remaining connectors in **Non-business**; and scope the policy only to **Contoso Dev** with **Add multiple environments**.",
+      "domainKey": "manage-environment",
+      "objectiveCode": "2.2",
+      "complexity": "BASIC",
+      "estimatedMinutes": 25,
+      "learningObjectives": [
+        "Create a Sandbox environment with Dataverse and a security group restriction",
+        "Distinguish Sandbox, Production, Developer, and Trial environment types for a test scenario",
+        "Classify connectors into Business, Non-business, and Blocked groups",
+        "Scope a data policy to selected environments and explain connector data group separation"
+      ],
+      "prerequisites": [
+        "Know what environments and connectors are in Microsoft Power Platform"
+      ],
+      "sources": [
+        {
+          "title": "Create and manage environments in the Power Platform admin center",
+          "url": "https://learn.microsoft.com/en-us/power-platform/admin/create-environment"
+        },
+        {
+          "title": "Data policies - Power Platform",
+          "url": "https://learn.microsoft.com/en-us/power-platform/admin/wp-data-loss-prevention"
+        },
+        {
+          "title": "Manage data policies - Power Platform",
+          "url": "https://learn.microsoft.com/en-us/power-platform/admin/prevent-data-loss"
+        },
+        {
+          "title": "Managed environments overview",
+          "url": "https://learn.microsoft.com/en-us/power-platform/admin/managed-environment-overview"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Power Platform admin center",
+          "theme": "power-platform",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://admin.powerplatform.microsoft.com",
+          "searchPlaceholder": "Search environments, policies, resources, and help"
+        },
+        "vm": {
+          "name": "LAB-VM01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "environments",
+            "label": "Environments",
+            "icon": "Boxes",
+            "section": "Manage"
+          },
+          {
+            "page": "data-policies",
+            "label": "Data policies",
+            "icon": "ShieldCheck",
+            "section": "Security"
+          },
+          {
+            "page": "managed",
+            "label": "Managed Environments",
+            "icon": "MonitorCog",
+            "section": "Manage"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Power Platform admin center",
+                "text": "Use **Manage > Environments** for environment lifecycle and **Security > Data policies** for connector governance. This is a simulated tenant."
+              },
+              {
+                "kind": "tiles",
+                "id": "admin-tiles",
+                "title": "Admin areas",
+                "items": [
+                  {
+                    "id": "env",
+                    "label": "Environments",
+                    "description": "Create and manage environment containers.",
+                    "icon": "Boxes",
+                    "action": {
+                      "type": "navigate",
+                      "page": "environments"
+                    }
+                  },
+                  {
+                    "id": "dlp",
+                    "label": "Data policies",
+                    "description": "Classify connectors and scope policies.",
+                    "icon": "ShieldCheck",
+                    "action": {
+                      "type": "navigate",
+                      "page": "data-policies"
+                    }
+                  },
+                  {
+                    "id": "managed",
+                    "label": "Managed Environments",
+                    "description": "Review additional governance features.",
+                    "icon": "MonitorCog",
+                    "action": {
+                      "type": "navigate",
+                      "page": "managed"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "home-envs",
+                "title": "Recent environments",
+                "source": "environments",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Type"
+                  },
+                  {
+                    "key": "region",
+                    "label": "Region"
+                  },
+                  {
+                    "key": "state",
+                    "label": "State",
+                    "format": "status"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "env-detail",
+                  "select": {
+                    "as": "env",
+                    "path": "environments",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "environments",
+            "title": "Environments",
+            "subtitle": "Manage",
+            "icon": "Boxes",
+            "url": "/manage/environments",
+            "breadcrumb": [
+              "Home",
+              "Manage"
+            ],
+            "commands": [
+              {
+                "id": "env-new",
+                "label": "+ New",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "env-new-page"
+                }
+              },
+              {
+                "id": "env-refresh",
+                "label": "Refresh",
+                "icon": "RefreshCw",
+                "action": {
+                  "type": "message",
+                  "tone": "info",
+                  "text": "Environment state is current."
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "environment-list",
+                "source": "environments",
+                "rowKey": "name",
+                "searchable": true,
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Type"
+                  },
+                  {
+                    "key": "region",
+                    "label": "Region"
+                  },
+                  {
+                    "key": "dataverse",
+                    "label": "Dataverse",
+                    "format": "bool"
+                  },
+                  {
+                    "key": "securityGroup",
+                    "label": "Security group"
+                  },
+                  {
+                    "key": "state",
+                    "label": "State",
+                    "format": "status"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "env-detail",
+                  "select": {
+                    "as": "env",
+                    "path": "environments",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "env-new-page",
+            "title": "New environment",
+            "subtitle": "Manage > Environments",
+            "icon": "Plus",
+            "url": "/manage/environments/new",
+            "navItem": "environments",
+            "breadcrumb": [
+              "Home",
+              "Manage",
+              "Environments"
+            ],
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "environment-wizard",
+                "title": "Create an environment",
+                "description": "An environment stores and separates business data, apps, flows, and other resources.",
+                "reviewLabel": "Save",
+                "tabs": [
+                  {
+                    "id": "basics",
+                    "label": "Basics",
+                    "fields": [
+                      {
+                        "id": "name",
+                        "label": "Name",
+                        "control": "text",
+                        "required": true,
+                        "defaultValue": "Contoso Dev",
+                        "unique": {
+                          "path": "environments",
+                          "key": "name"
+                        }
+                      },
+                      {
+                        "id": "region",
+                        "label": "Region",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Europe",
+                        "options": [
+                          {
+                            "value": "Europe",
+                            "label": "Europe"
+                          },
+                          {
+                            "value": "United States",
+                            "label": "United States"
+                          },
+                          {
+                            "value": "Canada",
+                            "label": "Canada"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "type",
+                        "label": "Type",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Sandbox",
+                        "options": [
+                          {
+                            "value": "Production",
+                            "label": "Production"
+                          },
+                          {
+                            "value": "Sandbox",
+                            "label": "Sandbox"
+                          },
+                          {
+                            "value": "Developer",
+                            "label": "Developer"
+                          },
+                          {
+                            "value": "Trial",
+                            "label": "Trial"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "purpose",
+                        "label": "Purpose",
+                        "control": "textarea",
+                        "defaultValue": "Development and testing for Contoso makers before solutions move to production."
+                      },
+                      {
+                        "id": "dataverse",
+                        "label": "Add a Dataverse data store",
+                        "control": "radio",
+                        "required": true,
+                        "defaultValue": "Yes",
+                        "options": [
+                          {
+                            "value": "Yes",
+                            "label": "Yes"
+                          },
+                          {
+                            "value": "No",
+                            "label": "No"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "database",
+                    "label": "Database",
+                    "fields": [
+                      {
+                        "id": "language",
+                        "label": "Language",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "English",
+                        "options": [
+                          {
+                            "value": "English",
+                            "label": "English"
+                          },
+                          {
+                            "value": "Turkish",
+                            "label": "Turkish"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "currency",
+                        "label": "Currency",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "USD",
+                        "options": [
+                          {
+                            "value": "USD",
+                            "label": "US dollar"
+                          },
+                          {
+                            "value": "EUR",
+                            "label": "Euro"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "dynamicsApps",
+                        "label": "Enable Dynamics 365 apps",
+                        "control": "toggle",
+                        "defaultValue": false
+                      },
+                      {
+                        "id": "sampleApps",
+                        "label": "Deploy sample apps and data",
+                        "control": "toggle",
+                        "defaultValue": false
+                      },
+                      {
+                        "id": "securityGroup",
+                        "label": "Security group",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "PP Contoso Dev Makers",
+                        "options": [
+                          {
+                            "value": "None",
+                            "label": "None"
+                          },
+                          {
+                            "value": "PP Contoso Dev Makers",
+                            "label": "PP Contoso Dev Makers"
+                          },
+                          {
+                            "value": "All Employees",
+                            "label": "All Employees"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.name",
+                        "value": "Contoso Dev"
+                      },
+                      "message": "Name the environment Contoso Dev."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.type",
+                        "value": "Sandbox"
+                      },
+                      "message": "Choose Sandbox for this test scenario. Production is for live workloads; Developer is personal maker work; Trial is temporary evaluation."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.dataverse",
+                        "value": "Yes"
+                      },
+                      "message": "Select Yes for Add a Dataverse data store."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.securityGroup",
+                        "value": "PP Contoso Dev Makers"
+                      },
+                      "message": "Restrict the environment to PP Contoso Dev Makers."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "environments",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "region": "{{$form.region}}",
+                        "type": "{{$form.type}}",
+                        "purpose": "{{$form.purpose}}",
+                        "dataverse": true,
+                        "language": "{{$form.language}}",
+                        "currency": "{{$form.currency}}",
+                        "dynamicsApps": "{{$form.dynamicsApps}}",
+                        "securityGroup": "{{$form.securityGroup}}",
+                        "state": "Preparing",
+                        "managed": false
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "environmentEvents",
+                      "value": {
+                        "environment": "{{$form.name}}",
+                        "event": "Provisioning started",
+                        "state": "Preparing"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "environments",
+                      "where": {
+                        "name": "{{$form.name}}"
+                      },
+                      "set": {
+                        "state": "Ready"
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "environmentEvents",
+                      "value": {
+                        "environment": "{{$form.name}}",
+                        "event": "Dataverse database provisioned",
+                        "state": "Ready"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Environment ready",
+                      "message": "Contoso Dev is ready with Dataverse."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "env-detail",
+                      "select": {
+                        "as": "env",
+                        "path": "environments",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "env-detail",
+            "title": "{{$sel.env.name}}",
+            "subtitle": "Environment",
+            "icon": "Boxes",
+            "url": "/manage/environments/{{$sel.env.name | slug}}",
+            "requires": "env",
+            "navItem": "environments",
+            "breadcrumb": [
+              "Home",
+              "Manage",
+              "Environments"
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "success",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "$sel.env.state",
+                  "value": "Ready"
+                },
+                "text": "This environment is **Ready**. It is a Sandbox with a Dataverse data store for development and test work."
+              },
+              {
+                "kind": "properties",
+                "title": "Essentials",
+                "items": [
+                  {
+                    "label": "Type",
+                    "value": "{{$sel.env.type}}"
+                  },
+                  {
+                    "label": "Region",
+                    "value": "{{$sel.env.region}}"
+                  },
+                  {
+                    "label": "State",
+                    "value": "{{$sel.env.state}}",
+                    "format": "status"
+                  },
+                  {
+                    "label": "Dataverse data store",
+                    "value": "{{$sel.env.dataverse | yesno}}"
+                  },
+                  {
+                    "label": "Security group",
+                    "value": "{{$sel.env.securityGroup}}"
+                  },
+                  {
+                    "label": "Managed Environment",
+                    "value": "{{$sel.env.managed | yesno}}"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "environment-events",
+                "title": "Provisioning events",
+                "source": "environmentEvents",
+                "where": {
+                  "environment": "{{$sel.env.name}}"
+                },
+                "rowKey": "event",
+                "columns": [
+                  {
+                    "key": "event",
+                    "label": "Event"
+                  },
+                  {
+                    "key": "state",
+                    "label": "State",
+                    "format": "status"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "data-policies",
+            "title": "Data policies",
+            "subtitle": "Security > Data policies",
+            "icon": "ShieldCheck",
+            "url": "/security/data-policies",
+            "breadcrumb": [
+              "Home",
+              "Security"
+            ],
+            "commands": [
+              {
+                "id": "policy-new",
+                "label": "+ New policy",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "policy-new-page"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "text",
+                "text": "Data policies classify connectors into **Business**, **Non-business**, and **Blocked** groups. Connectors in Business and Non-business cannot be used together in the same app or flow where the policy applies."
+              },
+              {
+                "kind": "table",
+                "id": "policy-list",
+                "source": "dataPolicies",
+                "rowKey": "name",
+                "emptyText": "No data policies.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "scopeText",
+                    "label": "Scope"
+                  },
+                  {
+                    "key": "businessText",
+                    "label": "Business connectors"
+                  },
+                  {
+                    "key": "blockedText",
+                    "label": "Blocked connectors"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "policy-detail",
+                  "select": {
+                    "as": "policy",
+                    "path": "dataPolicies",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "policy-new-page",
+            "title": "New data policy",
+            "subtitle": "Security > Data policies",
+            "icon": "ShieldCheck",
+            "url": "/security/data-policies/new",
+            "navItem": "data-policies",
+            "breadcrumb": [
+              "Home",
+              "Security",
+              "Data policies"
+            ],
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "policy-wizard",
+                "title": "Create data policy",
+                "description": "Create guardrails for connectors used by apps, flows, and agents in selected environments.",
+                "reviewLabel": "Create policy",
+                "tabs": [
+                  {
+                    "id": "name",
+                    "label": "Policy name",
+                    "fields": [
+                      {
+                        "id": "name",
+                        "label": "Policy name",
+                        "control": "text",
+                        "required": true,
+                        "defaultValue": "Contoso Dev collaboration policy",
+                        "unique": {
+                          "path": "dataPolicies",
+                          "key": "name"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "connectors",
+                    "label": "Prebuilt connectors",
+                    "fields": [
+                      {
+                        "id": "businessConnectors",
+                        "label": "Business",
+                        "control": "checkboxes",
+                        "required": true,
+                        "defaultValue": [
+                          "SharePoint",
+                          "Office 365 Outlook",
+                          "Microsoft Dataverse"
+                        ],
+                        "options": [
+                          {
+                            "value": "SharePoint",
+                            "label": "SharePoint"
+                          },
+                          {
+                            "value": "Office 365 Outlook",
+                            "label": "Office 365 Outlook"
+                          },
+                          {
+                            "value": "Microsoft Dataverse",
+                            "label": "Microsoft Dataverse"
+                          },
+                          {
+                            "value": "OneDrive for Business",
+                            "label": "OneDrive for Business"
+                          },
+                          {
+                            "value": "MSN Weather",
+                            "label": "MSN Weather"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "blockedConnector",
+                        "label": "Blocked",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Facebook",
+                        "options": [
+                          {
+                            "value": "Facebook",
+                            "label": "Facebook"
+                          },
+                          {
+                            "value": "None",
+                            "label": "None"
+                          },
+                          {
+                            "value": "SharePoint",
+                            "label": "SharePoint"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "defaultGroup",
+                        "label": "Default group for new connectors",
+                        "control": "radio",
+                        "required": true,
+                        "defaultValue": "Non-business",
+                        "options": [
+                          {
+                            "value": "Non-business",
+                            "label": "Non-business"
+                          },
+                          {
+                            "value": "Business",
+                            "label": "Business"
+                          },
+                          {
+                            "value": "Blocked",
+                            "label": "Blocked"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "scope",
+                    "label": "Scope",
+                    "fields": [
+                      {
+                        "id": "scopeMode",
+                        "label": "Scope",
+                        "control": "radio",
+                        "required": true,
+                        "defaultValue": "Add multiple environments",
+                        "options": [
+                          {
+                            "value": "Add multiple environments",
+                            "label": "Add multiple environments"
+                          },
+                          {
+                            "value": "Apply to all environments",
+                            "label": "Apply to all environments"
+                          },
+                          {
+                            "value": "Exclude certain environments",
+                            "label": "Exclude certain environments"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "environments",
+                        "label": "Environments",
+                        "control": "checkboxes",
+                        "required": true,
+                        "defaultValue": [
+                          "Contoso Dev"
+                        ],
+                        "optionsFrom": {
+                          "path": "environments",
+                          "value": "name",
+                          "label": "name"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "review",
+                    "label": "Review + create",
+                    "fields": [
+                      {
+                        "id": "ack",
+                        "label": "I understand Business and Non-business connectors cannot be mixed in the same app or flow",
+                        "control": "toggle",
+                        "required": true,
+                        "defaultValue": true
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create policy",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.name",
+                        "value": "Contoso Dev collaboration policy"
+                      },
+                      "message": "Name the policy Contoso Dev collaboration policy."
+                    },
+                    {
+                      "rule": {
+                        "type": "allOf",
+                        "rules": [
+                          {
+                            "type": "includes",
+                            "path": "$form.businessConnectors",
+                            "value": "SharePoint"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.businessConnectors",
+                            "value": "Office 365 Outlook"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.businessConnectors",
+                            "value": "Microsoft Dataverse"
+                          }
+                        ]
+                      },
+                      "message": "Move SharePoint, Office 365 Outlook, and Microsoft Dataverse to Business."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.blockedConnector",
+                        "value": "Facebook"
+                      },
+                      "message": "Block Facebook as the social connector."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.defaultGroup",
+                        "value": "Non-business"
+                      },
+                      "message": "Keep other connectors in Non-business."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.scopeMode",
+                        "value": "Add multiple environments"
+                      },
+                      "message": "Choose Add multiple environments."
+                    },
+                    {
+                      "rule": {
+                        "type": "allOf",
+                        "rules": [
+                          {
+                            "type": "includes",
+                            "path": "$form.environments",
+                            "value": "Contoso Dev"
+                          },
+                          {
+                            "type": "arrayLength",
+                            "path": "$form.environments",
+                            "min": 1,
+                            "max": 1
+                          }
+                        ]
+                      },
+                      "message": "Scope the policy only to Contoso Dev."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.ack",
+                        "value": true
+                      },
+                      "message": "Acknowledge the Business/Non-business separation."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "dataPolicies",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "businessConnectors": "{{$form.businessConnectors | list}}",
+                        "businessText": "SharePoint, Office 365 Outlook, Microsoft Dataverse",
+                        "blockedConnectors": [
+                          "{{$form.blockedConnector}}"
+                        ],
+                        "blockedText": "{{$form.blockedConnector}}",
+                        "defaultGroup": "{{$form.defaultGroup}}",
+                        "nonBusinessText": "All remaining prebuilt connectors",
+                        "scopeMode": "{{$form.scopeMode}}",
+                        "environments": "{{$form.environments | list}}",
+                        "scopeText": "Contoso Dev"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "connectors",
+                      "where": {
+                        "name": "SharePoint"
+                      },
+                      "set": {
+                        "group": "Business"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "connectors",
+                      "where": {
+                        "name": "Office 365 Outlook"
+                      },
+                      "set": {
+                        "group": "Business"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "connectors",
+                      "where": {
+                        "name": "Microsoft Dataverse"
+                      },
+                      "set": {
+                        "group": "Business"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "connectors",
+                      "where": {
+                        "name": "Facebook"
+                      },
+                      "set": {
+                        "group": "Blocked"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Data policy created",
+                      "message": "The policy applies only to Contoso Dev."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "policy-detail",
+                      "select": {
+                        "as": "policy",
+                        "path": "dataPolicies",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "policy-detail",
+            "title": "{{$sel.policy.name}}",
+            "subtitle": "Data policy",
+            "icon": "ShieldCheck",
+            "url": "/security/data-policies/{{$sel.policy.name | slug}}",
+            "requires": "policy",
+            "navItem": "data-policies",
+            "breadcrumb": [
+              "Home",
+              "Security",
+              "Data policies"
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "success",
+                "title": "Policy created",
+                "text": "This policy applies only to **Contoso Dev**. Makers can use Business connectors together, but cannot combine Business connectors with Non-business connectors in the same app or flow."
+              },
+              {
+                "kind": "properties",
+                "title": "Summary",
+                "items": [
+                  {
+                    "label": "Business",
+                    "value": "{{$sel.policy.businessText}}"
+                  },
+                  {
+                    "label": "Blocked",
+                    "value": "{{$sel.policy.blockedText}}"
+                  },
+                  {
+                    "label": "Default group",
+                    "value": "{{$sel.policy.defaultGroup}}"
+                  },
+                  {
+                    "label": "Scope",
+                    "value": "{{$sel.policy.scopeText}}"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "connector-groups",
+                "title": "Connector classifications",
+                "source": "connectors",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Connector"
+                  },
+                  {
+                    "key": "publisher",
+                    "label": "Publisher"
+                  },
+                  {
+                    "key": "group",
+                    "label": "Data group",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "blockable",
+                    "label": "Blockable",
+                    "format": "bool"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "managed",
+            "title": "Managed Environments",
+            "subtitle": "Manage",
+            "icon": "MonitorCog",
+            "url": "/manage/managed-environments",
+            "breadcrumb": [
+              "Home",
+              "Manage"
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Managed Environments",
+                "text": "Managed Environments add premium governance capabilities such as environment groups, sharing controls, usage insights, solution checker, and data policy features. They can be used with any environment type; this lab only reviews the concept."
+              },
+              {
+                "kind": "table",
+                "id": "managed-table",
+                "source": "environments",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Environment"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Type"
+                  },
+                  {
+                    "key": "managed",
+                    "label": "Managed",
+                    "format": "bool"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "environments": [
+            {
+              "name": "Default",
+              "region": "Europe",
+              "type": "Default",
+              "dataverse": true,
+              "language": "English",
+              "currency": "USD",
+              "securityGroup": "All users",
+              "state": "Ready",
+              "managed": false
+            },
+            {
+              "name": "Sales Prod",
+              "region": "Europe",
+              "type": "Production",
+              "dataverse": true,
+              "language": "English",
+              "currency": "USD",
+              "securityGroup": "Sales App Owners",
+              "state": "Ready",
+              "managed": true
+            },
+            {
+              "name": "Field Trial",
+              "region": "Canada",
+              "type": "Trial",
+              "dataverse": false,
+              "language": "English",
+              "currency": "USD",
+              "securityGroup": "None",
+              "state": "Ready",
+              "managed": false
+            }
+          ],
+          "environmentEvents": [],
+          "dataPolicies": [],
+          "resources": [],
+          "connectors": [
+            {
+              "name": "SharePoint",
+              "publisher": "Microsoft",
+              "group": "Non-business",
+              "blockable": false
+            },
+            {
+              "name": "Office 365 Outlook",
+              "publisher": "Microsoft",
+              "group": "Non-business",
+              "blockable": false
+            },
+            {
+              "name": "Microsoft Dataverse",
+              "publisher": "Microsoft",
+              "group": "Non-business",
+              "blockable": false
+            },
+            {
+              "name": "OneDrive for Business",
+              "publisher": "Microsoft",
+              "group": "Non-business",
+              "blockable": false
+            },
+            {
+              "name": "MSN Weather",
+              "publisher": "Microsoft",
+              "group": "Non-business",
+              "blockable": true
+            },
+            {
+              "name": "Facebook",
+              "publisher": "Meta",
+              "group": "Non-business",
+              "blockable": true
+            },
+            {
+              "name": "RSS",
+              "publisher": "Microsoft",
+              "group": "Non-business",
+              "blockable": true
+            }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "key": "open-env",
+          "title": "Open the new environment wizard",
+          "instruction": "In the navigation pane, select **Manage > Environments**, then select **+ New**.",
+          "explanation": "Admins create separate environments to isolate apps, flows, data, and lifecycle stages.",
+          "targetId": "env-new",
+          "rules": [
+            {
+              "key": "visited-new-env",
+              "description": "New environment wizard opened",
+              "rule": {
+                "type": "visited",
+                "page": "env-new-page"
+              },
+              "failureFeedback": "Open Environments and select + New."
+            }
+          ]
+        },
+        {
+          "key": "create-sandbox",
+          "title": "Create Contoso Dev as a Sandbox with Dataverse",
+          "instruction": "Create **Contoso Dev** in **Europe**. Set **Type** to **Sandbox** and **Add a Dataverse data store** to **Yes**. Do not choose Production, Developer, or Trial for this test scenario.",
+          "explanation": "Sandbox is appropriate for development and testing before production. Dataverse adds a managed data platform for business apps.",
+          "targetId": "environment-wizard",
+          "rules": [
+            {
+              "key": "sandbox-dataverse",
+              "description": "Contoso Dev is a Sandbox with Dataverse",
+              "rule": {
+                "type": "arrayContains",
+                "path": "environments",
+                "match": {
+                  "name": "Contoso Dev",
+                  "type": "Sandbox",
+                  "dataverse": true,
+                  "region": "Europe"
+                }
+              },
+              "failureFeedback": "Create Contoso Dev as a Sandbox in Europe with Dataverse."
+            },
+            {
+              "key": "not-production",
+              "description": "Contoso Dev is not Production",
+              "rule": {
+                "type": "arrayNotContains",
+                "path": "environments",
+                "match": {
+                  "name": "Contoso Dev",
+                  "type": "Production"
+                }
+              },
+              "failureFeedback": "Use Sandbox, not Production."
+            }
+          ]
+        },
+        {
+          "key": "security-ready",
+          "title": "Restrict access and confirm Ready state",
+          "instruction": "Set **Security group** to **PP Contoso Dev Makers**, keep **Language** as **English**, set **Currency** to **US dollar**, and confirm the state changes from **Preparing** to **Ready**.",
+          "explanation": "The security group limits access to the development team. Language and currency become base Dataverse settings.",
+          "targetId": "environment-events",
+          "rules": [
+            {
+              "key": "security",
+              "description": "Security and Dataverse settings are correct",
+              "rule": {
+                "type": "arrayContains",
+                "path": "environments",
+                "match": {
+                  "name": "Contoso Dev",
+                  "securityGroup": "PP Contoso Dev Makers",
+                  "language": "English",
+                  "currency": "USD",
+                  "state": "Ready"
+                }
+              },
+              "failureFeedback": "Use the requested security group, language, currency, and Ready state."
+            }
+          ]
+        },
+        {
+          "key": "open-policy",
+          "title": "Start a data policy",
+          "instruction": "Go to **Security > Data policies**, select **+ New policy**, and name it **Contoso Dev collaboration policy**.",
+          "explanation": "Data policies reduce the chance that makers combine sensitive data with unapproved connector groups.",
+          "targetId": "policy-new",
+          "rules": [
+            {
+              "key": "visited-policy",
+              "description": "New policy wizard opened",
+              "rule": {
+                "type": "visited",
+                "page": "policy-new-page"
+              },
+              "failureFeedback": "Open Data policies and select + New policy."
+            }
+          ]
+        },
+        {
+          "key": "classify",
+          "title": "Classify connectors",
+          "instruction": "On **Prebuilt connectors**, move **SharePoint**, **Office 365 Outlook**, and **Microsoft Dataverse** to **Business**. Move **Facebook** to **Blocked**. Keep the default group for new connectors as **Non-business**.",
+          "explanation": "Business connectors can share data with each other but not with Non-business connectors. Blocked connectors cannot be used where the policy applies.",
+          "targetId": "policy-wizard",
+          "rules": [
+            {
+              "key": "business",
+              "description": "Required connectors are Business",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "arrayContains",
+                    "path": "connectors",
+                    "match": {
+                      "name": "SharePoint",
+                      "group": "Business"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "connectors",
+                    "match": {
+                      "name": "Office 365 Outlook",
+                      "group": "Business"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "connectors",
+                    "match": {
+                      "name": "Microsoft Dataverse",
+                      "group": "Business"
+                    }
+                  }
+                ]
+              },
+              "failureFeedback": "Move SharePoint, Office 365 Outlook, and Microsoft Dataverse to Business."
+            },
+            {
+              "key": "facebook",
+              "description": "Facebook is blocked",
+              "rule": {
+                "type": "arrayContains",
+                "path": "connectors",
+                "match": {
+                  "name": "Facebook",
+                  "group": "Blocked"
+                }
+              },
+              "failureFeedback": "Block Facebook."
+            },
+            {
+              "key": "others",
+              "description": "Other connectors remain Non-business",
+              "rule": {
+                "type": "arrayContains",
+                "path": "connectors",
+                "match": {
+                  "name": "MSN Weather",
+                  "group": "Non-business"
+                }
+              },
+              "failureFeedback": "Leave other connectors in Non-business."
+            }
+          ]
+        },
+        {
+          "key": "scope",
+          "title": "Scope the policy only to Contoso Dev",
+          "instruction": "On **Scope**, choose **Add multiple environments**, select only **Contoso Dev**, then choose **Review + create** and **Create policy**.",
+          "explanation": "Scoping avoids disrupting production or unrelated environments while enforcing guardrails for the development environment.",
+          "targetId": "policy-wizard",
+          "rules": [
+            {
+              "key": "policy",
+              "description": "Policy scoped to Contoso Dev",
+              "rule": {
+                "type": "arrayContains",
+                "path": "dataPolicies",
+                "match": {
+                  "name": "Contoso Dev collaboration policy",
+                  "scopeMode": "Add multiple environments",
+                  "scopeText": "Contoso Dev"
+                }
+              },
+              "failureFeedback": "Create the policy scoped to Contoso Dev only."
+            },
+            {
+              "key": "one-env",
+              "description": "Only one environment is in scope",
+              "rule": {
+                "type": "arrayContains",
+                "path": "dataPolicies",
+                "match": {
+                  "name": "Contoso Dev collaboration policy",
+                  "environments.0": "Contoso Dev"
+                }
+              },
+              "failureFeedback": "Select only Contoso Dev."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "sandbox",
+          "description": "Sandbox with Dataverse and security group",
+          "rule": {
+            "type": "arrayContains",
+            "path": "environments",
+            "match": {
+              "name": "Contoso Dev",
+              "type": "Sandbox",
+              "dataverse": true,
+              "securityGroup": "PP Contoso Dev Makers",
+              "state": "Ready"
+            }
+          },
+          "failureFeedback": "Create Contoso Dev as a Sandbox with Dataverse and the requested security group."
+        },
+        {
+          "key": "policy-scope",
+          "description": "Policy applies only to Contoso Dev",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayContains",
+                "path": "dataPolicies",
+                "match": {
+                  "name": "Contoso Dev collaboration policy",
+                  "scopeMode": "Add multiple environments",
+                  "scopeText": "Contoso Dev"
+                }
+              },
+              {
+                "type": "arrayLength",
+                "path": "dataPolicies",
+                "min": 1,
+                "max": 1
+              }
+            ]
+          },
+          "failureFeedback": "Scope the policy only to Contoso Dev."
+        },
+        {
+          "key": "groups",
+          "description": "Connector grouping is correct",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayContains",
+                "path": "connectors",
+                "match": {
+                  "name": "SharePoint",
+                  "group": "Business"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "connectors",
+                "match": {
+                  "name": "Office 365 Outlook",
+                  "group": "Business"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "connectors",
+                "match": {
+                  "name": "Microsoft Dataverse",
+                  "group": "Business"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "connectors",
+                "match": {
+                  "name": "Facebook",
+                  "group": "Blocked"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "connectors",
+                "match": {
+                  "name": "MSN Weather",
+                  "group": "Non-business"
+                }
+              }
+            ]
+          },
+          "failureFeedback": "Set the connector groups exactly as requested."
+        }
+      ],
+      "solution": "1. Select **Manage > Environments**, then **+ New**.\n2. Set **Name** to `Contoso Dev`, **Region** to **Europe**, **Type** to **Sandbox**, and **Add a Dataverse data store** to **Yes**. Production is for live workloads; Developer is personal maker work; Trial is temporary evaluation.\n3. Set **Language** to **English**, **Currency** to **US dollar**, and **Security group** to **PP Contoso Dev Makers**. Select **Save** and confirm the environment is **Ready**.\n4. Select **Security > Data policies**, then **+ New policy**. Name it `Contoso Dev collaboration policy`.\n5. On **Prebuilt connectors**, move **SharePoint**, **Office 365 Outlook**, and **Microsoft Dataverse** to **Business**. Move **Facebook** to **Blocked**. Keep the default group as **Non-business**.\n6. On **Scope**, choose **Add multiple environments** and select only **Contoso Dev**.\n7. Review and select **Create policy**. Connectors in **Business** and **Non-business** cannot be used together in the same app or flow where the policy applies. **Managed Environments** add more governance features, but this lab only reviews them."
+    }
+  ]
+}

@@ -22,8 +22,7 @@ export const nav: Messages["nav"] = {
   reminders: "Anımsatıcılar",
   noReminders: "Tüm işleriniz tamam.",
   mainNavigation: "Ana gezinti",
-  userMenu: "Hesap menüsü",
-  signedInAs: "{email} olarak giriş yapıldı",
+  userMenu: "Profil menüsü",
 };
 
 export const legal: Messages["legal"] = {
@@ -45,18 +44,7 @@ export const legal: Messages["legal"] = {
 };
 
 export const errors: Messages["errors"] = {
-  password_too_short: "En az 10 karakter kullanın.",
-  password_too_long: "En fazla 128 karakter kullanın.",
-  password_needs_letter_and_digit: "En az bir harf ve bir sayı ekleyin.",
-  password_too_common: "Bu parola çok yaygın. Başka bir parola seçin.",
-  passwords_do_not_match: "Parolalar eşleşmiyor.",
-  terms_required: "Devam etmek için lütfen onaylayın.",
   email_invalid: "Geçerli bir e-posta adresi girin.",
-  email_taken: "Bu e-posta adresiyle zaten bir hesap var.",
-  registration_disabled: "Kayıt şu anda devre dışı.",
-  invalid_credentials: "E-posta veya parola hatalı.",
-  account_suspended: "Bu hesap askıya alınmış. Bir yöneticiyle iletişime geçin.",
-  current_password_invalid: "Geçerli parolanız hatalı.",
   confirmation_mismatch: "Onay metnini gösterildiği gibi aynen yazın.",
   not_found: "İstenen öğe bulunamadı.",
   invalid_input: "Bazı değerler geçersiz.",
@@ -68,9 +56,6 @@ export const errors: Messages["errors"] = {
   comment_required: "Bu eylem için yorum gerekir.",
   invalid_transition: "Bu eyleme geçerli durum için izin verilmiyor.",
   publish_date_required: "Gelecekte bir yayın tarihi seçin.",
-  self_demotion: "Kendi yönetici rolünüzü kaldıramazsınız.",
-  cannot_self_suspend: "Kendi hesabınızı askıya alamazsınız.",
-  last_admin: "En az bir etkin yönetici kalmalıdır.",
   change_note_required: "Kaydetmeden önce neyin değiştiğini açıklayın.",
   disabled: "Bu özellik şu anda devre dışı.",
   invalid_lab_config: "Laboratuvar yapılandırması geçersiz. Vurgulanan alanları kontrol edin.",

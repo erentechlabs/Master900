@@ -6,9 +6,9 @@ import { cn } from "@/lib/utils";
  * Safe Markdown renderer. Raw HTML is skipped, unsafe URL protocols are removed
  * by react-markdown's default URL transform, and external links open safely.
  */
-export function Markdown({ children, className, inline = false }: { children: string; className?: string; inline?: boolean }) {
+export function Markdown({ children, className, inline = false, compact = false }: { children: string; className?: string; inline?: boolean; compact?: boolean }) {
   return (
-    <div className={cn(inline ? "[&>p]:inline" : "prose-content", className)}>
+    <div className={cn(inline ? "[&>p]:inline" : compact ? "prose-compact" : "prose-content", className)}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         skipHtml

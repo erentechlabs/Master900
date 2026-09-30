@@ -1,0 +1,42 @@
+{
+  "certification": "AZ-900",
+  "lab": "create-linux-vm-portal",
+  "note": "Create vm-web-01 through the portal wizard, check it in Cloud Shell, open it and stop (deallocate) it.",
+  "events": [
+    { "type": "navigate", "page": "vms" },
+    { "type": "click", "componentId": "vms-create" },
+    {
+      "type": "submitForm",
+      "componentId": "vm-wizard",
+      "values": {
+        "subscription": "Contoso Learning (simulated)",
+        "resourceGroup": "create-new",
+        "newResourceGroup": "rg-web-dev",
+        "vmName": "vm-web-01",
+        "region": "westeurope",
+        "availability": "Availability zone",
+        "securityType": "Trusted launch virtual machines",
+        "image": "Ubuntu Server 24.04 LTS - x64 Gen2",
+        "size": "Standard_B2s",
+        "authType": "ssh",
+        "adminUsername": "azureuser",
+        "keySource": "Generate new key pair",
+        "inboundMode": "selected",
+        "selectedPorts": ["22", "80"],
+        "osDiskType": "Standard SSD (LRS)",
+        "deleteDisk": true,
+        "virtualNetwork": "(new) vnet-web-dev",
+        "publicIp": "(new) pip-web-dev",
+        "nicNsg": "Basic",
+        "autoShutdown": true,
+        "shutdownTime": "19:00",
+        "bootDiagnostics": "Enable with managed storage account (recommended)",
+        "tagEnv": "dev",
+        "tagOwner": "training"
+      }
+    },
+    { "type": "command", "command": "az vm list -d -o table" },
+    { "type": "click", "componentId": "go-to-resource" },
+    { "type": "click", "componentId": "vm-stop" }
+  ]
+}

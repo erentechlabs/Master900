@@ -21,8 +21,8 @@ RUN npm ci --no-audit --no-fund
 FROM deps AS builder
 COPY . .
 # The public URL decides whether HTTPS-only headers (HSTS, upgrade-insecure-requests) are emitted.
-ARG NEXTAUTH_URL=http://localhost:3000
-ENV NEXTAUTH_URL=${NEXTAUTH_URL} NODE_ENV=production
+ARG APP_URL=http://localhost:3000
+ENV APP_URL=${APP_URL} NODE_ENV=production
 RUN npm run build
 
 # ---------------------------------------------------------------- tools (migrate / seed / worker)

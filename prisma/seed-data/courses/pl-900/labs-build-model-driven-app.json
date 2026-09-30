@@ -1,0 +1,372 @@
+{
+  "labs": [
+    {
+      "slug": "build-model-driven-app",
+      "type": "UI_SIMULATION",
+      "title": "Build a model-driven app for equipment requests",
+      "summary": "Use the Power Apps app designer to create a model-driven app from the Equipment Request Dataverse table, add a view and form, configure navigation, save, and publish.",
+      "scenario": "Contoso Facilities already stores equipment requests in Microsoft Dataverse and wants a data-focused internal app for coordinators. In the **simulated Power Apps** maker portal, create a **model-driven app** named **Equipment Request Manager**, add the **Equipment Request** table, include a view and a form, place the table in the navigation, and then save and publish. Everything is simulated; no real environment is changed.",
+      "domainKey": "power-apps",
+      "objectiveCode": "3.1",
+      "complexity": "BASIC",
+      "estimatedMinutes": 20,
+      "learningObjectives": [
+        "Describe when a model-driven app is a good fit compared with a canvas app",
+        "Add a Dataverse table, view, form and navigation page in the model-driven app designer",
+        "Save and publish a model-driven app"
+      ],
+      "prerequisites": ["Know that model-driven apps require Dataverse tables"],
+      "sources": [
+        { "title": "Overview of building a model-driven app with Power Apps", "url": "https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/model-driven-app-overview" },
+        { "title": "Build your first modern model-driven app with Power Apps", "url": "https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/build-first-model-driven-app" },
+        { "title": "Create and edit tables using Power Apps", "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/create-edit-entities-portal" }
+      ],
+      "config": {
+        "portal": { "name": "Power Apps", "theme": "power-apps", "user": "alex@contoso.example", "tenant": "Contoso (default)", "url": "https://make.powerapps.com", "searchPlaceholder": "Search" },
+        "vm": { "name": "LAB-VM-01", "os": "windows", "apps": ["browser"] },
+        "clock": { "start": "2026-09-30T11:00:00Z" },
+        "startPage": "home",
+        "navigation": [
+          { "page": "home", "label": "Home", "icon": "Home" },
+          { "page": "apps", "label": "Apps", "icon": "AppWindow", "section": "Build" },
+          { "page": "tables", "label": "Tables", "icon": "Table", "section": "Data" }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "subtitle": "Contoso (default)",
+            "url": "/",
+            "components": [
+              { "kind": "callout", "variant": "info", "title": "Canvas vs model-driven", "text": "A **canvas app** gives the maker detailed control over layout and screens. A **model-driven app** starts from the Dataverse data model: tables, forms, views, charts and navigation define much of the user experience." },
+              {
+                "kind": "tiles",
+                "id": "home-tiles",
+                "title": "Build",
+                "size": "md",
+                "items": [
+                  { "id": "apps", "label": "Apps", "description": "Create and manage apps.", "icon": "AppWindow", "action": { "type": "navigate", "page": "apps" } },
+                  { "id": "tables", "label": "Tables", "description": "Review Dataverse tables.", "icon": "Table", "action": { "type": "navigate", "page": "tables" } }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "tables",
+            "title": "Tables",
+            "subtitle": "Dataverse",
+            "icon": "Table",
+            "url": "/environments/contoso-default/tables",
+            "breadcrumb": ["Home"],
+            "components": [
+              {
+                "kind": "table",
+                "id": "table-list",
+                "source": "dataverseTables",
+                "rowKey": "displayName",
+                "columns": [
+                  { "key": "displayName", "label": "Display name", "format": "link" },
+                  { "key": "primaryColumn", "label": "Primary column" },
+                  { "key": "views", "label": "Views", "format": "tags" },
+                  { "key": "forms", "label": "Forms", "format": "tags" }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "apps",
+            "title": "Apps",
+            "subtitle": "Contoso (default)",
+            "icon": "AppWindow",
+            "url": "/environments/contoso-default/apps",
+            "breadcrumb": ["Home"],
+            "commands": [
+              { "id": "new-app", "label": "+ New app", "icon": "Plus", "variant": "primary", "action": { "type": "navigate", "page": "new-app" } }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "apps-list",
+                "source": "apps",
+                "rowKey": "name",
+                "emptyText": "No apps created yet.",
+                "columns": [
+                  { "key": "name", "label": "Name", "format": "link" },
+                  { "key": "type", "label": "Type" },
+                  { "key": "published", "label": "Published", "format": "bool" }
+                ],
+                "rowAction": { "type": "navigate", "page": "designer", "select": { "as": "app", "path": "apps", "key": "name", "value": "{{$row.name}}" } }
+              }
+            ]
+          },
+          {
+            "id": "new-app",
+            "title": "New app",
+            "icon": "Plus",
+            "url": "/environments/contoso-default/apps/new",
+            "navItem": "apps",
+            "breadcrumb": ["Home", "Apps"],
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "app-types",
+                "title": "Choose an app type",
+                "size": "md",
+                "items": [
+                  { "id": "model-driven", "label": "Model-driven app", "description": "Create an app based on Dataverse tables, forms, views and navigation.", "icon": "LayoutDashboard", "action": { "type": "navigate", "page": "model-driven-create" } },
+                  { "id": "canvas", "label": "Canvas app", "description": "Start with a blank canvas or data source and design screens manually.", "icon": "AppWindow", "action": { "type": "message", "tone": "info", "text": "Canvas apps are flexible for custom screen layouts. This lab uses a model-driven app for a data-dense process." } }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "model-driven-create",
+            "title": "New model-driven app",
+            "icon": "LayoutDashboard",
+            "url": "/environments/contoso-default/apps/new/model-driven",
+            "navItem": "apps",
+            "breadcrumb": ["Home", "Apps", "New app"],
+            "components": [
+              {
+                "kind": "form",
+                "id": "model-app-form",
+                "title": "Create a model-driven app",
+                "fields": [
+                  { "id": "name", "label": "Name", "control": "text", "required": true, "defaultValue": "Equipment Request Manager" },
+                  { "id": "description", "label": "Description", "control": "textarea", "defaultValue": "Manage equipment requests with Dataverse views and forms." }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    { "rule": { "type": "equals", "path": "$form.name", "value": "Equipment Request Manager" }, "message": "Use the app name Equipment Request Manager for this lab." }
+                  ],
+                  "actions": [
+                    { "type": "append", "path": "apps", "unique": "name", "value": { "name": "{{$form.name}}", "type": "Model-driven", "description": "{{$form.description}}", "tables": [], "views": [], "forms": [], "navigation": [], "saved": false, "published": false } },
+                    { "type": "navigate", "page": "designer", "select": { "as": "app", "path": "apps", "key": "name", "value": "{{$form.name}}" } }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "designer",
+            "title": "{{$sel.app.name}}",
+            "subtitle": "Model-driven app designer",
+            "icon": "LayoutDashboard",
+            "url": "/environments/contoso-default/apps/equipment-request-manager/designer",
+            "requires": "app",
+            "navItem": "apps",
+            "breadcrumb": ["Home", "Apps"],
+            "commands": [
+              { "id": "add-page", "label": "Add page", "icon": "Plus", "variant": "primary", "action": { "type": "navigate", "page": "add-page" } },
+              { "id": "edit-data-experience", "label": "Data experience", "icon": "Table2", "action": { "type": "navigate", "page": "data-experience" } },
+              { "id": "edit-navigation", "label": "Navigation", "icon": "Route", "action": { "type": "navigate", "page": "navigation-designer" } },
+              { "id": "model-save", "label": "Save", "icon": "Save", "action": { "type": "sequence", "actions": [{ "type": "update", "path": "apps", "where": { "name": "{{$sel.app.name}}" }, "set": { "saved": true } }, { "type": "notify", "title": "Saved", "message": "The app was saved." }] } },
+              { "id": "model-publish", "label": "Publish", "icon": "Upload", "action": { "type": "if", "when": { "type": "equals", "path": "$sel.app.saved", "value": true }, "then": [{ "type": "update", "path": "apps", "where": { "name": "{{$sel.app.name}}" }, "set": { "published": true } }, { "type": "notify", "title": "Published", "message": "The model-driven app is published." }], "else": [{ "type": "fail", "message": "Save the model-driven app before publishing." }] } }
+            ],
+            "components": [
+              { "kind": "callout", "variant": "info", "text": "Model-driven apps reuse Dataverse components. Add a table page, choose views and forms, then place the page in the app navigation." },
+              {
+                "kind": "properties",
+                "title": "App summary",
+                "items": [
+                  { "label": "Type", "value": "{{$sel.app.type}}" },
+                  { "label": "Tables", "value": "{{$sel.app.tables}}", "format": "tags" },
+                  { "label": "Views", "value": "{{$sel.app.views}}", "format": "tags" },
+                  { "label": "Forms", "value": "{{$sel.app.forms}}", "format": "tags" },
+                  { "label": "Published", "value": "{{$sel.app.published}}", "format": "bool" }
+                ]
+              },
+              { "kind": "table", "id": "app-navigation-preview", "title": "Navigation preview", "source": "$sel.app.navigation", "rowKey": "$value", "emptyText": "No pages in the app navigation yet.", "variant": "list", "columns": [{ "key": "$value", "label": "Page" }] }
+            ]
+          },
+          {
+            "id": "add-page",
+            "title": "Add page",
+            "subtitle": "Dataverse table",
+            "icon": "Plus",
+            "url": "/environments/contoso-default/apps/equipment-request-manager/designer/add-page",
+            "requires": "app",
+            "navItem": "apps",
+            "breadcrumb": ["Home", "Apps", "Equipment Request Manager"],
+            "components": [
+              {
+                "kind": "form",
+                "id": "add-page-form",
+                "title": "Add a Dataverse table page",
+                "fields": [
+                  { "id": "pageType", "label": "Page type", "control": "select", "required": true, "options": [{ "value": "Dataverse table", "label": "Dataverse table" }, { "value": "Dashboard", "label": "Dashboard" }] },
+                  { "id": "table", "label": "Table", "control": "select", "required": true, "optionsFrom": { "path": "dataverseTables", "value": "displayName", "label": "pluralName" } }
+                ],
+                "submit": {
+                  "label": "Add",
+                  "checks": [
+                    { "rule": { "type": "equals", "path": "$form.pageType", "value": "Dataverse table" }, "message": "Choose Dataverse table so the app page is driven by a Dataverse table." },
+                    { "rule": { "type": "equals", "path": "$form.table", "value": "Equipment Request" }, "message": "Add the Equipment Request table to the app." }
+                  ],
+                  "actions": [
+                    { "type": "update", "path": "apps", "where": { "name": "{{$sel.app.name}}" }, "set": { "tables": ["Equipment Request"] } },
+                    { "type": "notify", "title": "Page added", "message": "Equipment Request was added as a Dataverse table page." },
+                    { "type": "navigate", "page": "designer" }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "data-experience",
+            "title": "Data experience",
+            "subtitle": "Equipment Request",
+            "icon": "Table2",
+            "url": "/environments/contoso-default/apps/equipment-request-manager/designer/data",
+            "requires": "app",
+            "navItem": "apps",
+            "breadcrumb": ["Home", "Apps", "Equipment Request Manager"],
+            "components": [
+              {
+                "kind": "form",
+                "id": "data-experience-form",
+                "title": "Choose views and forms",
+                "fields": [
+                  { "id": "view", "label": "View", "control": "select", "required": true, "options": [{ "value": "Active Equipment Requests", "label": "Active Equipment Requests" }, { "value": "All Accounts", "label": "All Accounts" }] },
+                  { "id": "form", "label": "Form", "control": "select", "required": true, "options": [{ "value": "Main information", "label": "Main information" }, { "value": "Account Card", "label": "Account Card" }] }
+                ],
+                "submit": {
+                  "label": "Save data experience",
+                  "checks": [
+                    { "rule": { "type": "equals", "path": "$form.view", "value": "Active Equipment Requests" }, "message": "Choose the Active Equipment Requests view for this app." },
+                    { "rule": { "type": "equals", "path": "$form.form", "value": "Main information" }, "message": "Choose the Main information form for Equipment Request rows." }
+                  ],
+                  "actions": [
+                    { "type": "update", "path": "apps", "where": { "name": "{{$sel.app.name}}" }, "set": { "views": ["Active Equipment Requests"], "forms": ["Main information"] } },
+                    { "type": "notify", "title": "Data experience saved", "message": "The Equipment Request view and form were added." },
+                    { "type": "navigate", "page": "designer" }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "navigation-designer",
+            "title": "Navigation",
+            "subtitle": "Sitemap",
+            "icon": "Route",
+            "url": "/environments/contoso-default/apps/equipment-request-manager/designer/navigation",
+            "requires": "app",
+            "navItem": "apps",
+            "breadcrumb": ["Home", "Apps", "Equipment Request Manager"],
+            "components": [
+              {
+                "kind": "form",
+                "id": "navigation-form",
+                "title": "Configure navigation",
+                "fields": [
+                  { "id": "area", "label": "Area", "control": "text", "required": true, "defaultValue": "Requests" },
+                  { "id": "page", "label": "Page", "control": "select", "required": true, "options": [{ "value": "Equipment Requests", "label": "Equipment Requests" }, { "value": "Accounts", "label": "Accounts" }] }
+                ],
+                "submit": {
+                  "label": "Save navigation",
+                  "checks": [
+                    { "rule": { "type": "equals", "path": "$form.area", "value": "Requests" }, "message": "Use the Requests area for this app." },
+                    { "rule": { "type": "equals", "path": "$form.page", "value": "Equipment Requests" }, "message": "Add Equipment Requests to the navigation." }
+                  ],
+                  "actions": [
+                    { "type": "update", "path": "apps", "where": { "name": "{{$sel.app.name}}" }, "set": { "navigation": ["Requests", "Equipment Requests"] } },
+                    { "type": "notify", "title": "Navigation saved", "message": "The Equipment Requests page is in the app sitemap." },
+                    { "type": "navigate", "page": "designer" }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "dataverseTables": [
+            { "displayName": "Equipment Request", "pluralName": "Equipment Requests", "primaryColumn": "Request title", "views": ["Active Equipment Requests", "All Equipment Requests"], "forms": ["Main information", "Quick create"], "rows": [{ "title": "Replacement keyboard", "status": "New" }, { "title": "Visitor badges", "status": "Approved" }] },
+            { "displayName": "Account", "pluralName": "Accounts", "primaryColumn": "Account name", "views": ["All Accounts"], "forms": ["Account Main"], "rows": [{ "title": "Contoso" }] }
+          ],
+          "apps": []
+        }
+      },
+      "steps": [
+        {
+          "key": "create-app",
+          "title": "Create a model-driven app",
+          "instruction": "Go to **Apps**, select **+ New app**, choose **Model-driven app**, enter **Equipment Request Manager**, and select **Create**.",
+          "hint": "Choose model-driven for a data-dense process where Dataverse tables, views and forms drive the experience.",
+          "explanation": "Model-driven apps depend on a Dataverse data model and provide a consistent responsive interface.",
+          "targetId": "new-app",
+          "rules": [
+            { "key": "model-app-created", "description": "Equipment Request Manager model-driven app exists", "rule": { "type": "arrayContains", "path": "apps", "match": { "name": "Equipment Request Manager", "type": "Model-driven" } }, "failureFeedback": "Create the model-driven app named Equipment Request Manager." }
+          ]
+        },
+        {
+          "key": "add-table-page",
+          "title": "Add the Equipment Request table page",
+          "instruction": "In the app designer, select **Add page**, choose **Dataverse table**, select **Equipment Requests**, and select **Add**.",
+          "hint": "A Dataverse table page gives users list and record experiences based on table components.",
+          "explanation": "Adding a table page is the model-driven equivalent of adding a table-driven area to the app.",
+          "targetId": "add-page",
+          "rules": [
+            { "key": "table-added", "description": "Equipment Request table is included", "rule": { "type": "arrayContains", "path": "apps", "match": { "name": "Equipment Request Manager", "tables.0": "Equipment Request" } }, "failureFeedback": "Add the Equipment Request Dataverse table to the app." }
+          ]
+        },
+        {
+          "key": "choose-view-form",
+          "title": "Choose a view and form",
+          "instruction": "Select **Data experience**, choose view **Active Equipment Requests** and form **Main information**, then select **Save data experience**.",
+          "hint": "Views control record lists; forms control record details and editing.",
+          "explanation": "Model-driven apps compose Dataverse components instead of hand-placing every control.",
+          "targetId": "edit-data-experience",
+          "rules": [
+            { "key": "view-form-added", "description": "The app includes the required view and form", "rule": { "type": "arrayContains", "path": "apps", "match": { "name": "Equipment Request Manager", "views.0": "Active Equipment Requests", "forms.0": "Main information" } }, "failureFeedback": "Add Active Equipment Requests and Main information to the app." }
+          ]
+        },
+        {
+          "key": "configure-navigation",
+          "title": "Configure app navigation",
+          "instruction": "Select **Navigation**, set area **Requests**, add page **Equipment Requests**, and select **Save navigation**.",
+          "hint": "The sitemap controls the left navigation that users see at runtime.",
+          "explanation": "Navigation gives users a clear entry point to table pages and dashboards in a model-driven app.",
+          "targetId": "edit-navigation",
+          "rules": [
+            { "key": "navigation-added", "description": "Requests navigation includes Equipment Requests", "rule": { "type": "arrayContains", "path": "apps", "match": { "name": "Equipment Request Manager", "navigation.0": "Requests", "navigation.1": "Equipment Requests" } }, "failureFeedback": "Add Equipment Requests to the Requests area in navigation." }
+          ]
+        },
+        {
+          "key": "save-publish",
+          "title": "Save and publish",
+          "instruction": "Select **Save**, then **Publish**.",
+          "hint": "Saving keeps your designer changes. Publishing makes the model-driven app available to users.",
+          "explanation": "Like canvas apps, model-driven apps must be published before users can run the current version.",
+          "targetId": "model-save",
+          "rules": [
+            { "key": "app-published", "description": "Equipment Request Manager is published", "rule": { "type": "arrayContains", "path": "apps", "match": { "name": "Equipment Request Manager", "published": true } }, "failureFeedback": "Save and publish the model-driven app." }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "complete-model-app",
+          "description": "The model-driven app includes table, view, form, navigation and is published",
+          "rule": {
+            "type": "arrayContains",
+            "path": "apps",
+            "match": {
+              "name": "Equipment Request Manager",
+              "type": "Model-driven",
+              "tables.0": "Equipment Request",
+              "views.0": "Active Equipment Requests",
+              "forms.0": "Main information",
+              "navigation.1": "Equipment Requests",
+              "published": true
+            }
+          },
+          "successFeedback": "The model-driven app is composed from Dataverse components and published.",
+          "failureFeedback": "Add the table, view, form and navigation, then save and publish."
+        }
+      ],
+      "solution": "1. Select **Apps** > **+ New app** > **Model-driven app**.\n2. Enter `Equipment Request Manager` and select **Create**.\n3. In the app designer, select **Add page** > **Dataverse table**, choose **Equipment Requests**, and select **Add**.\n4. Select **Data experience**, choose view **Active Equipment Requests** and form **Main information**, then select **Save data experience**.\n5. Select **Navigation**, set area `Requests`, add page **Equipment Requests**, and select **Save navigation**.\n6. Select **Save**, then **Publish**."
+    }
+  ]
+}

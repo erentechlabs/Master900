@@ -1,0 +1,106 @@
+{
+  "certification": "AB-900",
+  "lab": "manage-agents-inventory",
+  "note": "Publish the Sales org-built agent only to the pilot group, block a high-risk external agent, configure agent settings, and view usage.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "agent-requests"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "agent-requests-table",
+      "rowKey": "Sales Proposal Coach"
+    },
+    {
+      "type": "click",
+      "componentId": "publish-to-store"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "publish-agent-form",
+      "values": {
+        "audience": "Copilot Pilot - Sales",
+        "preinstall": false,
+        "template": "Default template",
+        "permissionsAccepted": true
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "agent-registry"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "agent-registry-table",
+      "rowKey": "Vendor CRM Booster"
+    },
+    {
+      "type": "click",
+      "componentId": "block-agent"
+    },
+    {
+      "type": "navigate",
+      "page": "agent-settings"
+    },
+    {
+      "type": "setField",
+      "componentId": "agent-access-settings",
+      "fieldId": "allowMicrosoft",
+      "value": true
+    },
+    {
+      "type": "setField",
+      "componentId": "agent-access-settings",
+      "fieldId": "allowOrg",
+      "value": true
+    },
+    {
+      "type": "setField",
+      "componentId": "agent-access-settings",
+      "fieldId": "allowExternal",
+      "value": false
+    },
+    {
+      "type": "navigate",
+      "page": "agent-sharing"
+    },
+    {
+      "type": "setField",
+      "componentId": "agent-sharing-settings",
+      "fieldId": "sharingScope",
+      "value": "Specific users"
+    },
+    {
+      "type": "setField",
+      "componentId": "agent-sharing-settings",
+      "fieldId": "sharingGroup",
+      "value": "Agent Makers - Approved"
+    },
+    {
+      "type": "navigate",
+      "page": "agent-user-access"
+    },
+    {
+      "type": "setField",
+      "componentId": "agent-user-access-settings",
+      "fieldId": "userAccess",
+      "value": "Specific users or groups"
+    },
+    {
+      "type": "setField",
+      "componentId": "agent-user-access-settings",
+      "fieldId": "userAccessGroup",
+      "value": "Copilot Pilot - Sales"
+    },
+    {
+      "type": "navigate",
+      "page": "reports"
+    },
+    {
+      "type": "click",
+      "componentId": "reports-agent-tiles",
+      "itemId": "agents-usage"
+    }
+  ]
+}

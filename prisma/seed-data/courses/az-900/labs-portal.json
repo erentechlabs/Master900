@@ -1,0 +1,379 @@
+{
+  "labs": [
+    {
+      "slug": "create-linux-vm-portal",
+      "type": "UI_SIMULATION",
+      "title": "Create a Linux virtual machine in the Azure portal",
+      "summary": "Use the Create a virtual machine wizard in a simulated Azure portal to deploy a small Linux VM, review it, and stop it to save compute costs.",
+      "scenario": "Tailwind Traders needs a small Linux web server for a proof of concept. In the **simulated Azure portal** on your lab VM, create a virtual machine named **vm-web-01** in a new resource group **rg-web-dev** in **(Europe) West Europe**, using the **Ubuntu Server 24.04 LTS** image and the **Standard_B2s** size with SSH key authentication. Only **SSH (22)** and **HTTP (80)** may be open to the internet. Use a **Standard SSD** OS disk, keep a public IP address, turn on **auto-shutdown at 19:00**, and tag the VM with **env = dev** and **owner = training**. When the deployment is complete, open the VM and **stop (deallocate)** it so it doesn't use compute while nobody is testing. Everything here is simulated - no real Azure subscription is used.",
+      "domainKey": "azure-architecture-services",
+      "moduleSlug": "azure-compute-and-networking",
+      "objectiveCode": "2.2",
+      "complexity": "BASIC",
+      "estimatedMinutes": 20,
+      "learningObjectives": [
+        "Create a virtual machine with the portal wizard: Basics, Disks, Networking, Management, Tags and Review + create",
+        "Choose an image, a size and inbound port rules that match a requirement",
+        "Explain why a stopped (deallocated) VM stops compute charges while its disks remain"
+      ],
+      "prerequisites": ["Know what a resource group and a virtual machine are"],
+      "sources": [
+        { "title": "Quickstart: Create a Linux virtual machine in the Azure portal", "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/linux/quick-create-portal" },
+        { "title": "States and billing status of Azure Virtual Machines", "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/states-billing" },
+        { "title": "Auto-shutdown a virtual machine", "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/auto-shutdown-vm" }
+      ],
+      "config": {
+        "portal": { "name": "Microsoft Azure", "theme": "azure", "user": "alex@contoso.example", "tenant": "Contoso (contoso.example)", "url": "https://portal.azure.com", "searchPlaceholder": "Search resources, services, and docs (G+/)" },
+        "vm": { "name": "LAB-VM01", "os": "windows", "apps": ["browser"] },
+        "terminal": {
+          "title": "Cloud Shell (Bash)",
+          "prompt": "alex@Azure:~$",
+          "surface": "cloudshell",
+          "welcome": "Requesting a Cloud Shell... Succeeded.\nConnecting terminal...\n\nWelcome to Azure Cloud Shell (simulation)\nType \"az\" commands to manage the simulated subscription. Type \"help\" to list the commands you can use.",
+          "commands": [
+            { "id": "account-show", "pattern": "^az account show( (-o|--output) json)?$", "help": "az account show", "output": "{\n  \"name\": \"{{subscription.name}}\",\n  \"id\": \"{{subscription.id}}\",\n  \"state\": \"Enabled\",\n  \"user\": { \"name\": \"alex@contoso.example\", \"type\": \"user\" }\n}" },
+            { "id": "group-list-table", "pattern": "^az group list (-o|--output) table$", "help": "az group list [-o table]", "output": "{{resourceGroups | table:Name=name,Location=location}}" },
+            { "id": "group-list", "pattern": "^az group list$", "output": "{{resourceGroups | json}}" },
+            { "id": "vm-list-details-table", "pattern": "^az vm list (-d|--show-details) (-o|--output) table$", "help": "az vm list [-d] [-o table]", "output": "{{virtualMachines | table:Name=name,ResourceGroup=resourceGroup,PowerState=status,PublicIps=publicIp,Location=location}}" },
+            { "id": "vm-list-table", "pattern": "^az vm list (-o|--output) table$", "output": "{{virtualMachines | table:Name=name,ResourceGroup=resourceGroup,Location=location}}" },
+            { "id": "vm-list", "pattern": "^az vm list( -d| --show-details)?$", "output": "{{virtualMachines | json}}" },
+            { "id": "vm-missing", "pattern": "^az vm (start|stop|deallocate|show) (-g|--resource-group) (?<g>\\S+) (-n|--name) (?<n>\\S+)( .*)?$", "when": { "type": "not", "rule": { "type": "arrayContains", "path": "virtualMachines", "match": { "name": "{{$args.n}}", "resourceGroup": "{{$args.g}}" } } }, "error": "(ResourceNotFound) The Resource 'Microsoft.Compute/virtualMachines/{{$args.n}}' under resource group '{{$args.g}}' was not found." },
+            { "id": "vm-show", "pattern": "^az vm show (-g|--resource-group) (?<g>\\S+) (-n|--name) (?<n>\\S+)( -d| --show-details)?$", "help": "az vm show -g <group> -n <name> [-d]", "output": "{{virtualMachines | where:name=$args.n | first | json}}" },
+            { "id": "vm-deallocate", "pattern": "^az vm deallocate (-g|--resource-group) (?<g>\\S+) (-n|--name) (?<n>\\S+)$", "help": "az vm deallocate -g <group> -n <name>", "actions": [{ "type": "update", "path": "virtualMachines", "where": { "name": "{{$args.n}}" }, "set": { "status": "Stopped (deallocated)" } }], "output": "" },
+            { "id": "vm-stop", "pattern": "^az vm stop (-g|--resource-group) (?<g>\\S+) (-n|--name) (?<n>\\S+)$", "help": "az vm stop -g <group> -n <name>", "actions": [{ "type": "update", "path": "virtualMachines", "where": { "name": "{{$args.n}}" }, "set": { "status": "Stopped" } }], "output": "WARNING: Virtual machine '{{$args.n}}' is stopped but still allocated. You are still charged for compute. To stop compute charges, run: az vm deallocate -g {{$args.g}} -n {{$args.n}}" },
+            { "id": "vm-start", "pattern": "^az vm start (-g|--resource-group) (?<g>\\S+) (-n|--name) (?<n>\\S+)$", "help": "az vm start -g <group> -n <name>", "actions": [{ "type": "update", "path": "virtualMachines", "where": { "name": "{{$args.n}}" }, "set": { "status": "Running" } }], "output": "" }
+          ]
+        },
+        "startPage": "home",
+        "navigation": [
+          { "page": "home", "label": "Home", "icon": "Home" },
+          { "page": "vms", "label": "Virtual machines", "icon": "Monitor", "section": "Favorites" },
+          { "page": "resource-groups", "label": "Resource groups", "icon": "Boxes", "section": "Favorites" }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/#home",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "services",
+                "title": "Azure services",
+                "size": "sm",
+                "items": [
+                  { "id": "create-resource", "label": "Create a resource", "icon": "Plus", "action": { "type": "navigate", "page": "vm-create" } },
+                  { "id": "virtual-machines", "label": "Virtual machines", "icon": "Monitor", "action": { "type": "navigate", "page": "vms" } },
+                  { "id": "resource-groups", "label": "Resource groups", "icon": "Boxes", "action": { "type": "navigate", "page": "resource-groups" } },
+                  { "id": "storage-accounts", "label": "Storage accounts", "icon": "Database", "action": { "type": "message", "tone": "info", "text": "Storage accounts aren't part of this lab." } },
+                  { "id": "cost-management", "label": "Cost Management", "icon": "Wallet", "action": { "type": "message", "tone": "info", "text": "Cost Management isn't part of this lab. Stopping a VM you don't use is one of the simplest ways to save costs." } },
+                  { "id": "entra", "label": "Microsoft Entra ID", "icon": "Users", "action": { "type": "message", "tone": "info", "text": "Microsoft Entra ID isn't part of this lab." } }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "recent-groups",
+                "title": "Resources - Recent",
+                "source": "resourceGroups",
+                "rowKey": "name",
+                "columns": [{ "key": "name", "label": "Name", "format": "link" }, { "key": "name", "label": "Type", "template": "Resource group" }, { "key": "location", "label": "Location" }],
+                "rowAction": { "type": "navigate", "page": "rg-overview", "select": { "as": "rg", "path": "resourceGroups", "key": "name", "value": "{{$row.name}}" } }
+              }
+            ]
+          },
+          {
+            "id": "vms",
+            "title": "Virtual machines",
+            "subtitle": "Contoso (contoso.example)",
+            "icon": "Monitor",
+            "url": "/#browse/Microsoft.Compute%2FVirtualMachines",
+            "breadcrumb": ["Home"],
+            "commands": [
+              { "id": "vms-create", "label": "Create", "icon": "Plus", "variant": "primary", "action": { "type": "navigate", "page": "vm-create" } },
+              { "id": "vms-refresh", "label": "Refresh", "icon": "RefreshCw", "action": { "type": "message", "tone": "info", "text": "The list is up to date." } }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "vm-list",
+                "source": "virtualMachines",
+                "rowKey": "name",
+                "searchable": true,
+                "emptyText": "No virtual machines to display. Select + Create to create a virtual machine.",
+                "columns": [
+                  { "key": "name", "label": "Name", "format": "link" },
+                  { "key": "resourceGroup", "label": "Resource group" },
+                  { "key": "location", "label": "Location" },
+                  { "key": "status", "label": "Status", "format": "status" },
+                  { "key": "os", "label": "Operating system" },
+                  { "key": "size", "label": "Size" },
+                  { "key": "publicIp", "label": "Public IP address" }
+                ],
+                "rowAction": { "type": "navigate", "page": "vm-overview", "select": { "as": "vm", "path": "virtualMachines", "key": "name", "value": "{{$row.name}}" } }
+              }
+            ]
+          },
+          {
+            "id": "vm-create",
+            "title": "Create a virtual machine",
+            "icon": "Monitor",
+            "url": "/#create/Microsoft.VirtualMachine-ARM",
+            "navItem": "vms",
+            "breadcrumb": ["Home", "Virtual machines"],
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "vm-wizard",
+                "description": "Create a virtual machine that runs Linux or Windows. Select an image from the marketplace, or use your own customized image.",
+                "reviewLabel": "Review + create",
+                "tabs": [
+                  {
+                    "id": "basics",
+                    "label": "Basics",
+                    "fields": [
+                      { "id": "subscription", "label": "Subscription", "control": "select", "required": true, "options": [{ "value": "Contoso Learning (simulated)", "label": "Contoso Learning (simulated)" }], "defaultValue": "Contoso Learning (simulated)" },
+                      { "id": "resourceGroup", "label": "Resource group", "control": "select", "required": true, "options": [{ "value": "create-new", "label": "Create new" }], "optionsFrom": { "path": "resourceGroups", "value": "name" }, "help": "A resource group is a container that holds related resources for an Azure solution." },
+                      { "id": "newResourceGroup", "label": "New resource group name", "control": "text", "required": true, "visibleWhen": { "type": "equals", "path": "$form.resourceGroup", "value": "create-new" }, "pattern": "^[A-Za-z0-9_().-]{0,89}[A-Za-z0-9_()-]$", "patternMessage": "Use letters, numbers, periods, underscores, hyphens and parentheses (1-90 characters). The name can't end with a period.", "unique": { "path": "resourceGroups", "key": "name", "message": "A resource group with this name already exists. Select it from the list instead." } },
+                      { "id": "vmName", "label": "Virtual machine name", "control": "text", "required": true, "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,62}[A-Za-z0-9]$", "patternMessage": "Use 2-64 letters, numbers and hyphens. Start and end with a letter or number.", "unique": { "path": "virtualMachines", "key": "name", "message": "A virtual machine with this name already exists." } },
+                      { "id": "region", "label": "Region", "control": "select", "required": true, "optionsFrom": { "path": "regions", "value": "name", "label": "displayName" }, "defaultValue": "eastus" },
+                      { "id": "availability", "label": "Availability options", "control": "select", "required": true, "defaultValue": "Availability zone", "options": [{ "value": "No infrastructure redundancy required", "label": "No infrastructure redundancy required" }, { "value": "Availability zone", "label": "Availability zone" }, { "value": "Availability set", "label": "Availability set" }] },
+                      { "id": "securityType", "label": "Security type", "control": "select", "required": true, "defaultValue": "Trusted launch virtual machines", "options": [{ "value": "Standard", "label": "Standard" }, { "value": "Trusted launch virtual machines", "label": "Trusted launch virtual machines" }] },
+                      { "id": "image", "label": "Image", "control": "select", "required": true, "defaultValue": "Windows Server 2022 Datacenter: Azure Edition - x64 Gen2", "options": [{ "value": "Ubuntu Server 24.04 LTS - x64 Gen2", "label": "Ubuntu Server 24.04 LTS - x64 Gen2" }, { "value": "Ubuntu Server 22.04 LTS - x64 Gen2", "label": "Ubuntu Server 22.04 LTS - x64 Gen2" }, { "value": "Debian 12 - x64 Gen2", "label": "Debian 12 - x64 Gen2" }, { "value": "Windows Server 2022 Datacenter: Azure Edition - x64 Gen2", "label": "Windows Server 2022 Datacenter: Azure Edition - x64 Gen2" }] },
+                      { "id": "size", "label": "Size", "control": "select", "required": true, "defaultValue": "Standard_D2s_v5", "options": [{ "value": "Standard_B1s", "label": "Standard_B1s - 1 vCPU, 1 GiB memory" }, { "value": "Standard_B2s", "label": "Standard_B2s - 2 vCPUs, 4 GiB memory" }, { "value": "Standard_D2s_v5", "label": "Standard_D2s_v5 - 2 vCPUs, 8 GiB memory" }, { "value": "Standard_D4s_v5", "label": "Standard_D4s_v5 - 4 vCPUs, 16 GiB memory" }, { "value": "Standard_E4s_v5", "label": "Standard_E4s_v5 - 4 vCPUs, 32 GiB memory" }] },
+                      { "id": "authType", "label": "Authentication type", "control": "radio", "required": true, "defaultValue": "ssh", "options": [{ "value": "ssh", "label": "SSH public key" }, { "value": "password", "label": "Password" }] },
+                      { "id": "adminUsername", "label": "Username", "control": "text", "required": true, "defaultValue": "azureuser", "pattern": "^[a-z_][a-z0-9_-]{0,31}$", "patternMessage": "Use up to 32 lowercase letters, numbers, '-' and '_', starting with a letter." },
+                      { "id": "keySource", "label": "SSH public key source", "control": "select", "required": true, "defaultValue": "Generate new key pair", "visibleWhen": { "type": "equals", "path": "$form.authType", "value": "ssh" }, "options": [{ "value": "Generate new key pair", "label": "Generate new key pair" }, { "value": "Use existing key stored in Azure", "label": "Use existing key stored in Azure" }] },
+                      { "id": "inboundMode", "label": "Public inbound ports", "control": "radio", "required": true, "defaultValue": "selected", "options": [{ "value": "none", "label": "None" }, { "value": "selected", "label": "Allow selected ports" }] },
+                      { "id": "selectedPorts", "label": "Select inbound ports", "control": "checkboxes", "defaultValue": ["22"], "visibleWhen": { "type": "equals", "path": "$form.inboundMode", "value": "selected" }, "help": "Every open port is reachable from the internet. Open only what the workload needs.", "options": [{ "value": "80", "label": "HTTP (80)" }, { "value": "443", "label": "HTTPS (443)" }, { "value": "22", "label": "SSH (22)" }, { "value": "3389", "label": "RDP (3389)" }] }
+                    ]
+                  },
+                  {
+                    "id": "disks",
+                    "label": "Disks",
+                    "description": "Azure VMs have one operating system disk and a temporary disk for short-term storage.",
+                    "fields": [
+                      { "id": "osDiskType", "label": "OS disk type", "control": "select", "required": true, "defaultValue": "Premium SSD (LRS)", "options": [{ "value": "Premium SSD (LRS)", "label": "Premium SSD (locally-redundant storage)" }, { "value": "Standard SSD (LRS)", "label": "Standard SSD (locally-redundant storage)" }, { "value": "Standard HDD (LRS)", "label": "Standard HDD (locally-redundant storage)" }] },
+                      { "id": "deleteDisk", "label": "Delete with VM", "control": "toggle", "defaultValue": true }
+                    ]
+                  },
+                  {
+                    "id": "networking",
+                    "label": "Networking",
+                    "description": "Define network connectivity for your virtual machine by configuring network interface card (NIC) settings.",
+                    "fields": [
+                      { "id": "virtualNetwork", "label": "Virtual network", "control": "select", "required": true, "defaultValue": "(new) vnet-web-dev", "options": [{ "value": "(new) vnet-web-dev", "label": "(new) vnet-web-dev" }, { "value": "vnet-shared", "label": "vnet-shared (rg-shared-services)" }] },
+                      { "id": "publicIp", "label": "Public IP", "control": "select", "required": true, "defaultValue": "(new) pip-web-dev", "options": [{ "value": "(new) pip-web-dev", "label": "(new) pip-web-dev" }, { "value": "None", "label": "None" }] },
+                      { "id": "nicNsg", "label": "NIC network security group", "control": "radio", "required": true, "defaultValue": "Basic", "options": [{ "value": "None", "label": "None" }, { "value": "Basic", "label": "Basic" }, { "value": "Advanced", "label": "Advanced" }] }
+                    ]
+                  },
+                  {
+                    "id": "management",
+                    "label": "Management",
+                    "fields": [
+                      { "id": "autoShutdown", "label": "Enable auto-shutdown", "control": "toggle", "defaultValue": false },
+                      { "id": "shutdownTime", "label": "Shutdown time", "control": "text", "required": true, "defaultValue": "19:00", "visibleWhen": { "type": "equals", "path": "$form.autoShutdown", "value": true }, "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$", "patternMessage": "Use 24-hour time, for example 19:00." },
+                      { "id": "bootDiagnostics", "label": "Boot diagnostics", "control": "radio", "required": true, "defaultValue": "Enable with managed storage account (recommended)", "options": [{ "value": "Enable with managed storage account (recommended)", "label": "Enable with managed storage account (recommended)" }, { "value": "Disable", "label": "Disable" }] }
+                    ]
+                  },
+                  {
+                    "id": "tags",
+                    "label": "Tags",
+                    "description": "Tags are name/value pairs that let you categorize resources and view consolidated billing by applying the same tag to multiple resources.",
+                    "fields": [
+                      { "id": "tagEnv", "label": "Tag value for 'env'", "control": "text", "placeholder": "for example dev" },
+                      { "id": "tagOwner", "label": "Tag value for 'owner'", "control": "text", "placeholder": "for example training" }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    { "rule": { "type": "equals", "path": "$form.authType", "value": "ssh" }, "message": "Use an SSH public key for this lab. Keys are much harder to guess or steal than passwords." },
+                    { "rule": { "type": "not", "rule": { "type": "matches", "path": "$form.image", "pattern": "^Windows" } }, "message": "The selected image is Windows, which needs an administrator password and RDP. This workload needs a Linux image." },
+                    { "rule": { "type": "not", "rule": { "type": "oneOf", "path": "$form.adminUsername", "values": ["admin", "root", "administrator"] } }, "message": "This username is reserved. Choose a different one." }
+                  ],
+                  "actions": [
+                    { "type": "if", "when": { "type": "equals", "path": "$form.resourceGroup", "value": "create-new" }, "then": [{ "type": "append", "path": "resourceGroups", "unique": "name", "value": { "name": "{{$form.newResourceGroup}}", "location": "{{$form.region}}" } }] },
+                    {
+                      "type": "append",
+                      "path": "virtualMachines",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.vmName}}",
+                        "resourceGroup": "{{$form.newResourceGroup | or:$form.resourceGroup}}",
+                        "location": "{{$form.region}}",
+                        "image": "{{$form.image}}",
+                        "os": "Linux",
+                        "size": "{{$form.size}}",
+                        "status": "Running",
+                        "availability": "{{$form.availability}}",
+                        "securityType": "{{$form.securityType}}",
+                        "adminUsername": "{{$form.adminUsername}}",
+                        "inboundPorts": "{{$form.selectedPorts | list}}",
+                        "sshOpen": "{{$form.selectedPorts | list | has:22}}",
+                        "httpOpen": "{{$form.selectedPorts | list | has:80}}",
+                        "httpsOpen": "{{$form.selectedPorts | list | has:443}}",
+                        "rdpOpen": "{{$form.selectedPorts | list | has:3389}}",
+                        "osDiskType": "{{$form.osDiskType}}",
+                        "virtualNetwork": "{{$form.virtualNetwork}}",
+                        "publicIpName": "{{$form.publicIp}}",
+                        "publicIp": "{{$form.vmName | ip}}",
+                        "privateIp": "10.0.0.4",
+                        "nicNsg": "{{$form.nicNsg}}",
+                        "autoShutdown": "{{$form.autoShutdown}}",
+                        "shutdownTime": "{{$form.shutdownTime | default:Not enabled}}",
+                        "bootDiagnostics": "{{$form.bootDiagnostics}}",
+                        "tags": { "env": "{{$form.tagEnv}}", "owner": "{{$form.tagOwner}}" },
+                        "createdAt": "{{$now}}"
+                      }
+                    },
+                    { "type": "if", "when": { "type": "equals", "path": "$form.publicIp", "value": "None" }, "then": [{ "type": "update", "path": "virtualMachines", "where": { "name": "{{$form.vmName}}" }, "set": { "publicIp": "None" } }] },
+                    { "type": "append", "path": "deployments", "value": { "name": "CreateVm-{{$form.vmName}}-{{$form.vmName | hash:6}}", "vm": "{{$form.vmName}}", "resourceGroup": "{{$form.newResourceGroup | or:$form.resourceGroup}}", "status": "Succeeded" } },
+                    { "type": "notify", "title": "Deployment succeeded", "message": "Deployment 'CreateVm-{{$form.vmName}}' to resource group '{{$form.newResourceGroup | or:$form.resourceGroup}}' was successful." },
+                    { "type": "navigate", "page": "vm-deployment", "select": { "as": "vm", "path": "virtualMachines", "key": "name", "value": "{{$form.vmName}}" } }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "vm-deployment",
+            "title": "CreateVm-{{$sel.vm.name}}",
+            "subtitle": "Deployment",
+            "icon": "Rocket",
+            "url": "/#view/HubsExtension/DeploymentDetailsBlade/overview",
+            "requires": "vm",
+            "navItem": "vms",
+            "breadcrumb": ["Home", "Virtual machines"],
+            "components": [
+              {
+                "kind": "deployment",
+                "title": "Your deployment is complete",
+                "status": "Succeeded",
+                "note": "Deployment name: CreateVm-{{$sel.vm.name}} · Subscription: {{subscription.name}} · Resource group: {{$sel.vm.resourceGroup}}",
+                "resources": [
+                  { "name": "{{$sel.vm.name}}", "type": "Microsoft.Compute/virtualMachines", "status": "OK" },
+                  { "name": "{{$sel.vm.name}}-nic", "type": "Microsoft.Network/networkInterfaces", "status": "OK" },
+                  { "name": "{{$sel.vm.name}}-nsg", "type": "Microsoft.Network/networkSecurityGroups", "status": "OK" },
+                  { "name": "{{$sel.vm.name}}_OsDisk_1", "type": "Microsoft.Compute/disks", "status": "OK" }
+                ]
+              },
+              { "kind": "button", "id": "go-to-resource", "label": "Go to resource", "variant": "primary", "action": { "type": "navigate", "page": "vm-overview" } }
+            ]
+          },
+          {
+            "id": "vm-overview",
+            "title": "{{$sel.vm.name}}",
+            "subtitle": "Virtual machine",
+            "icon": "Monitor",
+            "url": "/#@contoso.example/resource/subscriptions/{{subscription.id}}/resourceGroups/{{$sel.vm.resourceGroup}}/providers/Microsoft.Compute/virtualMachines/{{$sel.vm.name}}/overview",
+            "requires": "vm",
+            "navItem": "vms",
+            "breadcrumb": ["Home", "Virtual machines"],
+            "menu": [{ "page": "vm-overview", "label": "Overview", "icon": "Monitor" }, { "page": "vm-networking", "label": "Network settings", "icon": "Network", "section": "Networking" }],
+            "commands": [
+              { "id": "vm-connect", "label": "Connect", "icon": "Plug", "visibleWhen": { "type": "equals", "path": "$sel.vm.status", "value": "Running" }, "action": { "type": "message", "tone": "info", "text": "Connect with SSH from a terminal: ssh -i ~/.ssh/{{$sel.vm.name}}_key.pem {{$sel.vm.adminUsername}}@{{$sel.vm.publicIp}}" } },
+              { "id": "vm-start", "label": "Start", "icon": "Play", "visibleWhen": { "type": "notEquals", "path": "$sel.vm.status", "value": "Running" }, "action": { "type": "sequence", "actions": [{ "type": "update", "path": "virtualMachines", "where": { "name": "{{$sel.vm.name}}" }, "set": { "status": "Running" } }, { "type": "notify", "title": "Started virtual machine", "message": "Successfully started virtual machine '{{$sel.vm.name}}'." }] } },
+              { "id": "vm-stop", "label": "Stop", "icon": "Square", "visibleWhen": { "type": "equals", "path": "$sel.vm.status", "value": "Running" }, "action": { "type": "sequence", "actions": [{ "type": "update", "path": "virtualMachines", "where": { "name": "{{$sel.vm.name}}" }, "set": { "status": "Stopped (deallocated)" } }, { "type": "notify", "title": "Stopped virtual machine", "message": "Successfully stopped and deallocated virtual machine '{{$sel.vm.name}}'." }] } },
+              { "id": "vm-delete", "label": "Delete", "icon": "Trash2", "variant": "danger", "action": { "type": "sequence", "actions": [{ "type": "remove", "path": "virtualMachines", "where": { "name": "{{$sel.vm.name}}" } }, { "type": "notify", "title": "Deleted virtual machine", "tone": "info", "message": "The virtual machine was deleted." }, { "type": "navigate", "page": "vms" }] } }
+            ],
+            "components": [
+              { "kind": "callout", "variant": "info", "visibleWhen": { "type": "equals", "path": "$sel.vm.status", "value": "Stopped (deallocated)" }, "text": "This VM is **stopped (deallocated)**. You aren't charged for compute while it is deallocated, but you still pay for its disks and any static public IP address." },
+              { "kind": "callout", "variant": "warning", "visibleWhen": { "type": "equals", "path": "$sel.vm.status", "value": "Stopped" }, "text": "This VM is **stopped but still allocated**, so compute is still billed. Deallocate it to stop compute charges." },
+              {
+                "kind": "properties",
+                "title": "Essentials",
+                "items": [
+                  { "label": "Resource group", "value": "{{$sel.vm.resourceGroup}}", "format": "link" },
+                  { "label": "Status", "value": "{{$sel.vm.status}}", "format": "status" },
+                  { "label": "Location", "value": "{{$sel.vm.location}}" },
+                  { "label": "Subscription", "value": "{{subscription.name}}", "format": "link" },
+                  { "label": "Operating system", "value": "{{$sel.vm.os}} ({{$sel.vm.image}})" },
+                  { "label": "Size", "value": "{{$sel.vm.size}}" },
+                  { "label": "Public IP address", "value": "{{$sel.vm.publicIp}}", "format": "link" },
+                  { "label": "Private IP address", "value": "{{$sel.vm.privateIp}}" },
+                  { "label": "Virtual network/subnet", "value": "{{$sel.vm.virtualNetwork}}/default" },
+                  { "label": "OS disk type", "value": "{{$sel.vm.osDiskType}}" },
+                  { "label": "Auto-shutdown", "value": "{{$sel.vm.shutdownTime}}" },
+                  { "label": "Tags", "value": "{{$sel.vm.tags}}", "format": "tags" }
+                ]
+              },
+              { "kind": "chart", "title": "CPU (average)", "type": "line", "unit": "%", "visibleWhen": { "type": "equals", "path": "$sel.vm.status", "value": "Running" }, "points": [{ "label": "09:00", "value": 3 }, { "label": "09:05", "value": 12 }, { "label": "09:10", "value": 7 }, { "label": "09:15", "value": 5 }, { "label": "09:20", "value": 4 }] }
+            ]
+          },
+          {
+            "id": "vm-networking",
+            "title": "{{$sel.vm.name}} | Network settings",
+            "subtitle": "Virtual machine",
+            "icon": "Network",
+            "requires": "vm",
+            "navItem": "vms",
+            "breadcrumb": ["Home", "Virtual machines", "{{$sel.vm.name}}"],
+            "menu": [{ "page": "vm-overview", "label": "Overview", "icon": "Monitor" }, { "page": "vm-networking", "label": "Network settings", "icon": "Network", "section": "Networking" }],
+            "components": [
+              { "kind": "properties", "items": [{ "label": "Network interface", "value": "{{$sel.vm.name}}-nic" }, { "label": "Public IP address", "value": "{{$sel.vm.publicIp}}" }, { "label": "Private IP address", "value": "{{$sel.vm.privateIp}}" }, { "label": "Network security group", "value": "{{$sel.vm.name}}-nsg ({{$sel.vm.nicNsg}})" }] },
+              { "kind": "table", "id": "inbound-rules", "title": "Inbound port rules", "source": "$sel.vm.inboundPorts", "emptyText": "No inbound ports are open to the internet.", "columns": [{ "key": "$value", "label": "Rule name", "template": "AllowAnyInbound-{{$row}}" }, { "key": "$value", "label": "Port" }, { "key": "$value", "label": "Protocol", "template": "TCP" }, { "key": "$value", "label": "Source", "template": "Any" }, { "key": "$value", "label": "Action", "template": "Allow" }] }
+            ]
+          },
+          {
+            "id": "resource-groups",
+            "title": "Resource groups",
+            "subtitle": "Contoso (contoso.example)",
+            "icon": "Boxes",
+            "url": "/#browse/resourcegroups",
+            "breadcrumb": ["Home"],
+            "components": [
+              { "kind": "table", "id": "rg-list", "source": "resourceGroups", "rowKey": "name", "searchable": true, "columns": [{ "key": "name", "label": "Name", "format": "link" }, { "key": "name", "label": "Subscription", "template": "{{subscription.name}}" }, { "key": "location", "label": "Location" }], "rowAction": { "type": "navigate", "page": "rg-overview", "select": { "as": "rg", "path": "resourceGroups", "key": "name", "value": "{{$row.name}}" } } }
+            ]
+          },
+          {
+            "id": "rg-overview",
+            "title": "{{$sel.rg.name}}",
+            "subtitle": "Resource group",
+            "icon": "Boxes",
+            "requires": "rg",
+            "navItem": "resource-groups",
+            "breadcrumb": ["Home", "Resource groups"],
+            "components": [
+              { "kind": "properties", "title": "Essentials", "items": [{ "label": "Subscription", "value": "{{subscription.name}}", "format": "link" }, { "label": "Location", "value": "{{$sel.rg.location}}" }] },
+              { "kind": "table", "id": "rg-resources", "title": "Resources", "source": "virtualMachines", "where": { "resourceGroup": "{{$sel.rg.name}}" }, "rowKey": "name", "emptyText": "No resources to display.", "columns": [{ "key": "name", "label": "Name", "format": "link" }, { "key": "name", "label": "Type", "template": "Virtual machine" }, { "key": "location", "label": "Location" }], "rowAction": { "type": "navigate", "page": "vm-overview", "select": { "as": "vm", "path": "virtualMachines", "key": "name", "value": "{{$row.name}}" } } }
+            ]
+          }
+        ],
+        "initialState": {
+          "subscription": { "name": "Contoso Learning (simulated)", "id": "00000000-0000-4000-8000-000000000900" },
+          "resourceGroups": [{ "name": "rg-shared-services", "location": "northeurope" }],
+          "virtualMachines": [],
+          "deployments": [],
+          "regions": [
+            { "name": "westeurope", "displayName": "(Europe) West Europe" },
+            { "name": "northeurope", "displayName": "(Europe) North Europe" },
+            { "name": "swedencentral", "displayName": "(Europe) Sweden Central" },
+            { "name": "eastus", "displayName": "(US) East US" }
+          ]
+        }
+      },
+      "steps": [
+        { "key": "open-wizard", "title": "Open the Create a virtual machine wizard", "instruction": "In the portal menu, select **Virtual machines**, then select **+ Create** in the command bar.", "hint": "The command bar is the row of buttons under the page title.", "explanation": "Every resource type has its own create experience; the VM wizard groups the required settings into tabs.", "targetId": "vms-create", "rules": [{ "key": "visited-create", "description": "You opened the create wizard", "rule": { "type": "visited", "page": "vm-create" } }] },
+        { "key": "basics", "title": "Complete the Basics tab", "instruction": "Create a new resource group **rg-web-dev**, name the VM **vm-web-01**, choose **(Europe) West Europe**, the **Ubuntu Server 24.04 LTS** image and the **Standard_B2s** size. Keep **SSH public key** authentication and allow only **SSH (22)** and **HTTP (80)** inbound.", "hint": "Choose Create new in the Resource group list to type the new name. The size and image lists are on the Basics tab.", "explanation": "The image decides the operating system, the size decides CPU and memory - and therefore cost.", "targetId": "vm-wizard", "rules": [
+          { "key": "rg-created", "description": "Resource group rg-web-dev exists in West Europe", "rule": { "type": "arrayContains", "path": "resourceGroups", "match": { "name": "rg-web-dev", "location": "westeurope" } }, "failureFeedback": "Create the resource group rg-web-dev in West Europe (choose Create new)." },
+          { "key": "vm-basics", "description": "vm-web-01 uses Ubuntu 24.04 and Standard_B2s in West Europe", "rule": { "type": "arrayContains", "path": "virtualMachines", "match": { "name": "vm-web-01", "resourceGroup": "rg-web-dev", "location": "westeurope", "image": "Ubuntu Server 24.04 LTS - x64 Gen2", "size": "Standard_B2s" } }, "failureFeedback": "Check the VM name, resource group, region, image and size." }
+        ] },
+        { "key": "disks-network", "title": "Choose disk and network settings", "instruction": "On the **Disks** tab choose a **Standard SSD** OS disk. On **Networking**, keep a new public IP address and the **Basic** NIC network security group.", "hint": "Standard SSD is a good balance of cost and performance for a small test server.", "explanation": "The public IP address makes the web server reachable; the network security group filters inbound traffic to the open ports.", "rules": [
+          { "key": "standard-ssd", "description": "The OS disk is Standard SSD", "rule": { "type": "arrayContains", "path": "virtualMachines", "match": { "name": "vm-web-01", "osDiskType": "Standard SSD (LRS)" } }, "failureFeedback": "vm-web-01 should use a Standard SSD OS disk." },
+          { "key": "public-ip", "description": "The VM has a public IP address", "rule": { "type": "allOf", "rules": [{ "type": "arrayContains", "path": "virtualMachines", "match": { "name": "vm-web-01" } }, { "type": "arrayNotContains", "path": "virtualMachines", "match": { "name": "vm-web-01", "publicIp": "None" } }] }, "failureFeedback": "Without a public IP address, users can't reach the web server from the internet." }
+        ] },
+        { "key": "management-tags", "title": "Add auto-shutdown and tags", "instruction": "On **Management**, enable **auto-shutdown** at **19:00**. On **Tags**, set **env = dev** and **owner = training**. Then select **Review + create** and **Create**.", "hint": "Auto-shutdown is on the Management tab. Tags are the last tab before Review + create.", "explanation": "Auto-shutdown avoids paying for a test VM overnight; tags help you find and report costs by environment and owner.", "rules": [
+          { "key": "auto-shutdown", "description": "Auto-shutdown is enabled at 19:00", "rule": { "type": "arrayContains", "path": "virtualMachines", "match": { "name": "vm-web-01", "autoShutdown": true, "shutdownTime": "19:00" } }, "failureFeedback": "Enable auto-shutdown at 19:00." },
+          { "key": "tags", "description": "The VM is tagged env=dev and owner=training", "rule": { "type": "arrayContains", "path": "virtualMachines", "match": { "name": "vm-web-01", "tags.env": "dev", "tags.owner": "training" } }, "failureFeedback": "Add the tags env = dev and owner = training." }
+        ] },
+        { "key": "review-vm", "title": "Open the virtual machine", "instruction": "When the deployment is complete, select **Go to resource** and review the **Essentials**.", "explanation": "The overview shows the power state, size, IP addresses and tags in one place.", "targetId": "go-to-resource", "rules": [{ "key": "visited-overview", "description": "You opened the VM overview", "rule": { "type": "visited", "page": "vm-overview" } }] },
+        { "key": "deallocate", "title": "Stop (deallocate) the VM", "instruction": "Select **Stop** on the VM overview so the VM is **Stopped (deallocated)**. You can also use Cloud Shell: `az vm deallocate -g rg-web-dev -n vm-web-01`.", "hint": "In the portal, Stop deallocates the VM. In the Azure CLI, az vm stop keeps it allocated - use az vm deallocate.", "explanation": "A deallocated VM releases its compute resources, so compute charges stop. Disks are kept and still billed.", "targetId": "vm-stop", "rules": [{ "key": "deallocated", "description": "vm-web-01 is stopped (deallocated)", "rule": { "type": "arrayContains", "path": "virtualMachines", "match": { "name": "vm-web-01", "status": "Stopped (deallocated)" } }, "failureFeedback": "vm-web-01 is still allocated. Stop (deallocate) it." }] }
+      ],
+      "finalRules": [
+        { "key": "only-needed-ports", "description": "Only SSH (22) and HTTP (80) are open", "rule": { "type": "arrayContains", "path": "virtualMachines", "match": { "name": "vm-web-01", "sshOpen": true, "httpOpen": true, "httpsOpen": false, "rdpOpen": false } }, "successFeedback": "Only the ports the workload needs are open.", "failureFeedback": "Open exactly SSH (22) and HTTP (80). RDP is for Windows remote desktop and HTTPS isn't configured on this server." }
+      ],
+      "solution": "1. Select **Virtual machines** in the portal menu, then **+ Create**.\n2. **Basics**: Resource group **Create new** → `rg-web-dev`; Virtual machine name `vm-web-01`; Region **(Europe) West Europe**; Image **Ubuntu Server 24.04 LTS - x64 Gen2**; Size **Standard_B2s**; Authentication **SSH public key**; Public inbound ports **Allow selected ports** → **SSH (22)** and **HTTP (80)**.\n3. **Disks**: OS disk type **Standard SSD (LRS)**.\n4. **Networking**: keep **(new) pip-web-dev** and the **Basic** NIC network security group.\n5. **Management**: turn on **Enable auto-shutdown**, time `19:00`.\n6. **Tags**: env = `dev`, owner = `training`.\n7. **Review + create** → **Create**, then **Go to resource**.\n8. Select **Stop** (or run `az vm deallocate -g rg-web-dev -n vm-web-01` in Cloud Shell) so the status becomes **Stopped (deallocated)**."
+    }
+  ]
+}

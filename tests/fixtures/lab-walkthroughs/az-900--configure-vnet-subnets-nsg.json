@@ -1,0 +1,86 @@
+{
+  "certification": "AZ-900",
+  "lab": "configure-vnet-subnets-nsg",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "vnets"
+    },
+    {
+      "type": "click",
+      "componentId": "vnets-create"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "vnet-wizard",
+      "values": {
+        "subscription": "Contoso Learning (simulated)",
+        "resourceGroup": "rg-network-prod",
+        "name": "vnet-app-prod",
+        "region": "westeurope",
+        "bastion": false,
+        "firewall": false,
+        "addressSpace": "10.20.0.0/16",
+        "webPrefix": "10.20.1.0/24",
+        "dataPrefix": "10.20.2.0/24",
+        "env": "prod"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "nsgs"
+    },
+    {
+      "type": "click",
+      "componentId": "nsgs-create"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "nsg-wizard",
+      "values": {
+        "subscription": "Contoso Learning (simulated)",
+        "resourceGroup": "rg-network-prod",
+        "name": "nsg-web",
+        "region": "westeurope"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "nsg-inbound"
+    },
+    {
+      "type": "click",
+      "componentId": "add-inbound-rule"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "https-rule-form",
+      "values": {
+        "sourceType": "Service Tag",
+        "sourceTag": "Internet",
+        "service": "HTTPS",
+        "port": "443",
+        "protocol": "TCP",
+        "action": "Allow",
+        "priority": 100,
+        "name": "Allow-HTTPS-Internet"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "nsg-subnets"
+    },
+    {
+      "type": "click",
+      "componentId": "associate-subnet"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "associate-subnet-form",
+      "values": {
+        "virtualNetwork": "vnet-app-prod",
+        "subnet": "snet-web"
+      }
+    }
+  ]
+}

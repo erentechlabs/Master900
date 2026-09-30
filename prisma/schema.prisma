@@ -313,7 +313,7 @@ model User {
   id                    String     @id @default(cuid())
   email                 String     @unique
   name                  String?
-  passwordHash          String
+  passwordHash          String?
   status                UserStatus @default(ACTIVE)
   /// Incremented to revoke all existing sessions (password change, role change, sign out everywhere).
   sessionVersion        Int        @default(1)

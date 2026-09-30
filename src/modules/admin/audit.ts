@@ -12,7 +12,7 @@ async function requestMetadata(): Promise<Record<string, string>> {
   try {
     const h = await headers();
     const ip = h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "local";
-    const salt = process.env.NEXTAUTH_SECRET ?? "fundamentals-academy";
+    const salt = process.env.APP_URL ?? "fundamentals-academy";
     return {
       ipHash: createHash("sha256").update(`${salt}:${ip}`).digest("hex").slice(0, 16),
       userAgent: (h.get("user-agent") ?? "").slice(0, 160),

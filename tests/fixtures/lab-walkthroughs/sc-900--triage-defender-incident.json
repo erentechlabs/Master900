@@ -1,0 +1,104 @@
+{
+  "certification": "SC-900",
+  "lab": "triage-defender-incident",
+  "note": "Assign, contain and resolve the Defender incident.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "incidents"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "incident-queue",
+      "rowKey": "INC-2026-0930-004"
+    },
+    {
+      "type": "click",
+      "componentId": "assign-me"
+    },
+    {
+      "type": "click",
+      "componentId": "set-in-progress"
+    },
+    {
+      "type": "navigate",
+      "page": "incident-alerts"
+    },
+    {
+      "type": "navigate",
+      "page": "incident-assets"
+    },
+    {
+      "type": "navigate",
+      "page": "incident-evidence"
+    },
+    {
+      "type": "navigate",
+      "page": "incident-assets"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "asset-list",
+      "rowKey": "DESKTOP-FIN-07"
+    },
+    {
+      "type": "click",
+      "componentId": "isolate-device"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "isolate-form",
+      "values": {
+        "isolationType": "Full isolation",
+        "comment": "Contain suspicious PowerShell activity from incident INC-2026-0930-004."
+      }
+    },
+    {
+      "type": "rowClick",
+      "componentId": "asset-list",
+      "rowKey": "Maya"
+    },
+    {
+      "type": "click",
+      "componentId": "disable-user"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "disable-user-form",
+      "values": {
+        "disableAccount": true,
+        "comment": "User opened the phishing attachment; disable pending password reset and review."
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "incident-evidence"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "evidence-list",
+      "rowKey": "MSG-880214"
+    },
+    {
+      "type": "click",
+      "componentId": "email-soft-delete"
+    },
+    {
+      "type": "navigate",
+      "page": "incident-summary"
+    },
+    {
+      "type": "click",
+      "componentId": "resolve-incident"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "resolve-form",
+      "values": {
+        "classification": "True positive",
+        "determination": "Phishing",
+        "comment": "Contained device, disabled compromised user, and soft-deleted phishing email."
+      }
+    }
+  ]
+}

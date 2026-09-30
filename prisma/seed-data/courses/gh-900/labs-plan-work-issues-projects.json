@@ -1,0 +1,1656 @@
+{
+  "labs": [
+    {
+      "slug": "plan-work-issues-projects",
+      "type": "UI_SIMULATION",
+      "title": "Plan repository work with Issues, milestones, and Projects",
+      "summary": "Create GitHub issues from templates, organize them with a milestone and labels, track them in a Project with a priority field, and link a pull request with a closing keyword.",
+      "scenario": "Contoso Labs is preparing **contoso-labs/inventory-api** for the v1.2 release. In the simulated GitHub repository, create a **v1.2** milestone, open a bug and feature request from the template chooser, add both issues to a new Projects board named **Inventory API roadmap**, prioritize the items, save a milestone-filtered view, and link pull request **#14** with **Closes #21**. Everything is simulated.",
+      "domainKey": "project-management",
+      "objectiveCode": "5.1",
+      "complexity": "BASIC",
+      "estimatedMinutes": 25,
+      "learningObjectives": [
+        "Create issues from templates with assignees, labels, and milestones",
+        "Use GitHub Projects templates, Status values, custom fields, and saved views",
+        "Link pull requests to issues with closing keywords"
+      ],
+      "prerequisites": [
+        "Basic familiarity with repositories, issues, and pull requests"
+      ],
+      "sources": [
+        {
+          "title": "About issues",
+          "url": "https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/about-issues"
+        },
+        {
+          "title": "About milestones",
+          "url": "https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones"
+        },
+        {
+          "title": "About Projects",
+          "url": "https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects"
+        },
+        {
+          "title": "Linking a pull request to an issue",
+          "url": "https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "GitHub",
+          "theme": "github",
+          "user": "alex-contoso",
+          "tenant": "contoso-labs",
+          "url": "https://github.com",
+          "searchPlaceholder": "Type / to search"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
+        "startPage": "code",
+        "navigation": [
+          {
+            "page": "code",
+            "label": "Code",
+            "icon": "Code"
+          },
+          {
+            "page": "issues",
+            "label": "Issues",
+            "icon": "CircleDot"
+          },
+          {
+            "page": "prs",
+            "label": "Pull requests",
+            "icon": "GitPullRequest"
+          },
+          {
+            "page": "projects",
+            "label": "Projects",
+            "icon": "SquareKanban"
+          },
+          {
+            "page": "discussions",
+            "label": "Discussions",
+            "icon": "MessagesSquare"
+          }
+        ],
+        "pages": [
+          {
+            "id": "code",
+            "title": "contoso-labs/inventory-api",
+            "subtitle": "Public repository",
+            "icon": "Code",
+            "url": "/contoso-labs/inventory-api",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "code",
+                "label": "Code",
+                "icon": "Code"
+              },
+              {
+                "page": "issues",
+                "label": "Issues",
+                "icon": "CircleDot"
+              },
+              {
+                "page": "prs",
+                "label": "Pull requests",
+                "icon": "GitPullRequest"
+              },
+              {
+                "page": "projects",
+                "label": "Projects",
+                "icon": "SquareKanban"
+              },
+              {
+                "page": "discussions",
+                "label": "Discussions",
+                "icon": "MessagesSquare"
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Planning surfaces",
+                "text": "Use **Issues** for trackable work, **Milestones** for release-sized groups of issues and pull requests, and **Projects** for flexible table, board, and roadmap planning. Use **Discussions** for open-ended Q&A or community conversation rather than assigned work."
+              },
+              {
+                "kind": "code",
+                "id": "readme",
+                "title": "README.md",
+                "language": "markdown",
+                "content": "# Inventory API\n\nFictional service for GitHub planning labs.\n\nRelease v1.2 focuses on CSV imports and stock notifications."
+              }
+            ]
+          },
+          {
+            "id": "issues",
+            "title": "Issues",
+            "subtitle": "contoso-labs/inventory-api",
+            "icon": "CircleDot",
+            "url": "/contoso-labs/inventory-api/issues",
+            "navItem": "issues",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "code",
+                "label": "Code",
+                "icon": "Code"
+              },
+              {
+                "page": "issues",
+                "label": "Issues",
+                "icon": "CircleDot"
+              },
+              {
+                "page": "prs",
+                "label": "Pull requests",
+                "icon": "GitPullRequest"
+              },
+              {
+                "page": "projects",
+                "label": "Projects",
+                "icon": "SquareKanban"
+              },
+              {
+                "page": "discussions",
+                "label": "Discussions",
+                "icon": "MessagesSquare"
+              }
+            ],
+            "commands": [
+              {
+                "id": "new-issue",
+                "label": "New issue",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "issue-templates"
+                }
+              },
+              {
+                "id": "milestones",
+                "label": "Milestones",
+                "icon": "Milestone",
+                "action": {
+                  "type": "navigate",
+                  "page": "milestones"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "text",
+                "text": "Issues can include labels, milestones, assignees, and sub-issues. Labels categorize work; milestones track progress for a release; sub-issues break a larger item into smaller work."
+              },
+              {
+                "kind": "table",
+                "id": "issue-list",
+                "title": "Open issues",
+                "source": "issues",
+                "rowKey": "number",
+                "searchable": true,
+                "emptyText": "No issues yet.",
+                "columns": [
+                  {
+                    "key": "number",
+                    "label": "#",
+                    "format": "code"
+                  },
+                  {
+                    "key": "title",
+                    "label": "Title",
+                    "format": "link"
+                  },
+                  {
+                    "key": "template",
+                    "label": "Template",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "labels",
+                    "label": "Labels",
+                    "format": "tags"
+                  },
+                  {
+                    "key": "assignee",
+                    "label": "Assignee"
+                  },
+                  {
+                    "key": "milestone",
+                    "label": "Milestone",
+                    "format": "badge"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "milestones",
+            "title": "Milestones",
+            "subtitle": "Issues",
+            "icon": "Milestone",
+            "url": "/contoso-labs/inventory-api/milestones",
+            "navItem": "issues",
+            "commands": [
+              {
+                "id": "new-milestone",
+                "label": "New milestone",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "new-milestone"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "milestone-list",
+                "title": "Milestones",
+                "source": "milestones",
+                "rowKey": "title",
+                "emptyText": "No milestones.",
+                "columns": [
+                  {
+                    "key": "title",
+                    "label": "Title",
+                    "format": "link"
+                  },
+                  {
+                    "key": "dueDate",
+                    "label": "Due date",
+                    "format": "date"
+                  },
+                  {
+                    "key": "description",
+                    "label": "Description"
+                  },
+                  {
+                    "key": "state",
+                    "label": "State",
+                    "format": "status"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "new-milestone",
+            "title": "New milestone",
+            "icon": "Milestone",
+            "url": "/contoso-labs/inventory-api/milestones/new",
+            "navItem": "issues",
+            "breadcrumb": [
+              "Issues",
+              "Milestones"
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "milestone-form",
+                "title": "Create a milestone",
+                "fields": [
+                  {
+                    "id": "title",
+                    "label": "Title",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "v1.2",
+                    "unique": {
+                      "path": "milestones",
+                      "key": "title"
+                    }
+                  },
+                  {
+                    "id": "dueDate",
+                    "label": "Due date",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "2026-10-30",
+                    "pattern": "^2026-10-30$",
+                    "patternMessage": "Use 2026-10-30 for this lab."
+                  },
+                  {
+                    "id": "description",
+                    "label": "Description",
+                    "control": "textarea",
+                    "required": true,
+                    "minLength": 20
+                  }
+                ],
+                "submit": {
+                  "label": "Create milestone",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.title",
+                        "value": "v1.2"
+                      },
+                      "message": "Name the milestone v1.2."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "milestones",
+                      "unique": "title",
+                      "value": {
+                        "title": "{{$form.title}}",
+                        "dueDate": "{{$form.dueDate}}",
+                        "description": "{{$form.description}}",
+                        "state": "Open"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Milestone created",
+                      "message": "v1.2 is ready."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "issues"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "issue-templates",
+            "title": "New issue",
+            "subtitle": "Choose a template",
+            "icon": "CircleDot",
+            "url": "/contoso-labs/inventory-api/issues/new/choose",
+            "navItem": "issues",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "issue-template-tiles",
+                "title": "Choose a template",
+                "items": [
+                  {
+                    "id": "bug",
+                    "label": "Bug report",
+                    "description": "Create a report to help us improve",
+                    "icon": "Bug",
+                    "action": {
+                      "type": "navigate",
+                      "page": "bug-form"
+                    }
+                  },
+                  {
+                    "id": "feature",
+                    "label": "Feature request",
+                    "description": "Suggest an idea",
+                    "icon": "Lightbulb",
+                    "action": {
+                      "type": "navigate",
+                      "page": "feature-form"
+                    }
+                  },
+                  {
+                    "id": "blank",
+                    "label": "Open a blank issue",
+                    "icon": "FileText",
+                    "action": {
+                      "type": "message",
+                      "tone": "warning",
+                      "text": "Use the Bug report or Feature request template for this lab."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "bug-form",
+            "title": "Bug report",
+            "subtitle": "New issue",
+            "icon": "Bug",
+            "url": "/contoso-labs/inventory-api/issues/new",
+            "navItem": "issues",
+            "components": [
+              {
+                "kind": "form",
+                "id": "bug-form",
+                "title": "Bug report",
+                "fields": [
+                  {
+                    "id": "title",
+                    "label": "Title",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "CSV import fails on empty quantity"
+                  },
+                  {
+                    "id": "body",
+                    "label": "Body",
+                    "control": "textarea",
+                    "required": true,
+                    "minLength": 80,
+                    "defaultValue": "Expected behavior, actual behavior, and steps to reproduce for a CSV import failure with an empty quantity cell."
+                  },
+                  {
+                    "id": "assignee",
+                    "label": "Assignees",
+                    "control": "select",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "members",
+                      "value": "handle",
+                      "label": "handle"
+                    },
+                    "defaultValue": "alex-contoso"
+                  },
+                  {
+                    "id": "labels",
+                    "label": "Labels",
+                    "control": "checkboxes",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "labels",
+                      "value": "name",
+                      "label": "name"
+                    },
+                    "defaultValue": [
+                      "bug",
+                      "good first issue"
+                    ]
+                  },
+                  {
+                    "id": "milestone",
+                    "label": "Milestone",
+                    "control": "select",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "milestones",
+                      "value": "title",
+                      "label": "title"
+                    }
+                  }
+                ],
+                "submit": {
+                  "label": "Submit new issue",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.milestone",
+                        "value": "v1.2"
+                      },
+                      "message": "Add the issue to v1.2."
+                    },
+                    {
+                      "rule": {
+                        "type": "includes",
+                        "path": "$form.labels",
+                        "value": "bug"
+                      },
+                      "message": "Use the required label for this template."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "issues",
+                      "unique": "number",
+                      "value": {
+                        "number": "21",
+                        "title": "{{$form.title}}",
+                        "body": "{{$form.body}}",
+                        "template": "Bug report",
+                        "assignee": "{{$form.assignee}}",
+                        "labels": "{{$form.labels | list}}",
+                        "milestone": "{{$form.milestone}}",
+                        "state": "Open"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Issue opened",
+                      "message": "#21 was opened."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "issues"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "feature-form",
+            "title": "Feature request",
+            "subtitle": "New issue",
+            "icon": "Lightbulb",
+            "url": "/contoso-labs/inventory-api/issues/new",
+            "navItem": "issues",
+            "components": [
+              {
+                "kind": "form",
+                "id": "feature-form",
+                "title": "Feature request",
+                "fields": [
+                  {
+                    "id": "title",
+                    "label": "Title",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Notify warehouse team when stock is low"
+                  },
+                  {
+                    "id": "body",
+                    "label": "Body",
+                    "control": "textarea",
+                    "required": true,
+                    "minLength": 80,
+                    "defaultValue": "Problem, proposal, and success criteria for notifying the warehouse team when inventory drops below a threshold."
+                  },
+                  {
+                    "id": "assignee",
+                    "label": "Assignees",
+                    "control": "select",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "members",
+                      "value": "handle",
+                      "label": "handle"
+                    },
+                    "defaultValue": "sam-contoso"
+                  },
+                  {
+                    "id": "labels",
+                    "label": "Labels",
+                    "control": "checkboxes",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "labels",
+                      "value": "name",
+                      "label": "name"
+                    },
+                    "defaultValue": [
+                      "enhancement"
+                    ]
+                  },
+                  {
+                    "id": "milestone",
+                    "label": "Milestone",
+                    "control": "select",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "milestones",
+                      "value": "title",
+                      "label": "title"
+                    }
+                  }
+                ],
+                "submit": {
+                  "label": "Submit new issue",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.milestone",
+                        "value": "v1.2"
+                      },
+                      "message": "Add the issue to v1.2."
+                    },
+                    {
+                      "rule": {
+                        "type": "includes",
+                        "path": "$form.labels",
+                        "value": "enhancement"
+                      },
+                      "message": "Use the required label for this template."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "issues",
+                      "unique": "number",
+                      "value": {
+                        "number": "22",
+                        "title": "{{$form.title}}",
+                        "body": "{{$form.body}}",
+                        "template": "Feature request",
+                        "assignee": "{{$form.assignee}}",
+                        "labels": "{{$form.labels | list}}",
+                        "milestone": "{{$form.milestone}}",
+                        "state": "Open"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Issue opened",
+                      "message": "#22 was opened."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "issues"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "projects",
+            "title": "Projects",
+            "subtitle": "contoso-labs",
+            "icon": "SquareKanban",
+            "url": "/orgs/contoso-labs/projects",
+            "navItem": "projects",
+            "commands": [
+              {
+                "id": "new-project",
+                "label": "New project",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "new-project"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "text",
+                "text": "Projects is the current flexible planning experience. A project can have **Table**, **Board**, and **Roadmap** views, custom fields, filters, grouping, and templates. It replaces classic projects for most planning work."
+              },
+              {
+                "kind": "table",
+                "id": "project-list",
+                "title": "Projects",
+                "source": "projects",
+                "rowKey": "name",
+                "emptyText": "No projects.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "template",
+                    "label": "Template",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "layout",
+                    "label": "Default view"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "project-detail",
+                  "select": {
+                    "as": "project",
+                    "path": "projects",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "new-project",
+            "title": "New project",
+            "icon": "SquareKanban",
+            "url": "/orgs/contoso-labs/projects/new",
+            "navItem": "projects",
+            "components": [
+              {
+                "kind": "form",
+                "id": "project-form",
+                "title": "Choose a project template",
+                "description": "Board is the best start for release triage; Table and Roadmap are alternate layouts you can explain to stakeholders.",
+                "fields": [
+                  {
+                    "id": "template",
+                    "label": "Template",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Board",
+                        "label": "Board"
+                      },
+                      {
+                        "value": "Table",
+                        "label": "Table"
+                      },
+                      {
+                        "value": "Roadmap",
+                        "label": "Roadmap"
+                      }
+                    ],
+                    "defaultValue": "Board"
+                  },
+                  {
+                    "id": "name",
+                    "label": "Project name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Inventory API roadmap",
+                    "unique": {
+                      "path": "projects",
+                      "key": "name"
+                    }
+                  }
+                ],
+                "submit": {
+                  "label": "Create project",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.template",
+                        "value": "Board"
+                      },
+                      "message": "Choose the Board template."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "projects",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "template": "{{$form.template}}",
+                        "layout": "Board",
+                        "fields": [
+                          "Status"
+                        ],
+                        "items": [],
+                        "views": [
+                          {
+                            "name": "Board",
+                            "layout": "Board",
+                            "groupBy": "Status",
+                            "filter": ""
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Project created"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "project-detail",
+                      "select": {
+                        "as": "project",
+                        "path": "projects",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "project-detail",
+            "title": "{{$sel.project.name}}",
+            "subtitle": "Project",
+            "icon": "SquareKanban",
+            "url": "/orgs/contoso-labs/projects/7/views/1",
+            "requires": "project",
+            "navItem": "projects",
+            "commands": [
+              {
+                "id": "new-field",
+                "label": "New field",
+                "icon": "Plus",
+                "action": {
+                  "type": "navigate",
+                  "page": "project-field"
+                }
+              },
+              {
+                "id": "add-item",
+                "label": "Add item",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "project-add"
+                }
+              },
+              {
+                "id": "new-view",
+                "label": "New view",
+                "icon": "LayoutDashboard",
+                "action": {
+                  "type": "navigate",
+                  "page": "project-view"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Project details",
+                "items": [
+                  {
+                    "label": "Fields",
+                    "value": "{{$sel.project.fields}}",
+                    "format": "tags"
+                  },
+                  {
+                    "label": "Default layout",
+                    "value": "{{$sel.project.layout}}"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "project-items",
+                "title": "Items",
+                "source": "$sel.project.items",
+                "rowKey": "issueNumber",
+                "emptyText": "No items.",
+                "columns": [
+                  {
+                    "key": "issueNumber",
+                    "label": "Issue",
+                    "format": "code"
+                  },
+                  {
+                    "key": "title",
+                    "label": "Title"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "priority",
+                    "label": "Priority",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "milestone",
+                    "label": "Milestone",
+                    "format": "badge"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "views",
+                "title": "Views",
+                "source": "$sel.project.views",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name"
+                  },
+                  {
+                    "key": "layout",
+                    "label": "Layout"
+                  },
+                  {
+                    "key": "groupBy",
+                    "label": "Group by"
+                  },
+                  {
+                    "key": "filter",
+                    "label": "Filter"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "project-field",
+            "title": "New field",
+            "icon": "Plus",
+            "requires": "project",
+            "navItem": "projects",
+            "components": [
+              {
+                "kind": "form",
+                "id": "field-form",
+                "title": "Create a custom field",
+                "fields": [
+                  {
+                    "id": "name",
+                    "label": "Field name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Priority"
+                  },
+                  {
+                    "id": "type",
+                    "label": "Field type",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Single select",
+                        "label": "Single select"
+                      },
+                      {
+                        "value": "Text",
+                        "label": "Text"
+                      }
+                    ],
+                    "defaultValue": "Single select"
+                  },
+                  {
+                    "id": "options",
+                    "label": "Options",
+                    "control": "textarea",
+                    "required": true,
+                    "defaultValue": "High\nMedium\nLow"
+                  }
+                ],
+                "submit": {
+                  "label": "Save field",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.name",
+                        "value": "Priority"
+                      },
+                      "message": "Name it Priority."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.type",
+                        "value": "Single select"
+                      },
+                      "message": "Use Single select."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "projects",
+                      "where": {
+                        "name": "{{$sel.project.name}}"
+                      },
+                      "set": {
+                        "fields": [
+                          "Status",
+                          "Priority"
+                        ],
+                        "priorityOptions": [
+                          "High",
+                          "Medium",
+                          "Low"
+                        ]
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Field created"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "project-detail"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "project-add",
+            "title": "Add item",
+            "icon": "Plus",
+            "requires": "project",
+            "navItem": "projects",
+            "components": [
+              {
+                "kind": "form",
+                "id": "add-item-form",
+                "title": "Add issue to project",
+                "fields": [
+                  {
+                    "id": "issueNumber",
+                    "label": "Issue",
+                    "control": "select",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "issues",
+                      "value": "number",
+                      "label": "title"
+                    }
+                  },
+                  {
+                    "id": "status",
+                    "label": "Status",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Todo",
+                        "label": "Todo"
+                      },
+                      {
+                        "value": "In Progress",
+                        "label": "In Progress"
+                      },
+                      {
+                        "value": "Done",
+                        "label": "Done"
+                      }
+                    ],
+                    "defaultValue": "Todo"
+                  },
+                  {
+                    "id": "priority",
+                    "label": "Priority",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "High",
+                        "label": "High"
+                      },
+                      {
+                        "value": "Medium",
+                        "label": "Medium"
+                      },
+                      {
+                        "value": "Low",
+                        "label": "Low"
+                      }
+                    ],
+                    "defaultValue": "Medium"
+                  }
+                ],
+                "submit": {
+                  "label": "Add to project",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "includes",
+                        "path": "$sel.project.fields",
+                        "value": "Priority"
+                      },
+                      "message": "Create Priority first."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "projects.0.items",
+                      "unique": "issueNumber",
+                      "value": {
+                        "issueNumber": "{{$form.issueNumber}}",
+                        "title": "Issue #{{$form.issueNumber}}",
+                        "status": "{{$form.status}}",
+                        "priority": "{{$form.priority}}",
+                        "milestone": "v1.2"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Item added"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "project-detail"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "project-view",
+            "title": "New view",
+            "icon": "LayoutDashboard",
+            "requires": "project",
+            "navItem": "projects",
+            "components": [
+              {
+                "kind": "form",
+                "id": "view-form",
+                "title": "Create view",
+                "fields": [
+                  {
+                    "id": "name",
+                    "label": "View name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "v1.2 by priority"
+                  },
+                  {
+                    "id": "layout",
+                    "label": "Layout",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Table",
+                        "label": "Table"
+                      },
+                      {
+                        "value": "Board",
+                        "label": "Board"
+                      },
+                      {
+                        "value": "Roadmap",
+                        "label": "Roadmap"
+                      }
+                    ],
+                    "defaultValue": "Table"
+                  },
+                  {
+                    "id": "groupBy",
+                    "label": "Group by",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Priority",
+                        "label": "Priority"
+                      },
+                      {
+                        "value": "Status",
+                        "label": "Status"
+                      }
+                    ],
+                    "defaultValue": "Priority"
+                  },
+                  {
+                    "id": "filter",
+                    "label": "Filter",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "milestone:v1.2"
+                  }
+                ],
+                "submit": {
+                  "label": "Save view",
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "projects",
+                      "where": {
+                        "name": "{{$sel.project.name}}"
+                      },
+                      "set": {
+                        "views": [
+                          {
+                            "name": "Board",
+                            "layout": "Board",
+                            "groupBy": "Status",
+                            "filter": ""
+                          },
+                          {
+                            "name": "{{$form.name}}",
+                            "layout": "{{$form.layout}}",
+                            "groupBy": "{{$form.groupBy}}",
+                            "filter": "{{$form.filter}}"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "View saved"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "project-detail"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "prs",
+            "title": "Pull requests",
+            "subtitle": "contoso-labs/inventory-api",
+            "icon": "GitPullRequest",
+            "url": "/contoso-labs/inventory-api/pulls",
+            "navItem": "prs",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "code",
+                "label": "Code",
+                "icon": "Code"
+              },
+              {
+                "page": "issues",
+                "label": "Issues",
+                "icon": "CircleDot"
+              },
+              {
+                "page": "prs",
+                "label": "Pull requests",
+                "icon": "GitPullRequest"
+              },
+              {
+                "page": "projects",
+                "label": "Projects",
+                "icon": "SquareKanban"
+              },
+              {
+                "page": "discussions",
+                "label": "Discussions",
+                "icon": "MessagesSquare"
+              }
+            ],
+            "components": [
+              {
+                "kind": "text",
+                "text": "A pull request description that contains a closing keyword such as `Closes #21` closes that issue when the pull request merges."
+              },
+              {
+                "kind": "table",
+                "id": "pr-list",
+                "title": "Open pull requests",
+                "source": "pullRequests",
+                "rowKey": "number",
+                "columns": [
+                  {
+                    "key": "number",
+                    "label": "#",
+                    "format": "code"
+                  },
+                  {
+                    "key": "title",
+                    "label": "Title",
+                    "format": "link"
+                  },
+                  {
+                    "key": "linkedIssue",
+                    "label": "Linked issue",
+                    "format": "code"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "pr-detail",
+                  "select": {
+                    "as": "pr",
+                    "path": "pullRequests",
+                    "key": "number",
+                    "value": "{{$row.number}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "pr-detail",
+            "title": "Pull request #{{$sel.pr.number}}",
+            "subtitle": "{{$sel.pr.title}}",
+            "icon": "GitPullRequest",
+            "requires": "pr",
+            "navItem": "prs",
+            "components": [
+              {
+                "kind": "form",
+                "id": "pr-form",
+                "title": "Edit pull request description",
+                "fields": [
+                  {
+                    "id": "description",
+                    "label": "Description",
+                    "control": "textarea",
+                    "required": true,
+                    "defaultValue": "{{$sel.pr.description}}",
+                    "minLength": 20
+                  }
+                ],
+                "submit": {
+                  "label": "Update comment",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.description",
+                        "pattern": "Closes #21"
+                      },
+                      "message": "Add Closes #21."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "pullRequests",
+                      "where": {
+                        "number": "{{$sel.pr.number}}"
+                      },
+                      "set": {
+                        "description": "{{$form.description}}",
+                        "linkedIssue": "21",
+                        "closingKeyword": true
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Pull request updated"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "discussions",
+            "title": "Discussions",
+            "icon": "MessagesSquare",
+            "url": "/contoso-labs/inventory-api/discussions",
+            "navItem": "discussions",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Issues vs Discussions",
+                "text": "Discussions are for conversations and Q&A. Issues are for actionable work with metadata, milestones, projects, and pull request links."
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "members": [
+            {
+              "handle": "alex-contoso"
+            },
+            {
+              "handle": "sam-contoso"
+            },
+            {
+              "handle": "priya-contoso"
+            }
+          ],
+          "labels": [
+            {
+              "name": "bug"
+            },
+            {
+              "name": "enhancement"
+            },
+            {
+              "name": "good first issue"
+            },
+            {
+              "name": "documentation"
+            }
+          ],
+          "milestones": [],
+          "issues": [],
+          "projects": [],
+          "pullRequests": [
+            {
+              "number": "14",
+              "title": "Validate CSV import rows",
+              "branch": "feature/csv-validation",
+              "description": "Adds validation for CSV import rows and clearer errors.",
+              "linkedIssue": "",
+              "closingKeyword": false
+            }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "key": "create-milestone",
+          "title": "Create the v1.2 milestone",
+          "instruction": "Open **Issues**, select **Milestones**, select **New milestone**, then create **v1.2** with due date **2026-10-30**.",
+          "hint": "Milestones are under Issues.",
+          "explanation": "Milestones group issues and pull requests for a release and show progress.",
+          "targetId": "new-milestone",
+          "rules": [
+            {
+              "key": "milestone",
+              "description": "v1.2 milestone exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "milestones",
+                "match": {
+                  "title": "v1.2",
+                  "dueDate": "2026-10-30"
+                }
+              },
+              "failureFeedback": "Create v1.2 with due date 2026-10-30."
+            }
+          ]
+        },
+        {
+          "key": "create-issues",
+          "title": "Create template-based issues",
+          "instruction": "Use **New issue** to create a **Bug report** assigned to **alex-contoso** with labels **bug** and **good first issue**, and a **Feature request** assigned to **sam-contoso** with label **enhancement**. Add both to **v1.2**.",
+          "hint": "The template chooser has Bug report and Feature request cards.",
+          "explanation": "Templates gather consistent details; labels, assignees, and milestones add planning metadata.",
+          "targetId": "new-issue",
+          "rules": [
+            {
+              "key": "bug",
+              "description": "Bug report #21 exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "issues",
+                "match": {
+                  "number": "21",
+                  "template": "Bug report",
+                  "assignee": "alex-contoso",
+                  "milestone": "v1.2"
+                }
+              },
+              "failureFeedback": "Create bug issue #21 with assignee, labels, and milestone."
+            },
+            {
+              "key": "feature",
+              "description": "Feature request #22 exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "issues",
+                "match": {
+                  "number": "22",
+                  "template": "Feature request",
+                  "assignee": "sam-contoso",
+                  "milestone": "v1.2"
+                }
+              },
+              "failureFeedback": "Create feature issue #22 with enhancement label and v1.2 milestone."
+            }
+          ]
+        },
+        {
+          "key": "create-project",
+          "title": "Create a Projects board",
+          "instruction": "Open **Projects**, select **New project**, choose **Board**, and name it **Inventory API roadmap**. Table and Roadmap are alternate views you can use later.",
+          "hint": "Use the Board template, not a classic project.",
+          "explanation": "Projects is the flexible planning tool for board, table, and roadmap views.",
+          "targetId": "new-project",
+          "rules": [
+            {
+              "key": "project",
+              "description": "Project exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "projects",
+                "match": {
+                  "name": "Inventory API roadmap",
+                  "template": "Board"
+                }
+              },
+              "failureFeedback": "Create the Board project named Inventory API roadmap."
+            }
+          ]
+        },
+        {
+          "key": "prioritize",
+          "title": "Add Priority and issues to the project",
+          "instruction": "In the project, create a **Single select** field named **Priority**. Add issue **#21** with **Status** In Progress and **Priority** High; add **#22** with **Status** Todo and **Priority** Medium.",
+          "hint": "Create Priority before adding project items.",
+          "explanation": "Status shows workflow state; a single-select Priority field keeps values consistent.",
+          "targetId": "new-field",
+          "rules": [
+            {
+              "key": "priority-field",
+              "description": "Priority field exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "projects",
+                "match": {
+                  "name": "Inventory API roadmap",
+                  "fields": [
+                    "Status",
+                    "Priority"
+                  ]
+                }
+              },
+              "failureFeedback": "Create Priority as a single-select field."
+            },
+            {
+              "key": "bug-project",
+              "description": "Bug is prioritized",
+              "rule": {
+                "type": "arrayContains",
+                "path": "projects.0.items",
+                "match": {
+                  "issueNumber": "21",
+                  "status": "In Progress",
+                  "priority": "High",
+                  "milestone": "v1.2"
+                }
+              },
+              "failureFeedback": "Add issue #21 with In Progress and High."
+            },
+            {
+              "key": "feature-project",
+              "description": "Feature is prioritized",
+              "rule": {
+                "type": "arrayContains",
+                "path": "projects.0.items",
+                "match": {
+                  "issueNumber": "22",
+                  "status": "Todo",
+                  "priority": "Medium",
+                  "milestone": "v1.2"
+                }
+              },
+              "failureFeedback": "Add issue #22 with Todo and Medium."
+            }
+          ]
+        },
+        {
+          "key": "view",
+          "title": "Create a milestone-filtered view",
+          "instruction": "Create a view named **v1.2 by priority** using **Table**, grouped by **Priority**, with filter **milestone:v1.2**.",
+          "hint": "Saved views let teams switch perspectives without changing the underlying work.",
+          "explanation": "A priority-grouped table helps release triage while the board still supports status tracking.",
+          "targetId": "new-view",
+          "rules": [
+            {
+              "key": "priority-view",
+              "description": "Filtered Priority view exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "projects.0.views",
+                "match": {
+                  "name": "v1.2 by priority",
+                  "layout": "Table",
+                  "groupBy": "Priority",
+                  "filter": "milestone:v1.2"
+                }
+              },
+              "failureFeedback": "Create the v1.2 by priority view."
+            }
+          ]
+        },
+        {
+          "key": "closing-keyword",
+          "title": "Link the pull request",
+          "instruction": "Open **Pull requests**, open **#14**, and update the description to include **Closes #21**.",
+          "hint": "Closing keywords close the linked issue after merge.",
+          "explanation": "Linking PRs and issues connects code review with planning status.",
+          "targetId": "pr-list",
+          "rules": [
+            {
+              "key": "pr-linked",
+              "description": "PR #14 closes issue #21",
+              "rule": {
+                "type": "arrayContains",
+                "path": "pullRequests",
+                "match": {
+                  "number": "14",
+                  "linkedIssue": "21",
+                  "closingKeyword": true
+                }
+              },
+              "failureFeedback": "Edit PR #14 and add Closes #21."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "planned-and-linked",
+          "description": "Issue is in project with milestone and priority, and PR closes it",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayContains",
+                "path": "issues",
+                "match": {
+                  "number": "21",
+                  "milestone": "v1.2"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "projects.0.items",
+                "match": {
+                  "issueNumber": "21",
+                  "priority": "High",
+                  "milestone": "v1.2"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "pullRequests",
+                "match": {
+                  "number": "14",
+                  "linkedIssue": "21",
+                  "closingKeyword": true
+                }
+              }
+            ]
+          },
+          "successFeedback": "The issue is planned and linked to the pull request.",
+          "failureFeedback": "Ensure #21 has milestone and priority in the project, and PR #14 includes Closes #21."
+        }
+      ],
+      "solution": "1. Open **Issues** > **Milestones** > **New milestone** and create `v1.2` due `2026-10-30`.\n2. Open **Issues** > **New issue**. Choose **Bug report**, enter the CSV title/body, set **Assignees** to `alex-contoso`, labels `bug` and `good first issue`, and **Milestone** `v1.2`.\n3. Choose **Feature request**, enter the low-stock title/body, set **Assignees** to `sam-contoso`, label `enhancement`, and **Milestone** `v1.2`.\n4. Open **Projects** > **New project**, choose **Board**, and name it `Inventory API roadmap`.\n5. In the project, use **New field** to create **Priority** as **Single select** with High, Medium, Low.\n6. Use **Add item** to add `#21` as **In Progress** / **High** and `#22` as **Todo** / **Medium**.\n7. Use **New view** to create `v1.2 by priority` as a **Table** grouped by **Priority** with filter `milestone:v1.2`.\n8. Open **Pull requests** > **#14** and update the description with `Closes #21`."
+    }
+  ]
+}

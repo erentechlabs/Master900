@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "certificationCode": "DP-900",
+  "contentVersionLabel": "labs-2026.09",
+  "sourceLocale": "en",
+  "isDemo": true,
+  "domains": [
+    {
+      "key": "core-data-concepts",
+      "title": "Describe core data concepts",
+      "weightMin": 25,
+      "weightMax": 30,
+      "objectives": [
+        {
+          "code": "1.1",
+          "title": "Describe ways to represent data"
+        },
+        {
+          "code": "1.2",
+          "title": "Identify options for data storage"
+        },
+        {
+          "code": "1.3",
+          "title": "Describe common data workloads"
+        },
+        {
+          "code": "1.4",
+          "title": "Identify roles and responsibilities for data workloads"
+        }
+      ]
+    },
+    {
+      "key": "relational-data",
+      "title": "Identify considerations for relational data on Azure",
+      "weightMin": 20,
+      "weightMax": 25,
+      "objectives": [
+        {
+          "code": "2.1",
+          "title": "Describe relational concepts"
+        },
+        {
+          "code": "2.2",
+          "title": "Describe relational Azure data services"
+        }
+      ]
+    },
+    {
+      "key": "non-relational-data",
+      "title": "Describe considerations for working with non-relational data on Azure",
+      "weightMin": 15,
+      "weightMax": 20,
+      "objectives": [
+        {
+          "code": "3.1",
+          "title": "Describe the capabilities of Azure storage"
+        },
+        {
+          "code": "3.2",
+          "title": "Describe the capabilities and features of Azure Cosmos DB"
+        }
+      ]
+    },
+    {
+      "key": "analytics-workloads",
+      "title": "Describe an analytics workload on Azure",
+      "weightMin": 25,
+      "weightMax": 30,
+      "objectives": [
+        {
+          "code": "4.1",
+          "title": "Describe common elements of large-scale analytics"
+        },
+        {
+          "code": "4.2",
+          "title": "Describe considerations for real-time data analytics"
+        },
+        {
+          "code": "4.3",
+          "title": "Describe data visualization in Microsoft Power BI"
+        }
+      ]
+    }
+  ]
+}

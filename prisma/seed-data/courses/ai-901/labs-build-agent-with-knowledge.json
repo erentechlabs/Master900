@@ -1,0 +1,1074 @@
+{
+  "labs": [
+    {
+      "slug": "build-agent-with-knowledge",
+      "type": "UI_SIMULATION",
+      "title": "Build a grounded support agent with knowledge",
+      "summary": "Create a prompt agent in Microsoft Foundry, attach approved knowledge files and code interpreter, remove forbidden data, and test grounded answers with citations.",
+      "scenario": "**Fabrikam Support** wants a prompt agent named **returns-agent** for internal support staff. In Microsoft Foundry, create the agent in **proj-support-assistant** using the existing **contoso-support-chat** deployment, give it support-focused instructions, attach the approved **returns-policy.pdf** and **shipping-faq.docx** files from the lab VM, add **Code interpreter** for CSV-style calculations, and test grounded answers in the Agents playground. Do not keep **hr-confidential-benefits.pdf** attached; it is outside the scenario and contains confidential HR material.",
+      "domainKey": "foundry-solutions",
+      "moduleSlug": "foundry-generative-apps-agents",
+      "objectiveCode": "2.1",
+      "complexity": "BASIC",
+      "estimatedMinutes": 35,
+      "learningObjectives": [
+        "Create a prompt agent by combining a model deployment with instructions",
+        "Distinguish knowledge sources from tools and choose Code interpreter when calculation over structured data is needed",
+        "Test that an agent answers from approved knowledge and cites sources while forbidden files are not attached"
+      ],
+      "prerequisites": [
+        "Completed or understood model deployment basics"
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam AI-901",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "What is Microsoft Foundry?",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "What is Microsoft Foundry Agent Service?",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/agents/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Quickstart: Create a prompt agent",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/agents/quickstarts/prompt-agent",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "What is Toolbox in Microsoft Foundry?",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/toolbox-overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Foundry",
+          "theme": "foundry",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://ai.azure.com",
+          "searchPlaceholder": "Search Foundry"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "agents",
+            "label": "Agents",
+            "icon": "Bot",
+            "section": "Build"
+          },
+          {
+            "page": "knowledge",
+            "label": "Knowledge",
+            "icon": "Library",
+            "section": "Build"
+          },
+          {
+            "page": "tools",
+            "label": "Tools",
+            "icon": "Wrench",
+            "section": "Build"
+          },
+          {
+            "page": "agent-playground",
+            "label": "Agents playground",
+            "icon": "MessagesSquare",
+            "section": "Build"
+          },
+          {
+            "page": "files",
+            "label": "Files",
+            "icon": "Folder",
+            "section": "Project"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Microsoft Foundry",
+            "subtitle": "proj-support-assistant",
+            "url": "/build/projects/proj-support-assistant",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "start-tiles",
+                "title": "Build a prompt agent",
+                "items": [
+                  {
+                    "id": "agents",
+                    "label": "Agents",
+                    "description": "Create and manage prompt agents.",
+                    "icon": "Bot",
+                    "action": {
+                      "type": "navigate",
+                      "page": "agents"
+                    }
+                  },
+                  {
+                    "id": "files",
+                    "label": "Files",
+                    "description": "Project and lab VM files available to attach.",
+                    "icon": "Folder",
+                    "action": {
+                      "type": "navigate",
+                      "page": "files"
+                    }
+                  },
+                  {
+                    "id": "playground",
+                    "label": "Agents playground",
+                    "description": "Test agent behavior with tools and knowledge.",
+                    "icon": "MessagesSquare",
+                    "action": {
+                      "type": "navigate",
+                      "page": "agent-playground"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "agents",
+            "title": "Agents",
+            "subtitle": "Build",
+            "icon": "Bot",
+            "url": "/build/agents",
+            "commands": [
+              {
+                "id": "create-agent",
+                "label": "Create agent",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "create-agent"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "agents-table",
+                "title": "Agents",
+                "source": "agents",
+                "rowKey": "name",
+                "emptyText": "No agents yet. Select Create agent.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Agent name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "deployment",
+                    "label": "Model deployment"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "knowledgeFiles",
+                    "label": "Knowledge files",
+                    "format": "count"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "agent-details",
+                  "select": {
+                    "as": "agent",
+                    "path": "agents",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "create-agent",
+            "title": "Create agent",
+            "subtitle": "Prompt agent",
+            "icon": "Bot",
+            "url": "/build/agents/create",
+            "navItem": "agents",
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "agent-wizard",
+                "description": "A prompt agent combines a deployed model, instructions, optional knowledge and tools. Foundry hosts the runtime for prompt agents.",
+                "reviewLabel": "Review",
+                "tabs": [
+                  {
+                    "id": "basics",
+                    "label": "Basics",
+                    "fields": [
+                      {
+                        "id": "name",
+                        "label": "Agent name",
+                        "control": "text",
+                        "required": true,
+                        "pattern": "^[a-z][a-z0-9-]{2,50}$",
+                        "patternMessage": "Use lowercase letters, digits and hyphens; start with a letter.",
+                        "unique": {
+                          "path": "agents",
+                          "key": "name",
+                          "message": "An agent with this name already exists."
+                        }
+                      },
+                      {
+                        "id": "deployment",
+                        "label": "Model deployment",
+                        "control": "select",
+                        "required": true,
+                        "optionsFrom": {
+                          "path": "deployments",
+                          "value": "name",
+                          "label": "name"
+                        },
+                        "defaultValue": "contoso-support-chat"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "instructions",
+                    "label": "Instructions",
+                    "fields": [
+                      {
+                        "id": "instructions",
+                        "label": "Instructions",
+                        "control": "textarea",
+                        "required": true,
+                        "minLength": 50,
+                        "placeholder": "Tell the agent what to answer, what sources to use, and when to refuse."
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.deployment",
+                        "value": "contoso-support-chat"
+                      },
+                      "message": "Use the existing chat deployment contoso-support-chat for this agent."
+                    },
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.instructions",
+                        "pattern": "returns|shipping|support"
+                      },
+                      "message": "Instructions must focus the agent on returns, shipping, or support."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "agents",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "deployment": "{{$form.deployment}}",
+                        "instructions": "{{$form.instructions}}",
+                        "status": "Draft",
+                        "knowledgeFiles": [],
+                        "tools": [],
+                        "createdAt": "{{$now}}"
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "activeAgent",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "deployment": "{{$form.deployment}}",
+                        "instructions": "{{$form.instructions}}",
+                        "knowledgeFiles": [],
+                        "tools": [],
+                        "tested": false,
+                        "citationTested": false
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Agent created",
+                      "message": "{{$form.name}} is ready for knowledge and tool configuration."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "agent-details",
+                      "select": {
+                        "as": "agent",
+                        "path": "agents",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "agent-details",
+            "title": "{{$sel.agent.name}}",
+            "subtitle": "Prompt agent",
+            "icon": "Bot",
+            "url": "/build/agents/{{$sel.agent.name}}",
+            "requires": "agent",
+            "navItem": "agents",
+            "commands": [
+              {
+                "id": "open-knowledge",
+                "label": "Add knowledge",
+                "icon": "Library",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "knowledge"
+                }
+              },
+              {
+                "id": "open-tools",
+                "label": "Tools",
+                "icon": "Wrench",
+                "action": {
+                  "type": "navigate",
+                  "page": "tools"
+                }
+              },
+              {
+                "id": "open-agent-playground",
+                "label": "Open in playground",
+                "icon": "MessagesSquare",
+                "action": {
+                  "type": "navigate",
+                  "page": "agent-playground"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Agents vs chat completions",
+                "text": "A chat completion call sends prompts directly to a deployed model. A prompt agent stores instructions, can use knowledge and tools, and maintains agent configuration for repeated use."
+              },
+              {
+                "kind": "properties",
+                "title": "Agent setup",
+                "items": [
+                  {
+                    "label": "Name",
+                    "value": "{{$sel.agent.name}}"
+                  },
+                  {
+                    "label": "Deployment",
+                    "value": "{{$sel.agent.deployment}}"
+                  },
+                  {
+                    "label": "Instructions",
+                    "value": "{{$sel.agent.instructions}}"
+                  },
+                  {
+                    "label": "Approved knowledge attached",
+                    "value": "{{activeAgent.knowledgeFiles | count}}",
+                    "format": "count"
+                  },
+                  {
+                    "label": "Tools",
+                    "value": "{{activeAgent.tools | join:, }}"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "files",
+            "title": "Files",
+            "subtitle": "Lab VM files",
+            "icon": "Folder",
+            "url": "/build/projects/proj-support-assistant/files",
+            "components": [
+              {
+                "kind": "table",
+                "id": "available-files",
+                "title": "Available files",
+                "source": "files",
+                "rowKey": "name",
+                "variant": "files",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Type"
+                  },
+                  {
+                    "key": "classification",
+                    "label": "Classification",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "purpose",
+                    "label": "Purpose"
+                  }
+                ],
+                "rowActions": [
+                  {
+                    "id": "add-knowledge",
+                    "label": "Add",
+                    "icon": "Upload",
+                    "action": {
+                      "type": "sequence",
+                      "actions": [
+                        {
+                          "type": "append",
+                          "path": "activeAgent.knowledgeFiles",
+                          "unique": "$value",
+                          "value": "{{$row.name}}",
+                          "uniqueMessage": "Already attached."
+                        },
+                        {
+                          "type": "notify",
+                          "title": "Knowledge file attached",
+                          "message": "{{$row.name}} was added."
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "remove-knowledge",
+                    "label": "Remove",
+                    "icon": "Trash2",
+                    "variant": "danger",
+                    "action": {
+                      "type": "sequence",
+                      "actions": [
+                        {
+                          "type": "remove",
+                          "path": "activeAgent.knowledgeFiles",
+                          "value": "{{$row.name}}"
+                        },
+                        {
+                          "type": "notify",
+                          "title": "Knowledge file removed",
+                          "message": "{{$row.name}} was removed."
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "knowledge",
+            "title": "Knowledge",
+            "subtitle": "returns-agent",
+            "icon": "Library",
+            "url": "/build/agents/returns-agent/knowledge",
+            "navItem": "knowledge",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "title": "Use approved files only",
+                "text": "Attach **returns-policy.pdf** and **shipping-faq.docx**. If **hr-confidential-benefits.pdf** is attached by mistake, remove it before testing."
+              },
+              {
+                "kind": "table",
+                "id": "knowledge-files",
+                "title": "Project files",
+                "source": "files",
+                "rowKey": "name",
+                "variant": "files",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "classification",
+                    "label": "Classification",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "purpose",
+                    "label": "Purpose"
+                  }
+                ],
+                "rowActions": [
+                  {
+                    "id": "add-knowledge",
+                    "label": "Add",
+                    "icon": "Upload",
+                    "action": {
+                      "type": "sequence",
+                      "actions": [
+                        {
+                          "type": "append",
+                          "path": "activeAgent.knowledgeFiles",
+                          "unique": "$value",
+                          "value": "{{$row.name}}",
+                          "uniqueMessage": "Already attached."
+                        },
+                        {
+                          "type": "notify",
+                          "title": "Knowledge file attached",
+                          "message": "{{$row.name}} was added."
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "remove-knowledge",
+                    "label": "Remove",
+                    "icon": "Trash2",
+                    "variant": "danger",
+                    "action": {
+                      "type": "sequence",
+                      "actions": [
+                        {
+                          "type": "remove",
+                          "path": "activeAgent.knowledgeFiles",
+                          "value": "{{$row.name}}"
+                        },
+                        {
+                          "type": "notify",
+                          "title": "Knowledge file removed",
+                          "message": "{{$row.name}} was removed."
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "attached-knowledge",
+                "title": "Attached knowledge",
+                "source": "activeAgent.knowledgeFiles",
+                "rowKey": "$value",
+                "columns": [
+                  {
+                    "key": "$value",
+                    "label": "File name",
+                    "format": "link"
+                  }
+                ],
+                "emptyText": "No knowledge attached yet."
+              }
+            ]
+          },
+          {
+            "id": "tools",
+            "title": "Tools",
+            "subtitle": "returns-agent",
+            "icon": "Wrench",
+            "url": "/build/agents/returns-agent/tools",
+            "navItem": "tools",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Knowledge vs tools",
+                "text": "Knowledge grounds answers in files. Tools let the agent take an action, such as running code over structured data. Add **Code interpreter** for the simulated return-rate CSV calculation."
+              },
+              {
+                "kind": "settings",
+                "id": "tool-settings",
+                "title": "Agent tools",
+                "fields": [
+                  {
+                    "id": "code-interpreter",
+                    "label": "Code interpreter",
+                    "control": "toggle",
+                    "bindTo": "activeAgent.toolCodeInterpreter",
+                    "help": "Use for calculations over CSV-like data and small analysis tasks."
+                  },
+                  {
+                    "id": "web-search",
+                    "label": "Web search",
+                    "control": "toggle",
+                    "bindTo": "activeAgent.toolWebSearch",
+                    "help": "Not needed because the support answers must come from approved internal files."
+                  }
+                ]
+              },
+              {
+                "kind": "button",
+                "id": "save-tools",
+                "label": "Save tool choices",
+                "icon": "Save",
+                "variant": "primary",
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "if",
+                      "when": {
+                        "type": "equals",
+                        "path": "activeAgent.toolCodeInterpreter",
+                        "value": true
+                      },
+                      "then": [
+                        {
+                          "type": "append",
+                          "path": "activeAgent.tools",
+                          "unique": "$value",
+                          "value": "Code interpreter"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "if",
+                      "when": {
+                        "type": "equals",
+                        "path": "activeAgent.toolWebSearch",
+                        "value": true
+                      },
+                      "then": [
+                        {
+                          "type": "append",
+                          "path": "activeAgent.tools",
+                          "unique": "$value",
+                          "value": "Web search"
+                        }
+                      ],
+                      "else": [
+                        {
+                          "type": "remove",
+                          "path": "activeAgent.tools",
+                          "value": "Web search"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Tools saved",
+                      "message": "Tool configuration has been saved for returns-agent."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "agent-playground",
+            "title": "Agents playground",
+            "subtitle": "returns-agent",
+            "icon": "MessagesSquare",
+            "url": "/build/playgrounds/agents",
+            "navItem": "agent-playground",
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Current agent",
+                "items": [
+                  {
+                    "label": "Agent",
+                    "value": "{{activeAgent.name}}"
+                  },
+                  {
+                    "label": "Deployment",
+                    "value": "{{activeAgent.deployment}}"
+                  },
+                  {
+                    "label": "Knowledge",
+                    "value": "{{activeAgent.knowledgeFiles | join:, }}"
+                  },
+                  {
+                    "label": "Tools",
+                    "value": "{{activeAgent.tools | join:, }}"
+                  }
+                ]
+              },
+              {
+                "kind": "chat",
+                "id": "agent-chat",
+                "title": "Agent chat",
+                "placeholder": "Ask a support question",
+                "transcriptPath": "chats.agent",
+                "responses": [
+                  {
+                    "id": "grounded-returns",
+                    "match": "(return|refund|policy)",
+                    "when": {
+                      "type": "allOf",
+                      "rules": [
+                        {
+                          "type": "includes",
+                          "path": "activeAgent.knowledgeFiles",
+                          "value": "returns-policy.pdf"
+                        },
+                        {
+                          "type": "includes",
+                          "path": "activeAgent.knowledgeFiles",
+                          "value": "shipping-faq.docx"
+                        },
+                        {
+                          "type": "not",
+                          "rule": {
+                            "type": "includes",
+                            "path": "activeAgent.knowledgeFiles",
+                            "value": "hr-confidential-benefits.pdf"
+                          }
+                        }
+                      ]
+                    },
+                    "reply": "Grounded answer: Fabrikam support should create a return authorization, confirm the order number, and follow the returns window and condition rules from the approved policy. I will not use HR documents for customer support.",
+                    "citations": [
+                      "returns-policy.pdf",
+                      "shipping-faq.docx"
+                    ],
+                    "actions": [
+                      {
+                        "type": "set",
+                        "path": "activeAgent.tested",
+                        "value": true
+                      },
+                      {
+                        "type": "set",
+                        "path": "activeAgent.citationTested",
+                        "value": true
+                      }
+                    ]
+                  },
+                  {
+                    "id": "code-csv",
+                    "match": "(csv|calculate|return rate|percentage)",
+                    "when": {
+                      "type": "equals",
+                      "path": "activeAgent.toolCodeInterpreter",
+                      "value": true
+                    },
+                    "reply": "Using Code interpreter on return-summary.csv, the simulated return rate is 8 of 120 orders. This tool is appropriate because it performs a calculation over structured data rather than retrieving policy text.",
+                    "citations": [
+                      "return-summary.csv"
+                    ],
+                    "actions": [
+                      {
+                        "type": "set",
+                        "path": "activeAgent.codeTested",
+                        "value": true
+                      }
+                    ]
+                  },
+                  {
+                    "id": "missing-knowledge",
+                    "match": "(return|refund|policy)",
+                    "reply": "I need the approved returns policy and shipping FAQ attached as knowledge before I can answer with citations."
+                  }
+                ],
+                "fallback": "Ask about returns, shipping, or a CSV-style support calculation."
+              },
+              {
+                "kind": "code",
+                "id": "agent-definition",
+                "title": "Agent definition preview",
+                "language": "json",
+                "content": "{\n  \"name\": \"{{activeAgent.name}}\",\n  \"modelDeployment\": \"{{activeAgent.deployment}}\",\n  \"instructions\": {{activeAgent.instructions | json}},\n  \"knowledge\": {{activeAgent.knowledgeFiles | json}},\n  \"tools\": {{activeAgent.tools | json}}\n}"
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "deployments": [
+            {
+              "name": "contoso-support-chat",
+              "model": "gpt-4o-mini",
+              "status": "Succeeded",
+              "task": "Chat completion"
+            }
+          ],
+          "agents": [],
+          "activeAgent": {
+            "name": "",
+            "deployment": "",
+            "instructions": "",
+            "knowledgeFiles": [],
+            "tools": [],
+            "toolCodeInterpreter": false,
+            "toolWebSearch": false,
+            "tested": false,
+            "citationTested": false,
+            "codeTested": false
+          },
+          "files": [
+            {
+              "name": "returns-policy.pdf",
+              "type": "PDF",
+              "classification": "Approved",
+              "purpose": "Customer returns and refund policy"
+            },
+            {
+              "name": "shipping-faq.docx",
+              "type": "Word",
+              "classification": "Approved",
+              "purpose": "Shipping timelines and carrier FAQ"
+            },
+            {
+              "name": "return-summary.csv",
+              "type": "CSV",
+              "classification": "Approved",
+              "purpose": "Simulated order and return counts for calculation tests"
+            },
+            {
+              "name": "hr-confidential-benefits.pdf",
+              "type": "PDF",
+              "classification": "Confidential",
+              "purpose": "HR benefits content that support agents must not use"
+            },
+            {
+              "name": "marketing-campaign-notes.docx",
+              "type": "Word",
+              "classification": "Internal",
+              "purpose": "Marketing content not needed for returns support"
+            },
+            {
+              "name": "supplier-invoice-sample.pdf",
+              "type": "PDF",
+              "classification": "Approved",
+              "purpose": "Invoice sample for another lab"
+            }
+          ],
+          "chats": {
+            "agent": []
+          }
+        }
+      },
+      "steps": [
+        {
+          "key": "create-agent",
+          "title": "Create the prompt agent",
+          "instruction": "Select **Agents**, then **Create agent**. Name it **returns-agent**, choose deployment **contoso-support-chat**, and write instructions that tell the agent to answer only returns and shipping support questions using approved knowledge.",
+          "explanation": "A prompt agent stores instructions with a model deployment so the same behavior can be reused in apps and playgrounds.",
+          "targetId": "agent-wizard",
+          "rules": [
+            {
+              "key": "agent-created",
+              "description": "returns-agent exists with the chat deployment",
+              "rule": {
+                "type": "arrayContains",
+                "path": "agents",
+                "match": {
+                  "name": "returns-agent",
+                  "deployment": "contoso-support-chat",
+                  "status": "Draft"
+                }
+              }
+            },
+            {
+              "key": "instructions-focused",
+              "description": "Instructions mention support scope",
+              "rule": {
+                "type": "matches",
+                "path": "activeAgent.instructions",
+                "pattern": "returns|shipping|support"
+              }
+            }
+          ]
+        },
+        {
+          "key": "add-approved-knowledge",
+          "title": "Attach approved knowledge files",
+          "instruction": "Open **Knowledge**. Add **returns-policy.pdf** and **shipping-faq.docx** to **Attached knowledge**.",
+          "hint": "Knowledge sources ground the agent in approved files; they do not perform calculations by themselves.",
+          "explanation": "Grounding reduces hallucinations by giving the agent relevant source material at answer time.",
+          "targetId": "knowledge-files",
+          "rules": [
+            {
+              "key": "policy-attached",
+              "description": "returns-policy.pdf is attached",
+              "rule": {
+                "type": "includes",
+                "path": "activeAgent.knowledgeFiles",
+                "value": "returns-policy.pdf"
+              }
+            },
+            {
+              "key": "shipping-attached",
+              "description": "shipping-faq.docx is attached",
+              "rule": {
+                "type": "includes",
+                "path": "activeAgent.knowledgeFiles",
+                "value": "shipping-faq.docx"
+              }
+            }
+          ]
+        },
+        {
+          "key": "remove-forbidden-file",
+          "title": "Keep confidential files out",
+          "instruction": "If **hr-confidential-benefits.pdf** was added, use **Remove** so it is not attached to the support agent.",
+          "explanation": "Privacy and security require limiting knowledge to content that is approved for the scenario.",
+          "targetId": "attached-knowledge",
+          "rules": [
+            {
+              "key": "hr-not-attached",
+              "description": "The confidential HR file is not attached",
+              "rule": {
+                "type": "not",
+                "rule": {
+                  "type": "includes",
+                  "path": "activeAgent.knowledgeFiles",
+                  "value": "hr-confidential-benefits.pdf"
+                }
+              },
+              "failureFeedback": "Remove hr-confidential-benefits.pdf from the agent knowledge."
+            }
+          ]
+        },
+        {
+          "key": "add-code-tool",
+          "title": "Add an appropriate tool",
+          "instruction": "Open **Tools**, turn on **Code interpreter**, leave **Web search** off, and select **Save tool choices**.",
+          "explanation": "Code interpreter is appropriate for calculations over the simulated CSV. Web search is not needed because answers should come from approved internal files.",
+          "targetId": "tool-settings",
+          "rules": [
+            {
+              "key": "code-tool-on",
+              "description": "Code interpreter is enabled",
+              "rule": {
+                "type": "equals",
+                "path": "activeAgent.toolCodeInterpreter",
+                "value": true
+              }
+            },
+            {
+              "key": "web-search-off",
+              "description": "Web search remains off",
+              "rule": {
+                "type": "not",
+                "rule": {
+                  "type": "equals",
+                  "path": "activeAgent.toolWebSearch",
+                  "value": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "test-grounded-answer",
+          "title": "Test a grounded answer",
+          "instruction": "Open **Agents playground** and ask `What is the return policy for a damaged item?` Confirm the answer cites **returns-policy.pdf** and **shipping-faq.docx**.",
+          "explanation": "The playground validates that the agent uses knowledge sources instead of unsupported model memory.",
+          "targetId": "agent-chat",
+          "rules": [
+            {
+              "key": "grounded-chat",
+              "description": "The agent returned a grounded answer with citations",
+              "rule": {
+                "type": "arrayContains",
+                "path": "chats.agent",
+                "match": {
+                  "replyId": "grounded-returns"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "test-tool-use",
+          "title": "Test Code interpreter",
+          "instruction": "Ask `Calculate the return rate from the CSV` in the **Agent chat**.",
+          "explanation": "Tools are for actions. Here, Code interpreter performs a small calculation over structured data; knowledge files provide reference text.",
+          "targetId": "agent-chat",
+          "rules": [
+            {
+              "key": "code-chat",
+              "description": "The Code interpreter scenario was tested",
+              "rule": {
+                "type": "arrayContains",
+                "path": "chats.agent",
+                "match": {
+                  "replyId": "code-csv"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "approved-knowledge-only",
+          "description": "Only approved support knowledge is attached",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "includes",
+                "path": "activeAgent.knowledgeFiles",
+                "value": "returns-policy.pdf"
+              },
+              {
+                "type": "includes",
+                "path": "activeAgent.knowledgeFiles",
+                "value": "shipping-faq.docx"
+              },
+              {
+                "type": "not",
+                "rule": {
+                  "type": "includes",
+                  "path": "activeAgent.knowledgeFiles",
+                  "value": "hr-confidential-benefits.pdf"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "key": "grounded-and-tool-tested",
+          "description": "Grounded answer and code tool were both tested",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "equals",
+                "path": "activeAgent.citationTested",
+                "value": true
+              },
+              {
+                "type": "equals",
+                "path": "activeAgent.codeTested",
+                "value": true
+              }
+            ]
+          }
+        }
+      ],
+      "solution": "1. Open **Agents** and select **Create agent**.\n2. Set **Agent name** to `returns-agent`, **Model deployment** to **contoso-support-chat**, and instructions such as `Answer only returns and shipping support questions using approved knowledge. If the answer is not in the knowledge, say you do not know and escalate.` Select **Create**.\n3. Open **Knowledge**, add **returns-policy.pdf** and **shipping-faq.docx**. If **hr-confidential-benefits.pdf** is attached, remove it.\n4. Open **Tools**, turn on **Code interpreter**, leave **Web search** off, then select **Save tool choices**.\n5. Open **Agents playground**. Ask `What is the return policy for a damaged item?` and confirm citations to the approved files.\n6. Ask `Calculate the return rate from the CSV` to confirm Code interpreter is used for calculation."
+    }
+  ]
+}

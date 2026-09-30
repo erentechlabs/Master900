@@ -1,0 +1,11 @@
+{
+  "certification": "AZ-900",
+  "lab": "rbac-least-privilege-portal",
+  "note": "Open rg-finance-reports, go to Access control (IAM) and give Alex the Reader role at the resource group scope.",
+  "events": [
+    { "type": "navigate", "page": "resource-groups" },
+    { "type": "rowClick", "componentId": "rg-table", "rowKey": "rg-finance-reports" },
+    { "type": "click", "componentId": "open-iam" },
+    { "type": "submitForm", "componentId": "add-assignment", "values": { "role": "Reader", "principal": "Alex (Finance analyst)" } }
+  ]
+}

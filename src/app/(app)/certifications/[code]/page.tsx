@@ -79,14 +79,10 @@ export default async function CertificationDetailPage({ params }: { params: Prom
                     </Button>
                   ) : null}
                 </>
-              ) : user ? (
+              ) : (
                 <form action={enrollAction.bind(null, cert.code)}>
                   <SubmitButton className="w-full">{t("catalog.enroll")}</SubmitButton>
                 </form>
-              ) : (
-                <Button asChild>
-                  <Link href={`/sign-in?callbackUrl=/certifications/${cert.code}`}>{t("catalog.signInToEnroll")}</Link>
-                </Button>
               )
             ) : null}
             {cert.officialUrl ? (
@@ -201,7 +197,25 @@ export default async function CertificationDetailPage({ params }: { params: Prom
               </CardContent>
             </Card>
           ) : !retired ? (
-            <Alert variant="info" title={t("catalog.noLearningPath")} />
+            <>
+              <Alert variant="info" title={t("catalog.noLearningPath")} />
+              {cert.counts.labs > 0 ? (
+                <Card>
+                  <CardContent className="flex flex-wrap items-center justify-between gap-3 p-4">
+                    <div className="flex min-w-0 items-center gap-3">
+                      <FlaskConical className="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                      <div className="min-w-0">
+                        <p className="font-semibold">{t("catalog.labsAvailable", { count: cert.counts.labs })}</p>
+                        <p className="text-xs text-muted-foreground">{t("catalog.labsAvailableHint")}</p>
+                      </div>
+                    </div>
+                    <Button asChild size="sm">
+                      <Link href={`/labs?certification=${encodeURIComponent(cert.code)}`}>{t("catalog.openLabs")}</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              ) : null}
+            </>
           ) : null}
 
           {cert.audience ? (

@@ -1,0 +1,1192 @@
+{
+  "labs": [
+    {
+      "slug": "secure-repository-settings",
+      "type": "UI_SIMULATION",
+      "title": "Secure a repository with access, rulesets, and code security settings",
+      "summary": "Configure least-privilege access, an active default-branch ruleset, repository code security features, a simulated Dependabot remediation, and SECURITY.md.",
+      "scenario": "The simulated **contoso-labs/inventory-api** repository is moving toward production. Give an external contractor only the access required for triage, protect **main** with an active ruleset, enable code security settings including push protection and CodeQL default setup, review a critical Dependabot alert, and commit a security policy. Do not type real secrets or tokens.",
+      "domainKey": "privacy-security-administration",
+      "objectiveCode": "6.1",
+      "complexity": "INTERMEDIATE",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Apply least privilege with GitHub repository roles",
+        "Create an active branch ruleset for the default branch",
+        "Enable Dependabot, secret scanning with push protection, and CodeQL default setup"
+      ],
+      "prerequisites": [
+        "Know what repository roles, branches, pull requests, and security alerts are"
+      ],
+      "sources": [
+        {
+          "title": "About rulesets",
+          "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets"
+        },
+        {
+          "title": "GitHub security features",
+          "url": "https://docs.github.com/en/code-security/getting-started/github-security-features"
+        },
+        {
+          "title": "Dependabot alerts",
+          "url": "https://docs.github.com/en/code-security/concepts/supply-chain-security/dependabot-alerts"
+        },
+        {
+          "title": "Push protection",
+          "url": "https://docs.github.com/en/code-security/concepts/secret-security/push-protection"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "GitHub",
+          "theme": "github",
+          "user": "alex-contoso",
+          "tenant": "contoso-labs",
+          "url": "https://github.com",
+          "searchPlaceholder": "Type / to search"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
+        "startPage": "code",
+        "navigation": [
+          {
+            "page": "code",
+            "label": "Code",
+            "icon": "Code"
+          },
+          {
+            "page": "security",
+            "label": "Security",
+            "icon": "ShieldCheck"
+          },
+          {
+            "page": "settings",
+            "label": "Settings",
+            "icon": "Settings"
+          }
+        ],
+        "pages": [
+          {
+            "id": "code",
+            "title": "contoso-labs/inventory-api",
+            "subtitle": "Public repository",
+            "icon": "Code",
+            "url": "/contoso-labs/inventory-api",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "code",
+                "label": "Code",
+                "icon": "Code"
+              },
+              {
+                "page": "security",
+                "label": "Security",
+                "icon": "ShieldCheck"
+              },
+              {
+                "page": "settings",
+                "label": "Settings",
+                "icon": "Settings"
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "title": "Hardening needed",
+                "text": "This repository does not yet have a branch ruleset, push protection is disabled, and a critical dependency alert is open. Use fictional data only; do not enter real credentials."
+              },
+              {
+                "kind": "properties",
+                "title": "Repository",
+                "items": [
+                  {
+                    "label": "Default branch",
+                    "value": "main"
+                  },
+                  {
+                    "label": "Visibility",
+                    "value": "Public"
+                  },
+                  {
+                    "label": "Organization 2FA note",
+                    "value": "Accounts that can change code should use strong authentication."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "settings",
+            "title": "Settings",
+            "subtitle": "contoso-labs/inventory-api",
+            "icon": "Settings",
+            "url": "/contoso-labs/inventory-api/settings",
+            "navItem": "settings",
+            "menu": [
+              {
+                "page": "settings",
+                "label": "General",
+                "icon": "Settings"
+              },
+              {
+                "page": "collab",
+                "label": "Collaborators and teams",
+                "icon": "Users"
+              },
+              {
+                "page": "rules",
+                "label": "Rules",
+                "icon": "Gavel"
+              },
+              {
+                "page": "code-security",
+                "label": "Code security",
+                "icon": "ShieldCheck"
+              }
+            ],
+            "components": [
+              {
+                "kind": "text",
+                "text": "Repository roles are cumulative. **Read** can view and clone, **Triage** can manage issues and pull requests without writing code, **Write** can push code, **Maintain** can manage many settings, and **Admin** has full control. Apply least privilege and reserve Admin for trusted owners."
+              },
+              {
+                "kind": "tiles",
+                "id": "settings-tiles",
+                "title": "Settings sections",
+                "items": [
+                  {
+                    "id": "collab",
+                    "label": "Collaborators and teams",
+                    "icon": "Users",
+                    "action": {
+                      "type": "navigate",
+                      "page": "collab"
+                    }
+                  },
+                  {
+                    "id": "rules",
+                    "label": "Rules",
+                    "icon": "Gavel",
+                    "action": {
+                      "type": "navigate",
+                      "page": "rules"
+                    }
+                  },
+                  {
+                    "id": "security",
+                    "label": "Code security",
+                    "icon": "ShieldCheck",
+                    "action": {
+                      "type": "navigate",
+                      "page": "code-security"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "collab",
+            "title": "Collaborators and teams",
+            "subtitle": "Settings",
+            "icon": "Users",
+            "url": "/contoso-labs/inventory-api/settings/access",
+            "navItem": "settings",
+            "menu": [
+              {
+                "page": "settings",
+                "label": "General",
+                "icon": "Settings"
+              },
+              {
+                "page": "collab",
+                "label": "Collaborators and teams",
+                "icon": "Users"
+              },
+              {
+                "page": "rules",
+                "label": "Rules",
+                "icon": "Gavel"
+              },
+              {
+                "page": "code-security",
+                "label": "Code security",
+                "icon": "ShieldCheck"
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Least privilege",
+                "text": "A contractor who triages issues can use **Triage** or **Read**. **Write** allows pushing code, and **Admin** can change repository settings."
+              },
+              {
+                "kind": "form",
+                "id": "contractor-form",
+                "title": "Add people",
+                "fields": [
+                  {
+                    "id": "handle",
+                    "label": "Username",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "taylor-contractor"
+                  },
+                  {
+                    "id": "role",
+                    "label": "Role",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Read",
+                        "label": "Read"
+                      },
+                      {
+                        "value": "Triage",
+                        "label": "Triage"
+                      },
+                      {
+                        "value": "Write",
+                        "label": "Write"
+                      },
+                      {
+                        "value": "Maintain",
+                        "label": "Maintain"
+                      },
+                      {
+                        "value": "Admin",
+                        "label": "Admin"
+                      }
+                    ],
+                    "defaultValue": "Triage"
+                  }
+                ],
+                "submit": {
+                  "label": "Add taylor-contractor to this repository",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "not",
+                        "rule": {
+                          "type": "oneOf",
+                          "path": "$form.role",
+                          "values": [
+                            "Write",
+                            "Maintain",
+                            "Admin"
+                          ]
+                        }
+                      },
+                      "message": "This contractor only needs Read or Triage. Write, Maintain, or Admin grants too much access."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "collaborators",
+                      "unique": "handle",
+                      "value": {
+                        "handle": "{{$form.handle}}",
+                        "role": "{{$form.role}}",
+                        "external": true,
+                        "twoFactor": "Required by organization policy"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Access invitation sent",
+                      "message": "{{$form.handle}} was invited with {{$form.role}} access."
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "table",
+                "id": "collab-table",
+                "title": "People with access",
+                "source": "collaborators",
+                "rowKey": "handle",
+                "columns": [
+                  {
+                    "key": "handle",
+                    "label": "User",
+                    "format": "code"
+                  },
+                  {
+                    "key": "role",
+                    "label": "Role",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "external",
+                    "label": "External",
+                    "format": "bool"
+                  },
+                  {
+                    "key": "twoFactor",
+                    "label": "2FA"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "rules",
+            "title": "Rules",
+            "subtitle": "Rulesets",
+            "icon": "Gavel",
+            "url": "/contoso-labs/inventory-api/settings/rules",
+            "navItem": "settings",
+            "menu": [
+              {
+                "page": "settings",
+                "label": "General",
+                "icon": "Settings"
+              },
+              {
+                "page": "collab",
+                "label": "Collaborators and teams",
+                "icon": "Users"
+              },
+              {
+                "page": "rules",
+                "label": "Rules",
+                "icon": "Gavel"
+              },
+              {
+                "page": "code-security",
+                "label": "Code security",
+                "icon": "ShieldCheck"
+              }
+            ],
+            "commands": [
+              {
+                "id": "new-ruleset",
+                "label": "New branch ruleset",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "ruleset-new"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "text",
+                "text": "Rulesets are named lists of rules for branches or tags. They can be **Active**, evaluated, or disabled. Active branch rules can restrict deletions, require pull requests and status checks, and block force pushes."
+              },
+              {
+                "kind": "table",
+                "id": "rules-table",
+                "title": "Rulesets",
+                "source": "rulesets",
+                "rowKey": "name",
+                "emptyText": "No rulesets configured.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "enforcement",
+                    "label": "Enforcement",
+                    "format": "status"
+                  },
+                  {
+                    "key": "target",
+                    "label": "Target"
+                  },
+                  {
+                    "key": "rules",
+                    "label": "Rules",
+                    "format": "tags"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "ruleset-new",
+            "title": "New branch ruleset",
+            "subtitle": "Rules",
+            "icon": "Gavel",
+            "url": "/contoso-labs/inventory-api/settings/rules/new?target=branch",
+            "navItem": "settings",
+            "breadcrumb": [
+              "Settings",
+              "Rules"
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "ruleset-form",
+                "title": "Branch ruleset",
+                "fields": [
+                  {
+                    "id": "name",
+                    "label": "Ruleset name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Protect main"
+                  },
+                  {
+                    "id": "enforcement",
+                    "label": "Enforcement status",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Evaluate",
+                        "label": "Evaluate"
+                      },
+                      {
+                        "value": "Active",
+                        "label": "Active"
+                      },
+                      {
+                        "value": "Disabled",
+                        "label": "Disabled"
+                      }
+                    ],
+                    "defaultValue": "Active"
+                  },
+                  {
+                    "id": "target",
+                    "label": "Target branches",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Include default branch",
+                        "label": "Include default branch"
+                      },
+                      {
+                        "value": "Include all branches",
+                        "label": "Include all branches"
+                      }
+                    ],
+                    "defaultValue": "Include default branch"
+                  },
+                  {
+                    "id": "rules",
+                    "label": "Rules",
+                    "control": "checkboxes",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Restrict deletions",
+                        "label": "Restrict deletions"
+                      },
+                      {
+                        "value": "Require a pull request before merging",
+                        "label": "Require a pull request before merging"
+                      },
+                      {
+                        "value": "Require status checks to pass",
+                        "label": "Require status checks to pass"
+                      },
+                      {
+                        "value": "Block force pushes",
+                        "label": "Block force pushes"
+                      }
+                    ],
+                    "defaultValue": [
+                      "Restrict deletions",
+                      "Require a pull request before merging",
+                      "Require status checks to pass",
+                      "Block force pushes"
+                    ]
+                  },
+                  {
+                    "id": "approvals",
+                    "label": "Required approvals",
+                    "control": "number",
+                    "required": true,
+                    "defaultValue": 1,
+                    "min": 1
+                  },
+                  {
+                    "id": "check",
+                    "label": "Required status check",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Node.js CI / build"
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.enforcement",
+                        "value": "Active"
+                      },
+                      "message": "Use Active enforcement."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.target",
+                        "value": "Include default branch"
+                      },
+                      "message": "Target the default branch."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.approvals",
+                        "value": 1
+                      },
+                      "message": "Use one required approval."
+                    },
+                    {
+                      "rule": {
+                        "type": "includes",
+                        "path": "$form.rules",
+                        "value": "Restrict deletions"
+                      },
+                      "message": "Enable Restrict deletions."
+                    },
+                    {
+                      "rule": {
+                        "type": "includes",
+                        "path": "$form.rules",
+                        "value": "Require a pull request before merging"
+                      },
+                      "message": "Enable Require a pull request before merging."
+                    },
+                    {
+                      "rule": {
+                        "type": "includes",
+                        "path": "$form.rules",
+                        "value": "Require status checks to pass"
+                      },
+                      "message": "Enable Require status checks to pass."
+                    },
+                    {
+                      "rule": {
+                        "type": "includes",
+                        "path": "$form.rules",
+                        "value": "Block force pushes"
+                      },
+                      "message": "Enable Block force pushes."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "rulesets",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "enforcement": "{{$form.enforcement}}",
+                        "target": "{{$form.target}}",
+                        "rules": "{{$form.rules | list}}",
+                        "requiredApprovals": "{{$form.approvals}}",
+                        "requiredStatusCheck": "{{$form.check}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Ruleset created",
+                      "message": "Protect main is active."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "rules"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "code-security",
+            "title": "Code security",
+            "subtitle": "Settings > Code security",
+            "icon": "ShieldCheck",
+            "url": "/contoso-labs/inventory-api/settings/security_analysis",
+            "navItem": "settings",
+            "menu": [
+              {
+                "page": "settings",
+                "label": "General",
+                "icon": "Settings"
+              },
+              {
+                "page": "collab",
+                "label": "Collaborators and teams",
+                "icon": "Users"
+              },
+              {
+                "page": "rules",
+                "label": "Rules",
+                "icon": "Gavel"
+              },
+              {
+                "page": "code-security",
+                "label": "Code security",
+                "icon": "ShieldCheck"
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Advanced security features",
+                "text": "The repository settings area is shown as **Code security** in this simulation. Enable dependency graph, Dependabot alerts and security updates, secret scanning, push protection, and CodeQL default setup. Describe secrets rather than typing token-like strings."
+              },
+              {
+                "kind": "settings",
+                "id": "security-settings",
+                "title": "Security and analysis",
+                "fields": [
+                  {
+                    "id": "dependencyGraph",
+                    "label": "Dependency graph",
+                    "control": "toggle",
+                    "bindTo": "security.dependencyGraph"
+                  },
+                  {
+                    "id": "dependabotAlerts",
+                    "label": "Dependabot alerts",
+                    "control": "toggle",
+                    "bindTo": "security.dependabotAlerts"
+                  },
+                  {
+                    "id": "dependabotSecurityUpdates",
+                    "label": "Dependabot security updates",
+                    "control": "toggle",
+                    "bindTo": "security.dependabotSecurityUpdates"
+                  },
+                  {
+                    "id": "secretScanning",
+                    "label": "Secret Protection / Secret scanning",
+                    "control": "toggle",
+                    "bindTo": "security.secretScanning"
+                  },
+                  {
+                    "id": "pushProtection",
+                    "label": "Push protection",
+                    "control": "toggle",
+                    "bindTo": "security.pushProtection"
+                  },
+                  {
+                    "id": "codeqlDefaultSetup",
+                    "label": "Code scanning: CodeQL analysis default setup",
+                    "control": "toggle",
+                    "bindTo": "security.codeqlDefaultSetup"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "security",
+            "title": "Security",
+            "subtitle": "contoso-labs/inventory-api",
+            "icon": "ShieldCheck",
+            "url": "/contoso-labs/inventory-api/security",
+            "navItem": "security",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "code",
+                "label": "Code",
+                "icon": "Code"
+              },
+              {
+                "page": "security",
+                "label": "Security",
+                "icon": "ShieldCheck"
+              },
+              {
+                "page": "settings",
+                "label": "Settings",
+                "icon": "Settings"
+              }
+            ],
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "security-tiles",
+                "title": "Security overview",
+                "items": [
+                  {
+                    "id": "dependabot",
+                    "label": "Dependabot",
+                    "description": "1 critical alert",
+                    "icon": "Package",
+                    "action": {
+                      "type": "navigate",
+                      "page": "alerts"
+                    }
+                  },
+                  {
+                    "id": "policy",
+                    "label": "Policy",
+                    "description": "Add SECURITY.md",
+                    "icon": "FileLock",
+                    "action": {
+                      "type": "navigate",
+                      "page": "policy"
+                    }
+                  },
+                  {
+                    "id": "codeql",
+                    "label": "Code scanning",
+                    "description": "Default setup configured in settings",
+                    "icon": "ScanEye",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Enable CodeQL default setup in Settings > Code security."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "alerts",
+            "title": "Dependabot alerts",
+            "subtitle": "Security",
+            "icon": "Package",
+            "url": "/contoso-labs/inventory-api/security/dependabot",
+            "navItem": "security",
+            "components": [
+              {
+                "kind": "table",
+                "id": "alert-table",
+                "title": "Open alerts",
+                "source": "dependabotAlerts",
+                "rowKey": "id",
+                "columns": [
+                  {
+                    "key": "id",
+                    "label": "Alert",
+                    "format": "code"
+                  },
+                  {
+                    "key": "package",
+                    "label": "Package"
+                  },
+                  {
+                    "key": "severity",
+                    "label": "Severity",
+                    "format": "status"
+                  },
+                  {
+                    "key": "state",
+                    "label": "State",
+                    "format": "status"
+                  }
+                ],
+                "rowActions": [
+                  {
+                    "id": "review",
+                    "label": "Review alert",
+                    "icon": "Eye",
+                    "action": {
+                      "type": "navigate",
+                      "page": "alert-detail",
+                      "select": {
+                        "as": "alert",
+                        "path": "dependabotAlerts",
+                        "key": "id",
+                        "value": "{{$row.id}}"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "alert-detail",
+            "title": "Dependabot alert {{$sel.alert.id}}",
+            "subtitle": "{{$sel.alert.package}}",
+            "icon": "ShieldAlert",
+            "requires": "alert",
+            "navItem": "security",
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Alert details",
+                "items": [
+                  {
+                    "label": "Package",
+                    "value": "{{$sel.alert.package}}"
+                  },
+                  {
+                    "label": "Severity",
+                    "value": "{{$sel.alert.severity}}",
+                    "format": "status"
+                  },
+                  {
+                    "label": "Affected file",
+                    "value": "{{$sel.alert.file}}"
+                  },
+                  {
+                    "label": "Dependabot pull request",
+                    "value": "#{{$sel.alert.pullRequest}}"
+                  }
+                ]
+              },
+              {
+                "kind": "button",
+                "id": "merge-dependabot",
+                "label": "Merge Dependabot pull request",
+                "icon": "GitMerge",
+                "variant": "primary",
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "dependabotAlerts",
+                      "where": {
+                        "id": "{{$sel.alert.id}}"
+                      },
+                      "set": {
+                        "state": "Fixed",
+                        "merged": true
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "mergedPullRequests",
+                      "value": {
+                        "number": "{{$sel.alert.pullRequest}}",
+                        "title": "Bump {{$sel.alert.package}} to patched version",
+                        "result": "Merged"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Dependabot pull request merged",
+                      "message": "The critical alert is fixed."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "policy",
+            "title": "Security policy",
+            "subtitle": "Security > Policy",
+            "icon": "FileLock",
+            "url": "/contoso-labs/inventory-api/security/policy",
+            "navItem": "security",
+            "components": [
+              {
+                "kind": "form",
+                "id": "policy-form",
+                "title": "SECURITY.md",
+                "fields": [
+                  {
+                    "id": "content",
+                    "label": "SECURITY.md",
+                    "control": "code",
+                    "language": "markdown",
+                    "required": true,
+                    "minLength": 80,
+                    "defaultValue": "# Security Policy\n\n## Supported versions\n\nSecurity updates are provided for the current major version of inventory-api.\n\n## Reporting a vulnerability\n\nReport suspected vulnerabilities through GitHub private vulnerability reporting or the Contoso Labs internal security mailbox. Do not open public issues for suspected vulnerabilities."
+                  },
+                  {
+                    "id": "message",
+                    "label": "Commit message",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Add security policy"
+                  }
+                ],
+                "submit": {
+                  "label": "Commit changes",
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "files.SECURITY.md",
+                      "value": "{{$form.content}}"
+                    },
+                    {
+                      "type": "set",
+                      "path": "security.policyCommitted",
+                      "value": true
+                    },
+                    {
+                      "type": "notify",
+                      "title": "SECURITY.md committed"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "security"
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "code",
+                "id": "policy-preview",
+                "title": "Policy starter",
+                "language": "markdown",
+                "content": "# Security Policy\n\n## Supported versions\n\nSecurity updates are provided for the current major version of inventory-api.\n\n## Reporting a vulnerability\n\nReport suspected vulnerabilities through GitHub private vulnerability reporting or the Contoso Labs internal security mailbox. Do not open public issues for suspected vulnerabilities."
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "collaborators": [
+            {
+              "handle": "alex-contoso",
+              "role": "Admin",
+              "external": false,
+              "twoFactor": "Enabled"
+            },
+            {
+              "handle": "sam-contoso",
+              "role": "Write",
+              "external": false,
+              "twoFactor": "Enabled"
+            }
+          ],
+          "rulesets": [],
+          "security": {
+            "dependencyGraph": false,
+            "dependabotAlerts": false,
+            "dependabotSecurityUpdates": false,
+            "secretScanning": false,
+            "pushProtection": false,
+            "codeqlDefaultSetup": false,
+            "policyCommitted": false
+          },
+          "dependabotAlerts": [
+            {
+              "id": "1",
+              "package": "example-vulnerable-lib",
+              "severity": "Critical",
+              "ecosystem": "npm",
+              "file": "package-lock.json",
+              "state": "Open",
+              "pullRequest": "18",
+              "merged": false
+            }
+          ],
+          "mergedPullRequests": [],
+          "files": {}
+        }
+      },
+      "steps": [
+        {
+          "key": "least-privilege",
+          "title": "Invite the contractor with least privilege",
+          "instruction": "Open **Settings** > **Collaborators and teams**. Add **taylor-contractor** with **Triage** access, not Write, Maintain, or Admin.",
+          "hint": "Triage supports issue and pull request management without code pushes.",
+          "explanation": "Least privilege limits damage if an account is compromised and keeps repository administration with trusted owners.",
+          "targetId": "contractor-form",
+          "rules": [
+            {
+              "key": "contractor-role",
+              "description": "Contractor has Triage access",
+              "rule": {
+                "type": "arrayContains",
+                "path": "collaborators",
+                "match": {
+                  "handle": "taylor-contractor",
+                  "role": "Triage",
+                  "external": true
+                }
+              },
+              "failureFeedback": "Invite taylor-contractor with Triage access."
+            }
+          ]
+        },
+        {
+          "key": "branch-ruleset",
+          "title": "Create an active branch ruleset",
+          "instruction": "Open **Settings** > **Rules** > **New branch ruleset**. Name it **Protect main**, set **Enforcement status** to **Active**, target **Include default branch**, enable **Restrict deletions**, **Require a pull request before merging** with **Required approvals** 1, **Require status checks to pass**, and **Block force pushes**, then select **Create**.",
+          "hint": "Evaluate does not enforce; choose Active.",
+          "explanation": "Rulesets protect selected branches and can require review and checks before merging.",
+          "targetId": "new-ruleset",
+          "rules": [
+            {
+              "key": "ruleset-active",
+              "description": "Protect main ruleset is active",
+              "rule": {
+                "type": "arrayContains",
+                "path": "rulesets",
+                "match": {
+                  "name": "Protect main",
+                  "enforcement": "Active",
+                  "target": "Include default branch",
+                  "requiredApprovals": "1"
+                }
+              },
+              "failureFeedback": "Create Protect main as an active ruleset on the default branch."
+            }
+          ]
+        },
+        {
+          "key": "security-features",
+          "title": "Enable repository security features",
+          "instruction": "Open **Settings** > **Code security** and enable **Dependency graph**, **Dependabot alerts**, **Dependabot security updates**, **Secret Protection / Secret scanning**, **Push protection**, and **Code scanning: CodeQL analysis default setup**.",
+          "hint": "Push protection blocks detected secrets before they reach the repository. Do not enter a real or token-like secret in this lab.",
+          "explanation": "These settings help find vulnerable dependencies, block leaked credentials, and scan code with CodeQL default setup.",
+          "targetId": "security-settings",
+          "rules": [
+            {
+              "key": "toggles-on",
+              "description": "All requested security settings are on",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "equals",
+                    "path": "security.dependencyGraph",
+                    "value": true
+                  },
+                  {
+                    "type": "equals",
+                    "path": "security.dependabotAlerts",
+                    "value": true
+                  },
+                  {
+                    "type": "equals",
+                    "path": "security.dependabotSecurityUpdates",
+                    "value": true
+                  },
+                  {
+                    "type": "equals",
+                    "path": "security.secretScanning",
+                    "value": true
+                  },
+                  {
+                    "type": "equals",
+                    "path": "security.pushProtection",
+                    "value": true
+                  },
+                  {
+                    "type": "equals",
+                    "path": "security.codeqlDefaultSetup",
+                    "value": true
+                  }
+                ]
+              },
+              "failureFeedback": "Turn on every requested setting."
+            }
+          ]
+        },
+        {
+          "key": "fix-alert",
+          "title": "Review and fix the critical Dependabot alert",
+          "instruction": "Open **Security** > **Dependabot**, review alert **1** for **example-vulnerable-lib**, and select **Merge Dependabot pull request**.",
+          "hint": "Dependabot alerts show severity, affected file, and an update path when available.",
+          "explanation": "Dependabot security updates can create pull requests to move vulnerable dependencies to patched versions.",
+          "targetId": "security-tiles",
+          "rules": [
+            {
+              "key": "alert-fixed",
+              "description": "Dependabot alert is fixed",
+              "rule": {
+                "type": "arrayContains",
+                "path": "dependabotAlerts",
+                "match": {
+                  "id": "1",
+                  "state": "Fixed",
+                  "merged": true
+                }
+              },
+              "failureFeedback": "Review alert 1 and merge the Dependabot PR."
+            }
+          ]
+        },
+        {
+          "key": "security-policy",
+          "title": "Commit SECURITY.md",
+          "instruction": "Open **Security** > **Policy**, keep the policy content, and select **Commit changes**.",
+          "hint": "A security policy tells reporters how to disclose vulnerabilities privately.",
+          "explanation": "SECURITY.md gives maintainers and contributors a safe vulnerability reporting path.",
+          "targetId": "policy-form",
+          "rules": [
+            {
+              "key": "policy",
+              "description": "Security policy is committed",
+              "rule": {
+                "type": "equals",
+                "path": "security.policyCommitted",
+                "value": true
+              },
+              "failureFeedback": "Commit SECURITY.md."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "secured",
+          "description": "Ruleset active, push protection enabled, contractor not over-privileged",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayContains",
+                "path": "rulesets",
+                "match": {
+                  "name": "Protect main",
+                  "enforcement": "Active",
+                  "target": "Include default branch"
+                }
+              },
+              {
+                "type": "equals",
+                "path": "security.pushProtection",
+                "value": true
+              },
+              {
+                "type": "not",
+                "rule": {
+                  "type": "arrayContains",
+                  "path": "collaborators",
+                  "match": {
+                    "handle": "taylor-contractor",
+                    "role": "Write"
+                  }
+                }
+              },
+              {
+                "type": "not",
+                "rule": {
+                  "type": "arrayContains",
+                  "path": "collaborators",
+                  "match": {
+                    "handle": "taylor-contractor",
+                    "role": "Admin"
+                  }
+                }
+              }
+            ]
+          },
+          "successFeedback": "Main is protected, push protection is on, and the contractor has least-privilege access.",
+          "failureFeedback": "Make Protect main active on the default branch, enable push protection, and keep the contractor away from Write/Admin."
+        }
+      ],
+      "solution": "1. Open **Settings** > **Collaborators and teams** and add `taylor-contractor` with **Triage**.\n2. Open **Settings** > **Rules** > **New branch ruleset**. Use `Protect main`, **Active**, **Include default branch**, **Restrict deletions**, **Require a pull request before merging**, **Required approvals** `1`, **Require status checks to pass**, and **Block force pushes**, then **Create**.\n3. Open **Settings** > **Code security** and enable **Dependency graph**, **Dependabot alerts**, **Dependabot security updates**, **Secret Protection / Secret scanning**, **Push protection**, and **Code scanning: CodeQL analysis default setup**.\n4. Open **Security** > **Dependabot**, review alert `1`, and select **Merge Dependabot pull request**.\n5. Open **Security** > **Policy**, keep the SECURITY.md content, and select **Commit changes**."
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "certification": "SC-900",
+  "lab": "create-dlp-policy",
+  "note": "Create credit card DLP policy in simulation mode.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "dlp-policies"
+    },
+    {
+      "type": "click",
+      "componentId": "create-dlp-policy"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "dlp-wizard",
+      "values": {
+        "infoToProtect": "Data stored in connected sources",
+        "templateCategory": "Financial",
+        "template": "U.S. Financial Data",
+        "name": "Protect credit card data shared externally",
+        "description": "Detects credit card numbers shared outside Contoso across core Microsoft 365 locations while the policy runs in simulation mode.",
+        "adminUnits": "Full directory",
+        "locations": [
+          "Exchange email",
+          "SharePoint sites",
+          "OneDrive accounts",
+          "Teams chat and channel messages"
+        ],
+        "sensitiveInfoTypes": [
+          "Credit Card Number"
+        ],
+        "instanceCount": 1,
+        "confidence": "High confidence",
+        "externalSharing": true,
+        "action": "Block only people outside your organization",
+        "userNotifications": true,
+        "severity": "High",
+        "adminAlerts": true,
+        "policyMode": "Run the policy in simulation mode",
+        "showPolicyTips": true
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "view-simulation"
+    }
+  ]
+}

@@ -1,0 +1,358 @@
+{
+  "labs": [
+    {
+      "slug": "configure-pim-eligible-role",
+      "type": "UI_SIMULATION",
+      "title": "Configure an eligible role assignment in Privileged Identity Management",
+      "summary": "Use Microsoft Entra PIM to grant just-in-time eligibility, require MFA and approval for activation, and audit the simulated activation request.",
+      "scenario": "Contoso's service operations team occasionally needs to update user profiles and group membership, but they should not hold standing administrative access. In the **simulated Microsoft Entra admin center** on your lab VM, use **Privileged Identity Management** to make **Mei Chen** eligible for the **User Administrator** role for a time-bound assignment. Configure the role settings so activation is limited, requires MFA, requires justification, and requires approval from the **Security Approvers** group. Then simulate Mei activating the role with a business justification and review the audit history. Do not create a permanent active assignment.",
+      "domainKey": "microsoft-entra",
+      "objectiveCode": "2.4",
+      "complexity": "INTERMEDIATE",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Explain just-in-time and just-enough administration in Microsoft Entra PIM",
+        "Create an eligible, time-bound role assignment instead of standing active access",
+        "Configure activation controls such as MFA, justification, and approval"
+      ],
+      "prerequisites": ["Know that Zero Trust assumes breach and verifies each privileged action"],
+      "sources": [
+        { "title": "Assign Microsoft Entra roles in PIM", "url": "https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-how-to-add-role-to-user" },
+        { "title": "Configure Microsoft Entra role settings in PIM", "url": "https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-how-to-change-default-settings" },
+        { "title": "Assign Microsoft Entra roles", "url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/manage-roles-portal" }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Entra admin center",
+          "theme": "entra",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://entra.microsoft.com",
+          "searchPlaceholder": "Search resources, services, and docs"
+        },
+        "vm": { "name": "LAB-VM-01", "os": "windows", "apps": ["browser"] },
+        "clock": { "start": "2026-09-30T11:00:00Z" },
+        "startPage": "home",
+        "navigation": [
+          { "page": "home", "label": "Home", "icon": "Home" },
+          { "page": "pim-roles", "label": "Privileged Identity Management", "icon": "Clock", "section": "ID Governance" },
+          { "page": "my-roles", "label": "My roles", "icon": "BadgeCheck", "section": "ID Governance" },
+          { "page": "audit", "label": "Audit history", "icon": "History", "section": "ID Governance" }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/#home",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "pim-home-tiles",
+                "title": "ID Governance",
+                "size": "md",
+                "items": [
+                  { "id": "tile-pim", "label": "Privileged Identity Management", "description": "Manage eligible and active privileged role assignments.", "icon": "Clock", "action": { "type": "navigate", "page": "pim-roles" } },
+                  { "id": "tile-my-roles", "label": "My roles", "description": "Activate eligible assignments in the simulation.", "icon": "BadgeCheck", "action": { "type": "navigate", "page": "my-roles" } },
+                  { "id": "tile-audit", "label": "Audit history", "description": "Review privileged access events.", "icon": "History", "action": { "type": "navigate", "page": "audit" } }
+                ]
+              },
+              { "kind": "text", "id": "pim-concepts", "text": "Privileged Identity Management supports **Zero Trust** by reducing standing access. Eligible assignments are **just-in-time**: the user must activate the role when needed. Role settings enforce **just-enough** controls such as MFA, justification, approval, and activation duration." }
+            ]
+          },
+          {
+            "id": "pim-roles",
+            "title": "Privileged Identity Management | Microsoft Entra roles",
+            "subtitle": "ID Governance",
+            "icon": "Clock",
+            "url": "/#view/Microsoft_Azure_PIMCommon/ActivationMenuBlade/~/aadroles",
+            "breadcrumb": ["Home", "ID Governance", "Privileged Identity Management", "Microsoft Entra roles"],
+            "commands": [
+              { "id": "pim-add-assignment", "label": "+ Add assignments", "icon": "Plus", "variant": "primary", "action": { "type": "navigate", "page": "pim-add-assignment" } },
+              { "id": "pim-refresh", "label": "Refresh", "icon": "RefreshCw", "action": { "type": "message", "tone": "info", "text": "PIM roles refreshed." } }
+            ],
+            "components": [
+              { "kind": "callout", "variant": "info", "text": "Use **Eligible** for standing eligibility and activate only when needed. Use **Active** only when the user must have the role immediately and continuously." },
+              {
+                "kind": "table",
+                "id": "pim-roles-table",
+                "title": "Roles",
+                "source": "roles",
+                "rowKey": "name",
+                "searchable": true,
+                "columns": [
+                  { "key": "name", "label": "Role", "format": "link" },
+                  { "key": "description", "label": "Description" },
+                  { "key": "eligibleCount", "label": "Eligible assignments", "format": "count" },
+                  { "key": "activeCount", "label": "Active assignments", "format": "count" }
+                ],
+                "rowAction": { "type": "navigate", "page": "pim-role-detail", "select": { "as": "role", "path": "roles", "key": "name", "value": "{{$row.name}}" } }
+              }
+            ]
+          },
+          {
+            "id": "pim-role-detail",
+            "title": "{{$sel.role.name}}",
+            "subtitle": "Microsoft Entra role",
+            "icon": "ShieldCheck",
+            "requires": "role",
+            "navItem": "pim-roles",
+            "breadcrumb": ["Home", "ID Governance", "Privileged Identity Management", "Microsoft Entra roles", "Roles"],
+            "menu": [
+              { "page": "pim-role-detail", "label": "Assignments", "icon": "Users" },
+              { "page": "pim-role-settings", "label": "Role settings", "icon": "Settings", "section": "Manage" }
+            ],
+            "commands": [
+              { "id": "role-add-assignment", "label": "+ Add assignments", "icon": "Plus", "variant": "primary", "action": { "type": "navigate", "page": "pim-add-assignment" } }
+            ],
+            "components": [
+              { "kind": "properties", "title": "Role", "items": [{ "label": "Role name", "value": "{{$sel.role.name}}" }, { "label": "Purpose", "value": "{{$sel.role.description}}" }] },
+              { "kind": "table", "id": "pim-assignments-table", "title": "Assignments", "source": "pimAssignments", "where": { "role": "{{$sel.role.name}}" }, "rowKey": "id", "emptyText": "No PIM assignments for this role.", "columns": [{ "key": "member", "label": "Member" }, { "key": "assignmentType", "label": "Assignment type", "format": "badge" }, { "key": "duration", "label": "Duration" }, { "key": "status", "label": "Status", "format": "status" }] },
+              { "kind": "text", "text": "Eligible assignments require an activation action before the permissions are usable. Active assignments grant permissions immediately." }
+            ]
+          },
+          {
+            "id": "pim-add-assignment",
+            "title": "Add assignments",
+            "subtitle": "Microsoft Entra roles",
+            "icon": "Plus",
+            "url": "/#view/Microsoft_Azure_PIMCommon/AddAssignmentBlade/~/aadroles",
+            "navItem": "pim-roles",
+            "breadcrumb": ["Home", "ID Governance", "Privileged Identity Management", "Microsoft Entra roles", "Roles"],
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "pim-assignment-wizard",
+                "description": "Select a role, member, assignment type, and duration. This lab requires eligible, time-bound access.",
+                "reviewLabel": "Assign",
+                "tabs": [
+                  {
+                    "id": "role",
+                    "label": "Select a role",
+                    "fields": [
+                      { "id": "role", "label": "Select a role", "control": "select", "required": true, "defaultValue": "User Administrator", "optionsFrom": { "path": "roles", "value": "name", "label": "name" } },
+                      { "id": "member", "label": "Select member(s)", "control": "select", "required": true, "defaultValue": "Mei Chen", "options": [{ "value": "Mei Chen", "label": "Mei Chen" }, { "value": "Contoso Service Operations", "label": "Contoso Service Operations (group)" }, { "value": "Alex Wilber", "label": "Alex Wilber" }] }
+                    ]
+                  },
+                  {
+                    "id": "membership",
+                    "label": "Membership settings",
+                    "fields": [
+                      { "id": "assignmentType", "label": "Assignment type", "control": "radio", "required": true, "defaultValue": "Eligible", "options": [{ "value": "Eligible", "label": "Eligible" }, { "value": "Active", "label": "Active" }] },
+                      { "id": "duration", "label": "Assignment duration", "control": "radio", "required": true, "defaultValue": "Time-bound", "options": [{ "value": "Time-bound", "label": "Time-bound" }, { "value": "Permanent", "label": "Permanent" }] },
+                      { "id": "endAfter", "label": "Ends after", "control": "select", "required": true, "defaultValue": "6 months", "visibleWhen": { "type": "equals", "path": "$form.duration", "value": "Time-bound" }, "options": [{ "value": "3 months", "label": "3 months" }, { "value": "6 months", "label": "6 months" }, { "value": "12 months", "label": "12 months" }] },
+                      { "id": "justification", "label": "Assignment justification", "control": "textarea", "required": true, "defaultValue": "Service operations needs occasional user profile and group management during support rotations." }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Assign",
+                  "checks": [
+                    { "rule": { "type": "equals", "path": "$form.role", "value": "User Administrator" }, "message": "Use User Administrator for this support scenario. Broader roles are not needed." },
+                    { "rule": { "type": "equals", "path": "$form.member", "value": "Mei Chen" }, "message": "Assign eligibility to Mei Chen for this lab." },
+                    { "rule": { "type": "equals", "path": "$form.assignmentType", "value": "Eligible" }, "message": "Use Eligible, not Active, to avoid standing access." },
+                    { "rule": { "type": "equals", "path": "$form.duration", "value": "Time-bound" }, "message": "Use a time-bound assignment rather than permanent eligibility." }
+                  ],
+                  "actions": [
+                    { "type": "append", "path": "pimAssignments", "unique": "id", "value": { "id": "{{$form.role | slug}}-{{$form.member | slug}}", "role": "{{$form.role}}", "member": "{{$form.member}}", "assignmentType": "{{$form.assignmentType}}", "duration": "{{$form.duration}}", "endAfter": "{{$form.endAfter}}", "status": "Eligible", "justification": "{{$form.justification}}", "createdAt": "{{$now}}" } },
+                    { "type": "append", "path": "auditEvents", "value": { "time": "{{$now}}", "category": "Role assignment", "activity": "Added eligible assignment", "actor": "Alex Wilber", "target": "{{$form.member}}", "details": "{{$form.role}} eligible for {{$form.endAfter}}" } },
+                    { "type": "notify", "title": "Eligible assignment added", "message": "{{$form.member}} is eligible for {{$form.role}}." },
+                    { "type": "navigate", "page": "pim-roles" }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "pim-role-settings",
+            "title": "{{$sel.role.name}} | Role settings",
+            "subtitle": "Microsoft Entra role",
+            "icon": "Settings",
+            "requires": "role",
+            "navItem": "pim-roles",
+            "breadcrumb": ["Home", "ID Governance", "Privileged Identity Management", "Microsoft Entra roles", "Roles", "{{$sel.role.name}}"],
+            "menu": [
+              { "page": "pim-role-detail", "label": "Assignments", "icon": "Users" },
+              { "page": "pim-role-settings", "label": "Role settings", "icon": "Settings", "section": "Manage" }
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "role-settings-form",
+                "title": "Edit role setting",
+                "description": "Activation settings apply to every eligible assignment for this role.",
+                "fields": [
+                  { "id": "role", "label": "Role", "control": "select", "required": true, "defaultValue": "{{$sel.role.name}}", "optionsFrom": { "path": "roles", "value": "name", "label": "name" } },
+                  { "id": "activationMaxHours", "label": "Activation maximum duration (hours)", "control": "number", "required": true, "defaultValue": 4, "min": 1, "max": 12 },
+                  { "id": "requireMfa", "label": "On activation, require multifactor authentication", "control": "toggle", "defaultValue": true },
+                  { "id": "requireJustification", "label": "Require justification on activation", "control": "toggle", "defaultValue": true },
+                  { "id": "requireApproval", "label": "Require approval to activate", "control": "toggle", "defaultValue": true },
+                  { "id": "approverGroup", "label": "Approver", "control": "select", "required": true, "defaultValue": "Security Approvers", "optionsFrom": { "path": "approvalGroups", "value": "name", "label": "name" } }
+                ],
+                "submit": {
+                  "label": "Update",
+                  "checks": [
+                    { "rule": { "type": "equals", "path": "$form.role", "value": "User Administrator" }, "message": "Configure settings for User Administrator." },
+                    { "rule": { "type": "equals", "path": "$form.requireMfa", "value": true }, "message": "Require MFA on activation." },
+                    { "rule": { "type": "equals", "path": "$form.requireJustification", "value": true }, "message": "Require a business justification on activation." },
+                    { "rule": { "type": "equals", "path": "$form.requireApproval", "value": true }, "message": "Require approval for this role activation." },
+                    { "rule": { "type": "equals", "path": "$form.approverGroup", "value": "Security Approvers" }, "message": "Use Security Approvers as the approval group." }
+                  ],
+                  "actions": [
+                    { "type": "update", "path": "roleSettings", "where": { "role": "User Administrator" }, "set": { "activationMaxHours": "{{$form.activationMaxHours}}", "requireMfa": "{{$form.requireMfa}}", "requireJustification": "{{$form.requireJustification}}", "requireApproval": "{{$form.requireApproval}}", "approverGroup": "{{$form.approverGroup}}" } },
+                    { "type": "append", "path": "auditEvents", "value": { "time": "{{$now}}", "category": "Role settings", "activity": "Updated role settings", "actor": "Alex Wilber", "target": "User Administrator", "details": "MFA, justification, and approval required" } },
+                    { "type": "notify", "title": "Role settings updated", "message": "Activation controls were updated for User Administrator." }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "my-roles",
+            "title": "My roles | Eligible assignments",
+            "subtitle": "ID Governance",
+            "icon": "BadgeCheck",
+            "url": "/#view/Microsoft_Azure_PIMCommon/MyRolesMenuBlade/~/aadroles",
+            "breadcrumb": ["Home", "ID Governance", "Privileged Identity Management", "My roles"],
+            "components": [
+              { "kind": "table", "id": "my-eligible-roles", "title": "Eligible assignments", "source": "pimAssignments", "where": { "member": "Mei Chen", "assignmentType": "Eligible" }, "rowKey": "id", "emptyText": "No eligible assignments for Mei are shown yet.", "columns": [{ "key": "role", "label": "Role" }, { "key": "duration", "label": "Assignment duration" }, { "key": "status", "label": "Status", "format": "status" }] },
+              {
+                "kind": "form",
+                "id": "activate-role-form",
+                "title": "Activate",
+                "description": "This simulates Mei activating an eligible role. No sign-in is required in the lab.",
+                "fields": [
+                  { "id": "role", "label": "Role", "control": "select", "required": true, "defaultValue": "User Administrator", "options": [{ "value": "User Administrator", "label": "User Administrator" }, { "value": "Global Administrator", "label": "Global Administrator" }] },
+                  { "id": "durationHours", "label": "Activation duration (hours)", "control": "number", "required": true, "defaultValue": 2, "min": 1, "max": 4 },
+                  { "id": "mfaSatisfied", "label": "MFA requirement satisfied in simulation", "control": "toggle", "defaultValue": true },
+                  { "id": "justification", "label": "Justification", "control": "textarea", "required": true, "minLength": 20, "defaultValue": "Update user profile attributes and group memberships for approved finance onboarding tickets." },
+                  { "id": "approvalStatus", "label": "Approval", "control": "select", "required": true, "defaultValue": "Approved by Security Approvers", "options": [{ "value": "Approved by Security Approvers", "label": "Approved by Security Approvers" }, { "value": "No approval requested", "label": "No approval requested" }] }
+                ],
+                "submit": {
+                  "label": "Activate",
+                  "checks": [
+                    { "rule": { "type": "arrayContains", "path": "pimAssignments", "match": { "role": "User Administrator", "member": "Mei Chen", "assignmentType": "Eligible", "duration": "Time-bound" } }, "message": "Mei must have an eligible, time-bound User Administrator assignment before activation." },
+                    { "rule": { "type": "arrayContains", "path": "roleSettings", "match": { "role": "User Administrator", "requireMfa": true, "requireJustification": true, "requireApproval": true, "approverGroup": "Security Approvers" } }, "message": "Configure User Administrator role settings to require MFA, justification, and Security Approvers approval first." },
+                    { "rule": { "type": "equals", "path": "$form.role", "value": "User Administrator" }, "message": "Activate the User Administrator role." },
+                    { "rule": { "type": "equals", "path": "$form.mfaSatisfied", "value": true }, "message": "MFA must be satisfied before activation." },
+                    { "rule": { "type": "equals", "path": "$form.approvalStatus", "value": "Approved by Security Approvers" }, "message": "The activation must be approved by Security Approvers." }
+                  ],
+                  "actions": [
+                    { "type": "append", "path": "activationRequests", "value": { "role": "{{$form.role}}", "member": "Mei Chen", "durationHours": "{{$form.durationHours}}", "mfaSatisfied": "{{$form.mfaSatisfied}}", "justification": "{{$form.justification}}", "approvalStatus": "{{$form.approvalStatus}}", "status": "Activated", "createdAt": "{{$now}}" } },
+                    { "type": "append", "path": "auditEvents", "value": { "time": "{{$now}}", "category": "Activation", "activity": "Activated eligible role", "actor": "Mei Chen", "target": "User Administrator", "details": "{{$form.approvalStatus}}; duration {{$form.durationHours}} hours" } },
+                    { "type": "notify", "title": "Role activated", "message": "User Administrator was activated for Mei Chen with approval and justification." }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "audit",
+            "title": "Audit history",
+            "subtitle": "Privileged Identity Management",
+            "icon": "History",
+            "url": "/#view/Microsoft_Azure_PIMCommon/AuditHistoryBlade/~/aadroles",
+            "breadcrumb": ["Home", "ID Governance", "Privileged Identity Management"],
+            "components": [
+              { "kind": "table", "id": "audit-table", "title": "Audit history", "source": "auditEvents", "rowKey": "time", "emptyText": "No audit events recorded yet.", "columns": [{ "key": "time", "label": "Time", "format": "date" }, { "key": "category", "label": "Category" }, { "key": "activity", "label": "Activity" }, { "key": "actor", "label": "Actor" }, { "key": "target", "label": "Target" }, { "key": "details", "label": "Details" }] }
+            ]
+          }
+        ],
+        "initialState": {
+          "roles": [
+            { "name": "User Administrator", "description": "Can manage users and groups, support tickets, and profile updates without full tenant control.", "eligibleCount": ["one planned"], "activeCount": [] },
+            { "name": "Exchange Administrator", "description": "Can manage Exchange Online settings and recipients.", "eligibleCount": [], "activeCount": [] },
+            { "name": "Global Administrator", "description": "Can manage all aspects of the tenant.", "eligibleCount": [], "activeCount": ["Alex Wilber"] },
+            { "name": "Privileged Role Administrator", "description": "Can manage role assignments and PIM settings.", "eligibleCount": [], "activeCount": ["Alex Wilber"] }
+          ],
+          "approvalGroups": [
+            { "name": "Security Approvers", "members": ["alex@contoso.example", "sara@contoso.example"], "description": "Approves privileged activation requests." },
+            { "name": "Service Desk Leads", "members": ["diego@contoso.example"], "description": "Operational approvers for helpdesk workflows." }
+          ],
+          "roleSettings": [
+            { "role": "User Administrator", "activationMaxHours": 8, "requireMfa": false, "requireJustification": false, "requireApproval": false, "approverGroup": "None" },
+            { "role": "Exchange Administrator", "activationMaxHours": 8, "requireMfa": true, "requireJustification": true, "requireApproval": false, "approverGroup": "None" }
+          ],
+          "pimAssignments": [
+            { "id": "global-administrator-alex-wilber", "role": "Global Administrator", "member": "Alex Wilber", "assignmentType": "Active", "duration": "Permanent", "status": "Active", "justification": "Emergency administration coverage" }
+          ],
+          "activationRequests": [],
+          "auditEvents": [
+            { "time": "2026-09-30T08:45:00Z", "category": "Review", "activity": "Completed access review", "actor": "Sara Lee", "target": "Privileged roles", "details": "No orphaned assignments found" }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "key": "open-pim-role",
+          "title": "Open the User Administrator role in PIM",
+          "instruction": "Go to **Privileged Identity Management** under **ID Governance**, open **Microsoft Entra roles**, and select **User Administrator** from **Roles**.",
+          "hint": "PIM role pages are separate from ordinary Roles & admins because they manage eligible and active privileged access.",
+          "explanation": "PIM supports just-in-time administration: a user can be eligible for a role without holding the permissions all day.",
+          "targetId": "pim-roles-table",
+          "rules": [{ "key": "visited-pim-role", "description": "The User Administrator PIM role page was opened", "rule": { "type": "visited", "page": "pim-role-detail" } }]
+        },
+        {
+          "key": "add-eligible-assignment",
+          "title": "Add a time-bound eligible assignment",
+          "instruction": "Select **+ Add assignments** and assign **User Administrator** to **Mei Chen**. Set **Assignment type** to **Eligible** and **Assignment duration** to **Time-bound** ending after **6 months**. Add the provided business justification and select **Assign**.",
+          "hint": "Eligible means Mei must activate the role before using it. Active would grant standing access immediately.",
+          "explanation": "Time-bound eligible assignments reduce long-term privileged exposure and support Zero Trust by verifying privileged actions when needed.",
+          "targetId": "role-add-assignment",
+          "rules": [
+            { "key": "eligible-created", "description": "Mei has eligible time-bound User Administrator access", "rule": { "type": "arrayContains", "path": "pimAssignments", "match": { "role": "User Administrator", "member": "Mei Chen", "assignmentType": "Eligible", "duration": "Time-bound", "endAfter": "6 months" } }, "failureFeedback": "Create an eligible, time-bound User Administrator assignment for Mei Chen." }
+          ]
+        },
+        {
+          "key": "configure-settings",
+          "title": "Require strong activation controls",
+          "instruction": "Open **Role settings** for **User Administrator**. Set **Activation maximum duration (hours)** to `4`, turn on **On activation, require multifactor authentication**, **Require justification on activation**, and **Require approval to activate**, then choose **Security Approvers** and select **Update**.",
+          "hint": "Role settings apply to every activation for that role.",
+          "explanation": "MFA verifies the user, justification records why privilege is needed, and approval adds human oversight before elevation.",
+          "targetId": "role-settings-form",
+          "rules": [
+            { "key": "settings-secure", "description": "User Administrator activation requires MFA, justification, approval, and a short duration", "rule": { "type": "arrayContains", "path": "roleSettings", "match": { "role": "User Administrator", "activationMaxHours": 4, "requireMfa": true, "requireJustification": true, "requireApproval": true, "approverGroup": "Security Approvers" } }, "failureFeedback": "Update User Administrator role settings to require MFA, justification, approval by Security Approvers, and 4 hours maximum." }
+          ]
+        },
+        {
+          "key": "activate-role",
+          "title": "Simulate activation with justification",
+          "instruction": "Open **My roles**, activate **User Administrator** for **2** hours, confirm **MFA requirement satisfied in simulation**, enter the business justification, and use **Approved by Security Approvers**.",
+          "hint": "This is a simulation. Do not add sign-in steps; activation happens inside the lab state.",
+          "explanation": "Activation is the just-in-time step. The audit trail should show who activated what role, why, and under which controls.",
+          "targetId": "activate-role-form",
+          "rules": [
+            { "key": "activation-recorded", "description": "Mei activated User Administrator with MFA, approval, and justification", "rule": { "type": "arrayContains", "path": "activationRequests", "match": { "role": "User Administrator", "member": "Mei Chen", "mfaSatisfied": true, "approvalStatus": "Approved by Security Approvers", "status": "Activated" } }, "failureFeedback": "Activate the eligible User Administrator role with MFA satisfied, approval, and justification." }
+          ]
+        },
+        {
+          "key": "review-audit",
+          "title": "Review the audit history",
+          "instruction": "Open **Audit history** and confirm that the assignment, role settings update, and activation events are recorded.",
+          "hint": "Audit history is part of privileged access governance and supports later access reviews.",
+          "explanation": "PIM audit evidence helps administrators review privileged access and investigate unexpected activation.",
+          "targetId": "audit-table",
+          "rules": [
+            { "key": "audit-activation", "description": "The activation appears in audit history", "rule": { "type": "arrayContains", "path": "auditEvents", "match": { "category": "Activation", "activity": "Activated eligible role", "actor": "Mei Chen", "target": "User Administrator" } }, "failureFeedback": "Review Audit history after activating the role." }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "no-permanent-active-assignment",
+          "description": "Mei does not have permanent active User Administrator access",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              { "type": "arrayNotContains", "path": "pimAssignments", "match": { "role": "User Administrator", "member": "Mei Chen", "assignmentType": "Active" } },
+              { "type": "arrayNotContains", "path": "pimAssignments", "match": { "role": "User Administrator", "member": "Mei Chen", "duration": "Permanent" } }
+            ]
+          },
+          "successFeedback": "Mei has just-in-time eligibility, not standing active access.",
+          "failureFeedback": "Remove any active or permanent User Administrator assignment for Mei. Use eligible, time-bound access."
+        },
+        { "key": "approval-and-mfa-required", "description": "Activation requires MFA and approval", "rule": { "type": "arrayContains", "path": "roleSettings", "match": { "role": "User Administrator", "requireMfa": true, "requireApproval": true, "requireJustification": true, "approverGroup": "Security Approvers" } }, "successFeedback": "The role requires MFA, justification, and approval before activation.", "failureFeedback": "Require MFA, justification, and approval by Security Approvers for User Administrator activation." }
+      ],
+      "solution": "1. Select **Privileged Identity Management** > **Microsoft Entra roles** > **Roles**, then open **User Administrator**.\n2. Select **+ Add assignments**. Choose **User Administrator** and **Mei Chen**. In **Membership settings**, set **Assignment type** to **Eligible**, **Assignment duration** to **Time-bound**, **Ends after** to **6 months**, enter the justification, and select **Assign**.\n3. Open **Role settings** for **User Administrator**. Set **Activation maximum duration (hours)** to `4`, turn on **On activation, require multifactor authentication**, **Require justification on activation**, and **Require approval to activate**. Choose **Security Approvers**, then **Update**.\n4. Open **My roles**, activate **User Administrator** for `2` hours, keep **MFA requirement satisfied in simulation** on, enter the justification, choose **Approved by Security Approvers**, and select **Activate**.\n5. Open **Audit history** and review the assignment, settings update, and activation records.\n6. Do not use **Active** or **Permanent** for Mei. The objective is just-in-time and just-enough access."
+    }
+  ]
+}

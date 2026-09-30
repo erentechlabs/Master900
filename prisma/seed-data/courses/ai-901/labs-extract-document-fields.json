@@ -1,0 +1,1194 @@
+{
+  "labs": [
+    {
+      "slug": "extract-document-fields",
+      "type": "UI_SIMULATION",
+      "title": "Extract invoice fields with Content Understanding",
+      "summary": "Use Microsoft Foundry Tools to analyze sample invoices, review confidence scores, correct a low-confidence field, and inspect exported JSON.",
+      "scenario": "**Northwind Traders** receives supplier invoices by email and wants structured invoice data for review. In the simulated Microsoft Foundry portal, open **Tools**, choose **Content Understanding**, create an invoice extraction analyzer, analyze **northwind-invoice-1042.pdf**, review extracted fields and confidence scores, correct a low-confidence purchase order field, add the custom field **department**, and view the JSON result. The lab uses Azure Content Understanding in Foundry Tools because AI-901 now covers information extraction across documents, images, audio, and video.",
+      "domainKey": "foundry-solutions",
+      "moduleSlug": "foundry-vision-and-extraction",
+      "objectiveCode": "2.4",
+      "complexity": "BASIC",
+      "estimatedMinutes": 35,
+      "learningObjectives": [
+        "Use Content Understanding in Foundry Tools for document information extraction",
+        "Review extracted fields, confidence scores, and human corrections for a sample invoice",
+        "Explain how field extraction differs from OCR, image analysis, speech, and translation"
+      ],
+      "prerequisites": [
+        "Know that information extraction turns unstructured content into structured fields"
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam AI-901",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "What is Microsoft Foundry?",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "What is Azure Content Understanding in Foundry Tools?",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Content Understanding Studio and Microsoft Foundry",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/foundry-vs-content-understanding-studio",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Foundry",
+          "theme": "foundry",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://ai.azure.com",
+          "searchPlaceholder": "Search Foundry"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "tools-gallery",
+            "label": "Tools",
+            "icon": "Wrench",
+            "section": "Build"
+          },
+          {
+            "page": "content-understanding",
+            "label": "Content Understanding",
+            "icon": "ScanText",
+            "section": "Tools"
+          },
+          {
+            "page": "analyzers",
+            "label": "Analyzers",
+            "icon": "FileSearch",
+            "section": "Content Understanding"
+          },
+          {
+            "page": "results",
+            "label": "Results",
+            "icon": "FileJson",
+            "section": "Content Understanding"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Microsoft Foundry",
+            "subtitle": "proj-document-intake",
+            "url": "/build/projects/proj-document-intake",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "home-tool-tiles",
+                "title": "Foundry Tools",
+                "size": "md",
+                "items": [
+                  {
+                    "id": "content-understanding",
+                    "label": "Content Understanding",
+                    "description": "Extract structured fields from documents, images, audio, and video.",
+                    "icon": "ScanText",
+                    "action": {
+                      "type": "navigate",
+                      "page": "content-understanding"
+                    }
+                  },
+                  {
+                    "id": "language",
+                    "label": "Language",
+                    "description": "Sentiment, key phrases, entities and summarization.",
+                    "icon": "MessagesSquare",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Language analyzes text. This lab needs field extraction from an invoice document."
+                    }
+                  },
+                  {
+                    "id": "speech",
+                    "label": "Speech",
+                    "description": "Speech to text and text to speech.",
+                    "icon": "Mic",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Speech handles audio, not invoice document fields."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "tools-gallery",
+            "title": "Tools",
+            "subtitle": "Build",
+            "icon": "Wrench",
+            "url": "/build/tools",
+            "components": [
+              {
+                "kind": "table",
+                "id": "tools-table",
+                "title": "Foundry Tools",
+                "source": "tools",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Tool",
+                    "format": "link"
+                  },
+                  {
+                    "key": "workload",
+                    "label": "Workload"
+                  },
+                  {
+                    "key": "bestFor",
+                    "label": "Best for"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "content-understanding",
+                  "select": {
+                    "as": "tool",
+                    "path": "tools",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "content-understanding",
+            "title": "Content Understanding",
+            "subtitle": "Foundry Tools",
+            "icon": "ScanText",
+            "url": "/build/tools/content-understanding",
+            "navItem": "content-understanding",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Extraction, not just OCR",
+                "text": "OCR reads text from a document image. Content Understanding can apply an analyzer to return structured fields, confidence scores and grounded evidence for documents, images, audio and video."
+              },
+              {
+                "kind": "tiles",
+                "id": "cu-actions",
+                "title": "Get started",
+                "items": [
+                  {
+                    "id": "open-analyzers",
+                    "label": "Analyzers",
+                    "description": "Create and manage extraction analyzers.",
+                    "icon": "FileSearch",
+                    "action": {
+                      "type": "navigate",
+                      "page": "analyzers"
+                    }
+                  },
+                  {
+                    "id": "open-results",
+                    "label": "Results",
+                    "description": "Review analyzer outputs and confidence.",
+                    "icon": "FileJson",
+                    "action": {
+                      "type": "navigate",
+                      "page": "results"
+                    }
+                  },
+                  {
+                    "id": "compare-workloads",
+                    "label": "Workload comparison",
+                    "description": "OCR vs extraction vs image analysis vs speech.",
+                    "icon": "ListChecks",
+                    "action": {
+                      "type": "navigate",
+                      "page": "workload-compare"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "workload-compare",
+            "title": "Workload comparison",
+            "icon": "ListChecks",
+            "url": "/build/tools/content-understanding/workloads",
+            "navItem": "content-understanding",
+            "components": [
+              {
+                "kind": "table",
+                "id": "workload-table",
+                "title": "Choose the right AI workload",
+                "source": "workloads",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Workload"
+                  },
+                  {
+                    "key": "input",
+                    "label": "Input"
+                  },
+                  {
+                    "key": "output",
+                    "label": "Output"
+                  },
+                  {
+                    "key": "whenToUse",
+                    "label": "Use when"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "analyzers",
+            "title": "Analyzers",
+            "subtitle": "Content Understanding",
+            "icon": "FileSearch",
+            "url": "/build/tools/content-understanding/analyzers",
+            "navItem": "analyzers",
+            "commands": [
+              {
+                "id": "create-analyzer",
+                "label": "Create analyzer",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "create-analyzer"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "analyzers-table",
+                "title": "Analyzers",
+                "source": "analyzers",
+                "rowKey": "name",
+                "emptyText": "No analyzers yet. Select Create analyzer.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "contentType",
+                    "label": "Content type"
+                  },
+                  {
+                    "key": "mode",
+                    "label": "Analyzer type"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "analyzer-details",
+                  "select": {
+                    "as": "analyzer",
+                    "path": "analyzers",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "create-analyzer",
+            "title": "Create analyzer",
+            "subtitle": "Content Understanding",
+            "icon": "FileSearch",
+            "url": "/build/tools/content-understanding/analyzers/create",
+            "navItem": "analyzers",
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "analyzer-wizard",
+                "description": "Configure how Content Understanding extracts structured fields from invoices. In the real service, supported analyzer options depend on the selected experience and API version.",
+                "reviewLabel": "Review",
+                "tabs": [
+                  {
+                    "id": "basics",
+                    "label": "Basics",
+                    "fields": [
+                      {
+                        "id": "name",
+                        "label": "Analyzer name",
+                        "control": "text",
+                        "required": true,
+                        "pattern": "^[a-z][a-z0-9-]{2,60}$",
+                        "patternMessage": "Use lowercase letters, digits and hyphens; start with a letter.",
+                        "unique": {
+                          "path": "analyzers",
+                          "key": "name",
+                          "message": "An analyzer with this name already exists."
+                        }
+                      },
+                      {
+                        "id": "contentType",
+                        "label": "Content type",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Document",
+                        "options": [
+                          {
+                            "value": "Document",
+                            "label": "Document"
+                          },
+                          {
+                            "value": "Image",
+                            "label": "Image"
+                          },
+                          {
+                            "value": "Audio",
+                            "label": "Audio"
+                          },
+                          {
+                            "value": "Video",
+                            "label": "Video"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "mode",
+                        "label": "Analyzer type",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Prebuilt invoice extraction",
+                        "options": [
+                          {
+                            "value": "Prebuilt invoice extraction",
+                            "label": "Prebuilt invoice extraction"
+                          },
+                          {
+                            "value": "Read and layout",
+                            "label": "Read and layout"
+                          },
+                          {
+                            "value": "Image analysis",
+                            "label": "Image analysis"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "fields",
+                    "label": "Fields",
+                    "fields": [
+                      {
+                        "id": "fields",
+                        "label": "Fields to extract",
+                        "control": "checkboxes",
+                        "required": true,
+                        "defaultValue": [
+                          "invoiceId",
+                          "vendorName",
+                          "invoiceDate",
+                          "totalAmount",
+                          "purchaseOrder"
+                        ],
+                        "options": [
+                          {
+                            "value": "invoiceId",
+                            "label": "Invoice ID"
+                          },
+                          {
+                            "value": "vendorName",
+                            "label": "Vendor name"
+                          },
+                          {
+                            "value": "invoiceDate",
+                            "label": "Invoice date"
+                          },
+                          {
+                            "value": "totalAmount",
+                            "label": "Total amount"
+                          },
+                          {
+                            "value": "purchaseOrder",
+                            "label": "Purchase order"
+                          },
+                          {
+                            "value": "department",
+                            "label": "Department"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.contentType",
+                        "value": "Document"
+                      },
+                      "message": "Use **Document** for invoice PDF extraction."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.mode",
+                        "value": "Prebuilt invoice extraction"
+                      },
+                      "message": "Use **Prebuilt invoice extraction**. Read and layout is OCR/layout only, and image analysis is not for invoice fields."
+                    },
+                    {
+                      "rule": {
+                        "type": "includes",
+                        "path": "$form.fields",
+                        "value": "purchaseOrder"
+                      },
+                      "message": "Include **Purchase order** so you can review the low-confidence field."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "analyzers",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "contentType": "{{$form.contentType}}",
+                        "mode": "{{$form.mode}}",
+                        "fields": "{{$form.fields | list}}",
+                        "status": "Ready",
+                        "createdAt": "{{$now}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Analyzer created",
+                      "message": "{{$form.name}} is ready to analyze documents."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "analyzer-details",
+                      "select": {
+                        "as": "analyzer",
+                        "path": "analyzers",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "analyzer-details",
+            "title": "{{$sel.analyzer.name}}",
+            "subtitle": "Analyzer",
+            "icon": "FileSearch",
+            "url": "/build/tools/content-understanding/analyzers/{{$sel.analyzer.name}}",
+            "requires": "analyzer",
+            "navItem": "analyzers",
+            "commands": [
+              {
+                "id": "analyze-document",
+                "label": "Analyze",
+                "icon": "Play",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "analyze-document"
+                }
+              },
+              {
+                "id": "view-results",
+                "label": "Results",
+                "icon": "FileJson",
+                "action": {
+                  "type": "navigate",
+                  "page": "results"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Analyzer details",
+                "items": [
+                  {
+                    "label": "Content type",
+                    "value": "{{$sel.analyzer.contentType}}"
+                  },
+                  {
+                    "label": "Analyzer type",
+                    "value": "{{$sel.analyzer.mode}}"
+                  },
+                  {
+                    "label": "Fields",
+                    "value": "{{$sel.analyzer.fields | join:, }}"
+                  },
+                  {
+                    "label": "Status",
+                    "value": "{{$sel.analyzer.status}}",
+                    "format": "status"
+                  }
+                ]
+              },
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "This analyzer produces structured invoice fields with confidence scores and source evidence. Low-confidence values should be reviewed by a person."
+              }
+            ]
+          },
+          {
+            "id": "analyze-document",
+            "title": "Analyze content",
+            "subtitle": "{{$sel.analyzer.name}}",
+            "icon": "Play",
+            "url": "/build/tools/content-understanding/analyze",
+            "requires": "analyzer",
+            "navItem": "analyzers",
+            "components": [
+              {
+                "kind": "form",
+                "id": "analyze-form",
+                "title": "Analyze sample invoice",
+                "fields": [
+                  {
+                    "id": "analyzer",
+                    "label": "Analyzer",
+                    "control": "select",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "analyzers",
+                      "value": "name",
+                      "label": "name"
+                    },
+                    "defaultValue": "{{$sel.analyzer.name}}"
+                  },
+                  {
+                    "id": "file",
+                    "label": "Input file",
+                    "control": "select",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "invoiceFiles",
+                      "value": "name",
+                      "label": "name"
+                    },
+                    "defaultValue": "northwind-invoice-1042.pdf"
+                  }
+                ],
+                "submit": {
+                  "label": "Analyze",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.file",
+                        "value": "northwind-invoice-1042.pdf"
+                      },
+                      "message": "Analyze **northwind-invoice-1042.pdf** for this lab."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "results",
+                      "unique": "invoiceId",
+                      "value": {
+                        "invoiceId": "INV-1042",
+                        "file": "{{$form.file}}",
+                        "analyzer": "{{$form.analyzer}}",
+                        "status": "Needs review",
+                        "fields": {
+                          "invoiceId": {
+                            "value": "INV-1042",
+                            "confidence": "High",
+                            "score": "0.99"
+                          },
+                          "vendorName": {
+                            "value": "Northwind Traders",
+                            "confidence": "High",
+                            "score": "0.97"
+                          },
+                          "invoiceDate": {
+                            "value": "2026-09-12",
+                            "confidence": "High",
+                            "score": "0.95"
+                          },
+                          "totalAmount": {
+                            "value": "1,248.60",
+                            "confidence": "High",
+                            "score": "0.96"
+                          },
+                          "purchaseOrder": {
+                            "value": "PO-7I4Z",
+                            "confidence": "Low",
+                            "score": "0.42"
+                          },
+                          "department": {
+                            "value": "",
+                            "confidence": "Missing",
+                            "score": "0.00"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Analysis complete",
+                      "message": "northwind-invoice-1042.pdf was analyzed. Review low-confidence fields."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "result-details",
+                      "select": {
+                        "as": "result",
+                        "path": "results",
+                        "key": "invoiceId",
+                        "value": "INV-1042"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "results",
+            "title": "Results",
+            "subtitle": "Content Understanding",
+            "icon": "FileJson",
+            "url": "/build/tools/content-understanding/results",
+            "navItem": "results",
+            "components": [
+              {
+                "kind": "table",
+                "id": "results-table",
+                "title": "Analysis results",
+                "source": "results",
+                "rowKey": "invoiceId",
+                "emptyText": "No analysis results yet.",
+                "columns": [
+                  {
+                    "key": "invoiceId",
+                    "label": "Invoice",
+                    "format": "link"
+                  },
+                  {
+                    "key": "file",
+                    "label": "File"
+                  },
+                  {
+                    "key": "analyzer",
+                    "label": "Analyzer"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "result-details",
+                  "select": {
+                    "as": "result",
+                    "path": "results",
+                    "key": "invoiceId",
+                    "value": "{{$row.invoiceId}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "result-details",
+            "title": "INV-1042",
+            "subtitle": "Extraction result",
+            "icon": "FileJson",
+            "url": "/build/tools/content-understanding/results/INV-1042",
+            "requires": "result",
+            "navItem": "results",
+            "commands": [
+              {
+                "id": "open-export-json",
+                "label": "View JSON",
+                "icon": "FileJson",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "json-result"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "$sel.result.status",
+                  "value": "Needs review"
+                },
+                "title": "Human review recommended",
+                "text": "The purchase order field has low confidence. Correct it and add the department before exporting."
+              },
+              {
+                "kind": "properties",
+                "title": "Extracted fields",
+                "items": [
+                  {
+                    "label": "Invoice ID",
+                    "value": "{{$sel.result.fields.invoiceId.value}} ({{$sel.result.fields.invoiceId.confidence}})"
+                  },
+                  {
+                    "label": "Vendor name",
+                    "value": "{{$sel.result.fields.vendorName.value}} ({{$sel.result.fields.vendorName.confidence}})"
+                  },
+                  {
+                    "label": "Invoice date",
+                    "value": "{{$sel.result.fields.invoiceDate.value}} ({{$sel.result.fields.invoiceDate.confidence}})"
+                  },
+                  {
+                    "label": "Total amount",
+                    "value": "{{$sel.result.fields.totalAmount.value}} ({{$sel.result.fields.totalAmount.confidence}})"
+                  },
+                  {
+                    "label": "Purchase order",
+                    "value": "{{$sel.result.fields.purchaseOrder.value}} ({{$sel.result.fields.purchaseOrder.confidence}})"
+                  },
+                  {
+                    "label": "Department",
+                    "value": "{{$sel.result.fields.department.value | default:Not set}}"
+                  }
+                ]
+              },
+              {
+                "kind": "form",
+                "id": "review-form",
+                "title": "Review fields",
+                "description": "Correct low-confidence fields and add the custom department field required by Northwind Traders.",
+                "fields": [
+                  {
+                    "id": "purchaseOrder",
+                    "label": "Purchase order",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "{{$sel.result.fields.purchaseOrder.value}}",
+                    "pattern": "^PO-[0-9]{4}$",
+                    "patternMessage": "Use the purchase order format shown on the invoice, for example PO-7742."
+                  },
+                  {
+                    "id": "department",
+                    "label": "Department",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Operations",
+                        "label": "Operations"
+                      },
+                      {
+                        "value": "Finance",
+                        "label": "Finance"
+                      },
+                      {
+                        "value": "Human Resources",
+                        "label": "Human Resources"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Save corrections",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.purchaseOrder",
+                        "value": "PO-7742"
+                      },
+                      "message": "Use the corrected value **PO-7742** from the invoice review pane."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.department",
+                        "value": "Operations"
+                      },
+                      "message": "The custom field should be **Operations** for this supplier invoice."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "results",
+                      "where": {
+                        "invoiceId": "INV-1042"
+                      },
+                      "set": {
+                        "fields.purchaseOrder.value": "{{$form.purchaseOrder}}",
+                        "fields.purchaseOrder.confidence": "Corrected",
+                        "fields.purchaseOrder.score": "reviewed",
+                        "fields.department.value": "{{$form.department}}",
+                        "fields.department.confidence": "Added by reviewer",
+                        "fields.department.score": "reviewed",
+                        "status": "Reviewed"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Corrections saved",
+                      "message": "The purchase order and department fields were saved."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "json-result",
+                      "select": {
+                        "as": "result",
+                        "path": "results",
+                        "key": "invoiceId",
+                        "value": "INV-1042"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "json-result",
+            "title": "Result JSON",
+            "subtitle": "INV-1042",
+            "icon": "FileJson",
+            "url": "/build/tools/content-understanding/results/INV-1042/json",
+            "requires": "result",
+            "navItem": "results",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "success",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "$sel.result.status",
+                  "value": "Reviewed"
+                },
+                "text": "The result has been reviewed. Downstream automation can use this structured JSON, while audit data keeps confidence and review information."
+              },
+              {
+                "kind": "code",
+                "id": "result-json",
+                "title": "Extracted JSON",
+                "language": "json",
+                "content": "{\n  \"invoiceId\": \"{{$sel.result.invoiceId}}\",\n  \"file\": \"{{$sel.result.file}}\",\n  \"status\": \"{{$sel.result.status}}\",\n  \"fields\": {{$sel.result.fields | json}}\n}"
+              },
+              {
+                "kind": "button",
+                "id": "export-result",
+                "label": "Export result",
+                "icon": "Download",
+                "variant": "primary",
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "exportedResult",
+                      "value": true
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Result exported",
+                      "message": "The reviewed JSON result was exported for downstream automation."
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "tools": [
+            {
+              "name": "Content Understanding",
+              "workload": "Information extraction",
+              "bestFor": "Documents, images, audio and video into structured fields"
+            },
+            {
+              "name": "Language",
+              "workload": "Text analysis",
+              "bestFor": "Sentiment, key phrases, entities and summaries"
+            },
+            {
+              "name": "Speech",
+              "workload": "Speech",
+              "bestFor": "Speech to text and text to speech"
+            },
+            {
+              "name": "Vision",
+              "workload": "Computer vision",
+              "bestFor": "Describe or inspect images"
+            },
+            {
+              "name": "Translator",
+              "workload": "Translation",
+              "bestFor": "Translate text between languages"
+            }
+          ],
+          "workloads": [
+            {
+              "name": "OCR / read",
+              "input": "Document or image",
+              "output": "Text and layout",
+              "whenToUse": "You need the words and layout only."
+            },
+            {
+              "name": "Information extraction",
+              "input": "Document, image, audio or video",
+              "output": "Named fields with confidence and evidence",
+              "whenToUse": "You need structured data such as invoice number, date and total."
+            },
+            {
+              "name": "Image analysis",
+              "input": "Image",
+              "output": "Tags, captions or visual descriptions",
+              "whenToUse": "You need to understand image content, not extract invoice fields."
+            },
+            {
+              "name": "Speech",
+              "input": "Audio",
+              "output": "Transcription or synthesized speech",
+              "whenToUse": "You need spoken language processing."
+            },
+            {
+              "name": "Translation",
+              "input": "Text",
+              "output": "Text in another language",
+              "whenToUse": "You need language conversion."
+            }
+          ],
+          "invoiceFiles": [
+            {
+              "name": "northwind-invoice-1042.pdf",
+              "vendor": "Northwind Traders",
+              "type": "Invoice"
+            },
+            {
+              "name": "tailwind-receipt-7781.pdf",
+              "vendor": "Tailwind Traders",
+              "type": "Receipt"
+            },
+            {
+              "name": "fabrikam-contract-draft.pdf",
+              "vendor": "Fabrikam",
+              "type": "Contract"
+            }
+          ],
+          "analyzers": [],
+          "results": [],
+          "exportedResult": false
+        }
+      },
+      "steps": [
+        {
+          "key": "open-content-understanding",
+          "title": "Open Content Understanding",
+          "instruction": "From **Tools**, open **Content Understanding** and review the workload comparison.",
+          "explanation": "Content Understanding is the Foundry Tool for multimodal information extraction. It differs from OCR because it returns structured fields and confidence scores.",
+          "targetId": "cu-actions",
+          "rules": [
+            {
+              "key": "cu-opened",
+              "description": "Content Understanding was opened",
+              "rule": {
+                "type": "visited",
+                "page": "content-understanding"
+              }
+            }
+          ]
+        },
+        {
+          "key": "create-invoice-analyzer",
+          "title": "Create an invoice analyzer",
+          "instruction": "Open **Analyzers**, select **Create analyzer**, name it **invoice-extractor**, choose **Document** and **Prebuilt invoice extraction**, include **Invoice ID**, **Vendor name**, **Invoice date**, **Total amount**, **Purchase order**, and **Department**, then select **Create**.",
+          "explanation": "An analyzer defines the schema and extraction behavior for a content type. A prebuilt invoice analyzer is the right starting point for standard invoice fields.",
+          "targetId": "analyzer-wizard",
+          "rules": [
+            {
+              "key": "analyzer-created",
+              "description": "The invoice extractor analyzer exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "analyzers",
+                "match": {
+                  "name": "invoice-extractor",
+                  "contentType": "Document",
+                  "mode": "Prebuilt invoice extraction",
+                  "status": "Ready"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "analyze-invoice",
+          "title": "Analyze a sample invoice",
+          "instruction": "Select **Analyze**, choose **northwind-invoice-1042.pdf**, and select **Analyze**.",
+          "explanation": "Analysis runs the analyzer on a content item and produces structured fields, confidence scores and evidence for review.",
+          "targetId": "analyze-form",
+          "rules": [
+            {
+              "key": "result-created",
+              "description": "Invoice INV-1042 has an extraction result",
+              "rule": {
+                "type": "arrayContains",
+                "path": "results",
+                "match": {
+                  "invoiceId": "INV-1042",
+                  "file": "northwind-invoice-1042.pdf"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "review-confidence",
+          "title": "Review confidence scores",
+          "instruction": "On the result page, inspect the **Extracted fields**. Notice the low-confidence **Purchase order** value.",
+          "explanation": "Confidence scores help decide when a human should review an extracted value before automation uses it.",
+          "targetId": "review-form",
+          "rules": [
+            {
+              "key": "low-confidence-present",
+              "description": "The purchase order field was flagged low confidence",
+              "rule": {
+                "type": "arrayContains",
+                "path": "results",
+                "match": {
+                  "invoiceId": "INV-1042",
+                  "invoiceId": "INV-1042",
+                  "file": "northwind-invoice-1042.pdf"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "correct-fields",
+          "title": "Correct and add fields",
+          "instruction": "In **Review fields**, set **Purchase order** to **PO-7742**, set **Department** to **Operations**, and select **Save corrections**.",
+          "explanation": "Reviewers can correct low-confidence fields and add business-specific fields before export.",
+          "targetId": "review-form",
+          "rules": [
+            {
+              "key": "fields-reviewed",
+              "description": "The purchase order was corrected and the custom department field was added",
+              "rule": {
+                "type": "arrayContains",
+                "path": "results",
+                "match": {
+                  "invoiceId": "INV-1042",
+                  "fields.purchaseOrder.value": "PO-7742",
+                  "fields.purchaseOrder.confidence": "Corrected",
+                  "fields.department.value": "Operations",
+                  "status": "Reviewed"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "view-export-json",
+          "title": "View and export JSON",
+          "instruction": "Review **Result JSON** and select **Export result**.",
+          "explanation": "Structured JSON is the handoff format for downstream automation, analytics, or human review systems.",
+          "targetId": "result-json",
+          "rules": [
+            {
+              "key": "json-viewed",
+              "description": "The JSON result page was opened",
+              "rule": {
+                "type": "visited",
+                "page": "json-result"
+              }
+            },
+            {
+              "key": "exported",
+              "description": "The reviewed result was exported",
+              "rule": {
+                "type": "equals",
+                "path": "exportedResult",
+                "value": true
+              }
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "reviewed-result-complete",
+          "description": "The final result contains corrected and custom fields",
+          "rule": {
+            "type": "arrayContains",
+            "path": "results",
+            "match": {
+              "invoiceId": "INV-1042",
+              "fields.purchaseOrder.value": "PO-7742",
+              "fields.department.value": "Operations",
+              "status": "Reviewed"
+            }
+          }
+        },
+        {
+          "key": "correct-tool-used",
+          "description": "A document extraction analyzer was used instead of OCR-only or image analysis",
+          "rule": {
+            "type": "arrayContains",
+            "path": "analyzers",
+            "match": {
+              "name": "invoice-extractor",
+              "contentType": "Document",
+              "mode": "Prebuilt invoice extraction"
+            }
+          }
+        }
+      ],
+      "solution": "1. Open **Tools** > **Content Understanding**.\n2. Open **Analyzers** and select **Create analyzer**.\n3. Enter `invoice-extractor`, choose **Document**, choose **Prebuilt invoice extraction**, include **Invoice ID**, **Vendor name**, **Invoice date**, **Total amount**, **Purchase order**, and **Department**, then select **Create**.\n4. Select **Analyze**, choose **northwind-invoice-1042.pdf**, and select **Analyze**.\n5. Review **Extracted fields** and identify the low-confidence **Purchase order** value.\n6. In **Review fields**, set **Purchase order** to `PO-7742`, set **Department** to **Operations**, and select **Save corrections**.\n7. Review **Result JSON** and select **Export result**."
+    }
+  ]
+}

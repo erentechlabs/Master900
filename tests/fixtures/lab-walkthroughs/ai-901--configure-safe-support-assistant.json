@@ -1,0 +1,15 @@
+{
+  "certification": "AI-901",
+  "lab": "configure-safe-support-assistant",
+  "note": "Deploy a chat model, scope the system message, connect only the returns policy and enable safety settings.",
+  "events": [
+    { "type": "navigate", "page": "deployments" },
+    { "type": "submitForm", "componentId": "create-deployment", "values": { "model": "general-chat-mini", "name": "support-chat" } },
+    { "type": "navigate", "page": "assistant" },
+    { "type": "setField", "componentId": "assistant-settings", "fieldId": "system", "value": "You are the Contoso support assistant. Answer questions about returns and refunds using the returns policy only." },
+    { "type": "setField", "componentId": "assistant-settings", "fieldId": "returns-policy", "value": true },
+    { "type": "navigate", "page": "safety" },
+    { "type": "setField", "componentId": "safety-settings", "fieldId": "filter", "value": "medium" },
+    { "type": "setField", "componentId": "safety-settings", "fieldId": "prompt-shield", "value": true }
+  ]
+}

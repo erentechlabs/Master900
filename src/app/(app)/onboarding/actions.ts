@@ -12,8 +12,7 @@ import { buildStudyPlan, defaultTargetDate } from "@/modules/planner/service";
 import { onboardingInputSchema, parseOnboardingFormData } from "@/modules/learning/onboarding";
 
 export async function saveOnboardingAction(formData: FormData): Promise<void> {
-  const user = await authorize("learn:use").catch(() => null);
-  if (!user) redirect("/sign-in?callbackUrl=/onboarding");
+  const user = await authorize("learn:use");
   const parsed = onboardingInputSchema.safeParse(parseOnboardingFormData(formData));
   if (!parsed.success) redirect("/onboarding?error=invalid_input");
   const data = parsed.data;

@@ -1,0 +1,83 @@
+{
+  "certification": "AB-900",
+  "lab": "secure-ai-with-purview-dspm",
+  "note": "Open current Purview DSPM, complete setup, create AI policies, review report, run assessment, and remediate HR-Internal.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "solutions"
+    },
+    {
+      "type": "click",
+      "componentId": "solution-gallery",
+      "itemId": "dspm-current"
+    },
+    {
+      "type": "rowAction",
+      "componentId": "setup-checklist",
+      "rowKey": "audit",
+      "actionId": "complete-task"
+    },
+    {
+      "type": "rowAction",
+      "componentId": "setup-checklist",
+      "rowKey": "browser-extension",
+      "actionId": "complete-task"
+    },
+    {
+      "type": "rowAction",
+      "componentId": "setup-checklist",
+      "rowKey": "onboard-devices",
+      "actionId": "complete-task"
+    },
+    {
+      "type": "navigate",
+      "page": "recommendations"
+    },
+    {
+      "type": "rowAction",
+      "componentId": "recommendations-table",
+      "rowKey": "risky-ai",
+      "actionId": "create-policy"
+    },
+    {
+      "type": "rowAction",
+      "componentId": "recommendations-table",
+      "rowKey": "sensitive-network",
+      "actionId": "create-policy"
+    },
+    {
+      "type": "rowAction",
+      "componentId": "recommendations-table",
+      "rowKey": "copilot-processing",
+      "actionId": "create-policy"
+    },
+    {
+      "type": "navigate",
+      "page": "reports"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "ai-report-table",
+      "rowKey": "sensitive-ai-interactions"
+    },
+    {
+      "type": "click",
+      "componentId": "mark-report-reviewed"
+    },
+    {
+      "type": "navigate",
+      "page": "data-risk-assessments"
+    },
+    {
+      "type": "click",
+      "componentId": "run-oversharing-assessment"
+    },
+    {
+      "type": "rowAction",
+      "componentId": "assessment-results",
+      "rowKey": "HR-Internal",
+      "actionId": "apply-label"
+    }
+  ]
+}

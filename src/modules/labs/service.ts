@@ -12,10 +12,10 @@ import { executeCommand, MAX_COMMAND_LENGTH, replaySandbox, sandboxConfigSchema 
 import { decisionAnswerSchema, decisionConfigSchema, initialDecisionState, submitDecisionStage, type StageFeedback } from "./engine/decision";
 import { evaluateRules, type KeyedRule, type RuleOutcome } from "./engine/rules";
 import { labConfigSchema, type LabTypeValue } from "./engine/schemas";
-import { replayUiSim, uiSimConfigSchema, uiSimEventSchema, type UiSimEvent } from "./engine/ui-simulation";
+import { replayUiSim, uiSimConfigSchema, uiSimEventSchema, UI_SIM_EVENT_TYPES, type UiSimEvent, type UiSimMessage } from "./engine/ui-simulation";
 import { localizedLabHint, projectLabContent, type PublicLabContent } from "./projection";
 
-const MAX_EVENTS = 500;
+const MAX_EVENTS = 800;
 
 export const labModeSchema = z.enum(["GUIDED", "CHALLENGE"]);
 export const labEventInputSchema = z.object({
@@ -39,7 +39,7 @@ export type LabLogEvent = LabSystemEvent | LabEngineEvent;
 export type PublicRuleOutcome = { passed: boolean; feedback?: string | null };
 export type LabStepStatus = { key: string; passed: boolean; outcomes: PublicRuleOutcome[] };
 export type LabActionFeedback =
-  | { kind: "ui"; message?: { tone: "success" | "error"; text: string } | null }
+  | { kind: "ui"; message?: UiSimMessage }
   | { kind: "command"; output: string; isError: boolean; explanation?: string; hint?: string; clear?: boolean }
   | { kind: "architecture"; outcomes: PublicRuleOutcome[] }
   | { kind: "decision"; feedback: StageFeedback };
@@ -121,7 +121,7 @@ function replayLabState(lab: LabWithDetails, events: LabLogEvent[]): unknown {
   const type = lab.type as LabTypeValue;
   switch (lab.type) {
     case "UI_SIMULATION":
-      return replayUiSim(uiSimConfigSchema.parse(lab.config), engineEvents(events, (e): e is UiSimEvent => ["navigate", "click", "setField", "submitForm"].includes(e.type)));
+      return replayUiSim(uiSimConfigSchema.parse(lab.config), engineEvents(events, (e): e is UiSimEvent => (UI_SIM_EVENT_TYPES as readonly string[]).includes(e.type)));
     case "COMMAND_SANDBOX":
       return replaySandbox(
         sandboxConfigSchema.parse(lab.config),
@@ -148,9 +148,13 @@ function evaluateAttempt(lab: LabWithDetails, state: unknown): { stepStatus: Pri
     return { key: step.key, passed: outcomes.length === 0 ? false : outcomes.every((o) => o.passed), outcomes };
   });
   const finalOutcomes = evaluateRules(keyedRules(lab.rules), state);
-  const outcomes = [...privateStepStatus.flatMap((s) => s.outcomes), ...finalOutcomes];
+  const stepsPassed = privateStepStatus.every((s) => s.passed);
+  // Final rules ("no excessive permissions", ...) often hold before the learner starts; they only earn score once
+  // every step is done.
+  const scoredFinal = stepsPassed ? finalOutcomes : finalOutcomes.map((o) => ({ ...o, passed: false }));
+  const outcomes = [...privateStepStatus.flatMap((s) => s.outcomes), ...scoredFinal];
   const requiredGroups = privateStepStatus.length + (finalOutcomes.length ? 1 : 0);
-  const allPassed = requiredGroups > 0 && privateStepStatus.every((s) => s.passed) && finalOutcomes.every((o) => o.passed);
+  const allPassed = requiredGroups > 0 && stepsPassed && finalOutcomes.every((o) => o.passed);
   const score = outcomes.length ? Math.round((outcomes.filter((o) => o.passed).length / outcomes.length) * 100) : allPassed ? 100 : 0;
   return { stepStatus: privateStepStatus, finalOutcomes, allPassed, score };
 }
@@ -294,7 +298,7 @@ export async function applyLabEvent(user: CurrentUser, attemptId: string, eventI
   const nextEvents = [...events, event];
   let state = replayLabState(attempt.lab, nextEvents);
   const evaluation = evaluateAttempt(attempt.lab, state);
-  if (attempt.lab.type === "UI_SIMULATION") feedback = { kind: "ui", message: (state as { __meta?: { message?: { tone: "success" | "error"; text: string } | null } }).__meta?.message ?? null };
+  if (attempt.lab.type === "UI_SIMULATION") feedback = { kind: "ui", message: (state as { __meta?: { message?: UiSimMessage } }).__meta?.message ?? null };
   if (attempt.lab.type === "ARCHITECTURE") feedback = { kind: "architecture", outcomes: publicOutcomes([...evaluation.stepStatus.flatMap((s) => s.outcomes), ...evaluation.finalOutcomes]) };
 
   await prisma.labAttempt.update({

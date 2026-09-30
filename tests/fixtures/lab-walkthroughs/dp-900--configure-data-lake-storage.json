@@ -1,0 +1,20 @@
+{
+  "certification": "DP-900",
+  "lab": "configure-data-lake-storage",
+  "note": "Create ADLS Gen2 storage, containers, uploads, ACL, and lifecycle rule.",
+  "events": [
+    { "type": "navigate", "page": "storage-accounts" },
+    { "type": "click", "componentId": "storage-create-button" },
+    { "type": "submitForm", "componentId": "storage-wizard", "values": { "subscription": "Contoso Learning (simulated)", "resourceGroup": "rg-data-platform", "accountName": "stcontosodatalake01", "region": "westeurope", "performance": "Standard", "redundancy": "Locally-redundant storage (LRS)", "hierarchicalNamespace": true, "anonymousAccess": false, "defaultAccessTier": "Hot", "versioning": true, "deleteRetention": true, "tagWorkload": "analytics", "tagOwner": "data-platform" } },
+    { "type": "click", "componentId": "go-to-storage" },
+    { "type": "navigate", "page": "containers" },
+    { "type": "submitForm", "componentId": "container-form", "values": { "name": "raw", "publicAccess": "Private (no anonymous access)" } },
+    { "type": "submitForm", "componentId": "container-form", "values": { "name": "curated", "publicAccess": "Private (no anonymous access)" } },
+    { "type": "navigate", "page": "storage-browser" },
+    { "type": "submitForm", "componentId": "upload-form", "values": { "container": "raw", "directory": "sales/2026/09", "csvFormat": "Structured CSV", "jsonFormat": "Semi-structured JSON", "zipFormat": "Unstructured binary", "analyticsFormat": "Parquet" } },
+    { "type": "navigate", "page": "curated-acl" },
+    { "type": "submitForm", "componentId": "acl-form", "values": { "container": "curated", "directory": "/", "principal": "Analysts", "permissions": ["Read", "Execute"] } },
+    { "type": "navigate", "page": "lifecycle" },
+    { "type": "submitForm", "componentId": "lifecycle-form", "values": { "ruleName": "move-raw-to-cool", "scope": "Limit blobs with filters", "prefix": "raw/sales/", "coolAfterDays": 30, "archiveAfterDays": 180 } }
+  ]
+}

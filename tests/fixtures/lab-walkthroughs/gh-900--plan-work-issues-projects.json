@@ -1,0 +1,158 @@
+{
+  "certification": "GH-900",
+  "lab": "plan-work-issues-projects",
+  "note": "Create milestone, issues, project, priority view, and PR closing keyword.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "issues"
+    },
+    {
+      "type": "click",
+      "componentId": "milestones"
+    },
+    {
+      "type": "click",
+      "componentId": "new-milestone"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "milestone-form",
+      "values": {
+        "title": "v1.2",
+        "dueDate": "2026-10-30",
+        "description": "Release scope for inventory-api v1.2 planning and tracking."
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "new-issue"
+    },
+    {
+      "type": "click",
+      "componentId": "issue-template-tiles",
+      "itemId": "bug"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "bug-form",
+      "values": {
+        "title": "CSV import fails on empty quantity",
+        "body": "Expected behavior, actual behavior, and steps to reproduce for a CSV import failure with an empty quantity cell in an uploaded inventory file.",
+        "assignee": "alex-contoso",
+        "labels": [
+          "bug",
+          "good first issue"
+        ],
+        "milestone": "v1.2"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "new-issue"
+    },
+    {
+      "type": "click",
+      "componentId": "issue-template-tiles",
+      "itemId": "feature"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "feature-form",
+      "values": {
+        "title": "Notify warehouse team when stock is low",
+        "body": "Problem, proposal, and success criteria for notifying the warehouse team when inventory drops below a threshold for a product.",
+        "assignee": "sam-contoso",
+        "labels": [
+          "enhancement"
+        ],
+        "milestone": "v1.2"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "projects"
+    },
+    {
+      "type": "click",
+      "componentId": "new-project"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "project-form",
+      "values": {
+        "template": "Board",
+        "name": "Inventory API roadmap"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "new-field"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "field-form",
+      "values": {
+        "name": "Priority",
+        "type": "Single select",
+        "options": "High\nMedium\nLow"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "add-item"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "add-item-form",
+      "values": {
+        "issueNumber": "21",
+        "status": "In Progress",
+        "priority": "High"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "add-item"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "add-item-form",
+      "values": {
+        "issueNumber": "22",
+        "status": "Todo",
+        "priority": "Medium"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "new-view"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "view-form",
+      "values": {
+        "name": "v1.2 by priority",
+        "layout": "Table",
+        "groupBy": "Priority",
+        "filter": "milestone:v1.2"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "prs"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "pr-list",
+      "rowKey": "14"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "pr-form",
+      "values": {
+        "description": "Adds validation for CSV import rows and clearer errors.\n\nCloses #21"
+      }
+    }
+  ]
+}

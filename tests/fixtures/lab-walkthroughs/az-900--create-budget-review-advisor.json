@@ -1,0 +1,49 @@
+{
+ "certification": "AZ-900",
+ "lab": "create-budget-review-advisor",
+ "note": "Review Cost Management, create a budget, then resolve Advisor cost recommendation.",
+ "events": [
+  {
+   "type": "navigate",
+   "page": "cost-analysis"
+  },
+  {
+   "type": "navigate",
+   "page": "budgets"
+  },
+  {
+   "type": "click",
+   "componentId": "budget-add"
+  },
+  {
+   "type": "submitForm",
+   "componentId": "budget-wizard",
+   "values": {
+    "scope": "Subscription: Contoso Learning (simulated)",
+    "name": "budget-platform-monthly",
+    "resetPeriod": "Monthly",
+    "creationDate": "2026-10-01",
+    "expirationDate": "2027-09-30",
+    "amount": 5000,
+    "actualThreshold": 80,
+    "forecastedThreshold": 100,
+    "recipients": "finance@contoso.example"
+   }
+  },
+  {
+   "type": "navigate",
+   "page": "advisor-overview"
+  },
+  {
+   "type": "click",
+   "componentId": "advisor-categories",
+   "itemId": "advisor-cost"
+  },
+  {
+   "type": "rowAction",
+   "componentId": "advisor-cost-list",
+   "rowKey": "cost-vm-test-03",
+   "actionId": "shut-down"
+  }
+ ]
+}

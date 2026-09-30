@@ -2,7 +2,7 @@ import type { DeepPartial } from "../translator";
 import type { Messages } from "./en";
 import { common } from "./tr/common";
 import { nav, legal, errors } from "./tr/core";
-import { auth, landing, catalog, enums } from "./tr/public";
+import { landing, catalog, enums } from "./tr/public";
 import { learner } from "./tr/learner";
 import { assessment } from "./tr/assessment";
 import { labs } from "./tr/labs";
@@ -19,7 +19,6 @@ export const tr: DeepPartial<Messages> = {
   nav,
   legal,
   errors,
-  auth,
   landing,
   catalog,
   enums,

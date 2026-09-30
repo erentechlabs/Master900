@@ -1,0 +1,1247 @@
+{
+  "labs": [
+    {
+      "slug": "create-storage-account-blob",
+      "type": "UI_SIMULATION",
+      "title": "Create a storage account and upload private invoice blobs",
+      "summary": "Create a secure read-access geo-redundant storage account, create a private blob container, upload an invoice PDF, and move it to a cooler tier.",
+      "scenario": "Northwind Traders stores monthly invoices in Azure Blob Storage. Create a storage account in **rg-data-prod** with a globally unique lowercase name. The account must survive a regional outage with read access to the secondary region, require secure transfer, disallow anonymous blob access, require **TLS 1.2**, and enable soft delete for blobs and containers. Then create a private **invoices** container, upload **invoice-2026-09.pdf** from the lab VM Documents list, and change the uploaded blob to **Cool** or **Archive**. Archive requires rehydration before reads.",
+      "domainKey": "azure-architecture-services",
+      "moduleSlug": "azure-storage-services",
+      "objectiveCode": "2.3",
+      "complexity": "INTERMEDIATE",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Create a secure storage account",
+        "Choose redundancy for read access to a secondary region",
+        "Create a private blob container",
+        "Upload a blob and change its access tier"
+      ],
+      "prerequisites": [
+        "Know what storage accounts, blob containers, and redundancy are"
+      ],
+      "sources": [
+        {
+          "title": "Create an Azure Storage Account",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create"
+        },
+        {
+          "title": "Quickstart: Upload, download, and list blobs - Azure portal",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal"
+        },
+        {
+          "title": "Data redundancy - Azure Storage",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy"
+        },
+        {
+          "title": "Access tiers for blob data",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Azure",
+          "theme": "azure",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://portal.azure.com",
+          "searchPlaceholder": "Search resources, services, and docs (G+/)"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "storage-accounts",
+            "label": "Storage accounts",
+            "icon": "Database",
+            "section": "Favorites"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/#home",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "services",
+                "title": "Azure services",
+                "size": "sm",
+                "items": [
+                  {
+                    "id": "storage-accounts",
+                    "label": "Storage accounts",
+                    "icon": "Database",
+                    "action": {
+                      "type": "navigate",
+                      "page": "storage-accounts"
+                    }
+                  },
+                  {
+                    "id": "resource-groups",
+                    "label": "Resource groups",
+                    "icon": "Boxes",
+                    "action": {
+                      "type": "message",
+                      "text": "Use rg-data-prod for this lab."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "storage-accounts",
+            "title": "Storage accounts",
+            "icon": "Database",
+            "url": "/#browse/Microsoft.Storage%2FStorageAccounts",
+            "commands": [
+              {
+                "id": "storage-create",
+                "label": "Create",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "storage-create"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "storage-list",
+                "source": "storageAccounts",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "resourceGroup",
+                    "label": "Resource group"
+                  },
+                  {
+                    "key": "redundancy",
+                    "label": "Redundancy"
+                  },
+                  {
+                    "key": "anonymousBlobAccess",
+                    "label": "Anonymous access",
+                    "format": "bool"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "storage-overview",
+                  "select": {
+                    "as": "storage",
+                    "path": "storageAccounts",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "storage-create",
+            "title": "Create a storage account",
+            "icon": "Database",
+            "url": "/#create/Microsoft.StorageAccount-ARM",
+            "navItem": "storage-accounts",
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "storage-wizard",
+                "description": "Storage account names must be globally unique, 3-24 characters, and use lowercase letters and numbers.",
+                "reviewLabel": "Review + create",
+                "tabs": [
+                  {
+                    "id": "basics",
+                    "label": "Basics",
+                    "fields": [
+                      {
+                        "id": "subscription",
+                        "label": "Subscription",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Contoso Learning (simulated)",
+                        "options": [
+                          {
+                            "value": "Contoso Learning (simulated)",
+                            "label": "Contoso Learning (simulated)"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "resourceGroup",
+                        "label": "Resource group",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "rg-data-prod",
+                        "optionsFrom": {
+                          "path": "resourceGroups",
+                          "value": "name"
+                        }
+                      },
+                      {
+                        "id": "name",
+                        "label": "Storage account name",
+                        "control": "text",
+                        "required": true,
+                        "defaultValue": "northwindinv2026",
+                        "pattern": "^[a-z0-9]{3,24}$",
+                        "patternMessage": "Use 3-24 lowercase letters and numbers only.",
+                        "unique": {
+                          "path": "storageAccounts",
+                          "key": "name",
+                          "message": "This storage account name is already taken. Choose a globally unique name."
+                        }
+                      },
+                      {
+                        "id": "region",
+                        "label": "Region",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "westeurope",
+                        "optionsFrom": {
+                          "path": "regions",
+                          "value": "name",
+                          "label": "displayName"
+                        }
+                      },
+                      {
+                        "id": "primaryService",
+                        "label": "Primary service",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Azure Blob Storage",
+                        "options": [
+                          {
+                            "value": "Azure Blob Storage",
+                            "label": "Azure Blob Storage"
+                          },
+                          {
+                            "value": "Azure Files",
+                            "label": "Azure Files"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "performance",
+                        "label": "Performance",
+                        "control": "radio",
+                        "required": true,
+                        "defaultValue": "Standard",
+                        "options": [
+                          {
+                            "value": "Standard",
+                            "label": "Standard"
+                          },
+                          {
+                            "value": "Premium",
+                            "label": "Premium"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "redundancy",
+                        "label": "Redundancy",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "GRS",
+                        "options": [
+                          {
+                            "value": "LRS",
+                            "label": "Locally-redundant storage (LRS)"
+                          },
+                          {
+                            "value": "ZRS",
+                            "label": "Zone-redundant storage (ZRS)"
+                          },
+                          {
+                            "value": "GRS",
+                            "label": "Geo-redundant storage (GRS)"
+                          },
+                          {
+                            "value": "RA-GRS",
+                            "label": "Read-access geo-redundant storage (RA-GRS)"
+                          },
+                          {
+                            "value": "GZRS",
+                            "label": "Geo-zone-redundant storage (GZRS)"
+                          },
+                          {
+                            "value": "RA-GZRS",
+                            "label": "Read-access geo-zone-redundant storage (RA-GZRS)"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "advanced",
+                    "label": "Advanced",
+                    "fields": [
+                      {
+                        "id": "secureTransfer",
+                        "label": "Require secure transfer for REST API operations",
+                        "control": "toggle",
+                        "defaultValue": true,
+                        "required": true
+                      },
+                      {
+                        "id": "anonymousBlobAccess",
+                        "label": "Allow enabling anonymous access on individual containers",
+                        "control": "toggle",
+                        "defaultValue": true
+                      },
+                      {
+                        "id": "minimumTls",
+                        "label": "Minimum TLS version",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "TLS 1.2",
+                        "options": [
+                          {
+                            "value": "TLS 1.0",
+                            "label": "TLS 1.0"
+                          },
+                          {
+                            "value": "TLS 1.1",
+                            "label": "TLS 1.1"
+                          },
+                          {
+                            "value": "TLS 1.2",
+                            "label": "TLS 1.2"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "accessTier",
+                        "label": "Default access tier",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Hot",
+                        "options": [
+                          {
+                            "value": "Hot",
+                            "label": "Hot"
+                          },
+                          {
+                            "value": "Cool",
+                            "label": "Cool"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "networking",
+                    "label": "Networking",
+                    "fields": [
+                      {
+                        "id": "networkAccess",
+                        "label": "Public network access",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Enabled from all networks",
+                        "options": [
+                          {
+                            "value": "Enabled from all networks",
+                            "label": "Enabled from all networks"
+                          },
+                          {
+                            "value": "Enabled from selected virtual networks and IP addresses",
+                            "label": "Enabled from selected virtual networks and IP addresses"
+                          },
+                          {
+                            "value": "Disabled",
+                            "label": "Disabled"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "data-protection",
+                    "label": "Data protection",
+                    "fields": [
+                      {
+                        "id": "blobSoftDelete",
+                        "label": "Enable soft delete for blobs",
+                        "control": "toggle",
+                        "defaultValue": true,
+                        "required": true
+                      },
+                      {
+                        "id": "containerSoftDelete",
+                        "label": "Enable soft delete for containers",
+                        "control": "toggle",
+                        "defaultValue": true,
+                        "required": true
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.primaryService",
+                        "value": "Azure Blob Storage"
+                      },
+                      "message": "The invoice workload uses Blob Storage."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.performance",
+                        "value": "Standard"
+                      },
+                      "message": "Use Standard for general-purpose blob storage."
+                    },
+                    {
+                      "rule": {
+                        "type": "oneOf",
+                        "path": "$form.redundancy",
+                        "values": [
+                          "RA-GRS",
+                          "RA-GZRS"
+                        ]
+                      },
+                      "message": "Choose RA-GRS or RA-GZRS for read access to a secondary region during an outage."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.secureTransfer",
+                        "value": true
+                      },
+                      "message": "Require secure transfer."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.anonymousBlobAccess",
+                        "value": false
+                      },
+                      "message": "Disallow anonymous blob access for private invoices."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.minimumTls",
+                        "value": "TLS 1.2"
+                      },
+                      "message": "Use minimum TLS 1.2."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.blobSoftDelete",
+                        "value": true
+                      },
+                      "message": "Enable soft delete for blobs."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.containerSoftDelete",
+                        "value": true
+                      },
+                      "message": "Enable soft delete for containers."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "storageAccounts",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "resourceGroup": "{{$form.resourceGroup}}",
+                        "location": "{{$form.region}}",
+                        "primaryService": "{{$form.primaryService}}",
+                        "performance": "{{$form.performance}}",
+                        "redundancy": "{{$form.redundancy}}",
+                        "secureTransfer": "{{$form.secureTransfer}}",
+                        "anonymousBlobAccess": "{{$form.anonymousBlobAccess}}",
+                        "minimumTls": "{{$form.minimumTls}}",
+                        "defaultAccessTier": "{{$form.accessTier}}",
+                        "networkAccess": "{{$form.networkAccess}}",
+                        "blobSoftDelete": "{{$form.blobSoftDelete}}",
+                        "containerSoftDelete": "{{$form.containerSoftDelete}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Deployment succeeded"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "storage-overview",
+                      "select": {
+                        "as": "storage",
+                        "path": "storageAccounts",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "storage-overview",
+            "title": "{{$sel.storage.name}}",
+            "subtitle": "Storage account",
+            "icon": "Database",
+            "requires": "storage",
+            "navItem": "storage-accounts",
+            "breadcrumb": [
+              "Home",
+              "Storage accounts"
+            ],
+            "menu": [
+              {
+                "page": "storage-overview",
+                "label": "Overview",
+                "icon": "Database"
+              },
+              {
+                "page": "containers",
+                "label": "Containers",
+                "icon": "Container",
+                "section": "Data storage"
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Essentials",
+                "items": [
+                  {
+                    "label": "Resource group",
+                    "value": "{{$sel.storage.resourceGroup}}"
+                  },
+                  {
+                    "label": "Redundancy",
+                    "value": "{{$sel.storage.redundancy}}"
+                  },
+                  {
+                    "label": "Secure transfer required",
+                    "value": "{{$sel.storage.secureTransfer}}",
+                    "format": "bool"
+                  },
+                  {
+                    "label": "Allow blob anonymous access",
+                    "value": "{{$sel.storage.anonymousBlobAccess}}",
+                    "format": "bool"
+                  },
+                  {
+                    "label": "Minimum TLS version",
+                    "value": "{{$sel.storage.minimumTls}}"
+                  }
+                ]
+              },
+              {
+                "kind": "callout",
+                "variant": "success",
+                "title": "Read-access redundancy",
+                "text": "RA-GRS and RA-GZRS are the read-access geo-redundant choices in this simulation."
+              }
+            ]
+          },
+          {
+            "id": "containers",
+            "title": "{{$sel.storage.name}} | Containers",
+            "icon": "Container",
+            "requires": "storage",
+            "navItem": "storage-accounts",
+            "breadcrumb": [
+              "Home",
+              "Storage accounts",
+              "{{$sel.storage.name}}"
+            ],
+            "menu": [
+              {
+                "page": "storage-overview",
+                "label": "Overview",
+                "icon": "Database"
+              },
+              {
+                "page": "containers",
+                "label": "Containers",
+                "icon": "Container",
+                "section": "Data storage"
+              }
+            ],
+            "commands": [
+              {
+                "id": "new-container",
+                "label": "+ Container",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "container-create"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "container-list",
+                "source": "containers",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "publicAccess",
+                    "label": "Anonymous access level"
+                  },
+                  {
+                    "key": "blobCount",
+                    "label": "Blobs",
+                    "format": "count"
+                  }
+                ],
+                "where": {
+                  "account": "{{$sel.storage.name}}"
+                },
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "container-detail",
+                  "select": {
+                    "as": "container",
+                    "path": "containers",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "container-create",
+            "title": "New container",
+            "icon": "Container",
+            "requires": "storage",
+            "navItem": "storage-accounts",
+            "components": [
+              {
+                "kind": "form",
+                "id": "container-form",
+                "title": "New container",
+                "fields": [
+                  {
+                    "id": "name",
+                    "label": "Name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "invoices",
+                    "pattern": "^[a-z0-9](?:[a-z0-9-]{1,61}[a-z0-9])$",
+                    "patternMessage": "Use a valid lowercase container name."
+                  },
+                  {
+                    "id": "publicAccess",
+                    "label": "Anonymous access level",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Private (no anonymous access)",
+                    "options": [
+                      {
+                        "value": "Private (no anonymous access)",
+                        "label": "Private (no anonymous access)"
+                      },
+                      {
+                        "value": "Blob (anonymous read access for blobs only)",
+                        "label": "Blob (anonymous read access for blobs only)"
+                      },
+                      {
+                        "value": "Container (anonymous read access for containers and blobs)",
+                        "label": "Container (anonymous read access for containers and blobs)"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.name",
+                        "value": "invoices"
+                      },
+                      "message": "Create the invoices container."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.publicAccess",
+                        "value": "Private (no anonymous access)"
+                      },
+                      "message": "Invoices must stay private."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "containers",
+                      "unique": "name",
+                      "value": {
+                        "account": "{{$sel.storage.name}}",
+                        "name": "{{$form.name}}",
+                        "publicAccess": "{{$form.publicAccess}}",
+                        "blobCount": 0
+                      }
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "container-detail",
+                      "select": {
+                        "as": "container",
+                        "path": "containers",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "container-detail",
+            "title": "{{$sel.container.name}}",
+            "subtitle": "Container",
+            "icon": "Container",
+            "requires": "container",
+            "navItem": "storage-accounts",
+            "commands": [
+              {
+                "id": "upload-blob",
+                "label": "Upload",
+                "icon": "Upload",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "blob-upload"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "items": [
+                  {
+                    "label": "Anonymous access level",
+                    "value": "{{$sel.container.publicAccess}}"
+                  },
+                  {
+                    "label": "Storage account",
+                    "value": "{{$sel.container.account}}"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "blob-list",
+                "source": "blobs",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "contentType",
+                    "label": "Content type"
+                  },
+                  {
+                    "key": "accessTier",
+                    "label": "Access tier",
+                    "format": "badge"
+                  }
+                ],
+                "where": {
+                  "account": "{{$sel.container.account}}",
+                  "container": "{{$sel.container.name}}"
+                },
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "blob-tier",
+                  "select": {
+                    "as": "blob",
+                    "path": "blobs",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "blob-upload",
+            "title": "Upload blob",
+            "icon": "Upload",
+            "requires": "container",
+            "navItem": "storage-accounts",
+            "components": [
+              {
+                "kind": "form",
+                "id": "upload-form",
+                "title": "Upload blob",
+                "description": "Choose a file from LAB-VM-01 Documents.",
+                "fields": [
+                  {
+                    "id": "file",
+                    "label": "Files",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "invoice-2026-09.pdf",
+                    "optionsFrom": {
+                      "path": "documents",
+                      "value": "name"
+                    }
+                  },
+                  {
+                    "id": "blobType",
+                    "label": "Blob type",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Block blob",
+                    "options": [
+                      {
+                        "value": "Block blob",
+                        "label": "Block blob"
+                      },
+                      {
+                        "value": "Append blob",
+                        "label": "Append blob"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "accessTier",
+                    "label": "Access tier",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Hot",
+                    "options": [
+                      {
+                        "value": "Hot",
+                        "label": "Hot"
+                      },
+                      {
+                        "value": "Cool",
+                        "label": "Cool"
+                      },
+                      {
+                        "value": "Archive",
+                        "label": "Archive"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Upload",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.file",
+                        "value": "invoice-2026-09.pdf"
+                      },
+                      "message": "Upload invoice-2026-09.pdf."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.blobType",
+                        "value": "Block blob"
+                      },
+                      "message": "Use Block blob for the PDF."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "blobs",
+                      "unique": "name",
+                      "value": {
+                        "account": "{{$sel.container.account}}",
+                        "container": "{{$sel.container.name}}",
+                        "name": "{{$form.file}}",
+                        "contentType": "application/pdf",
+                        "accessTier": "{{$form.accessTier}}",
+                        "uploadedAt": "{{$now}}"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "containers",
+                      "where": {
+                        "name": "{{$sel.container.name}}"
+                      },
+                      "set": {
+                        "blobCount": 1
+                      }
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "container-detail"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "blob-tier",
+            "title": "{{$sel.blob.name}} | Change access tier",
+            "icon": "Archive",
+            "requires": "blob",
+            "navItem": "storage-accounts",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Access tier",
+                "text": "Cool is for less frequent reads. Archive may require rehydration before the blob is readable."
+              },
+              {
+                "kind": "form",
+                "id": "tier-form",
+                "title": "Change access tier",
+                "fields": [
+                  {
+                    "id": "accessTier",
+                    "label": "Access tier",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Cool",
+                    "options": [
+                      {
+                        "value": "Hot",
+                        "label": "Hot"
+                      },
+                      {
+                        "value": "Cool",
+                        "label": "Cool"
+                      },
+                      {
+                        "value": "Archive",
+                        "label": "Archive"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "oneOf",
+                        "path": "$form.accessTier",
+                        "values": [
+                          "Cool",
+                          "Archive"
+                        ]
+                      },
+                      "message": "Move old invoice blobs to Cool or Archive."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "blobs",
+                      "where": {
+                        "name": "{{$sel.blob.name}}"
+                      },
+                      "set": {
+                        "accessTier": "{{$form.accessTier}}"
+                      }
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "container-detail"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "subscription": {
+            "name": "Contoso Learning (simulated)",
+            "id": "00000000-0000-4000-8000-000000000900"
+          },
+          "regions": [
+            {
+              "name": "westeurope",
+              "displayName": "(Europe) West Europe"
+            },
+            {
+              "name": "northeurope",
+              "displayName": "(Europe) North Europe"
+            }
+          ],
+          "resourceGroups": [
+            {
+              "name": "rg-data-prod",
+              "location": "westeurope"
+            },
+            {
+              "name": "rg-shared-services",
+              "location": "northeurope"
+            }
+          ],
+          "storageAccounts": [
+            {
+              "name": "northwindstorage",
+              "resourceGroup": "rg-data-prod",
+              "location": "westeurope",
+              "redundancy": "LRS",
+              "secureTransfer": true,
+              "anonymousBlobAccess": false,
+              "minimumTls": "TLS 1.2"
+            },
+            {
+              "name": "tailwindlogs",
+              "resourceGroup": "rg-shared-services",
+              "location": "northeurope",
+              "redundancy": "ZRS",
+              "secureTransfer": true,
+              "anonymousBlobAccess": false,
+              "minimumTls": "TLS 1.2"
+            },
+            {
+              "name": "contosodata",
+              "resourceGroup": "rg-shared-services",
+              "location": "westeurope",
+              "redundancy": "GRS",
+              "secureTransfer": true,
+              "anonymousBlobAccess": false,
+              "minimumTls": "TLS 1.2"
+            }
+          ],
+          "containers": [],
+          "blobs": [],
+          "documents": [
+            {
+              "name": "invoice-2026-09.pdf"
+            },
+            {
+              "name": "invoice-2026-08.pdf"
+            },
+            {
+              "name": "shipping-notes.txt"
+            },
+            {
+              "name": "northwind-logo.png"
+            }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "key": "open-create",
+          "title": "Open the storage account wizard",
+          "instruction": "Select **Storage accounts**, then **Create**.",
+          "explanation": "The wizard contains Basics, Advanced, Networking, Data protection, and Review + create.",
+          "targetId": "storage-create",
+          "rules": [
+            {
+              "key": "visited",
+              "description": "Create storage account is open",
+              "rule": {
+                "type": "visited",
+                "page": "storage-create"
+              }
+            }
+          ]
+        },
+        {
+          "key": "create-account",
+          "title": "Create a secure read-access geo-redundant account",
+          "instruction": "Use **rg-data-prod**, storage account name `northwindinv2026`, **(Europe) West Europe**, **Primary service** **Azure Blob Storage**, **Performance** **Standard**, and **Redundancy** **Read-access geo-redundant storage (RA-GRS)** or **Read-access geo-zone-redundant storage (RA-GZRS)**. On **Advanced**, require secure transfer, turn off anonymous blob access, and set **Minimum TLS version** **TLS 1.2**. On **Data protection**, enable soft delete for blobs and containers, then **Review + create** and **Create**.",
+          "explanation": "Read-access geo-redundant options meet the outage-read requirement.",
+          "targetId": "storage-wizard",
+          "rules": [
+            {
+              "key": "account",
+              "description": "The account has the required secure settings",
+              "rule": {
+                "type": "arrayContains",
+                "path": "storageAccounts",
+                "match": {
+                  "name": "northwindinv2026",
+                  "resourceGroup": "rg-data-prod",
+                  "redundancy": "RA-GRS",
+                  "secureTransfer": true,
+                  "anonymousBlobAccess": false,
+                  "minimumTls": "TLS 1.2",
+                  "blobSoftDelete": true,
+                  "containerSoftDelete": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "container",
+          "title": "Create the private invoices container",
+          "instruction": "Open **Data storage > Containers**, select **+ Container**, set **Name** `invoices`, set **Anonymous access level** **Private (no anonymous access)**, and select **Create**.",
+          "explanation": "Private containers prevent unauthenticated reads of invoice blobs.",
+          "targetId": "new-container",
+          "rules": [
+            {
+              "key": "private",
+              "description": "invoices is private",
+              "rule": {
+                "type": "arrayContains",
+                "path": "containers",
+                "match": {
+                  "account": "northwindinv2026",
+                  "name": "invoices",
+                  "publicAccess": "Private (no anonymous access)"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "upload",
+          "title": "Upload the invoice",
+          "instruction": "In **invoices**, select **Upload**, choose **invoice-2026-09.pdf**, keep **Blob type** **Block blob**, and select **Upload**.",
+          "explanation": "Block blobs are appropriate for documents such as PDFs.",
+          "targetId": "upload-blob",
+          "rules": [
+            {
+              "key": "blob",
+              "description": "invoice-2026-09.pdf is uploaded",
+              "rule": {
+                "type": "arrayContains",
+                "path": "blobs",
+                "match": {
+                  "account": "northwindinv2026",
+                  "container": "invoices",
+                  "name": "invoice-2026-09.pdf",
+                  "contentType": "application/pdf"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "tier",
+          "title": "Change the blob access tier",
+          "instruction": "Select **invoice-2026-09.pdf**, choose **Cool** or **Archive** in **Change access tier**, and select **Save**.",
+          "explanation": "Archive has rehydration latency; Cool is easier to retrieve.",
+          "targetId": "tier-form",
+          "rules": [
+            {
+              "key": "cool",
+              "description": "The invoice is in Cool or Archive",
+              "rule": {
+                "type": "anyOf",
+                "rules": [
+                  {
+                    "type": "arrayContains",
+                    "path": "blobs",
+                    "match": {
+                      "name": "invoice-2026-09.pdf",
+                      "accessTier": "Cool"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "blobs",
+                    "match": {
+                      "name": "invoice-2026-09.pdf",
+                      "accessTier": "Archive"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "private-secure",
+          "description": "Anonymous access is disabled and the container is private",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayContains",
+                "path": "storageAccounts",
+                "match": {
+                  "name": "northwindinv2026",
+                  "anonymousBlobAccess": false,
+                  "secureTransfer": true,
+                  "minimumTls": "TLS 1.2"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "containers",
+                "match": {
+                  "name": "invoices",
+                  "publicAccess": "Private (no anonymous access)"
+                }
+              }
+            ]
+          },
+          "failureFeedback": "Keep anonymous access disabled and the container private."
+        },
+        {
+          "key": "redundancy",
+          "description": "Redundancy satisfies read access to secondary region",
+          "rule": {
+            "type": "arrayContains",
+            "path": "storageAccounts",
+            "match": {
+              "name": "northwindinv2026",
+              "redundancy": "RA-GRS"
+            }
+          },
+          "failureFeedback": "Choose RA-GRS or RA-GZRS."
+        }
+      ],
+      "solution": "1. Select **Storage accounts** > **Create**.\n2. In **Basics**, use **rg-data-prod**, name `northwindinv2026`, **Azure Blob Storage**, **Standard**, and **Read-access geo-redundant storage (RA-GRS)**.\n3. In **Advanced**, require secure transfer, turn off anonymous blob access, and set **Minimum TLS version** to **TLS 1.2**.\n4. In **Data protection**, enable soft delete for blobs and containers, then **Review + create** > **Create**.\n5. Open **Containers** > **+ Container**, create `invoices`, and keep **Private (no anonymous access)**.\n6. Open `invoices`, select **Upload**, choose `invoice-2026-09.pdf`, keep **Block blob**, and **Upload**.\n7. Select the blob, change **Access tier** to **Cool** or **Archive**, then **Save**."
+    }
+  ]
+}

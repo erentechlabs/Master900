@@ -16,7 +16,7 @@ Related documents: [SECURITY.md](SECURITY.md), [CONTENT_FORMAT.md](CONTENT_FORMA
 
 | Principle | How it is enforced |
 | --- | --- |
-| **Independence & honesty** | Global footer disclaimer and trademark notice; sign-up consent; certificates are labelled "course completion record, not a Microsoft certification". |
+| **Independence & honesty** | Global footer disclaimer and trademark notice; certificates are labelled "course completion record, not a Microsoft certification". |
 | **Original content only** | Content brief + review workflow; question bank carries author type (`HUMAN`, `AI_ASSISTED`, `AI_GENERATED`, `SEED_DEMO`, `IMPORTED`); AI drafts always enter as `DRAFT` and need human review. |
 | **Current, data-driven catalog** | Certifications, domains, weights, objectives, sources and relations live in the database (`catalog.json` seed + admin CMS). Status (`ACTIVE`, `ANNOUNCED`, `RETIRING`, `RETIRED`) and replacement relations (e.g. AI-900 → AI-901) drive UI banners. Curriculum changes create `CurriculumAlert`s and mark affected content `OUTDATED`. |
 | **No pass guarantees** | Readiness is an explicit *estimate* with a disclaimer everywhere it is shown; practice target is an internal goal, not an official passing score; the tutor output filter removes guarantee/“real exam” claims. |
@@ -35,9 +35,12 @@ Related documents: [SECURITY.md](SECURITY.md), [CONTENT_FORMAT.md](CONTENT_FORMA
   diagnostic; practice modes: quick, domain, full timed exam, adaptive, daily challenge, mistake review
   (with explain-first); immediate-feedback vs exam mode; mark for review; final review screen; timer with accessible
   announcements; exam-style restrictions; results with domain breakdown, review, similar questions, review queue.
-* **Labs** — sandboxed simulations only: guided UI simulation, command sandbox (simulated Azure CLI), architecture
-  design, troubleshooting, business scenario (decision stages); guided vs challenge mode, hints, solution reveal,
-  server-side validation by replaying an event log.
+* **Labs** — sandboxed simulations only, presented as a simulated **lab VM** (desktop, taskbar, browser and terminal
+  apps): portal look-alike labs (Azure portal, Microsoft Entra, Purview, Defender, Microsoft 365 / SharePoint admin
+  centers, Power Apps / Automate / Copilot Studio / Power Platform admin, Power BI, Fabric, Microsoft Foundry, GitHub)
+  with Cloud Shell / VM terminals, SQL query editors and chat test panes; command sandbox (simulated Azure CLI);
+  architecture design; troubleshooting; business scenario (decision stages); guided vs challenge mode, hints, solution
+  reveal, server-side validation by replaying an event log.
 * **Personalization** — onboarding wizard, diagnostic → strengths/focus areas → study plan; dashboard with next best
   action; readiness score (7 weighted signals with caps); study planner with calendar export (ICS), missed-session
   detection and automatic adjustment; review queue (SM-2 style SRS); gamification (XP, levels, badges, streaks —
@@ -47,9 +50,8 @@ Related documents: [SECURITY.md](SECURITY.md), [CONTENT_FORMAT.md](CONTENT_FORMA
   provider abstraction (local grounded provider by default; OpenAI-compatible optional).
 * **CMS / admin** — certification CRUD with curriculum sync, content tree, lesson editor with revisions/diff/rollback,
   question bank + editor + AI draft generation, lab builder, editorial workflow with review queue and scheduling,
-  users & roles, media uploads, audit log, background jobs, settings, import/export, anonymous cohort analytics.
-* **Account** — registration, sign-in, preferences, language & timezone, privacy toggle, data export, password change,
-  sign out everywhere, account deletion.
+  media uploads, audit log, background jobs, settings, import/export, anonymous cohort analytics.
+* **Local profile** — one auto-provisioned learner/admin profile, preferences, language & timezone, privacy toggle, data export and learning-progress reset.
 
 ### 1.3 Non-functional requirements
 
@@ -89,7 +91,7 @@ A **modular monolith** on the Next.js App Router. Business logic lives in framew
 | Layer | Technology |
 | --- | --- |
 | UI | Next.js 16 (App Router, React 19 Server Components), Tailwind CSS 3, Radix primitives, lucide icons |
-| Server | Server Actions + Route Handlers, `proxy.ts` auth gate, next-auth v4 (credentials, JWT) |
+| Server | Server Actions + Route Handlers, local single-user profile provisioning |
 | Domain | TypeScript modules in `src/modules/*` (pure engines + DB services), zod 4 validation |
 | Data | PostgreSQL 17 via Prisma 6 (migrations in `prisma/migrations`) |
 | Jobs | DB-backed queue (`Job` table) processed by `scripts/worker.ts` |
@@ -98,8 +100,7 @@ A **modular monolith** on the Next.js App Router. Business logic lives in framew
 | Tests | Vitest unit tests, service-level integration flows, HTTP smoke test |
 
 ```
-Browser ──► proxy.ts (anonymous → 307 /sign-in for protected areas)
-        ──► App Router pages (RSC)  ──► src/modules/* services ──► Prisma ──► PostgreSQL
+Browser ──► App Router pages (RSC)  ──► src/modules/* services ──► Prisma ──► PostgreSQL
         ──► Server Actions (runAction: authorize → rate limit → zod → service → ActionResult)
         ──► Route Handlers (/api/*: health, tutor, ICS, export, media, admin import/export)
 Worker  ──► src/lib/jobs (queue + handlers) ──► Prisma
@@ -114,7 +115,7 @@ src/
   i18n/                   Locale negotiation, typed translator, formatters, messages (en/*, tr/*)
   lib/                    db, env (lazy zod validation), logger, rate limit, actions helper, dates, storage, jobs
   modules/
-    auth/                 permissions (RBAC), session (DB-backed user per request), options, schemas
+    auth/                 permissions (RBAC), local-user provisioning, session helpers
     catalog/              catalog queries, certification config sync + curriculum change detection
     content/              package schema/loader/importer/exporter, editorial workflow, blocks, diff
     assessment/           engine/ (types, scoring, projection, exam builder, adaptive, results, response) + services
@@ -125,7 +126,6 @@ src/
     tutor/                guard, retrieval (BM25), providers, context builder, service
     admin/                settings, audit, CMS services, AI drafts, workflow actions
     account/              data export serializer
-  proxy.ts                Early authentication gate (Next 16 "proxy", formerly middleware)
 prisma/                   schema, migrations, seed (+ seed-data content packages)
 scripts/                  dev-db (embedded PostgreSQL), worker, content validation, smoke & integration tests
 tests/                    Vitest suites
@@ -140,9 +140,11 @@ tests/                    Vitest suites
    (tested). Answers are scored on the server; attempts snapshot the question version and option order
    (`items` JSON) so later edits never change past results.
 3. **Replay-based labs.** Labs store an event log; every action is validated with zod, appended, and the state is
-   rebuilt by replaying the log through the engine, so the client can never forge progress.
-4. **DB-backed session checks.** JWT sessions carry only `uid` and a `sessionVersion`; every request reloads the user
-   (status, roles, version) so suspension, role changes and "sign out everywhere" apply immediately.
+   rebuilt by replaying the log through the engine, so the client can never forge progress. Portal labs are pure data
+   (pages, components, actions, templates, terminal commands, SQL tables, chat responses — see
+   [LAB_AUTHORING.md](LAB_AUTHORING.md)); the same deterministic reducer runs in the browser (optimistic updates) and
+   on the server (authoritative state).
+4. **Local profile checks.** `getCurrentUser()` ensures the single local profile exists and loads its roles/preferences for every request.
 5. **Content lifecycle.** `DRAFT → TECHNICAL_REVIEW → EDITORIAL_REVIEW → APPROVED → PUBLISHED` (or scheduled via
    `publishAt`), plus `OUTDATED` and `ARCHIVED`. Learners only ever see `learnerVisibleWhere()` content.
 6. **Typed i18n.** Message keys are type-checked; Turkish files are typed as complete dictionaries; a test enforces
@@ -158,7 +160,7 @@ tests/                    Vitest suites
 
 | Group | Models | Notes |
 | --- | --- | --- |
-| Identity & access | `User`, `Role`, `UserRole`, `UserPreference` | bcrypt hashes, `sessionVersion`, status, locale, timezone, study preferences, gamification & privacy flags |
+| Identity & access | `User`, `Role`, `UserRole`, `UserPreference` | optional legacy password hash, `sessionVersion`, status, locale, timezone, study preferences, gamification & privacy flags |
 | Catalog & curriculum | `Certification`, `CertificationRelation`, `CertificationVersion`, `CurriculumAlert`, `ExamDomain`, `ExamObjective`, `OfficialSource` | weights, exam version, retirement/replacement, change history |
 | Learning content | `Module`, `Lesson`, `ContentBlock`, `LessonTranslation`, `LessonSource`, `Flashcard`, `GlossaryTerm`, `GlossaryTermCertification`, `Concept`, `ConceptLink` | status + `publishAt`, translations with review status, curriculum version |
 | Questions | `Question`, `QuestionOption`, `QuestionVersion`, `QuestionTranslation`, `QuestionSource` | public `interaction` vs secret `answerKey`, statistics (served/answered/correct/time) |
@@ -173,16 +175,16 @@ Important conventions:
 * Calendar dates (plan sessions, target exam date) are stored as UTC midnight and displayed with `fmt.calendarDate`.
 * Translations: small entities use a `translations` JSON (`{ tr: { title } }`); lessons and questions have dedicated
   translation tables with a `status` so unreviewed translations are labelled.
-* Deleting a user cascades to all personal data; content authored by users keeps an optional author reference.
+* Learning-progress reset deletes personal learning data but preserves the single user row so audit logs and authored content keep stable references.
 
 ---
 
 ## 4. Information architecture (page map)
 
 **Public (marketing layout):** `/` landing · `/certifications` catalog · `/certifications/[code]` detail ·
-`/glossary` · `/compare` · `/concepts` · `/sign-in` · `/sign-up` · `/forbidden` · 404.
+`/glossary` · `/compare` · `/concepts` · `/forbidden` · 404. `/sign-in` and `/sign-up` are not defined.
 
-**Learner (app shell, sign-in required):**
+**Learner (app shell, local profile):**
 
 | Route | Purpose |
 | --- | --- |
@@ -200,20 +202,19 @@ Important conventions:
 | `/tutor` | AI tutor (`?lessonId=`, `?questionId=` context) |
 | `/flashcards`, `/bookmarks`, `/search` | knowledge tools |
 | `/certificates/[code]` | printable course completion record |
-| `/settings` | profile, preferences, privacy, security, data (export/delete) |
+| `/settings` | profile, preferences, privacy, data export and learning-progress reset |
 
 **Admin (`content:read_drafts` and finer permissions):** `/admin` overview · `/admin/certifications[/new|/[id]]` ·
 `/admin/content`, `/admin/content/lessons/[id]` · `/admin/questions[/new|/[id]]` · `/admin/labs[/new|/[id]]` ·
-`/admin/reviews` · `/admin/users` · `/admin/audit` · `/admin/jobs` · `/admin/settings` · `/admin/import-export` ·
+`/admin/reviews` · `/admin/audit` · `/admin/jobs` · `/admin/settings` · `/admin/import-export` ·
 `/admin/analytics`.
 
-**API:** `GET /api/health` · `/api/auth/*` (next-auth) · `POST /api/tutor` · `GET /api/plan/ics` ·
+**API:** `GET /api/health` · `POST /api/tutor` · `GET /api/plan/ics` ·
 `GET /api/me/export` · `POST /api/media/upload`, `GET /api/media/[...key]` · `POST /api/admin/import` ·
 `GET /api/admin/export`.
 
 Roles: **Learner** (`learn:use`), **Instructor** (content editing, review and publishing, questions, labs, AI drafts,
-import/export, anonymous analytics), **Administrator** (everything, additionally catalog management, users & roles,
-audit log, settings, jobs and AI configuration). Permissions are code-defined (`src/modules/auth/permissions.ts`) and
+import/export, anonymous analytics), **Administrator** (everything, additionally catalog management, audit log, settings, jobs and AI configuration). Permissions are code-defined (`src/modules/auth/permissions.ts`) and
 checked in every page, action and route handler.
 
 ---
@@ -235,9 +236,12 @@ badges). Full exams have a server `expiresAt` + 30 s grace; expired attempts aut
 labs 5 % (redistributed when a path has no labs), recency 5 % — with caps (fewer than 10 answers → Starting; "Practice
 exam ready" needs a full exam at/above the internal target and ≥ 75 % coverage).
 
-**Labs.** `startLab` → `applyLabEvent` (zod-validated event, rate limit, max 500 events) → replay → rule evaluation
-(`commandUsed`, `arrayContains`, `placedIn`, `connected`, `stageCorrect`, `matches`, `equals`, `anyOf`/`allOf`/`not`,
-…) → public state + step status → completion awards XP (reduced when the solution was revealed).
+**Labs.** `startLab` → `applyLabEvent` (zod-validated event, rate limit, max 800 events) → replay → rule evaluation
+(`commandUsed`, `arrayContains`, `placedIn`, `connected`, `stageCorrect`, `matches`, `equals`, `includes`,
+`anyOf`/`allOf`/`not`, …) → public state + step status → completion awards XP (reduced when the solution was
+revealed). Portal-lab events: `navigate`, `back`, `openUrl`, `click`, `rowClick`, `rowAction`, `setField`,
+`submitForm`, `command` (terminal), `query` (SQL editor) and `chat`; the renderer applies them optimistically with
+the same reducer and adopts the server state when no event is in flight.
 
 **Tutor.** sanitize → injection detection (EN/TR) → daily limit → retrieval over learner-visible lessons & glossary
 (locale-aware, cached index) → context (lesson / answered question only) → provider → output check (strips real-exam
@@ -253,9 +257,10 @@ revisions allow diff and rollback.
 
 | Level | What | Command |
 | --- | --- | --- |
-| Unit | engines (scoring, projection/no-leak, exam builder, adaptive, readiness, SRS, planner, ICS, labs, guard, retrieval), RBAC, workflow, i18n parity, content packages | `npm test` |
+| Unit | engines (scoring, projection/no-leak, exam builder, adaptive, readiness, SRS, planner, ICS, labs, portal simulation, SQL, guard, retrieval), RBAC, workflow, i18n parity, content packages | `npm test` |
+| Lab walkthroughs | every portal lab has a solving walkthrough (`tests/fixtures/lab-walkthroughs`) that is replayed through the real engines: every event accepted, no unexpected errors, all step and final rules pass, required selections resolve | `npx vitest run tests/lab-walkthroughs.test.ts` (`LAB_CERT` / `LAB_FILE` filters) |
 | Integration | real DB: all practice modes, diagnostic → plan → readiness, knowledge check, ownership rejection, lab completion | `npm run test:flows` |
-| Smoke | HTTP: public/learner/admin pages, redirects, 404, APIs, sign-in via credentials | `npm run smoke` (against a running server) |
+| Smoke | HTTP: public/learner/admin pages, 404s and APIs without auth cookies | `npm run smoke` (against a running server) |
 | Static | TypeScript strict, ESLint (incl. React compiler rules) | `npm run typecheck`, `npm run lint` |
 
 ---
@@ -263,12 +268,13 @@ revisions allow diff and rollback.
 ## 7. MVP boundary
 
 **Implemented (this release):** everything in the page map above, with full demo paths for **AZ-900** (22 lessons,
-140 questions, 4 labs, 30 glossary terms) and **AI-901** (11 lessons, 71 questions, 2 labs, 20 glossary terms),
-English + Turkish UI, Turkish content for selected lessons/questions/glossary entries (others show a fallback notice).
+140 questions, 11 labs, 30 glossary terms) and **AI-901** (11 lessons, 71 questions, 5 labs, 20 glossary terms), plus
+lab packages for **DP-900** (5 labs), **SC-900** (6), **PL-900** (5), **AB-900** (4) and **GH-900** (6) — 42 labs, 38
+of them portal labs in the lab VM. English + Turkish UI, Turkish content for selected lessons/questions/glossary
+entries (others show a fallback notice).
 
 **Deliberately out of scope / next phases:**
-* Email delivery (verification, password reset, reminders) — reminders are in-app; admins reset passwords.
-* SSO/OAuth providers, MFA.
+* Multi-user accounts, e-mail verification, password reset, SSO/OAuth providers and MFA.
 * Horizontal scaling helpers: shared rate-limit store (Redis) and object storage driver (S3/Azure Blob) — interfaces exist.
 * Full learning paths for the remaining certifications (catalog entries exist).
 * Real-time collaboration in the CMS, WYSIWYG editors (JSON editors with validation are provided).
@@ -276,9 +282,9 @@ English + Turkish UI, Turkish content for selected lessons/questions/glossary en
 
 ## 8. Phased plan
 
-1. **Foundation (done):** schema, auth/RBAC, i18n, catalog, content pipeline, engines, seed.
+1. **Foundation (done):** schema, local profile/RBAC, i18n, catalog, content pipeline, engines, seed.
 2. **Learner MVP (done):** paths, lessons, assessments, labs, planner, dashboard, readiness, tutor, settings.
 3. **CMS (done):** workflow, editors, question bank, lab builder, import/export, audit, jobs, analytics.
-4. **Hardening (next):** e-mail + password reset, MFA, CSP nonces, Redis rate limiting, S3 storage, E2E browser tests
+4. **Hardening (next):** CSP nonces, Redis rate limiting, S3 storage, E2E browser tests
    (Playwright + axe), load tests.
 5. **Content scale-out (next):** DP-900, SC-900, PL-900, AB-900, GH-900 paths; more Turkish translations; SME review.

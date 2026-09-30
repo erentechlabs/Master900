@@ -1,0 +1,64 @@
+{
+  "certification": "SC-900",
+  "lab": "create-publish-sensitivity-label",
+  "note": "Create and publish a protected finance sensitivity label.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "sensitivity-labels"
+    },
+    {
+      "type": "click",
+      "componentId": "create-label"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "label-wizard",
+      "values": {
+        "name": "Confidential - Finance",
+        "displayName": "Confidential - Finance",
+        "userDescription": "Use for finance files and email that contain budgets, payment details, or cardholder data.",
+        "adminDescription": "Applies encryption and visible marking to Contoso Finance content.",
+        "priority": "Above General",
+        "scopes": [
+          "files",
+          "emails"
+        ],
+        "controlAccess": true,
+        "permissionGroup": "Finance group",
+        "permissionRole": "Co-Author",
+        "contentMarking": true,
+        "headerText": "CONFIDENTIAL - FINANCE",
+        "watermarkText": "",
+        "recommendLabel": true,
+        "sensitiveInfoType": "Credit Card Number"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "publishing-policies"
+    },
+    {
+      "type": "click",
+      "componentId": "create-policy"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "policy-wizard",
+      "values": {
+        "selectedLabels": [
+          "Confidential - Finance"
+        ],
+        "adminUnits": "Full directory",
+        "users": [
+          "Finance group"
+        ],
+        "requireJustification": true,
+        "requireLabel": true,
+        "defaultLabel": "Confidential - Finance",
+        "policyName": "Publish Confidential - Finance to Finance",
+        "policyDescription": "Makes the Confidential - Finance label available only to Finance and requires labeling with downgrade justification."
+      }
+    }
+  ]
+}

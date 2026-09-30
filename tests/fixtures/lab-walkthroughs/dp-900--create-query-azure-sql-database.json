@@ -1,0 +1,67 @@
+{
+  "certification": "DP-900",
+  "lab": "create-query-azure-sql-database",
+  "note": "Create sqldb-retail-dev with Entra-only auth, run relational queries and DDL/DML.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "sql-databases"
+    },
+    {
+      "type": "click",
+      "componentId": "sql-db-create"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "sql-create-wizard",
+      "values": {
+        "subscription": "Contoso Learning (simulated)",
+        "resourceGroup": "create-new",
+        "newResourceGroup": "rg-retail-data",
+        "databaseName": "sqldb-retail-dev",
+        "serverChoice": "create-new",
+        "serverName": "sql-retail-dev-01",
+        "location": "westeurope",
+        "authenticationMethod": "entra-only",
+        "entraAdmin": "Data Platform Team",
+        "elasticPool": "No",
+        "workloadEnvironment": "Development",
+        "serviceTier": "General Purpose",
+        "computeModel": "Serverless",
+        "hardware": "Standard-series (Gen5)",
+        "fictionalSize": "Small training vCore profile",
+        "backupRedundancy": "Locally-redundant backup storage",
+        "connectivity": "Public endpoint",
+        "allowAzureServices": true,
+        "addClientIp": true,
+        "firewallStart": "203.0.113.24",
+        "firewallEnd": "203.0.113.24",
+        "useExistingData": "None",
+        "collation": "SQL_Latin1_General_CP1_CI_AS"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "sql-go-to-resource"
+    },
+    {
+      "type": "click",
+      "componentId": "open-query-editor"
+    },
+    {
+      "type": "query",
+      "componentId": "sql-query-editor",
+      "sql": "SELECT OrderID, CustomerID, OrderDate, Status FROM Orders WHERE Status = 'Shipped' ORDER BY OrderDate DESC;"
+    },
+    {
+      "type": "query",
+      "componentId": "sql-query-editor",
+      "sql": "SELECT p.Category, SUM(ol.Quantity * ol.UnitPrice) AS Revenue FROM OrderLines ol JOIN Products p ON ol.ProductID = p.ProductID GROUP BY p.Category ORDER BY Revenue DESC;"
+    },
+    {
+      "type": "query",
+      "componentId": "sql-query-editor",
+      "sql": "CREATE TABLE StoreNotes (NoteID INT PRIMARY KEY, NoteText NVARCHAR(80)); INSERT INTO StoreNotes(NoteID, NoteText) VALUES (1, 'Reviewed in portal lab');"
+    }
+  ]
+}

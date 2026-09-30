@@ -1,0 +1,120 @@
+{
+  "certification": "GH-900",
+  "lab": "secure-repository-settings",
+  "note": "Configure access, branch ruleset, code security, Dependabot fix, and SECURITY.md.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "settings"
+    },
+    {
+      "type": "click",
+      "componentId": "settings-tiles",
+      "itemId": "collab"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "contractor-form",
+      "values": {
+        "handle": "taylor-contractor",
+        "role": "Triage"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "rules"
+    },
+    {
+      "type": "click",
+      "componentId": "new-ruleset"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "ruleset-form",
+      "values": {
+        "name": "Protect main",
+        "enforcement": "Active",
+        "target": "Include default branch",
+        "rules": [
+          "Restrict deletions",
+          "Require a pull request before merging",
+          "Require status checks to pass",
+          "Block force pushes"
+        ],
+        "approvals": 1,
+        "check": "Node.js CI / build"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "code-security"
+    },
+    {
+      "type": "setField",
+      "componentId": "security-settings",
+      "fieldId": "dependencyGraph",
+      "value": true
+    },
+    {
+      "type": "setField",
+      "componentId": "security-settings",
+      "fieldId": "dependabotAlerts",
+      "value": true
+    },
+    {
+      "type": "setField",
+      "componentId": "security-settings",
+      "fieldId": "dependabotSecurityUpdates",
+      "value": true
+    },
+    {
+      "type": "setField",
+      "componentId": "security-settings",
+      "fieldId": "secretScanning",
+      "value": true
+    },
+    {
+      "type": "setField",
+      "componentId": "security-settings",
+      "fieldId": "pushProtection",
+      "value": true
+    },
+    {
+      "type": "setField",
+      "componentId": "security-settings",
+      "fieldId": "codeqlDefaultSetup",
+      "value": true
+    },
+    {
+      "type": "navigate",
+      "page": "security"
+    },
+    {
+      "type": "click",
+      "componentId": "security-tiles",
+      "itemId": "dependabot"
+    },
+    {
+      "type": "rowAction",
+      "componentId": "alert-table",
+      "rowKey": "1",
+      "actionId": "review"
+    },
+    {
+      "type": "click",
+      "componentId": "merge-dependabot"
+    },
+    {
+      "type": "navigate",
+      "page": "policy"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "policy-form",
+      "values": {
+        "content": "# Security Policy\n\n## Supported versions\n\nSecurity updates are provided for the current major version of inventory-api.\n\n## Reporting a vulnerability\n\nReport suspected vulnerabilities through GitHub private vulnerability reporting or the Contoso Labs internal security mailbox. Do not open public issues for suspected vulnerabilities.",
+        "message": "Add security policy"
+      }
+    }
+  ]
+}

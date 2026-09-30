@@ -1,6 +1,5 @@
 "use server";
 
-import bcrypt from "bcryptjs";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
@@ -8,8 +7,6 @@ import { ActionError, runAction } from "@/lib/actions";
 import { slugify } from "@/lib/utils";
 import { audit } from "@/modules/admin/audit";
 import { authorize } from "@/modules/auth/session";
-import { ROLE_KEYS, canAssignRoles } from "@/modules/auth/permissions";
-import { passwordSchema } from "@/modules/auth/schemas";
 import { syncCertificationConfig, syncCertificationRelations } from "@/modules/catalog/sync";
 import { mapQuestionPayload } from "@/modules/content/importer";
 import { certificationConfigSchema, questionSchema, checkQuestionSemantics } from "@/modules/content/package-schema";
@@ -330,51 +327,6 @@ export async function saveLab(formData: FormData) {
   });
 }
 
-export async function saveUserRoles(formData: FormData) {
-  return runAction("admin.user.roles", async () => {
-    const actor = await authorize("roles:assign");
-    const targetId = text(formData, "userId");
-    const roles = ROLE_KEYS.filter((role) => formData.get(`role_${role}`) === "on");
-    const allowed = canAssignRoles(actor.roles, actor.id, targetId, roles);
-    if (!allowed.ok) throw new ActionError(allowed.reason);
-    await prisma.$transaction(async (tx) => {
-      const before = await tx.user.findUnique({ where: { id: targetId }, include: { roles: { include: { role: true } } } });
-      await tx.userRole.deleteMany({ where: { userId: targetId } });
-      for (const key of roles) {
-        const role = await tx.role.upsert({ where: { key }, update: {}, create: { key, name: key, description: `${key} role` } });
-        await tx.userRole.create({ data: { userId: targetId, roleId: role.id } });
-      }
-      await tx.user.update({ where: { id: targetId }, data: { sessionVersion: { increment: 1 } } });
-      await audit({ id: actor.id, email: actor.email }, "user.roles.update", { entityType: "USER", entityId: targetId, before, after: { roles } }, tx);
-    });
-    revalidatePath("/admin/users");
-  });
-}
-
-export async function setUserStatus(formData: FormData) {
-  return runAction("admin.user.status", async () => {
-    const actor = await authorize("users:manage");
-    const targetId = text(formData, "userId");
-    if (targetId === actor.id) throw new ActionError("cannot_self_suspend");
-    const status = z.enum(["ACTIVE", "SUSPENDED"]).parse(text(formData, "status"));
-    await prisma.user.update({ where: { id: targetId }, data: { status, sessionVersion: { increment: 1 } } });
-    await audit({ id: actor.id, email: actor.email }, "user.status.update", { entityType: "USER", entityId: targetId, after: { status } });
-    revalidatePath("/admin/users");
-  });
-}
-
-export async function setTemporaryPassword(formData: FormData) {
-  return runAction("admin.user.password", async () => {
-    const actor = await authorize("users:manage");
-    const targetId = text(formData, "userId");
-    const password = passwordSchema.parse(text(formData, "password"));
-    const passwordHash = await bcrypt.hash(password, 12);
-    await prisma.user.update({ where: { id: targetId }, data: { passwordHash, sessionVersion: { increment: 1 } } });
-    await audit({ id: actor.id, email: actor.email }, "user.password.setTemporary", { entityType: "USER", entityId: targetId, summary: "Temporary password set" });
-    revalidatePath("/admin/users");
-  });
-}
-
 export async function saveSettings(formData: FormData) {
   return runAction("admin.settings.save", async () => {
     const actor = await authorize("settings:manage");
@@ -389,7 +341,6 @@ export async function saveSettings(formData: FormData) {
       "ai.draftsEnabled": bool(formData, "ai.draftsEnabled"),
       "ai.enabled": bool(formData, "ai.enabled"),
       "ai.tutorDailyLimit": bounded("ai.tutorDailyLimit", 0, 1000),
-      "platform.registrationEnabled": bool(formData, "platform.registrationEnabled"),
       "practice.fullExamQuestions": bounded("practice.fullExamQuestions", 5, 100),
       "practice.fullExamMinutes": bounded("practice.fullExamMinutes", 5, 300),
       "practice.targetPercent": bounded("practice.targetPercent", 50, 100),

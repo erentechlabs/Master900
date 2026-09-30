@@ -1,0 +1,51 @@
+{
+  "certification": "SC-900",
+  "lab": "manage-users-groups-roles",
+  "note": "Create Mira, create Finance App Access, assign Password Administrator to Contoso Helpdesk.",
+  "events": [
+    { "type": "navigate", "page": "users" },
+    { "type": "click", "componentId": "users-new" },
+    {
+      "type": "submitForm",
+      "componentId": "new-user-wizard",
+      "values": {
+        "userName": "mira.ileri",
+        "domain": "contoso.example",
+        "mailNickname": "mira.ileri",
+        "displayName": "Mira Ileri",
+        "passwordMode": "auto-hidden",
+        "accountEnabled": true,
+        "jobTitle": "Finance analyst",
+        "department": "Finance",
+        "usageLocation": "TR",
+        "initialGroup": "none"
+      }
+    },
+    { "type": "navigate", "page": "groups" },
+    { "type": "click", "componentId": "groups-new" },
+    {
+      "type": "submitForm",
+      "componentId": "new-group-wizard",
+      "values": {
+        "groupType": "Security",
+        "groupName": "Finance App Access",
+        "description": "Finance users who need access to finance applications.",
+        "roleAssignable": false,
+        "membershipType": "Assigned",
+        "members": ["mira.ileri@contoso.example"],
+        "owners": ["alex@contoso.example"]
+      }
+    },
+    { "type": "navigate", "page": "roles" },
+    { "type": "rowClick", "componentId": "roles-table", "rowKey": "Password Administrator" },
+    {
+      "type": "submitForm",
+      "componentId": "add-role-assignment",
+      "values": {
+        "role": "Password Administrator",
+        "principal": "Contoso Helpdesk",
+        "scope": "Tenant"
+      }
+    }
+  ]
+}

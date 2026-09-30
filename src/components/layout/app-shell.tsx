@@ -69,24 +69,16 @@ export async function AppShell({
                 <UserMenu name={user.name} email={user.email} />
               </>
             ) : (
-              <>
-                <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
-                  <Link href="/certifications">{t("nav.certifications")}</Link>
-                </Button>
-                <Button asChild variant="outline" size="sm">
-                  <Link href="/sign-in">{t("common.signIn")}</Link>
-                </Button>
-                <Button asChild size="sm" className="hidden sm:inline-flex">
-                  <Link href="/sign-up">{t("common.signUp")}</Link>
-                </Button>
-              </>
+              <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
+                <Link href="/certifications">{t("nav.certifications")}</Link>
+              </Button>
             )}
           </div>
         </div>
       </header>
       <div className="flex flex-1">
         {showSidebar ? (
-          <aside className="no-print sticky top-16 hidden h-[calc(100vh-4rem)] w-60 shrink-0 overflow-y-auto border-r bg-card/40 px-3 py-5 lg:block">
+          <aside data-app-sidebar className="no-print sticky top-16 hidden h-[calc(100vh-4rem)] w-60 shrink-0 overflow-y-auto border-r bg-card/40 px-3 py-5 lg:block">
             <SidebarNav items={items} />
           </aside>
         ) : null}

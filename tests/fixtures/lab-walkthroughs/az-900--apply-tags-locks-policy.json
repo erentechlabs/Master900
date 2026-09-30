@@ -1,0 +1,69 @@
+{
+ "certification": "AZ-900",
+ "lab": "apply-tags-locks-policy",
+ "note": "Govern rg-finance-prod with tags, Delete lock, allowed-locations policy, and compliance refresh.",
+ "events": [
+  {
+   "type": "navigate",
+   "page": "resource-groups"
+  },
+  {
+   "type": "rowClick",
+   "componentId": "rg-list",
+   "rowKey": "rg-finance-prod"
+  },
+  {
+   "type": "navigate",
+   "page": "rg-tags"
+  },
+  {
+   "type": "submitForm",
+   "componentId": "rg-tags-form",
+   "values": {
+    "tagName1": "CostCenter",
+    "tagValue1": "FIN-042",
+    "tagName2": "Environment",
+    "tagValue2": "Production"
+   }
+  },
+  {
+   "type": "navigate",
+   "page": "rg-locks"
+  },
+  {
+   "type": "submitForm",
+   "componentId": "add-lock-form",
+   "values": {
+    "lockName": "lock-finance-delete",
+    "lockType": "CanNotDelete",
+    "notes": "Prevent accidental deletion of production finance resources."
+   }
+  },
+  {
+   "type": "navigate",
+   "page": "policy-assignments"
+  },
+  {
+   "type": "click",
+   "componentId": "assign-policy"
+  },
+  {
+   "type": "submitForm",
+   "componentId": "policy-assignment-wizard",
+   "values": {
+    "scope": "rg-finance-prod",
+    "definition": "Allowed locations",
+    "assignmentName": "finance-allowed-locations",
+    "allowedLocations": [
+     "westeurope",
+     "northeurope"
+    ],
+    "nonComplianceMessage": "Finance production resources must be deployed only in West Europe or North Europe."
+   }
+  },
+  {
+   "type": "click",
+   "componentId": "policy-refresh"
+  }
+ ]
+}

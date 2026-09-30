@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const isDev = process.env.NODE_ENV !== "production";
 // HTTPS-only headers (HSTS, upgrade-insecure-requests) are enabled when the public URL is HTTPS, so that local
 // production runs over plain http://localhost (e.g. docker compose) keep working.
-const httpsOnly = !isDev && (process.env.NEXTAUTH_URL ?? "").startsWith("https://");
+const httpsOnly = !isDev && (process.env.APP_URL ?? "").startsWith("https://");
 
 // Content Security Policy. 'unsafe-inline' for scripts is required by the
 // theme bootstrap script and Next.js inline runtime; see docs/SECURITY.md for

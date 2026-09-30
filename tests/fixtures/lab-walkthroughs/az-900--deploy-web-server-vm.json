@@ -1,0 +1,77 @@
+{
+  "certification": "AZ-900",
+  "lab": "deploy-web-server-vm",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "vms"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "vm-list",
+      "rowKey": "vm-web-01"
+    },
+    {
+      "type": "command",
+      "command": "ssh azureuser@203.0.113.44"
+    },
+    {
+      "type": "command",
+      "command": "sudo apt update"
+    },
+    {
+      "type": "command",
+      "command": "sudo apt install -y nginx"
+    },
+    {
+      "type": "command",
+      "command": "systemctl status nginx"
+    },
+    {
+      "type": "command",
+      "command": "echo '<h1>Welcome to Tailwind Traders - served from vm-web-01</h1>' | sudo tee /var/www/html/index.html"
+    },
+    {
+      "type": "openUrl",
+      "url": "http://203.0.113.44"
+    },
+    {
+      "type": "navigate",
+      "page": "vm-networking"
+    },
+    {
+      "type": "click",
+      "componentId": "create-port-rule"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "inbound-rule-form",
+      "values": {
+        "service": "HTTP",
+        "source": "Internet",
+        "port": "80",
+        "protocol": "TCP",
+        "action": "Allow",
+        "priority": 300,
+        "name": "Allow-HTTP-Internet"
+      }
+    },
+    {
+      "type": "openUrl",
+      "url": "http://203.0.113.44"
+    },
+    {
+      "type": "navigate",
+      "page": "vm-auto-shutdown"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "auto-shutdown-form",
+      "values": {
+        "enabled": true,
+        "shutdownTime": "19:00",
+        "timeZone": "(UTC+03:00) Istanbul"
+      }
+    }
+  ]
+}

@@ -1,0 +1,1538 @@
+{
+  "labs": [
+    {
+      "slug": "reduce-oversharing-sharepoint",
+      "type": "UI_SIMULATION",
+      "title": "Reduce SharePoint oversharing before Copilot rollout",
+      "summary": "Find broad sharing in the SharePoint admin center, request owner review, restrict HR site access, limit Copilot discovery, and harden sharing defaults.",
+      "scenario": "Contoso is preparing Microsoft 365 Copilot. Before rollout, use the **simulated SharePoint admin center** to find overshared SharePoint sites, initiate a site access review for **HR-Internal**, restrict that site to the HR security group, turn on Restricted Content Discovery for the site, and set safer sharing defaults. Everything is simulated; no real tenant is changed.",
+      "domainKey": "data-protection-governance",
+      "objectiveCode": "2.4",
+      "complexity": "BASIC",
+      "estimatedMinutes": 25,
+      "learningObjectives": [
+        "Run SharePoint Data access governance activity reports for EEEU and sharing links",
+        "Initiate a site access review for an overshared site",
+        "Compare Restricted site access with Restricted Content Discovery",
+        "Set site and organization sharing defaults for least privilege"
+      ],
+      "prerequisites": [
+        "Know that Copilot honors existing Microsoft 365 permissions and policies"
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Get ready for Microsoft Copilot with SharePoint Advanced Management",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Data access governance reports for SharePoint sites",
+          "url": "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-reports",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Restrict discovery of SharePoint sites and content",
+          "url": "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "SharePoint admin center",
+          "theme": "sharepoint",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://contoso-admin.sharepoint.com",
+          "searchPlaceholder": "Search sites, policies, and reports"
+        },
+        "vm": {
+          "name": "LAB-VM01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "active-sites",
+            "label": "Active sites",
+            "icon": "Globe",
+            "section": "Sites"
+          },
+          {
+            "page": "data-access-governance",
+            "label": "Data access governance",
+            "icon": "ShieldAlert",
+            "section": "Reports"
+          },
+          {
+            "page": "sharing-policy",
+            "label": "Sharing",
+            "icon": "Share2",
+            "section": "Policies"
+          },
+          {
+            "page": "access-control",
+            "label": "Access control",
+            "icon": "Lock",
+            "section": "Policies"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/_layouts/15/online/AdminHome.aspx#/home",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Copilot readiness",
+                "text": "Microsoft 365 Copilot and agents use Microsoft Graph and honor SharePoint permissions, sharing settings, sensitivity labels, and access policies. Fix broad access before content becomes easier to discover."
+              },
+              {
+                "kind": "tiles",
+                "id": "home-actions",
+                "title": "Recommended actions",
+                "size": "md",
+                "items": [
+                  {
+                    "id": "open-dag",
+                    "label": "Data access governance",
+                    "description": "Find sites with EEEU sharing or risky sharing links.",
+                    "icon": "ShieldAlert",
+                    "action": {
+                      "type": "navigate",
+                      "page": "data-access-governance"
+                    }
+                  },
+                  {
+                    "id": "open-active-sites",
+                    "label": "Active sites",
+                    "description": "Configure site settings and sharing controls.",
+                    "icon": "Globe",
+                    "action": {
+                      "type": "navigate",
+                      "page": "active-sites"
+                    }
+                  },
+                  {
+                    "id": "open-sharing",
+                    "label": "Sharing",
+                    "description": "Set organization sharing and default link settings.",
+                    "icon": "Share2",
+                    "action": {
+                      "type": "navigate",
+                      "page": "sharing-policy"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "risk-summary",
+                "title": "Copilot readiness signals",
+                "source": "readinessSignals",
+                "columns": [
+                  {
+                    "key": "signal",
+                    "label": "Signal"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "detail",
+                    "label": "Detail"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "data-access-governance",
+            "title": "Data access governance",
+            "subtitle": "Reports",
+            "icon": "ShieldAlert",
+            "url": "/_layouts/15/online/AdminHome.aspx#/reports/dataAccessGovernance",
+            "breadcrumb": [
+              "Home",
+              "Reports"
+            ],
+            "components": [
+              {
+                "kind": "text",
+                "text": "Use **Snapshot reports** to understand current permissions and **Activity reports** to monitor recent oversharing. This lab focuses on the activity reports requested for the Copilot rollout."
+              },
+              {
+                "kind": "tiles",
+                "id": "dag-report-tiles",
+                "title": "Activity reports",
+                "size": "md",
+                "items": [
+                  {
+                    "id": "eeeu",
+                    "label": "Shared with 'Everyone except external users'",
+                    "description": "Sites where content was shared with all internal users.",
+                    "icon": "Users",
+                    "action": {
+                      "type": "navigate",
+                      "page": "eeeu-reports"
+                    }
+                  },
+                  {
+                    "id": "sharing-links",
+                    "label": "Sharing links",
+                    "description": "Sites with Anyone, People in your organization, or external Specific people links.",
+                    "icon": "Link",
+                    "action": {
+                      "type": "navigate",
+                      "page": "sharing-links-reports"
+                    }
+                  },
+                  {
+                    "id": "site-permissions",
+                    "label": "Site permissions across your organization",
+                    "description": "Baseline exposure snapshot; useful but not required here.",
+                    "icon": "ClipboardList",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "For this scenario, start with the EEEU and Sharing links activity reports."
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "review-requests",
+                "title": "My review requests",
+                "source": "reviewRequests",
+                "rowKey": "site",
+                "emptyText": "No site access reviews have been initiated yet.",
+                "columns": [
+                  {
+                    "key": "site",
+                    "label": "Site"
+                  },
+                  {
+                    "key": "owner",
+                    "label": "Owner"
+                  },
+                  {
+                    "key": "issue",
+                    "label": "Issue"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "eeeu-reports",
+            "title": "Shared with 'Everyone except external users'",
+            "subtitle": "Data access governance report",
+            "icon": "Users",
+            "url": "/_layouts/15/online/AdminHome.aspx#/reports/dataAccessGovernance/eeeu",
+            "navItem": "data-access-governance",
+            "breadcrumb": [
+              "Home",
+              "Reports",
+              "Data access governance"
+            ],
+            "commands": [
+              {
+                "id": "run-eeeu-report",
+                "label": "Run",
+                "icon": "Play",
+                "variant": "primary",
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "reports.eeeu.status",
+                      "value": "Ready to view"
+                    },
+                    {
+                      "type": "set",
+                      "path": "reports.eeeu.ran",
+                      "value": true
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Report ready",
+                      "message": "Shared with 'Everyone except external users' is ready to view."
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "download-eeeu",
+                "label": "Download detailed report",
+                "icon": "Download",
+                "action": {
+                  "type": "message",
+                  "tone": "info",
+                  "text": "Download is simulated. Use the report rows to select sites for remediation."
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "title": "Why EEEU matters",
+                "text": "'Everyone except external users' includes all internal users. Content shared with EEEU can be visible far beyond the intended audience, and Copilot can surface content to users who already have permission."
+              },
+              {
+                "kind": "properties",
+                "title": "Report settings",
+                "items": [
+                  {
+                    "label": "Report name",
+                    "value": "EEEU activity - Copilot readiness"
+                  },
+                  {
+                    "label": "Template",
+                    "value": "All sites"
+                  },
+                  {
+                    "label": "Privacy",
+                    "value": "All"
+                  },
+                  {
+                    "label": "Report type",
+                    "value": "Specific files, folders and lists"
+                  },
+                  {
+                    "label": "Status",
+                    "value": "{{reports.eeeu.status}}",
+                    "format": "status"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "eeeu-sites",
+                "title": "Top sites with content shared with EEEU",
+                "source": "sites",
+                "rowKey": "title",
+                "searchable": true,
+                "columns": [
+                  {
+                    "key": "title",
+                    "label": "Site name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "url",
+                    "label": "URL"
+                  },
+                  {
+                    "key": "eeeuItems",
+                    "label": "Items shared with EEEU",
+                    "format": "count"
+                  },
+                  {
+                    "key": "owner",
+                    "label": "Primary admin"
+                  },
+                  {
+                    "key": "sensitivity",
+                    "label": "Sensitivity",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "externalSharing",
+                    "label": "External file sharing"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "site-overview",
+                  "select": {
+                    "as": "site",
+                    "path": "sites",
+                    "key": "title",
+                    "value": "{{$row.title}}"
+                  }
+                },
+                "rowActions": [
+                  {
+                    "id": "initiate-review",
+                    "label": "Initiate site access review",
+                    "icon": "ClipboardCheck",
+                    "action": {
+                      "type": "sequence",
+                      "actions": [
+                        {
+                          "type": "append",
+                          "path": "reviewRequests",
+                          "unique": "site",
+                          "uniqueMessage": "A site access review has already been initiated for this site.",
+                          "value": {
+                            "site": "{{$row.title}}",
+                            "owner": "{{$row.owner}}",
+                            "issue": "Content shared with 'Everyone except external users'",
+                            "status": "Pending"
+                          }
+                        },
+                        {
+                          "type": "update",
+                          "path": "sites",
+                          "where": {
+                            "title": "{{$row.title}}"
+                          },
+                          "set": {
+                            "reviewInitiated": true
+                          }
+                        },
+                        {
+                          "type": "notify",
+                          "title": "Site access review initiated",
+                          "message": "{{$row.owner}} will review broad sharing on {{$row.title}}."
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "delete-site",
+                    "label": "Delete site",
+                    "icon": "Trash2",
+                    "variant": "danger",
+                    "action": {
+                      "type": "fail",
+                      "message": "Deleting the site is not an appropriate oversharing remediation. Keep business content and reduce access instead."
+                    }
+                  },
+                  {
+                    "id": "remove-owner",
+                    "label": "Remove owner",
+                    "icon": "UserX",
+                    "variant": "danger",
+                    "action": {
+                      "type": "fail",
+                      "message": "Do not remove the owner. Site access reviews rely on owners to validate and clean up broad sharing."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "sharing-links-reports",
+            "title": "Sharing links",
+            "subtitle": "Data access governance report",
+            "icon": "Link",
+            "url": "/_layouts/15/online/AdminHome.aspx#/reports/dataAccessGovernance/sharingLinks",
+            "navItem": "data-access-governance",
+            "breadcrumb": [
+              "Home",
+              "Reports",
+              "Data access governance"
+            ],
+            "commands": [
+              {
+                "id": "run-sharing-links-report",
+                "label": "Run",
+                "icon": "Play",
+                "variant": "primary",
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "reports.sharingLinks.status",
+                      "value": "Ready to view"
+                    },
+                    {
+                      "type": "set",
+                      "path": "reports.sharingLinks.ran",
+                      "value": true
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Report ready",
+                      "message": "Sharing links activity is ready to view."
+                    }
+                  ]
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "text",
+                "text": "The sharing links activity report highlights sites with the most new **Anyone**, **People in the organization**, and external **Specific people** links."
+              },
+              {
+                "kind": "properties",
+                "title": "Report status",
+                "items": [
+                  {
+                    "label": "Status",
+                    "value": "{{reports.sharingLinks.status}}",
+                    "format": "status"
+                  },
+                  {
+                    "label": "Report family",
+                    "value": "Sharing links activity reports"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "sharing-link-sites",
+                "title": "Sites with recent sharing links",
+                "source": "sites",
+                "rowKey": "title",
+                "searchable": true,
+                "columns": [
+                  {
+                    "key": "title",
+                    "label": "Site name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "anyoneLinks",
+                    "label": "Anyone links",
+                    "format": "count"
+                  },
+                  {
+                    "key": "orgLinks",
+                    "label": "People in organization links",
+                    "format": "count"
+                  },
+                  {
+                    "key": "externalSpecificLinks",
+                    "label": "External specific people links",
+                    "format": "count"
+                  },
+                  {
+                    "key": "owner",
+                    "label": "Primary admin"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "site-overview",
+                  "select": {
+                    "as": "site",
+                    "path": "sites",
+                    "key": "title",
+                    "value": "{{$row.title}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "active-sites",
+            "title": "Active sites",
+            "subtitle": "Sites",
+            "icon": "Globe",
+            "url": "/_layouts/15/online/AdminHome.aspx#/siteManagement/activeSites",
+            "breadcrumb": [
+              "Home",
+              "Sites"
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "active-sites-table",
+                "title": "Active sites",
+                "source": "sites",
+                "rowKey": "title",
+                "searchable": true,
+                "columns": [
+                  {
+                    "key": "title",
+                    "label": "Site name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "url",
+                    "label": "URL"
+                  },
+                  {
+                    "key": "privacy",
+                    "label": "Privacy"
+                  },
+                  {
+                    "key": "owner",
+                    "label": "Primary admin"
+                  },
+                  {
+                    "key": "restrictedAccess",
+                    "label": "Restricted site access",
+                    "format": "bool"
+                  },
+                  {
+                    "key": "restrictedContentDiscovery",
+                    "label": "Restricted content discovery",
+                    "format": "bool"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "site-overview",
+                  "select": {
+                    "as": "site",
+                    "path": "sites",
+                    "key": "title",
+                    "value": "{{$row.title}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "site-overview",
+            "title": "{{$sel.site.title}}",
+            "subtitle": "Site details",
+            "icon": "Globe",
+            "url": "/_layouts/15/online/AdminHome.aspx#/siteManagement/activeSites/{{$sel.site.title | slug}}/overview",
+            "requires": "site",
+            "navItem": "active-sites",
+            "breadcrumb": [
+              "Home",
+              "Sites",
+              "Active sites"
+            ],
+            "menu": [
+              {
+                "page": "site-overview",
+                "label": "Overview",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "site-settings",
+                "label": "Settings",
+                "icon": "Settings"
+              },
+              {
+                "page": "site-sharing",
+                "label": "Sharing",
+                "icon": "Share2"
+              },
+              {
+                "page": "site-permissions",
+                "label": "Permissions",
+                "icon": "Users"
+              }
+            ],
+            "commands": [
+              {
+                "id": "site-delete",
+                "label": "Delete",
+                "icon": "Trash2",
+                "variant": "danger",
+                "action": {
+                  "type": "fail",
+                  "message": "Deleting HR-Internal would remove business records. The correct remediation is to restrict access and sharing."
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "visibleWhen": {
+                  "type": "truthy",
+                  "path": "$sel.site.eeeuAccessible"
+                },
+                "title": "Broad internal access detected",
+                "text": "This site still has content accessible to **Everyone except external users**."
+              },
+              {
+                "kind": "properties",
+                "title": "Essentials",
+                "items": [
+                  {
+                    "label": "URL",
+                    "value": "{{$sel.site.url}}",
+                    "format": "link"
+                  },
+                  {
+                    "label": "Primary admin",
+                    "value": "{{$sel.site.owner}}"
+                  },
+                  {
+                    "label": "Privacy",
+                    "value": "{{$sel.site.privacy}}"
+                  },
+                  {
+                    "label": "Sensitivity",
+                    "value": "{{$sel.site.sensitivity}}",
+                    "format": "badge"
+                  },
+                  {
+                    "label": "Items shared with EEEU",
+                    "value": "{{$sel.site.eeeuItems}}",
+                    "format": "count"
+                  },
+                  {
+                    "label": "Restricted site access",
+                    "value": "{{$sel.site.restrictedAccess | yesno}}"
+                  },
+                  {
+                    "label": "Restricted Content Discovery",
+                    "value": "{{$sel.site.restrictedContentDiscovery | yesno}}"
+                  }
+                ]
+              },
+              {
+                "kind": "text",
+                "text": "**Restricted site access** changes effective access: users need both ordinary SharePoint permission and membership in the control group. **Restricted Content Discovery** limits organization-wide search and Copilot discovery for this site but does **not** change permissions."
+              }
+            ]
+          },
+          {
+            "id": "site-settings",
+            "title": "{{$sel.site.title}} | Settings",
+            "subtitle": "Site details",
+            "icon": "Settings",
+            "url": "/_layouts/15/online/AdminHome.aspx#/siteManagement/activeSites/{{$sel.site.title | slug}}/settings",
+            "requires": "site",
+            "navItem": "active-sites",
+            "breadcrumb": [
+              "Home",
+              "Sites",
+              "Active sites",
+              "{{$sel.site.title}}"
+            ],
+            "menu": [
+              {
+                "page": "site-overview",
+                "label": "Overview",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "site-settings",
+                "label": "Settings",
+                "icon": "Settings"
+              },
+              {
+                "page": "site-sharing",
+                "label": "Sharing",
+                "icon": "Share2"
+              },
+              {
+                "page": "site-permissions",
+                "label": "Permissions",
+                "icon": "Users"
+              }
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "site-protection-form",
+                "title": "Restricted site access and discovery",
+                "description": "Restricted Content Discovery is a site setting; there is no tenant-wide switch to apply it everywhere.",
+                "fields": [
+                  {
+                    "id": "restrictedAccess",
+                    "label": "Restrict SharePoint site access to only users in specified groups",
+                    "control": "toggle",
+                    "defaultValue": "{{$sel.site.restrictedAccess}}",
+                    "help": "Users must already have permission and belong to an allowed group."
+                  },
+                  {
+                    "id": "restrictedGroup",
+                    "label": "Restricted site access group",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "{{$sel.site.restrictedGroup | default:hr-security}}",
+                    "visibleWhen": {
+                      "type": "equals",
+                      "path": "$form.restrictedAccess",
+                      "value": true
+                    },
+                    "options": [
+                      {
+                        "value": "hr-security",
+                        "label": "HR Security Group"
+                      },
+                      {
+                        "value": "all-employees",
+                        "label": "All Employees"
+                      },
+                      {
+                        "value": "finance-security",
+                        "label": "Finance Security Group"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "restrictedContentDiscovery",
+                    "label": "Restrict content from Microsoft Copilot",
+                    "control": "toggle",
+                    "defaultValue": "{{$sel.site.restrictedContentDiscovery}}",
+                    "help": "Reduces org-wide search and Copilot discovery without changing permissions."
+                  },
+                  {
+                    "id": "justification",
+                    "label": "Justification",
+                    "control": "textarea",
+                    "required": true,
+                    "defaultValue": "Copilot readiness cleanup for overshared HR content"
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "not",
+                        "rule": {
+                          "type": "equals",
+                          "path": "$form.restrictedGroup",
+                          "value": "all-employees"
+                        }
+                      },
+                      "message": "All Employees is not a restrictive control group. Choose HR Security Group for HR-Internal."
+                    },
+                    {
+                      "rule": {
+                        "type": "textMinLength",
+                        "path": "$form.justification",
+                        "min": 12
+                      },
+                      "message": "Enter a clear justification for updating site-level access controls."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "sites",
+                      "where": {
+                        "title": "{{$sel.site.title}}"
+                      },
+                      "set": {
+                        "restrictedAccess": "{{$form.restrictedAccess}}",
+                        "restrictedGroup": "{{$form.restrictedGroup}}",
+                        "restrictedContentDiscovery": "{{$form.restrictedContentDiscovery}}",
+                        "eeeuAccessible": false,
+                        "lastJustification": "{{$form.justification}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Site settings saved",
+                      "message": "Restricted site access and discovery settings were updated for {{$sel.site.title}}."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "site-sharing",
+            "title": "{{$sel.site.title}} | Sharing",
+            "subtitle": "Site details",
+            "icon": "Share2",
+            "url": "/_layouts/15/online/AdminHome.aspx#/siteManagement/activeSites/{{$sel.site.title | slug}}/sharing",
+            "requires": "site",
+            "navItem": "active-sites",
+            "breadcrumb": [
+              "Home",
+              "Sites",
+              "Active sites",
+              "{{$sel.site.title}}"
+            ],
+            "menu": [
+              {
+                "page": "site-overview",
+                "label": "Overview",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "site-settings",
+                "label": "Settings",
+                "icon": "Settings"
+              },
+              {
+                "page": "site-sharing",
+                "label": "Sharing",
+                "icon": "Share2"
+              },
+              {
+                "page": "site-permissions",
+                "label": "Permissions",
+                "icon": "Users"
+              }
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "site-sharing-form",
+                "title": "External file sharing",
+                "description": "Lock HR-Internal to internal-only sharing.",
+                "fields": [
+                  {
+                    "id": "externalSharing",
+                    "label": "External file sharing",
+                    "control": "radio",
+                    "required": true,
+                    "defaultValue": "{{$sel.site.externalSharing}}",
+                    "options": [
+                      {
+                        "value": "Anyone",
+                        "label": "Anyone"
+                      },
+                      {
+                        "value": "New and existing guests",
+                        "label": "New and existing guests"
+                      },
+                      {
+                        "value": "Existing guests only",
+                        "label": "Existing guests only"
+                      },
+                      {
+                        "value": "Only people in your organization",
+                        "label": "Only people in your organization"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.externalSharing",
+                        "value": "Only people in your organization"
+                      },
+                      "message": "For HR-Internal, turn off external file sharing by selecting Only people in your organization."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "sites",
+                      "where": {
+                        "title": "{{$sel.site.title}}"
+                      },
+                      "set": {
+                        "externalSharing": "{{$form.externalSharing}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Sharing settings saved",
+                      "message": "External file sharing for {{$sel.site.title}} is now {{$form.externalSharing}}."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "site-permissions",
+            "title": "{{$sel.site.title}} | Permissions",
+            "subtitle": "Site details",
+            "icon": "Users",
+            "url": "/_layouts/15/online/AdminHome.aspx#/siteManagement/activeSites/{{$sel.site.title | slug}}/permissions",
+            "requires": "site",
+            "navItem": "active-sites",
+            "breadcrumb": [
+              "Home",
+              "Sites",
+              "Active sites",
+              "{{$sel.site.title}}"
+            ],
+            "menu": [
+              {
+                "page": "site-overview",
+                "label": "Overview",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "site-settings",
+                "label": "Settings",
+                "icon": "Settings"
+              },
+              {
+                "page": "site-sharing",
+                "label": "Sharing",
+                "icon": "Share2"
+              },
+              {
+                "page": "site-permissions",
+                "label": "Permissions",
+                "icon": "Users"
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "permission-groups",
+                "title": "Permission groups",
+                "source": "$sel.site.permissionGroups",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name"
+                  },
+                  {
+                    "key": "role",
+                    "label": "Role"
+                  },
+                  {
+                    "key": "members",
+                    "label": "Members",
+                    "format": "count"
+                  }
+                ],
+                "rowActions": [
+                  {
+                    "id": "remove-eeeu",
+                    "label": "Remove access",
+                    "icon": "UserX",
+                    "visibleWhen": {
+                      "type": "equals",
+                      "path": "$row.name",
+                      "value": "Everyone except external users"
+                    },
+                    "action": {
+                      "type": "sequence",
+                      "actions": [
+                        {
+                          "type": "update",
+                          "path": "sites",
+                          "where": {
+                            "title": "{{$sel.site.title}}"
+                          },
+                          "set": {
+                            "eeeuAccessible": false,
+                            "eeeuItems": 0
+                          }
+                        },
+                        {
+                          "type": "notify",
+                          "title": "Broad group removed",
+                          "message": "Everyone except external users is no longer exposed on {{$sel.site.title}}."
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "sharing-policy",
+            "title": "Sharing",
+            "subtitle": "Policies",
+            "icon": "Share2",
+            "url": "/_layouts/15/online/AdminHome.aspx#/sharing",
+            "breadcrumb": [
+              "Home",
+              "Policies"
+            ],
+            "commands": [
+              {
+                "id": "tenant-rcd",
+                "label": "Apply Restricted Content Discovery tenant-wide",
+                "icon": "EyeOff",
+                "variant": "danger",
+                "action": {
+                  "type": "fail",
+                  "message": "Restricted Content Discovery is a site-level control for selected high-risk sites, not a tenant-wide sharing policy switch."
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "org-sharing-form",
+                "title": "File and folder links",
+                "description": "Set conservative defaults so new sharing links require named recipients.",
+                "fields": [
+                  {
+                    "id": "defaultLinkType",
+                    "label": "Default link type",
+                    "control": "radio",
+                    "required": true,
+                    "defaultValue": "{{tenantSharing.defaultLinkType}}",
+                    "options": [
+                      {
+                        "value": "Anyone",
+                        "label": "Anyone"
+                      },
+                      {
+                        "value": "People in your organization",
+                        "label": "People in your organization"
+                      },
+                      {
+                        "value": "Specific people",
+                        "label": "Specific people"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "defaultPermission",
+                    "label": "Default link permission",
+                    "control": "radio",
+                    "required": true,
+                    "defaultValue": "{{tenantSharing.defaultPermission}}",
+                    "options": [
+                      {
+                        "value": "View",
+                        "label": "View"
+                      },
+                      {
+                        "value": "Edit",
+                        "label": "Edit"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.defaultLinkType",
+                        "value": "Specific people"
+                      },
+                      "message": "Choose Specific people so new links go only to explicitly named recipients."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "tenantSharing.defaultLinkType",
+                      "value": "{{$form.defaultLinkType}}"
+                    },
+                    {
+                      "type": "set",
+                      "path": "tenantSharing.defaultPermission",
+                      "value": "{{$form.defaultPermission}}"
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Sharing policy saved",
+                      "message": "Default link type is now {{$form.defaultLinkType}}."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "access-control",
+            "title": "Access control",
+            "subtitle": "Policies",
+            "icon": "Lock",
+            "url": "/_layouts/15/online/AdminHome.aspx#/accessControl",
+            "breadcrumb": [
+              "Home",
+              "Policies"
+            ],
+            "components": [
+              {
+                "kind": "settings",
+                "id": "site-level-access",
+                "title": "Site-level access restriction",
+                "description": "Tenant-level enablement allows site-level restricted access policies. HR-Internal still needs its own control group on the site Settings tab.",
+                "fields": [
+                  {
+                    "id": "enabled",
+                    "label": "Allow access restriction",
+                    "control": "toggle",
+                    "bindTo": "tenantAccessControl.siteLevelRestrictionEnabled"
+                  },
+                  {
+                    "id": "delegate",
+                    "label": "Delegate site access restriction control to site administrators",
+                    "control": "toggle",
+                    "bindTo": "tenantAccessControl.delegateToSiteAdmins"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "readinessSignals": [
+            {
+              "signal": "Data access governance reports",
+              "status": "Needs review",
+              "detail": "EEEU and sharing link activity reports have not been reviewed."
+            },
+            {
+              "signal": "HR-Internal access",
+              "status": "At risk",
+              "detail": "HR content is visible through broad internal sharing."
+            },
+            {
+              "signal": "Default link type",
+              "status": "Permissive",
+              "detail": "People in your organization links can be forwarded internally."
+            }
+          ],
+          "reports": {
+            "eeeu": {
+              "status": "Not run",
+              "ran": false
+            },
+            "sharingLinks": {
+              "status": "Not run",
+              "ran": false
+            }
+          },
+          "tenantSharing": {
+            "defaultLinkType": "People in your organization",
+            "defaultPermission": "View"
+          },
+          "tenantAccessControl": {
+            "siteLevelRestrictionEnabled": true,
+            "delegateToSiteAdmins": false
+          },
+          "reviewRequests": [],
+          "sites": [
+            {
+              "title": "HR-Internal",
+              "url": "https://contoso.sharepoint.com/sites/hr-internal",
+              "privacy": "Private",
+              "owner": "Priya",
+              "sensitivity": "Confidential",
+              "externalSharing": "New and existing guests",
+              "eeeuItems": 48,
+              "eeeuAccessible": true,
+              "anyoneLinks": 6,
+              "orgLinks": 38,
+              "externalSpecificLinks": 4,
+              "restrictedAccess": false,
+              "restrictedGroup": "",
+              "restrictedContentDiscovery": false,
+              "reviewInitiated": false,
+              "permissionGroups": [
+                {
+                  "name": "HR Owners",
+                  "role": "Full Control",
+                  "members": 3
+                },
+                {
+                  "name": "HR Members",
+                  "role": "Edit",
+                  "members": 42
+                },
+                {
+                  "name": "Everyone except external users",
+                  "role": "Read",
+                  "members": 640
+                }
+              ]
+            },
+            {
+              "title": "Finance Planning",
+              "url": "https://contoso.sharepoint.com/sites/finance-planning",
+              "privacy": "Private",
+              "owner": "Maya",
+              "sensitivity": "Confidential",
+              "externalSharing": "Existing guests only",
+              "eeeuItems": 13,
+              "eeeuAccessible": true,
+              "anyoneLinks": 0,
+              "orgLinks": 19,
+              "externalSpecificLinks": 2,
+              "restrictedAccess": false,
+              "restrictedGroup": "",
+              "restrictedContentDiscovery": false,
+              "reviewInitiated": false,
+              "permissionGroups": [
+                {
+                  "name": "Finance Owners",
+                  "role": "Full Control",
+                  "members": 4
+                },
+                {
+                  "name": "Finance Members",
+                  "role": "Edit",
+                  "members": 30
+                }
+              ]
+            },
+            {
+              "title": "Sales Enablement",
+              "url": "https://contoso.sharepoint.com/sites/sales-enablement",
+              "privacy": "Public",
+              "owner": "Diego",
+              "sensitivity": "General",
+              "externalSharing": "New and existing guests",
+              "eeeuItems": 31,
+              "eeeuAccessible": true,
+              "anyoneLinks": 22,
+              "orgLinks": 51,
+              "externalSpecificLinks": 12,
+              "restrictedAccess": false,
+              "restrictedGroup": "",
+              "restrictedContentDiscovery": false,
+              "reviewInitiated": false,
+              "permissionGroups": [
+                {
+                  "name": "Sales Owners",
+                  "role": "Full Control",
+                  "members": 5
+                },
+                {
+                  "name": "Everyone except external users",
+                  "role": "Read",
+                  "members": 640
+                }
+              ]
+            },
+            {
+              "title": "Facilities",
+              "url": "https://contoso.sharepoint.com/sites/facilities",
+              "privacy": "Private",
+              "owner": "Alex",
+              "sensitivity": "General",
+              "externalSharing": "Only people in your organization",
+              "eeeuItems": 2,
+              "eeeuAccessible": false,
+              "anyoneLinks": 0,
+              "orgLinks": 4,
+              "externalSpecificLinks": 0,
+              "restrictedAccess": false,
+              "restrictedGroup": "",
+              "restrictedContentDiscovery": false,
+              "reviewInitiated": false,
+              "permissionGroups": [
+                {
+                  "name": "Facilities Owners",
+                  "role": "Full Control",
+                  "members": 2
+                }
+              ]
+            },
+            {
+              "title": "Executive Programs",
+              "url": "https://contoso.sharepoint.com/sites/executive-programs",
+              "privacy": "Private",
+              "owner": "Noor",
+              "sensitivity": "Highly Confidential",
+              "externalSharing": "Existing guests only",
+              "eeeuItems": 7,
+              "eeeuAccessible": true,
+              "anyoneLinks": 1,
+              "orgLinks": 11,
+              "externalSpecificLinks": 1,
+              "restrictedAccess": true,
+              "restrictedGroup": "Executive Security Group",
+              "restrictedContentDiscovery": true,
+              "reviewInitiated": false,
+              "permissionGroups": [
+                {
+                  "name": "Executive Owners",
+                  "role": "Full Control",
+                  "members": 2
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "key": "run-eeeu-report",
+          "title": "Run the EEEU activity report",
+          "instruction": "In **Reports** > **Data access governance**, open **Shared with 'Everyone except external users'** and select **Run**.",
+          "hint": "The report is an activity report on the Data access governance landing page.",
+          "explanation": "The EEEU report identifies sites where content is shared broadly with all internal users.",
+          "targetId": "run-eeeu-report",
+          "rules": [
+            {
+              "key": "eeeu-ran",
+              "description": "The EEEU activity report is ready",
+              "rule": {
+                "type": "equals",
+                "path": "reports.eeeu.ran",
+                "value": true
+              },
+              "failureFeedback": "Open the Shared with 'Everyone except external users' report and select Run."
+            }
+          ]
+        },
+        {
+          "key": "run-sharing-links",
+          "title": "Run the sharing links activity report",
+          "instruction": "Return to **Data access governance**, open **Sharing links**, and select **Run** to view sites with recent sharing links.",
+          "hint": "The Sharing links report is another activity report under Data access governance.",
+          "explanation": "Sharing links reports show where users created broad or external links, which can become Copilot discovery risks.",
+          "targetId": "run-sharing-links-report",
+          "rules": [
+            {
+              "key": "sharing-ran",
+              "description": "The sharing links report is ready",
+              "rule": {
+                "type": "equals",
+                "path": "reports.sharingLinks.ran",
+                "value": true
+              },
+              "failureFeedback": "Open the Sharing links report and select Run."
+            }
+          ]
+        },
+        {
+          "key": "initiate-review",
+          "title": "Ask the HR site owner to review oversharing",
+          "instruction": "On the **Shared with 'Everyone except external users'** report, use **Initiate site access review** for **HR-Internal**. Do not delete the site or remove its owner.",
+          "hint": "Use the row action for HR-Internal in the EEEU report.",
+          "explanation": "A site access review delegates item-level cleanup to the site owner, who is best positioned to validate legitimate access.",
+          "targetId": "eeeu-sites",
+          "rules": [
+            {
+              "key": "review-created",
+              "description": "A site access review was initiated for HR-Internal",
+              "rule": {
+                "type": "arrayContains",
+                "path": "reviewRequests",
+                "match": {
+                  "site": "HR-Internal",
+                  "status": "Pending"
+                }
+              },
+              "failureFeedback": "Initiate the site access review for HR-Internal from the EEEU report."
+            }
+          ]
+        },
+        {
+          "key": "restrict-hr-site",
+          "title": "Restrict access and discovery for HR-Internal",
+          "instruction": "Go to **Sites** > **Active sites**, open **HR-Internal**, then on **Settings** turn on **Restrict SharePoint site access to only users in specified groups**, choose **HR Security Group**, turn on **Restrict content from Microsoft Copilot**, enter a justification, and select **Save**.",
+          "hint": "Restricted site access changes effective access. Restricted Content Discovery limits org-wide search and Copilot discovery but does not change permissions.",
+          "explanation": "Use Restricted site access when the site must only be usable by a control group; use Restricted Content Discovery as a temporary discoverability control while owners right-size permissions.",
+          "targetId": "site-protection-form",
+          "rules": [
+            {
+              "key": "hr-restricted",
+              "description": "HR-Internal is restricted to the HR Security Group and RCD is on",
+              "rule": {
+                "type": "arrayContains",
+                "path": "sites",
+                "match": {
+                  "title": "HR-Internal",
+                  "restrictedAccess": true,
+                  "restrictedGroup": "hr-security",
+                  "restrictedContentDiscovery": true,
+                  "eeeuAccessible": false
+                }
+              },
+              "failureFeedback": "Open HR-Internal settings, enable restricted site access for HR Security Group, and enable Restrict content from Microsoft Copilot."
+            }
+          ]
+        },
+        {
+          "key": "site-sharing",
+          "title": "Turn off external file sharing for HR-Internal",
+          "instruction": "On the **HR-Internal** site details, open **Sharing** and set **External file sharing** to **Only people in your organization**, then select **Save**.",
+          "hint": "This setting prevents new external file sharing from this site.",
+          "explanation": "Site-level sharing limits are important for sensitive sites because they prevent site owners from creating broader links than the business allows.",
+          "targetId": "site-sharing-form",
+          "rules": [
+            {
+              "key": "external-off",
+              "description": "HR-Internal external sharing is internal-only",
+              "rule": {
+                "type": "arrayContains",
+                "path": "sites",
+                "match": {
+                  "title": "HR-Internal",
+                  "externalSharing": "Only people in your organization"
+                }
+              },
+              "failureFeedback": "Set HR-Internal External file sharing to Only people in your organization."
+            }
+          ]
+        },
+        {
+          "key": "default-specific-people",
+          "title": "Set conservative organization link defaults",
+          "instruction": "Open **Policies** > **Sharing**. Under **File and folder links**, set **Default link type** to **Specific people** and select **Save**.",
+          "hint": "Specific people links require named recipients and are less likely to be forwarded broadly.",
+          "explanation": "A default link type of Specific people reduces future oversharing by making least-privilege sharing the normal path.",
+          "targetId": "org-sharing-form",
+          "rules": [
+            {
+              "key": "specific-default",
+              "description": "The default link type is Specific people",
+              "rule": {
+                "type": "equals",
+                "path": "tenantSharing.defaultLinkType",
+                "value": "Specific people"
+              },
+              "failureFeedback": "Set Default link type to Specific people in Policies > Sharing."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "hr-no-eeeu",
+          "description": "HR-Internal is no longer accessible through EEEU",
+          "rule": {
+            "type": "arrayContains",
+            "path": "sites",
+            "match": {
+              "title": "HR-Internal",
+              "eeeuAccessible": false
+            }
+          },
+          "successFeedback": "HR-Internal is no longer exposed through broad internal sharing.",
+          "failureFeedback": "Remove broad internal access by applying restricted site access and cleanup."
+        },
+        {
+          "key": "hr-external-off",
+          "description": "External sharing is off for HR-Internal",
+          "rule": {
+            "type": "arrayContains",
+            "path": "sites",
+            "match": {
+              "title": "HR-Internal",
+              "externalSharing": "Only people in your organization"
+            }
+          },
+          "failureFeedback": "HR-Internal must use Only people in your organization for External file sharing."
+        },
+        {
+          "key": "specific-people-default",
+          "description": "Organization default links use Specific people",
+          "rule": {
+            "type": "equals",
+            "path": "tenantSharing.defaultLinkType",
+            "value": "Specific people"
+          },
+          "successFeedback": "New sharing links default to named recipients.",
+          "failureFeedback": "Set Policies > Sharing > Default link type to Specific people."
+        }
+      ],
+      "solution": "1. Open **Reports** > **Data access governance** > **Shared with 'Everyone except external users'** and select **Run**.\n2. Return to **Data access governance**, open **Sharing links**, and select **Run**.\n3. In the EEEU report, on **HR-Internal**, choose **Initiate site access review**. Do not delete the site or remove its owner.\n4. Open **Sites** > **Active sites** > **HR-Internal** > **Settings**. Turn on **Restrict SharePoint site access to only users in specified groups**, choose **HR Security Group**, turn on **Restrict content from Microsoft Copilot**, enter a justification, and select **Save**. Restricted site access changes effective access; Restricted Content Discovery limits organization-wide search and Copilot discovery but does not change permissions.\n5. Open **Sharing** for **HR-Internal**, set **External file sharing** to **Only people in your organization**, and select **Save**.\n6. Open **Policies** > **Sharing**, set **Default link type** to **Specific people**, and select **Save**."
+    }
+  ]
+}

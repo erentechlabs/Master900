@@ -20,8 +20,7 @@ export const nav = {
   reminders: "Reminders",
   noReminders: "You're all caught up.",
   mainNavigation: "Main navigation",
-  userMenu: "Account menu",
-  signedInAs: "Signed in as {email}",
+  userMenu: "Profile menu",
 };
 
 export const legal = {
@@ -43,18 +42,7 @@ export const legal = {
 };
 
 export const errors = {
-  password_too_short: "Use at least 10 characters.",
-  password_too_long: "Use at most 128 characters.",
-  password_needs_letter_and_digit: "Include at least one letter and one number.",
-  password_too_common: "This password is too common. Choose another one.",
-  passwords_do_not_match: "Passwords do not match.",
-  terms_required: "Please confirm to continue.",
   email_invalid: "Enter a valid e-mail address.",
-  email_taken: "An account with this e-mail address already exists.",
-  registration_disabled: "Registration is currently disabled.",
-  invalid_credentials: "E-mail or password is incorrect.",
-  account_suspended: "This account is suspended. Contact an administrator.",
-  current_password_invalid: "Your current password is incorrect.",
   confirmation_mismatch: "Type the confirmation text exactly as shown.",
   not_found: "The requested item was not found.",
   invalid_input: "Some values are invalid.",
@@ -66,9 +54,6 @@ export const errors = {
   comment_required: "A comment is required for this action.",
   invalid_transition: "This action is not allowed for the current status.",
   publish_date_required: "Choose a future publication date.",
-  self_demotion: "You cannot remove your own administrator role.",
-  cannot_self_suspend: "You cannot suspend your own account.",
-  last_admin: "At least one active administrator must remain.",
   change_note_required: "Describe what changed before saving.",
   disabled: "This feature is currently disabled.",
   invalid_lab_config: "The lab configuration is invalid. Check the highlighted fields.",

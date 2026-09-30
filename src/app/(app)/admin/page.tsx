@@ -13,7 +13,7 @@ export default async function AdminOverviewPage() {
   const user = await requirePermission("content:read_drafts");
   const { t, fmt } = await getI18n();
   const [learners, certifications, lessons, questions, pendingLessons, pendingQuestions, pendingLabs, aiDrafts, needsVerification, alerts, audit] = await Promise.all([
-    prisma.user.count(),
+    Promise.resolve(1),
     prisma.certification.count(),
     prisma.lesson.count({ where: { status: "PUBLISHED" } }),
     prisma.question.count({ where: { status: "PUBLISHED" } }),
@@ -63,7 +63,6 @@ export default async function AdminOverviewPage() {
             ["labs", "labs"],
             ["reviews", "reviews"],
             ["import-export", "importExport"],
-            ["users", "users"],
             ["jobs", "jobs"],
             ["settings", "settings"],
           ].map(([href, key]) => <Button key={href} asChild variant="outline"><Link href={`/admin/${href}`}>{t(`admin.sections.${key}` as MessageKey)}</Link></Button>)}

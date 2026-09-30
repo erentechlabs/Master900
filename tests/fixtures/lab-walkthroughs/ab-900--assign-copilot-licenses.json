@@ -1,0 +1,77 @@
+{
+  "certification": "AB-900",
+  "lab": "assign-copilot-licenses",
+  "note": "Fix usage location, assign Microsoft Copilot to the Sales pilot group, configure settings, and view usage.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "active-users"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "active-users-table",
+      "rowKey": "priya@contoso.example"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "user-settings-form",
+      "values": {
+        "usageLocation": "United States"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "licenses"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "license-products",
+      "rowKey": "Microsoft Copilot"
+    },
+    {
+      "type": "click",
+      "componentId": "assign-copilot-license"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "assign-license-form",
+      "values": {
+        "assignmentType": "group",
+        "group": "Copilot Pilot - Sales",
+        "subscription": "Microsoft Copilot",
+        "apps": [
+          "copilot"
+        ]
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "license-errors"
+    },
+    {
+      "type": "navigate",
+      "page": "copilot-settings"
+    },
+    {
+      "type": "setField",
+      "componentId": "copilot-controls",
+      "fieldId": "pinCopilotChat",
+      "value": "Pin Copilot Chat in Microsoft 365 apps"
+    },
+    {
+      "type": "setField",
+      "componentId": "copilot-controls",
+      "fieldId": "webSearchAllowed",
+      "value": false
+    },
+    {
+      "type": "navigate",
+      "page": "reports"
+    },
+    {
+      "type": "click",
+      "componentId": "report-tiles",
+      "itemId": "copilot-usage-report"
+    }
+  ]
+}

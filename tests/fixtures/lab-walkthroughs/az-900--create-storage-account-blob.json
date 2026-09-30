@@ -1,0 +1,75 @@
+{
+  "certification": "AZ-900",
+  "lab": "create-storage-account-blob",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "storage-accounts"
+    },
+    {
+      "type": "click",
+      "componentId": "storage-create"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "storage-wizard",
+      "values": {
+        "subscription": "Contoso Learning (simulated)",
+        "resourceGroup": "rg-data-prod",
+        "name": "northwindinv2026",
+        "region": "westeurope",
+        "primaryService": "Azure Blob Storage",
+        "performance": "Standard",
+        "redundancy": "RA-GRS",
+        "secureTransfer": true,
+        "anonymousBlobAccess": false,
+        "minimumTls": "TLS 1.2",
+        "accessTier": "Hot",
+        "networkAccess": "Enabled from all networks",
+        "blobSoftDelete": true,
+        "containerSoftDelete": true
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "containers"
+    },
+    {
+      "type": "click",
+      "componentId": "new-container"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "container-form",
+      "values": {
+        "name": "invoices",
+        "publicAccess": "Private (no anonymous access)"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "upload-blob"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "upload-form",
+      "values": {
+        "file": "invoice-2026-09.pdf",
+        "blobType": "Block blob",
+        "accessTier": "Hot"
+      }
+    },
+    {
+      "type": "rowClick",
+      "componentId": "blob-list",
+      "rowKey": "invoice-2026-09.pdf"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "tier-form",
+      "values": {
+        "accessTier": "Cool"
+      }
+    }
+  ]
+}

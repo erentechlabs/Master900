@@ -1,0 +1,59 @@
+{
+ "certification": "AZ-900",
+ "lab": "create-metric-alert-rule",
+ "note": "Create CPU metric alert, simulate load, acknowledge fired alert, review health views.",
+ "events": [
+  {
+   "type": "navigate",
+   "page": "monitor-metrics"
+  },
+  {
+   "type": "click",
+   "componentId": "create-alert-rule"
+  },
+  {
+   "type": "submitForm",
+   "componentId": "alert-rule-wizard",
+   "values": {
+    "scope": "vm-app-02",
+    "signal": "Percentage CPU",
+    "thresholdType": "Static",
+    "aggregation": "Average",
+    "operator": "Greater than",
+    "thresholdValue": 80,
+    "checkEvery": "5 minutes",
+    "lookback": "5 minutes",
+    "actionGroupMode": "Create action group",
+    "actionGroupName": "ag-ops",
+    "displayName": "OPS",
+    "notificationType": "Email/SMS message/Push/Voice",
+    "email": "ops@contoso.example",
+    "severity": "Sev2 - Warning",
+    "alertName": "alert-vm-app-02-cpu",
+    "enabled": true
+   }
+  },
+  {
+   "type": "navigate",
+   "page": "monitor-metrics"
+  },
+  {
+   "type": "click",
+   "componentId": "run-cpu-stress"
+  },
+  {
+   "type": "navigate",
+   "page": "alerts"
+  },
+  {
+   "type": "rowAction",
+   "componentId": "fired-alerts",
+   "rowKey": "High CPU on vm-app-02",
+   "actionId": "acknowledge"
+  },
+  {
+   "type": "navigate",
+   "page": "service-health"
+  }
+ ]
+}

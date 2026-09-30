@@ -7,8 +7,7 @@ import { authorize } from "@/modules/auth/session";
 
 /** Enroll the current learner in a certification track and continue to the right next step. */
 export async function enrollAction(code: string): Promise<void> {
-  const user = await authorize("learn:use").catch(() => null);
-  if (!user) redirect(`/sign-in?callbackUrl=${encodeURIComponent(`/certifications/${code}`)}`);
+  const user = await authorize("learn:use");
   const cert = await prisma.certification.findUnique({ where: { code } });
   if (!cert || cert.status === "RETIRED") redirect(`/certifications/${code}`);
   const existing = await prisma.enrollment.count({ where: { userId: user.id, status: "ACTIVE" } });

@@ -57,9 +57,6 @@ export function resetRateLimits(key?: string) {
 }
 
 export const RATE_LIMITS = {
-  signIn: { limit: 8, windowMs: 15 * 60_000 },
-  signInIp: { limit: 40, windowMs: 15 * 60_000 },
-  signUp: { limit: 5, windowMs: 60 * 60_000 },
   tutor: { limit: 20, windowMs: 60_000 },
   answer: { limit: 120, windowMs: 60_000 },
   labAction: { limit: 240, windowMs: 60_000 },

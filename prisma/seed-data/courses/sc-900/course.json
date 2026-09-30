@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "certificationCode": "SC-900",
+  "contentVersionLabel": "labs-2026.09",
+  "sourceLocale": "en",
+  "isDemo": true,
+  "domains": [
+    {
+      "key": "security-compliance-identity-concepts",
+      "title": "Describe the concepts of security, compliance, and identity",
+      "weightMin": 10,
+      "weightMax": 15,
+      "objectives": [
+        {
+          "code": "1.1",
+          "title": "Describe security and compliance concepts"
+        },
+        {
+          "code": "1.2",
+          "title": "Define identity concepts"
+        }
+      ]
+    },
+    {
+      "key": "microsoft-entra",
+      "title": "Describe the capabilities of Microsoft Entra",
+      "weightMin": 25,
+      "weightMax": 30,
+      "objectives": [
+        {
+          "code": "2.1",
+          "title": "Describe function and identity types of Microsoft Entra ID"
+        },
+        {
+          "code": "2.2",
+          "title": "Describe authentication capabilities of Microsoft Entra ID"
+        },
+        {
+          "code": "2.3",
+          "title": "Describe access management capabilities of Microsoft Entra ID"
+        },
+        {
+          "code": "2.4",
+          "title": "Describe identity protection and governance capabilities of Microsoft Entra"
+        }
+      ]
+    },
+    {
+      "key": "security-solutions",
+      "title": "Describe the capabilities of Microsoft security solutions",
+      "weightMin": 35,
+      "weightMax": 40,
+      "objectives": [
+        {
+          "code": "3.1",
+          "title": "Describe core infrastructure security services in Azure"
+        },
+        {
+          "code": "3.2",
+          "title": "Describe security management capabilities of Azure"
+        },
+        {
+          "code": "3.3",
+          "title": "Describe capabilities of Microsoft Sentinel"
+        },
+        {
+          "code": "3.4",
+          "title": "Describe threat protection with Microsoft Defender XDR"
+        }
+      ]
+    },
+    {
+      "key": "compliance-solutions",
+      "title": "Describe the capabilities of Microsoft compliance solutions",
+      "weightMin": 20,
+      "weightMax": 25,
+      "objectives": [
+        {
+          "code": "4.1",
+          "title": "Describe Microsoft Service Trust Portal and privacy principles"
+        },
+        {
+          "code": "4.2",
+          "title": "Describe compliance management capabilities of Microsoft Purview"
+        },
+        {
+          "code": "4.3",
+          "title": "Describe information protection, data lifecycle management, and data governance capabilities of Microsoft Purview"
+        },
+        {
+          "code": "4.4",
+          "title": "Describe insider risk, eDiscovery, and audit capabilities in Microsoft Purview"
+        }
+      ]
+    }
+  ]
+}

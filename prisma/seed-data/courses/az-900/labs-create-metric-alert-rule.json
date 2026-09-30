@@ -1,0 +1,1258 @@
+{
+ "labs": [
+  {
+   "slug": "create-metric-alert-rule",
+   "type": "UI_SIMULATION",
+   "title": "Create a metric alert rule for high VM CPU",
+   "summary": "Use Azure Monitor to chart VM CPU, create an alert rule with an email action group, simulate load, and acknowledge the fired alert.",
+   "scenario": "Tailwind Traders operations wants a warning when **vm-app-02** has sustained high CPU. In the **simulated Azure portal** on your lab VM, review **Azure Monitor > Metrics** for **Percentage CPU**, create an alert rule for **vm-app-02** where **Average Percentage CPU** is **Greater than 80**, evaluated every **5 minutes** over a **5 minutes** lookback period, create action group **ag-ops** with email **ops@contoso.example**, set **Severity 2 - Warning**, then run the simulated CPU stress command and acknowledge the fired alert. Also review how **Service Health** differs from **Resource Health**.",
+   "domainKey": "azure-management-governance",
+   "moduleSlug": "monitoring-tools",
+   "objectiveCode": "3.4",
+   "complexity": "BASIC",
+   "estimatedMinutes": 25,
+   "learningObjectives": [
+    "Inspect a VM metric chart in Azure Monitor",
+    "Create a metric alert rule with signal, condition, action group, and severity",
+    "Simulate a fired alert and set user response to Acknowledged",
+    "Differentiate Service Health and Resource Health"
+   ],
+   "prerequisites": [
+    "Know that metrics are numeric telemetry over time"
+   ],
+   "sources": [
+    {
+     "title": "Create Azure Monitor metric alert rules",
+     "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-create-metric-alert-rule"
+    },
+    {
+     "title": "Azure Monitor alerts overview",
+     "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-overview"
+    },
+    {
+     "title": "Action groups in Azure Monitor",
+     "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/action-groups"
+    },
+    {
+     "title": "Azure Resource Health overview",
+     "url": "https://learn.microsoft.com/en-us/azure/service-health/resource-health-overview"
+    }
+   ],
+   "config": {
+    "portal": {
+     "name": "Microsoft Azure",
+     "theme": "azure",
+     "user": "alex@contoso.example",
+     "tenant": "Contoso (contoso.example)",
+     "url": "https://portal.azure.com",
+     "searchPlaceholder": "Search resources, services, and docs (G+/)"
+    },
+    "vm": {
+     "name": "LAB-VM-01",
+     "os": "windows",
+     "apps": [
+      "browser",
+      "terminal"
+     ]
+    },
+    "terminal": {
+     "title": "Cloud Shell (Bash)",
+     "prompt": "alex@Azure:~$",
+     "surface": "both",
+     "welcome": "Welcome to Azure Cloud Shell (simulation). Use the provided command to trigger lab telemetry.",
+     "commands": [
+      {
+       "id": "cpu-stress",
+       "pattern": "^run-cpu-stress --vm vm-app-02$",
+       "help": "run-cpu-stress --vm vm-app-02",
+       "actions": [
+        {
+         "type": "update",
+         "path": "virtualMachines",
+         "where": {
+          "name": "vm-app-02"
+         },
+         "set": {
+          "currentCpu": 92,
+          "cpuState": "High"
+         }
+        },
+        {
+         "type": "if",
+         "when": {
+          "type": "arrayContains",
+          "path": "alertRules",
+          "match": {
+           "name": "alert-vm-app-02-cpu"
+          }
+         },
+         "then": [
+          {
+           "type": "append",
+           "path": "alerts",
+           "unique": "name",
+           "value": {
+            "name": "High CPU on vm-app-02",
+            "rule": "alert-vm-app-02-cpu",
+            "resource": "vm-app-02",
+            "severity": "Sev2",
+            "condition": "Average Percentage CPU > 80",
+            "status": "Fired",
+            "userResponse": "New"
+           }
+          },
+          {
+           "type": "notify",
+           "title": "Metric alert fired",
+           "message": "High CPU on vm-app-02 fired and notified ag-ops."
+          }
+         ],
+         "else": [
+          {
+           "type": "notify",
+           "title": "CPU load simulated",
+           "tone": "info",
+           "message": "CPU increased, but no matching alert rule is enabled yet."
+          }
+         ]
+        }
+       ],
+       "output": "CPU stress simulation started for vm-app-02. Percentage CPU crossed the alert threshold."
+      }
+     ],
+     "fallback": "{{$cmd}} is not available in this simulated Cloud Shell. Type help."
+    },
+    "clock": {
+     "start": "2026-10-01T10:00:00Z"
+    },
+    "startPage": "home",
+    "navigation": [
+     {
+      "page": "home",
+      "label": "Home",
+      "icon": "Home"
+     },
+     {
+      "page": "monitor-metrics",
+      "label": "Monitor",
+      "icon": "Activity",
+      "section": "Management"
+     },
+     {
+      "page": "alerts",
+      "label": "Alerts",
+      "icon": "Bell",
+      "section": "Management"
+     },
+     {
+      "page": "service-health",
+      "label": "Service Health",
+      "icon": "Siren",
+      "section": "Management"
+     }
+    ],
+    "pages": [
+     {
+      "id": "home",
+      "title": "Home",
+      "url": "/#home",
+      "components": [
+       {
+        "kind": "tiles",
+        "id": "home-services",
+        "title": "Azure services",
+        "size": "sm",
+        "items": [
+         {
+          "id": "tile-monitor",
+          "label": "Monitor",
+          "icon": "Activity",
+          "action": {
+           "type": "navigate",
+           "page": "monitor-metrics"
+          }
+         },
+         {
+          "id": "tile-alerts",
+          "label": "Alerts",
+          "icon": "Bell",
+          "action": {
+           "type": "navigate",
+           "page": "alerts"
+          }
+         },
+         {
+          "id": "tile-service-health",
+          "label": "Service Health",
+          "icon": "Siren",
+          "action": {
+           "type": "navigate",
+           "page": "service-health"
+          }
+         },
+         {
+          "id": "tile-vms",
+          "label": "Virtual machines",
+          "icon": "Monitor",
+          "action": {
+           "type": "navigate",
+           "page": "vms"
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "monitor-metrics",
+      "title": "Monitor | Metrics",
+      "subtitle": "Scope: vm-app-02",
+      "icon": "ChartLine",
+      "url": "/#view/Microsoft_Azure_Monitoring/Metrics.ReactView",
+      "breadcrumb": [
+       "Home",
+       "Monitor"
+      ],
+      "commands": [
+       {
+        "id": "create-alert-rule",
+        "label": "New alert rule",
+        "icon": "Plus",
+        "variant": "primary",
+        "action": {
+         "type": "navigate",
+         "page": "alert-create"
+        }
+       },
+       {
+        "id": "run-cpu-stress",
+        "label": "Run CPU stress test",
+        "icon": "Cpu",
+        "action": {
+         "type": "sequence",
+         "actions": [
+          {
+           "type": "update",
+           "path": "virtualMachines",
+           "where": {
+            "name": "vm-app-02"
+           },
+           "set": {
+            "currentCpu": 92,
+            "cpuState": "High"
+           }
+          },
+          {
+           "type": "if",
+           "when": {
+            "type": "arrayContains",
+            "path": "alertRules",
+            "match": {
+             "name": "alert-vm-app-02-cpu"
+            }
+           },
+           "then": [
+            {
+             "type": "append",
+             "path": "alerts",
+             "unique": "name",
+             "value": {
+              "name": "High CPU on vm-app-02",
+              "rule": "alert-vm-app-02-cpu",
+              "resource": "vm-app-02",
+              "severity": "Sev2",
+              "condition": "Average Percentage CPU > 80",
+              "status": "Fired",
+              "userResponse": "New"
+             }
+            },
+            {
+             "type": "notify",
+             "title": "Metric alert fired",
+             "message": "High CPU on vm-app-02 fired and notified ag-ops."
+            }
+           ],
+           "else": [
+            {
+             "type": "notify",
+             "title": "CPU load simulated",
+             "tone": "info",
+             "message": "CPU increased, but no matching alert rule is enabled yet."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      ],
+      "components": [
+       {
+        "kind": "properties",
+        "title": "Metric selector",
+        "items": [
+         {
+          "label": "Scope",
+          "value": "vm-app-02"
+         },
+         {
+          "label": "Metric namespace",
+          "value": "Virtual Machine Host"
+         },
+         {
+          "label": "Metric",
+          "value": "Percentage CPU"
+         },
+         {
+          "label": "Aggregation",
+          "value": "Average"
+         }
+        ]
+       },
+       {
+        "kind": "chart",
+        "id": "cpu-metric-chart",
+        "title": "Percentage CPU (Average)",
+        "type": "line",
+        "unit": "%",
+        "points": [
+         {
+          "label": "09:35",
+          "value": 18
+         },
+         {
+          "label": "09:40",
+          "value": 22
+         },
+         {
+          "label": "09:45",
+          "value": 27
+         },
+         {
+          "label": "09:50",
+          "value": 31
+         },
+         {
+          "label": "09:55",
+          "value": 24
+         },
+         {
+          "label": "10:00",
+          "value": 29
+         }
+        ]
+       },
+       {
+        "kind": "chart",
+        "id": "cpu-stress-chart",
+        "title": "Percentage CPU after stress test",
+        "type": "line",
+        "unit": "%",
+        "visibleWhen": {
+         "type": "equals",
+         "path": "virtualMachines.1.cpuState",
+         "value": "High"
+        },
+        "points": [
+         {
+          "label": "10:01",
+          "value": 74
+         },
+         {
+          "label": "10:02",
+          "value": 88
+         },
+         {
+          "label": "10:03",
+          "value": 92
+         },
+         {
+          "label": "10:04",
+          "value": 91
+         },
+         {
+          "label": "10:05",
+          "value": 89
+         }
+        ]
+       },
+       {
+        "kind": "terminal",
+        "id": "cloudshell",
+        "title": "Cloud Shell"
+       }
+      ]
+     },
+     {
+      "id": "alert-create",
+      "title": "Create an alert rule",
+      "subtitle": "Azure Monitor",
+      "icon": "Bell",
+      "url": "/#view/Microsoft_Azure_Monitoring/CreateAlertRuleV2",
+      "navItem": "alerts",
+      "breadcrumb": [
+       "Home",
+       "Monitor",
+       "Alerts"
+      ],
+      "components": [
+       {
+        "kind": "wizard",
+        "id": "alert-rule-wizard",
+        "description": "Create an alert rule by selecting a resource scope, signal condition, action group, and rule details.",
+        "reviewLabel": "Review + create",
+        "tabs": [
+         {
+          "id": "scope",
+          "label": "Scope",
+          "fields": [
+           {
+            "id": "scope",
+            "label": "Select a resource",
+            "control": "select",
+            "required": true,
+            "defaultValue": "vm-app-02",
+            "optionsFrom": {
+             "path": "virtualMachines",
+             "value": "name",
+             "label": "name"
+            }
+           }
+          ]
+         },
+         {
+          "id": "condition",
+          "label": "Condition",
+          "fields": [
+           {
+            "id": "signal",
+            "label": "Signal name",
+            "control": "select",
+            "required": true,
+            "defaultValue": "Percentage CPU",
+            "options": [
+             {
+              "value": "Percentage CPU",
+              "label": "Percentage CPU"
+             },
+             {
+              "value": "Network In Total",
+              "label": "Network In Total"
+             },
+             {
+              "value": "Disk Read Bytes",
+              "label": "Disk Read Bytes"
+             }
+            ]
+           },
+           {
+            "id": "thresholdType",
+            "label": "Threshold type",
+            "control": "radio",
+            "required": true,
+            "defaultValue": "Static",
+            "options": [
+             {
+              "value": "Static",
+              "label": "Static"
+             },
+             {
+              "value": "Dynamic",
+              "label": "Dynamic"
+             }
+            ]
+           },
+           {
+            "id": "aggregation",
+            "label": "Aggregation type",
+            "control": "select",
+            "required": true,
+            "defaultValue": "Average",
+            "options": [
+             {
+              "value": "Average",
+              "label": "Average"
+             },
+             {
+              "value": "Maximum",
+              "label": "Maximum"
+             },
+             {
+              "value": "Minimum",
+              "label": "Minimum"
+             }
+            ]
+           },
+           {
+            "id": "operator",
+            "label": "Operator",
+            "control": "select",
+            "required": true,
+            "defaultValue": "Greater than",
+            "options": [
+             {
+              "value": "Greater than",
+              "label": "Greater than"
+             },
+             {
+              "value": "Greater than or equal to",
+              "label": "Greater than or equal to"
+             },
+             {
+              "value": "Less than",
+              "label": "Less than"
+             }
+            ]
+           },
+           {
+            "id": "thresholdValue",
+            "label": "Threshold value",
+            "control": "number",
+            "required": true,
+            "defaultValue": 80,
+            "min": 1,
+            "max": 100
+           },
+           {
+            "id": "checkEvery",
+            "label": "Check every",
+            "control": "select",
+            "required": true,
+            "defaultValue": "5 minutes",
+            "options": [
+             {
+              "value": "1 minute",
+              "label": "1 minute"
+             },
+             {
+              "value": "5 minutes",
+              "label": "5 minutes"
+             },
+             {
+              "value": "15 minutes",
+              "label": "15 minutes"
+             }
+            ]
+           },
+           {
+            "id": "lookback",
+            "label": "Lookback period",
+            "control": "select",
+            "required": true,
+            "defaultValue": "5 minutes",
+            "options": [
+             {
+              "value": "5 minutes",
+              "label": "5 minutes"
+             },
+             {
+              "value": "15 minutes",
+              "label": "15 minutes"
+             },
+             {
+              "value": "30 minutes",
+              "label": "30 minutes"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "id": "actions",
+          "label": "Actions",
+          "fields": [
+           {
+            "id": "actionGroupMode",
+            "label": "Action group",
+            "control": "radio",
+            "required": true,
+            "defaultValue": "Create action group",
+            "options": [
+             {
+              "value": "Create action group",
+              "label": "Create action group"
+             },
+             {
+              "value": "Select existing action group",
+              "label": "Select existing action group"
+             }
+            ]
+           },
+           {
+            "id": "actionGroupName",
+            "label": "Action group name",
+            "control": "text",
+            "required": true,
+            "defaultValue": "ag-ops"
+           },
+           {
+            "id": "displayName",
+            "label": "Display name",
+            "control": "text",
+            "required": true,
+            "defaultValue": "OPS",
+            "maxLength": 12
+           },
+           {
+            "id": "notificationType",
+            "label": "Notification type",
+            "control": "select",
+            "required": true,
+            "defaultValue": "Email/SMS message/Push/Voice",
+            "options": [
+             {
+              "value": "Email/SMS message/Push/Voice",
+              "label": "Email/SMS message/Push/Voice"
+             },
+             {
+              "value": "Webhook",
+              "label": "Webhook"
+             },
+             {
+              "value": "Automation Runbook",
+              "label": "Automation Runbook"
+             }
+            ]
+           },
+           {
+            "id": "email",
+            "label": "Email",
+            "control": "text",
+            "required": true,
+            "defaultValue": "ops@contoso.example",
+            "pattern": "^[^@\\s]+@[^@\\s]+\\.example$",
+            "patternMessage": "Use a fictional .example email address."
+           }
+          ]
+         },
+         {
+          "id": "details",
+          "label": "Details",
+          "fields": [
+           {
+            "id": "severity",
+            "label": "Severity",
+            "control": "select",
+            "required": true,
+            "defaultValue": "Sev2 - Warning",
+            "options": [
+             {
+              "value": "Sev0 - Critical",
+              "label": "Sev0 - Critical"
+             },
+             {
+              "value": "Sev1 - Error",
+              "label": "Sev1 - Error"
+             },
+             {
+              "value": "Sev2 - Warning",
+              "label": "Sev2 - Warning"
+             },
+             {
+              "value": "Sev3 - Informational",
+              "label": "Sev3 - Informational"
+             }
+            ]
+           },
+           {
+            "id": "alertName",
+            "label": "Alert rule name",
+            "control": "text",
+            "required": true,
+            "defaultValue": "alert-vm-app-02-cpu",
+            "pattern": "^[A-Za-z0-9_.-]{3,80}$",
+            "patternMessage": "Use a short alert rule name."
+           },
+           {
+            "id": "enabled",
+            "label": "Enable upon creation",
+            "control": "toggle",
+            "defaultValue": true
+           }
+          ]
+         },
+         {
+          "id": "review",
+          "label": "Review + create",
+          "fields": []
+         }
+        ],
+        "submit": {
+         "label": "Create",
+         "checks": [
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.scope",
+            "value": "vm-app-02"
+           },
+           "message": "Select vm-app-02 as the alert scope."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.signal",
+            "value": "Percentage CPU"
+           },
+           "message": "Use Percentage CPU."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.thresholdType",
+            "value": "Static"
+           },
+           "message": "Use a Static threshold."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.aggregation",
+            "value": "Average"
+           },
+           "message": "Use Average aggregation."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.operator",
+            "value": "Greater than"
+           },
+           "message": "Use Greater than."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.thresholdValue",
+            "value": 80
+           },
+           "message": "Set threshold value to 80."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.checkEvery",
+            "value": "5 minutes"
+           },
+           "message": "Set Check every to 5 minutes."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.lookback",
+            "value": "5 minutes"
+           },
+           "message": "Set Lookback period to 5 minutes."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.actionGroupName",
+            "value": "ag-ops"
+           },
+           "message": "Create action group ag-ops."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.email",
+            "value": "ops@contoso.example"
+           },
+           "message": "Use ops@contoso.example."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.severity",
+            "value": "Sev2 - Warning"
+           },
+           "message": "Set Severity to Sev2 - Warning."
+          }
+         ],
+         "actions": [
+          {
+           "type": "append",
+           "path": "actionGroups",
+           "unique": "name",
+           "value": {
+            "name": "{{$form.actionGroupName}}",
+            "displayName": "{{$form.displayName}}",
+            "resourceGroup": "rg-ops-monitoring",
+            "notificationType": "{{$form.notificationType}}",
+            "email": "{{$form.email}}"
+           }
+          },
+          {
+           "type": "append",
+           "path": "alertRules",
+           "unique": "name",
+           "value": {
+            "name": "{{$form.alertName}}",
+            "scope": "{{$form.scope}}",
+            "signal": "{{$form.signal}}",
+            "thresholdType": "{{$form.thresholdType}}",
+            "aggregation": "{{$form.aggregation}}",
+            "operator": "{{$form.operator}}",
+            "thresholdValue": "{{$form.thresholdValue}}",
+            "checkEvery": "{{$form.checkEvery}}",
+            "lookback": "{{$form.lookback}}",
+            "actionGroup": "{{$form.actionGroupName}}",
+            "severity": "{{$form.severity}}",
+            "enabled": "{{$form.enabled}}"
+           }
+          },
+          {
+           "type": "notify",
+           "title": "Alert rule created",
+           "message": "Alert rule {{$form.alertName}} was created and linked to action group {{$form.actionGroupName}}."
+          },
+          {
+           "type": "navigate",
+           "page": "alerts"
+          }
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "id": "alerts",
+      "title": "Monitor | Alerts",
+      "subtitle": "Contoso (contoso.example)",
+      "icon": "Bell",
+      "url": "/#view/Microsoft_Azure_Monitoring/AzureMonitoringBrowseBlade/~/alertsV2",
+      "breadcrumb": [
+       "Home",
+       "Monitor"
+      ],
+      "commands": [
+       {
+        "id": "alerts-refresh",
+        "label": "Refresh",
+        "icon": "RefreshCw",
+        "action": {
+         "type": "message",
+         "tone": "info",
+         "text": "The alerts list is current."
+        }
+       }
+      ],
+      "components": [
+       {
+        "kind": "table",
+        "id": "alert-rules-list",
+        "title": "Alert rules",
+        "source": "alertRules",
+        "rowKey": "name",
+        "emptyText": "No alert rules have been created.",
+        "columns": [
+         {
+          "key": "name",
+          "label": "Name",
+          "format": "link"
+         },
+         {
+          "key": "scope",
+          "label": "Scope"
+         },
+         {
+          "key": "condition",
+          "label": "Condition",
+          "template": "{{$row.aggregation}} {{$row.signal}} {{$row.operator}} {{$row.thresholdValue}}"
+         },
+         {
+          "key": "severity",
+          "label": "Severity"
+         },
+         {
+          "key": "actionGroup",
+          "label": "Action group"
+         }
+        ]
+       },
+       {
+        "kind": "table",
+        "id": "fired-alerts",
+        "title": "Fired alerts",
+        "source": "alerts",
+        "rowKey": "name",
+        "emptyText": "No fired alerts.",
+        "columns": [
+         {
+          "key": "name",
+          "label": "Alert"
+         },
+         {
+          "key": "resource",
+          "label": "Resource"
+         },
+         {
+          "key": "severity",
+          "label": "Severity"
+         },
+         {
+          "key": "status",
+          "label": "Status",
+          "format": "status"
+         },
+         {
+          "key": "userResponse",
+          "label": "User response",
+          "format": "status"
+         }
+        ],
+        "rowActions": [
+         {
+          "id": "acknowledge",
+          "label": "Acknowledge",
+          "icon": "CircleCheck",
+          "variant": "primary",
+          "visibleWhen": {
+           "type": "notEquals",
+           "path": "$row.userResponse",
+           "value": "Acknowledged"
+          },
+          "action": {
+           "type": "sequence",
+           "actions": [
+            {
+             "type": "update",
+             "path": "alerts",
+             "where": {
+              "name": "{{$row.name}}"
+             },
+             "set": {
+              "userResponse": "Acknowledged"
+             }
+            },
+            {
+             "type": "notify",
+             "title": "Alert acknowledged",
+             "message": "User response set to Acknowledged for {{$row.name}}."
+            }
+           ]
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "service-health",
+      "title": "Service Health",
+      "subtitle": "Health views",
+      "icon": "Siren",
+      "url": "/#view/Microsoft_Azure_Health/AzureHealthBrowseBlade",
+      "breadcrumb": [
+       "Home"
+      ],
+      "components": [
+       {
+        "kind": "callout",
+        "variant": "info",
+        "title": "Service Health vs Resource Health",
+        "text": "**Service Health** gives personalized communications about Azure service incidents, planned maintenance, and advisories for services and regions you use. **Resource Health** focuses on the current and past health of a specific resource, such as a virtual machine."
+       },
+       {
+        "kind": "table",
+        "id": "health-views",
+        "title": "Health views",
+        "source": "healthViews",
+        "rowKey": "name",
+        "columns": [
+         {
+          "key": "name",
+          "label": "Experience"
+         },
+         {
+          "key": "scope",
+          "label": "Scope"
+         },
+         {
+          "key": "useCase",
+          "label": "Use case"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "vms",
+      "title": "Virtual machines",
+      "subtitle": "Contoso (contoso.example)",
+      "icon": "Monitor",
+      "url": "/#browse/Microsoft.Compute%2FVirtualMachines",
+      "breadcrumb": [
+       "Home"
+      ],
+      "components": [
+       {
+        "kind": "table",
+        "id": "vm-list",
+        "source": "virtualMachines",
+        "rowKey": "name",
+        "columns": [
+         {
+          "key": "name",
+          "label": "Name",
+          "format": "link"
+         },
+         {
+          "key": "resourceGroup",
+          "label": "Resource group"
+         },
+         {
+          "key": "location",
+          "label": "Location"
+         },
+         {
+          "key": "status",
+          "label": "Status",
+          "format": "status"
+         },
+         {
+          "key": "currentCpu",
+          "label": "Current CPU"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "initialState": {
+     "subscription": {
+      "name": "Contoso Learning (simulated)",
+      "id": "00000000-0000-4000-8000-000000000900"
+     },
+     "virtualMachines": [
+      {
+       "name": "vm-app-01",
+       "resourceGroup": "rg-app-prod",
+       "location": "westeurope",
+       "status": "Running",
+       "currentCpu": 31,
+       "cpuState": "Normal"
+      },
+      {
+       "name": "vm-app-02",
+       "resourceGroup": "rg-app-prod",
+       "location": "westeurope",
+       "status": "Running",
+       "currentCpu": 29,
+       "cpuState": "Normal"
+      },
+      {
+       "name": "vm-batch-01",
+       "resourceGroup": "rg-data-prod",
+       "location": "northeurope",
+       "status": "Running",
+       "currentCpu": 42,
+       "cpuState": "Normal"
+      }
+     ],
+     "actionGroups": [],
+     "alertRules": [],
+     "alerts": [],
+     "healthViews": [
+      {
+       "name": "Azure Status",
+       "scope": "Public global view",
+       "useCase": "Broad awareness across Azure services"
+      },
+      {
+       "name": "Service Health",
+       "scope": "Personalized to services and regions you use",
+       "useCase": "Incidents, maintenance, advisories, and health alerts"
+      },
+      {
+       "name": "Resource Health",
+       "scope": "Individual Azure resource",
+       "useCase": "Current and past availability for one resource"
+      }
+     ]
+    }
+   },
+   "steps": [
+    {
+     "key": "review-metric",
+     "title": "Review the Percentage CPU metric",
+     "instruction": "Open **Monitor > Metrics** and review **Percentage CPU (Average)** for **vm-app-02**.",
+     "hint": "Metrics are numerical measurements over time.",
+     "explanation": "A metric chart helps you choose a meaningful signal before you create an alert rule.",
+     "targetId": "cpu-metric-chart",
+     "rules": [
+      {
+       "key": "visited-metrics",
+       "description": "Metrics page was opened",
+       "rule": {
+        "type": "visited",
+        "page": "monitor-metrics"
+       }
+      }
+     ]
+    },
+    {
+     "key": "create-alert-rule",
+     "title": "Create the alert rule",
+     "instruction": "Select **New alert rule**. Set **Select a resource** to **vm-app-02**, **Signal name** **Percentage CPU**, **Threshold type** **Static**, **Aggregation type** **Average**, **Operator** **Greater than**, **Threshold value** `80`, **Check every** **5 minutes**, and **Lookback period** **5 minutes**.",
+     "hint": "The signal, aggregation, operator, threshold, frequency, and lookback together define when the alert fires.",
+     "explanation": "Metric alert rules evaluate a numeric time series against a condition.",
+     "targetId": "create-alert-rule",
+     "rules": [
+      {
+       "key": "alert-condition",
+       "description": "Alert rule condition is correct",
+       "rule": {
+        "type": "arrayContains",
+        "path": "alertRules",
+        "match": {
+         "name": "alert-vm-app-02-cpu",
+         "scope": "vm-app-02",
+         "signal": "Percentage CPU",
+         "aggregation": "Average",
+         "operator": "Greater than",
+         "thresholdValue": 80,
+         "checkEvery": "5 minutes",
+         "lookback": "5 minutes"
+        }
+       },
+       "failureFeedback": "Create alert-vm-app-02-cpu with Average Percentage CPU Greater than 80 and 5-minute settings."
+      }
+     ]
+    },
+    {
+     "key": "create-action-group",
+     "title": "Attach an action group",
+     "instruction": "In the alert rule **Actions** tab, create action group **ag-ops** with **Display name** **OPS**, **Notification type** **Email/SMS message/Push/Voice**, and **Email** `ops@contoso.example`. In **Details**, set **Severity** to **Sev2 - Warning**, name the rule **alert-vm-app-02-cpu**, keep it enabled, then select **Review + create** and **Create**.",
+     "hint": "Action groups define who or what is notified when the alert fires.",
+     "explanation": "A rule without an action group can fire without notifying the operations team.",
+     "targetId": "alert-rule-wizard",
+     "rules": [
+      {
+       "key": "action-group-created",
+       "description": "ag-ops exists with the required email",
+       "rule": {
+        "type": "arrayContains",
+        "path": "actionGroups",
+        "match": {
+         "name": "ag-ops",
+         "displayName": "OPS",
+         "email": "ops@contoso.example"
+        }
+       },
+       "failureFeedback": "Create action group ag-ops with ops@contoso.example."
+      },
+      {
+       "key": "severity-action",
+       "description": "The alert rule uses Sev2 and ag-ops",
+       "rule": {
+        "type": "arrayContains",
+        "path": "alertRules",
+        "match": {
+         "name": "alert-vm-app-02-cpu",
+         "actionGroup": "ag-ops",
+         "severity": "Sev2 - Warning",
+         "enabled": true
+        }
+       }
+      }
+     ]
+    },
+    {
+     "key": "simulate-load",
+     "title": "Simulate high CPU",
+     "instruction": "Return to **Monitor > Metrics** and select **Run CPU stress test**. You can also run `run-cpu-stress --vm vm-app-02` in Cloud Shell.",
+     "hint": "The lab simulates CPU load and alert evaluation without affecting a real VM.",
+     "explanation": "A fired alert appears after the monitored signal crosses the rule condition.",
+     "targetId": "run-cpu-stress",
+     "rules": [
+      {
+       "key": "alert-fired",
+       "description": "The high CPU alert fired",
+       "rule": {
+        "type": "arrayContains",
+        "path": "alerts",
+        "match": {
+         "name": "High CPU on vm-app-02",
+         "status": "Fired"
+        }
+       },
+       "failureFeedback": "Run the CPU stress test after creating the alert rule."
+      }
+     ]
+    },
+    {
+     "key": "acknowledge-alert",
+     "title": "Acknowledge the fired alert",
+     "instruction": "Open **Alerts** and set the **High CPU on vm-app-02** user response to **Acknowledged**.",
+     "hint": "Acknowledging records that an operator has seen and taken ownership of the alert.",
+     "explanation": "User response is an operational triage field; it does not by itself fix the resource.",
+     "targetId": "fired-alerts",
+     "rules": [
+      {
+       "key": "alert-acknowledged",
+       "description": "The fired alert is acknowledged",
+       "rule": {
+        "type": "arrayContains",
+        "path": "alerts",
+        "match": {
+         "name": "High CPU on vm-app-02",
+         "userResponse": "Acknowledged"
+        }
+       },
+       "failureFeedback": "Use Acknowledge on the fired alert."
+      }
+     ]
+    },
+    {
+     "key": "review-health",
+     "title": "Review health experiences",
+     "instruction": "Open **Service Health** and review the **Service Health vs Resource Health** explanation.",
+     "hint": "Service Health is personalized service-impact communication; Resource Health is per-resource availability.",
+     "explanation": "Monitoring metrics and Azure health communications answer different operational questions.",
+     "targetId": "health-views",
+     "rules": [
+      {
+       "key": "visited-health",
+       "description": "Service Health page was opened",
+       "rule": {
+        "type": "visited",
+        "page": "service-health"
+       }
+      }
+     ]
+    }
+   ],
+   "finalRules": [
+    {
+     "key": "threshold-operator-correct",
+     "description": "The alert threshold and operator are correct",
+     "rule": {
+      "type": "arrayContains",
+      "path": "alertRules",
+      "match": {
+       "name": "alert-vm-app-02-cpu",
+       "operator": "Greater than",
+       "thresholdValue": 80,
+       "severity": "Sev2 - Warning"
+      }
+     },
+     "failureFeedback": "The rule must use Greater than 80 with Severity 2 - Warning."
+    },
+    {
+     "key": "action-group-attached",
+     "description": "Action group ag-ops is attached to the alert rule",
+     "rule": {
+      "type": "arrayContains",
+      "path": "alertRules",
+      "match": {
+       "name": "alert-vm-app-02-cpu",
+       "actionGroup": "ag-ops"
+      }
+     },
+     "successFeedback": "The alert rule is attached to ag-ops."
+    }
+   ],
+   "solution": "1. Open **Monitor > Metrics** and review **Percentage CPU (Average)** for **vm-app-02**.\n2. Select **New alert rule**. On **Scope**, choose **vm-app-02**.\n3. On **Condition**, set **Signal name** **Percentage CPU**, **Threshold type** **Static**, **Aggregation type** **Average**, **Operator** **Greater than**, **Threshold value** `80`, **Check every** **5 minutes**, and **Lookback period** **5 minutes**.\n4. On **Actions**, choose **Create action group** and enter **Action group name** `ag-ops`, **Display name** `OPS`, **Notification type** **Email/SMS message/Push/Voice**, and **Email** `ops@contoso.example`.\n5. On **Details**, set **Severity** **Sev2 - Warning**, **Alert rule name** `alert-vm-app-02-cpu`, keep **Enable upon creation** on, then select **Review + create** and **Create**.\n6. Return to **Monitor > Metrics** and select **Run CPU stress test** or run `run-cpu-stress --vm vm-app-02` in Cloud Shell.\n7. Open **Alerts** and select **Acknowledge** for **High CPU on vm-app-02**.\n8. Open **Service Health** and review how **Service Health** differs from **Resource Health**."
+  }
+ ]
+}

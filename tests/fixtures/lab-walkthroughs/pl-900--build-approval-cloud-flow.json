@@ -1,0 +1,52 @@
+{
+  "certification": "PL-900",
+  "lab": "build-approval-cloud-flow",
+  "note": "Create Dataverse-triggered approval flow with first responder approval, condition branches, checker and test run.",
+  "events": [
+    { "type": "navigate", "page": "create" },
+    { "type": "click", "componentId": "flow-types", "itemId": "automated" },
+    {
+      "type": "submitForm",
+      "componentId": "automated-flow-form",
+      "values": {
+        "flowName": "Equipment request approval",
+        "trigger": "When a row is added, modified or deleted - Microsoft Dataverse"
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "trigger-parameters",
+      "values": {
+        "changeType": "Added",
+        "tableName": "Equipment Requests",
+        "scope": "Organization"
+      }
+    },
+    { "type": "click", "componentId": "add-approval" },
+    {
+      "type": "submitForm",
+      "componentId": "approval-form",
+      "values": {
+        "approvalType": "Approve/Reject - First to respond",
+        "title": "Equipment request: Request title",
+        "assignedTo": "manager@contoso.example",
+        "details": "Requester: Requested by\nQuantity: Quantity\nRequest date: Request date"
+      }
+    },
+    { "type": "click", "componentId": "add-condition" },
+    {
+      "type": "submitForm",
+      "componentId": "condition-form",
+      "values": {
+        "outcome": "Approve",
+        "yesStatus": "Approved",
+        "yesEmail": "Requester",
+        "noStatus": "Rejected",
+        "noEmail": "Requester"
+      }
+    },
+    { "type": "click", "componentId": "flow-save" },
+    { "type": "click", "componentId": "flow-checker" },
+    { "type": "click", "componentId": "flow-test" }
+  ]
+}

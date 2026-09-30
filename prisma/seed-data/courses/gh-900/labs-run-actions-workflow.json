@@ -1,0 +1,784 @@
+{
+  "labs": [
+    {
+      "slug": "run-actions-workflow",
+      "type": "UI_SIMULATION",
+      "title": "Create and troubleshoot a GitHub Actions workflow",
+      "summary": "Configure a Node.js GitHub Actions workflow from a template, inspect a failed workflow run log, fix the simulated test failure, and verify the latest run succeeds.",
+      "scenario": "Contoso Labs wants continuous integration for **contoso-labs/inventory-api**. In the simulated GitHub repository, open **Actions**, choose the **Node.js** workflow template under Continuous integration, commit `.github/workflows/node.js.yml`, inspect the failed **npm test** logs for one matrix leg, fix the scenario, and verify the new run succeeds. Everything is simulated; no real runner is used.",
+      "domainKey": "modern-development",
+      "objectiveCode": "4.1",
+      "complexity": "BASIC",
+      "estimatedMinutes": 25,
+      "learningObjectives": [
+        "Create a workflow from a GitHub Actions template",
+        "Explain events, jobs, steps, actions, and GitHub-hosted runners",
+        "Use workflow run logs to diagnose and fix a failed CI run"
+      ],
+      "prerequisites": [
+        "Basic understanding of automated tests and pull requests"
+      ],
+      "sources": [
+        {
+          "title": "Using workflow templates",
+          "url": "https://docs.github.com/en/actions/how-tos/write-workflows/use-workflow-templates"
+        },
+        {
+          "title": "Using workflow run logs",
+          "url": "https://docs.github.com/en/actions/how-tos/monitor-workflows/use-workflow-run-logs"
+        },
+        {
+          "title": "Continuous integration",
+          "url": "https://docs.github.com/en/actions/get-started/continuous-integration"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "GitHub",
+          "theme": "github",
+          "user": "alex-contoso",
+          "tenant": "contoso-labs",
+          "url": "https://github.com",
+          "searchPlaceholder": "Type / to search"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
+        "startPage": "code",
+        "navigation": [
+          {
+            "page": "code",
+            "label": "Code",
+            "icon": "Code"
+          },
+          {
+            "page": "actions",
+            "label": "Actions",
+            "icon": "Play"
+          },
+          {
+            "page": "prs",
+            "label": "Pull requests",
+            "icon": "GitPullRequest"
+          }
+        ],
+        "pages": [
+          {
+            "id": "code",
+            "title": "contoso-labs/inventory-api",
+            "subtitle": "Public repository",
+            "icon": "Code",
+            "url": "/contoso-labs/inventory-api",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "code",
+                "label": "Code",
+                "icon": "Code"
+              },
+              {
+                "page": "actions",
+                "label": "Actions",
+                "icon": "Play"
+              },
+              {
+                "page": "prs",
+                "label": "Pull requests",
+                "icon": "GitPullRequest"
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Modern development practices",
+                "text": "GitHub Actions automates builds, tests, releases, and deployments. GitHub-hosted runners provide managed machines such as **ubuntu-latest**; self-hosted runners are machines you manage. Codespaces and dev containers standardize development environments, and GitHub Copilot can help developers write and understand code."
+              },
+              {
+                "kind": "table",
+                "id": "files",
+                "title": "Files",
+                "source": "files",
+                "rowKey": "path",
+                "columns": [
+                  {
+                    "key": "path",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Type"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ]
+              },
+              {
+                "kind": "code",
+                "id": "readme",
+                "title": "README.md",
+                "language": "markdown",
+                "content": "{{readme}}"
+              }
+            ]
+          },
+          {
+            "id": "actions",
+            "title": "Actions",
+            "subtitle": "contoso-labs/inventory-api",
+            "icon": "Play",
+            "url": "/contoso-labs/inventory-api/actions",
+            "navItem": "actions",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "code",
+                "label": "Code",
+                "icon": "Code"
+              },
+              {
+                "page": "actions",
+                "label": "Actions",
+                "icon": "Play"
+              },
+              {
+                "page": "prs",
+                "label": "Pull requests",
+                "icon": "GitPullRequest"
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "visibleWhen": {
+                  "type": "arrayLength",
+                  "path": "workflowRuns",
+                  "max": 0
+                },
+                "title": "Get started with GitHub Actions",
+                "text": "Choose a workflow template to build, test, package, release, or deploy this repository."
+              },
+              {
+                "kind": "tiles",
+                "id": "templates",
+                "title": "Choose a workflow",
+                "visibleWhen": {
+                  "type": "arrayLength",
+                  "path": "workflowRuns",
+                  "max": 0
+                },
+                "items": [
+                  {
+                    "id": "node",
+                    "label": "Node.js",
+                    "description": "By GitHub Actions · Continuous integration",
+                    "icon": "CodeXml",
+                    "action": {
+                      "type": "navigate",
+                      "page": "configure"
+                    }
+                  },
+                  {
+                    "id": "docker",
+                    "label": "Docker image",
+                    "description": "Build and publish an image",
+                    "icon": "Container",
+                    "action": {
+                      "type": "message",
+                      "tone": "warning",
+                      "text": "Use the Node.js template for this lab."
+                    }
+                  },
+                  {
+                    "id": "pages",
+                    "label": "Deploy static content to Pages",
+                    "description": "Pages deployment",
+                    "icon": "Rocket",
+                    "action": {
+                      "type": "message",
+                      "tone": "warning",
+                      "text": "This API needs CI, not Pages deployment."
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "runs",
+                "title": "Workflow runs",
+                "source": "workflowRuns",
+                "rowKey": "id",
+                "emptyText": "No workflow runs yet.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Workflow",
+                    "format": "link"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "conclusion",
+                    "label": "Result",
+                    "format": "status"
+                  },
+                  {
+                    "key": "commit",
+                    "label": "Commit"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "run",
+                  "select": {
+                    "as": "run",
+                    "path": "workflowRuns",
+                    "key": "id",
+                    "value": "{{$row.id}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "configure",
+            "title": "Configure Node.js workflow",
+            "subtitle": ".github/workflows/node.js.yml",
+            "icon": "Workflow",
+            "url": "/contoso-labs/inventory-api/actions/new?category=continuous-integration&query=node",
+            "navItem": "actions",
+            "components": [
+              {
+                "kind": "text",
+                "text": "A workflow is YAML stored in `.github/workflows/`. The `on` section defines events such as `push` and `pull_request`. A workflow has jobs; each job runs on a runner and contains steps that run shell commands or reusable actions from GitHub Marketplace."
+              },
+              {
+                "kind": "form",
+                "id": "workflow-form",
+                "title": "Edit new file",
+                "fields": [
+                  {
+                    "id": "path",
+                    "label": "File path",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": ".github/workflows/node.js.yml",
+                    "readOnly": true
+                  },
+                  {
+                    "id": "content",
+                    "label": "node.js.yml",
+                    "control": "code",
+                    "language": "yaml",
+                    "required": true,
+                    "defaultValue": "name: Node.js CI\n\non:\n  push:\n    branches: [main]\n  pull_request:\n    branches: [main]\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    strategy:\n      matrix:\n        node-version: [20.x, 22.x]\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: ${{ matrix.node-version }}\n          cache: npm\n      - run: npm ci\n      - run: npm test\n"
+                  },
+                  {
+                    "id": "message",
+                    "label": "Commit message",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Create Node.js CI workflow"
+                  }
+                ],
+                "submit": {
+                  "label": "Commit changes...",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.content",
+                        "pattern": "push:"
+                      },
+                      "message": "The workflow should run on push."
+                    },
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.content",
+                        "pattern": "pull_request:"
+                      },
+                      "message": "The workflow should run on pull_request."
+                    },
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.content",
+                        "pattern": "runs-on:\\s*ubuntu-latest"
+                      },
+                      "message": "Use ubuntu-latest."
+                    },
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.content",
+                        "pattern": "actions/setup-node@v4"
+                      },
+                      "message": "Use setup-node."
+                    },
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.content",
+                        "pattern": "npm ci"
+                      },
+                      "message": "Use npm ci."
+                    },
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.content",
+                        "pattern": "npm test"
+                      },
+                      "message": "Run npm test."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "workflowFile.path",
+                      "value": "{{$form.path}}"
+                    },
+                    {
+                      "type": "set",
+                      "path": "workflowFile.content",
+                      "value": "{{$form.content}}"
+                    },
+                    {
+                      "type": "update",
+                      "path": "files",
+                      "where": {
+                        "path": ".github/workflows/node.js.yml"
+                      },
+                      "set": {
+                        "status": "Committed"
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "workflowRuns",
+                      "value": {
+                        "id": "101",
+                        "name": "Node.js CI",
+                        "status": "completed",
+                        "conclusion": "failure",
+                        "commit": "a1b2c3d",
+                        "failingLeg": "Node 22.x",
+                        "logs": "Run npm test\nFAIL tests/sku.test.ts > normalizeSku > normalizes lowercase input\nExpected: SKU-123\nReceived: sku-123\nError: Process completed with exit code 1.",
+                        "fixed": false
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Workflow committed",
+                      "message": "A workflow run completed with a failure."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "actions"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "run",
+            "title": "Node.js CI",
+            "subtitle": "Workflow run #{{$sel.run.id}}",
+            "icon": "Play",
+            "url": "/contoso-labs/inventory-api/actions/runs/{{$sel.run.id}}",
+            "requires": "run",
+            "navItem": "actions",
+            "components": [
+              {
+                "kind": "deployment",
+                "id": "run-summary",
+                "title": "Workflow run",
+                "status": "{{$sel.run.conclusion}}",
+                "note": "Status: {{$sel.run.status}} · Commit: {{$sel.run.commit}} · Matrix leg: {{$sel.run.failingLeg | default:all legs}}",
+                "resources": [
+                  {
+                    "name": "Set up job",
+                    "type": "step",
+                    "status": "success"
+                  },
+                  {
+                    "name": "actions/checkout@v4",
+                    "type": "action",
+                    "status": "success"
+                  },
+                  {
+                    "name": "actions/setup-node@v4",
+                    "type": "action",
+                    "status": "success"
+                  },
+                  {
+                    "name": "npm ci",
+                    "type": "run",
+                    "status": "success"
+                  },
+                  {
+                    "name": "npm test",
+                    "type": "run",
+                    "status": "{{$sel.run.conclusion}}"
+                  }
+                ]
+              },
+              {
+                "kind": "code",
+                "id": "logs",
+                "title": "Job logs",
+                "language": "text",
+                "content": "{{$sel.run.logs}}"
+              },
+              {
+                "kind": "button",
+                "id": "edit-fix",
+                "label": "Edit failing test",
+                "icon": "Pencil",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "$sel.run.conclusion",
+                  "value": "failure"
+                },
+                "action": {
+                  "type": "navigate",
+                  "page": "fix"
+                }
+              }
+            ]
+          },
+          {
+            "id": "fix",
+            "title": "Edit tests/sku.test.ts",
+            "subtitle": "Fix failing test",
+            "icon": "FileCode",
+            "url": "/contoso-labs/inventory-api/edit/main/tests/sku.test.ts",
+            "navItem": "code",
+            "components": [
+              {
+                "kind": "form",
+                "id": "fix-form",
+                "title": "Edit file",
+                "description": "The workflow failed at npm test. Fix the scenario and commit the change.",
+                "fields": [
+                  {
+                    "id": "content",
+                    "label": "tests/sku.test.ts",
+                    "control": "code",
+                    "language": "typescript",
+                    "required": true,
+                    "defaultValue": "import { describe, expect, it } from 'vitest';\nimport { normalizeSku } from './sku';\n\ndescribe('normalizeSku', () => {\n  it('normalizes lowercase input', () => {\n    expect(normalizeSku('sku-123')).toBe('SKU-123');\n  });\n});\n"
+                  },
+                  {
+                    "id": "message",
+                    "label": "Commit message",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Fix SKU normalization test"
+                  }
+                ],
+                "submit": {
+                  "label": "Commit changes",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.content",
+                        "pattern": "SKU-123"
+                      },
+                      "message": "The fixed test should expect SKU-123."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "tests.skuTest",
+                      "value": "{{$form.content}}"
+                    },
+                    {
+                      "type": "append",
+                      "path": "workflowRuns",
+                      "value": {
+                        "id": "102",
+                        "name": "Node.js CI",
+                        "status": "completed",
+                        "conclusion": "success",
+                        "commit": "d4e5f6a",
+                        "failingLeg": "",
+                        "logs": "Run npm test\nPASS tests/sku.test.ts > normalizeSku > normalizes lowercase input\nTest Files 1 passed\nAll matrix jobs completed successfully.",
+                        "fixed": true
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Fix committed",
+                      "message": "A new workflow run succeeded."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "actions"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "badge",
+            "title": "README.md",
+            "subtitle": "Add status badge",
+            "icon": "FileText",
+            "url": "/contoso-labs/inventory-api/edit/main/README.md",
+            "navItem": "code",
+            "components": [
+              {
+                "kind": "form",
+                "id": "badge-form",
+                "title": "Edit README.md",
+                "fields": [
+                  {
+                    "id": "content",
+                    "label": "README.md",
+                    "control": "code",
+                    "language": "markdown",
+                    "required": true,
+                    "defaultValue": "![Node.js CI](https://github.com/contoso-labs/inventory-api/actions/workflows/node.js.yml/badge.svg)\n\n# Inventory API\n\nFictional API for GitHub Actions practice."
+                  }
+                ],
+                "submit": {
+                  "label": "Commit changes",
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "readme",
+                      "value": "{{$form.content}}"
+                    },
+                    {
+                      "type": "set",
+                      "path": "badgeAdded",
+                      "value": true
+                    },
+                    {
+                      "type": "notify",
+                      "title": "README updated"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "code"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "prs",
+            "title": "Pull requests",
+            "subtitle": "contoso-labs/inventory-api",
+            "icon": "GitPullRequest",
+            "url": "/contoso-labs/inventory-api/pulls",
+            "navItem": "prs",
+            "components": [
+              {
+                "kind": "text",
+                "text": "Rulesets can require status checks such as **Node.js CI / build** before a pull request merges. A passing Actions run provides that signal."
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "files": [
+            {
+              "path": "README.md",
+              "type": "Markdown",
+              "status": "Committed"
+            },
+            {
+              "path": "package.json",
+              "type": "JSON",
+              "status": "Committed"
+            },
+            {
+              "path": "src/sku.ts",
+              "type": "TypeScript",
+              "status": "Committed"
+            },
+            {
+              "path": "tests/sku.test.ts",
+              "type": "TypeScript",
+              "status": "Failing expectation"
+            },
+            {
+              "path": ".github/workflows/node.js.yml",
+              "type": "YAML",
+              "status": "Not created"
+            }
+          ],
+          "readme": "# Inventory API\n\nFictional API for GitHub Actions practice.",
+          "workflowFile": {},
+          "workflowRuns": [],
+          "tests": {
+            "skuTest": ""
+          },
+          "badgeAdded": false
+        }
+      },
+      "steps": [
+        {
+          "key": "choose-template",
+          "title": "Choose the Node.js workflow template",
+          "instruction": "Open **Actions**. Under **Get started with GitHub Actions**, choose the **Node.js** workflow template under Continuous integration and select **Configure**.",
+          "hint": "Do not choose Docker or Pages.",
+          "explanation": "Workflow templates provide a starting YAML file for common languages and tools.",
+          "targetId": "templates",
+          "rules": [
+            {
+              "key": "opened-editor",
+              "description": "Workflow editor opened",
+              "rule": {
+                "type": "visited",
+                "page": "configure"
+              },
+              "failureFeedback": "Open the Node.js workflow template."
+            }
+          ]
+        },
+        {
+          "key": "commit-workflow",
+          "title": "Commit node.js.yml",
+          "instruction": "Keep `.github/workflows/node.js.yml` with **push** and **pull_request** events for **main**, a **build** job on **ubuntu-latest**, a Node.js matrix, and steps for **actions/checkout**, **actions/setup-node**, **npm ci**, and **npm test**. Select **Commit changes...**.",
+          "hint": "YAML indentation matters.",
+          "explanation": "Events start workflow runs. Jobs run on runners. Steps run actions or commands.",
+          "targetId": "workflow-form",
+          "rules": [
+            {
+              "key": "workflow-file",
+              "description": "Workflow file has required CI content",
+              "rule": {
+                "type": "matches",
+                "path": "workflowFile.content",
+                "pattern": "actions/setup-node@v4[\\s\\S]*npm ci[\\s\\S]*npm test"
+              },
+              "failureFeedback": "Commit the Node.js workflow with setup-node, npm ci, and npm test."
+            }
+          ]
+        },
+        {
+          "key": "inspect-logs",
+          "title": "Inspect the failed run log",
+          "instruction": "Open the failed **Node.js CI** run from the **Actions** run list. Review the **npm test** logs for the failed matrix leg.",
+          "hint": "The failed step is expanded and shows the expected and received values.",
+          "explanation": "Workflow run logs show the status and output of each job step, including failures that need troubleshooting.",
+          "targetId": "runs",
+          "rules": [
+            {
+              "key": "failed-run-opened",
+              "description": "Failed run detail was opened",
+              "rule": {
+                "type": "visited",
+                "page": "run"
+              },
+              "failureFeedback": "Open the failed workflow run."
+            }
+          ]
+        },
+        {
+          "key": "fix-test",
+          "title": "Fix the failing test",
+          "instruction": "Select **Edit failing test**, update `tests/sku.test.ts` so it expects **SKU-123**, and **Commit changes**.",
+          "hint": "The workflow YAML is correct; the simulated problem is the test expectation.",
+          "explanation": "After a fix commit, GitHub Actions starts a new workflow run so the team can verify the correction.",
+          "targetId": "edit-fix",
+          "rules": [
+            {
+              "key": "success-run",
+              "description": "A later run succeeded",
+              "rule": {
+                "type": "arrayContains",
+                "path": "workflowRuns",
+                "match": {
+                  "id": "102",
+                  "conclusion": "success"
+                }
+              },
+              "failureFeedback": "Commit the fixed test so run 102 succeeds."
+            }
+          ]
+        },
+        {
+          "key": "verify-latest",
+          "title": "Verify the latest run succeeded",
+          "instruction": "Return to **Actions** and confirm the latest **Node.js CI** run has result **success**. Optionally add the status badge to README.md.",
+          "hint": "The latest run is the one created after the fix commit.",
+          "explanation": "Successful checks can be required by rulesets before merge. Status badges make workflow health visible from the README.",
+          "targetId": "runs",
+          "rules": [
+            {
+              "key": "latest-success",
+              "description": "Latest run succeeded",
+              "rule": {
+                "type": "arrayContains",
+                "path": "workflowRuns",
+                "match": {
+                  "id": "102",
+                  "name": "Node.js CI",
+                  "conclusion": "success"
+                }
+              },
+              "failureFeedback": "Verify the successful run."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "workflow-success",
+          "description": "Workflow file exists and latest run succeeded",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "matches",
+                "path": "workflowFile.path",
+                "pattern": "^\\.github/workflows/node\\.js\\.yml$"
+              },
+              {
+                "type": "matches",
+                "path": "workflowFile.content",
+                "pattern": "pull_request:[\\s\\S]*branches: \\[main\\]"
+              },
+              {
+                "type": "arrayContains",
+                "path": "workflowRuns",
+                "match": {
+                  "id": "102",
+                  "conclusion": "success"
+                }
+              }
+            ]
+          },
+          "successFeedback": "The workflow file is on main and the latest run succeeded.",
+          "failureFeedback": "Commit node.js.yml and fix the failing run so the latest run succeeds."
+        }
+      ],
+      "solution": "1. Open **Actions** and choose **Node.js** under Continuous integration.\n2. Select **Configure** and keep `.github/workflows/node.js.yml` with `push` and `pull_request` events for `main`, `jobs.build.runs-on: ubuntu-latest`, a Node.js matrix, `actions/checkout@v4`, `actions/setup-node@v4`, `npm ci`, and `npm test`. Select **Commit changes...**.\n3. Open the failed **Node.js CI** run and inspect the **npm test** logs. The simulated Node 22.x leg reports `Expected: SKU-123` and `Received: sku-123`.\n4. Select **Edit failing test**, update `tests/sku.test.ts` to expect `SKU-123`, and **Commit changes**.\n5. Return to **Actions** and verify the latest **Node.js CI** run shows **success**. Optionally add the status badge Markdown to README.md."
+    }
+  ]
+}

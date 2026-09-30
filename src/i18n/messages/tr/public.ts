@@ -1,42 +1,12 @@
 import type { Messages } from "../en";
 
-export const auth: Messages["auth"] = {
-  signInTitle: "Tekrar hoş geldiniz",
-  signInSubtitle: "Öğrenme yolunuza devam etmek için giriş yapın.",
-  signUpTitle: "Ücretsiz hesabınızı oluşturun",
-  signUpSubtitle: "Kişiselleştirilmiş çalışma planları, özgün alıştırma soruları ve güvenli simüle laboratuvarlar.",
-  email: "E-posta adresi",
-  password: "Parola",
-  confirmPassword: "Parolayı onayla",
-  name: "Görünen ad",
-  nameHint: "İsteğe bağlı. Yalnızca size gösterilir.",
-  preferredLanguage: "Tercih edilen dil",
-  passwordRules: "En az 10 karakter; bir harf ve bir sayı içermelidir.",
-  acceptTerms:
-    "Bunun bağımsız bir alıştırma platformu olduğunu (resmî bir Microsoft ürünü olmadığını) anlıyorum ve gizlilik bildirimini okudum.",
-  noAccount: "Fundamentals Academy'de yeni misiniz?",
-  haveAccount: "Zaten hesabınız var mı?",
-  signingIn: "Giriş yapılıyor…",
-  creatingAccount: "Hesap oluşturuluyor…",
-  demoAccountsTitle: "Yerel demo hesapları",
-  demoAccountsBody: "Veritabanı yerel geliştirme için başlangıç verileriyle doldurulduğunda kullanılabilir.",
-  demoLearner: "Öğrenen",
-  demoInstructor: "Eğitmen",
-  demoAdmin: "Yönetici",
-  useAccount: "Kullan",
-  forgotPassword: "Parolanızı mı unuttunuz? Bir yöneticiden parolanızı sıfırlamasını isteyin.",
-  sessionExpired: "Oturumunuz sona erdi. Lütfen tekrar giriş yapın.",
-  signedOut: "Çıkış yaptınız.",
-};
-
 export const landing: Messages["landing"] = {
   heroEyebrow: "Bağımsız sınav hazırlığı",
   heroTitle: "Microsoft temel bilgilerini sıfırdan sınava hazır olana kadar öğrenin",
   heroSubtitle:
     "Yeni başlayanlara uygun dersler, özgün alıştırma soruları, güvenli simüle laboratuvarlar, onaylı içeriğe dayalı bir yapay zekâ eğitmeni ve size uyum sağlayan bir çalışma planı.",
-  ctaStart: "Ücretsiz öğrenmeye başlayın",
+  ctaStart: "Öğrenmeye başlayın",
   ctaCatalog: "Sertifikalara göz atın",
-  ctaDashboard: "Panonuza gidin",
   featuresTitle: "İhtiyacınız olan her şey tek yerde",
   featurePlanTitle: "Kişiselleştirilmiş çalışma planı",
   featurePlanBody: "Kısa bir tanılama güçlü yönlerinizi ve eksiklerinizi bulur, ardından sınav tarihinize göre haftalık bir program oluşturur.",
@@ -61,7 +31,7 @@ export const landing: Messages["landing"] = {
   trustOriginal: "Yalnızca özgün sorular - asla gerçek sınav içeriği değil.",
   trustSources: "Her öğrenme yolu resmî Microsoft Learn kaynaklarına bağlantı verir ve son inceleme zamanını gösterir.",
   trustReview: "Yapay zekâ tarafından oluşturulan taslaklar yayımlanmadan önce insanlar tarafından incelenir.",
-  trustPrivacy: "En az düzeyde kişisel veri, istediğiniz zaman dışarı aktarma ve silme olanağıyla.",
+  trustPrivacy: "Yalnızca yerel profil verileri; istediğiniz zaman dışa aktarabilir ve öğrenme ilerlemesini sıfırlayabilirsiniz.",
 };
 
 export const catalog: Messages["catalog"] = {
@@ -75,6 +45,9 @@ export const catalog: Messages["catalog"] = {
   retiredSectionBody: "Bu sınavlar artık sunulmuyor. Başvuru amacıyla listede tutulurlar.",
   hasLearningPath: "Öğrenme yolu kullanılabilir",
   noLearningPath: "Öğrenme yolu yakında",
+  labsAvailable: "{count} uygulamalı laboratuvar",
+  labsAvailableHint: "Laboratuvar sanal makinesindeki simüle portallarda pratik yapın.",
+  openLabs: "Laboratuvarları aç",
   retiredOn: "{date} tarihinde kullanımdan kaldırıldı",
   retiringOn: "{date} tarihinde kullanımdan kaldırılıyor",
   replacedBy: "{code} ile değiştirildi",
@@ -97,7 +70,6 @@ export const catalog: Messages["catalog"] = {
   enroll: "Bu öğrenme yoluna başlayın",
   enrolled: "Kaydınız var",
   continueLearning: "Öğrenmeye devam edin",
-  signInToEnroll: "Başlamak için giriş yapın",
   relatedCertifications: "İlgili sertifikalar",
   prerequisites: "Önerilen hazırlık",
   noPrerequisites: "Ön koşul gerekmez.",

@@ -1,13 +1,12 @@
 import Link from "next/link";
 import { BarChart3, BookOpen, Bot, CalendarDays, ClipboardCheck, FlaskConical, ShieldCheck } from "lucide-react";
 import { getI18n } from "@/i18n/server";
-import { getCurrentUser } from "@/modules/auth/session";
 import { listCatalog } from "@/modules/catalog/queries";
 import { CertificationCard } from "@/components/learning/certification-card";
 import { Button } from "@/components/ui/button";
 
 export default async function LandingPage() {
-  const [{ t, fmt, locale }, user] = await Promise.all([getI18n(), getCurrentUser()]);
+  const { t, fmt, locale } = await getI18n();
   const catalog = (await listCatalog(locale)).filter((c) => c.status !== "RETIRED");
   const features = [
     { icon: CalendarDays, title: t("landing.featurePlanTitle"), body: t("landing.featurePlanBody"), color: "text-brand-blue" },
@@ -28,15 +27,9 @@ export default async function LandingPage() {
           <h1 className="max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">{t("landing.heroTitle")}</h1>
           <p className="mt-4 max-w-2xl text-lg text-muted-foreground">{t("landing.heroSubtitle")}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            {user ? (
-              <Button asChild size="lg">
-                <Link href="/dashboard">{t("landing.ctaDashboard")}</Link>
-              </Button>
-            ) : (
-              <Button asChild size="lg">
-                <Link href="/sign-up">{t("landing.ctaStart")}</Link>
-              </Button>
-            )}
+            <Button asChild size="lg">
+              <Link href="/dashboard">{t("landing.ctaStart")}</Link>
+            </Button>
             <Button asChild size="lg" variant="outline">
               <Link href="/certifications">{t("landing.ctaCatalog")}</Link>
             </Button>

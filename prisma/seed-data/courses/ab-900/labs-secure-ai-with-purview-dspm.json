@@ -1,0 +1,1307 @@
+{
+  "labs": [
+    {
+      "slug": "secure-ai-with-purview-dspm",
+      "type": "UI_SIMULATION",
+      "title": "Secure Copilot and AI activity with Microsoft Purview DSPM",
+      "summary": "Use simulated Microsoft Purview DSPM to complete setup tasks, enable AI policies, review sensitive AI interactions, run an assessment, and choose remediation.",
+      "scenario": "Contoso is preparing a Microsoft 365 Copilot pilot and wants Microsoft Purview to monitor and reduce AI-related data risks. In the **simulated Microsoft Purview** portal, open the current **Data Security Posture Management (DSPM)** solution, complete the setup checklist, enable one-click AI protection policies, review reports for AI interactions that include sensitive information, run a data risk assessment for top SharePoint sites, and choose a remediation for an overshared HR site. The classic **DSPM for AI** name is still documented, but this lab uses the current DSPM entry point.",
+      "domainKey": "data-protection-governance",
+      "objectiveCode": "2.2",
+      "complexity": "BASIC",
+      "estimatedMinutes": 25,
+      "learningObjectives": [
+        "Identify the current Data Security Posture Management entry point in Microsoft Purview",
+        "Enable prerequisite setup tasks for AI observability and auditing",
+        "Create one-click policies for risky AI usage and sensitive data interactions",
+        "Use reports and data risk assessments to identify and remediate oversharing risks"
+      ],
+      "prerequisites": [
+        "Know that Purview supports audit, DLP, labels, eDiscovery, retention, and DSPM capabilities for Microsoft 365 Copilot interactions"
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Microsoft Purview data security and compliance protections for AI apps",
+          "url": "https://learn.microsoft.com/en-us/purview/ai-microsoft-purview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Learn about Microsoft Purview Data Security Posture Management",
+          "url": "https://learn.microsoft.com/en-us/purview/data-security-posture-management-learn-about",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Use Microsoft Purview to manage data security & compliance for Microsoft 365 Copilot",
+          "url": "https://learn.microsoft.com/en-us/purview/ai-m365-copilot",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Purview",
+          "theme": "purview",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://purview.microsoft.com",
+          "searchPlaceholder": "Search solutions, policies, reports, and activities"
+        },
+        "vm": {
+          "name": "LAB-VM01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T10:00:00Z"
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "solutions",
+            "label": "Solutions",
+            "icon": "LayoutGrid"
+          },
+          {
+            "page": "dspm-overview",
+            "label": "DSPM",
+            "icon": "ShieldCheck",
+            "section": "Solutions"
+          },
+          {
+            "page": "recommendations",
+            "label": "Recommendations",
+            "icon": "ListChecks",
+            "section": "DSPM"
+          },
+          {
+            "page": "reports",
+            "label": "Reports",
+            "icon": "ChartBar",
+            "section": "DSPM"
+          },
+          {
+            "page": "data-risk-assessments",
+            "label": "Data risk assessments",
+            "icon": "ClipboardCheck",
+            "section": "DSPM"
+          },
+          {
+            "page": "policies",
+            "label": "Policies",
+            "icon": "Shield",
+            "section": "DSPM"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Microsoft Purview",
+            "url": "/home",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "AI data security",
+                "text": "Purview helps discover, secure, and govern AI interactions. Microsoft 365 Copilot honors Microsoft 365 permissions; Purview adds audit, DLP, sensitivity labels, eDiscovery, retention, DSPM insights, and policy workflows."
+              },
+              {
+                "kind": "tiles",
+                "id": "purview-home-tiles",
+                "title": "Solutions",
+                "size": "md",
+                "items": [
+                  {
+                    "id": "open-solutions",
+                    "label": "Solutions",
+                    "description": "Browse Purview solutions.",
+                    "icon": "LayoutGrid",
+                    "action": {
+                      "type": "navigate",
+                      "page": "solutions"
+                    }
+                  },
+                  {
+                    "id": "open-dspm",
+                    "label": "Data Security Posture Management",
+                    "description": "Current DSPM solution for posture, objectives, AI observability, reports, and assessments.",
+                    "icon": "ShieldCheck",
+                    "action": {
+                      "type": "navigate",
+                      "page": "dspm-overview"
+                    }
+                  },
+                  {
+                    "id": "open-audit",
+                    "label": "Audit",
+                    "description": "Search audit records for user and admin activity.",
+                    "icon": "History",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Audit is configured from the DSPM setup checklist in this lab."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "solutions",
+            "title": "Solutions",
+            "icon": "LayoutGrid",
+            "url": "/solutions",
+            "breadcrumb": [
+              "Home"
+            ],
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "solution-gallery",
+                "title": "All solutions",
+                "size": "md",
+                "items": [
+                  {
+                    "id": "dspm-current",
+                    "label": "DSPM",
+                    "description": "Current Data Security Posture Management solution. Use this for new AI and data posture workflows.",
+                    "icon": "ShieldCheck",
+                    "action": {
+                      "type": "navigate",
+                      "page": "dspm-overview"
+                    }
+                  },
+                  {
+                    "id": "dspm-ai-classic",
+                    "label": "DSPM for AI (classic)",
+                    "description": "Previous AI-focused experience retained for classic workflows.",
+                    "icon": "Bot",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "DSPM for AI (classic) is the previous experience. Use DSPM for the current lab workflow."
+                    }
+                  },
+                  {
+                    "id": "dlp",
+                    "label": "Data Loss Prevention",
+                    "description": "Create DLP policies outside this lab.",
+                    "icon": "ShieldAlert",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "DLP policies are surfaced through DSPM recommendations in this lab."
+                    }
+                  },
+                  {
+                    "id": "ediscovery",
+                    "label": "eDiscovery",
+                    "description": "Search and manage compliance cases.",
+                    "icon": "FileSearch",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Copilot interactions can be available for eDiscovery and retention when configured."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "dspm-overview",
+            "title": "Data Security Posture Management",
+            "subtitle": "DSPM",
+            "icon": "ShieldCheck",
+            "url": "/solutions/dspm/overview",
+            "breadcrumb": [
+              "Home",
+              "Solutions"
+            ],
+            "commands": [
+              {
+                "id": "view-objectives",
+                "label": "View objectives",
+                "icon": "Target",
+                "action": {
+                  "type": "navigate",
+                  "page": "objectives"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "text",
+                "text": "Use **Solutions** > **DSPM** for the current Data Security Posture Management experience. Classic **DSPM for AI** documentation still exists, but new workflows are consolidated into DSPM with Posture, Objectives, AI observability, Asset explorer, Reports, and Setup tasks."
+              },
+              {
+                "kind": "table",
+                "id": "setup-checklist",
+                "title": "Get started checklist",
+                "source": "setupTasks",
+                "rowKey": "id",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Task"
+                  },
+                  {
+                    "key": "description",
+                    "label": "Why it matters"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ],
+                "rowActions": [
+                  {
+                    "id": "complete-task",
+                    "label": "Mark complete",
+                    "icon": "CircleCheck",
+                    "action": {
+                      "type": "sequence",
+                      "actions": [
+                        {
+                          "type": "update",
+                          "path": "setupTasks",
+                          "where": {
+                            "id": "{{$row.id}}"
+                          },
+                          "set": {
+                            "status": "Complete"
+                          }
+                        },
+                        {
+                          "type": "if",
+                          "when": {
+                            "type": "equals",
+                            "path": "$row.id",
+                            "value": "audit"
+                          },
+                          "then": [
+                            {
+                              "type": "set",
+                              "path": "audit.enabled",
+                              "value": true
+                            }
+                          ]
+                        },
+                        {
+                          "type": "if",
+                          "when": {
+                            "type": "equals",
+                            "path": "$row.id",
+                            "value": "browser-extension"
+                          },
+                          "then": [
+                            {
+                              "type": "set",
+                              "path": "devices.browserExtension",
+                              "value": true
+                            }
+                          ]
+                        },
+                        {
+                          "type": "if",
+                          "when": {
+                            "type": "equals",
+                            "path": "$row.id",
+                            "value": "onboard-devices"
+                          },
+                          "then": [
+                            {
+                              "type": "set",
+                              "path": "devices.onboarded",
+                              "value": true
+                            }
+                          ]
+                        },
+                        {
+                          "type": "notify",
+                          "title": "Setup task complete",
+                          "message": "{{$row.name}} is complete in the simulation."
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "tiles",
+                "id": "dspm-sections",
+                "title": "DSPM pages",
+                "size": "sm",
+                "items": [
+                  {
+                    "id": "recommendations",
+                    "label": "Recommendations",
+                    "icon": "ListChecks",
+                    "action": {
+                      "type": "navigate",
+                      "page": "recommendations"
+                    }
+                  },
+                  {
+                    "id": "reports",
+                    "label": "Reports",
+                    "icon": "ChartBar",
+                    "action": {
+                      "type": "navigate",
+                      "page": "reports"
+                    }
+                  },
+                  {
+                    "id": "assessments",
+                    "label": "Data risk assessments",
+                    "icon": "ClipboardCheck",
+                    "action": {
+                      "type": "navigate",
+                      "page": "data-risk-assessments"
+                    }
+                  },
+                  {
+                    "id": "policies",
+                    "label": "Policies",
+                    "icon": "Shield",
+                    "action": {
+                      "type": "navigate",
+                      "page": "policies"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "objectives",
+            "title": "Objectives",
+            "subtitle": "DSPM",
+            "icon": "Target",
+            "url": "/solutions/dspm/objectives",
+            "navItem": "dspm-overview",
+            "breadcrumb": [
+              "Home",
+              "Solutions",
+              "DSPM"
+            ],
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "objective-cards",
+                "title": "Data security objectives",
+                "size": "md",
+                "items": [
+                  {
+                    "id": "copilot-exposure",
+                    "label": "Prevent data exposure in Microsoft 365 Copilot and Microsoft Copilot interactions",
+                    "description": "Group recommendations, policies, and reports that reduce Copilot data exposure.",
+                    "icon": "Bot",
+                    "action": {
+                      "type": "navigate",
+                      "page": "recommendations"
+                    }
+                  },
+                  {
+                    "id": "oversharing",
+                    "label": "Prevent oversharing of sensitive data",
+                    "description": "Find and remediate broadly shared sensitive content.",
+                    "icon": "ShieldAlert",
+                    "action": {
+                      "type": "navigate",
+                      "page": "data-risk-assessments"
+                    }
+                  },
+                  {
+                    "id": "discover-sensitive",
+                    "label": "Discover sensitive data in your organization",
+                    "description": "Use classification and asset explorer data.",
+                    "icon": "FileSearch",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Discovery data is summarized in Reports for this lab."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "recommendations",
+            "title": "Recommendations",
+            "subtitle": "DSPM",
+            "icon": "ListChecks",
+            "url": "/solutions/dspm/recommendations",
+            "navItem": "recommendations",
+            "breadcrumb": [
+              "Home",
+              "Solutions",
+              "DSPM"
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "One-click policies",
+                "text": "Recommendations can create policies that collect AI activity signals, detect risky prompts and responses, and protect sensitive data used by Copilot and agents."
+              },
+              {
+                "kind": "table",
+                "id": "recommendations-table",
+                "title": "Recommended actions",
+                "source": "recommendations",
+                "rowKey": "id",
+                "columns": [
+                  {
+                    "key": "title",
+                    "label": "Recommendation",
+                    "format": "link"
+                  },
+                  {
+                    "key": "policyName",
+                    "label": "Policy created"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "category",
+                    "label": "Category",
+                    "format": "badge"
+                  }
+                ],
+                "rowActions": [
+                  {
+                    "id": "create-policy",
+                    "label": "Create policy",
+                    "icon": "ShieldPlus",
+                    "visibleWhen": {
+                      "type": "notEquals",
+                      "path": "$row.status",
+                      "value": "Complete"
+                    },
+                    "action": {
+                      "type": "sequence",
+                      "actions": [
+                        {
+                          "type": "update",
+                          "path": "recommendations",
+                          "where": {
+                            "id": "{{$row.id}}"
+                          },
+                          "set": {
+                            "status": "Complete"
+                          }
+                        },
+                        {
+                          "type": "append",
+                          "path": "policies",
+                          "unique": "name",
+                          "value": {
+                            "name": "{{$row.policyName}}",
+                            "solution": "{{$row.solution}}",
+                            "status": "On",
+                            "category": "{{$row.category}}"
+                          }
+                        },
+                        {
+                          "type": "notify",
+                          "title": "Policy created",
+                          "message": "{{$row.policyName}} is on."
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "dismiss",
+                    "label": "Dismiss",
+                    "icon": "CircleX",
+                    "variant": "danger",
+                    "action": {
+                      "type": "fail",
+                      "message": "Do not dismiss this recommendation. The lab requires the AI protection policies to be enabled."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "reports",
+            "title": "Reports",
+            "subtitle": "DSPM",
+            "icon": "ChartBar",
+            "url": "/solutions/dspm/reports",
+            "navItem": "reports",
+            "breadcrumb": [
+              "Home",
+              "Solutions",
+              "DSPM"
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "ai-report-table",
+                "title": "AI activity reports",
+                "source": "reports",
+                "rowKey": "id",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Report"
+                  },
+                  {
+                    "key": "category",
+                    "label": "AI app category",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "sensitiveInteractions",
+                    "label": "Sensitive interactions",
+                    "format": "count"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "report-detail",
+                  "select": {
+                    "as": "report",
+                    "path": "reports",
+                    "key": "id",
+                    "value": "{{$row.id}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "report-detail",
+            "title": "{{$sel.report.name}}",
+            "subtitle": "Report details",
+            "icon": "ChartBar",
+            "url": "/solutions/dspm/reports/{{$sel.report.id}}",
+            "requires": "report",
+            "navItem": "reports",
+            "breadcrumb": [
+              "Home",
+              "Solutions",
+              "DSPM",
+              "Reports"
+            ],
+            "commands": [
+              {
+                "id": "mark-report-reviewed",
+                "label": "Mark reviewed",
+                "icon": "CircleCheck",
+                "variant": "primary",
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "reports",
+                      "where": {
+                        "id": "{{$sel.report.id}}"
+                      },
+                      "set": {
+                        "reviewed": true,
+                        "status": "Reviewed"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Report reviewed",
+                      "message": "{{$sel.report.name}} was reviewed."
+                    }
+                  ]
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Summary",
+                "items": [
+                  {
+                    "label": "Category",
+                    "value": "{{$sel.report.category}}"
+                  },
+                  {
+                    "label": "Sensitive interactions",
+                    "value": "{{$sel.report.sensitiveInteractions}}",
+                    "format": "count"
+                  },
+                  {
+                    "label": "Top app",
+                    "value": "{{$sel.report.topApp}}"
+                  },
+                  {
+                    "label": "Status",
+                    "value": "{{$sel.report.status}}",
+                    "format": "status"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "interaction-list",
+                "title": "AI interactions containing sensitive info",
+                "source": "$sel.report.interactions",
+                "rowKey": "id",
+                "columns": [
+                  {
+                    "key": "user",
+                    "label": "User"
+                  },
+                  {
+                    "key": "app",
+                    "label": "AI app"
+                  },
+                  {
+                    "key": "sensitiveInfo",
+                    "label": "Sensitive info type",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "referencedFile",
+                    "label": "Referenced file"
+                  },
+                  {
+                    "key": "control",
+                    "label": "Control"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "data-risk-assessments",
+            "title": "Data risk assessments",
+            "subtitle": "DSPM",
+            "icon": "ClipboardCheck",
+            "url": "/solutions/dspm/dataRiskAssessments",
+            "navItem": "data-risk-assessments",
+            "breadcrumb": [
+              "Home",
+              "Solutions",
+              "DSPM"
+            ],
+            "commands": [
+              {
+                "id": "run-oversharing-assessment",
+                "label": "Run assessment",
+                "icon": "Play",
+                "variant": "primary",
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "assessments.oversharing.status",
+                      "value": "Complete"
+                    },
+                    {
+                      "type": "set",
+                      "path": "assessments.oversharing.run",
+                      "value": true
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Assessment complete",
+                      "message": "Oversharing assessment completed for top SharePoint sites."
+                    }
+                  ]
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "title": "Assessment purpose",
+                "text": "Data risk assessments identify potential oversharing of data that Copilot and agents could surface to users who already have access. Remediation can include sensitivity labels, restricted access, or site access reviews."
+              },
+              {
+                "kind": "properties",
+                "title": "Oversharing assessment",
+                "items": [
+                  {
+                    "label": "Scope",
+                    "value": "Top SharePoint sites"
+                  },
+                  {
+                    "label": "Status",
+                    "value": "{{assessments.oversharing.status}}",
+                    "format": "status"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "assessment-results",
+                "title": "Results",
+                "source": "assessmentResults",
+                "rowKey": "site",
+                "columns": [
+                  {
+                    "key": "site",
+                    "label": "Site"
+                  },
+                  {
+                    "key": "risk",
+                    "label": "Risk",
+                    "format": "status"
+                  },
+                  {
+                    "key": "sensitiveFiles",
+                    "label": "Sensitive files",
+                    "format": "count"
+                  },
+                  {
+                    "key": "broadAccess",
+                    "label": "Broad access"
+                  },
+                  {
+                    "key": "remediation",
+                    "label": "Remediation",
+                    "format": "badge"
+                  }
+                ],
+                "rowActions": [
+                  {
+                    "id": "apply-label",
+                    "label": "Apply sensitivity label",
+                    "icon": "Tag",
+                    "action": {
+                      "type": "sequence",
+                      "actions": [
+                        {
+                          "type": "update",
+                          "path": "assessmentResults",
+                          "where": {
+                            "site": "{{$row.site}}"
+                          },
+                          "set": {
+                            "remediation": "Sensitivity label applied",
+                            "label": "Confidential - HR"
+                          }
+                        },
+                        {
+                          "type": "notify",
+                          "title": "Sensitivity label applied",
+                          "message": "Confidential - HR was applied to sensitive files in {{$row.site}}."
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "restrict-access",
+                    "label": "Restrict access",
+                    "icon": "Lock",
+                    "action": {
+                      "type": "sequence",
+                      "actions": [
+                        {
+                          "type": "update",
+                          "path": "assessmentResults",
+                          "where": {
+                            "site": "{{$row.site}}"
+                          },
+                          "set": {
+                            "remediation": "Restricted access planned"
+                          }
+                        },
+                        {
+                          "type": "notify",
+                          "title": "Restricted access planned",
+                          "message": "Use SharePoint Restricted site access for {{$row.site}} if access must be constrained to a control group."
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "start-site-review",
+                    "label": "Start site access review",
+                    "icon": "ClipboardCheck",
+                    "action": {
+                      "type": "sequence",
+                      "actions": [
+                        {
+                          "type": "update",
+                          "path": "assessmentResults",
+                          "where": {
+                            "site": "{{$row.site}}"
+                          },
+                          "set": {
+                            "remediation": "Site access review started"
+                          }
+                        },
+                        {
+                          "type": "notify",
+                          "title": "Site access review started",
+                          "message": "The site owner will review oversharing for {{$row.site}}."
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "policies",
+            "title": "Policies",
+            "subtitle": "DSPM",
+            "icon": "Shield",
+            "url": "/solutions/dspm/policies",
+            "navItem": "policies",
+            "breadcrumb": [
+              "Home",
+              "Solutions",
+              "DSPM"
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "policy-list",
+                "title": "AI-related policies",
+                "source": "policies",
+                "rowKey": "name",
+                "emptyText": "No DSPM policies have been created yet.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Policy name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "solution",
+                    "label": "Solution"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "category",
+                    "label": "Category",
+                    "format": "badge"
+                  }
+                ]
+              },
+              {
+                "kind": "text",
+                "text": "Purview protection for Copilot interactions includes: sensitivity labels are honored, including **VIEW** and **EXTRACT** usage rights for encrypted content; prompts and responses can be audited; eDiscovery can search supported interaction data; and retention can preserve Copilot interactions when configured."
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "audit": {
+            "enabled": false
+          },
+          "devices": {
+            "browserExtension": false,
+            "onboarded": false
+          },
+          "setupTasks": [
+            {
+              "id": "audit",
+              "name": "Turn on Microsoft Purview Audit",
+              "description": "Collect user and admin activity records, including supported Copilot and AI activity events.",
+              "status": "Not started"
+            },
+            {
+              "id": "browser-extension",
+              "name": "Install Microsoft Purview browser extension",
+              "description": "Collect third-party generative AI site activity in supported browsers.",
+              "status": "Not started"
+            },
+            {
+              "id": "onboard-devices",
+              "name": "Onboard devices to Microsoft Purview",
+              "description": "Enable endpoint signals for AI site activity and data loss prevention.",
+              "status": "Not started"
+            }
+          ],
+          "recommendations": [
+            {
+              "id": "risky-ai",
+              "title": "Detect risky interactions in AI apps",
+              "policyName": "DSPM for AI - Detect risky AI usage",
+              "solution": "Insider Risk Management",
+              "category": "Risky AI",
+              "status": "Recommended"
+            },
+            {
+              "id": "sensitive-network",
+              "title": "Detect sensitive info shared with AI via network",
+              "policyName": "DSPM for AI - Detect sensitive info shared with AI via network",
+              "solution": "Data Loss Prevention",
+              "category": "Sensitive info",
+              "status": "Recommended"
+            },
+            {
+              "id": "copilot-processing",
+              "title": "Protect items with sensitivity labels from Microsoft 365 Copilot and agent processing",
+              "policyName": "DSPM for AI - Protect sensitive data from Copilot processing",
+              "solution": "Data Loss Prevention",
+              "category": "Copilot",
+              "status": "Recommended"
+            },
+            {
+              "id": "oversharing",
+              "title": "Protect your data from potential oversharing risks",
+              "policyName": "Weekly oversharing assessment for top SharePoint sites",
+              "solution": "DSPM",
+              "category": "Assessment",
+              "status": "Recommended"
+            }
+          ],
+          "policies": [],
+          "reports": [
+            {
+              "id": "sensitive-ai-interactions",
+              "name": "AI interactions containing sensitive info",
+              "category": "Copilot experiences and agents",
+              "sensitiveInteractions": 17,
+              "topApp": "Microsoft 365 Copilot",
+              "status": "Ready",
+              "reviewed": false,
+              "interactions": [
+                {
+                  "id": "i-1001",
+                  "user": "Priya",
+                  "app": "Microsoft 365 Copilot",
+                  "sensitiveInfo": "Employee ID",
+                  "referencedFile": "HR headcount planning.xlsx",
+                  "control": "Sensitivity label inherited"
+                },
+                {
+                  "id": "i-1002",
+                  "user": "Mehmet",
+                  "app": "Microsoft 365 Copilot Chat",
+                  "sensitiveInfo": "Bank account",
+                  "referencedFile": "Benefits vendor draft.docx",
+                  "control": "DLP policy matched"
+                },
+                {
+                  "id": "i-1003",
+                  "user": "Maya",
+                  "app": "Copilot Studio",
+                  "sensitiveInfo": "Customer identifier",
+                  "referencedFile": "Agent test transcript",
+                  "control": "Audit event recorded"
+                }
+              ]
+            },
+            {
+              "id": "ai-website-visits",
+              "name": "AI website visits",
+              "category": "Other AI apps",
+              "sensitiveInteractions": 5,
+              "topApp": "Generative AI websites",
+              "status": "Ready",
+              "reviewed": false,
+              "interactions": [
+                {
+                  "id": "i-2001",
+                  "user": "Alex",
+                  "app": "Generative AI site",
+                  "sensitiveInfo": "Project code",
+                  "referencedFile": "Browser paste event",
+                  "control": "Browser extension signal"
+                }
+              ]
+            }
+          ],
+          "assessments": {
+            "oversharing": {
+              "status": "Not run",
+              "run": false
+            }
+          },
+          "assessmentResults": [
+            {
+              "site": "HR-Internal",
+              "risk": "High",
+              "sensitiveFiles": 42,
+              "broadAccess": "Everyone except external users",
+              "remediation": "Not started",
+              "label": "None"
+            },
+            {
+              "site": "Finance Planning",
+              "risk": "Medium",
+              "sensitiveFiles": 19,
+              "broadAccess": "People in organization links",
+              "remediation": "Not started",
+              "label": "Confidential"
+            },
+            {
+              "site": "Sales Enablement",
+              "risk": "Medium",
+              "sensitiveFiles": 8,
+              "broadAccess": "Anyone links",
+              "remediation": "Not started",
+              "label": "General"
+            },
+            {
+              "site": "Executive Programs",
+              "risk": "Low",
+              "sensitiveFiles": 12,
+              "broadAccess": "Restricted access active",
+              "remediation": "Monitored",
+              "label": "Highly Confidential"
+            }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "key": "open-current-dspm",
+          "title": "Open the current DSPM solution",
+          "instruction": "From **Solutions**, open **DSPM**. Use the current **Data Security Posture Management** entry, not **DSPM for AI (classic)**.",
+          "hint": "The classic tile is shown for awareness, but the current solution is labeled DSPM.",
+          "explanation": "Microsoft Learn now describes Data Security Posture Management as the current solution, with DSPM for AI retained as the classic experience.",
+          "targetId": "solution-gallery",
+          "rules": [
+            {
+              "key": "visited-dspm",
+              "description": "The DSPM overview was opened",
+              "rule": {
+                "type": "visited",
+                "page": "dspm-overview"
+              },
+              "failureFeedback": "Open Solutions > DSPM."
+            }
+          ]
+        },
+        {
+          "key": "complete-setup",
+          "title": "Complete the get started checklist",
+          "instruction": "On **Data Security Posture Management**, mark these setup tasks complete: **Turn on Microsoft Purview Audit**, **Install Microsoft Purview browser extension**, and **Onboard devices to Microsoft Purview**.",
+          "hint": "Use **Mark complete** on each row in the Get started checklist.",
+          "explanation": "Audit captures supported Copilot interactions; the browser extension and device onboarding provide signals for third-party AI site activity.",
+          "targetId": "setup-checklist",
+          "rules": [
+            {
+              "key": "setup-complete",
+              "description": "Audit, browser extension, and device onboarding are complete",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "equals",
+                    "path": "audit.enabled",
+                    "value": true
+                  },
+                  {
+                    "type": "equals",
+                    "path": "devices.browserExtension",
+                    "value": true
+                  },
+                  {
+                    "type": "equals",
+                    "path": "devices.onboarded",
+                    "value": true
+                  }
+                ]
+              },
+              "failureFeedback": "Complete all three setup checklist rows."
+            }
+          ]
+        },
+        {
+          "key": "enable-policies",
+          "title": "Create required one-click AI policies",
+          "instruction": "Open **Recommendations** and use **Create policy** for **Detect risky interactions in AI apps**, **Detect sensitive info shared with AI via network**, and **Protect items with sensitivity labels from Microsoft 365 Copilot and agent processing**.",
+          "hint": "Do not dismiss recommendations; create the policies from their row actions.",
+          "explanation": "These one-click policies help detect risky AI usage, identify sensitive data shared with AI, and protect labeled sensitive data from Copilot and agent processing.",
+          "targetId": "recommendations-table",
+          "rules": [
+            {
+              "key": "required-policies",
+              "description": "The required DSPM AI policies are enabled",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "arrayContains",
+                    "path": "policies",
+                    "match": {
+                      "name": "DSPM for AI - Detect risky AI usage",
+                      "status": "On"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "policies",
+                    "match": {
+                      "name": "DSPM for AI - Detect sensitive info shared with AI via network",
+                      "status": "On"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "policies",
+                    "match": {
+                      "name": "DSPM for AI - Protect sensitive data from Copilot processing",
+                      "status": "On"
+                    }
+                  }
+                ]
+              },
+              "failureFeedback": "Create all three required policies from Recommendations."
+            }
+          ]
+        },
+        {
+          "key": "review-report",
+          "title": "Review sensitive AI interaction reports",
+          "instruction": "Open **Reports**, select **AI interactions containing sensitive info**, and choose **Mark reviewed** after inspecting the interactions table.",
+          "hint": "The report shows the app category, top app, sensitive information type, referenced file, and control.",
+          "explanation": "Purview reports and activity data help admins understand where AI prompts or responses involve sensitive information.",
+          "targetId": "ai-report-table",
+          "rules": [
+            {
+              "key": "report-reviewed",
+              "description": "The sensitive AI interactions report was reviewed",
+              "rule": {
+                "type": "arrayContains",
+                "path": "reports",
+                "match": {
+                  "id": "sensitive-ai-interactions",
+                  "reviewed": true
+                }
+              },
+              "failureFeedback": "Open the sensitive AI interactions report and select Mark reviewed."
+            }
+          ]
+        },
+        {
+          "key": "run-assessment",
+          "title": "Run the oversharing data risk assessment",
+          "instruction": "Open **Data risk assessments** and select **Run assessment** for the **Top SharePoint sites** oversharing assessment.",
+          "hint": "The results table appears on the same page after the assessment completes.",
+          "explanation": "Data risk assessments identify overshared SharePoint content that Microsoft 365 Copilot or agents could surface to users who already have access.",
+          "targetId": "run-oversharing-assessment",
+          "rules": [
+            {
+              "key": "assessment-run",
+              "description": "The oversharing assessment was run",
+              "rule": {
+                "type": "equals",
+                "path": "assessments.oversharing.run",
+                "value": true
+              },
+              "failureFeedback": "Run the Data risk assessments oversharing assessment."
+            }
+          ]
+        },
+        {
+          "key": "remediate-risk",
+          "title": "Choose a remediation for HR-Internal",
+          "instruction": "In the assessment results, for **HR-Internal**, choose **Apply sensitivity label**. Review the other options: **Restrict access** constrains SharePoint access, and **Start site access review** asks the owner to clean up permissions.",
+          "hint": "Use the row action on HR-Internal in the Results table.",
+          "explanation": "Sensitivity labels add protection and help Copilot display and honor sensitivity. Restricted access or site access reviews are appropriate when broad permissions must be reduced.",
+          "targetId": "assessment-results",
+          "rules": [
+            {
+              "key": "hr-remediated",
+              "description": "A remediation was selected for HR-Internal",
+              "rule": {
+                "type": "arrayContains",
+                "path": "assessmentResults",
+                "match": {
+                  "site": "HR-Internal",
+                  "remediation": "Sensitivity label applied",
+                  "label": "Confidential - HR"
+                }
+              },
+              "failureFeedback": "Apply the Confidential - HR sensitivity label remediation to HR-Internal."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "audit-enabled",
+          "description": "Microsoft Purview Audit is on",
+          "rule": {
+            "type": "equals",
+            "path": "audit.enabled",
+            "value": true
+          },
+          "failureFeedback": "Complete the Turn on Microsoft Purview Audit setup task."
+        },
+        {
+          "key": "policies-enabled",
+          "description": "Required one-click policies are enabled",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayContains",
+                "path": "policies",
+                "match": {
+                  "name": "DSPM for AI - Detect risky AI usage",
+                  "status": "On"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "policies",
+                "match": {
+                  "name": "DSPM for AI - Detect sensitive info shared with AI via network",
+                  "status": "On"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "policies",
+                "match": {
+                  "name": "DSPM for AI - Protect sensitive data from Copilot processing",
+                  "status": "On"
+                }
+              }
+            ]
+          },
+          "successFeedback": "The required AI protection policies are enabled.",
+          "failureFeedback": "Enable all required policies from Recommendations."
+        },
+        {
+          "key": "assessment-complete",
+          "description": "The oversharing assessment was completed",
+          "rule": {
+            "type": "equals",
+            "path": "assessments.oversharing.status",
+            "value": "Complete"
+          },
+          "failureFeedback": "Run the oversharing data risk assessment."
+        }
+      ],
+      "solution": "1. Open **Solutions** and choose **DSPM**. Use the current **Data Security Posture Management** solution; **DSPM for AI (classic)** is the previous experience.\n2. On **Data Security Posture Management**, in the **Get started checklist**, mark **Turn on Microsoft Purview Audit**, **Install Microsoft Purview browser extension**, and **Onboard devices to Microsoft Purview** complete.\n3. Open **Recommendations** and select **Create policy** for **Detect risky interactions in AI apps**, **Detect sensitive info shared with AI via network**, and **Protect items with sensitivity labels from Microsoft 365 Copilot and agent processing**. This creates **DSPM for AI - Detect risky AI usage**, **DSPM for AI - Detect sensitive info shared with AI via network**, and **DSPM for AI - Protect sensitive data from Copilot processing**.\n4. Open **Reports**, select **AI interactions containing sensitive info**, review the interactions, and select **Mark reviewed**.\n5. Open **Data risk assessments** and select **Run assessment** for the top SharePoint sites oversharing assessment.\n6. In the results, for **HR-Internal**, choose **Apply sensitivity label**. Purview helps protect Copilot interactions because sensitivity labels are honored, encrypted content requires appropriate **VIEW** and **EXTRACT** usage rights, supported prompts and responses are audited, eDiscovery can search supported interaction data, and retention can preserve Copilot interactions when configured."
+    }
+  ]
+}

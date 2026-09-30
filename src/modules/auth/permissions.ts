@@ -18,8 +18,6 @@ export const PERMISSIONS = [
   "ai:generate_drafts",
   "analytics:view_anonymous",
   "catalog:manage",
-  "users:manage",
-  "roles:assign",
   "audit:view",
   "settings:manage",
   "ai:configure",
@@ -69,19 +67,6 @@ export function hasAnyPermission(roles: readonly string[], permissions: readonly
   return permissions.some((p) => set.has(p));
 }
 
-/** Can the actor change the given user's roles? Admins cannot remove their own admin role (lock-out protection). */
-export function canAssignRoles(
-  actorRoles: readonly string[],
-  actorId: string,
-  targetId: string,
-  nextRoles: readonly string[],
-): { ok: true } | { ok: false; reason: "forbidden" | "self_demotion" | "invalid_role" | "empty" } {
-  if (!hasPermission(actorRoles, "roles:assign")) return { ok: false, reason: "forbidden" };
-  if (nextRoles.length === 0) return { ok: false, reason: "empty" };
-  if (!nextRoles.every(isRoleKey)) return { ok: false, reason: "invalid_role" };
-  if (actorId === targetId && !nextRoles.includes("ADMIN")) return { ok: false, reason: "self_demotion" };
-  return { ok: true };
-}
 
 /** Admin area sections and the permission required to see them. */
 export const ADMIN_SECTIONS = [
@@ -93,7 +78,6 @@ export const ADMIN_SECTIONS = [
   { key: "reviews", href: "/admin/reviews", permission: "content:review" },
   { key: "analytics", href: "/admin/analytics", permission: "analytics:view_anonymous" },
   { key: "importExport", href: "/admin/import-export", permission: "content:import" },
-  { key: "users", href: "/admin/users", permission: "users:manage" },
   { key: "audit", href: "/admin/audit", permission: "audit:view" },
   { key: "jobs", href: "/admin/jobs", permission: "jobs:manage" },
   { key: "settings", href: "/admin/settings", permission: "settings:manage" },

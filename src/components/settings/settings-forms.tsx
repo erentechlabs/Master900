@@ -1,15 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { signIn, signOut } from "next-auth/react";
 import { toast } from "sonner";
-import { Download, ShieldAlert } from "lucide-react";
+import { Download, RotateCcw } from "lucide-react";
 import { useI18n } from "@/i18n/client";
 import type { MessageKey } from "@/i18n/translator";
-import { changePasswordAction, deleteAccountAction, signOutEverywhereAction, updateSettingsAction } from "@/app/(app)/settings/actions";
+import { resetLearningProgressAction, updateSettingsAction } from "@/app/(app)/settings/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Alert } from "@/components/ui/alert";
 import { Checkbox, Field, Input, Select } from "@/components/ui/form";
 import { Spinner } from "@/components/ui/misc";
 
@@ -36,7 +34,6 @@ function errorText(t: ReturnType<typeof useI18n>["t"], code: string) {
   const key = `errors.${code}` as MessageKey;
   const translated = t(key);
   if (translated !== key) return translated;
-  if (code === "last_admin") return t("settings.lastAdmin");
   return t("common.genericError");
 }
 
@@ -78,53 +75,17 @@ export function SettingsForms({ user, preference }: SettingsFormsProps) {
     });
   };
 
-  const onPassword = (formData: FormData) => {
-    const currentPassword = String(formData.get("currentPassword") ?? "");
-    const newPassword = String(formData.get("newPassword") ?? "");
+  const onReset = (formData: FormData) => {
     startTransition(async () => {
-      const result = await changePasswordAction({
-        currentPassword,
-        newPassword,
-        confirmPassword: formData.get("confirmPassword") ?? "",
-      });
+      const result = await resetLearningProgressAction({ confirmation: formData.get("confirmation") });
       if (!result.ok) {
         toast.error(errorText(t, result.error));
-        return;
       }
-      const signedIn = await signIn("credentials", { email: user.email, password: newPassword, redirect: false });
-      if (signedIn?.ok) toast.success(t("settings.passwordChanged"));
-      else await signOut({ callbackUrl: "/sign-in" });
-    });
-  };
-
-  const onSignOutEverywhere = () => {
-    startTransition(async () => {
-      const result = await signOutEverywhereAction();
-      if (!result.ok) toast.error(errorText(t, result.error));
-      else await signOut({ callbackUrl: "/sign-in" });
-    });
-  };
-
-  const onDelete = (formData: FormData) => {
-    startTransition(async () => {
-      const result = await deleteAccountAction({ confirmation: formData.get("confirmation"), currentPassword: formData.get("currentPassword") });
-      if (!result.ok) {
-        toast.error(errorText(t, result.error));
-        return;
-      }
-      toast.success(t("settings.deleted"));
-      await signOut({ callbackUrl: "/" });
     });
   };
 
   return (
     <div className="space-y-6">
-      {user.isDemo ? (
-        <Alert variant="warning" title={t("settings.demoNoticeTitle")}>
-          {t("settings.demoNoticeBody")}
-        </Alert>
-      ) : null}
-
       <form action={onSettings} className="space-y-6">
         <Card id="profile">
           <CardHeader>
@@ -223,35 +184,6 @@ export function SettingsForms({ user, preference }: SettingsFormsProps) {
         </Button>
       </form>
 
-      <Card id="security">
-        <CardHeader>
-          <CardTitle>{t("settings.security")}</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-5">
-          <form action={onPassword} className="grid gap-4 md:grid-cols-3">
-            <Field id="current-password" label={t("settings.currentPassword")}>
-              <Input name="currentPassword" type="password" autoComplete="current-password" disabled={user.isDemo} />
-            </Field>
-            <Field id="new-password" label={t("settings.newPassword")}>
-              <Input name="newPassword" type="password" autoComplete="new-password" disabled={user.isDemo} />
-            </Field>
-            <Field id="confirm-password" label={t("settings.confirmPassword")}>
-              <Input name="confirmPassword" type="password" autoComplete="new-password" disabled={user.isDemo} />
-            </Field>
-            <Button type="submit" disabled={pending || user.isDemo} className="md:col-span-3 md:w-fit">
-              {t("settings.changePassword")}
-            </Button>
-          </form>
-          <div className="rounded-lg border p-4">
-            <p className="font-medium">{t("settings.signOutEverywhere")}</p>
-            <p className="mb-3 text-sm text-muted-foreground">{t("settings.signOutEverywhereBody")}</p>
-            <Button variant="outline" onClick={onSignOutEverywhere} disabled={pending}>
-              {t("settings.signOutEverywhere")}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
       <Card id="data">
         <CardHeader>
           <CardTitle>{t("settings.data")}</CardTitle>
@@ -264,24 +196,19 @@ export function SettingsForms({ user, preference }: SettingsFormsProps) {
               {t("settings.dataExport")}
             </a>
           </Button>
-          <form action={onDelete} className="rounded-lg border border-destructive/40 p-4">
+          <form action={onReset} className="rounded-lg border border-destructive/40 p-4">
             <div className="mb-4 flex items-start gap-3">
-              <ShieldAlert className="mt-0.5 h-5 w-5 text-destructive" aria-hidden="true" />
+              <RotateCcw className="mt-0.5 h-5 w-5 text-destructive" aria-hidden="true" />
               <div>
-                <p className="font-medium">{t("settings.deleteAccount")}</p>
-                <p className="text-sm text-muted-foreground">{t("settings.deleteAccountBody")}</p>
+                <p className="font-medium">{t("settings.resetProgress")}</p>
+                <p className="text-sm text-muted-foreground">{t("settings.resetProgressBody")}</p>
               </div>
             </div>
-            <div className="grid gap-4 md:grid-cols-2">
-              <Field id="delete-confirmation" label={t("settings.deleteConfirmLabel")}>
-                <Input name="confirmation" disabled={user.isDemo} placeholder={t("settings.deleteConfirmWord")} />
-              </Field>
-              <Field id="delete-password" label={t("settings.deletePassword")}>
-                <Input name="currentPassword" type="password" autoComplete="current-password" disabled={user.isDemo} />
-              </Field>
-            </div>
-            <Button type="submit" variant="destructive" className="mt-4" disabled={pending || user.isDemo}>
-              {t("settings.deleteAccount")}
+            <Field id="reset-confirmation" label={t("settings.resetConfirmLabel")}>
+              <Input name="confirmation" placeholder={t("settings.resetConfirmWord")} />
+            </Field>
+            <Button type="submit" variant="destructive" className="mt-4" disabled={pending}>
+              {t("settings.resetProgress")}
             </Button>
           </form>
         </CardContent>

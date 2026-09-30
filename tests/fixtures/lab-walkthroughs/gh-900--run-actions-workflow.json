@@ -1,0 +1,47 @@
+{
+  "certification": "GH-900",
+  "lab": "run-actions-workflow",
+  "note": "Configure Node.js Actions workflow, inspect a failed run, fix the test, and verify success.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "actions"
+    },
+    {
+      "type": "click",
+      "componentId": "templates",
+      "itemId": "node"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "workflow-form",
+      "values": {
+        "path": ".github/workflows/node.js.yml",
+        "content": "name: Node.js CI\n\non:\n  push:\n    branches: [main]\n  pull_request:\n    branches: [main]\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    strategy:\n      matrix:\n        node-version: [20.x, 22.x]\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: ${{ matrix.node-version }}\n          cache: npm\n      - run: npm ci\n      - run: npm test\n",
+        "message": "Create Node.js CI workflow"
+      }
+    },
+    {
+      "type": "rowClick",
+      "componentId": "runs",
+      "rowKey": "101"
+    },
+    {
+      "type": "click",
+      "componentId": "edit-fix"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "fix-form",
+      "values": {
+        "content": "import { describe, expect, it } from 'vitest';\nimport { normalizeSku } from './sku';\n\ndescribe('normalizeSku', () => {\n  it('normalizes lowercase input', () => {\n    expect(normalizeSku('sku-123')).toBe('SKU-123');\n  });\n});\n",
+        "message": "Fix SKU normalization test"
+      }
+    },
+    {
+      "type": "rowClick",
+      "componentId": "runs",
+      "rowKey": "102"
+    }
+  ]
+}

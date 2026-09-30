@@ -1,0 +1,1195 @@
+{
+  "labs": [
+    {
+      "slug": "deploy-model-chat-playground",
+      "type": "UI_SIMULATION",
+      "title": "Deploy a chat model and test it in the Foundry playground",
+      "summary": "Use Microsoft Foundry to choose a chat-capable model, create a deployment, tune the model playground, and test a scoped support assistant prompt.",
+      "scenario": "**Contoso Retail** is prototyping a support assistant for order questions in a Microsoft Foundry project named **proj-support-assistant**. In the simulated lab VM, use **Microsoft Foundry** to find a chat model, deploy it as **contoso-support-chat**, then use the **Model playground** to set instructions that keep the assistant polite and limited to Contoso order support. The assistant must refuse other topics and use a lower temperature for consistent support replies. Everything is simulated; no real Foundry resource, subscription, endpoint, quota, or model call is used.",
+      "domainKey": "foundry-solutions",
+      "moduleSlug": "foundry-generative-apps-agents",
+      "objectiveCode": "2.1",
+      "complexity": "BASIC",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Use Discover > Models and model filters to choose a model that supports chat or text generation",
+        "Explain why embeddings or image-generation models are the wrong deployment choice for a chat assistant",
+        "Create a model deployment, configure system instructions and temperature, and test behavior in the Model playground"
+      ],
+      "prerequisites": [
+        "Know what a model deployment and a system message are"
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam AI-901",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "What is Microsoft Foundry?",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Deploy Microsoft Foundry Models in the Foundry portal",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/deploy-foundry-models",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Microsoft Foundry Playgrounds",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/concepts/concept-playgrounds",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Foundry",
+          "theme": "foundry",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://ai.azure.com",
+          "searchPlaceholder": "Search Foundry"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "discover-models",
+            "label": "Models",
+            "icon": "Brain",
+            "section": "Discover"
+          },
+          {
+            "page": "build-models",
+            "label": "Models",
+            "icon": "Cpu",
+            "section": "Build"
+          },
+          {
+            "page": "playgrounds",
+            "label": "Playgrounds",
+            "icon": "MessagesSquare",
+            "section": "Build"
+          },
+          {
+            "page": "project-overview",
+            "label": "Projects",
+            "icon": "FolderOpen",
+            "section": "Manage"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Microsoft Foundry",
+            "subtitle": "Contoso (contoso.example)",
+            "url": "/",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "home-actions",
+                "title": "Start building",
+                "size": "md",
+                "items": [
+                  {
+                    "id": "open-project",
+                    "label": "proj-support-assistant",
+                    "description": "Open the project workspace for the support assistant.",
+                    "icon": "FolderOpen",
+                    "action": {
+                      "type": "navigate",
+                      "page": "project-overview"
+                    }
+                  },
+                  {
+                    "id": "discover-models",
+                    "label": "Discover models",
+                    "description": "Browse the Foundry model catalog.",
+                    "icon": "Brain",
+                    "action": {
+                      "type": "navigate",
+                      "page": "discover-models"
+                    }
+                  },
+                  {
+                    "id": "open-playgrounds",
+                    "label": "Playgrounds",
+                    "description": "Test deployed models interactively.",
+                    "icon": "MessagesSquare",
+                    "action": {
+                      "type": "navigate",
+                      "page": "playgrounds"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "recent-projects",
+                "title": "Recent projects",
+                "source": "projects",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "resource",
+                    "label": "Foundry resource"
+                  },
+                  {
+                    "key": "region",
+                    "label": "Region"
+                  },
+                  {
+                    "key": "updated",
+                    "label": "Last opened"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "project-overview",
+                  "select": {
+                    "as": "project",
+                    "path": "projects",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "project-overview",
+            "title": "proj-support-assistant",
+            "subtitle": "Project",
+            "icon": "FolderOpen",
+            "url": "/build/projects/proj-support-assistant/overview",
+            "breadcrumb": [
+              "Home",
+              "Projects"
+            ],
+            "navItem": "project-overview",
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Project details",
+                "items": [
+                  {
+                    "label": "Project name",
+                    "value": "proj-support-assistant"
+                  },
+                  {
+                    "label": "Foundry resource",
+                    "value": "foundry-contoso-learning"
+                  },
+                  {
+                    "label": "Endpoint",
+                    "value": "https://foundry-contoso-learning.services.ai.azure.com/api/projects/proj-support-assistant",
+                    "format": "code"
+                  }
+                ]
+              },
+              {
+                "kind": "tiles",
+                "id": "project-actions",
+                "title": "Build",
+                "size": "sm",
+                "items": [
+                  {
+                    "id": "models",
+                    "label": "Models",
+                    "icon": "Cpu",
+                    "description": "Manage deployments for this resource.",
+                    "action": {
+                      "type": "navigate",
+                      "page": "build-models"
+                    }
+                  },
+                  {
+                    "id": "playgrounds",
+                    "label": "Playgrounds",
+                    "icon": "MessagesSquare",
+                    "description": "Open the Model playground.",
+                    "action": {
+                      "type": "navigate",
+                      "page": "playgrounds"
+                    }
+                  },
+                  {
+                    "id": "agents",
+                    "label": "Agents",
+                    "icon": "Bot",
+                    "description": "Agents are covered in another lab.",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "This lab focuses on the Model playground. Use Models and Playgrounds."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "discover-models",
+            "title": "Models",
+            "subtitle": "Discover",
+            "icon": "Brain",
+            "url": "/discover/models",
+            "breadcrumb": [
+              "Home",
+              "Discover"
+            ],
+            "commands": [
+              {
+                "id": "filter-chat",
+                "label": "Filter: Chat completion",
+                "icon": "Filter",
+                "variant": "primary",
+                "action": {
+                  "type": "set",
+                  "path": "catalogFilter",
+                  "value": "chat"
+                }
+              },
+              {
+                "id": "filter-azure",
+                "label": "Collection: Azure OpenAI",
+                "icon": "ListFilter",
+                "action": {
+                  "type": "set",
+                  "path": "collectionFilter",
+                  "value": "Azure OpenAI in Foundry Models"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Choose by capability",
+                "text": "For a support assistant, choose a model whose inference task is **Chat completion** or text generation. Embeddings create vectors for search; image models create or interpret visuals."
+              },
+              {
+                "kind": "table",
+                "id": "model-catalog",
+                "title": "Model catalog",
+                "source": "models",
+                "rowKey": "name",
+                "searchable": true,
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Model",
+                    "format": "link"
+                  },
+                  {
+                    "key": "provider",
+                    "label": "Provider"
+                  },
+                  {
+                    "key": "task",
+                    "label": "Inference task",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "collection",
+                    "label": "Collection"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "model-card",
+                  "select": {
+                    "as": "model",
+                    "path": "models",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "model-card",
+            "title": "{{$sel.model.name}}",
+            "subtitle": "Model card",
+            "icon": "Brain",
+            "url": "/discover/models/{{$sel.model.name}}",
+            "requires": "model",
+            "navItem": "discover-models",
+            "breadcrumb": [
+              "Home",
+              "Discover",
+              "Models"
+            ],
+            "commands": [
+              {
+                "id": "model-deploy",
+                "label": "Deploy",
+                "icon": "Rocket",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "deploy-model"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Model details",
+                "items": [
+                  {
+                    "label": "Provider",
+                    "value": "{{$sel.model.provider}}"
+                  },
+                  {
+                    "label": "Inference task",
+                    "value": "{{$sel.model.task}}"
+                  },
+                  {
+                    "label": "Collection",
+                    "value": "{{$sel.model.collection}}"
+                  },
+                  {
+                    "label": "Recommended use",
+                    "value": "{{$sel.model.description}}"
+                  }
+                ]
+              },
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "visibleWhen": {
+                  "type": "notEquals",
+                  "path": "$sel.model.task",
+                  "value": "Chat completion"
+                },
+                "text": "This model is not a chat model. Deploying it would not give the support team a chat playground for order questions."
+              }
+            ]
+          },
+          {
+            "id": "deploy-model",
+            "title": "Deploy model",
+            "subtitle": "{{$sel.model.name}}",
+            "icon": "Rocket",
+            "url": "/discover/models/{{$sel.model.name}}/deploy",
+            "requires": "model",
+            "navItem": "discover-models",
+            "breadcrumb": [
+              "Home",
+              "Discover",
+              "Models",
+              "Deploy"
+            ],
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "deploy-wizard",
+                "description": "Create a deployment in the Foundry resource attached to proj-support-assistant. The deployment name is used by apps and playgrounds to route requests to this model.",
+                "reviewLabel": "Review",
+                "tabs": [
+                  {
+                    "id": "basics",
+                    "label": "Basics",
+                    "fields": [
+                      {
+                        "id": "project",
+                        "label": "Project",
+                        "control": "select",
+                        "required": true,
+                        "options": [
+                          {
+                            "value": "proj-support-assistant",
+                            "label": "proj-support-assistant"
+                          }
+                        ],
+                        "defaultValue": "proj-support-assistant"
+                      },
+                      {
+                        "id": "model",
+                        "label": "Model",
+                        "control": "select",
+                        "required": true,
+                        "optionsFrom": {
+                          "path": "models",
+                          "value": "name",
+                          "label": "name"
+                        },
+                        "defaultValue": "{{$sel.model.name}}"
+                      },
+                      {
+                        "id": "deploymentName",
+                        "label": "Deployment name",
+                        "control": "text",
+                        "required": true,
+                        "pattern": "^[a-z][a-z0-9-]{2,50}$",
+                        "patternMessage": "Use lowercase letters, digits, and hyphens; start with a letter.",
+                        "unique": {
+                          "path": "deployments",
+                          "key": "name",
+                          "message": "A deployment with this name already exists."
+                        }
+                      },
+                      {
+                        "id": "deploymentType",
+                        "label": "Deployment type",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Global Standard",
+                        "options": [
+                          {
+                            "value": "Global Standard",
+                            "label": "Global Standard"
+                          },
+                          {
+                            "value": "Data Zone Standard",
+                            "label": "Data Zone Standard"
+                          },
+                          {
+                            "value": "Provisioned",
+                            "label": "Provisioned"
+                          }
+                        ],
+                        "help": "Deployment type determines how requests are served. This simulation uses fictional capacity and does not show prices, quotas, or service limits."
+                      }
+                    ]
+                  },
+                  {
+                    "id": "capacity",
+                    "label": "Capacity",
+                    "fields": [
+                      {
+                        "id": "capacityUnits",
+                        "label": "Simulated capacity units",
+                        "control": "number",
+                        "defaultValue": 20,
+                        "min": 1,
+                        "max": 100,
+                        "help": "Fictional capacity used only by this lab so the form feels realistic."
+                      },
+                      {
+                        "id": "contentFilter",
+                        "label": "Content filter",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "DefaultV2",
+                        "options": [
+                          {
+                            "value": "DefaultV2",
+                            "label": "DefaultV2"
+                          },
+                          {
+                            "value": "None",
+                            "label": "None"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Deploy",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.model",
+                        "value": "gpt-4o-mini"
+                      },
+                      "message": "Choose **gpt-4o-mini** for this chat assistant. Embedding and image models do not support the chat playground task."
+                    },
+                    {
+                      "rule": {
+                        "type": "notEquals",
+                        "path": "$form.contentFilter",
+                        "value": "None"
+                      },
+                      "message": "Keep a content filter attached to the deployment for safer testing."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.deploymentType",
+                        "value": "Global Standard"
+                      },
+                      "message": "Use **Global Standard** in this lab; it is the supported simulated deployment type for this model."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "deployments",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.deploymentName}}",
+                        "project": "{{$form.project}}",
+                        "model": "{{$form.model}}",
+                        "task": "Chat completion",
+                        "deploymentType": "{{$form.deploymentType}}",
+                        "capacity": "{{$form.capacityUnits}}",
+                        "contentFilter": "{{$form.contentFilter}}",
+                        "status": "Succeeded",
+                        "createdAt": "{{$now}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Deployment succeeded",
+                      "message": "Deployment {{$form.deploymentName}} is ready in proj-support-assistant."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "deployment-complete",
+                      "select": {
+                        "as": "deployment",
+                        "path": "deployments",
+                        "key": "name",
+                        "value": "{{$form.deploymentName}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "deployment-complete",
+            "title": "Deployment complete",
+            "subtitle": "{{$sel.deployment.name}}",
+            "icon": "Rocket",
+            "url": "/build/models/deployments/{{$sel.deployment.name}}/complete",
+            "requires": "deployment",
+            "navItem": "build-models",
+            "breadcrumb": [
+              "Home",
+              "Build",
+              "Models"
+            ],
+            "components": [
+              {
+                "kind": "deployment",
+                "id": "deployment-panel",
+                "title": "Your deployment is complete",
+                "status": "Succeeded",
+                "note": "Deployment {{$sel.deployment.name}} uses {{$sel.deployment.model}} for chat completion in proj-support-assistant.",
+                "resources": [
+                  {
+                    "name": "{{$sel.deployment.name}}",
+                    "type": "Microsoft Foundry Models deployment",
+                    "status": "Succeeded"
+                  },
+                  {
+                    "name": "DefaultV2",
+                    "type": "Content filter",
+                    "status": "Attached"
+                  }
+                ]
+              },
+              {
+                "kind": "button",
+                "id": "open-playground",
+                "label": "Open in playground",
+                "icon": "MessagesSquare",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "model-playground"
+                }
+              }
+            ]
+          },
+          {
+            "id": "build-models",
+            "title": "Models",
+            "subtitle": "Build",
+            "icon": "Cpu",
+            "url": "/build/models",
+            "breadcrumb": [
+              "Home",
+              "Build"
+            ],
+            "commands": [
+              {
+                "id": "new-deployment",
+                "label": "New deployment",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "discover-models"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "deployments-table",
+                "title": "Deployments",
+                "source": "deployments",
+                "rowKey": "name",
+                "emptyText": "No deployments yet. Use Discover > Models to deploy one.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Deployment name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "model",
+                    "label": "Model"
+                  },
+                  {
+                    "key": "task",
+                    "label": "Task"
+                  },
+                  {
+                    "key": "deploymentType",
+                    "label": "Deployment type"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "model-playground",
+                  "select": {
+                    "as": "deployment",
+                    "path": "deployments",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "playgrounds",
+            "title": "Playgrounds",
+            "subtitle": "Build",
+            "icon": "MessagesSquare",
+            "url": "/build/playgrounds",
+            "breadcrumb": [
+              "Home",
+              "Build"
+            ],
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "playground-tiles",
+                "title": "Choose a playground",
+                "size": "md",
+                "items": [
+                  {
+                    "id": "model-playground",
+                    "label": "Model playground",
+                    "icon": "MessageSquare",
+                    "description": "Prompt engineering, parameters, tools and code export for a model deployment.",
+                    "action": {
+                      "type": "navigate",
+                      "page": "model-playground"
+                    }
+                  },
+                  {
+                    "id": "agents-playground",
+                    "label": "Agents playground",
+                    "icon": "Bot",
+                    "description": "Test agents with tools and knowledge.",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Use the Model playground for this lab."
+                    }
+                  },
+                  {
+                    "id": "images-playground",
+                    "label": "Images playground",
+                    "icon": "Image",
+                    "description": "Image generation workflows are not part of this lab.",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "This support assistant needs a chat model, not an image model."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "model-playground",
+            "title": "Model playground",
+            "subtitle": "proj-support-assistant",
+            "icon": "MessagesSquare",
+            "url": "/build/playgrounds/model",
+            "navItem": "playgrounds",
+            "breadcrumb": [
+              "Home",
+              "Build",
+              "Playgrounds"
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "visibleWhen": {
+                  "type": "arrayLength",
+                  "path": "deployments",
+                  "max": 0
+                },
+                "text": "Deploy a chat model before testing the playground."
+              },
+              {
+                "kind": "settings",
+                "id": "playground-settings",
+                "title": "Setup",
+                "description": "Configure the selected deployment and assistant behavior. Select **Apply changes** by updating fields here; changes are saved immediately in the simulation.",
+                "fields": [
+                  {
+                    "id": "deployment",
+                    "label": "Deployment",
+                    "control": "select",
+                    "bindTo": "playground.deployment",
+                    "optionsFrom": {
+                      "path": "deployments",
+                      "value": "name",
+                      "label": "name"
+                    },
+                    "help": "Choose the deployment that the playground will call."
+                  },
+                  {
+                    "id": "systemMessage",
+                    "label": "System message",
+                    "control": "textarea",
+                    "bindTo": "playground.systemMessage",
+                    "placeholder": "You are a helpful assistant...",
+                    "minLength": 20,
+                    "help": "Tell the model its role, scope, tone, and refusal behavior."
+                  },
+                  {
+                    "id": "temperature",
+                    "label": "Temperature",
+                    "control": "select",
+                    "bindTo": "playground.temperature",
+                    "options": [
+                      {
+                        "value": "0.2",
+                        "label": "0.2 - more consistent"
+                      },
+                      {
+                        "value": "0.7",
+                        "label": "0.7 - balanced"
+                      },
+                      {
+                        "value": "1.0",
+                        "label": "1.0 - more varied"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "chat",
+                "id": "support-chat",
+                "title": "Chat session",
+                "placeholder": "Ask a Contoso order question",
+                "transcriptPath": "chats.support",
+                "responses": [
+                  {
+                    "id": "order-grounded",
+                    "match": "(order|shipping|return|refund|delivery|contoso)",
+                    "when": {
+                      "type": "allOf",
+                      "rules": [
+                        {
+                          "type": "equals",
+                          "path": "playground.deployment",
+                          "value": "contoso-support-chat"
+                        },
+                        {
+                          "type": "matches",
+                          "path": "playground.systemMessage",
+                          "pattern": "Contoso orders"
+                        },
+                        {
+                          "type": "matches",
+                          "path": "playground.systemMessage",
+                          "pattern": "refuse"
+                        },
+                        {
+                          "type": "equals",
+                          "path": "playground.temperature",
+                          "value": "0.2"
+                        }
+                      ]
+                    },
+                    "reply": "I can help with Contoso order support. For order C-1042, use the Orders workspace and confirm the customer identity before sharing status. I will stay polite and only answer Contoso order questions.",
+                    "actions": [
+                      {
+                        "type": "set",
+                        "path": "playground.tested",
+                        "value": true
+                      }
+                    ]
+                  },
+                  {
+                    "id": "refusal",
+                    "match": "(weather|poem|joke|recipe|sports)",
+                    "when": {
+                      "type": "matches",
+                      "path": "playground.systemMessage",
+                      "pattern": "refuse"
+                    },
+                    "reply": "I can only help with Contoso order-support questions. Please ask about an order, shipping status, returns, or refunds.",
+                    "actions": [
+                      {
+                        "type": "set",
+                        "path": "playground.refusalTested",
+                        "value": true
+                      }
+                    ]
+                  },
+                  {
+                    "id": "unscoped",
+                    "match": "(order|shipping|return|refund|delivery|contoso)",
+                    "reply": "I can discuss many general topics and may not have Contoso-specific order policy unless you add clearer instructions.",
+                    "actions": [
+                      {
+                        "type": "set",
+                        "path": "playground.offTopicSeen",
+                        "value": true
+                      }
+                    ]
+                  }
+                ],
+                "fallback": "I am a general model response in this simulation. Add a precise system message and choose the support deployment to focus my answers."
+              },
+              {
+                "kind": "code",
+                "id": "sample-code",
+                "title": "Code",
+                "language": "json",
+                "content": "{\n  \"project\": \"proj-support-assistant\",\n  \"deployment\": \"{{playground.deployment}}\",\n  \"temperature\": \"{{playground.temperature}}\",\n  \"systemMessage\": {{playground.systemMessage | json}}\n}"
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "projects": [
+            {
+              "name": "proj-support-assistant",
+              "resource": "foundry-contoso-learning",
+              "region": "Sweden Central",
+              "updated": "Today"
+            },
+            {
+              "name": "proj-claims-triage",
+              "resource": "foundry-fabrikam-ai",
+              "region": "West Europe",
+              "updated": "Yesterday"
+            },
+            {
+              "name": "proj-retail-copilot",
+              "resource": "foundry-northwind",
+              "region": "North Europe",
+              "updated": "This week"
+            }
+          ],
+          "models": [
+            {
+              "name": "gpt-4o-mini",
+              "provider": "Azure OpenAI",
+              "task": "Chat completion",
+              "collection": "Azure OpenAI in Foundry Models",
+              "status": "Available",
+              "description": "Fast chat and text generation for support assistants."
+            },
+            {
+              "name": "text-embedding-3-small",
+              "provider": "Azure OpenAI",
+              "task": "Embeddings",
+              "collection": "Azure OpenAI in Foundry Models",
+              "status": "Available",
+              "description": "Creates vector representations for search and retrieval; it is not a chat model."
+            },
+            {
+              "name": "gpt-image-1",
+              "provider": "Azure OpenAI",
+              "task": "Image generation",
+              "collection": "Azure OpenAI in Foundry Models",
+              "status": "Available",
+              "description": "Creates images from prompts; it is not suitable for support chat."
+            },
+            {
+              "name": "Llama-4-Scout-17B-Instruct",
+              "provider": "Meta",
+              "task": "Chat completion",
+              "collection": "Partners and community",
+              "status": "Available",
+              "description": "Instruction-tuned chat model from a partner collection."
+            },
+            {
+              "name": "Phi-4-mini-instruct",
+              "provider": "Microsoft",
+              "task": "Text generation",
+              "collection": "Microsoft models",
+              "status": "Available",
+              "description": "Small instruction model for general text tasks."
+            },
+            {
+              "name": "Whisper",
+              "provider": "Azure OpenAI",
+              "task": "Speech transcription",
+              "collection": "Azure OpenAI in Foundry Models",
+              "status": "Available",
+              "description": "Transcribes audio; not used for this text support assistant."
+            }
+          ],
+          "deployments": [],
+          "catalogFilter": "all",
+          "collectionFilter": "all",
+          "playground": {
+            "deployment": "",
+            "systemMessage": "",
+            "temperature": "0.7",
+            "tested": false,
+            "refusalTested": false,
+            "offTopicSeen": false
+          },
+          "chats": {
+            "support": []
+          }
+        }
+      },
+      "steps": [
+        {
+          "key": "open-catalog",
+          "title": "Open the model catalog",
+          "instruction": "Select **Models** under **Discover**, then use the command bar to choose **Filter: Chat completion**. Open **gpt-4o-mini** from the **Model catalog**.",
+          "hint": "The Discover section is for choosing models before you deploy them.",
+          "explanation": "Model catalog filters help you avoid deploying a model that cannot perform the intended inference task.",
+          "targetId": "model-catalog",
+          "rules": [
+            {
+              "key": "opened-model-card",
+              "description": "The gpt-4o-mini model card was opened",
+              "rule": {
+                "type": "visited",
+                "page": "model-card"
+              }
+            }
+          ]
+        },
+        {
+          "key": "deploy-chat-model",
+          "title": "Deploy the chat model",
+          "instruction": "On the **gpt-4o-mini** model card, select **Deploy**. Use project **proj-support-assistant**, deployment name **contoso-support-chat**, deployment type **Global Standard**, keep **DefaultV2** content filter, and select **Deploy**.",
+          "explanation": "A deployment makes the selected model callable by name from apps and playgrounds.",
+          "targetId": "deploy-wizard",
+          "rules": [
+            {
+              "key": "deployment-created",
+              "description": "The chat deployment exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "deployments",
+                "match": {
+                  "name": "contoso-support-chat",
+                  "model": "gpt-4o-mini",
+                  "task": "Chat completion",
+                  "deploymentType": "Global Standard",
+                  "contentFilter": "DefaultV2",
+                  "status": "Succeeded"
+                }
+              },
+              "failureFeedback": "Deploy gpt-4o-mini as contoso-support-chat with DefaultV2 content filtering."
+            }
+          ]
+        },
+        {
+          "key": "open-playground",
+          "title": "Open the Model playground",
+          "instruction": "When deployment completes, select **Open in playground**. In **Setup**, choose deployment **contoso-support-chat**.",
+          "explanation": "The Model playground lets you test prompts, parameters and code samples before building an app.",
+          "targetId": "open-playground",
+          "rules": [
+            {
+              "key": "playground-open",
+              "description": "The Model playground is open with the deployment selected",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "visited",
+                    "page": "model-playground"
+                  },
+                  {
+                    "type": "equals",
+                    "path": "playground.deployment",
+                    "value": "contoso-support-chat"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "key": "test-before-instructions",
+          "title": "See why instructions matter",
+          "instruction": "In the **Chat session**, ask `Where is Contoso order C-1042?` before adding instructions.",
+          "hint": "The first response should be generic because the assistant has not been scoped yet.",
+          "explanation": "A base model can produce generic text. System instructions set role, scope and refusal behavior for the assistant.",
+          "targetId": "support-chat",
+          "rules": [
+            {
+              "key": "generic-seen",
+              "description": "An unscoped response was observed before instructions",
+              "rule": {
+                "type": "arrayContains",
+                "path": "chats.support",
+                "match": {
+                  "replyId": "unscoped"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "configure-prompt",
+          "title": "Add instructions and tune temperature",
+          "instruction": "In **Setup**, set **System message** to include: `Answer only about Contoso orders. Be polite. Refuse other topics.` Set **Temperature** to **0.2 - more consistent**.",
+          "explanation": "Lower temperature is useful when consistent support wording matters. The system message limits the assistant to the business scenario.",
+          "targetId": "playground-settings",
+          "rules": [
+            {
+              "key": "system-message",
+              "description": "The system message includes scope, tone and refusal policy",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "matches",
+                    "path": "playground.systemMessage",
+                    "pattern": "Contoso orders"
+                  },
+                  {
+                    "type": "matches",
+                    "path": "playground.systemMessage",
+                    "pattern": "polite"
+                  },
+                  {
+                    "type": "matches",
+                    "path": "playground.systemMessage",
+                    "pattern": "refuse"
+                  }
+                ]
+              }
+            },
+            {
+              "key": "temperature-low",
+              "description": "Temperature is set to 0.2",
+              "rule": {
+                "type": "equals",
+                "path": "playground.temperature",
+                "value": "0.2"
+              }
+            }
+          ]
+        },
+        {
+          "key": "test-scoped-chat",
+          "title": "Test scoped behavior",
+          "instruction": "Ask the **Chat session** `Where is Contoso order C-1042?`, then ask `Write a sports joke` to confirm the assistant refuses unrelated topics.",
+          "explanation": "Testing both the allowed task and a wrong topic checks that the prompt policy is working.",
+          "targetId": "support-chat",
+          "rules": [
+            {
+              "key": "order-test",
+              "description": "The assistant answered a Contoso order question using the configured policy",
+              "rule": {
+                "type": "arrayContains",
+                "path": "chats.support",
+                "match": {
+                  "replyId": "order-grounded"
+                }
+              }
+            },
+            {
+              "key": "refusal-test",
+              "description": "The assistant refused an unrelated topic",
+              "rule": {
+                "type": "arrayContains",
+                "path": "chats.support",
+                "match": {
+                  "replyId": "refusal"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "correct-model-only",
+          "description": "The deployment uses the required chat model, not embeddings or image generation",
+          "rule": {
+            "type": "arrayContains",
+            "path": "deployments",
+            "match": {
+              "name": "contoso-support-chat",
+              "model": "gpt-4o-mini",
+              "task": "Chat completion"
+            }
+          }
+        },
+        {
+          "key": "playground-policy-tested",
+          "description": "The configured playground was tested successfully",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "equals",
+                "path": "playground.tested",
+                "value": true
+              },
+              {
+                "type": "equals",
+                "path": "playground.refusalTested",
+                "value": true
+              }
+            ]
+          }
+        }
+      ],
+      "solution": "1. Select **Models** under **Discover**, then **Filter: Chat completion**.\n2. Open **gpt-4o-mini**, select **Deploy**, and enter project **proj-support-assistant**, deployment name `contoso-support-chat`, deployment type **Global Standard**, content filter **DefaultV2**, then **Deploy**.\n3. Select **Open in playground** and choose deployment **contoso-support-chat** in **Setup**.\n4. Ask `Where is Contoso order C-1042?` before instructions to see the generic response.\n5. Set **System message** to include `Answer only about Contoso orders. Be polite. Refuse other topics.`\n6. Set **Temperature** to **0.2 - more consistent**.\n7. Ask `Where is Contoso order C-1042?`, then `Write a sports joke`; the first should answer in scope and the second should refuse."
+    }
+  ]
+}

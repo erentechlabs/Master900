@@ -1,0 +1,99 @@
+{
+  "certification": "DP-900",
+  "lab": "explore-cosmos-db-data-explorer",
+  "note": "Create a Cosmos DB for NoSQL account, container, item, and run document queries.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "cosmos-accounts"
+    },
+    {
+      "type": "click",
+      "componentId": "cosmos-create"
+    },
+    {
+      "type": "click",
+      "componentId": "api-tiles",
+      "itemId": "api-nosql"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "cosmos-account-wizard",
+      "values": {
+        "subscription": "Contoso Learning (simulated)",
+        "resourceGroup": "create-new",
+        "newResourceGroup": "rg-cosmos-retail",
+        "accountName": "cosmos-retail-orders-01",
+        "api": "Azure Cosmos DB for NoSQL",
+        "location": "westeurope",
+        "capacityMode": "Provisioned throughput",
+        "applyFreeTier": false,
+        "limitAccountThroughput": false,
+        "geoRedundancy": false,
+        "multiRegionWrites": false,
+        "connectivityMethod": "All networks"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "cosmos-go-to-resource"
+    },
+    {
+      "type": "click",
+      "componentId": "open-data-explorer"
+    },
+    {
+      "type": "click",
+      "componentId": "new-container"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "new-container-form",
+      "values": {
+        "databaseMode": "Create new",
+        "databaseId": "RetailDB",
+        "containerId": "Orders",
+        "partitionKey": "/customerId",
+        "throughputMode": "Autoscale",
+        "trainingThroughput": "Autoscale training profile"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "items-new-item"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "new-order-item-form",
+      "values": {
+        "id": "ord-2001",
+        "customerId": "cust-northwind-01",
+        "customerName": "Northwind Traders",
+        "status": "Shipped",
+        "country": "NL",
+        "orderTotal": 152,
+        "sku": "PACK-COMMUTER",
+        "quantity": 2
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "items-new-query"
+    },
+    {
+      "type": "query",
+      "componentId": "orders-query-editor",
+      "sql": "SELECT * FROM c WHERE c.status = 'Shipped' ORDER BY c.id"
+    },
+    {
+      "type": "query",
+      "componentId": "orders-query-editor",
+      "sql": "SELECT c.id, c.customerId, c.orderTotal FROM c WHERE c.customerId = 'cust-northwind-01' ORDER BY c.id"
+    },
+    {
+      "type": "query",
+      "componentId": "orders-query-editor",
+      "sql": "SELECT COUNT(1) AS shippedOrders FROM c WHERE c.status = 'Shipped'"
+    }
+  ]
+}

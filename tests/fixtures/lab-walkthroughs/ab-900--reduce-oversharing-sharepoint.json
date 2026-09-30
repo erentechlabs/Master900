@@ -1,0 +1,89 @@
+{
+  "certification": "AB-900",
+  "lab": "reduce-oversharing-sharepoint",
+  "note": "Run SharePoint DAG reports, start HR review, restrict HR-Internal, disable external sharing, and set Specific people link defaults.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "data-access-governance"
+    },
+    {
+      "type": "click",
+      "componentId": "dag-report-tiles",
+      "itemId": "eeeu"
+    },
+    {
+      "type": "click",
+      "componentId": "run-eeeu-report"
+    },
+    {
+      "type": "navigate",
+      "page": "data-access-governance"
+    },
+    {
+      "type": "click",
+      "componentId": "dag-report-tiles",
+      "itemId": "sharing-links"
+    },
+    {
+      "type": "click",
+      "componentId": "run-sharing-links-report"
+    },
+    {
+      "type": "navigate",
+      "page": "eeeu-reports"
+    },
+    {
+      "type": "rowAction",
+      "componentId": "eeeu-sites",
+      "rowKey": "HR-Internal",
+      "actionId": "initiate-review"
+    },
+    {
+      "type": "navigate",
+      "page": "active-sites"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "active-sites-table",
+      "rowKey": "HR-Internal"
+    },
+    {
+      "type": "navigate",
+      "page": "site-settings"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "site-protection-form",
+      "values": {
+        "restrictedAccess": true,
+        "restrictedGroup": "hr-security",
+        "restrictedContentDiscovery": true,
+        "justification": "Copilot readiness cleanup for overshared HR content"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "site-sharing"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "site-sharing-form",
+      "values": {
+        "externalSharing": "Only people in your organization"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "sharing-policy"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "org-sharing-form",
+      "values": {
+        "defaultLinkType": "Specific people",
+        "defaultPermission": "View"
+      }
+    }
+  ]
+}

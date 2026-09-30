@@ -1,0 +1,1484 @@
+{
+  "labs": [
+    {
+      "slug": "manage-agents-inventory",
+      "type": "UI_SIMULATION",
+      "title": "Manage Microsoft 365 Copilot agent inventory",
+      "summary": "Use the Microsoft 365 admin center Agents area to review a pending org-built agent, publish it only for Sales, block a risky third-party agent, and configure tenant agent settings.",
+      "scenario": "Contoso is enabling agents for a small Sales pilot. In the **simulated Microsoft 365 admin center**, use **Agents > All agents > Requests** to review a pending org-built agent, inspect its publisher, capabilities, knowledge sources, and permissions, then publish it only to **Copilot Pilot - Sales**. In the **Registry**, block a third-party agent that requests broad data access. In **Agents > Settings**, set controls so Microsoft and Contoso-built agents are allowed, external publisher agents are not allowed, and broad sharing is limited to approved makers. Do not deploy any agent tenant-wide.",
+      "domainKey": "copilot-agent-administration",
+      "objectiveCode": "3.3",
+      "complexity": "INTERMEDIATE",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Review agent requests before publishing them to the organization catalog",
+        "Scope an approved agent to a specific Microsoft 365 group instead of everyone",
+        "Block an external agent that requests excessive data access",
+        "Configure organization-level agent and plugin access, sharing, and user access settings",
+        "Compare declarative agents, custom engine agents, Agent Builder, and Copilot Studio at an administrative level"
+      ],
+      "prerequisites": [
+        "Know what Microsoft 365 groups and Copilot agents are"
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900"
+        },
+        {
+          "title": "Manage agents in the Microsoft 365 admin center",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/manage-copilot-agents-integrated-apps?view=o365-worldwide"
+        },
+        {
+          "title": "Agent Requests in Microsoft 365 Admin Center",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-requests?view=o365-worldwide"
+        },
+        {
+          "title": "Agent Registry in Microsoft 365 admin center",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-registry?view=o365-worldwide"
+        },
+        {
+          "title": "Agent settings in Microsoft 365 admin center",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-settings?view=o365-worldwide"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft 365 admin center",
+          "theme": "m365",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso",
+          "url": "https://admin.microsoft.com",
+          "searchPlaceholder": "Search agents, users, groups, settings, or documentation"
+        },
+        "vm": {
+          "name": "LAB-M365-02",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T10:00:00Z"
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "copilot",
+            "label": "Copilot",
+            "icon": "Sparkles"
+          },
+          {
+            "page": "agents",
+            "label": "Agents",
+            "icon": "Bot"
+          },
+          {
+            "page": "users",
+            "label": "Active users",
+            "icon": "Users",
+            "section": "Users"
+          },
+          {
+            "page": "groups",
+            "label": "Active teams & groups",
+            "icon": "Users",
+            "section": "Teams and groups"
+          },
+          {
+            "page": "licenses",
+            "label": "Licenses",
+            "icon": "BadgeCheck",
+            "section": "Billing"
+          },
+          {
+            "page": "settings",
+            "label": "Org settings",
+            "icon": "Settings",
+            "section": "Settings"
+          },
+          {
+            "page": "reports",
+            "label": "Usage",
+            "icon": "ChartColumn",
+            "section": "Reports"
+          },
+          {
+            "page": "health",
+            "label": "Service health",
+            "icon": "Activity",
+            "section": "Health"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/adminportal/home#/homepage",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "home-agent-cards",
+                "title": "Admin center",
+                "size": "sm",
+                "items": [
+                  {
+                    "id": "agents-card",
+                    "label": "Agents",
+                    "icon": "Bot",
+                    "description": "Manage inventory, requests, tools, and settings.",
+                    "action": {
+                      "type": "navigate",
+                      "page": "agents"
+                    }
+                  },
+                  {
+                    "id": "groups-card",
+                    "label": "Teams and groups",
+                    "icon": "Users",
+                    "description": "Review pilot groups.",
+                    "action": {
+                      "type": "navigate",
+                      "page": "groups"
+                    }
+                  },
+                  {
+                    "id": "reports-card",
+                    "label": "Reports",
+                    "icon": "ChartColumn",
+                    "description": "Review usage reports.",
+                    "action": {
+                      "type": "navigate",
+                      "page": "agent-usage"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Governance goal",
+                "text": "Approve useful agents only for the users who need them. Block agents that request excessive data access or come from unapproved external publishers."
+              }
+            ]
+          },
+          {
+            "id": "agents",
+            "title": "Agents",
+            "subtitle": "Agents & connectors",
+            "icon": "Bot",
+            "url": "/adminportal/home#/agents",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "agents-hub",
+                "title": "Agents",
+                "size": "sm",
+                "items": [
+                  {
+                    "id": "all-agents",
+                    "label": "All agents",
+                    "icon": "Bot",
+                    "description": "Registry, requests, and lifecycle actions.",
+                    "action": {
+                      "type": "navigate",
+                      "page": "agent-registry"
+                    }
+                  },
+                  {
+                    "id": "requests",
+                    "label": "Requests",
+                    "icon": "ClipboardList",
+                    "description": "Agents waiting for review, update, or activation.",
+                    "action": {
+                      "type": "navigate",
+                      "page": "agent-requests"
+                    }
+                  },
+                  {
+                    "id": "agent-settings-tile",
+                    "label": "Settings",
+                    "icon": "Settings",
+                    "description": "Agent management rules, access, sharing, and user access.",
+                    "action": {
+                      "type": "navigate",
+                      "page": "agent-settings"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "properties",
+                "title": "Agent summary",
+                "items": [
+                  {
+                    "label": "Total agents",
+                    "value": "4",
+                    "format": "count"
+                  },
+                  {
+                    "label": "Requests",
+                    "value": "2 pending",
+                    "format": "status"
+                  },
+                  {
+                    "label": "Agents at risk",
+                    "value": "1",
+                    "format": "status"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "agent-registry",
+            "title": "All agents",
+            "subtitle": "Agents",
+            "icon": "Bot",
+            "url": "/adminportal/home#/agents/all/registry",
+            "navItem": "agents",
+            "breadcrumb": [
+              "Home",
+              "Agents",
+              "All agents"
+            ],
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "agent-registry",
+                "label": "Registry",
+                "icon": "Table"
+              },
+              {
+                "page": "agent-requests",
+                "label": "Requests",
+                "icon": "ClipboardList"
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "agent-registry-table",
+                "title": "Registry",
+                "source": "agents",
+                "rowKey": "name",
+                "searchable": true,
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "publisherType",
+                    "label": "Publisher type"
+                  },
+                  {
+                    "key": "platform",
+                    "label": "Platform"
+                  },
+                  {
+                    "key": "availability",
+                    "label": "Availability",
+                    "format": "status"
+                  },
+                  {
+                    "key": "risk",
+                    "label": "Risks",
+                    "format": "status"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "agent-detail",
+                  "select": {
+                    "as": "agent",
+                    "path": "agents",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "agent-detail",
+            "title": "{{$sel.agent.name}}",
+            "subtitle": "Agent details",
+            "icon": "Bot",
+            "requires": "agent",
+            "navItem": "agents",
+            "breadcrumb": [
+              "Home",
+              "Agents",
+              "All agents"
+            ],
+            "commands": [
+              {
+                "id": "block-agent",
+                "label": "Block agent",
+                "icon": "ShieldBan",
+                "variant": "danger",
+                "visibleWhen": {
+                  "type": "notEquals",
+                  "path": "$sel.agent.availability",
+                  "value": "Blocked"
+                },
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "agents",
+                      "where": {
+                        "name": "{{$sel.agent.name}}"
+                      },
+                      "set": {
+                        "availability": "Blocked",
+                        "blocked": true
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Agent blocked",
+                      "message": "{{$sel.agent.name}} is blocked for the organization."
+                    }
+                  ]
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "$sel.agent.risk",
+                  "value": "High"
+                },
+                "title": "High risk",
+                "text": "This external agent requests broad mailbox, file, and CRM access. Block it for this pilot."
+              },
+              {
+                "kind": "properties",
+                "title": "Details",
+                "items": [
+                  {
+                    "label": "Publisher",
+                    "value": "{{$sel.agent.publisher}}"
+                  },
+                  {
+                    "label": "Publisher type",
+                    "value": "{{$sel.agent.publisherType}}"
+                  },
+                  {
+                    "label": "Platform",
+                    "value": "{{$sel.agent.platform}}"
+                  },
+                  {
+                    "label": "Channel",
+                    "value": "{{$sel.agent.channel}}"
+                  },
+                  {
+                    "label": "Availability",
+                    "value": "{{$sel.agent.availability}}",
+                    "format": "status"
+                  },
+                  {
+                    "label": "Permissions",
+                    "value": "{{$sel.agent.permissions | join:, }}"
+                  },
+                  {
+                    "label": "Knowledge sources",
+                    "value": "{{$sel.agent.knowledge | join:, }}"
+                  }
+                ]
+              },
+              {
+                "kind": "text",
+                "text": "**Declarative agents** extend Copilot with instructions, knowledge, and actions while using the Copilot orchestration model. **Custom engine agents** bring their own orchestration or runtime. **Agent Builder** is a guided Copilot app authoring path; **Copilot Studio** is a broader low-code environment for agents and business processes."
+              }
+            ]
+          },
+          {
+            "id": "agent-requests",
+            "title": "Requests",
+            "subtitle": "All agents",
+            "icon": "ClipboardList",
+            "url": "/adminportal/home#/agents/all/requests",
+            "navItem": "agents",
+            "breadcrumb": [
+              "Home",
+              "Agents",
+              "All agents"
+            ],
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "agent-registry",
+                "label": "Registry",
+                "icon": "Table"
+              },
+              {
+                "page": "agent-requests",
+                "label": "Requests",
+                "icon": "ClipboardList"
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "agent-requests-table",
+                "title": "Requests",
+                "source": "agentRequests",
+                "rowKey": "name",
+                "searchable": true,
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Agent",
+                    "format": "link"
+                  },
+                  {
+                    "key": "state",
+                    "label": "State",
+                    "format": "status"
+                  },
+                  {
+                    "key": "publisher",
+                    "label": "Publisher"
+                  },
+                  {
+                    "key": "platform",
+                    "label": "Platform"
+                  },
+                  {
+                    "key": "channel",
+                    "label": "Channel"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "agent-request-detail",
+                  "select": {
+                    "as": "request",
+                    "path": "agentRequests",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "agent-request-detail",
+            "title": "{{$sel.request.name}}",
+            "subtitle": "Requested agent",
+            "icon": "Bot",
+            "requires": "request",
+            "navItem": "agents",
+            "breadcrumb": [
+              "Home",
+              "Agents",
+              "All agents",
+              "Requests"
+            ],
+            "commands": [
+              {
+                "id": "publish-to-store",
+                "label": "Publish to store",
+                "icon": "Upload",
+                "variant": "primary",
+                "visibleWhen": {
+                  "type": "notEquals",
+                  "path": "$sel.request.state",
+                  "value": "Published"
+                },
+                "action": {
+                  "type": "navigate",
+                  "page": "publish-agent"
+                }
+              },
+              {
+                "id": "reject-submission",
+                "label": "Reject submission",
+                "icon": "CircleX",
+                "variant": "danger",
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "agentRequests",
+                      "where": {
+                        "name": "{{$sel.request.name}}"
+                      },
+                      "set": {
+                        "state": "Rejected"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Submission rejected"
+                    }
+                  ]
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Review details",
+                "items": [
+                  {
+                    "label": "Publisher",
+                    "value": "{{$sel.request.publisher}}"
+                  },
+                  {
+                    "label": "Publisher type",
+                    "value": "{{$sel.request.publisherType}}"
+                  },
+                  {
+                    "label": "Capabilities",
+                    "value": "{{$sel.request.capabilities | join:, }}"
+                  },
+                  {
+                    "label": "Knowledge sources",
+                    "value": "{{$sel.request.knowledge | join:, }}"
+                  },
+                  {
+                    "label": "Permissions",
+                    "value": "{{$sel.request.permissions | join:, }}"
+                  },
+                  {
+                    "label": "Custom actions",
+                    "value": "{{$sel.request.actions | join:, }}"
+                  }
+                ]
+              },
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "Publishing starts a wizard where you select users or groups, choose a policy template, and review permissions before the agent becomes available."
+              }
+            ]
+          },
+          {
+            "id": "publish-agent",
+            "title": "Publish to store",
+            "subtitle": "{{$sel.request.name}}",
+            "icon": "Upload",
+            "requires": "request",
+            "navItem": "agents",
+            "breadcrumb": [
+              "Home",
+              "Agents",
+              "Requests",
+              "Publish to store"
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "publish-agent-form",
+                "title": "Agent publishing wizard",
+                "fields": [
+                  {
+                    "id": "audience",
+                    "label": "Select users or groups",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Copilot Pilot - Sales",
+                        "label": "Copilot Pilot - Sales"
+                      },
+                      {
+                        "value": "All users",
+                        "label": "All users"
+                      },
+                      {
+                        "value": "Sales department",
+                        "label": "Sales department"
+                      },
+                      {
+                        "value": "Agent Makers - Approved",
+                        "label": "Agent Makers - Approved"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "preinstall",
+                    "label": "Preinstall for selected users",
+                    "control": "toggle",
+                    "defaultValue": false
+                  },
+                  {
+                    "id": "template",
+                    "label": "Policy template",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Default template",
+                    "options": [
+                      {
+                        "value": "Default template",
+                        "label": "Default template"
+                      },
+                      {
+                        "value": "Restricted data template",
+                        "label": "Restricted data template"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "permissionsAccepted",
+                    "label": "Accept requested permissions",
+                    "control": "toggle",
+                    "required": true
+                  }
+                ],
+                "submit": {
+                  "label": "Publish",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.audience",
+                        "value": "Copilot Pilot - Sales"
+                      },
+                      "message": "Publish this org-built agent only to Copilot Pilot - Sales. Do not deploy it to everyone or the broader Sales department."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.permissionsAccepted",
+                        "value": true
+                      },
+                      "message": "Review permissions and accept them before publishing."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "agentRequests",
+                      "where": {
+                        "name": "{{$sel.request.name}}"
+                      },
+                      "set": {
+                        "state": "Published",
+                        "audience": "{{$form.audience}}"
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "publishedAgents",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$sel.request.name}}",
+                        "audience": "{{$form.audience}}",
+                        "publisher": "{{$sel.request.publisher}}",
+                        "status": "Available"
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "agents",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$sel.request.name}}",
+                        "publisher": "{{$sel.request.publisher}}",
+                        "publisherType": "Published by your org",
+                        "platform": "Copilot Studio",
+                        "channel": "Copilot",
+                        "availability": "Available to Copilot Pilot - Sales",
+                        "risk": "Low",
+                        "permissions": "{{$sel.request.permissions | list}}",
+                        "knowledge": "{{$sel.request.knowledge | list}}",
+                        "blocked": false
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Agent published",
+                      "message": "{{$sel.request.name}} is available to Copilot Pilot - Sales."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "agent-requests"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "agent-settings",
+            "title": "Settings",
+            "subtitle": "Agents",
+            "icon": "Settings",
+            "url": "/adminportal/home#/agents/settings",
+            "navItem": "agents",
+            "breadcrumb": [
+              "Home",
+              "Agents"
+            ],
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "agent-settings",
+                "label": "Agent and plugin access",
+                "icon": "Puzzle"
+              },
+              {
+                "page": "agent-sharing",
+                "label": "Sharing",
+                "icon": "Share2"
+              },
+              {
+                "page": "agent-user-access",
+                "label": "User access",
+                "icon": "UserCheck"
+              }
+            ],
+            "components": [
+              {
+                "kind": "settings",
+                "id": "agent-access-settings",
+                "title": "Agent and plugin access",
+                "fields": [
+                  {
+                    "id": "allowMicrosoft",
+                    "label": "Allow agents and plugins built by Microsoft",
+                    "control": "toggle",
+                    "bindTo": "agentSettings.allowMicrosoft"
+                  },
+                  {
+                    "id": "allowOrg",
+                    "label": "Allow agents and plugins built by your organization",
+                    "control": "toggle",
+                    "bindTo": "agentSettings.allowOrg"
+                  },
+                  {
+                    "id": "allowExternal",
+                    "label": "Allow agents and plugins built by external publishers",
+                    "control": "toggle",
+                    "bindTo": "agentSettings.allowExternal"
+                  }
+                ]
+              },
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "text": "Data processed by non-Microsoft services is not subject to Microsoft agreements. Review publisher terms and internal policy before allowing external publishers."
+              }
+            ]
+          },
+          {
+            "id": "agent-sharing",
+            "title": "Settings | Sharing",
+            "subtitle": "Agents",
+            "icon": "Share2",
+            "navItem": "agents",
+            "breadcrumb": [
+              "Home",
+              "Agents",
+              "Settings"
+            ],
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "agent-settings",
+                "label": "Agent and plugin access",
+                "icon": "Puzzle"
+              },
+              {
+                "page": "agent-sharing",
+                "label": "Sharing",
+                "icon": "Share2"
+              },
+              {
+                "page": "agent-user-access",
+                "label": "User access",
+                "icon": "UserCheck"
+              }
+            ],
+            "components": [
+              {
+                "kind": "settings",
+                "id": "agent-sharing-settings",
+                "title": "Sharing",
+                "fields": [
+                  {
+                    "id": "sharingScope",
+                    "label": "Who can share agents with the organization",
+                    "control": "select",
+                    "bindTo": "agentSettings.sharingScope",
+                    "options": [
+                      {
+                        "value": "All users",
+                        "label": "All users"
+                      },
+                      {
+                        "value": "No users",
+                        "label": "No users"
+                      },
+                      {
+                        "value": "Specific users",
+                        "label": "Specific users"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "sharingGroup",
+                    "label": "Specific users or groups",
+                    "control": "select",
+                    "bindTo": "agentSettings.sharingGroup",
+                    "options": [
+                      {
+                        "value": "Agent Makers - Approved",
+                        "label": "Agent Makers - Approved"
+                      },
+                      {
+                        "value": "All users",
+                        "label": "All users"
+                      },
+                      {
+                        "value": "Sales department",
+                        "label": "Sales department"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "agent-user-access",
+            "title": "Settings | User access",
+            "subtitle": "Agents",
+            "icon": "UserCheck",
+            "navItem": "agents",
+            "breadcrumb": [
+              "Home",
+              "Agents",
+              "Settings"
+            ],
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "agent-settings",
+                "label": "Agent and plugin access",
+                "icon": "Puzzle"
+              },
+              {
+                "page": "agent-sharing",
+                "label": "Sharing",
+                "icon": "Share2"
+              },
+              {
+                "page": "agent-user-access",
+                "label": "User access",
+                "icon": "UserCheck"
+              }
+            ],
+            "components": [
+              {
+                "kind": "settings",
+                "id": "agent-user-access-settings",
+                "title": "User access",
+                "fields": [
+                  {
+                    "id": "userAccess",
+                    "label": "Who can access agents and plugins",
+                    "control": "select",
+                    "bindTo": "agentSettings.userAccess",
+                    "options": [
+                      {
+                        "value": "All users",
+                        "label": "All users"
+                      },
+                      {
+                        "value": "No users",
+                        "label": "No users"
+                      },
+                      {
+                        "value": "Specific users or groups",
+                        "label": "Specific users or groups"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "userAccessGroup",
+                    "label": "Specific users or groups",
+                    "control": "select",
+                    "bindTo": "agentSettings.userAccessGroup",
+                    "options": [
+                      {
+                        "value": "Copilot Pilot - Sales",
+                        "label": "Copilot Pilot - Sales"
+                      },
+                      {
+                        "value": "All users",
+                        "label": "All users"
+                      },
+                      {
+                        "value": "Sales department",
+                        "label": "Sales department"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "reports",
+            "title": "Usage",
+            "icon": "ChartColumn",
+            "url": "/adminportal/home#/reportsUsage",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "reports-agent-tiles",
+                "items": [
+                  {
+                    "id": "agents-usage",
+                    "label": "Agents",
+                    "icon": "Bot",
+                    "action": {
+                      "type": "navigate",
+                      "page": "agent-usage"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "agent-usage",
+            "title": "Agent usage",
+            "subtitle": "Reports",
+            "icon": "ChartColumn",
+            "url": "/adminportal/home#/reportsUsage/Agents",
+            "navItem": "reports",
+            "components": [
+              {
+                "kind": "chart",
+                "id": "agent-usage-chart",
+                "title": "Agent activity",
+                "type": "bar",
+                "unit": "requests",
+                "points": [
+                  {
+                    "label": "Writing Coach",
+                    "value": 37
+                  },
+                  {
+                    "label": "Sales Proposal Coach",
+                    "value": 0
+                  },
+                  {
+                    "label": "Vendor CRM Booster",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "agent-usage-table",
+                "source": "agentUsage",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Agent"
+                  },
+                  {
+                    "key": "users",
+                    "label": "Active users",
+                    "format": "count"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "groups",
+            "title": "Active teams & groups",
+            "icon": "Users",
+            "url": "/adminportal/home#/groups",
+            "components": [
+              {
+                "kind": "text",
+                "text": "This area is present in the simulated Microsoft 365 admin center. Use **Agents** for this lab."
+              }
+            ]
+          },
+          {
+            "id": "copilot",
+            "title": "Copilot",
+            "icon": "Sparkles",
+            "url": "/adminportal/home#/copilot",
+            "components": [
+              {
+                "kind": "text",
+                "text": "This area is present in the simulated Microsoft 365 admin center. Use **Agents** for this lab."
+              }
+            ]
+          },
+          {
+            "id": "users",
+            "title": "Active users",
+            "icon": "Users",
+            "url": "/adminportal/home#/users",
+            "components": [
+              {
+                "kind": "text",
+                "text": "This area is present in the simulated Microsoft 365 admin center. Use **Agents** for this lab."
+              }
+            ]
+          },
+          {
+            "id": "licenses",
+            "title": "Licenses",
+            "icon": "BadgeCheck",
+            "url": "/adminportal/home#/licenses",
+            "components": [
+              {
+                "kind": "text",
+                "text": "This area is present in the simulated Microsoft 365 admin center. Use **Agents** for this lab."
+              }
+            ]
+          },
+          {
+            "id": "settings",
+            "title": "Org settings",
+            "icon": "Settings",
+            "url": "/adminportal/home#/settings",
+            "components": [
+              {
+                "kind": "text",
+                "text": "This area is present in the simulated Microsoft 365 admin center. Use **Agents** for this lab."
+              }
+            ]
+          },
+          {
+            "id": "health",
+            "title": "Service health",
+            "icon": "Activity",
+            "url": "/adminportal/home#/health",
+            "components": [
+              {
+                "kind": "text",
+                "text": "This area is present in the simulated Microsoft 365 admin center. Use **Agents** for this lab."
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "agentRequests": [
+            {
+              "name": "Sales Proposal Coach",
+              "state": "Pending review",
+              "publisher": "Contoso Revenue Operations",
+              "publisherType": "Published by your org",
+              "platform": "Copilot Studio",
+              "channel": "Copilot",
+              "capabilities": [
+                "Draft proposal outlines",
+                "Summarize account notes",
+                "Suggest next steps"
+              ],
+              "knowledge": [
+                "Sales Playbook site",
+                "Approved Product FAQ library"
+              ],
+              "permissions": [
+                "Read selected SharePoint sites",
+                "Send prompts as signed-in user"
+              ],
+              "actions": [
+                "Create draft proposal document"
+              ]
+            },
+            {
+              "name": "Finance Close Helper",
+              "state": "Pending update",
+              "publisher": "Contoso Finance",
+              "publisherType": "Published by your org",
+              "platform": "Microsoft 365 Agents Toolkit",
+              "channel": "Teams",
+              "capabilities": [
+                "Summarize close checklist"
+              ],
+              "knowledge": [
+                "Finance procedures site"
+              ],
+              "permissions": [
+                "Read selected SharePoint sites"
+              ],
+              "actions": [
+                "Open checklist"
+              ]
+            }
+          ],
+          "agents": [
+            {
+              "name": "Writing Coach",
+              "publisher": "Microsoft",
+              "publisherType": "Microsoft agents",
+              "platform": "Microsoft",
+              "channel": "Copilot",
+              "availability": "Available",
+              "risk": "None",
+              "permissions": [
+                "Copilot chat context"
+              ],
+              "knowledge": [
+                "Public writing guidance"
+              ],
+              "blocked": false
+            },
+            {
+              "name": "Vendor CRM Booster",
+              "publisher": "Fabrikam Apps",
+              "publisherType": "External partner-built agents",
+              "platform": "Integrated Apps",
+              "channel": "Copilot",
+              "availability": "Available",
+              "risk": "High",
+              "permissions": [
+                "Read all mailboxes",
+                "Read all SharePoint files",
+                "Write CRM records"
+              ],
+              "knowledge": [
+                "External CRM connector",
+                "Mailbox content"
+              ],
+              "blocked": false
+            },
+            {
+              "name": "HR Policy Finder",
+              "publisher": "Contoso People Team",
+              "publisherType": "Shared by creator",
+              "platform": "Agent Builder",
+              "channel": "Teams",
+              "availability": "Available to HR",
+              "risk": "Low",
+              "permissions": [
+                "Read selected SharePoint sites"
+              ],
+              "knowledge": [
+                "HR Policy site"
+              ],
+              "blocked": false
+            },
+            {
+              "name": "Researcher",
+              "publisher": "Microsoft",
+              "publisherType": "Microsoft agents",
+              "platform": "Microsoft",
+              "channel": "Copilot",
+              "availability": "Available",
+              "risk": "None",
+              "permissions": [
+                "Core Copilot chat experience"
+              ],
+              "knowledge": [
+                "Web and work grounding based on user permissions"
+              ],
+              "blocked": false
+            }
+          ],
+          "publishedAgents": [],
+          "agentSettings": {
+            "allowMicrosoft": true,
+            "allowOrg": true,
+            "allowExternal": true,
+            "sharingScope": "All users",
+            "sharingGroup": "All users",
+            "userAccess": "All users",
+            "userAccessGroup": "All users"
+          },
+          "agentUsage": [
+            {
+              "name": "Writing Coach",
+              "users": 12,
+              "status": "Active"
+            },
+            {
+              "name": "Sales Proposal Coach",
+              "users": 0,
+              "status": "Pending"
+            },
+            {
+              "name": "Vendor CRM Booster",
+              "users": 0,
+              "status": "Available"
+            }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "key": "review-request",
+          "title": "Review the pending Sales agent",
+          "instruction": "Open **Agents > All agents > Requests**, select **Sales Proposal Coach**, and review its publisher, capabilities, knowledge sources, permissions, and custom actions.",
+          "hint": "The details pane shows the publisher, knowledge sources, and permissions.",
+          "explanation": "Administrators review requested agents before publishing so they understand what data and tools an agent can use.",
+          "targetId": "agent-requests-table",
+          "rules": [
+            {
+              "key": "request-opened",
+              "description": "Sales Proposal Coach request was opened",
+              "rule": {
+                "type": "visited",
+                "page": "agent-request-detail"
+              }
+            }
+          ]
+        },
+        {
+          "key": "publish-sales-only",
+          "title": "Publish the agent only for Sales pilot users",
+          "instruction": "Select **Publish to store**. In the wizard, choose **Copilot Pilot - Sales**, keep **Preinstall for selected users** off, choose **Default template**, turn on **Accept requested permissions**, and select **Publish**.",
+          "hint": "Do not choose **All users** or **Sales department**.",
+          "explanation": "Publishing to a specific group makes the agent available only to that audience and avoids a tenant-wide rollout.",
+          "targetId": "publish-to-store",
+          "rules": [
+            {
+              "key": "sales-agent-published",
+              "description": "Sales Proposal Coach is published only to Copilot Pilot - Sales",
+              "rule": {
+                "type": "arrayContains",
+                "path": "publishedAgents",
+                "match": {
+                  "name": "Sales Proposal Coach",
+                  "audience": "Copilot Pilot - Sales",
+                  "status": "Available"
+                }
+              },
+              "failureFeedback": "Publish Sales Proposal Coach to Copilot Pilot - Sales only."
+            }
+          ]
+        },
+        {
+          "key": "block-risky-agent",
+          "title": "Block the risky third-party agent",
+          "instruction": "Open **All agents > Registry**, select **Vendor CRM Booster**, review the high-risk permissions, and select **Block agent**.",
+          "hint": "The risky agent is from an external publisher and asks for broad mailbox, SharePoint, and CRM access.",
+          "explanation": "Blocking an agent is appropriate when its publisher or requested access conflicts with policy.",
+          "targetId": "agent-registry-table",
+          "rules": [
+            {
+              "key": "vendor-blocked",
+              "description": "Vendor CRM Booster is blocked",
+              "rule": {
+                "type": "arrayContains",
+                "path": "agents",
+                "match": {
+                  "name": "Vendor CRM Booster",
+                  "availability": "Blocked",
+                  "blocked": true
+                }
+              },
+              "failureFeedback": "Select Vendor CRM Booster and block it."
+            }
+          ]
+        },
+        {
+          "key": "set-agent-access",
+          "title": "Set allowed agent categories",
+          "instruction": "Open **Agents > Settings > Agent and plugin access**. Keep **Allow agents and plugins built by Microsoft** on, keep **Allow agents and plugins built by your organization** on, and turn **Allow agents and plugins built by external publishers** off.",
+          "hint": "The scenario permits Microsoft and Contoso-built agents while blocking external publisher agents.",
+          "explanation": "Allowed agent type settings control what users can view and install from the catalog by publisher category.",
+          "targetId": "agent-access-settings",
+          "rules": [
+            {
+              "key": "allowed-types-set",
+              "description": "External publishers are disabled while Microsoft and org-built agents are allowed",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "equals",
+                    "path": "agentSettings.allowMicrosoft",
+                    "value": true
+                  },
+                  {
+                    "type": "equals",
+                    "path": "agentSettings.allowOrg",
+                    "value": true
+                  },
+                  {
+                    "type": "equals",
+                    "path": "agentSettings.allowExternal",
+                    "value": false
+                  }
+                ]
+              },
+              "failureFeedback": "Allow Microsoft and Contoso-built agents, and turn off external publisher agents."
+            }
+          ]
+        },
+        {
+          "key": "limit-sharing-and-access",
+          "title": "Limit sharing and user access",
+          "instruction": "On **Sharing**, set **Who can share agents with the organization** to **Specific users** and choose **Agent Makers - Approved**. On **User access**, set **Who can access agents and plugins** to **Specific users or groups** and choose **Copilot Pilot - Sales**.",
+          "hint": "Sharing controls broad sharing by makers. User access controls who can use agents and plugins.",
+          "explanation": "Lifecycle governance separates who can create and share agents from who can use them.",
+          "targetId": "agent-sharing-settings",
+          "rules": [
+            {
+              "key": "sharing-access-scoped",
+              "description": "Sharing is limited to approved makers and user access to the pilot group",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "equals",
+                    "path": "agentSettings.sharingScope",
+                    "value": "Specific users"
+                  },
+                  {
+                    "type": "equals",
+                    "path": "agentSettings.sharingGroup",
+                    "value": "Agent Makers - Approved"
+                  },
+                  {
+                    "type": "equals",
+                    "path": "agentSettings.userAccess",
+                    "value": "Specific users or groups"
+                  },
+                  {
+                    "type": "equals",
+                    "path": "agentSettings.userAccessGroup",
+                    "value": "Copilot Pilot - Sales"
+                  }
+                ]
+              },
+              "failureFeedback": "Scope sharing to Agent Makers - Approved and user access to Copilot Pilot - Sales."
+            }
+          ]
+        },
+        {
+          "key": "view-agent-usage",
+          "title": "View agent usage",
+          "instruction": "Open **Reports > Usage > Agents** to review the current agent usage view.",
+          "hint": "Usage is optional for governance but useful after deployment.",
+          "explanation": "Usage and lifecycle signals help admins monitor adoption and risky agents.",
+          "targetId": "reports-agent-tiles",
+          "rules": [
+            {
+              "key": "agent-usage-opened",
+              "description": "Agent usage page was opened",
+              "rule": {
+                "type": "visited",
+                "page": "agent-usage"
+              }
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "risky-agent-blocked",
+          "description": "Risky third-party agent is blocked",
+          "rule": {
+            "type": "arrayContains",
+            "path": "agents",
+            "match": {
+              "name": "Vendor CRM Booster",
+              "availability": "Blocked",
+              "blocked": true
+            }
+          },
+          "successFeedback": "The high-risk external agent is blocked.",
+          "failureFeedback": "Block Vendor CRM Booster before completing the lab."
+        },
+        {
+          "key": "approved-agent-sales-only",
+          "description": "Approved org-built agent is limited to the Sales pilot group",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayContains",
+                "path": "publishedAgents",
+                "match": {
+                  "name": "Sales Proposal Coach",
+                  "audience": "Copilot Pilot - Sales"
+                }
+              },
+              {
+                "type": "arrayNotContains",
+                "path": "publishedAgents",
+                "match": {
+                  "name": "Sales Proposal Coach",
+                  "audience": "All users"
+                }
+              },
+              {
+                "type": "arrayNotContains",
+                "path": "publishedAgents",
+                "match": {
+                  "name": "Sales Proposal Coach",
+                  "audience": "Sales department"
+                }
+              }
+            ]
+          },
+          "successFeedback": "The approved agent is scoped to the pilot group.",
+          "failureFeedback": "Publish Sales Proposal Coach only to Copilot Pilot - Sales; do not deploy tenant-wide."
+        },
+        {
+          "key": "tenant-agent-settings",
+          "description": "Tenant agent settings match the pilot governance model",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "equals",
+                "path": "agentSettings.allowMicrosoft",
+                "value": true
+              },
+              {
+                "type": "equals",
+                "path": "agentSettings.allowOrg",
+                "value": true
+              },
+              {
+                "type": "equals",
+                "path": "agentSettings.allowExternal",
+                "value": false
+              },
+              {
+                "type": "equals",
+                "path": "agentSettings.sharingScope",
+                "value": "Specific users"
+              },
+              {
+                "type": "equals",
+                "path": "agentSettings.userAccessGroup",
+                "value": "Copilot Pilot - Sales"
+              }
+            ]
+          },
+          "successFeedback": "Agent governance settings are scoped for the pilot.",
+          "failureFeedback": "Configure allowed agent types, sharing, and user access according to the scenario."
+        }
+      ],
+      "solution": "1. Open **Agents > All agents > Requests** and select **Sales Proposal Coach**. Review **Publisher**, **Capabilities**, **Knowledge sources**, **Permissions**, and **Custom actions**.\n2. Select **Publish to store**. In the wizard choose **Copilot Pilot - Sales**, keep **Preinstall for selected users** off, choose **Default template**, turn on **Accept requested permissions**, and select **Publish**.\n3. Open **Agents > All agents > Registry**, select **Vendor CRM Booster**, review the broad permissions, and select **Block agent**.\n4. Open **Agents > Settings > Agent and plugin access**. Leave **Allow agents and plugins built by Microsoft** on, leave **Allow agents and plugins built by your organization** on, and turn **Allow agents and plugins built by external publishers** off.\n5. Open **Sharing**. Set **Who can share agents with the organization** to **Specific users** and choose **Agent Makers - Approved**.\n6. Open **User access**. Set **Who can access agents and plugins** to **Specific users or groups** and choose **Copilot Pilot - Sales**.\n7. Open **Reports > Usage > Agents**. Declarative agents use instructions, knowledge, and skills in the Copilot orchestration model; custom engine agents bring a custom runtime. Agent Builder is a guided Copilot app authoring path, while Copilot Studio is a broader low-code environment for agents and workflows."
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 import { common } from "./en/common";
 import { errors, legal, nav } from "./en/core";
-import { auth, catalog, enums, landing } from "./en/public";
+import { catalog, enums, landing } from "./en/public";
 import { learner } from "./en/learner";
 import { assessment } from "./en/assessment";
 import { labs } from "./en/labs";
@@ -14,7 +14,6 @@ export const en = {
   nav,
   legal,
   errors,
-  auth,
   landing,
   catalog,
   enums,

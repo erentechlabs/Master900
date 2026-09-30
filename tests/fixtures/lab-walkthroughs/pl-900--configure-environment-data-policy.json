@@ -1,0 +1,58 @@
+{
+  "certification": "PL-900",
+  "lab": "configure-environment-data-policy",
+  "note": "Create Contoso Dev Sandbox with Dataverse and security group, then scope a data policy only to that environment with correct connector groups.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "environments"
+    },
+    {
+      "type": "click",
+      "componentId": "env-new"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "environment-wizard",
+      "values": {
+        "name": "Contoso Dev",
+        "region": "Europe",
+        "type": "Sandbox",
+        "purpose": "Development and testing for Contoso makers before solutions move to production.",
+        "dataverse": "Yes",
+        "language": "English",
+        "currency": "USD",
+        "dynamicsApps": false,
+        "sampleApps": false,
+        "securityGroup": "PP Contoso Dev Makers"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "data-policies"
+    },
+    {
+      "type": "click",
+      "componentId": "policy-new"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "policy-wizard",
+      "values": {
+        "name": "Contoso Dev collaboration policy",
+        "businessConnectors": [
+          "SharePoint",
+          "Office 365 Outlook",
+          "Microsoft Dataverse"
+        ],
+        "blockedConnector": "Facebook",
+        "defaultGroup": "Non-business",
+        "scopeMode": "Add multiple environments",
+        "environments": [
+          "Contoso Dev"
+        ],
+        "ack": true
+      }
+    }
+  ]
+}

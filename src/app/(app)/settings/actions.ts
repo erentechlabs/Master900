@@ -1,16 +1,27 @@
 "use server";
 
-import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { ActionError, enforceRateLimit, runAction, type ActionResult } from "@/lib/actions";
 import { isValidTimeZone } from "@/lib/dates";
 import { LOCALE_COOKIE } from "@/i18n/config";
 import { authorize } from "@/modules/auth/session";
-import { BCRYPT_ROUNDS } from "@/modules/auth/options";
-import { changePasswordSchema } from "@/modules/auth/schemas";
+
+const preferenceDefaults = {
+  timezone: "UTC",
+  studyDays: [] as number[],
+  sessionMinutes: 30,
+  dailyGoalMinutes: 20,
+  learningStyle: null,
+  experienceLevel: null,
+  showTimerByDefault: true,
+  gamificationEnabled: true,
+  reducedMotion: false,
+  shareAnonymousAnalytics: true,
+};
 
 const settingsSchema = z.object({
   name: z.string().trim().max(80).optional(),
@@ -74,49 +85,39 @@ export async function updateSettingsAction(input: unknown): Promise<ActionResult
   });
 }
 
-export async function changePasswordAction(input: unknown): Promise<ActionResult> {
-  return runAction("settings.changePassword", async () => {
+const resetSchema = z.object({ confirmation: z.string() });
+
+export async function resetLearningProgressAction(input: unknown): Promise<ActionResult> {
+  await runAction("settings.resetLearningProgress", async () => {
     const user = await authorize("learn:use");
-    if (user.isDemo) throw new ActionError("forbidden");
     enforceRateLimit("mutation", user.id);
-    const parsed = changePasswordSchema.parse(input);
-    const row = await prisma.user.findUniqueOrThrow({ where: { id: user.id }, select: { passwordHash: true } });
-    const valid = await bcrypt.compare(parsed.currentPassword, row.passwordHash);
-    if (!valid) throw new ActionError("current_password_invalid", { currentPassword: "current_password_invalid" });
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { passwordHash: await bcrypt.hash(parsed.newPassword, BCRYPT_ROUNDS), sessionVersion: { increment: 1 } },
+    const parsed = resetSchema.parse(input);
+    if (parsed.confirmation !== "RESET") throw new ActionError("confirmation_mismatch", { confirmation: "confirmation_mismatch" });
+    await prisma.$transaction(async (tx) => {
+      await tx.questionAttempt.deleteMany({ where: { userId: user.id } });
+      await tx.quizAttempt.deleteMany({ where: { userId: user.id } });
+      await tx.practiceExamAttempt.deleteMany({ where: { userId: user.id } });
+      await tx.reviewQueueItem.deleteMany({ where: { userId: user.id } });
+      await tx.labAttempt.deleteMany({ where: { userId: user.id } });
+      await tx.studySession.deleteMany({ where: { userId: user.id } });
+      await tx.studyPlan.deleteMany({ where: { userId: user.id } });
+      await tx.bookmark.deleteMany({ where: { userId: user.id } });
+      await tx.note.deleteMany({ where: { userId: user.id } });
+      await tx.userBadge.deleteMany({ where: { userId: user.id } });
+      await tx.learningEvent.deleteMany({ where: { userId: user.id } });
+      await tx.readinessSnapshot.deleteMany({ where: { userId: user.id } });
+      await tx.tutorConversation.deleteMany({ where: { userId: user.id } });
+      await tx.enrollment.deleteMany({ where: { userId: user.id } });
+      await tx.lessonProgress.deleteMany({ where: { userId: user.id } });
+      await tx.user.update({
+        where: { id: user.id },
+        data: {
+          onboardingCompletedAt: null,
+          preference: { upsert: { create: preferenceDefaults, update: preferenceDefaults } },
+        },
+      });
     });
-    return undefined;
+    revalidatePath("/", "layout");
   });
-}
-
-export async function signOutEverywhereAction(): Promise<ActionResult> {
-  return runAction("settings.signOutEverywhere", async () => {
-    const user = await authorize("learn:use");
-    enforceRateLimit("mutation", user.id);
-    await prisma.user.update({ where: { id: user.id }, data: { sessionVersion: { increment: 1 } } });
-    return undefined;
-  });
-}
-
-const deleteSchema = z.object({ confirmation: z.string(), currentPassword: z.string().min(1).max(128) });
-
-export async function deleteAccountAction(input: unknown): Promise<ActionResult> {
-  return runAction("settings.deleteAccount", async () => {
-    const user = await authorize("learn:use");
-    if (user.isDemo) throw new ActionError("forbidden");
-    enforceRateLimit("mutation", user.id);
-    const parsed = deleteSchema.parse(input);
-    if (parsed.confirmation !== "DELETE") throw new ActionError("confirmation_mismatch", { confirmation: "confirmation_mismatch" });
-    const row = await prisma.user.findUniqueOrThrow({ where: { id: user.id }, select: { passwordHash: true, roles: { include: { role: true } } } });
-    const valid = await bcrypt.compare(parsed.currentPassword, row.passwordHash);
-    if (!valid) throw new ActionError("current_password_invalid", { currentPassword: "current_password_invalid" });
-    if (row.roles.some((r) => r.role.key === "ADMIN")) {
-      const admins = await prisma.user.count({ where: { roles: { some: { role: { key: "ADMIN" } } } } });
-      if (admins <= 1) throw new ActionError("last_admin");
-    }
-    await prisma.user.delete({ where: { id: user.id } });
-    return undefined;
-  });
+  redirect("/dashboard");
 }

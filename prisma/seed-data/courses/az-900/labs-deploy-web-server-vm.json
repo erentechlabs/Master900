@@ -1,0 +1,1065 @@
+{
+  "labs": [
+    {
+      "slug": "deploy-web-server-vm",
+      "type": "UI_SIMULATION",
+      "title": "Publish a web server on an Azure virtual machine",
+      "summary": "SSH to an existing Ubuntu VM, install NGINX, open only HTTP in Network settings, verify the site, and enable auto-shutdown.",
+      "scenario": "Tailwind Traders has a running Ubuntu Server VM named **vm-web-01**. Its NSG allows only SSH from the administrator workstation. In the simulated Azure portal VM, SSH to the VM, install NGINX, prove `http://203.0.113.44` times out while TCP 80 is closed, add only an inbound **HTTP** rule, reload the site, and enable **Auto-shutdown** at **19:00**. Do not expose SSH, RDP or all ports to the internet.",
+      "domainKey": "azure-architecture-services",
+      "moduleSlug": "azure-compute-and-networking",
+      "objectiveCode": "2.2",
+      "complexity": "INTERMEDIATE",
+      "estimatedMinutes": 25,
+      "learningObjectives": [
+        "Use SSH to administer a Linux VM",
+        "Install and verify a web server before exposing it",
+        "Add a least-privilege inbound NSG rule",
+        "Enable VM auto-shutdown"
+      ],
+      "prerequisites": [
+        "Know what SSH, HTTP, and network security groups are"
+      ],
+      "sources": [
+        {
+          "title": "Quickstart: Create a Linux virtual machine in the Azure portal",
+          "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/linux/quick-create-portal"
+        },
+        {
+          "title": "Tutorial: Filter network traffic with a network security group",
+          "url": "https://learn.microsoft.com/en-us/azure/virtual-network/tutorial-filter-network-traffic"
+        },
+        {
+          "title": "Auto-shutdown a VM",
+          "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/auto-shutdown-vm"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Azure",
+          "theme": "azure",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://portal.azure.com",
+          "searchPlaceholder": "Search resources, services, and docs (G+/)"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser",
+            "terminal"
+          ]
+        },
+        "terminal": {
+          "title": "Terminal / Cloud Shell (Bash)",
+          "prompt": "{{shell.user}}@{{shell.host}}:~$",
+          "surface": "both",
+          "welcome": "Use SSH before running Linux package commands on vm-web-01.",
+          "fallback": "{{$cmd}}: command not available in this simulated environment. Type help.",
+          "commands": [
+            {
+              "id": "ssh",
+              "pattern": "^ssh azureuser@203\\.0\\.113\\.44$",
+              "help": "ssh azureuser@203.0.113.44",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "shell",
+                  "value": {
+                    "user": "azureuser",
+                    "host": "vm-web-01",
+                    "connected": true
+                  }
+                }
+              ],
+              "output": "Welcome to Ubuntu Server on vm-web-01 (simulation)."
+            },
+            {
+              "id": "apt-before-ssh",
+              "pattern": "^sudo apt( update| install -y nginx)$",
+              "when": {
+                "type": "notEquals",
+                "path": "shell.connected",
+                "value": true
+              },
+              "error": "sudo: apt: command not found on LAB-VM-01. SSH to the Linux VM first."
+            },
+            {
+              "id": "apt-update",
+              "pattern": "^sudo apt update$",
+              "when": {
+                "type": "equals",
+                "path": "shell.connected",
+                "value": true
+              },
+              "help": "sudo apt update",
+              "actions": [
+                {
+                  "type": "update",
+                  "path": "virtualMachines",
+                  "where": {
+                    "name": "vm-web-01"
+                  },
+                  "set": {
+                    "packagesUpdated": true
+                  }
+                }
+              ],
+              "output": "Hit:1 http://azure.archive.ubuntu.example noble InRelease\nReading package lists... Done"
+            },
+            {
+              "id": "install",
+              "pattern": "^sudo apt install -y nginx$",
+              "when": {
+                "type": "equals",
+                "path": "shell.connected",
+                "value": true
+              },
+              "help": "sudo apt install -y nginx",
+              "actions": [
+                {
+                  "type": "update",
+                  "path": "virtualMachines",
+                  "where": {
+                    "name": "vm-web-01"
+                  },
+                  "set": {
+                    "nginxInstalled": true,
+                    "nginxStatus": "active (running)",
+                    "siteText": "Welcome to Tailwind Traders"
+                  }
+                }
+              ],
+              "output": "Setting up nginx ... done"
+            },
+            {
+              "id": "status",
+              "pattern": "^systemctl status nginx$",
+              "when": {
+                "type": "arrayContains",
+                "path": "virtualMachines",
+                "match": {
+                  "name": "vm-web-01",
+                  "nginxInstalled": true
+                }
+              },
+              "help": "systemctl status nginx",
+              "output": "nginx.service - A high performance web server\nActive: active (running)"
+            },
+            {
+              "id": "index",
+              "pattern": "^echo .+ \\| sudo tee /var/www/html/index\\.html$",
+              "when": {
+                "type": "arrayContains",
+                "path": "virtualMachines",
+                "match": {
+                  "name": "vm-web-01",
+                  "nginxInstalled": true
+                }
+              },
+              "help": "echo '<h1>Welcome</h1>' | sudo tee /var/www/html/index.html",
+              "actions": [
+                {
+                  "type": "update",
+                  "path": "virtualMachines",
+                  "where": {
+                    "name": "vm-web-01"
+                  },
+                  "set": {
+                    "indexCustomized": true,
+                    "siteText": "Welcome to Tailwind Traders - served from vm-web-01"
+                  }
+                }
+              ],
+              "output": "<h1>Welcome to Tailwind Traders - served from vm-web-01</h1>"
+            }
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "vms",
+            "label": "Virtual machines",
+            "icon": "Monitor",
+            "section": "Favorites"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/#home",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "services",
+                "title": "Azure services",
+                "size": "sm",
+                "items": [
+                  {
+                    "id": "virtual-machines",
+                    "label": "Virtual machines",
+                    "icon": "Monitor",
+                    "action": {
+                      "type": "navigate",
+                      "page": "vms"
+                    }
+                  },
+                  {
+                    "id": "cloud-shell",
+                    "label": "Cloud Shell",
+                    "icon": "Terminal",
+                    "action": {
+                      "type": "navigate",
+                      "page": "cloud-shell"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "cloud-shell",
+            "title": "Cloud Shell",
+            "icon": "Terminal",
+            "url": "/#cloudshell",
+            "components": [
+              {
+                "kind": "terminal",
+                "id": "cloud-shell-terminal",
+                "title": "Cloud Shell (Bash)"
+              }
+            ]
+          },
+          {
+            "id": "vms",
+            "title": "Virtual machines",
+            "icon": "Monitor",
+            "url": "/#browse/Microsoft.Compute%2FVirtualMachines",
+            "commands": [
+              {
+                "id": "refresh-vms",
+                "label": "Refresh",
+                "icon": "RefreshCw",
+                "action": {
+                  "type": "message",
+                  "text": "The VM inventory is up to date."
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "vm-list",
+                "source": "virtualMachines",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "resourceGroup",
+                    "label": "Resource group"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "publicIp",
+                    "label": "Public IP address"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "vm-overview",
+                  "select": {
+                    "as": "vm",
+                    "path": "virtualMachines",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "vm-overview",
+            "title": "{{$sel.vm.name}}",
+            "subtitle": "Virtual machine",
+            "icon": "Monitor",
+            "url": "/#@contoso.example/resource/subscriptions/{{subscription.id}}/resourceGroups/{{$sel.vm.resourceGroup}}/providers/Microsoft.Compute/virtualMachines/{{$sel.vm.name}}/overview",
+            "requires": "vm",
+            "navItem": "vms",
+            "breadcrumb": [
+              "Home",
+              "Virtual machines"
+            ],
+            "menu": [
+              {
+                "page": "vm-overview",
+                "label": "Overview",
+                "icon": "Monitor"
+              },
+              {
+                "page": "vm-networking",
+                "label": "Network settings",
+                "icon": "Network",
+                "section": "Networking"
+              },
+              {
+                "page": "vm-auto-shutdown",
+                "label": "Auto-shutdown",
+                "icon": "Clock",
+                "section": "Operations"
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Essentials",
+                "items": [
+                  {
+                    "label": "Resource group",
+                    "value": "{{$sel.vm.resourceGroup}}",
+                    "format": "link"
+                  },
+                  {
+                    "label": "Status",
+                    "value": "{{$sel.vm.status}}",
+                    "format": "status"
+                  },
+                  {
+                    "label": "Public IP address",
+                    "value": "{{$sel.vm.publicIp}}",
+                    "format": "link"
+                  },
+                  {
+                    "label": "Operating system",
+                    "value": "{{$sel.vm.os}}"
+                  },
+                  {
+                    "label": "Auto-shutdown",
+                    "value": "{{$sel.vm.shutdownTime}}"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "vm-networking",
+            "title": "{{$sel.vm.name}} | Network settings",
+            "subtitle": "Virtual machine",
+            "icon": "Network",
+            "requires": "vm",
+            "navItem": "vms",
+            "breadcrumb": [
+              "Home",
+              "Virtual machines",
+              "{{$sel.vm.name}}"
+            ],
+            "menu": [
+              {
+                "page": "vm-overview",
+                "label": "Overview",
+                "icon": "Monitor"
+              },
+              {
+                "page": "vm-networking",
+                "label": "Network settings",
+                "icon": "Network",
+                "section": "Networking"
+              },
+              {
+                "page": "vm-auto-shutdown",
+                "label": "Auto-shutdown",
+                "icon": "Clock",
+                "section": "Operations"
+              }
+            ],
+            "commands": [
+              {
+                "id": "create-port-rule",
+                "label": "Create port rule",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "rule-create"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Default inbound rules",
+                "text": "Rules are processed by priority. **DenyAllInBound 65500** blocks traffic not explicitly allowed."
+              },
+              {
+                "kind": "table",
+                "id": "inbound-rules",
+                "source": "nsgRules",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name"
+                  },
+                  {
+                    "key": "priority",
+                    "label": "Priority"
+                  },
+                  {
+                    "key": "source",
+                    "label": "Source"
+                  },
+                  {
+                    "key": "port",
+                    "label": "Port"
+                  },
+                  {
+                    "key": "access",
+                    "label": "Action",
+                    "format": "badge"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "rule-create",
+            "title": "Add inbound security rule",
+            "icon": "ShieldPlus",
+            "requires": "vm",
+            "navItem": "vms",
+            "breadcrumb": [
+              "Home",
+              "Virtual machines",
+              "vm-web-01",
+              "Network settings"
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "inbound-rule-form",
+                "title": "Inbound port rule",
+                "fields": [
+                  {
+                    "id": "service",
+                    "label": "Service",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "HTTP",
+                    "options": [
+                      {
+                        "value": "HTTP",
+                        "label": "HTTP"
+                      },
+                      {
+                        "value": "HTTPS",
+                        "label": "HTTPS"
+                      },
+                      {
+                        "value": "SSH",
+                        "label": "SSH"
+                      },
+                      {
+                        "value": "RDP",
+                        "label": "RDP"
+                      },
+                      {
+                        "value": "Custom",
+                        "label": "Custom"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "source",
+                    "label": "Source",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Internet",
+                    "options": [
+                      {
+                        "value": "Internet",
+                        "label": "Internet"
+                      },
+                      {
+                        "value": "Any",
+                        "label": "Any"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "port",
+                    "label": "Destination port ranges",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "80"
+                  },
+                  {
+                    "id": "protocol",
+                    "label": "Protocol",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "TCP",
+                    "options": [
+                      {
+                        "value": "TCP",
+                        "label": "TCP"
+                      },
+                      {
+                        "value": "Any",
+                        "label": "Any"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "action",
+                    "label": "Action",
+                    "control": "radio",
+                    "required": true,
+                    "defaultValue": "Allow",
+                    "options": [
+                      {
+                        "value": "Allow",
+                        "label": "Allow"
+                      },
+                      {
+                        "value": "Deny",
+                        "label": "Deny"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "priority",
+                    "label": "Priority",
+                    "control": "number",
+                    "required": true,
+                    "defaultValue": 300,
+                    "min": 100,
+                    "max": 4096
+                  },
+                  {
+                    "id": "name",
+                    "label": "Name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Allow-HTTP-Internet"
+                  }
+                ],
+                "submit": {
+                  "label": "Add",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.service",
+                        "value": "HTTP"
+                      },
+                      "message": "Open only HTTP for this website; SSH, RDP, HTTPS, or Custom/* is broader than required."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.port",
+                        "value": "80"
+                      },
+                      "message": "HTTP uses TCP port 80. Do not open * or management ports."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.protocol",
+                        "value": "TCP"
+                      },
+                      "message": "HTTP uses TCP."
+                    },
+                    {
+                      "rule": {
+                        "type": "notEquals",
+                        "path": "$form.source",
+                        "value": "Any"
+                      },
+                      "message": "Use Internet for the public website; Any is broader than needed."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "nsgRules",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "priority": "{{$form.priority}}",
+                        "source": "{{$form.source}}",
+                        "port": "{{$form.port}}",
+                        "protocol": "{{$form.protocol}}",
+                        "access": "{{$form.action}}"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "virtualMachines",
+                      "where": {
+                        "name": "vm-web-01"
+                      },
+                      "set": {
+                        "httpOpen": true
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "website.url",
+                      "value": "http://203.0.113.44"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "vm-networking"
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Inbound rule created",
+                      "message": "HTTP is now allowed on TCP port 80."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "vm-auto-shutdown",
+            "title": "{{$sel.vm.name}} | Auto-shutdown",
+            "icon": "Clock",
+            "requires": "vm",
+            "navItem": "vms",
+            "breadcrumb": [
+              "Home",
+              "Virtual machines",
+              "vm-web-01"
+            ],
+            "menu": [
+              {
+                "page": "vm-overview",
+                "label": "Overview",
+                "icon": "Monitor"
+              },
+              {
+                "page": "vm-networking",
+                "label": "Network settings",
+                "icon": "Network",
+                "section": "Networking"
+              },
+              {
+                "page": "vm-auto-shutdown",
+                "label": "Auto-shutdown",
+                "icon": "Clock",
+                "section": "Operations"
+              }
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "auto-shutdown-form",
+                "title": "Auto-shutdown",
+                "fields": [
+                  {
+                    "id": "enabled",
+                    "label": "Enabled",
+                    "control": "toggle",
+                    "defaultValue": false,
+                    "required": true
+                  },
+                  {
+                    "id": "shutdownTime",
+                    "label": "Scheduled shutdown",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "19:00",
+                    "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$",
+                    "patternMessage": "Use 24-hour time."
+                  },
+                  {
+                    "id": "timeZone",
+                    "label": "Time zone",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "(UTC+03:00) Istanbul",
+                    "options": [
+                      {
+                        "value": "(UTC+03:00) Istanbul",
+                        "label": "(UTC+03:00) Istanbul"
+                      },
+                      {
+                        "value": "(UTC) Coordinated Universal Time",
+                        "label": "(UTC) Coordinated Universal Time"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.enabled",
+                        "value": true
+                      },
+                      "message": "Turn auto-shutdown On."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.shutdownTime",
+                        "value": "19:00"
+                      },
+                      "message": "Use 19:00 for this lab."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "virtualMachines",
+                      "where": {
+                        "name": "vm-web-01"
+                      },
+                      "set": {
+                        "autoShutdown": "{{$form.enabled}}",
+                        "shutdownTime": "{{$form.shutdownTime}}",
+                        "timeZone": "{{$form.timeZone}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Auto-shutdown saved"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "tailwind-site",
+            "title": "Tailwind Traders",
+            "layout": "blank",
+            "url": "{{website.url}}",
+            "components": [
+              {
+                "kind": "text",
+                "id": "site-content",
+                "text": "# {{virtualMachines.0.siteText}}\n\nServed from **vm-web-01** on `203.0.113.44` after NGINX is installed and TCP port 80 is allowed."
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "subscription": {
+            "name": "Contoso Learning (simulated)",
+            "id": "00000000-0000-4000-8000-000000000900"
+          },
+          "resourceGroups": [
+            {
+              "name": "rg-web-prod",
+              "location": "westeurope"
+            },
+            {
+              "name": "rg-shared-services",
+              "location": "northeurope"
+            }
+          ],
+          "virtualMachines": [
+            {
+              "name": "vm-web-01",
+              "resourceGroup": "rg-web-prod",
+              "location": "westeurope",
+              "os": "Linux",
+              "status": "Running",
+              "publicIp": "203.0.113.44",
+              "privateIp": "10.30.1.4",
+              "nginxInstalled": false,
+              "httpOpen": false,
+              "autoShutdown": false,
+              "shutdownTime": "Off",
+              "siteText": "NGINX is not installed yet"
+            }
+          ],
+          "nsgRules": [
+            {
+              "name": "Allow-SSH-AdminWorkstation",
+              "priority": 100,
+              "source": "203.0.113.9/32",
+              "port": "22",
+              "protocol": "TCP",
+              "access": "Allow"
+            },
+            {
+              "name": "AllowVnetInBound",
+              "priority": 65000,
+              "source": "VirtualNetwork",
+              "port": "*",
+              "protocol": "Any",
+              "access": "Allow"
+            },
+            {
+              "name": "DenyAllInBound",
+              "priority": 65500,
+              "source": "Any",
+              "port": "*",
+              "protocol": "Any",
+              "access": "Deny"
+            }
+          ],
+          "website": {
+            "url": ""
+          },
+          "shell": {
+            "user": "alex",
+            "host": "LAB-VM-01",
+            "connected": false
+          }
+        }
+      },
+      "steps": [
+        {
+          "key": "open-vm",
+          "title": "Open vm-web-01",
+          "instruction": "In **Virtual machines**, select **vm-web-01** and review the **Public IP address**.",
+          "explanation": "The Overview blade provides the address for SSH and browser tests.",
+          "targetId": "vm-list",
+          "rules": [
+            {
+              "key": "visited-vm",
+              "description": "vm-web-01 is open",
+              "rule": {
+                "type": "visited",
+                "page": "vm-overview"
+              }
+            }
+          ]
+        },
+        {
+          "key": "ssh",
+          "title": "Connect with SSH",
+          "instruction": "Open **Terminal** or **Cloud Shell** and run `ssh azureuser@203.0.113.44`.",
+          "explanation": "Package commands must run on the Linux VM, not on the lab VM.",
+          "targetId": "cloud-shell-terminal",
+          "rules": [
+            {
+              "key": "connected",
+              "description": "SSH session is connected",
+              "rule": {
+                "type": "equals",
+                "path": "shell.connected",
+                "value": true
+              },
+              "failureFeedback": "Run ssh azureuser@203.0.113.44."
+            }
+          ]
+        },
+        {
+          "key": "nginx",
+          "title": "Install and verify NGINX",
+          "instruction": "Run `sudo apt update`, `sudo apt install -y nginx`, and `systemctl status nginx`. Optionally run `echo '<h1>Welcome to Tailwind Traders - served from vm-web-01</h1>' | sudo tee /var/www/html/index.html`.",
+          "explanation": "Verify the workload before changing network exposure.",
+          "targetId": "cloud-shell-terminal",
+          "rules": [
+            {
+              "key": "installed",
+              "description": "NGINX is installed",
+              "rule": {
+                "type": "arrayContains",
+                "path": "virtualMachines",
+                "match": {
+                  "name": "vm-web-01",
+                  "nginxInstalled": true,
+                  "nginxStatus": "active (running)"
+                }
+              }
+            },
+            {
+              "key": "checked",
+              "description": "NGINX status was checked",
+              "rule": {
+                "type": "commandUsed",
+                "pattern": "^systemctl status nginx$"
+              }
+            }
+          ]
+        },
+        {
+          "key": "timeout",
+          "title": "Confirm HTTP is blocked",
+          "instruction": "Open `http://203.0.113.44`; the browser should time out while port 80 is closed.",
+          "explanation": "The VM can be healthy while the NSG still blocks inbound HTTP.",
+          "rules": [
+            {
+              "key": "browser-error",
+              "description": "NGINX is installed before opening HTTP in the NSG",
+              "rule": {
+                "type": "arrayContains",
+                "path": "virtualMachines",
+                "match": {
+                  "name": "vm-web-01",
+                  "nginxInstalled": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "http-rule",
+          "title": "Create the HTTP inbound rule",
+          "instruction": "Go to **Network settings** > **Create port rule**. Set **Service** **HTTP**, **Source** **Internet**, **Destination port ranges** `80`, **Protocol** **TCP**, **Action** **Allow**, **Priority** `300`, and **Name** `Allow-HTTP-Internet`; select **Add**.",
+          "explanation": "Only the application port should be exposed.",
+          "targetId": "create-port-rule",
+          "rules": [
+            {
+              "key": "rule-created",
+              "description": "HTTP is allowed from Internet",
+              "rule": {
+                "type": "arrayContains",
+                "path": "nsgRules",
+                "match": {
+                  "name": "Allow-HTTP-Internet",
+                  "source": "Internet",
+                  "port": "80",
+                  "protocol": "TCP",
+                  "access": "Allow"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "site",
+          "title": "Reload the website",
+          "instruction": "Open `http://203.0.113.44` again and verify the Tailwind Traders page.",
+          "explanation": "A successful page proves the server and NSG path both work.",
+          "targetId": "site-content",
+          "rules": [
+            {
+              "key": "visited-site",
+              "description": "The website page is visible",
+              "rule": {
+                "type": "visited",
+                "page": "tailwind-site"
+              }
+            }
+          ]
+        },
+        {
+          "key": "shutdown",
+          "title": "Enable auto-shutdown",
+          "instruction": "Open **Operations > Auto-shutdown**, set **Enabled** on, **Scheduled shutdown** `19:00`, **Time zone** **(UTC+03:00) Istanbul**, and select **Save**.",
+          "explanation": "Auto-shutdown reduces waste for test VMs.",
+          "targetId": "auto-shutdown-form",
+          "rules": [
+            {
+              "key": "saved",
+              "description": "Auto-shutdown is enabled at 19:00",
+              "rule": {
+                "type": "arrayContains",
+                "path": "virtualMachines",
+                "match": {
+                  "name": "vm-web-01",
+                  "autoShutdown": true,
+                  "shutdownTime": "19:00",
+                  "timeZone": "(UTC+03:00) Istanbul"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "least-privilege",
+          "description": "SSH is not open to Any or Internet and all ports are not allowed",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayNotContains",
+                "path": "nsgRules",
+                "match": {
+                  "port": "22",
+                  "source": "Internet",
+                  "access": "Allow"
+                }
+              },
+              {
+                "type": "arrayNotContains",
+                "path": "nsgRules",
+                "match": {
+                  "port": "22",
+                  "source": "Any",
+                  "access": "Allow"
+                }
+              },
+              {
+                "type": "arrayNotContains",
+                "path": "nsgRules",
+                "match": {
+                  "port": "*",
+                  "source": "Internet",
+                  "access": "Allow"
+                }
+              },
+              {
+                "type": "arrayNotContains",
+                "path": "nsgRules",
+                "match": {
+                  "port": "*",
+                  "source": "Any",
+                  "access": "Allow"
+                }
+              }
+            ]
+          },
+          "failureFeedback": "Do not allow SSH, RDP, or all ports from Internet/Any."
+        },
+        {
+          "key": "http-and-shutdown",
+          "description": "HTTP is allowed and auto-shutdown is on",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayContains",
+                "path": "nsgRules",
+                "match": {
+                  "port": "80",
+                  "source": "Internet",
+                  "access": "Allow"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "virtualMachines",
+                "match": {
+                  "name": "vm-web-01",
+                  "autoShutdown": true
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "solution": "1. Open **Virtual machines** and select **vm-web-01**.\n2. Run `ssh azureuser@203.0.113.44`.\n3. Run `sudo apt update`, `sudo apt install -y nginx`, and `systemctl status nginx`; optionally customize `/var/www/html/index.html`.\n4. Open `http://203.0.113.44` and confirm it times out.\n5. In **Network settings**, select **Create port rule** and add **HTTP** from **Internet** on TCP `80` with priority `300` and name `Allow-HTTP-Internet`.\n6. Open `http://203.0.113.44` again.\n7. In **Auto-shutdown**, turn **Enabled** on, set `19:00`, choose **(UTC+03:00) Istanbul**, and **Save**."
+    }
+  ]
+}

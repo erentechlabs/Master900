@@ -25,6 +25,7 @@ export type LabRule =
   | { type: "stageCorrect"; stage: string }
   | { type: "textMinLength"; path: string; min: number }
   | { type: "matches"; path: string; pattern: string }
+  | { type: "includes"; path: string; value: unknown }
   | { type: "allOf"; rules: LabRule[] }
   | { type: "anyOf"; rules: LabRule[] }
   | { type: "not"; rule: LabRule };
@@ -54,6 +55,7 @@ export const labRuleSchema: z.ZodType<LabRule> = z.lazy(() =>
     z.object({ type: z.literal("stageCorrect"), stage: id }),
     z.object({ type: z.literal("textMinLength"), path, min: z.number().int().min(1) }),
     z.object({ type: z.literal("matches"), path, pattern: z.string().min(1).max(200) }),
+    z.object({ type: z.literal("includes"), path, value: z.unknown() }),
     z.object({ type: z.literal("allOf"), rules: z.array(labRuleSchema).min(1) }),
     z.object({ type: z.literal("anyOf"), rules: z.array(labRuleSchema).min(1) }),
     z.object({ type: z.literal("not"), rule: labRuleSchema }),
@@ -173,6 +175,8 @@ export function evaluateRule(rule: LabRule, state: unknown): boolean {
         return false;
       }
     }
+    case "includes":
+      return asArray(getPath(state, rule.path)).some((item) => looseEqual(item, rule.value));
     case "allOf":
       return rule.rules.every((r) => evaluateRule(r, state));
     case "anyOf":

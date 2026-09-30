@@ -1,0 +1,1318 @@
+{
+  "labs": [
+    {
+      "slug": "assign-copilot-licenses",
+      "type": "UI_SIMULATION",
+      "title": "Assign Microsoft Copilot licenses for a Sales pilot",
+      "summary": "Use the Microsoft 365 admin center to prepare pilot users, assign Microsoft Copilot licenses to the Sales pilot group, configure Copilot settings, and review usage readiness.",
+      "scenario": "Contoso is starting a Microsoft Copilot pilot for the Sales team. In the **simulated Microsoft 365 admin center**, verify that the pilot users are eligible, fix the one missing **Usage location**, assign **Microsoft Copilot** licenses only to **Copilot Pilot - Sales**, confirm assignment status, configure Copilot settings, and open the Microsoft Copilot usage report. Use least privilege: License Administrator for licensing and AI Administrator for Copilot settings; reserve Global Administrator for emergencies.",
+      "domainKey": "copilot-agent-administration",
+      "objectiveCode": "3.2",
+      "complexity": "BASIC",
+      "estimatedMinutes": 25,
+      "learningObjectives": [
+        "Check Microsoft Copilot licensing prerequisites, including a qualifying Microsoft 365 plan and usage location",
+        "Assign Copilot licenses with group-based licensing instead of an org-wide direct assignment",
+        "Configure documented Copilot settings in the Microsoft 365 admin center",
+        "Explain that Copilot uses Microsoft Graph and the semantic index while respecting existing Microsoft 365 permissions"
+      ],
+      "prerequisites": [
+        "Know what users, groups, licenses, and admin roles are in Microsoft 365"
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900"
+        },
+        {
+          "title": "Set Up Microsoft Copilot and Assign Licenses",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-setup"
+        },
+        {
+          "title": "Assign or unassign licenses to a group in the Microsoft 365 admin center",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/manage-group-licenses?view=o365-worldwide"
+        },
+        {
+          "title": "Manage Microsoft Copilot Settings",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-page"
+        },
+        {
+          "title": "Manage Microsoft Copilot Chat",
+          "url": "https://learn.microsoft.com/en-us/copilot/manage"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft 365 admin center",
+          "theme": "m365",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso",
+          "url": "https://admin.microsoft.com",
+          "searchPlaceholder": "Search users, groups, settings, or documentation"
+        },
+        "vm": {
+          "name": "LAB-M365-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "copilot",
+            "label": "Copilot",
+            "icon": "Sparkles"
+          },
+          {
+            "page": "agents-overview",
+            "label": "Agents",
+            "icon": "Bot"
+          },
+          {
+            "page": "active-users",
+            "label": "Active users",
+            "icon": "Users",
+            "section": "Users"
+          },
+          {
+            "page": "groups",
+            "label": "Active teams & groups",
+            "icon": "Users",
+            "section": "Teams and groups"
+          },
+          {
+            "page": "licenses",
+            "label": "Licenses",
+            "icon": "BadgeCheck",
+            "section": "Billing"
+          },
+          {
+            "page": "settings",
+            "label": "Org settings",
+            "icon": "Settings",
+            "section": "Settings"
+          },
+          {
+            "page": "reports",
+            "label": "Usage",
+            "icon": "ChartColumn",
+            "section": "Reports"
+          },
+          {
+            "page": "health",
+            "label": "Service health",
+            "icon": "Activity",
+            "section": "Health"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/adminportal/home#/homepage",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "home-cards",
+                "title": "Your organization",
+                "size": "sm",
+                "items": [
+                  {
+                    "id": "users-card",
+                    "label": "Users",
+                    "icon": "Users",
+                    "description": "Manage active users.",
+                    "action": {
+                      "type": "navigate",
+                      "page": "active-users"
+                    }
+                  },
+                  {
+                    "id": "billing-card",
+                    "label": "Billing",
+                    "icon": "BadgeCheck",
+                    "description": "Manage licenses.",
+                    "action": {
+                      "type": "navigate",
+                      "page": "licenses"
+                    }
+                  },
+                  {
+                    "id": "copilot-card",
+                    "label": "Copilot",
+                    "icon": "Sparkles",
+                    "description": "Manage Copilot settings.",
+                    "action": {
+                      "type": "navigate",
+                      "page": "copilot"
+                    }
+                  },
+                  {
+                    "id": "reports-card",
+                    "label": "Reports",
+                    "icon": "ChartColumn",
+                    "description": "Review usage.",
+                    "action": {
+                      "type": "navigate",
+                      "page": "reports"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Pilot boundary",
+                "text": "Licenses must be assigned only through **Copilot Pilot - Sales**. Direct assignment to all users would over-scope the pilot."
+              }
+            ]
+          },
+          {
+            "id": "active-users",
+            "title": "Active users",
+            "subtitle": "Users",
+            "icon": "Users",
+            "url": "/adminportal/home#/users",
+            "breadcrumb": [
+              "Home",
+              "Users"
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "Microsoft Copilot requires a qualifying Microsoft 365 plan. A usage location is required before services can be assigned reliably."
+              },
+              {
+                "kind": "table",
+                "id": "active-users-table",
+                "title": "Active users",
+                "source": "users",
+                "rowKey": "upn",
+                "searchable": true,
+                "columns": [
+                  {
+                    "key": "displayName",
+                    "label": "Display name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "upn",
+                    "label": "Username"
+                  },
+                  {
+                    "key": "department",
+                    "label": "Department"
+                  },
+                  {
+                    "key": "plan",
+                    "label": "Licenses"
+                  },
+                  {
+                    "key": "usageLocation",
+                    "label": "Usage location",
+                    "template": "{{usageLocation | default:Not set}}",
+                    "format": "status"
+                  },
+                  {
+                    "key": "copilot",
+                    "label": "Microsoft Copilot",
+                    "format": "status"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "user-detail",
+                  "select": {
+                    "as": "user",
+                    "path": "users",
+                    "key": "upn",
+                    "value": "{{$row.upn}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "user-detail",
+            "title": "{{$sel.user.displayName}}",
+            "subtitle": "User details",
+            "icon": "UserCog",
+            "url": "/adminportal/home#/users/:/UserDetails/{{$sel.user.upn}}",
+            "requires": "user",
+            "navItem": "active-users",
+            "breadcrumb": [
+              "Home",
+              "Users",
+              "Active users"
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Profile",
+                "items": [
+                  {
+                    "label": "Username",
+                    "value": "{{$sel.user.upn}}"
+                  },
+                  {
+                    "label": "Licenses",
+                    "value": "{{$sel.user.plan}}"
+                  },
+                  {
+                    "label": "Usage location",
+                    "value": "{{$sel.user.usageLocation | default:Not set}}",
+                    "format": "status"
+                  },
+                  {
+                    "label": "Required role",
+                    "value": "License Administrator can update licensing-related user settings"
+                  }
+                ]
+              },
+              {
+                "kind": "form",
+                "id": "user-settings-form",
+                "title": "Manage settings",
+                "fields": [
+                  {
+                    "id": "usageLocation",
+                    "label": "Usage location",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "{{$sel.user.usageLocation}}",
+                    "options": [
+                      {
+                        "value": "United States",
+                        "label": "United States"
+                      },
+                      {
+                        "value": "Canada",
+                        "label": "Canada"
+                      },
+                      {
+                        "value": "United Kingdom",
+                        "label": "United Kingdom"
+                      },
+                      {
+                        "value": "Germany",
+                        "label": "Germany"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Save changes",
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "users",
+                      "where": {
+                        "upn": "{{$sel.user.upn}}"
+                      },
+                      "set": {
+                        "usageLocation": "{{$form.usageLocation}}"
+                      }
+                    },
+                    {
+                      "type": "remove",
+                      "path": "licenseIssues",
+                      "where": {
+                        "user": "{{$sel.user.upn}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "User settings updated",
+                      "message": "Usage location saved for {{$sel.user.displayName}}."
+                    }
+                  ],
+                  "successMessage": "Saved"
+                }
+              }
+            ]
+          },
+          {
+            "id": "licenses",
+            "title": "Licenses",
+            "subtitle": "Billing",
+            "icon": "BadgeCheck",
+            "url": "/adminportal/home#/licenses",
+            "breadcrumb": [
+              "Home",
+              "Billing"
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "license-products",
+                "title": "Products",
+                "source": "licenseProducts",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Product",
+                    "format": "link"
+                  },
+                  {
+                    "key": "available",
+                    "label": "Available licenses",
+                    "format": "count"
+                  },
+                  {
+                    "key": "assigned",
+                    "label": "Assigned licenses",
+                    "format": "count"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "copilot-license"
+                }
+              }
+            ]
+          },
+          {
+            "id": "copilot-license",
+            "title": "Microsoft Copilot",
+            "subtitle": "Product details",
+            "icon": "Sparkles",
+            "url": "/adminportal/home#/licenses/Microsoft-Copilot",
+            "navItem": "licenses",
+            "breadcrumb": [
+              "Home",
+              "Billing",
+              "Licenses"
+            ],
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "copilot-license",
+                "label": "Assignments",
+                "icon": "BadgeCheck"
+              },
+              {
+                "page": "license-errors",
+                "label": "Errors & issues",
+                "icon": "TriangleAlert"
+              }
+            ],
+            "commands": [
+              {
+                "id": "assign-copilot-license",
+                "label": "Assign licenses",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "assign-copilot-license"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Product summary",
+                "items": [
+                  {
+                    "label": "Available licenses",
+                    "value": "{{licenseProducts.0.available}}",
+                    "format": "count"
+                  },
+                  {
+                    "label": "Assigned licenses",
+                    "value": "{{licenseProducts.0.assigned}}",
+                    "format": "count"
+                  },
+                  {
+                    "label": "Assignment recommendation",
+                    "value": "Use group-based licensing for the pilot group"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "copilot-license-assignments",
+                "title": "License assignments",
+                "source": "licenseAssignments",
+                "rowKey": "target",
+                "emptyText": "No groups or users have this product assigned.",
+                "columns": [
+                  {
+                    "key": "target",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "assignmentType",
+                    "label": "Assignment type"
+                  },
+                  {
+                    "key": "members",
+                    "label": "Users covered",
+                    "format": "count"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "assign-copilot-license",
+            "title": "Assign licenses",
+            "subtitle": "Microsoft Copilot",
+            "icon": "Plus",
+            "url": "/adminportal/home#/licenses/Microsoft-Copilot/assign",
+            "navItem": "licenses",
+            "breadcrumb": [
+              "Home",
+              "Billing",
+              "Licenses",
+              "Microsoft Copilot"
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "text": "Do not assign this product to **All users**. This is a controlled Sales pilot with a limited pool of licenses."
+              },
+              {
+                "kind": "form",
+                "id": "assign-license-form",
+                "title": "Assign licenses",
+                "description": "Search for users or groups and choose the subscription to assign from.",
+                "fields": [
+                  {
+                    "id": "assignmentType",
+                    "label": "Assign licenses to",
+                    "control": "radio",
+                    "required": true,
+                    "defaultValue": "group",
+                    "options": [
+                      {
+                        "value": "group",
+                        "label": "A group"
+                      },
+                      {
+                        "value": "users",
+                        "label": "Selected users"
+                      },
+                      {
+                        "value": "all",
+                        "label": "All users"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "group",
+                    "label": "Search for a group",
+                    "control": "select",
+                    "required": true,
+                    "visibleWhen": {
+                      "type": "equals",
+                      "path": "$form.assignmentType",
+                      "value": "group"
+                    },
+                    "optionsFrom": {
+                      "path": "groups",
+                      "value": "name"
+                    }
+                  },
+                  {
+                    "id": "subscription",
+                    "label": "Subscription",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Microsoft Copilot",
+                    "options": [
+                      {
+                        "value": "Microsoft Copilot",
+                        "label": "Microsoft Copilot"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "apps",
+                    "label": "Apps and services",
+                    "control": "checkboxes",
+                    "defaultValue": [
+                      "copilot"
+                    ],
+                    "options": [
+                      {
+                        "value": "copilot",
+                        "label": "Microsoft Copilot"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Assign licenses",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.assignmentType",
+                        "value": "group"
+                      },
+                      "message": "Use group-based licensing for this pilot. Direct assignment to selected users or all users would be harder to govern."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.group",
+                        "value": "Copilot Pilot - Sales"
+                      },
+                      "message": "Assign licenses only to Copilot Pilot - Sales. The other groups are outside the pilot or too large for available licenses."
+                    },
+                    {
+                      "rule": {
+                        "type": "allOf",
+                        "rules": [
+                          {
+                            "type": "arrayContains",
+                            "path": "users",
+                            "match": {
+                              "upn": "sofia@contoso.example",
+                              "usageLocation": "United States",
+                              "qualifyingPlan": true
+                            }
+                          },
+                          {
+                            "type": "arrayContains",
+                            "path": "users",
+                            "match": {
+                              "upn": "priya@contoso.example",
+                              "usageLocation": "United States",
+                              "qualifyingPlan": true
+                            }
+                          },
+                          {
+                            "type": "arrayContains",
+                            "path": "users",
+                            "match": {
+                              "upn": "mehmet@contoso.example",
+                              "usageLocation": "United States",
+                              "qualifyingPlan": true
+                            }
+                          },
+                          {
+                            "type": "arrayContains",
+                            "path": "users",
+                            "match": {
+                              "upn": "alex@contoso.example",
+                              "usageLocation": "United States",
+                              "qualifyingPlan": true
+                            }
+                          }
+                        ]
+                      },
+                      "message": "Every pilot user must have a qualifying Microsoft 365 plan and a usage location."
+                    },
+                    {
+                      "rule": {
+                        "type": "arrayNotContains",
+                        "path": "licenseAssignments",
+                        "match": {
+                          "target": "Copilot Pilot - Sales"
+                        }
+                      },
+                      "message": "The pilot group already has this product assigned."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "licenseAssignments",
+                      "unique": "target",
+                      "value": {
+                        "target": "{{$form.group}}",
+                        "assignmentType": "Group",
+                        "product": "Microsoft Copilot",
+                        "members": 4,
+                        "status": "Assigned",
+                        "services": [
+                          "Microsoft Copilot"
+                        ],
+                        "assignedAt": "{{$now}}"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "users",
+                      "where": {
+                        "pilot": true
+                      },
+                      "set": {
+                        "copilot": "Assigned by Copilot Pilot - Sales"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "licenseProducts",
+                      "where": {
+                        "name": "Microsoft Copilot"
+                      },
+                      "set": {
+                        "available": 21,
+                        "assigned": 4
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Licenses assigned",
+                      "message": "Microsoft Copilot licenses were assigned to Copilot Pilot - Sales."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "copilot-license"
+                    }
+                  ],
+                  "successMessage": "Assigned"
+                }
+              }
+            ]
+          },
+          {
+            "id": "license-errors",
+            "title": "Microsoft Copilot | Errors & issues",
+            "subtitle": "Product details",
+            "icon": "TriangleAlert",
+            "navItem": "licenses",
+            "breadcrumb": [
+              "Home",
+              "Billing",
+              "Licenses",
+              "Microsoft Copilot"
+            ],
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "copilot-license",
+                "label": "Assignments",
+                "icon": "BadgeCheck"
+              },
+              {
+                "page": "license-errors",
+                "label": "Errors & issues",
+                "icon": "TriangleAlert"
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "license-issues",
+                "title": "Errors & issues",
+                "source": "licenseIssues",
+                "rowKey": "user",
+                "emptyText": "No license assignment issues for this product.",
+                "columns": [
+                  {
+                    "key": "user",
+                    "label": "User"
+                  },
+                  {
+                    "key": "issue",
+                    "label": "Issue"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "copilot",
+            "title": "Copilot",
+            "icon": "Sparkles",
+            "url": "/adminportal/home#/copilot",
+            "breadcrumb": [
+              "Home"
+            ],
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "copilot-sections",
+                "title": "Copilot",
+                "size": "sm",
+                "items": [
+                  {
+                    "id": "settings-tile",
+                    "label": "Settings",
+                    "description": "Manage User access, Data access, Copilot actions, and Other settings.",
+                    "icon": "Settings",
+                    "action": {
+                      "type": "navigate",
+                      "page": "copilot-settings"
+                    }
+                  },
+                  {
+                    "id": "usage-tile",
+                    "label": "Usage",
+                    "description": "Review readiness and adoption signals.",
+                    "icon": "ChartColumn",
+                    "action": {
+                      "type": "navigate",
+                      "page": "copilot-usage"
+                    }
+                  },
+                  {
+                    "id": "licenses-tile",
+                    "label": "Assign licenses",
+                    "description": "Open Billing > Licenses.",
+                    "icon": "BadgeCheck",
+                    "action": {
+                      "type": "navigate",
+                      "page": "copilot-license"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "text",
+                "text": "Copilot uses Microsoft Graph and the semantic index to ground responses in work data the user already has permission to access. It does not grant access to content the user could not otherwise open."
+              }
+            ]
+          },
+          {
+            "id": "copilot-settings",
+            "title": "Copilot settings",
+            "subtitle": "Copilot",
+            "icon": "Settings",
+            "url": "/adminportal/home#/copilot/settings",
+            "navItem": "copilot",
+            "breadcrumb": [
+              "Home",
+              "Copilot"
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Least privilege",
+                "text": "The **AI Administrator** role can manage Copilot settings. Use Global Administrator only when no lower-privileged role can complete the task."
+              },
+              {
+                "kind": "settings",
+                "id": "copilot-controls",
+                "title": "User access settings",
+                "description": "Settings mirror documented Copilot controls in the Microsoft 365 admin center and Cloud Policy service.",
+                "fields": [
+                  {
+                    "id": "pinCopilotChat",
+                    "label": "Pin Microsoft Copilot Chat",
+                    "control": "select",
+                    "bindTo": "copilotSettings.pinCopilotChat",
+                    "options": [
+                      {
+                        "value": "Pin Copilot Chat in Microsoft 365 apps",
+                        "label": "Pin Copilot Chat in Microsoft 365 apps (recommended)"
+                      },
+                      {
+                        "value": "Do not pin Copilot Chat in Microsoft 365 apps",
+                        "label": "Do not pin Copilot Chat in Microsoft 365 apps"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "webSearchAllowed",
+                    "label": "Allow web search in Copilot",
+                    "control": "toggle",
+                    "bindTo": "copilotSettings.webSearchAllowed",
+                    "help": "When off, generated web search queries are not sent to Bing for Copilot Chat."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "reports",
+            "title": "Usage",
+            "subtitle": "Reports",
+            "icon": "ChartColumn",
+            "url": "/adminportal/home#/reportsUsage",
+            "breadcrumb": [
+              "Home",
+              "Reports"
+            ],
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "report-tiles",
+                "title": "Reports",
+                "size": "sm",
+                "items": [
+                  {
+                    "id": "copilot-usage-report",
+                    "label": "Microsoft Copilot",
+                    "description": "Readiness and usage for Microsoft Copilot.",
+                    "icon": "Sparkles",
+                    "action": {
+                      "type": "navigate",
+                      "page": "copilot-usage"
+                    }
+                  },
+                  {
+                    "id": "teams-usage",
+                    "label": "Teams",
+                    "description": "Teams activity reports.",
+                    "icon": "MessagesSquare",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Teams reports are outside this lab."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "copilot-usage",
+            "title": "Microsoft Copilot",
+            "subtitle": "Reports > Usage",
+            "icon": "ChartColumn",
+            "url": "/adminportal/home#/reportsUsage/MicrosoftCopilot",
+            "navItem": "reports",
+            "breadcrumb": [
+              "Home",
+              "Reports",
+              "Usage"
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Readiness",
+                "items": [
+                  {
+                    "label": "Pilot group",
+                    "value": "Copilot Pilot - Sales"
+                  },
+                  {
+                    "label": "Licensed users",
+                    "value": "4",
+                    "format": "count"
+                  },
+                  {
+                    "label": "Estimated readiness",
+                    "value": "4 ready, 0 blocked"
+                  }
+                ]
+              },
+              {
+                "kind": "chart",
+                "id": "copilot-usage-chart",
+                "title": "Copilot activity",
+                "type": "bar",
+                "unit": "active users",
+                "points": [
+                  {
+                    "label": "Week 1",
+                    "value": 0
+                  },
+                  {
+                    "label": "Week 2",
+                    "value": 1
+                  },
+                  {
+                    "label": "Week 3",
+                    "value": 3
+                  },
+                  {
+                    "label": "Week 4",
+                    "value": 4
+                  }
+                ]
+              },
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "Usage reports help monitor adoption after licensing. They do not override Microsoft 365 permissions or data governance controls."
+              }
+            ]
+          },
+          {
+            "id": "groups",
+            "title": "Active teams & groups",
+            "icon": "Users",
+            "url": "/adminportal/home#/groups",
+            "components": [
+              {
+                "kind": "text",
+                "text": "This page is available in the simulated admin center but is not the main workspace for this lab."
+              }
+            ]
+          },
+          {
+            "id": "settings",
+            "title": "Org settings",
+            "icon": "Settings",
+            "url": "/adminportal/home#/settings",
+            "components": [
+              {
+                "kind": "text",
+                "text": "This page is available in the simulated admin center but is not the main workspace for this lab."
+              }
+            ]
+          },
+          {
+            "id": "health",
+            "title": "Service health",
+            "icon": "Activity",
+            "url": "/adminportal/home#/health",
+            "components": [
+              {
+                "kind": "text",
+                "text": "This page is available in the simulated admin center but is not the main workspace for this lab."
+              }
+            ]
+          },
+          {
+            "id": "agents-overview",
+            "title": "Agents",
+            "icon": "Bot",
+            "url": "/adminportal/home#/agents-overview",
+            "components": [
+              {
+                "kind": "text",
+                "text": "This page is available in the simulated admin center but is not the main workspace for this lab."
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "users": [
+            {
+              "displayName": "Sofia",
+              "upn": "sofia@contoso.example",
+              "department": "Sales",
+              "plan": "Microsoft 365 E5",
+              "qualifyingPlan": true,
+              "usageLocation": "United States",
+              "pilot": true,
+              "copilot": "Not assigned"
+            },
+            {
+              "displayName": "Priya",
+              "upn": "priya@contoso.example",
+              "department": "Sales",
+              "plan": "Microsoft 365 E5",
+              "qualifyingPlan": true,
+              "usageLocation": "",
+              "pilot": true,
+              "copilot": "Not assigned"
+            },
+            {
+              "displayName": "Mehmet",
+              "upn": "mehmet@contoso.example",
+              "department": "Sales",
+              "plan": "Microsoft 365 Business Premium",
+              "qualifyingPlan": true,
+              "usageLocation": "United States",
+              "pilot": true,
+              "copilot": "Not assigned"
+            },
+            {
+              "displayName": "Alex",
+              "upn": "alex@contoso.example",
+              "department": "Sales",
+              "plan": "Microsoft 365 E3",
+              "qualifyingPlan": true,
+              "usageLocation": "United States",
+              "pilot": true,
+              "copilot": "Not assigned"
+            },
+            {
+              "displayName": "Nora",
+              "upn": "nora@contoso.example",
+              "department": "Marketing",
+              "plan": "Microsoft 365 E3",
+              "qualifyingPlan": true,
+              "usageLocation": "United States",
+              "pilot": false,
+              "copilot": "Not assigned"
+            },
+            {
+              "displayName": "Diego",
+              "upn": "diego@contoso.example",
+              "department": "Operations",
+              "plan": "Exchange Online",
+              "qualifyingPlan": false,
+              "usageLocation": "United States",
+              "pilot": false,
+              "copilot": "Not assigned"
+            }
+          ],
+          "groups": [
+            {
+              "name": "Copilot Pilot - Sales",
+              "type": "Microsoft 365",
+              "members": [
+                "sofia@contoso.example",
+                "priya@contoso.example",
+                "mehmet@contoso.example",
+                "alex@contoso.example"
+              ],
+              "purpose": "Approved Sales pilot group"
+            },
+            {
+              "name": "Sales department",
+              "type": "Security",
+              "members": [
+                "42 members"
+              ],
+              "purpose": "All Sales users; not approved for pilot"
+            },
+            {
+              "name": "All users",
+              "type": "Dynamic security",
+              "members": [
+                "220 members"
+              ],
+              "purpose": "Tenant-wide group"
+            },
+            {
+              "name": "Copilot Pilot - Marketing",
+              "type": "Microsoft 365",
+              "members": [
+                "nora@contoso.example"
+              ],
+              "purpose": "Future pilot"
+            }
+          ],
+          "licenseProducts": [
+            {
+              "name": "Microsoft Copilot",
+              "available": 25,
+              "assigned": 0,
+              "status": "Available"
+            }
+          ],
+          "licenseAssignments": [],
+          "licenseIssues": [
+            {
+              "user": "priya@contoso.example",
+              "issue": "Usage location not set",
+              "status": "Open"
+            }
+          ],
+          "copilotSettings": {
+            "pinCopilotChat": "Do not pin Copilot Chat in Microsoft 365 apps",
+            "webSearchAllowed": true
+          }
+        }
+      },
+      "steps": [
+        {
+          "key": "fix-usage-location",
+          "title": "Fix the missing usage location",
+          "instruction": "Open **Users > Active users**, select **Priya**, and in **Manage settings** set **Usage location** to **United States**.",
+          "hint": "The Active users table shows **Not set** for Priya.",
+          "explanation": "A usage location is required before service plans can be assigned correctly. Pilot users also need a qualifying Microsoft 365 plan.",
+          "targetId": "active-users-table",
+          "rules": [
+            {
+              "key": "priya-location-set",
+              "description": "Priya has a usage location",
+              "rule": {
+                "type": "arrayContains",
+                "path": "users",
+                "match": {
+                  "upn": "priya@contoso.example",
+                  "usageLocation": "United States"
+                }
+              },
+              "failureFeedback": "Select Priya and save Usage location as United States."
+            }
+          ]
+        },
+        {
+          "key": "assign-group-license",
+          "title": "Assign Copilot licenses to the pilot group",
+          "instruction": "Go to **Billing > Licenses > Microsoft Copilot**, select **Assign licenses**, and assign the subscription to the **Copilot Pilot - Sales** group only.",
+          "hint": "Do not choose **All users** or the broader **Sales department** group.",
+          "explanation": "Group-based licensing keeps the pilot scoped and automatically covers future members of the approved group.",
+          "targetId": "assign-copilot-license",
+          "rules": [
+            {
+              "key": "pilot-assigned",
+              "description": "Microsoft Copilot is assigned to Copilot Pilot - Sales",
+              "rule": {
+                "type": "arrayContains",
+                "path": "licenseAssignments",
+                "match": {
+                  "target": "Copilot Pilot - Sales",
+                  "product": "Microsoft Copilot",
+                  "status": "Assigned"
+                }
+              },
+              "failureFeedback": "Assign Microsoft Copilot to the Copilot Pilot - Sales group."
+            }
+          ]
+        },
+        {
+          "key": "check-assignment-status",
+          "title": "Check assignment status",
+          "instruction": "On **Microsoft Copilot > Assignments**, confirm that **Copilot Pilot - Sales** shows **Assigned**, then open **Errors & issues** to verify there are no blocking pilot assignment errors.",
+          "hint": "The product details page lists group-based assignments by group name.",
+          "explanation": "The Licenses page shows whether the product is assigned directly or through a group and provides an Errors & issues tab for assignment problems.",
+          "targetId": "copilot-license-assignments",
+          "rules": [
+            {
+              "key": "copilot-users-updated",
+              "description": "Pilot users receive Copilot through the pilot group",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "arrayContains",
+                    "path": "users",
+                    "match": {
+                      "upn": "sofia@contoso.example",
+                      "copilot": "Assigned by Copilot Pilot - Sales"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "users",
+                    "match": {
+                      "upn": "priya@contoso.example",
+                      "copilot": "Assigned by Copilot Pilot - Sales"
+                    }
+                  }
+                ]
+              },
+              "failureFeedback": "The pilot group assignment should update pilot users."
+            }
+          ]
+        },
+        {
+          "key": "configure-copilot-settings",
+          "title": "Configure Copilot settings",
+          "instruction": "Go to **Copilot > Settings**. Set **Pin Microsoft Copilot Chat** to **Pin Copilot Chat in Microsoft 365 apps (recommended)** and turn **Allow web search in Copilot** **Off** for the pilot.",
+          "hint": "The scenario pins Copilot Chat for easy access but disables web search until the data governance team completes the pilot review.",
+          "explanation": "Copilot settings are managed with the AI Administrator role. Web search controls generated web queries; pinning improves discoverability in Microsoft 365 apps.",
+          "targetId": "copilot-controls",
+          "rules": [
+            {
+              "key": "settings-configured",
+              "description": "Pinning is enabled and web search is off",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "equals",
+                    "path": "copilotSettings.pinCopilotChat",
+                    "value": "Pin Copilot Chat in Microsoft 365 apps"
+                  },
+                  {
+                    "type": "equals",
+                    "path": "copilotSettings.webSearchAllowed",
+                    "value": false
+                  }
+                ]
+              },
+              "failureFeedback": "Set pinning to the recommended option and turn Allow web search in Copilot off."
+            }
+          ]
+        },
+        {
+          "key": "view-usage-report",
+          "title": "Open the Microsoft Copilot usage report",
+          "instruction": "Open **Reports > Usage > Microsoft Copilot** and review the readiness and usage view for the Sales pilot.",
+          "hint": "You can also reach the report from the Copilot page **Usage** tile.",
+          "explanation": "Usage reports help administrators track readiness and adoption after assignment; they do not change permissions or expose data.",
+          "targetId": "report-tiles",
+          "rules": [
+            {
+              "key": "usage-report-opened",
+              "description": "The Microsoft Copilot usage report was opened",
+              "rule": {
+                "type": "visited",
+                "page": "copilot-usage"
+              }
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "only-pilot-group-licensed",
+          "description": "Licenses are assigned only to the Sales pilot group",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayContains",
+                "path": "licenseAssignments",
+                "match": {
+                  "target": "Copilot Pilot - Sales"
+                }
+              },
+              {
+                "type": "arrayNotContains",
+                "path": "licenseAssignments",
+                "match": {
+                  "target": "All users"
+                }
+              },
+              {
+                "type": "arrayNotContains",
+                "path": "licenseAssignments",
+                "match": {
+                  "target": "Sales department"
+                }
+              }
+            ]
+          },
+          "successFeedback": "The license assignment is limited to the approved pilot group.",
+          "failureFeedback": "Remove broad or wrong-group assignments; only Copilot Pilot - Sales may receive the license."
+        },
+        {
+          "key": "required-copilot-setting",
+          "description": "Required Copilot settings are configured",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "equals",
+                "path": "copilotSettings.pinCopilotChat",
+                "value": "Pin Copilot Chat in Microsoft 365 apps"
+              },
+              {
+                "type": "equals",
+                "path": "copilotSettings.webSearchAllowed",
+                "value": false
+              }
+            ]
+          },
+          "successFeedback": "The pilot settings match the scenario.",
+          "failureFeedback": "Configure the Copilot settings exactly as requested for the pilot."
+        }
+      ],
+      "solution": "1. Open **Users > Active users**, select **Priya**, and in **Manage settings** set **Usage location** to **United States**.\n2. Open **Billing > Licenses**, select **Microsoft Copilot**, then select **Assign licenses**.\n3. In **Assign licenses**, choose **A group**, select **Copilot Pilot - Sales**, keep **Microsoft Copilot** selected, and select **Assign licenses**. Do not assign to **All users** or **Sales department**.\n4. On **Microsoft Copilot > Assignments**, confirm **Copilot Pilot - Sales** shows **Assigned**; use **Errors & issues** if assignment problems appear.\n5. Open **Copilot > Settings**. Set **Pin Microsoft Copilot Chat** to **Pin Copilot Chat in Microsoft 365 apps (recommended)** and set **Allow web search in Copilot** to **Off**.\n6. Open **Reports > Usage > Microsoft Copilot** to review readiness and usage. Copilot uses Microsoft Graph and semantic index signals within existing permissions; it does not grant extra file access."
+    }
+  ]
+}

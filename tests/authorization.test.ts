@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { canAssignRoles, hasPermission, permissionsFor, PERMISSIONS, visibleAdminSections } from "@/modules/auth/permissions";
+import { hasPermission, permissionsFor, PERMISSIONS, visibleAdminSections } from "@/modules/auth/permissions";
 import { availableActions, evaluateTransition, isLearnerVisible } from "@/modules/content/workflow";
 
 describe("role permissions", () => {
@@ -9,11 +9,11 @@ describe("role permissions", () => {
     expect(hasPermission(["LEARNER"], "audit:view")).toBe(false);
   });
 
-  it("instructors manage content but not users, audit, settings or the catalog", () => {
+  it("instructors manage content but not audit, settings or the catalog", () => {
     for (const p of ["content:edit", "content:review", "content:publish", "questions:edit", "labs:edit", "analytics:view_anonymous", "ai:generate_drafts"] as const) {
       expect(hasPermission(["INSTRUCTOR"], p)).toBe(true);
     }
-    for (const p of ["users:manage", "roles:assign", "audit:view", "settings:manage", "ai:configure", "catalog:manage", "jobs:manage"] as const) {
+    for (const p of ["audit:view", "settings:manage", "ai:configure", "catalog:manage", "jobs:manage"] as const) {
       expect(hasPermission(["INSTRUCTOR"], p)).toBe(false);
     }
   });
@@ -31,28 +31,10 @@ describe("role permissions", () => {
     const instructor = visibleAdminSections(["INSTRUCTOR"]).map((s) => s.key);
     expect(instructor).toContain("content");
     expect(instructor).toContain("reviews");
-    expect(instructor).not.toContain("users");
     expect(instructor).not.toContain("audit");
     expect(instructor).not.toContain("certifications");
     expect(visibleAdminSections(["LEARNER"])).toHaveLength(0);
     expect(visibleAdminSections(["ADMIN"]).map((s) => s.key)).toContain("settings");
-  });
-});
-
-describe("role assignment", () => {
-  it("only admins can assign roles", () => {
-    expect(canAssignRoles(["INSTRUCTOR"], "a", "b", ["LEARNER"])).toEqual({ ok: false, reason: "forbidden" });
-    expect(canAssignRoles(["ADMIN"], "a", "b", ["INSTRUCTOR"])).toEqual({ ok: true });
-  });
-
-  it("prevents administrators from locking themselves out", () => {
-    expect(canAssignRoles(["ADMIN"], "a", "a", ["LEARNER"])).toEqual({ ok: false, reason: "self_demotion" });
-    expect(canAssignRoles(["ADMIN"], "a", "a", ["ADMIN", "LEARNER"])).toEqual({ ok: true });
-  });
-
-  it("rejects invalid or empty role lists", () => {
-    expect(canAssignRoles(["ADMIN"], "a", "b", ["GOD"])).toEqual({ ok: false, reason: "invalid_role" });
-    expect(canAssignRoles(["ADMIN"], "a", "b", [])).toEqual({ ok: false, reason: "empty" });
   });
 });
 

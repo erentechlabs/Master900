@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "certificationCode": "GH-900",
+  "contentVersionLabel": "labs-2026.09",
+  "sourceLocale": "en",
+  "isDemo": true,
+  "domains": [
+    {
+      "key": "git-github-basics",
+      "title": "Understand Git and GitHub basics",
+      "weightMin": 25,
+      "weightMax": 30,
+      "objectives": [
+        {
+          "code": "1.1",
+          "title": "Version control fundamentals"
+        },
+        {
+          "code": "1.2",
+          "title": "Working with GitHub"
+        }
+      ]
+    },
+    {
+      "key": "repositories",
+      "title": "Work with GitHub repositories",
+      "weightMin": 10,
+      "weightMax": 15,
+      "objectives": [
+        {
+          "code": "2.1",
+          "title": "Repository management"
+        }
+      ]
+    },
+    {
+      "key": "collaboration",
+      "title": "Collaborate using GitHub",
+      "weightMin": 10,
+      "weightMax": 15,
+      "objectives": [
+        {
+          "code": "3.1",
+          "title": "Collaboration tools"
+        }
+      ]
+    },
+    {
+      "key": "modern-development",
+      "title": "Apply modern development practices",
+      "weightMin": 10,
+      "weightMax": 15,
+      "objectives": [
+        {
+          "code": "4.1",
+          "title": "Automation and AI tools"
+        }
+      ]
+    },
+    {
+      "key": "project-management",
+      "title": "Manage projects with GitHub",
+      "weightMin": 5,
+      "weightMax": 10,
+      "objectives": [
+        {
+          "code": "5.1",
+          "title": "Project tracking and organization"
+        }
+      ]
+    },
+    {
+      "key": "privacy-security-administration",
+      "title": "Understand privacy, security, and administration",
+      "weightMin": 10,
+      "weightMax": 15,
+      "objectives": [
+        {
+          "code": "6.1",
+          "title": "Security and access management"
+        }
+      ]
+    },
+    {
+      "key": "github-community",
+      "title": "Explore the GitHub community",
+      "weightMin": 5,
+      "weightMax": 10,
+      "objectives": [
+        {
+          "code": "7.1",
+          "title": "Open-source engagement"
+        }
+      ]
+    }
+  ]
+}

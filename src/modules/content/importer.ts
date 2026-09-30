@@ -265,16 +265,18 @@ export async function importCoursePackage(db: PrismaClient, pkg: CoursePackage, 
         await upsertQuestion(ctx, q, q.lessonSlug ? lessonIds.get(q.lessonSlug) ?? (await findLessonId(tx, certId, q.lessonSlug)) : null);
       }
 
-      // Dynamic quizzes: one domain assessment per domain and one diagnostic per certification.
+      // Dynamic quizzes: one domain assessment per domain and one diagnostic per certification. Packages without
+      // questions (for example lab-only packages) get none, so learners never open an empty quiz.
       for (const d of pkg.domains) {
         const domainId = domainIds.get(d.key)!;
         const existing = await tx.quiz.findFirst({ where: { domainId, kind: "DOMAIN_ASSESSMENT" } });
-        if (!existing) {
+        if (!existing && (await tx.question.count({ where: { domainId } })) > 0) {
           await tx.quiz.create({ data: { kind: "DOMAIN_ASSESSMENT", certificationId: certId, domainId, title: d.title, questionCount: 10, passPercent: 75 } });
           count(report.created, "quizzes");
         }
       }
-      if (!(await tx.quiz.findFirst({ where: { certificationId: certId, kind: "DIAGNOSTIC" } }))) {
+      const questionTotal = await tx.question.count({ where: { certificationId: certId } });
+      if (questionTotal > 0 && !(await tx.quiz.findFirst({ where: { certificationId: certId, kind: "DIAGNOSTIC" } }))) {
         await tx.quiz.create({ data: { kind: "DIAGNOSTIC", certificationId: certId, title: `${pkg.certificationCode} diagnostic`, questionCount: 10, passPercent: 0 } });
         count(report.created, "quizzes");
       }
@@ -285,8 +287,8 @@ export async function importCoursePackage(db: PrismaClient, pkg: CoursePackage, 
       const hasLessons = lessonIds.size > 0;
       await tx.certification.update({ where: { id: certId }, data: { hasLearningPath: hasLessons || certification.hasLearningPath } });
 
-      if (!(await tx.practiceExam.findFirst({ where: { certificationId: certId, mode: "FULL" } }))) {
-        const total = await tx.question.count({ where: { certificationId: certId } });
+      if (questionTotal > 0 && !(await tx.practiceExam.findFirst({ where: { certificationId: certId, mode: "FULL" } }))) {
+        const total = questionTotal;
         await tx.practiceExam.create({
           data: {
             certificationId: certId,

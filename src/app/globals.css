@@ -110,8 +110,31 @@
     @apply prose prose-slate max-w-prose dark:prose-invert prose-headings:font-semibold prose-a:text-primary prose-code:rounded prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:font-normal prose-code:before:content-none prose-code:after:content-none prose-pre:bg-slate-900 prose-pre:text-slate-100 prose-table:text-sm;
   }
 
+  /* Dense Markdown for simulated portal UIs (13px, tight spacing). */
+  .prose-compact {
+    @apply prose prose-sm prose-slate max-w-none text-[13px] leading-relaxed dark:prose-invert prose-p:my-1.5 prose-ul:my-1.5 prose-ol:my-1.5 prose-li:my-0.5 prose-headings:mb-2 prose-headings:mt-3 prose-headings:font-semibold prose-a:text-primary prose-code:rounded prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:font-normal prose-code:before:content-none prose-code:after:content-none prose-pre:bg-slate-900 prose-pre:text-slate-100 prose-table:text-[13px];
+  }
+
   .terminal {
     @apply rounded-lg bg-slate-950 font-mono text-sm text-slate-100;
+  }
+
+  /* Lab workspaces are immersive: the lab VM uses the full width (no site sidebar, no max-width). */
+  main:has(> div > [data-layout="wide"]) > div {
+    max-width: none;
+  }
+
+  body:has([data-layout="wide"]) [data-app-sidebar] {
+    display: none;
+  }
+
+  /* Typefaces of the simulated portals (system fonts only). */
+  .portal-font-segoe {
+    font-family: "Segoe UI", "Segoe UI Web (West European)", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  }
+
+  .portal-font-github {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
   }
 }
 

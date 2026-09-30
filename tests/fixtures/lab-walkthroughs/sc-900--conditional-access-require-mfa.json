@@ -1,0 +1,38 @@
+{
+  "certification": "SC-900",
+  "lab": "conditional-access-require-mfa",
+  "note": "Create report-only finance MFA Conditional Access policy and run What If.",
+  "events": [
+    { "type": "navigate", "page": "groups" },
+    { "type": "navigate", "page": "conditional-access" },
+    { "type": "click", "componentId": "ca-new-policy" },
+    {
+      "type": "submitForm",
+      "componentId": "ca-policy-wizard",
+      "values": {
+        "name": "CA-Finance-Require-MFA",
+        "include": "All finance users",
+        "excludeEmergency": true,
+        "excludedGroup": "Emergency Access Accounts",
+        "targetResources": "All resources",
+        "devicePlatforms": "Any device",
+        "locations": "Any location",
+        "grantDecision": "Grant access",
+        "grantControl": "Require authentication strength: Multifactor authentication",
+        "signInFrequency": "Not configured",
+        "state": "Report-only"
+      }
+    },
+    { "type": "click", "componentId": "ca-what-if" },
+    {
+      "type": "submitForm",
+      "componentId": "what-if-form",
+      "values": {
+        "user": "mira.ileri@contoso.example",
+        "targetResource": "All resources",
+        "devicePlatform": "Windows",
+        "clientApp": "Browser"
+      }
+    }
+  ]
+}

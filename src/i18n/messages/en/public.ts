@@ -1,40 +1,10 @@
-export const auth = {
-  signInTitle: "Welcome back",
-  signInSubtitle: "Sign in to continue your learning path.",
-  signUpTitle: "Create your free account",
-  signUpSubtitle: "Personalized study plans, original practice questions and safe simulated labs.",
-  email: "E-mail address",
-  password: "Password",
-  confirmPassword: "Confirm password",
-  name: "Display name",
-  nameHint: "Optional. Shown only to you.",
-  preferredLanguage: "Preferred language",
-  passwordRules: "At least 10 characters, including a letter and a number.",
-  acceptTerms:
-    "I understand that this is an independent practice platform (not an official Microsoft product) and I have read the privacy notice.",
-  noAccount: "New to Fundamentals Academy?",
-  haveAccount: "Already have an account?",
-  signingIn: "Signing in…",
-  creatingAccount: "Creating account…",
-  demoAccountsTitle: "Local demo accounts",
-  demoAccountsBody: "Available when the database is seeded for local development.",
-  demoLearner: "Learner",
-  demoInstructor: "Instructor",
-  demoAdmin: "Administrator",
-  useAccount: "Use",
-  forgotPassword: "Forgot your password? Ask an administrator to reset it.",
-  sessionExpired: "Your session has ended. Please sign in again.",
-  signedOut: "You have been signed out.",
-};
-
 export const landing = {
   heroEyebrow: "Independent exam preparation",
   heroTitle: "Learn Microsoft fundamentals from zero to exam-ready",
   heroSubtitle:
     "Beginner-friendly lessons, original practice questions, safe simulated labs, an AI tutor grounded in approved content and a study plan that adapts to you.",
-  ctaStart: "Start learning free",
+  ctaStart: "Start learning",
   ctaCatalog: "Browse certifications",
-  ctaDashboard: "Go to your dashboard",
   featuresTitle: "Everything you need in one place",
   featurePlanTitle: "Personalized study plan",
   featurePlanBody: "A short diagnostic finds your strengths and gaps, then builds a weekly schedule around your exam date.",
@@ -59,7 +29,7 @@ export const landing = {
   trustOriginal: "Original questions only - never real exam content.",
   trustSources: "Every learning path links to official Microsoft Learn sources and shows when it was last reviewed.",
   trustReview: "AI-generated drafts are reviewed by people before they are published.",
-  trustPrivacy: "Minimal personal data, with export and deletion at any time.",
+  trustPrivacy: "Local-only profile data, with export and learning-progress reset at any time.",
 };
 
 export const catalog = {
@@ -73,6 +43,9 @@ export const catalog = {
   retiredSectionBody: "These exams are no longer offered. They remain listed for reference.",
   hasLearningPath: "Learning path available",
   noLearningPath: "Learning path coming soon",
+  labsAvailable: "{count} hands-on labs",
+  labsAvailableHint: "Practise in simulated portals inside a lab VM.",
+  openLabs: "Open labs",
   retiredOn: "Retired on {date}",
   retiringOn: "Retiring on {date}",
   replacedBy: "Replaced by {code}",
@@ -95,7 +68,6 @@ export const catalog = {
   enroll: "Start this learning path",
   enrolled: "You are enrolled",
   continueLearning: "Continue learning",
-  signInToEnroll: "Sign in to start",
   relatedCertifications: "Related certifications",
   prerequisites: "Recommended preparation",
   noPrerequisites: "No prerequisites are required.",

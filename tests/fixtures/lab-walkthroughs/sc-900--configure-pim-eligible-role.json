@@ -1,0 +1,50 @@
+{
+  "certification": "SC-900",
+  "lab": "configure-pim-eligible-role",
+  "note": "Make Mei eligible for User Administrator, configure activation settings, activate, and review audit.",
+  "events": [
+    { "type": "navigate", "page": "pim-roles" },
+    { "type": "rowClick", "componentId": "pim-roles-table", "rowKey": "User Administrator" },
+    { "type": "click", "componentId": "role-add-assignment" },
+    {
+      "type": "submitForm",
+      "componentId": "pim-assignment-wizard",
+      "values": {
+        "role": "User Administrator",
+        "member": "Mei Chen",
+        "assignmentType": "Eligible",
+        "duration": "Time-bound",
+        "endAfter": "6 months",
+        "justification": "Service operations needs occasional user profile and group management during support rotations."
+      }
+    },
+    { "type": "navigate", "page": "pim-roles" },
+    { "type": "rowClick", "componentId": "pim-roles-table", "rowKey": "User Administrator" },
+    { "type": "navigate", "page": "pim-role-settings" },
+    {
+      "type": "submitForm",
+      "componentId": "role-settings-form",
+      "values": {
+        "role": "User Administrator",
+        "activationMaxHours": 4,
+        "requireMfa": true,
+        "requireJustification": true,
+        "requireApproval": true,
+        "approverGroup": "Security Approvers"
+      }
+    },
+    { "type": "navigate", "page": "my-roles" },
+    {
+      "type": "submitForm",
+      "componentId": "activate-role-form",
+      "values": {
+        "role": "User Administrator",
+        "durationHours": 2,
+        "mfaSatisfied": true,
+        "justification": "Update user profile attributes and group memberships for approved finance onboarding tickets.",
+        "approvalStatus": "Approved by Security Approvers"
+      }
+    },
+    { "type": "navigate", "page": "audit" }
+  ]
+}

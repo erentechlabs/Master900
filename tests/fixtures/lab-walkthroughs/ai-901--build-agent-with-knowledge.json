@@ -1,0 +1,80 @@
+{
+  "certification": "AI-901",
+  "lab": "build-agent-with-knowledge",
+  "note": "Create a prompt agent in Microsoft Foundry, attach approved knowledge files and code interpreter, remove forbidden data, and test grounded answers with citations.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "agents"
+    },
+    {
+      "type": "click",
+      "componentId": "create-agent"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "agent-wizard",
+      "values": {
+        "name": "returns-agent",
+        "deployment": "contoso-support-chat",
+        "instructions": "Answer only returns and shipping support questions using approved knowledge. If the answer is not in the knowledge, say you do not know and escalate politely."
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "open-knowledge"
+    },
+    {
+      "type": "rowAction",
+      "componentId": "knowledge-files",
+      "rowKey": "returns-policy.pdf",
+      "actionId": "add-knowledge"
+    },
+    {
+      "type": "rowAction",
+      "componentId": "knowledge-files",
+      "rowKey": "shipping-faq.docx",
+      "actionId": "add-knowledge"
+    },
+    {
+      "type": "rowAction",
+      "componentId": "knowledge-files",
+      "rowKey": "hr-confidential-benefits.pdf",
+      "actionId": "add-knowledge"
+    },
+    {
+      "type": "rowAction",
+      "componentId": "knowledge-files",
+      "rowKey": "hr-confidential-benefits.pdf",
+      "actionId": "remove-knowledge"
+    },
+    {
+      "type": "navigate",
+      "page": "tools"
+    },
+    {
+      "type": "setField",
+      "componentId": "tool-settings",
+      "fieldId": "code-interpreter",
+      "value": true
+    },
+    {
+      "type": "click",
+      "componentId": "save-tools"
+    },
+    {
+      "type": "navigate",
+      "page": "agent-playground"
+    },
+    {
+      "type": "chat",
+      "componentId": "agent-chat",
+      "message": "What is the return policy for a damaged item?"
+    },
+    {
+      "type": "chat",
+      "componentId": "agent-chat",
+      "message": "Calculate the percentage from the CSV"
+    }
+  ]
+}

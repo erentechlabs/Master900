@@ -1,0 +1,1495 @@
+{
+  "labs": [
+    {
+      "slug": "create-copilot-studio-agent",
+      "type": "UI_SIMULATION",
+      "title": "Create and publish an HR agent in Microsoft Copilot Studio",
+      "summary": "Create HR Helper in a simulated Copilot Studio portal, add internal SharePoint knowledge, author a time-off topic, test, publish, and connect Microsoft channels.",
+      "scenario": "Contoso needs an internal HR agent. In the **simulated Microsoft Copilot Studio** portal, create **HR Helper** with a description and instructions that use a friendly tone, answer only HR policy questions, and escalate personal cases to HR. Add knowledge from **https://hr.contoso.example/sites/hr** as an internal SharePoint source, not a public site. Keep **Use generative AI orchestration for your agent's responses?** set to **Yes**. Create a blank topic named **Request time off** with trigger phrases, a multiple-choice **Question** node for **Vacation**, **Sick leave**, and **Other** saved to **varTimeOffType**, a **Condition**, and **Message** nodes. Test knowledge and topic behavior in **Test your agent**, publish, add **Teams and Microsoft 365 Copilot**, and set **Settings > Security > Authentication** to **Authenticate with Microsoft**.",
+      "domainKey": "copilot-studio-agents",
+      "objectiveCode": "5.1",
+      "complexity": "INTERMEDIATE",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Create and configure a Copilot Studio agent",
+        "Ground agent answers in an internal SharePoint knowledge source",
+        "Build and test a topic with Question, Condition, and Message nodes",
+        "Publish an agent to Microsoft 365 channels with Microsoft authentication"
+      ],
+      "prerequisites": [
+        "Basic familiarity with agents, topics, and organizational knowledge sources"
+      ],
+      "sources": [
+        {
+          "title": "Create and delete agents - Microsoft Copilot Studio",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-first-bot"
+        },
+        {
+          "title": "Knowledge sources summary - Microsoft Copilot Studio",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio"
+        },
+        {
+          "title": "Create and edit topics - Microsoft Copilot Studio",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-create-edit-topics"
+        },
+        {
+          "title": "Connect and configure an agent for Teams and Microsoft 365 Copilot",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-add-bot-to-microsoft-teams"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Copilot Studio",
+          "theme": "copilot-studio",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://copilotstudio.microsoft.com",
+          "searchPlaceholder": "Search agents, topics, tools, and docs"
+        },
+        "vm": {
+          "name": "LAB-VM01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "agents",
+            "label": "Agents",
+            "icon": "Bot",
+            "section": "Build"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/environments/Default/home",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "home-tiles",
+                "title": "Start building",
+                "items": [
+                  {
+                    "id": "agents",
+                    "label": "Agents",
+                    "description": "Create and manage agents.",
+                    "icon": "Bot",
+                    "action": {
+                      "type": "navigate",
+                      "page": "agents"
+                    }
+                  },
+                  {
+                    "id": "learn",
+                    "label": "Learn",
+                    "description": "Guidance and examples.",
+                    "icon": "BookOpen",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Use Agents for this lab."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "agents",
+            "title": "Agents",
+            "url": "/environments/Default/agents",
+            "commands": [
+              {
+                "id": "agents-create",
+                "label": "+ Create",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "create-agent"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "agent-list",
+                "source": "agents",
+                "rowKey": "name",
+                "emptyText": "No agents yet.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "channelsText",
+                    "label": "Channels"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "overview",
+                  "select": {
+                    "as": "agent",
+                    "path": "agents",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "create-agent",
+            "title": "Create an agent",
+            "url": "/environments/Default/agents/create",
+            "navItem": "agents",
+            "breadcrumb": [
+              "Home",
+              "Agents"
+            ],
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "create-agent-form",
+                "title": "New agent",
+                "description": "Configure the agent. New agents use generative orchestration by default unless disabled by an admin.",
+                "reviewLabel": "Create",
+                "tabs": [
+                  {
+                    "id": "details",
+                    "label": "Details",
+                    "fields": [
+                      {
+                        "id": "name",
+                        "label": "Name",
+                        "control": "text",
+                        "required": true,
+                        "defaultValue": "HR Helper",
+                        "maxLength": 42,
+                        "unique": {
+                          "path": "agents",
+                          "key": "name"
+                        }
+                      },
+                      {
+                        "id": "description",
+                        "label": "Description",
+                        "control": "textarea",
+                        "required": true,
+                        "defaultValue": "Helps Contoso employees find HR policy answers and start common HR requests.",
+                        "minLength": 30
+                      },
+                      {
+                        "id": "instructions",
+                        "label": "Instructions",
+                        "control": "textarea",
+                        "required": true,
+                        "defaultValue": "Use a friendly HR-help tone. Answer only HR policy questions from approved HR knowledge. If a user asks about a personal case, confidential record, pay dispute, or medical detail, explain that HR must handle it and escalate to the HR team. Always cite HR sources when used.",
+                        "minLength": 80
+                      }
+                    ]
+                  },
+                  {
+                    "id": "ai",
+                    "label": "Generative AI",
+                    "fields": [
+                      {
+                        "id": "orchestration",
+                        "label": "Use generative AI orchestration for your agent's responses?",
+                        "control": "radio",
+                        "required": true,
+                        "defaultValue": "Yes",
+                        "options": [
+                          {
+                            "value": "Yes",
+                            "label": "Yes"
+                          },
+                          {
+                            "value": "No",
+                            "label": "No"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "ungrounded",
+                        "label": "Allow ungrounded responses",
+                        "control": "toggle",
+                        "defaultValue": false
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.name",
+                        "value": "HR Helper"
+                      },
+                      "message": "Name the agent HR Helper."
+                    },
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.instructions",
+                        "pattern": "(?=.*HR policy)(?=.*personal)(?=.*escalate|.*HR team)"
+                      },
+                      "message": "Instructions must limit scope to HR policy and escalate personal cases."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.orchestration",
+                        "value": "Yes"
+                      },
+                      "message": "Keep generative orchestration on."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "agents",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "description": "{{$form.description}}",
+                        "instructions": "{{$form.instructions}}",
+                        "status": "Draft",
+                        "orchestration": "Generative",
+                        "knowledgeScoped": false,
+                        "topicReady": false,
+                        "knowledgeTested": false,
+                        "topicTested": false,
+                        "published": false,
+                        "teams": false,
+                        "m365Copilot": false,
+                        "authentication": "No authentication",
+                        "channelsText": "Not connected"
+                      }
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "overview",
+                      "select": {
+                        "as": "agent",
+                        "path": "agents",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Agent created",
+                      "message": "HR Helper is ready to configure."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "overview",
+            "title": "{{$sel.agent.name}}",
+            "subtitle": "Agent overview",
+            "url": "/agents/{{$sel.agent.name | slug}}/overview",
+            "requires": "agent",
+            "navItem": "agents",
+            "breadcrumb": [
+              "Home",
+              "Agents"
+            ],
+            "menu": [
+              {
+                "page": "overview",
+                "label": "Overview",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "knowledge",
+                "label": "Knowledge",
+                "icon": "BookOpen"
+              },
+              {
+                "page": "topics",
+                "label": "Topics",
+                "icon": "MessagesSquare"
+              },
+              {
+                "page": "test",
+                "label": "Test your agent",
+                "icon": "MessageSquare"
+              },
+              {
+                "page": "publish",
+                "label": "Publish",
+                "icon": "Rocket"
+              },
+              {
+                "page": "channels",
+                "label": "Channels",
+                "icon": "Share2"
+              },
+              {
+                "page": "auth",
+                "label": "Settings > Security > Authentication",
+                "icon": "ShieldCheck"
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Details",
+                "items": [
+                  {
+                    "label": "Name",
+                    "value": "{{$sel.agent.name}}"
+                  },
+                  {
+                    "label": "Status",
+                    "value": "{{$sel.agent.status}}",
+                    "format": "status"
+                  },
+                  {
+                    "label": "Orchestration",
+                    "value": "{{$sel.agent.orchestration}}"
+                  },
+                  {
+                    "label": "Authentication",
+                    "value": "{{$sel.agent.authentication}}"
+                  },
+                  {
+                    "label": "Channels",
+                    "value": "{{$sel.agent.channelsText}}"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "knowledge",
+            "title": "{{$sel.agent.name}} | Knowledge",
+            "url": "/agents/{{$sel.agent.name | slug}}/knowledge",
+            "requires": "agent",
+            "navItem": "agents",
+            "menu": [
+              {
+                "page": "overview",
+                "label": "Overview",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "knowledge",
+                "label": "Knowledge",
+                "icon": "BookOpen"
+              },
+              {
+                "page": "topics",
+                "label": "Topics",
+                "icon": "MessagesSquare"
+              },
+              {
+                "page": "test",
+                "label": "Test your agent",
+                "icon": "MessageSquare"
+              },
+              {
+                "page": "publish",
+                "label": "Publish",
+                "icon": "Rocket"
+              },
+              {
+                "page": "channels",
+                "label": "Channels",
+                "icon": "Share2"
+              },
+              {
+                "page": "auth",
+                "label": "Settings > Security > Authentication",
+                "icon": "ShieldCheck"
+              }
+            ],
+            "commands": [
+              {
+                "id": "knowledge-add",
+                "label": "+ Add knowledge",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "add-knowledge"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "text",
+                "text": "Add enterprise knowledge sources such as SharePoint so answers are grounded and permission-aware."
+              },
+              {
+                "kind": "table",
+                "id": "knowledge-list",
+                "source": "knowledgeSources",
+                "where": {
+                  "agent": "{{$sel.agent.name}}"
+                },
+                "rowKey": "name",
+                "emptyText": "No knowledge sources.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Type"
+                  },
+                  {
+                    "key": "url",
+                    "label": "Source"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "add-knowledge",
+            "title": "Add knowledge",
+            "url": "/agents/{{$sel.agent.name | slug}}/knowledge/add",
+            "requires": "agent",
+            "navItem": "agents",
+            "breadcrumb": [
+              "Home",
+              "Agents",
+              "{{$sel.agent.name}}",
+              "Knowledge"
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "knowledge-form",
+                "title": "Add a knowledge source",
+                "fields": [
+                  {
+                    "id": "type",
+                    "label": "Knowledge source",
+                    "control": "radio",
+                    "required": true,
+                    "defaultValue": "SharePoint",
+                    "options": [
+                      {
+                        "value": "SharePoint",
+                        "label": "SharePoint"
+                      },
+                      {
+                        "value": "Public website",
+                        "label": "Public website"
+                      },
+                      {
+                        "value": "Documents",
+                        "label": "Documents"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "name",
+                    "label": "Name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Contoso HR policies"
+                  },
+                  {
+                    "id": "url",
+                    "label": "SharePoint site URL",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "https://hr.contoso.example/sites/hr"
+                  }
+                ],
+                "submit": {
+                  "label": "Add to agent",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.type",
+                        "value": "SharePoint"
+                      },
+                      "message": "Use SharePoint for the internal HR site, not a public website."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.url",
+                        "value": "https://hr.contoso.example/sites/hr"
+                      },
+                      "message": "Use only the Contoso HR SharePoint site."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "knowledgeSources",
+                      "unique": "url",
+                      "value": {
+                        "agent": "{{$sel.agent.name}}",
+                        "name": "{{$form.name}}",
+                        "type": "{{$form.type}}",
+                        "url": "{{$form.url}}",
+                        "status": "Ready",
+                        "citation": "Contoso HR policies"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "agents",
+                      "where": {
+                        "name": "{{$sel.agent.name}}"
+                      },
+                      "set": {
+                        "knowledgeScoped": true
+                      }
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "knowledge"
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Knowledge added",
+                      "message": "The HR SharePoint knowledge source is ready."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "topics",
+            "title": "{{$sel.agent.name}} | Topics",
+            "url": "/agents/{{$sel.agent.name | slug}}/topics",
+            "requires": "agent",
+            "navItem": "agents",
+            "menu": [
+              {
+                "page": "overview",
+                "label": "Overview",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "knowledge",
+                "label": "Knowledge",
+                "icon": "BookOpen"
+              },
+              {
+                "page": "topics",
+                "label": "Topics",
+                "icon": "MessagesSquare"
+              },
+              {
+                "page": "test",
+                "label": "Test your agent",
+                "icon": "MessageSquare"
+              },
+              {
+                "page": "publish",
+                "label": "Publish",
+                "icon": "Rocket"
+              },
+              {
+                "page": "channels",
+                "label": "Channels",
+                "icon": "Share2"
+              },
+              {
+                "page": "auth",
+                "label": "Settings > Security > Authentication",
+                "icon": "ShieldCheck"
+              }
+            ],
+            "commands": [
+              {
+                "id": "topics-add",
+                "label": "+ Add a topic",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "create-topic"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "text",
+                "text": "Topics use nodes such as **Trigger**, **Question**, **Condition**, and **Message** on an authoring canvas."
+              },
+              {
+                "kind": "table",
+                "id": "topic-list",
+                "source": "topics",
+                "where": {
+                  "agent": "{{$sel.agent.name}}"
+                },
+                "rowKey": "name",
+                "emptyText": "No custom topics.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "trigger",
+                    "label": "Trigger"
+                  },
+                  {
+                    "key": "nodeCount",
+                    "label": "Nodes",
+                    "format": "count"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "topic-detail",
+                  "select": {
+                    "as": "topic",
+                    "path": "topics",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "create-topic",
+            "title": "Add a topic > From blank",
+            "url": "/agents/{{$sel.agent.name | slug}}/topics/create",
+            "requires": "agent",
+            "navItem": "agents",
+            "breadcrumb": [
+              "Home",
+              "Agents",
+              "{{$sel.agent.name}}",
+              "Topics"
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "topic-form",
+                "title": "Topic details and canvas nodes",
+                "fields": [
+                  {
+                    "id": "name",
+                    "label": "Name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Request time off"
+                  },
+                  {
+                    "id": "trigger",
+                    "label": "Trigger phrases or description",
+                    "control": "textarea",
+                    "required": true,
+                    "defaultValue": "request time off\nI need leave\nbook vacation\ncall in sick"
+                  },
+                  {
+                    "id": "question",
+                    "label": "Question node text",
+                    "control": "textarea",
+                    "required": true,
+                    "defaultValue": "What type of time off do you want to request?"
+                  },
+                  {
+                    "id": "choices",
+                    "label": "Multiple choice options",
+                    "control": "checkboxes",
+                    "required": true,
+                    "defaultValue": [
+                      "Vacation",
+                      "Sick leave",
+                      "Other"
+                    ],
+                    "options": [
+                      {
+                        "value": "Vacation",
+                        "label": "Vacation"
+                      },
+                      {
+                        "value": "Sick leave",
+                        "label": "Sick leave"
+                      },
+                      {
+                        "value": "Other",
+                        "label": "Other"
+                      },
+                      {
+                        "value": "Payroll",
+                        "label": "Payroll"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "variable",
+                    "label": "Save response as variable",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "varTimeOffType"
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.name",
+                        "value": "Request time off"
+                      },
+                      "message": "Name the topic Request time off."
+                    },
+                    {
+                      "rule": {
+                        "type": "allOf",
+                        "rules": [
+                          {
+                            "type": "includes",
+                            "path": "$form.choices",
+                            "value": "Vacation"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.choices",
+                            "value": "Sick leave"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.choices",
+                            "value": "Other"
+                          }
+                        ]
+                      },
+                      "message": "Include Vacation, Sick leave, and Other."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.variable",
+                        "value": "varTimeOffType"
+                      },
+                      "message": "Save the answer as varTimeOffType."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "topics",
+                      "unique": "name",
+                      "value": {
+                        "agent": "{{$sel.agent.name}}",
+                        "name": "{{$form.name}}",
+                        "trigger": "{{$form.trigger}}",
+                        "question": "{{$form.question}}",
+                        "choices": "{{$form.choices | list}}",
+                        "variable": "{{$form.variable}}",
+                        "hasQuestion": true,
+                        "hasCondition": true,
+                        "nodeCount": 6
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "topicNodes",
+                      "value": [
+                        {
+                          "order": 1,
+                          "node": "Trigger",
+                          "details": "Recognized intent: request time off"
+                        },
+                        {
+                          "order": 2,
+                          "node": "Question",
+                          "details": "Ask leave type and save to varTimeOffType"
+                        },
+                        {
+                          "order": 3,
+                          "node": "Condition",
+                          "details": "Branch on Vacation, Sick leave, or Other"
+                        },
+                        {
+                          "order": 4,
+                          "node": "Message",
+                          "details": "Vacation guidance"
+                        },
+                        {
+                          "order": 5,
+                          "node": "Message",
+                          "details": "Sick leave guidance"
+                        },
+                        {
+                          "order": 6,
+                          "node": "Message",
+                          "details": "Other leave escalation to HR"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "update",
+                      "path": "agents",
+                      "where": {
+                        "name": "{{$sel.agent.name}}"
+                      },
+                      "set": {
+                        "topicReady": true
+                      }
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "topic-detail",
+                      "select": {
+                        "as": "topic",
+                        "path": "topics",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "topic-detail",
+            "title": "{{$sel.topic.name}}",
+            "url": "/agents/{{$sel.agent.name | slug}}/topics/{{$sel.topic.name | slug}}",
+            "requires": "topic",
+            "navItem": "agents",
+            "components": [
+              {
+                "kind": "table",
+                "id": "topic-canvas",
+                "title": "Topic canvas",
+                "source": "topicNodes",
+                "rowKey": "order",
+                "variant": "flow",
+                "columns": [
+                  {
+                    "key": "order",
+                    "label": "#"
+                  },
+                  {
+                    "key": "node",
+                    "label": "Node",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "details",
+                    "label": "Configuration"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "test",
+            "title": "{{$sel.agent.name}} | Test your agent",
+            "url": "/agents/{{$sel.agent.name | slug}}/test",
+            "requires": "agent",
+            "navItem": "agents",
+            "menu": [
+              {
+                "page": "overview",
+                "label": "Overview",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "knowledge",
+                "label": "Knowledge",
+                "icon": "BookOpen"
+              },
+              {
+                "page": "topics",
+                "label": "Topics",
+                "icon": "MessagesSquare"
+              },
+              {
+                "page": "test",
+                "label": "Test your agent",
+                "icon": "MessageSquare"
+              },
+              {
+                "page": "publish",
+                "label": "Publish",
+                "icon": "Rocket"
+              },
+              {
+                "page": "channels",
+                "label": "Channels",
+                "icon": "Share2"
+              },
+              {
+                "page": "auth",
+                "label": "Settings > Security > Authentication",
+                "icon": "ShieldCheck"
+              }
+            ],
+            "components": [
+              {
+                "kind": "chat",
+                "id": "agent-chat",
+                "title": "Test your agent",
+                "transcriptPath": "chats.hrHelper",
+                "responses": [
+                  {
+                    "id": "topic-timeoff",
+                    "match": "(time off|vacation|sick|leave)",
+                    "when": {
+                      "type": "arrayContains",
+                      "path": "topics",
+                      "match": {
+                        "agent": "HR Helper",
+                        "name": "Request time off",
+                        "hasQuestion": true
+                      }
+                    },
+                    "reply": "I can help start a time-off request. **What type of time off do you want to request?** Choose **Vacation**, **Sick leave**, or **Other**. HR must handle personal cases.",
+                    "actions": [
+                      {
+                        "type": "update",
+                        "path": "agents",
+                        "where": {
+                          "name": "HR Helper"
+                        },
+                        "set": {
+                          "topicTested": true
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "grounded-hr",
+                    "match": "(bereavement|holiday|benefit|policy|handbook)",
+                    "when": {
+                      "type": "arrayContains",
+                      "path": "knowledgeSources",
+                      "match": {
+                        "agent": "HR Helper",
+                        "url": "https://hr.contoso.example/sites/hr"
+                      }
+                    },
+                    "reply": "According to Contoso HR policies, employees should review the HR policy article and contact HR for personal eligibility questions. I can summarize general policy only; personal cases must be escalated to HR.",
+                    "citations": [
+                      "Contoso HR policies"
+                    ],
+                    "actions": [
+                      {
+                        "type": "update",
+                        "path": "agents",
+                        "where": {
+                          "name": "HR Helper"
+                        },
+                        "set": {
+                          "knowledgeTested": true
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "fallback": "I am HR Helper. Ask an HR policy question or say request time off."
+              }
+            ]
+          },
+          {
+            "id": "publish",
+            "title": "{{$sel.agent.name}} | Publish",
+            "url": "/agents/{{$sel.agent.name | slug}}/publish",
+            "requires": "agent",
+            "navItem": "agents",
+            "components": [
+              {
+                "kind": "button",
+                "id": "publish-agent",
+                "label": "Publish",
+                "icon": "Rocket",
+                "variant": "primary",
+                "disabledWhen": {
+                  "type": "not",
+                  "rule": {
+                    "type": "allOf",
+                    "rules": [
+                      {
+                        "type": "arrayContains",
+                        "path": "agents",
+                        "match": {
+                          "name": "HR Helper",
+                          "knowledgeTested": true
+                        }
+                      },
+                      {
+                        "type": "arrayContains",
+                        "path": "agents",
+                        "match": {
+                          "name": "HR Helper",
+                          "topicTested": true
+                        }
+                      }
+                    ]
+                  }
+                },
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "agents",
+                      "where": {
+                        "name": "{{$sel.agent.name}}"
+                      },
+                      "set": {
+                        "status": "Published",
+                        "published": true
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Published",
+                      "message": "HR Helper is published."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "channels",
+            "title": "{{$sel.agent.name}} | Channels",
+            "url": "/agents/{{$sel.agent.name | slug}}/channels",
+            "requires": "agent",
+            "navItem": "agents",
+            "components": [
+              {
+                "kind": "form",
+                "id": "channels-form",
+                "title": "Teams and Microsoft 365 Copilot",
+                "fields": [
+                  {
+                    "id": "channel",
+                    "label": "Channel",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Teams and Microsoft 365 Copilot",
+                    "options": [
+                      {
+                        "value": "Teams and Microsoft 365 Copilot",
+                        "label": "Teams and Microsoft 365 Copilot"
+                      },
+                      {
+                        "value": "Demo website",
+                        "label": "Demo website"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "m365",
+                    "label": "Make agent available in Microsoft 365 Copilot",
+                    "control": "toggle",
+                    "defaultValue": true
+                  }
+                ],
+                "submit": {
+                  "label": "Add channel",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "arrayContains",
+                        "path": "agents",
+                        "match": {
+                          "name": "HR Helper",
+                          "published": true
+                        }
+                      },
+                      "message": "Publish before adding channels."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.channel",
+                        "value": "Teams and Microsoft 365 Copilot"
+                      },
+                      "message": "Use Teams and Microsoft 365 Copilot."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.m365",
+                        "value": true
+                      },
+                      "message": "Keep Microsoft 365 Copilot selected."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "agents",
+                      "where": {
+                        "name": "{{$sel.agent.name}}"
+                      },
+                      "set": {
+                        "teams": true,
+                        "m365Copilot": true,
+                        "channelsText": "Teams and Microsoft 365 Copilot"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Channel added",
+                      "message": "Teams and Microsoft 365 Copilot connected."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "auth",
+            "title": "{{$sel.agent.name}} | Settings > Security > Authentication",
+            "url": "/agents/{{$sel.agent.name | slug}}/settings/security/authentication",
+            "requires": "agent",
+            "navItem": "agents",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "For Teams and Microsoft 365 Copilot internal agents, **Authenticate with Microsoft** uses Microsoft Entra ID and supports permission-aware SharePoint knowledge."
+              },
+              {
+                "kind": "form",
+                "id": "auth-form",
+                "title": "Authentication",
+                "fields": [
+                  {
+                    "id": "auth",
+                    "label": "Authentication option",
+                    "control": "radio",
+                    "required": true,
+                    "defaultValue": "Authenticate with Microsoft",
+                    "options": [
+                      {
+                        "value": "No authentication",
+                        "label": "No authentication"
+                      },
+                      {
+                        "value": "Authenticate with Microsoft",
+                        "label": "Authenticate with Microsoft"
+                      },
+                      {
+                        "value": "Authenticate manually",
+                        "label": "Authenticate manually"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.auth",
+                        "value": "Authenticate with Microsoft"
+                      },
+                      "message": "Choose Authenticate with Microsoft."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "agents",
+                      "where": {
+                        "name": "{{$sel.agent.name}}"
+                      },
+                      "set": {
+                        "authentication": "Authenticate with Microsoft"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Authentication saved"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "agents": [],
+          "knowledgeSources": [],
+          "topics": [],
+          "topicNodes": [],
+          "chats": {
+            "hrHelper": []
+          }
+        }
+      },
+      "steps": [
+        {
+          "key": "create",
+          "title": "Create HR Helper",
+          "instruction": "Open **Agents**, select **+ Create**, and configure **HR Helper** with HR-scope instructions and **Use generative AI orchestration for your agent's responses? = Yes**.",
+          "explanation": "The agent name, description, instructions, and orchestration mode control the agent behavior.",
+          "targetId": "agents-create",
+          "rules": [
+            {
+              "key": "exists",
+              "description": "HR Helper exists with generative orchestration",
+              "rule": {
+                "type": "arrayContains",
+                "path": "agents",
+                "match": {
+                  "name": "HR Helper",
+                  "orchestration": "Generative"
+                }
+              },
+              "failureFeedback": "Create HR Helper and keep generative orchestration on."
+            }
+          ]
+        },
+        {
+          "key": "knowledge",
+          "title": "Add HR SharePoint knowledge",
+          "instruction": "On **Knowledge**, select **+ Add knowledge**, choose **SharePoint**, and add **https://hr.contoso.example/sites/hr** named **Contoso HR policies**.",
+          "explanation": "SharePoint is the approved internal HR source and can respect user permissions.",
+          "targetId": "knowledge-add",
+          "rules": [
+            {
+              "key": "hr-source",
+              "description": "Internal HR SharePoint source added",
+              "rule": {
+                "type": "arrayContains",
+                "path": "knowledgeSources",
+                "match": {
+                  "agent": "HR Helper",
+                  "type": "SharePoint",
+                  "url": "https://hr.contoso.example/sites/hr",
+                  "status": "Ready"
+                }
+              },
+              "failureFeedback": "Add the HR SharePoint source only."
+            }
+          ]
+        },
+        {
+          "key": "test-knowledge",
+          "title": "Test a grounded answer",
+          "instruction": "Open **Test your agent** and ask `What does the bereavement policy say?`; confirm the answer cites **Contoso HR policies**.",
+          "explanation": "Testing validates that the agent retrieves from the configured knowledge source.",
+          "targetId": "agent-chat",
+          "rules": [
+            {
+              "key": "grounded",
+              "description": "Knowledge answer was tested",
+              "rule": {
+                "type": "arrayContains",
+                "path": "chats.hrHelper",
+                "match": {
+                  "role": "assistant",
+                  "replyId": "grounded-hr"
+                }
+              },
+              "failureFeedback": "Ask an HR policy question after adding knowledge."
+            }
+          ]
+        },
+        {
+          "key": "topic",
+          "title": "Create the Request time off topic",
+          "instruction": "On **Topics**, select **+ Add a topic** > **From blank**. Name it **Request time off**, add leave trigger phrases, add a **Question** node with **Vacation**, **Sick leave**, and **Other**, save to **varTimeOffType**, then add a **Condition** and **Message** nodes.",
+          "explanation": "A topic is best for structured HR requests that need a specific answer before branching.",
+          "targetId": "topics-add",
+          "rules": [
+            {
+              "key": "topic-ready",
+              "description": "Topic has Question and Condition",
+              "rule": {
+                "type": "arrayContains",
+                "path": "topics",
+                "match": {
+                  "name": "Request time off",
+                  "hasQuestion": true,
+                  "hasCondition": true,
+                  "variable": "varTimeOffType"
+                }
+              },
+              "failureFeedback": "Create the topic with the required Question node and variable."
+            },
+            {
+              "key": "flow-canvas",
+              "description": "Canvas contains nodes",
+              "rule": {
+                "type": "arrayLength",
+                "path": "topicNodes",
+                "min": 6
+              },
+              "failureFeedback": "Save the topic canvas nodes."
+            }
+          ]
+        },
+        {
+          "key": "test-topic",
+          "title": "Test the topic",
+          "instruction": "In **Test your agent**, send `I need to request time off` and confirm the topic asks for the leave type.",
+          "explanation": "Testing verifies the trigger selects the authored topic.",
+          "targetId": "agent-chat",
+          "rules": [
+            {
+              "key": "topic-chat",
+              "description": "The topic triggered",
+              "rule": {
+                "type": "arrayContains",
+                "path": "chats.hrHelper",
+                "match": {
+                  "role": "assistant",
+                  "replyId": "topic-timeoff"
+                }
+              },
+              "failureFeedback": "Ask for time off after creating the topic."
+            }
+          ]
+        },
+        {
+          "key": "publish",
+          "title": "Publish, add channels, and set authentication",
+          "instruction": "Select **Publish**, add **Teams and Microsoft 365 Copilot** from **Channels**, keep **Make agent available in Microsoft 365 Copilot** selected, and set **Settings > Security > Authentication** to **Authenticate with Microsoft**.",
+          "explanation": "Publishing updates connected channels; Microsoft authentication is appropriate for internal Teams and Microsoft 365 Copilot agents.",
+          "targetId": "publish-agent",
+          "rules": [
+            {
+              "key": "published",
+              "description": "Agent is published",
+              "rule": {
+                "type": "arrayContains",
+                "path": "agents",
+                "match": {
+                  "name": "HR Helper",
+                  "published": true
+                }
+              },
+              "failureFeedback": "Publish the agent."
+            },
+            {
+              "key": "channels",
+              "description": "Teams and Microsoft 365 Copilot connected",
+              "rule": {
+                "type": "arrayContains",
+                "path": "agents",
+                "match": {
+                  "name": "HR Helper",
+                  "teams": true,
+                  "m365Copilot": true
+                }
+              },
+              "failureFeedback": "Add the Teams and Microsoft 365 Copilot channel."
+            },
+            {
+              "key": "auth",
+              "description": "Microsoft authentication configured",
+              "rule": {
+                "type": "arrayContains",
+                "path": "agents",
+                "match": {
+                  "name": "HR Helper",
+                  "authentication": "Authenticate with Microsoft"
+                }
+              },
+              "failureFeedback": "Set authentication to Authenticate with Microsoft."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "knowledge-limited",
+          "description": "Knowledge limited to HR SharePoint",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayContains",
+                "path": "knowledgeSources",
+                "match": {
+                  "agent": "HR Helper",
+                  "url": "https://hr.contoso.example/sites/hr",
+                  "type": "SharePoint"
+                }
+              },
+              {
+                "type": "arrayLength",
+                "path": "knowledgeSources",
+                "min": 1,
+                "max": 1
+              }
+            ]
+          },
+          "failureFeedback": "Use only the internal HR SharePoint source."
+        },
+        {
+          "key": "topic-question",
+          "description": "Topic includes required question pattern",
+          "rule": {
+            "type": "arrayContains",
+            "path": "topics",
+            "match": {
+              "name": "Request time off",
+              "hasQuestion": true,
+              "hasCondition": true,
+              "variable": "varTimeOffType"
+            }
+          },
+          "failureFeedback": "The time-off topic needs a Question, variable, Condition, and Message nodes."
+        },
+        {
+          "key": "published-teams",
+          "description": "Published to Teams and Microsoft 365 Copilot with Microsoft authentication",
+          "rule": {
+            "type": "arrayContains",
+            "path": "agents",
+            "match": {
+              "name": "HR Helper",
+              "published": true,
+              "teams": true,
+              "m365Copilot": true,
+              "authentication": "Authenticate with Microsoft"
+            }
+          },
+          "failureFeedback": "Publish, add Microsoft channels, and set Authenticate with Microsoft."
+        }
+      ],
+      "solution": "1. Select **Agents** > **+ Create**.\n2. Set **Name** to `HR Helper`; write HR policy description and instructions that answer only HR policy questions and escalate personal cases to HR. Keep **Use generative AI orchestration for your agent's responses?** as **Yes**.\n3. Open **Knowledge**, select **+ Add knowledge**, choose **SharePoint**, name it `Contoso HR policies`, and enter `https://hr.contoso.example/sites/hr`.\n4. Open **Test your agent** and ask `What does the bereavement policy say?`; confirm a cited HR policy answer.\n5. Open **Topics**, select **+ Add a topic** > **From blank**, name it `Request time off`, add leave trigger phrases, add a **Question** node with **Vacation**, **Sick leave**, and **Other**, save to `varTimeOffType`, then add a **Condition** and **Message** nodes.\n6. Test with `I need to request time off`.\n7. Select **Publish**.\n8. Open **Channels**, add **Teams and Microsoft 365 Copilot**, and keep **Make agent available in Microsoft 365 Copilot** selected.\n9. Open **Settings > Security > Authentication**, choose **Authenticate with Microsoft**, and save."
+    }
+  ]
+}

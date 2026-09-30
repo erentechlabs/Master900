@@ -119,7 +119,7 @@ describe("UI simulation engine", () => {
   });
 
   it("appends form submissions and rejects invalid values", () => {
-    let s = initialUiSimState(rbacLab);
+    let s = applyUiSimEvent(rbacLab, initialUiSimState(rbacLab), { type: "navigate", page: "iam" });
     s = applyUiSimEvent(rbacLab, s, { type: "submitForm", componentId: "add", values: { user: "Alex", role: "Reader" } });
     expect(s.roleAssignments).toEqual([{ user: "Alex", role: "Reader", scope: "rg-finance" }]);
     const bad = applyUiSimEvent(rbacLab, s, { type: "submitForm", componentId: "add", values: { user: "Mallory", role: "Owner" } });
@@ -130,11 +130,14 @@ describe("UI simulation engine", () => {
   });
 
   it("binds settings fields and validates types", () => {
-    let s = initialUiSimState(rbacLab);
+    let s = applyUiSimEvent(rbacLab, initialUiSimState(rbacLab), { type: "navigate", page: "iam" });
     s = applyUiSimEvent(rbacLab, s, { type: "setField", componentId: "opts", fieldId: "mfa", value: true });
     expect(getPath(s, "settings.mfa")).toBe(true);
     const ignored = applyUiSimEvent(rbacLab, s, { type: "setField", componentId: "opts", fieldId: "mfa", value: "yes" });
     expect(getPath(ignored, "settings.mfa")).toBe(true);
+    // Components are only reachable on the page that is currently open.
+    const home = applyUiSimEvent(rbacLab, s, { type: "navigate", page: "home" });
+    expect(applyUiSimEvent(rbacLab, home, { type: "setField", componentId: "opts", fieldId: "mfa", value: false })).toBe(home);
   });
 
   it("replays deterministically and validates completion rules", () => {

@@ -16,20 +16,21 @@ grounded AI tutor, a personal study planner and transparent readiness analytics,
 | Catalog | Data-driven certifications (status, exam version, skills-outline weights, official sources, retirements → replacements, e.g. AI-900 → AI-901), comparison view |
 | Learning | Paths → modules → lessons with rich blocks, on-demand simpler explanations, knowledge checks, notes, bookmarks, glossary, concept map, spaced-repetition flashcards, search |
 | Assessment | 11 question types; quick, domain, full timed, adaptive, daily and mistake-review modes; exam or feedback mode; mark for review; accessible timer; detailed results and review queue |
-| Labs | Safe simulations only: guided UI simulation, simulated Azure CLI, architecture design, troubleshooting and business scenarios — validated server-side |
+| Labs | Hands-on labs in a simulated **lab VM** (desktop with browser and terminal apps): look-alikes of the Azure portal, Microsoft Entra, Purview, Defender, Microsoft 365 and SharePoint admin centers, Power Apps, Power Automate, Copilot Studio, Power Platform admin center, Power BI, Fabric, Microsoft Foundry and GitHub — with Cloud Shell / VM terminals, SQL query editors and chat test panes; plus simulated Azure CLI, architecture design, troubleshooting and business scenarios. Everything is simulated and validated server-side |
 | Personalization | Onboarding → diagnostic → study plan (ICS export, missed-session adjustment), dashboard with next best action, readiness estimate with explanations, optional gamification |
 | AI tutor | Grounded in approved content with citations; explain, simplify, analogy, compare, quiz me, explain my mistake, summarize, flashcards; works fully offline by default |
-| CMS | Editorial workflow (draft → technical review → editorial review → approved → published/scheduled), revisions & rollback, question bank, lab builder, AI-assisted drafts, import/export, users & roles, audit log, jobs, anonymous analytics |
-| Quality | WCAG 2.2 AA-minded UI, EN/TR UI with typed keys, strict TypeScript, zod validation, RBAC, security headers, 150+ unit tests, integration and smoke scripts |
+| CMS | Editorial workflow (draft → technical review → editorial review → approved → published/scheduled), revisions & rollback, question bank, lab builder, AI-assisted drafts, import/export, audit log, jobs, anonymous analytics |
+| Quality | WCAG 2.2 AA-minded UI, EN/TR UI with typed keys, strict TypeScript, zod validation, RBAC, security headers, 350+ unit tests (including a solving walkthrough for every portal lab), integration, smoke and lab UI replay scripts |
 
-Demo content: complete learning paths for **AZ-900** (22 lessons, 140 questions, 4 labs) and **AI-901** (11 lessons,
-71 questions, 2 labs). Other active certifications (DP-900, SC-900, PL-900, AB-900, GH-900) and retired ones (AI-900,
-MS-900, MB-910, MB-920) are in the catalog. Demo content is labelled as such and is not a complete curriculum.
+Demo content: complete learning paths for **AZ-900** (22 lessons, 140 questions, 11 labs) and **AI-901** (11 lessons,
+71 questions, 5 labs), and hands-on lab packages for **DP-900** (5 labs), **SC-900** (6), **PL-900** (5), **AB-900**
+(4) and **GH-900** (6). Retired certifications (AI-900, MS-900, MB-910, MB-920) are in the catalog. Demo content is
+labelled as such and is not a complete curriculum. Lab authors: see [docs/LAB_AUTHORING.md](docs/LAB_AUTHORING.md).
 
 ## Tech stack
 
 Next.js 16 (App Router, React 19 Server Components, Server Actions) · TypeScript · Tailwind CSS 3 + Radix UI ·
-PostgreSQL 17 + Prisma 6 · next-auth 4 (credentials, JWT with server-side revocation) · zod 4 · Vitest ·
+PostgreSQL 17 + Prisma 6 · single-user local profile with RBAC · zod 4 · Vitest ·
 Docker. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design.
 
 ## Quick start (local development)
@@ -38,64 +39,43 @@ Prerequisites: **Node.js ≥ 20.9** (tested with 24.x) and npm. PostgreSQL is op
 
 ```bash
 npm install
-cp .env.example .env            # then set NEXTAUTH_SECRET (see below)
+cp .env.example .env
 
 # Terminal 1 - embedded PostgreSQL on port 5433 (data in ./.postgres-data), keep it running
 npm run db:start
 
 # Terminal 2
 npm run db:migrate              # apply migrations (prisma migrate dev)
-npm run db:seed                 # catalog, AZ-900/AI-901 content, labs, badges, demo accounts and activity
-npm run dev                     # http://localhost:3000
+npm run db:seed                 # catalog, course and lab packages for all seven certifications, badges and local profile
+npm run dev                     # http://127.0.0.1:3000 (localhost only)
 ```
 
-Generate a secret: `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"`.
-Using your own PostgreSQL instead? Point `DATABASE_URL` at it and skip `db:start`.
-
-### Demo accounts (created by the seed)
-
-| Role | E-mail | Password |
-| --- | --- | --- |
-| Administrator | `admin@example.com` | `Admin12345!` |
-| Instructor | `instructor@example.com` | `Instructor123!` |
-| Learner (with realistic history) | `learner@example.com` | `Learner12345!` |
-| Cohort learners | `learner1@example.com` … `learner5@example.com` | `Learner12345!` |
-
-The sign-in page lists these accounts (outside production only) with a button that fills in the credentials. Demo
-accounts cannot change their password or delete themselves.
+The app is single-user by default. Opening it provisions one local learner profile with admin access; there is no sign-in, sign-up or sign-out UI.
 
 ## Docker
 
 ```bash
-echo "NEXTAUTH_SECRET=$(node -e "console.log(require('crypto').randomBytes(32).toString('base64'))")" > .env
 docker compose up --build       # db → migrate (+ seed if empty) → app + worker
 ```
 
-Open http://localhost:3000. Services: `db` (PostgreSQL 17), `migrate` (one-off `prisma migrate deploy` + seed when the
+Open http://127.0.0.1:3000. Services: `db` (PostgreSQL 17), `migrate` (one-off `prisma migrate deploy` + seed when the
 database is empty), `app` (standalone Next.js server, non-root, health-checked) and `worker` (background jobs).
-For real deployments set `SEED_DEMO_USERS=false` with `ADMIN_EMAIL`/`ADMIN_PASSWORD` to bootstrap the first
-administrator, and set `APP_URL` to your HTTPS origin (enables HSTS). *The Docker files were written for this release
-but could not be executed in the authoring environment; the standalone production server itself was verified.*
+The app and Docker port mapping bind to localhost by default. Do not expose it to an untrusted network unless an authenticating reverse proxy is placed in front of it. For deployments set `APP_URL` to your HTTPS origin (enables HSTS).
 
 ## Configuration
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
 | `DATABASE_URL` | — | PostgreSQL connection string (required) |
-| `NEXTAUTH_SECRET` | — | Session signing secret; **32+ characters required in production** |
-| `NEXTAUTH_URL` / `APP_URL` | `http://localhost:3000` | Public origin (HTTPS enables secure cookies, HSTS and `upgrade-insecure-requests`) |
-| `SESSION_MAX_AGE_HOURS` | `8` | JWT session lifetime |
-| `REGISTRATION_ENABLED` | `true` | Allow self-registration (also switchable in Admin → Settings) |
+| `APP_URL` | `http://localhost:3000` | Public origin (HTTPS enables HSTS and `upgrade-insecure-requests`) |
 | `AI_PROVIDER` | `mock` | `mock` = local grounded tutor (no external calls); `openai` = any OpenAI-compatible endpoint |
 | `AI_API_KEY`, `AI_BASE_URL`, `AI_MODEL`, `AI_TIMEOUT_MS` | — | External AI configuration (key only from the environment) |
 | `STORAGE_DRIVER`, `STORAGE_LOCAL_DIR` | `local`, `./storage` | Media storage |
 | `LOG_LEVEL` | `info` | `debug` · `info` · `warn` · `error` (JSON logs) |
-| `SEED_DEMO_USERS` | `true` | Seed: create demo accounts and activity |
 | `SEED_MODE` | — | Seed: `if-empty` skips seeding when a catalog already exists |
-| `ADMIN_EMAIL`, `ADMIN_PASSWORD` | — | Seed: bootstrap administrator when demo users are disabled |
 
 Runtime settings (tutor on/off and daily limit, AI provider/model, full-exam length and duration, internal practice
-target, registration, analytics cohort size) are managed in **Admin → Settings**.
+target and analytics cohort size) are managed in **Admin → Settings**.
 
 ## Scripts
 
@@ -103,9 +83,10 @@ target, registration, analytics cohort size) are managed in **Admin → Settings
 | --- | --- |
 | `npm run dev` / `build` / `start` | Develop, build (standalone output), run production server |
 | `npm run typecheck` / `lint` | TypeScript strict check, ESLint |
-| `npm test` | Vitest unit tests (engines, RBAC, workflow, i18n parity, content packages, …) |
+| `npm test` | Vitest unit tests (engines, RBAC, workflow, i18n parity, content packages, lab walkthroughs, …) |
 | `npm run test:flows` | Integration flows against the database (all practice modes, diagnostic → plan, labs) |
 | `npm run smoke [-- <baseUrl>]` | HTTP smoke test of public, learner and admin pages against a running server |
+| `npm run labs:ui-replay [-- --base <url>] [slug]` | Drives every portal-lab walkthrough through the real lab UI of a running server and checks each lab completes (needs `PLAYWRIGHT_CHANNEL=msedge`/`chrome` or `npx playwright-core install chromium`) |
 | `npm run db:start` | Embedded PostgreSQL for local development |
 | `npm run db:migrate` / `db:deploy` / `db:reset` / `db:seed` / `db:studio` | Database lifecycle |
 | `npm run worker` | Background worker: schedules and runs jobs (scheduled publishing every 5 min, plan rebalancing after missed sessions hourly, nightly readiness snapshots, AI draft generation) |

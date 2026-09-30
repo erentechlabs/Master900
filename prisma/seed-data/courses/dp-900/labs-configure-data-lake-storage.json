@@ -1,0 +1,1845 @@
+{
+  "labs": [
+    {
+      "slug": "configure-data-lake-storage",
+      "type": "UI_SIMULATION",
+      "title": "Configure Data Lake Storage for analytics in the Azure portal",
+      "summary": "Create an Azure Storage account with hierarchical namespace, prepare raw and curated containers, upload sample data, grant least-privilege ACLs, and add a lifecycle rule.",
+      "scenario": "Contoso is centralizing monthly sales extracts for analytics. In the **simulated Azure portal** on your lab VM, create a storage account named **stcontosodatalake01** in **rg-data-platform** with **Hierarchical namespace** enabled for Azure Data Lake Storage Gen2. Keep blob anonymous access disabled. Create private containers **raw** and **curated**, upload the provided VM files into **raw/sales/2026/09**, grant the **Analysts** group **Read + Execute** on the curated directory, and add a lifecycle management rule that moves raw blobs to Cool after 30 days.",
+      "domainKey": "non-relational-data",
+      "objectiveCode": "3.1",
+      "complexity": "BASIC",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Create a storage account for analytics with a hierarchical namespace",
+        "Organize structured, semi-structured, and unstructured files in containers and directories",
+        "Apply ACL and lifecycle settings that match an analytics data lake scenario"
+      ],
+      "prerequisites": [
+        "Know what Azure Storage accounts, containers, and blobs are"
+      ],
+      "sources": [
+        {
+          "title": "Create a storage account for Data Lake Storage",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/create-data-lake-storage-account"
+        },
+        {
+          "title": "Access control lists (ACLs) in Azure Data Lake Storage",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-access-control"
+        },
+        {
+          "title": "Azure Blob Storage lifecycle management overview",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-overview"
+        },
+        {
+          "title": "Data lakes in Azure",
+          "url": "https://learn.microsoft.com/en-us/azure/architecture/data-guide/scenarios/data-lake"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Azure",
+          "theme": "azure",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://portal.azure.com",
+          "searchPlaceholder": "Search resources, services, and docs (G+/)"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "storage-accounts",
+            "label": "Storage accounts",
+            "icon": "Database",
+            "section": "Favorites"
+          },
+          {
+            "page": "resource-groups",
+            "label": "Resource groups",
+            "icon": "Boxes",
+            "section": "Favorites"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/#home",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "azure-services",
+                "title": "Azure services",
+                "size": "sm",
+                "items": [
+                  {
+                    "id": "storage-accounts",
+                    "label": "Storage accounts",
+                    "description": "Blob, file, queue, table, and Data Lake Storage",
+                    "icon": "Database",
+                    "action": {
+                      "type": "navigate",
+                      "page": "storage-accounts"
+                    }
+                  },
+                  {
+                    "id": "resource-groups",
+                    "label": "Resource groups",
+                    "icon": "Boxes",
+                    "action": {
+                      "type": "navigate",
+                      "page": "resource-groups"
+                    }
+                  },
+                  {
+                    "id": "create-resource",
+                    "label": "Create a resource",
+                    "icon": "Plus",
+                    "action": {
+                      "type": "navigate",
+                      "page": "storage-create"
+                    }
+                  },
+                  {
+                    "id": "synapse",
+                    "label": "Azure Synapse Analytics",
+                    "icon": "ChartLine",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "This lab focuses on Data Lake Storage Gen2 as the landing zone for analytics data."
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "recent-storage",
+                "title": "Resources - Recent",
+                "source": "storageAccounts",
+                "rowKey": "name",
+                "emptyText": "No storage accounts yet.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "resourceGroup",
+                    "label": "Resource group"
+                  },
+                  {
+                    "key": "location",
+                    "label": "Location"
+                  },
+                  {
+                    "key": "hierarchicalNamespace",
+                    "label": "Hierarchical namespace",
+                    "format": "bool"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "storage-overview",
+                  "select": {
+                    "as": "account",
+                    "path": "storageAccounts",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "resource-groups",
+            "title": "Resource groups",
+            "subtitle": "Contoso (contoso.example)",
+            "icon": "Boxes",
+            "url": "/#browse/resourcegroups",
+            "breadcrumb": [
+              "Home"
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "rg-list",
+                "source": "resourceGroups",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "location",
+                    "label": "Location"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "storage-accounts",
+            "title": "Storage accounts",
+            "subtitle": "Contoso (contoso.example)",
+            "icon": "Database",
+            "url": "/#browse/Microsoft.Storage%2FStorageAccounts",
+            "breadcrumb": [
+              "Home"
+            ],
+            "commands": [
+              {
+                "id": "storage-create-button",
+                "label": "+ Create",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "storage-create"
+                }
+              },
+              {
+                "id": "storage-refresh",
+                "label": "Refresh",
+                "icon": "RefreshCw",
+                "action": {
+                  "type": "message",
+                  "tone": "info",
+                  "text": "The storage account list is up to date."
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Analytics storage",
+                "text": "Azure Data Lake Storage Gen2 capabilities require a **hierarchical namespace**. A flat namespace is suitable for ordinary blob storage but does not provide directory-level ACLs."
+              },
+              {
+                "kind": "table",
+                "id": "storage-list",
+                "source": "storageAccounts",
+                "rowKey": "name",
+                "searchable": true,
+                "emptyText": "No storage accounts to display. Select + Create.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "resourceGroup",
+                    "label": "Resource group"
+                  },
+                  {
+                    "key": "location",
+                    "label": "Location"
+                  },
+                  {
+                    "key": "performance",
+                    "label": "Performance"
+                  },
+                  {
+                    "key": "redundancy",
+                    "label": "Redundancy"
+                  },
+                  {
+                    "key": "anonymousAccess",
+                    "label": "Allow blob anonymous access",
+                    "format": "bool"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "storage-overview",
+                  "select": {
+                    "as": "account",
+                    "path": "storageAccounts",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "storage-create",
+            "title": "Create a storage account",
+            "icon": "Database",
+            "url": "/#create/Microsoft.StorageAccount-ARM",
+            "navItem": "storage-accounts",
+            "breadcrumb": [
+              "Home",
+              "Storage accounts"
+            ],
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "storage-wizard",
+                "description": "Create an Azure Storage account. The Advanced tab contains Data Lake Storage Gen2 options such as hierarchical namespace.",
+                "reviewLabel": "Review",
+                "tabs": [
+                  {
+                    "id": "basics",
+                    "label": "Basics",
+                    "fields": [
+                      {
+                        "id": "subscription",
+                        "label": "Subscription",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Contoso Learning (simulated)",
+                        "options": [
+                          {
+                            "value": "Contoso Learning (simulated)",
+                            "label": "Contoso Learning (simulated)"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "resourceGroup",
+                        "label": "Resource group",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "rg-data-platform",
+                        "optionsFrom": {
+                          "path": "resourceGroups",
+                          "value": "name"
+                        },
+                        "options": [
+                          {
+                            "value": "create-new",
+                            "label": "Create new"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "newResourceGroup",
+                        "label": "New resource group name",
+                        "control": "text",
+                        "required": true,
+                        "visibleWhen": {
+                          "type": "equals",
+                          "path": "$form.resourceGroup",
+                          "value": "create-new"
+                        },
+                        "pattern": "^[A-Za-z0-9_.()-]{1,90}$",
+                        "patternMessage": "Use letters, numbers, periods, underscores, hyphens and parentheses."
+                      },
+                      {
+                        "id": "accountName",
+                        "label": "Storage account name",
+                        "control": "text",
+                        "required": true,
+                        "pattern": "^[a-z0-9]{3,24}$",
+                        "patternMessage": "Use 3-24 lowercase letters and numbers.",
+                        "unique": {
+                          "path": "storageAccounts",
+                          "key": "name",
+                          "message": "A storage account with this name already exists."
+                        }
+                      },
+                      {
+                        "id": "region",
+                        "label": "Region",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "westeurope",
+                        "options": [
+                          {
+                            "value": "westeurope",
+                            "label": "(Europe) West Europe"
+                          },
+                          {
+                            "value": "northeurope",
+                            "label": "(Europe) North Europe"
+                          },
+                          {
+                            "value": "eastus",
+                            "label": "(US) East US"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "performance",
+                        "label": "Performance",
+                        "control": "radio",
+                        "required": true,
+                        "defaultValue": "Standard",
+                        "options": [
+                          {
+                            "value": "Standard",
+                            "label": "Standard"
+                          },
+                          {
+                            "value": "Premium",
+                            "label": "Premium"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "redundancy",
+                        "label": "Redundancy",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Locally-redundant storage (LRS)",
+                        "options": [
+                          {
+                            "value": "Locally-redundant storage (LRS)",
+                            "label": "Locally-redundant storage (LRS)"
+                          },
+                          {
+                            "value": "Zone-redundant storage (ZRS)",
+                            "label": "Zone-redundant storage (ZRS)"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "advanced",
+                    "label": "Advanced",
+                    "description": "Enable the hierarchical namespace to use Data Lake Storage Gen2 directory semantics and ACLs.",
+                    "fields": [
+                      {
+                        "id": "hierarchicalNamespace",
+                        "label": "Enable hierarchical namespace",
+                        "control": "toggle",
+                        "defaultValue": false,
+                        "help": "Required for Azure Data Lake Storage Gen2 analytics workloads."
+                      },
+                      {
+                        "id": "anonymousAccess",
+                        "label": "Allow enabling anonymous access on individual containers",
+                        "control": "toggle",
+                        "defaultValue": false,
+                        "help": "Keep off unless public anonymous blob access is explicitly required."
+                      },
+                      {
+                        "id": "defaultAccessTier",
+                        "label": "Default access tier",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Hot",
+                        "options": [
+                          {
+                            "value": "Hot",
+                            "label": "Hot"
+                          },
+                          {
+                            "value": "Cool",
+                            "label": "Cool"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "data-protection",
+                    "label": "Data protection",
+                    "fields": [
+                      {
+                        "id": "versioning",
+                        "label": "Enable versioning for blobs",
+                        "control": "toggle",
+                        "defaultValue": true
+                      },
+                      {
+                        "id": "deleteRetention",
+                        "label": "Enable soft delete for blobs",
+                        "control": "toggle",
+                        "defaultValue": true
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tags",
+                    "label": "Tags",
+                    "fields": [
+                      {
+                        "id": "tagWorkload",
+                        "label": "Tag value for workload",
+                        "control": "text",
+                        "defaultValue": "analytics"
+                      },
+                      {
+                        "id": "tagOwner",
+                        "label": "Tag value for owner",
+                        "control": "text",
+                        "defaultValue": "data-platform"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.hierarchicalNamespace",
+                        "value": true
+                      },
+                      "message": "Turn on Hierarchical namespace. Without it, the account remains a flat blob namespace and cannot use Data Lake Storage Gen2 directory ACLs."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.anonymousAccess",
+                        "value": false
+                      },
+                      "message": "Keep anonymous blob access disabled for this private analytics landing zone."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.performance",
+                        "value": "Standard"
+                      },
+                      "message": "Use a Standard general-purpose account for this general analytics data lake scenario."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "if",
+                      "when": {
+                        "type": "equals",
+                        "path": "$form.resourceGroup",
+                        "value": "create-new"
+                      },
+                      "then": [
+                        {
+                          "type": "append",
+                          "path": "resourceGroups",
+                          "unique": "name",
+                          "value": {
+                            "name": "{{$form.newResourceGroup}}",
+                            "location": "{{$form.region}}"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "append",
+                      "path": "storageAccounts",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.accountName}}",
+                        "resourceGroup": "{{$form.newResourceGroup | or:$form.resourceGroup}}",
+                        "location": "{{$form.region}}",
+                        "performance": "{{$form.performance}}",
+                        "redundancy": "{{$form.redundancy}}",
+                        "hierarchicalNamespace": "{{$form.hierarchicalNamespace}}",
+                        "anonymousAccess": "{{$form.anonymousAccess}}",
+                        "defaultAccessTier": "{{$form.defaultAccessTier}}",
+                        "versioning": "{{$form.versioning}}",
+                        "deleteRetention": "{{$form.deleteRetention}}",
+                        "tags": {
+                          "workload": "{{$form.tagWorkload}}",
+                          "owner": "{{$form.tagOwner}}"
+                        }
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Deployment succeeded",
+                      "message": "Storage account {{$form.accountName}} was created with Data Lake Storage Gen2 capabilities."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "storage-deployment",
+                      "select": {
+                        "as": "account",
+                        "path": "storageAccounts",
+                        "key": "name",
+                        "value": "{{$form.accountName}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "storage-deployment",
+            "title": "Create storage account",
+            "subtitle": "Deployment",
+            "icon": "Rocket",
+            "url": "/#view/HubsExtension/DeploymentDetailsBlade/overview",
+            "requires": "account",
+            "navItem": "storage-accounts",
+            "breadcrumb": [
+              "Home",
+              "Storage accounts"
+            ],
+            "components": [
+              {
+                "kind": "deployment",
+                "title": "Your deployment is complete",
+                "status": "Succeeded",
+                "note": "Resource group: {{$sel.account.resourceGroup}} · Storage account: {{$sel.account.name}}",
+                "resources": [
+                  {
+                    "name": "{{$sel.account.name}}",
+                    "type": "Microsoft.Storage/storageAccounts",
+                    "status": "OK"
+                  }
+                ]
+              },
+              {
+                "kind": "button",
+                "id": "go-to-storage",
+                "label": "Go to resource",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "storage-overview"
+                }
+              }
+            ]
+          },
+          {
+            "id": "storage-overview",
+            "title": "{{$sel.account.name}}",
+            "subtitle": "Storage account",
+            "icon": "Database",
+            "url": "/#@contoso.example/resource/subscriptions/{{subscription.id}}/resourceGroups/{{$sel.account.resourceGroup}}/providers/Microsoft.Storage/storageAccounts/{{$sel.account.name}}/overview",
+            "requires": "account",
+            "navItem": "storage-accounts",
+            "breadcrumb": [
+              "Home",
+              "Storage accounts"
+            ],
+            "menu": [
+              {
+                "page": "storage-overview",
+                "label": "Overview",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "containers",
+                "label": "Containers",
+                "icon": "Container",
+                "section": "Data storage"
+              },
+              {
+                "page": "storage-browser",
+                "label": "Storage browser",
+                "icon": "FolderOpen",
+                "section": "Data storage"
+              },
+              {
+                "page": "curated-acl",
+                "label": "Manage ACL",
+                "icon": "ShieldCheck",
+                "section": "Data storage"
+              },
+              {
+                "page": "lifecycle",
+                "label": "Lifecycle management",
+                "icon": "Workflow",
+                "section": "Data management"
+              }
+            ],
+            "commands": [
+              {
+                "id": "open-storage-browser",
+                "label": "Storage browser",
+                "icon": "FolderOpen",
+                "action": {
+                  "type": "navigate",
+                  "page": "storage-browser"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Essentials",
+                "items": [
+                  {
+                    "label": "Resource group",
+                    "value": "{{$sel.account.resourceGroup}}",
+                    "format": "link"
+                  },
+                  {
+                    "label": "Location",
+                    "value": "{{$sel.account.location}}"
+                  },
+                  {
+                    "label": "Performance",
+                    "value": "{{$sel.account.performance}}"
+                  },
+                  {
+                    "label": "Hierarchical namespace",
+                    "value": "{{$sel.account.hierarchicalNamespace}}",
+                    "format": "bool"
+                  },
+                  {
+                    "label": "Allow blob anonymous access",
+                    "value": "{{$sel.account.anonymousAccess}}",
+                    "format": "bool"
+                  },
+                  {
+                    "label": "Tags",
+                    "value": "{{$sel.account.tags}}",
+                    "format": "tags"
+                  }
+                ]
+              },
+              {
+                "kind": "callout",
+                "variant": "success",
+                "text": "A hierarchical namespace stores objects as directories and files, so analytics engines can use directory ACLs and efficient file operations. A flat namespace treats every blob name as one long key."
+              }
+            ]
+          },
+          {
+            "id": "containers",
+            "title": "{{$sel.account.name}} | Containers",
+            "subtitle": "Data storage",
+            "icon": "Container",
+            "url": "/#blade/Microsoft_Azure_Storage/ContainerMenuBlade/containers",
+            "requires": "account",
+            "navItem": "storage-accounts",
+            "breadcrumb": [
+              "Home",
+              "Storage accounts",
+              "{{$sel.account.name}}"
+            ],
+            "menu": [
+              {
+                "page": "storage-overview",
+                "label": "Overview",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "containers",
+                "label": "Containers",
+                "icon": "Container",
+                "section": "Data storage"
+              },
+              {
+                "page": "storage-browser",
+                "label": "Storage browser",
+                "icon": "FolderOpen",
+                "section": "Data storage"
+              },
+              {
+                "page": "curated-acl",
+                "label": "Manage ACL",
+                "icon": "ShieldCheck",
+                "section": "Data storage"
+              },
+              {
+                "page": "lifecycle",
+                "label": "Lifecycle management",
+                "icon": "Workflow",
+                "section": "Data management"
+              }
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "container-form",
+                "title": "New container",
+                "description": "Create one private container at a time. Containers group related blob data.",
+                "fields": [
+                  {
+                    "id": "name",
+                    "label": "Name",
+                    "control": "text",
+                    "required": true,
+                    "pattern": "^[a-z0-9-]{3,63}$",
+                    "patternMessage": "Use lowercase letters, numbers, and hyphens."
+                  },
+                  {
+                    "id": "publicAccess",
+                    "label": "Anonymous access level",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Private (no anonymous access)",
+                    "options": [
+                      {
+                        "value": "Private (no anonymous access)",
+                        "label": "Private (no anonymous access)"
+                      },
+                      {
+                        "value": "Blob (anonymous read access for blobs only)",
+                        "label": "Blob (anonymous read access for blobs only)"
+                      },
+                      {
+                        "value": "Container (anonymous read access for containers and blobs)",
+                        "label": "Container (anonymous read access for containers and blobs)"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.publicAccess",
+                        "value": "Private (no anonymous access)"
+                      },
+                      "message": "Use Private access. The analytics landing zone must not expose raw or curated data anonymously."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "containers",
+                      "unique": "name",
+                      "uniqueMessage": "That container already exists.",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "account": "{{$sel.account.name}}",
+                        "publicAccess": "{{$form.publicAccess}}",
+                        "createdBy": "{{$user}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Container created",
+                      "message": "Container {{$form.name}} was created as private."
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "table",
+                "id": "container-list",
+                "title": "Containers",
+                "source": "containers",
+                "where": {
+                  "account": "{{$sel.account.name}}"
+                },
+                "rowKey": "name",
+                "emptyText": "No containers created yet.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "publicAccess",
+                    "label": "Anonymous access level"
+                  },
+                  {
+                    "key": "createdBy",
+                    "label": "Created by"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "storage-browser",
+                  "select": {
+                    "as": "container",
+                    "path": "containers",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "storage-browser",
+            "title": "{{$sel.account.name}} | Storage browser",
+            "subtitle": "Data storage",
+            "icon": "FolderOpen",
+            "url": "/#blade/Microsoft_Azure_Storage/StorageBrowserBlade",
+            "requires": "account",
+            "navItem": "storage-accounts",
+            "breadcrumb": [
+              "Home",
+              "Storage accounts",
+              "{{$sel.account.name}}"
+            ],
+            "menu": [
+              {
+                "page": "storage-overview",
+                "label": "Overview",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "containers",
+                "label": "Containers",
+                "icon": "Container",
+                "section": "Data storage"
+              },
+              {
+                "page": "storage-browser",
+                "label": "Storage browser",
+                "icon": "FolderOpen",
+                "section": "Data storage"
+              },
+              {
+                "page": "curated-acl",
+                "label": "Manage ACL",
+                "icon": "ShieldCheck",
+                "section": "Data storage"
+              },
+              {
+                "page": "lifecycle",
+                "label": "Lifecycle management",
+                "icon": "Workflow",
+                "section": "Data management"
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "VM files",
+                "text": "Files available on the lab VM: `C:\\LabFiles\\sales-2026-09.csv` (structured CSV rows), `C:\\LabFiles\\customers.json` (semi-structured JSON documents), and `C:\\LabFiles\\product-photos.zip` (unstructured binary archive)."
+              },
+              {
+                "kind": "form",
+                "id": "upload-form",
+                "title": "Create directory and upload files",
+                "description": "Create **sales/2026/09** in the raw container and upload the three VM files. Choose formats that match their data shape.",
+                "fields": [
+                  {
+                    "id": "container",
+                    "label": "Container",
+                    "control": "select",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "containers",
+                      "value": "name",
+                      "where": {
+                        "account": "{{$sel.account.name}}"
+                      }
+                    }
+                  },
+                  {
+                    "id": "directory",
+                    "label": "Directory path",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "sales/2026/09"
+                  },
+                  {
+                    "id": "csvFormat",
+                    "label": "sales-2026-09.csv data type",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Structured CSV",
+                    "options": [
+                      {
+                        "value": "Structured CSV",
+                        "label": "Structured CSV"
+                      },
+                      {
+                        "value": "Semi-structured JSON",
+                        "label": "Semi-structured JSON"
+                      },
+                      {
+                        "value": "Unstructured binary",
+                        "label": "Unstructured binary"
+                      },
+                      {
+                        "value": "Parquet table",
+                        "label": "Parquet table"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "jsonFormat",
+                    "label": "customers.json data type",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Semi-structured JSON",
+                    "options": [
+                      {
+                        "value": "Structured CSV",
+                        "label": "Structured CSV"
+                      },
+                      {
+                        "value": "Semi-structured JSON",
+                        "label": "Semi-structured JSON"
+                      },
+                      {
+                        "value": "Unstructured binary",
+                        "label": "Unstructured binary"
+                      },
+                      {
+                        "value": "Parquet table",
+                        "label": "Parquet table"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "zipFormat",
+                    "label": "product-photos.zip data type",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Unstructured binary",
+                    "options": [
+                      {
+                        "value": "Structured CSV",
+                        "label": "Structured CSV"
+                      },
+                      {
+                        "value": "Semi-structured JSON",
+                        "label": "Semi-structured JSON"
+                      },
+                      {
+                        "value": "Unstructured binary",
+                        "label": "Unstructured binary"
+                      },
+                      {
+                        "value": "Parquet table",
+                        "label": "Parquet table"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "analyticsFormat",
+                    "label": "Best optimized format for repeated analytics scans",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Parquet",
+                    "options": [
+                      {
+                        "value": "CSV",
+                        "label": "CSV"
+                      },
+                      {
+                        "value": "JSON",
+                        "label": "JSON"
+                      },
+                      {
+                        "value": "Parquet",
+                        "label": "Parquet"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Upload",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.container",
+                        "value": "raw"
+                      },
+                      "message": "Upload the provided landing files to the raw container first; curated data is for cleaned, governed outputs."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.directory",
+                        "value": "sales/2026/09"
+                      },
+                      "message": "Create the directory path sales/2026/09 so files are partitioned by subject, year, and month."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.csvFormat",
+                        "value": "Structured CSV"
+                      },
+                      "message": "sales-2026-09.csv is structured tabular data. CSV is acceptable for exchange; Parquet is better for repeated analytics scans."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.jsonFormat",
+                        "value": "Semi-structured JSON"
+                      },
+                      "message": "customers.json contains JSON documents with flexible fields, so classify it as semi-structured data."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.zipFormat",
+                        "value": "Unstructured binary"
+                      },
+                      "message": "A photo archive is unstructured binary data, not a relational table."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.analyticsFormat",
+                        "value": "Parquet"
+                      },
+                      "message": "Choose Parquet for optimized analytics because it is columnar and efficient for scanning selected columns."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "directories",
+                      "unique": "path",
+                      "value": {
+                        "account": "{{$sel.account.name}}",
+                        "container": "{{$form.container}}",
+                        "path": "{{$form.directory}}"
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "files",
+                      "unique": "name",
+                      "value": {
+                        "account": "{{$sel.account.name}}",
+                        "container": "{{$form.container}}",
+                        "directory": "{{$form.directory}}",
+                        "name": "sales-2026-09.csv",
+                        "classification": "Structured",
+                        "format": "CSV"
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "files",
+                      "unique": "name",
+                      "value": {
+                        "account": "{{$sel.account.name}}",
+                        "container": "{{$form.container}}",
+                        "directory": "{{$form.directory}}",
+                        "name": "customers.json",
+                        "classification": "Semi-structured",
+                        "format": "JSON"
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "files",
+                      "unique": "name",
+                      "value": {
+                        "account": "{{$sel.account.name}}",
+                        "container": "{{$form.container}}",
+                        "directory": "{{$form.directory}}",
+                        "name": "product-photos.zip",
+                        "classification": "Unstructured",
+                        "format": "ZIP"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Upload complete",
+                      "message": "Three files were uploaded to raw/sales/2026/09."
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "table",
+                "id": "file-list",
+                "title": "Files",
+                "source": "files",
+                "where": {
+                  "account": "{{$sel.account.name}}"
+                },
+                "rowKey": "name",
+                "emptyText": "No files uploaded yet.",
+                "variant": "files",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "container",
+                    "label": "Container"
+                  },
+                  {
+                    "key": "directory",
+                    "label": "Directory"
+                  },
+                  {
+                    "key": "classification",
+                    "label": "Classification",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "format",
+                    "label": "Format"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "curated-acl",
+            "title": "curated | Manage ACL",
+            "subtitle": "Directory access",
+            "icon": "ShieldCheck",
+            "url": "/#blade/Microsoft_Azure_Storage/AdlsGen2AclBlade/curated",
+            "requires": "account",
+            "navItem": "storage-accounts",
+            "breadcrumb": [
+              "Home",
+              "Storage accounts",
+              "{{$sel.account.name}}",
+              "curated"
+            ],
+            "menu": [
+              {
+                "page": "storage-overview",
+                "label": "Overview",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "containers",
+                "label": "Containers",
+                "icon": "Container",
+                "section": "Data storage"
+              },
+              {
+                "page": "storage-browser",
+                "label": "Storage browser",
+                "icon": "FolderOpen",
+                "section": "Data storage"
+              },
+              {
+                "page": "curated-acl",
+                "label": "Manage ACL",
+                "icon": "ShieldCheck",
+                "section": "Data storage"
+              },
+              {
+                "page": "lifecycle",
+                "label": "Lifecycle management",
+                "icon": "Workflow",
+                "section": "Data management"
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "In Data Lake Storage, **Read** allows reading file contents and **Execute** allows traversing directories. Do not grant **Write** unless analysts need to modify curated data."
+              },
+              {
+                "kind": "form",
+                "id": "acl-form",
+                "title": "Add ACL entry",
+                "fields": [
+                  {
+                    "id": "container",
+                    "label": "Container",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "curated",
+                    "optionsFrom": {
+                      "path": "containers",
+                      "value": "name",
+                      "where": {
+                        "account": "{{$sel.account.name}}"
+                      }
+                    }
+                  },
+                  {
+                    "id": "directory",
+                    "label": "Directory",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "/"
+                  },
+                  {
+                    "id": "principal",
+                    "label": "Security principal",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Analysts",
+                    "optionsFrom": {
+                      "path": "groups",
+                      "value": "name"
+                    }
+                  },
+                  {
+                    "id": "permissions",
+                    "label": "Permissions",
+                    "control": "checkboxes",
+                    "required": true,
+                    "defaultValue": [
+                      "Read",
+                      "Execute"
+                    ],
+                    "options": [
+                      {
+                        "value": "Read",
+                        "label": "Read"
+                      },
+                      {
+                        "value": "Write",
+                        "label": "Write"
+                      },
+                      {
+                        "value": "Execute",
+                        "label": "Execute"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.container",
+                        "value": "curated"
+                      },
+                      "message": "Grant analysts access on the curated container, not raw landing data."
+                    },
+                    {
+                      "rule": {
+                        "type": "allOf",
+                        "rules": [
+                          {
+                            "type": "includes",
+                            "path": "$form.permissions",
+                            "value": "Read"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.permissions",
+                            "value": "Execute"
+                          },
+                          {
+                            "type": "not",
+                            "rule": {
+                              "type": "includes",
+                              "path": "$form.permissions",
+                              "value": "Write"
+                            }
+                          }
+                        ]
+                      },
+                      "message": "Grant Read + Execute only. Write would let analysts change governed curated data."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "acls",
+                      "unique": "principal",
+                      "value": {
+                        "account": "{{$sel.account.name}}",
+                        "container": "{{$form.container}}",
+                        "directory": "{{$form.directory}}",
+                        "principal": "{{$form.principal}}",
+                        "read": "{{$form.permissions | has:Read}}",
+                        "write": "{{$form.permissions | has:Write}}",
+                        "execute": "{{$form.permissions | has:Execute}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "ACL saved",
+                      "message": "Analysts can read and traverse the curated directory but cannot write."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "lifecycle",
+            "title": "{{$sel.account.name}} | Lifecycle management",
+            "subtitle": "Data management",
+            "icon": "Workflow",
+            "url": "/#blade/Microsoft_Azure_Storage/LifecycleManagementBlade",
+            "requires": "account",
+            "navItem": "storage-accounts",
+            "breadcrumb": [
+              "Home",
+              "Storage accounts",
+              "{{$sel.account.name}}"
+            ],
+            "menu": [
+              {
+                "page": "storage-overview",
+                "label": "Overview",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "containers",
+                "label": "Containers",
+                "icon": "Container",
+                "section": "Data storage"
+              },
+              {
+                "page": "storage-browser",
+                "label": "Storage browser",
+                "icon": "FolderOpen",
+                "section": "Data storage"
+              },
+              {
+                "page": "curated-acl",
+                "label": "Manage ACL",
+                "icon": "ShieldCheck",
+                "section": "Data storage"
+              },
+              {
+                "page": "lifecycle",
+                "label": "Lifecycle management",
+                "icon": "Workflow",
+                "section": "Data management"
+              }
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "lifecycle-form",
+                "title": "Add a rule",
+                "description": "Lifecycle management policies automate movement between access tiers for blobs that match a prefix.",
+                "fields": [
+                  {
+                    "id": "ruleName",
+                    "label": "Rule name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "move-raw-to-cool"
+                  },
+                  {
+                    "id": "scope",
+                    "label": "Rule scope",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Limit blobs with filters",
+                    "options": [
+                      {
+                        "value": "Limit blobs with filters",
+                        "label": "Limit blobs with filters"
+                      },
+                      {
+                        "value": "Apply rule to all blobs",
+                        "label": "Apply rule to all blobs"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prefix",
+                    "label": "Blob prefix",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "raw/sales/"
+                  },
+                  {
+                    "id": "coolAfterDays",
+                    "label": "Move to Cool after days since modification",
+                    "control": "number",
+                    "required": true,
+                    "defaultValue": 30,
+                    "min": 1
+                  },
+                  {
+                    "id": "archiveAfterDays",
+                    "label": "Optional move to Archive after days",
+                    "control": "number",
+                    "defaultValue": 180,
+                    "min": 1
+                  }
+                ],
+                "submit": {
+                  "label": "Add",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.scope",
+                        "value": "Limit blobs with filters"
+                      },
+                      "message": "Filter the rule to raw data. Curated outputs should have their own retention decision."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.prefix",
+                        "value": "raw/sales/"
+                      },
+                      "message": "Use the prefix raw/sales/ so only the raw sales landing area is affected."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.coolAfterDays",
+                        "value": 30
+                      },
+                      "message": "Move raw blobs to Cool after 30 days for this scenario."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "lifecycleRules",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.ruleName}}",
+                        "account": "{{$sel.account.name}}",
+                        "scope": "{{$form.scope}}",
+                        "prefix": "{{$form.prefix}}",
+                        "coolAfterDays": "{{$form.coolAfterDays}}",
+                        "archiveAfterDays": "{{$form.archiveAfterDays}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Lifecycle rule added",
+                      "message": "Rule {{$form.ruleName}} moves matching raw blobs to Cool after 30 days."
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "table",
+                "id": "lifecycle-list",
+                "title": "Lifecycle management rules",
+                "source": "lifecycleRules",
+                "where": {
+                  "account": "{{$sel.account.name}}"
+                },
+                "rowKey": "name",
+                "emptyText": "No lifecycle rules configured.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name"
+                  },
+                  {
+                    "key": "prefix",
+                    "label": "Prefix"
+                  },
+                  {
+                    "key": "coolAfterDays",
+                    "label": "Cool after days"
+                  },
+                  {
+                    "key": "archiveAfterDays",
+                    "label": "Archive after days"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "subscription": {
+            "name": "Contoso Learning (simulated)",
+            "id": "00000000-0000-4000-8000-000000000900"
+          },
+          "resourceGroups": [
+            {
+              "name": "rg-data-platform",
+              "location": "westeurope"
+            },
+            {
+              "name": "rg-shared-services",
+              "location": "northeurope"
+            }
+          ],
+          "storageAccounts": [
+            {
+              "name": "stnorthwindarchive",
+              "resourceGroup": "rg-shared-services",
+              "location": "northeurope",
+              "performance": "Standard",
+              "redundancy": "Locally-redundant storage (LRS)",
+              "hierarchicalNamespace": false,
+              "anonymousAccess": false,
+              "defaultAccessTier": "Cool",
+              "tags": {
+                "workload": "archive"
+              }
+            }
+          ],
+          "containers": [],
+          "directories": [],
+          "files": [],
+          "acls": [],
+          "lifecycleRules": [],
+          "groups": [
+            {
+              "name": "Analysts"
+            },
+            {
+              "name": "Data engineers"
+            },
+            {
+              "name": "External auditors"
+            }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "key": "open-create",
+          "title": "Open the storage account create experience",
+          "instruction": "In the portal menu, select **Storage accounts**, then select **+ Create**.",
+          "hint": "The command bar is under the Storage accounts page title.",
+          "explanation": "Storage accounts are the Azure resource that host containers and blobs. Data Lake Storage Gen2 capabilities are enabled on the storage account.",
+          "targetId": "storage-create-button",
+          "rules": [
+            {
+              "key": "visited-create",
+              "description": "You opened the Create a storage account page",
+              "rule": {
+                "type": "visited",
+                "page": "storage-create"
+              }
+            }
+          ]
+        },
+        {
+          "key": "create-account",
+          "title": "Create a Data Lake Storage Gen2 account",
+          "instruction": "Create **stcontosodatalake01** in **rg-data-platform** and **(Europe) West Europe**. On **Advanced**, turn on **Enable hierarchical namespace** and keep **Allow enabling anonymous access on individual containers** off. Then select **Create**.",
+          "hint": "Hierarchical namespace is on the Advanced tab. It is the setting that changes the account from a flat blob namespace to Data Lake Storage Gen2 semantics.",
+          "explanation": "A hierarchical namespace enables directory operations and POSIX-like ACLs, which are important for analytics data lakes.",
+          "targetId": "storage-wizard",
+          "rules": [
+            {
+              "key": "account-created",
+              "description": "Storage account stcontosodatalake01 exists in rg-data-platform",
+              "rule": {
+                "type": "arrayContains",
+                "path": "storageAccounts",
+                "match": {
+                  "name": "stcontosodatalake01",
+                  "resourceGroup": "rg-data-platform",
+                  "location": "westeurope"
+                }
+              },
+              "failureFeedback": "Create stcontosodatalake01 in rg-data-platform and West Europe."
+            },
+            {
+              "key": "hns-enabled",
+              "description": "Hierarchical namespace is enabled and anonymous access is disabled",
+              "rule": {
+                "type": "arrayContains",
+                "path": "storageAccounts",
+                "match": {
+                  "name": "stcontosodatalake01",
+                  "hierarchicalNamespace": true,
+                  "anonymousAccess": false
+                }
+              },
+              "failureFeedback": "Turn on hierarchical namespace and keep anonymous access disabled."
+            }
+          ]
+        },
+        {
+          "key": "create-containers",
+          "title": "Create private raw and curated containers",
+          "instruction": "Open the storage account, select **Containers**, and create **raw** and **curated** with **Private (no anonymous access)**.",
+          "hint": "Create one container at a time with the New container form.",
+          "explanation": "Raw is a landing zone for source files; curated is for cleaned data that analysts can consume.",
+          "targetId": "container-form",
+          "rules": [
+            {
+              "key": "raw-private",
+              "description": "raw container is private",
+              "rule": {
+                "type": "arrayContains",
+                "path": "containers",
+                "match": {
+                  "name": "raw",
+                  "publicAccess": "Private (no anonymous access)"
+                }
+              },
+              "failureFeedback": "Create raw as a private container."
+            },
+            {
+              "key": "curated-private",
+              "description": "curated container is private",
+              "rule": {
+                "type": "arrayContains",
+                "path": "containers",
+                "match": {
+                  "name": "curated",
+                  "publicAccess": "Private (no anonymous access)"
+                }
+              },
+              "failureFeedback": "Create curated as a private container."
+            }
+          ]
+        },
+        {
+          "key": "upload-files",
+          "title": "Upload the September files to raw",
+          "instruction": "In **Storage browser**, create **sales/2026/09** in **raw** and upload **sales-2026-09.csv**, **customers.json**, and **product-photos.zip** from the VM. Classify them as structured CSV, semi-structured JSON, and unstructured binary, and choose **Parquet** as the optimized analytics format.",
+          "hint": "CSV and JSON are common exchange formats. Parquet is columnar, so analytics engines can scan fewer bytes when queries use a subset of columns.",
+          "explanation": "The raw zone preserves source files; later ETL or ELT jobs can convert frequently queried data to Parquet tables.",
+          "targetId": "upload-form",
+          "rules": [
+            {
+              "key": "directory-created",
+              "description": "raw/sales/2026/09 directory exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "directories",
+                "match": {
+                  "container": "raw",
+                  "path": "sales/2026/09"
+                }
+              },
+              "failureFeedback": "Create sales/2026/09 in the raw container."
+            },
+            {
+              "key": "all-files-uploaded",
+              "description": "All three files are uploaded with correct classifications",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "arrayContains",
+                    "path": "files",
+                    "match": {
+                      "name": "sales-2026-09.csv",
+                      "classification": "Structured",
+                      "format": "CSV"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "files",
+                    "match": {
+                      "name": "customers.json",
+                      "classification": "Semi-structured",
+                      "format": "JSON"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "files",
+                    "match": {
+                      "name": "product-photos.zip",
+                      "classification": "Unstructured",
+                      "format": "ZIP"
+                    }
+                  }
+                ]
+              },
+              "failureFeedback": "Upload and classify the CSV, JSON, and ZIP files correctly."
+            }
+          ]
+        },
+        {
+          "key": "set-acl",
+          "title": "Grant least-privilege ACLs on curated",
+          "instruction": "Open **curated | Manage ACL** and grant **Analysts** **Read** and **Execute** only. Do not grant **Write**.",
+          "hint": "Execute is required to traverse a directory; Write would allow the group to change curated data.",
+          "explanation": "Data lake ACLs let you combine broad Azure roles with fine-grained directory permissions.",
+          "targetId": "acl-form",
+          "rules": [
+            {
+              "key": "analysts-rx",
+              "description": "Analysts have Read + Execute but not Write on curated",
+              "rule": {
+                "type": "arrayContains",
+                "path": "acls",
+                "match": {
+                  "container": "curated",
+                  "principal": "Analysts",
+                  "read": true,
+                  "execute": true,
+                  "write": false
+                }
+              },
+              "failureFeedback": "Grant Analysts Read and Execute only on curated."
+            }
+          ]
+        },
+        {
+          "key": "lifecycle-rule",
+          "title": "Add a lifecycle management rule",
+          "instruction": "Select **Lifecycle management** and add **move-raw-to-cool**. Use **Limit blobs with filters**, prefix **raw/sales/**, and move matching blobs to **Cool** after **30** days. You may leave the optional Archive action at **180** days.",
+          "hint": "Lifecycle rules use prefixes to target selected blobs such as one landing folder.",
+          "explanation": "Lifecycle management automates movement between access tiers as data ages.",
+          "targetId": "lifecycle-form",
+          "rules": [
+            {
+              "key": "raw-cool-rule",
+              "description": "Lifecycle rule moves raw sales blobs to Cool after 30 days",
+              "rule": {
+                "type": "arrayContains",
+                "path": "lifecycleRules",
+                "match": {
+                  "name": "move-raw-to-cool",
+                  "prefix": "raw/sales/",
+                  "coolAfterDays": 30
+                }
+              },
+              "failureFeedback": "Add move-raw-to-cool with prefix raw/sales/ and Cool after 30 days."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "final-hns",
+          "description": "The analytics account uses hierarchical namespace",
+          "rule": {
+            "type": "arrayContains",
+            "path": "storageAccounts",
+            "match": {
+              "name": "stcontosodatalake01",
+              "hierarchicalNamespace": true
+            }
+          },
+          "successFeedback": "Hierarchical namespace is enabled for Data Lake Storage Gen2.",
+          "failureFeedback": "The storage account must have hierarchical namespace enabled."
+        },
+        {
+          "key": "final-private",
+          "description": "No container allows anonymous access",
+          "rule": {
+            "type": "arrayNotContains",
+            "path": "containers",
+            "match": {
+              "publicAccess": "Blob (anonymous read access for blobs only)"
+            }
+          },
+          "failureFeedback": "All lab containers must remain private."
+        },
+        {
+          "key": "final-no-write",
+          "description": "Analysts cannot write curated data",
+          "rule": {
+            "type": "arrayContains",
+            "path": "acls",
+            "match": {
+              "principal": "Analysts",
+              "container": "curated",
+              "write": false
+            }
+          },
+          "successFeedback": "Analysts have least-privilege read access.",
+          "failureFeedback": "Remove Write from the Analysts ACL."
+        }
+      ],
+      "solution": "1. Select **Storage accounts** and **+ Create**.\n2. **Basics**: Resource group **rg-data-platform**, name `stcontosodatalake01`, Region **(Europe) West Europe**, Performance **Standard**, Redundancy **Locally-redundant storage (LRS)**.\n3. **Advanced**: turn on **Enable hierarchical namespace** and keep **Allow enabling anonymous access on individual containers** off. **Create**, then **Go to resource**.\n4. Open **Containers**. Create `raw` and `curated`, both with **Private (no anonymous access)**.\n5. Open **Storage browser**. In `raw`, create `sales/2026/09` and upload `sales-2026-09.csv`, `customers.json`, and `product-photos.zip`; classify them as structured CSV, semi-structured JSON, and unstructured binary. Choose **Parquet** as the optimized analytics format.\n6. Open **curated | Manage ACL**. Add **Analysts** with **Read** and **Execute** only.\n7. Open **Lifecycle management**. Add `move-raw-to-cool`, scope **Limit blobs with filters**, prefix `raw/sales/`, move to Cool after `30` days, optional Archive after `180` days."
+    }
+  ]
+}

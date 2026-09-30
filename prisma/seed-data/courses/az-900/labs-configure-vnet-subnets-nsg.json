@@ -1,0 +1,1523 @@
+{
+  "labs": [
+    {
+      "slug": "configure-vnet-subnets-nsg",
+      "type": "UI_SIMULATION",
+      "title": "Configure a virtual network with subnets and an NSG",
+      "summary": "Create a VNet with web and data subnets, create an NSG, allow HTTPS to the web subnet, and keep the data subnet private.",
+      "scenario": "Fabrikam needs a small two-tier network. In the simulated Azure portal, create **vnet-app-prod** with address space **10.20.0.0/16** and two non-overlapping subnets: **snet-web 10.20.1.0/24** and **snet-data 10.20.2.0/24**. Create **nsg-web**, add an inbound rule allowing **HTTPS (443)** from the **Internet** service tag at priority **100**, and associate **nsg-web** with **snet-web** only. Review optional peering with **vnet-hub (10.0.0.0/16)** to see why address spaces must not overlap.",
+      "domainKey": "azure-architecture-services",
+      "moduleSlug": "azure-compute-and-networking",
+      "objectiveCode": "2.2",
+      "complexity": "INTERMEDIATE",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Plan a virtual network address space",
+        "Create non-overlapping subnets",
+        "Add an HTTPS NSG rule with priority",
+        "Associate an NSG only to the internet-facing subnet"
+      ],
+      "prerequisites": [
+        "Know virtual network and NSG basics"
+      ],
+      "sources": [
+        {
+          "title": "Quickstart: Create an Azure Virtual Network",
+          "url": "https://learn.microsoft.com/en-us/azure/virtual-network/quickstart-create-virtual-network"
+        },
+        {
+          "title": "Create, Change, or Delete Azure Network Security Groups",
+          "url": "https://learn.microsoft.com/en-us/azure/virtual-network/manage-network-security-group"
+        },
+        {
+          "title": "Tutorial: Filter network traffic with a network security group",
+          "url": "https://learn.microsoft.com/en-us/azure/virtual-network/tutorial-filter-network-traffic"
+        },
+        {
+          "title": "Virtual network peering",
+          "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-peering-overview"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Azure",
+          "theme": "azure",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://portal.azure.com",
+          "searchPlaceholder": "Search resources, services, and docs (G+/)"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "vnets",
+            "label": "Virtual networks",
+            "icon": "Network",
+            "section": "Favorites"
+          },
+          {
+            "page": "nsgs",
+            "label": "Network security groups",
+            "icon": "Shield",
+            "section": "Favorites"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/#home",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "services",
+                "title": "Azure services",
+                "size": "sm",
+                "items": [
+                  {
+                    "id": "virtual-networks",
+                    "label": "Virtual networks",
+                    "icon": "Network",
+                    "action": {
+                      "type": "navigate",
+                      "page": "vnets"
+                    }
+                  },
+                  {
+                    "id": "network-security-groups",
+                    "label": "Network security groups",
+                    "icon": "Shield",
+                    "action": {
+                      "type": "navigate",
+                      "page": "nsgs"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "vnets",
+            "title": "Virtual networks",
+            "icon": "Network",
+            "url": "/#browse/Microsoft.Network%2FvirtualNetworks",
+            "commands": [
+              {
+                "id": "vnets-create",
+                "label": "Create",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "vnet-create"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "vnet-list",
+                "source": "virtualNetworks",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "resourceGroup",
+                    "label": "Resource group"
+                  },
+                  {
+                    "key": "addressSpace",
+                    "label": "Address space"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "vnet-overview",
+                  "select": {
+                    "as": "vnet",
+                    "path": "virtualNetworks",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "vnet-create",
+            "title": "Create virtual network",
+            "icon": "Network",
+            "url": "/#create/Microsoft.VirtualNetwork",
+            "navItem": "vnets",
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "vnet-wizard",
+                "reviewLabel": "Review + create",
+                "tabs": [
+                  {
+                    "id": "basics",
+                    "label": "Basics",
+                    "fields": [
+                      {
+                        "id": "subscription",
+                        "label": "Subscription",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Contoso Learning (simulated)",
+                        "options": [
+                          {
+                            "value": "Contoso Learning (simulated)",
+                            "label": "Contoso Learning (simulated)"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "resourceGroup",
+                        "label": "Resource group",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "rg-network-prod",
+                        "optionsFrom": {
+                          "path": "resourceGroups",
+                          "value": "name"
+                        }
+                      },
+                      {
+                        "id": "name",
+                        "label": "Name",
+                        "control": "text",
+                        "required": true,
+                        "defaultValue": "vnet-app-prod",
+                        "unique": {
+                          "path": "virtualNetworks",
+                          "key": "name",
+                          "message": "A virtual network with this name already exists."
+                        }
+                      },
+                      {
+                        "id": "region",
+                        "label": "Region",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "westeurope",
+                        "optionsFrom": {
+                          "path": "regions",
+                          "value": "name",
+                          "label": "displayName"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "security",
+                    "label": "Security",
+                    "fields": [
+                      {
+                        "id": "bastion",
+                        "label": "Azure Bastion",
+                        "control": "toggle",
+                        "defaultValue": false
+                      },
+                      {
+                        "id": "firewall",
+                        "label": "Azure Firewall",
+                        "control": "toggle",
+                        "defaultValue": false
+                      }
+                    ]
+                  },
+                  {
+                    "id": "ip-addresses",
+                    "label": "IP addresses",
+                    "fields": [
+                      {
+                        "id": "addressSpace",
+                        "label": "Address space",
+                        "control": "text",
+                        "required": true,
+                        "defaultValue": "10.20.0.0/16"
+                      },
+                      {
+                        "id": "webPrefix",
+                        "label": "snet-web address range",
+                        "control": "text",
+                        "required": true,
+                        "defaultValue": "10.20.1.0/24"
+                      },
+                      {
+                        "id": "dataPrefix",
+                        "label": "snet-data address range",
+                        "control": "text",
+                        "required": true,
+                        "defaultValue": "10.20.2.0/24"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tags",
+                    "label": "Tags",
+                    "fields": [
+                      {
+                        "id": "env",
+                        "label": "Tag value for 'environment'",
+                        "control": "text",
+                        "defaultValue": "prod"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.addressSpace",
+                        "value": "10.20.0.0/16"
+                      },
+                      "message": "Use address space 10.20.0.0/16."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.webPrefix",
+                        "value": "10.20.1.0/24"
+                      },
+                      "message": "snet-web must be 10.20.1.0/24 and inside the VNet address space."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.dataPrefix",
+                        "value": "10.20.2.0/24"
+                      },
+                      "message": "snet-data must be 10.20.2.0/24 and not overlap snet-web."
+                    },
+                    {
+                      "rule": {
+                        "type": "notEquals",
+                        "path": "$form.webPrefix",
+                        "value": "{{$form.dataPrefix}}"
+                      },
+                      "message": "Subnet address ranges cannot overlap."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "virtualNetworks",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "resourceGroup": "{{$form.resourceGroup}}",
+                        "location": "{{$form.region}}",
+                        "addressSpace": "{{$form.addressSpace}}",
+                        "tags": {
+                          "environment": "{{$form.env}}"
+                        }
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "subnets",
+                      "value": {
+                        "virtualNetwork": "{{$form.name}}",
+                        "name": "snet-web",
+                        "addressPrefix": "{{$form.webPrefix}}",
+                        "nsg": "None"
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "subnets",
+                      "value": {
+                        "virtualNetwork": "{{$form.name}}",
+                        "name": "snet-data",
+                        "addressPrefix": "{{$form.dataPrefix}}",
+                        "nsg": "None"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Deployment succeeded",
+                      "message": "Virtual network {{$form.name}} was created."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "vnet-overview",
+                      "select": {
+                        "as": "vnet",
+                        "path": "virtualNetworks",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "vnet-overview",
+            "title": "{{$sel.vnet.name}}",
+            "subtitle": "Virtual network",
+            "icon": "Network",
+            "requires": "vnet",
+            "navItem": "vnets",
+            "breadcrumb": [
+              "Home",
+              "Virtual networks"
+            ],
+            "menu": [
+              {
+                "page": "vnet-overview",
+                "label": "Overview",
+                "icon": "Network"
+              },
+              {
+                "page": "vnet-subnets",
+                "label": "Subnets",
+                "icon": "Split",
+                "section": "Settings"
+              },
+              {
+                "page": "vnet-peerings",
+                "label": "Peerings",
+                "icon": "Waypoints",
+                "section": "Settings"
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Essentials",
+                "items": [
+                  {
+                    "label": "Resource group",
+                    "value": "{{$sel.vnet.resourceGroup}}"
+                  },
+                  {
+                    "label": "Address space",
+                    "value": "{{$sel.vnet.addressSpace}}"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "subnet-summary",
+                "source": "subnets",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name"
+                  },
+                  {
+                    "key": "addressPrefix",
+                    "label": "Address range"
+                  },
+                  {
+                    "key": "nsg",
+                    "label": "Network security group"
+                  }
+                ],
+                "where": {
+                  "virtualNetwork": "{{$sel.vnet.name}}"
+                }
+              }
+            ]
+          },
+          {
+            "id": "vnet-subnets",
+            "title": "{{$sel.vnet.name}} | Subnets",
+            "icon": "Split",
+            "requires": "vnet",
+            "navItem": "vnets",
+            "menu": [
+              {
+                "page": "vnet-overview",
+                "label": "Overview",
+                "icon": "Network"
+              },
+              {
+                "page": "vnet-subnets",
+                "label": "Subnets",
+                "icon": "Split",
+                "section": "Settings"
+              },
+              {
+                "page": "vnet-peerings",
+                "label": "Peerings",
+                "icon": "Waypoints",
+                "section": "Settings"
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "vnet-subnet-list",
+                "source": "subnets",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name"
+                  },
+                  {
+                    "key": "addressPrefix",
+                    "label": "Address range"
+                  },
+                  {
+                    "key": "nsg",
+                    "label": "Network security group"
+                  }
+                ],
+                "where": {
+                  "virtualNetwork": "{{$sel.vnet.name}}"
+                }
+              }
+            ]
+          },
+          {
+            "id": "vnet-peerings",
+            "title": "{{$sel.vnet.name}} | Peerings",
+            "icon": "Waypoints",
+            "requires": "vnet",
+            "navItem": "vnets",
+            "menu": [
+              {
+                "page": "vnet-overview",
+                "label": "Overview",
+                "icon": "Network"
+              },
+              {
+                "page": "vnet-subnets",
+                "label": "Subnets",
+                "icon": "Split",
+                "section": "Settings"
+              },
+              {
+                "page": "vnet-peerings",
+                "label": "Peerings",
+                "icon": "Waypoints",
+                "section": "Settings"
+              }
+            ],
+            "commands": [
+              {
+                "id": "add-peering",
+                "label": "Add",
+                "icon": "Plus",
+                "action": {
+                  "type": "message",
+                  "tone": "info",
+                  "text": "vnet-hub uses 10.0.0.0/16, which does not overlap 10.20.0.0/16. Overlapping spaces cannot be peered."
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Peering validation",
+                "text": "Peered virtual networks must not have overlapping address spaces."
+              },
+              {
+                "kind": "table",
+                "id": "peering-list",
+                "source": "peerings",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name"
+                  },
+                  {
+                    "key": "remoteVnet",
+                    "label": "Remote virtual network"
+                  },
+                  {
+                    "key": "state",
+                    "label": "Peering status"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "nsgs",
+            "title": "Network security groups",
+            "icon": "Shield",
+            "url": "/#browse/Microsoft.Network%2FNetworkSecurityGroups",
+            "commands": [
+              {
+                "id": "nsgs-create",
+                "label": "Create",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "nsg-create"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "nsg-list",
+                "source": "networkSecurityGroups",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "resourceGroup",
+                    "label": "Resource group"
+                  },
+                  {
+                    "key": "location",
+                    "label": "Location"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "nsg-overview",
+                  "select": {
+                    "as": "nsg",
+                    "path": "networkSecurityGroups",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "nsg-create",
+            "title": "Create network security group",
+            "icon": "ShieldPlus",
+            "navItem": "nsgs",
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "nsg-wizard",
+                "reviewLabel": "Review + create",
+                "tabs": [
+                  {
+                    "id": "basics",
+                    "label": "Basics",
+                    "fields": [
+                      {
+                        "id": "subscription",
+                        "label": "Subscription",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Contoso Learning (simulated)",
+                        "options": [
+                          {
+                            "value": "Contoso Learning (simulated)",
+                            "label": "Contoso Learning (simulated)"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "resourceGroup",
+                        "label": "Resource group",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "rg-network-prod",
+                        "optionsFrom": {
+                          "path": "resourceGroups",
+                          "value": "name"
+                        }
+                      },
+                      {
+                        "id": "name",
+                        "label": "Network security group name",
+                        "control": "text",
+                        "required": true,
+                        "defaultValue": "nsg-web",
+                        "unique": {
+                          "path": "networkSecurityGroups",
+                          "key": "name",
+                          "message": "An NSG with this name already exists."
+                        }
+                      },
+                      {
+                        "id": "region",
+                        "label": "Region",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "westeurope",
+                        "optionsFrom": {
+                          "path": "regions",
+                          "value": "name",
+                          "label": "displayName"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.name",
+                        "value": "nsg-web"
+                      },
+                      "message": "Create nsg-web for the web subnet."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "networkSecurityGroups",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "resourceGroup": "{{$form.resourceGroup}}",
+                        "location": "{{$form.region}}"
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "nsgRules",
+                      "value": {
+                        "nsg": "{{$form.name}}",
+                        "name": "AllowVnetInBound",
+                        "priority": 65000,
+                        "source": "VirtualNetwork",
+                        "destinationPort": "*",
+                        "protocol": "Any",
+                        "access": "Allow"
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "nsgRules",
+                      "value": {
+                        "nsg": "{{$form.name}}",
+                        "name": "DenyAllInBound",
+                        "priority": 65500,
+                        "source": "Any",
+                        "destinationPort": "*",
+                        "protocol": "Any",
+                        "access": "Deny"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Deployment succeeded"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "nsg-overview",
+                      "select": {
+                        "as": "nsg",
+                        "path": "networkSecurityGroups",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "nsg-overview",
+            "title": "{{$sel.nsg.name}}",
+            "subtitle": "Network security group",
+            "icon": "Shield",
+            "requires": "nsg",
+            "navItem": "nsgs",
+            "menu": [
+              {
+                "page": "nsg-overview",
+                "label": "Overview",
+                "icon": "Shield"
+              },
+              {
+                "page": "nsg-inbound",
+                "label": "Inbound security rules",
+                "icon": "ShieldCheck",
+                "section": "Settings"
+              },
+              {
+                "page": "nsg-subnets",
+                "label": "Subnets",
+                "icon": "Split",
+                "section": "Settings"
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Default rules",
+                "text": "Default rules include **AllowVnetInBound** and **DenyAllInBound 65500**. Lower priority numbers are evaluated first."
+              },
+              {
+                "kind": "table",
+                "id": "nsg-overview-rules",
+                "source": "nsgRules",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name"
+                  },
+                  {
+                    "key": "priority",
+                    "label": "Priority"
+                  },
+                  {
+                    "key": "source",
+                    "label": "Source"
+                  },
+                  {
+                    "key": "destinationPort",
+                    "label": "Port"
+                  },
+                  {
+                    "key": "access",
+                    "label": "Action",
+                    "format": "badge"
+                  }
+                ],
+                "where": {
+                  "nsg": "{{$sel.nsg.name}}"
+                }
+              }
+            ]
+          },
+          {
+            "id": "nsg-inbound",
+            "title": "{{$sel.nsg.name}} | Inbound security rules",
+            "icon": "ShieldCheck",
+            "requires": "nsg",
+            "navItem": "nsgs",
+            "menu": [
+              {
+                "page": "nsg-overview",
+                "label": "Overview",
+                "icon": "Shield"
+              },
+              {
+                "page": "nsg-inbound",
+                "label": "Inbound security rules",
+                "icon": "ShieldCheck",
+                "section": "Settings"
+              },
+              {
+                "page": "nsg-subnets",
+                "label": "Subnets",
+                "icon": "Split",
+                "section": "Settings"
+              }
+            ],
+            "commands": [
+              {
+                "id": "add-inbound-rule",
+                "label": "Add",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "rule-add"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "nsg-rule-list",
+                "source": "nsgRules",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name"
+                  },
+                  {
+                    "key": "priority",
+                    "label": "Priority"
+                  },
+                  {
+                    "key": "source",
+                    "label": "Source"
+                  },
+                  {
+                    "key": "destinationPort",
+                    "label": "Destination port"
+                  },
+                  {
+                    "key": "access",
+                    "label": "Action",
+                    "format": "badge"
+                  }
+                ],
+                "where": {
+                  "nsg": "{{$sel.nsg.name}}"
+                }
+              }
+            ]
+          },
+          {
+            "id": "rule-add",
+            "title": "Add inbound security rule",
+            "icon": "ShieldPlus",
+            "requires": "nsg",
+            "navItem": "nsgs",
+            "components": [
+              {
+                "kind": "form",
+                "id": "https-rule-form",
+                "title": "Inbound security rule",
+                "fields": [
+                  {
+                    "id": "sourceType",
+                    "label": "Source",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Service Tag",
+                    "options": [
+                      {
+                        "value": "Service Tag",
+                        "label": "Service Tag"
+                      },
+                      {
+                        "value": "Any",
+                        "label": "Any"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "sourceTag",
+                    "label": "Source service tag",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Internet",
+                    "options": [
+                      {
+                        "value": "Internet",
+                        "label": "Internet"
+                      },
+                      {
+                        "value": "VirtualNetwork",
+                        "label": "VirtualNetwork"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "service",
+                    "label": "Service",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "HTTPS",
+                    "options": [
+                      {
+                        "value": "HTTPS",
+                        "label": "HTTPS"
+                      },
+                      {
+                        "value": "HTTP",
+                        "label": "HTTP"
+                      },
+                      {
+                        "value": "SSH",
+                        "label": "SSH"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "port",
+                    "label": "Destination port ranges",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "443"
+                  },
+                  {
+                    "id": "protocol",
+                    "label": "Protocol",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "TCP",
+                    "options": [
+                      {
+                        "value": "TCP",
+                        "label": "TCP"
+                      },
+                      {
+                        "value": "Any",
+                        "label": "Any"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "action",
+                    "label": "Action",
+                    "control": "radio",
+                    "required": true,
+                    "defaultValue": "Allow",
+                    "options": [
+                      {
+                        "value": "Allow",
+                        "label": "Allow"
+                      },
+                      {
+                        "value": "Deny",
+                        "label": "Deny"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "priority",
+                    "label": "Priority",
+                    "control": "number",
+                    "required": true,
+                    "defaultValue": 100,
+                    "min": 100,
+                    "max": 4096
+                  },
+                  {
+                    "id": "name",
+                    "label": "Name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Allow-HTTPS-Internet"
+                  }
+                ],
+                "submit": {
+                  "label": "Add",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.sourceType",
+                        "value": "Service Tag"
+                      },
+                      "message": "Use Service Tag, not Any."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.sourceTag",
+                        "value": "Internet"
+                      },
+                      "message": "Use the Internet service tag."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.service",
+                        "value": "HTTPS"
+                      },
+                      "message": "Allow HTTPS only."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.port",
+                        "value": "443"
+                      },
+                      "message": "HTTPS uses port 443."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.priority",
+                        "value": 100
+                      },
+                      "message": "Use priority 100."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "nsgRules",
+                      "unique": "name",
+                      "value": {
+                        "nsg": "{{$sel.nsg.name}}",
+                        "name": "{{$form.name}}",
+                        "priority": "{{$form.priority}}",
+                        "source": "{{$form.sourceTag}}",
+                        "destinationPort": "{{$form.port}}",
+                        "protocol": "{{$form.protocol}}",
+                        "access": "{{$form.action}}"
+                      }
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "nsg-inbound"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "nsg-subnets",
+            "title": "{{$sel.nsg.name}} | Subnets",
+            "icon": "Split",
+            "requires": "nsg",
+            "navItem": "nsgs",
+            "menu": [
+              {
+                "page": "nsg-overview",
+                "label": "Overview",
+                "icon": "Shield"
+              },
+              {
+                "page": "nsg-inbound",
+                "label": "Inbound security rules",
+                "icon": "ShieldCheck",
+                "section": "Settings"
+              },
+              {
+                "page": "nsg-subnets",
+                "label": "Subnets",
+                "icon": "Split",
+                "section": "Settings"
+              }
+            ],
+            "commands": [
+              {
+                "id": "associate-subnet",
+                "label": "Associate",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "associate"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "assoc-list",
+                "source": "subnetAssociations",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "virtualNetwork",
+                    "label": "Virtual network"
+                  },
+                  {
+                    "key": "subnet",
+                    "label": "Subnet"
+                  },
+                  {
+                    "key": "nsg",
+                    "label": "Network security group"
+                  }
+                ],
+                "where": {
+                  "nsg": "{{$sel.nsg.name}}"
+                }
+              }
+            ]
+          },
+          {
+            "id": "associate",
+            "title": "Associate subnet",
+            "icon": "Link",
+            "requires": "nsg",
+            "navItem": "nsgs",
+            "components": [
+              {
+                "kind": "form",
+                "id": "associate-subnet-form",
+                "title": "Associate subnet",
+                "fields": [
+                  {
+                    "id": "virtualNetwork",
+                    "label": "Virtual network",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "vnet-app-prod",
+                    "optionsFrom": {
+                      "path": "virtualNetworks",
+                      "value": "name"
+                    }
+                  },
+                  {
+                    "id": "subnet",
+                    "label": "Subnet",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "snet-web",
+                    "options": [
+                      {
+                        "value": "snet-web",
+                        "label": "snet-web"
+                      },
+                      {
+                        "value": "snet-data",
+                        "label": "snet-data"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "OK",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.virtualNetwork",
+                        "value": "vnet-app-prod"
+                      },
+                      "message": "Use vnet-app-prod."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.subnet",
+                        "value": "snet-web"
+                      },
+                      "message": "Associate only snet-web. Keep snet-data private."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "subnetAssociations",
+                      "unique": "subnet",
+                      "value": {
+                        "virtualNetwork": "{{$form.virtualNetwork}}",
+                        "subnet": "{{$form.subnet}}",
+                        "nsg": "{{$sel.nsg.name}}"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "subnets",
+                      "where": {
+                        "name": "snet-web"
+                      },
+                      "set": {
+                        "nsg": "{{$sel.nsg.name}}"
+                      }
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "nsg-subnets"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "subscription": {
+            "name": "Contoso Learning (simulated)",
+            "id": "00000000-0000-4000-8000-000000000900"
+          },
+          "regions": [
+            {
+              "name": "westeurope",
+              "displayName": "(Europe) West Europe"
+            },
+            {
+              "name": "northeurope",
+              "displayName": "(Europe) North Europe"
+            }
+          ],
+          "resourceGroups": [
+            {
+              "name": "rg-network-prod",
+              "location": "westeurope"
+            },
+            {
+              "name": "rg-hub-connectivity",
+              "location": "westeurope"
+            }
+          ],
+          "virtualNetworks": [
+            {
+              "name": "vnet-hub",
+              "resourceGroup": "rg-hub-connectivity",
+              "location": "westeurope",
+              "addressSpace": "10.0.0.0/16"
+            },
+            {
+              "name": "vnet-legacy",
+              "resourceGroup": "rg-network-prod",
+              "location": "northeurope",
+              "addressSpace": "10.40.0.0/16"
+            }
+          ],
+          "subnets": [
+            {
+              "virtualNetwork": "vnet-hub",
+              "name": "snet-shared",
+              "addressPrefix": "10.0.1.0/24",
+              "nsg": "nsg-hub"
+            },
+            {
+              "virtualNetwork": "vnet-legacy",
+              "name": "default",
+              "addressPrefix": "10.40.0.0/24",
+              "nsg": "None"
+            }
+          ],
+          "networkSecurityGroups": [
+            {
+              "name": "nsg-hub",
+              "resourceGroup": "rg-hub-connectivity",
+              "location": "westeurope"
+            }
+          ],
+          "nsgRules": [
+            {
+              "nsg": "nsg-hub",
+              "name": "AllowVnetInBound",
+              "priority": 65000,
+              "source": "VirtualNetwork",
+              "destinationPort": "*",
+              "protocol": "Any",
+              "access": "Allow"
+            },
+            {
+              "nsg": "nsg-hub",
+              "name": "DenyAllInBound",
+              "priority": 65500,
+              "source": "Any",
+              "destinationPort": "*",
+              "protocol": "Any",
+              "access": "Deny"
+            }
+          ],
+          "subnetAssociations": [],
+          "peerings": []
+        }
+      },
+      "steps": [
+        {
+          "key": "open-vnet",
+          "title": "Open the virtual network wizard",
+          "instruction": "Select **Virtual networks**, then **Create**.",
+          "explanation": "The wizard groups Basics, Security, IP addresses, Tags, and Review + create.",
+          "targetId": "vnets-create",
+          "rules": [
+            {
+              "key": "visited",
+              "description": "Create virtual network is open",
+              "rule": {
+                "type": "visited",
+                "page": "vnet-create"
+              }
+            }
+          ]
+        },
+        {
+          "key": "create-subnets",
+          "title": "Create vnet-app-prod and subnets",
+          "instruction": "Use **rg-network-prod**, name `vnet-app-prod`, **(Europe) West Europe**, **Address space** `10.20.0.0/16`, **snet-web address range** `10.20.1.0/24`, and **snet-data address range** `10.20.2.0/24`; select **Review + create** and **Create**.",
+          "explanation": "Subnet ranges must sit inside the VNet space and not overlap.",
+          "targetId": "vnet-wizard",
+          "rules": [
+            {
+              "key": "vnet",
+              "description": "VNet address space is correct",
+              "rule": {
+                "type": "arrayContains",
+                "path": "virtualNetworks",
+                "match": {
+                  "name": "vnet-app-prod",
+                  "addressSpace": "10.20.0.0/16"
+                }
+              }
+            },
+            {
+              "key": "web-subnet",
+              "description": "Web subnet exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "subnets",
+                "match": {
+                  "virtualNetwork": "vnet-app-prod",
+                  "name": "snet-web",
+                  "addressPrefix": "10.20.1.0/24"
+                }
+              }
+            },
+            {
+              "key": "data-subnet",
+              "description": "Data subnet exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "subnets",
+                "match": {
+                  "virtualNetwork": "vnet-app-prod",
+                  "name": "snet-data",
+                  "addressPrefix": "10.20.2.0/24"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "create-nsg",
+          "title": "Create nsg-web",
+          "instruction": "Open **Network security groups**, select **Create**, and create **nsg-web** in **rg-network-prod** and **(Europe) West Europe**.",
+          "explanation": "A separate web NSG avoids applying internet rules to the data subnet.",
+          "targetId": "nsgs-create",
+          "rules": [
+            {
+              "key": "nsg",
+              "description": "nsg-web exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "networkSecurityGroups",
+                "match": {
+                  "name": "nsg-web",
+                  "resourceGroup": "rg-network-prod"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "https-rule",
+          "title": "Allow HTTPS from Internet",
+          "instruction": "In **nsg-web > Inbound security rules**, select **Add**. Set **Source** **Service Tag**, **Source service tag** **Internet**, **Service** **HTTPS**, **Destination port ranges** `443`, **Protocol** **TCP**, **Action** **Allow**, **Priority** `100`, **Name** `Allow-HTTPS-Internet`, then **Add**.",
+          "explanation": "Priority 100 is evaluated before default inbound rules such as AllowVnetInBound and DenyAllInBound 65500.",
+          "targetId": "add-inbound-rule",
+          "rules": [
+            {
+              "key": "rule",
+              "description": "HTTPS rule exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "nsgRules",
+                "match": {
+                  "nsg": "nsg-web",
+                  "name": "Allow-HTTPS-Internet",
+                  "priority": 100,
+                  "source": "Internet",
+                  "destinationPort": "443",
+                  "protocol": "TCP",
+                  "access": "Allow"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "associate",
+          "title": "Associate nsg-web with snet-web",
+          "instruction": "Open **nsg-web > Subnets**, select **Associate**, choose **Virtual network** `vnet-app-prod`, **Subnet** `snet-web`, then **OK**.",
+          "explanation": "Only the web subnet should receive the internet-facing HTTPS rule.",
+          "targetId": "associate-subnet",
+          "rules": [
+            {
+              "key": "assoc",
+              "description": "nsg-web is associated with snet-web",
+              "rule": {
+                "type": "arrayContains",
+                "path": "subnetAssociations",
+                "match": {
+                  "virtualNetwork": "vnet-app-prod",
+                  "subnet": "snet-web",
+                  "nsg": "nsg-web"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "data-private",
+          "description": "snet-data is not associated with nsg-web",
+          "rule": {
+            "type": "arrayNotContains",
+            "path": "subnetAssociations",
+            "match": {
+              "virtualNetwork": "vnet-app-prod",
+              "subnet": "snet-data",
+              "nsg": "nsg-web"
+            }
+          },
+          "failureFeedback": "Do not associate nsg-web with snet-data."
+        },
+        {
+          "key": "web-protected",
+          "description": "Web subnet has nsg-web and only HTTPS is exposed",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayContains",
+                "path": "subnetAssociations",
+                "match": {
+                  "subnet": "snet-web",
+                  "nsg": "nsg-web"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "nsgRules",
+                "match": {
+                  "nsg": "nsg-web",
+                  "destinationPort": "443",
+                  "access": "Allow"
+                }
+              },
+              {
+                "type": "arrayNotContains",
+                "path": "nsgRules",
+                "match": {
+                  "nsg": "nsg-web",
+                  "destinationPort": "*",
+                  "source": "Internet",
+                  "access": "Allow"
+                }
+              },
+              {
+                "type": "arrayNotContains",
+                "path": "nsgRules",
+                "match": {
+                  "nsg": "nsg-web",
+                  "destinationPort": "*",
+                  "source": "Any",
+                  "access": "Allow"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "solution": "1. Select **Virtual networks** > **Create**.\n2. Create `vnet-app-prod` in **rg-network-prod** with address space `10.20.0.0/16`, `snet-web` as `10.20.1.0/24`, and `snet-data` as `10.20.2.0/24`.\n3. Select **Network security groups** > **Create** and create `nsg-web`.\n4. In **nsg-web > Inbound security rules**, select **Add** and allow **HTTPS** from **Internet** on TCP `443` at priority `100` with name `Allow-HTTPS-Internet`.\n5. In **nsg-web > Subnets**, select **Associate**, choose `vnet-app-prod` and `snet-web`, then **OK**."
+    }
+  ]
+}

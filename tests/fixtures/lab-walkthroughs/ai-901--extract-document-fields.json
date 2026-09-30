@@ -1,0 +1,61 @@
+{
+  "certification": "AI-901",
+  "lab": "extract-document-fields",
+  "note": "Use Microsoft Foundry Tools to analyze sample invoices, review confidence scores, correct a low-confidence field, and inspect exported JSON.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "content-understanding"
+    },
+    {
+      "type": "click",
+      "componentId": "cu-actions",
+      "itemId": "open-analyzers"
+    },
+    {
+      "type": "click",
+      "componentId": "create-analyzer"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "analyzer-wizard",
+      "values": {
+        "name": "invoice-extractor",
+        "contentType": "Document",
+        "mode": "Prebuilt invoice extraction",
+        "fields": [
+          "invoiceId",
+          "vendorName",
+          "invoiceDate",
+          "totalAmount",
+          "purchaseOrder",
+          "department"
+        ]
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "analyze-document"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "analyze-form",
+      "values": {
+        "analyzer": "invoice-extractor",
+        "file": "northwind-invoice-1042.pdf"
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "review-form",
+      "values": {
+        "purchaseOrder": "PO-7742",
+        "department": "Operations"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "export-result"
+    }
+  ]
+}

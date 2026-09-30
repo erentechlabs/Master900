@@ -1,0 +1,115 @@
+{
+  "certification": "PL-900",
+  "lab": "create-copilot-studio-agent",
+  "note": "Create HR Helper, add SharePoint knowledge, create a time-off topic, test both paths, publish, add channels, and set Microsoft authentication.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "agents"
+    },
+    {
+      "type": "click",
+      "componentId": "agents-create"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "create-agent-form",
+      "values": {
+        "name": "HR Helper",
+        "description": "Helps Contoso employees find HR policy answers and start common HR requests.",
+        "instructions": "Use a friendly HR-help tone. Answer only HR policy questions from approved HR knowledge. If a user asks about a personal case, confidential record, pay dispute, or medical detail, explain that HR must handle it and escalate to the HR team. Always cite HR sources when used.",
+        "orchestration": "Yes",
+        "ungrounded": false
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "knowledge"
+    },
+    {
+      "type": "click",
+      "componentId": "knowledge-add"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "knowledge-form",
+      "values": {
+        "type": "SharePoint",
+        "name": "Contoso HR policies",
+        "url": "https://hr.contoso.example/sites/hr"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "test"
+    },
+    {
+      "type": "chat",
+      "componentId": "agent-chat",
+      "message": "What does the bereavement policy say?"
+    },
+    {
+      "type": "navigate",
+      "page": "topics"
+    },
+    {
+      "type": "click",
+      "componentId": "topics-add"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "topic-form",
+      "values": {
+        "name": "Request time off",
+        "trigger": "request time off\nI need leave\nbook vacation\ncall in sick",
+        "question": "What type of time off do you want to request?",
+        "choices": [
+          "Vacation",
+          "Sick leave",
+          "Other"
+        ],
+        "variable": "varTimeOffType"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "test"
+    },
+    {
+      "type": "chat",
+      "componentId": "agent-chat",
+      "message": "I need to request time off"
+    },
+    {
+      "type": "navigate",
+      "page": "publish"
+    },
+    {
+      "type": "click",
+      "componentId": "publish-agent"
+    },
+    {
+      "type": "navigate",
+      "page": "channels"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "channels-form",
+      "values": {
+        "channel": "Teams and Microsoft 365 Copilot",
+        "m365": true
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "auth"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "auth-form",
+      "values": {
+        "auth": "Authenticate with Microsoft"
+      }
+    }
+  ]
+}

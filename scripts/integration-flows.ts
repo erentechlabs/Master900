@@ -5,7 +5,6 @@
  *   npx tsx --conditions=react-server scripts/integration-flows.ts
  */
 import assert from "node:assert/strict";
-import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
 import { en } from "@/i18n/messages/en";
 import { createTranslator } from "@/i18n/translator";
@@ -72,7 +71,6 @@ async function makeUser(): Promise<CurrentUser> {
     data: {
       email: EMAIL,
       name: "Integration",
-      passwordHash: await bcrypt.hash("Integration-Test-123", 4),
       onboardingCompletedAt: new Date(),
       roles: { create: { roleId: role.id } },
       preference: { create: { timezone: "Europe/Istanbul", studyDays: [1, 3, 5], sessionMinutes: 30 } },

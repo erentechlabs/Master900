@@ -7,7 +7,6 @@ export const SETTING_DEFAULTS = {
   /** Learner-facing AI tutor on/off and per-user daily message cap. */
   "ai.enabled": true,
   "ai.tutorDailyLimit": 50,
-  "platform.registrationEnabled": true,
   "practice.fullExamQuestions": 40,
   "practice.fullExamMinutes": 45,
   "practice.targetPercent": 75,

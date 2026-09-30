@@ -1,11 +1,9 @@
 import "server-only";
 import { cache } from "react";
-import { getServerSession } from "next-auth";
-import { redirect, unstable_rethrow } from "next/navigation";
+import { redirect } from "next/navigation";
 import type { UserPreference } from "@prisma/client";
 import { prisma } from "@/lib/db";
-import { logger } from "@/lib/logger";
-import { authOptions } from "./options";
+import { ensureLocalUser } from "./local-user";
 import { permissionsFor, type Permission, type RoleKeyValue } from "./permissions";
 
 export type CurrentUser = {
@@ -21,38 +19,16 @@ export type CurrentUser = {
   preference: UserPreference | null;
 };
 
-/**
- * The authenticated user for this request, loaded from the database so that
- * role changes, suspensions and session revocation take effect immediately.
- */
-export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
-  let session;
-  try {
-    session = await getServerSession(authOptions);
-  } catch (error) {
-    // Let Next.js internals (dynamic rendering bailout, redirects) propagate.
-    unstable_rethrow(error);
-    logger.warn("auth.session_error", { error });
-    return null;
-  }
-  if (!session?.user?.id) return null;
-  const id = session.user.id;
-  const user = await prisma.user.findUnique({
-    where: { id },
-    include: { roles: { include: { role: true } }, preference: true },
-  });
-  if (!user || user.status !== "ACTIVE" || user.sessionVersion !== session.sv) return null;
-
-  if (!user.lastActiveAt || Date.now() - user.lastActiveAt.getTime() > 5 * 60_000) {
-    prisma.user.update({ where: { id }, data: { lastActiveAt: new Date() } }).catch(() => undefined);
-  }
+/** The single local learner/admin profile for this request. */
+export const getCurrentUser = cache(async (): Promise<CurrentUser> => {
+  const user = await ensureLocalUser(prisma);
   const roles = user.roles.map((r) => r.role.key as RoleKeyValue);
   return {
     id: user.id,
     email: user.email,
     name: user.name,
     locale: user.locale,
-    isDemo: user.isDemo,
+    isDemo: false,
     createdAt: user.createdAt,
     onboardingCompletedAt: user.onboardingCompletedAt,
     roles,
@@ -68,16 +44,14 @@ export class AuthorizationError extends Error {
   }
 }
 
-/** For pages: redirect to sign-in when there is no session. */
-export async function requireUser(callbackUrl?: string): Promise<CurrentUser> {
-  const user = await getCurrentUser();
-  if (!user) redirect(`/sign-in${callbackUrl ? `?callbackUrl=${encodeURIComponent(callbackUrl)}` : ""}`);
-  return user;
+/** For pages: return the local profile. The legacy redirect URL argument is ignored. */
+export async function requireUser(_redirectUrl?: string): Promise<CurrentUser> {
+  return getCurrentUser();
 }
 
 /** For pages: require a permission or show the access-denied page. */
-export async function requirePermission(permission: Permission, callbackUrl?: string): Promise<CurrentUser> {
-  const user = await requireUser(callbackUrl);
+export async function requirePermission(permission: Permission, _redirectUrl?: string): Promise<CurrentUser> {
+  const user = await requireUser();
   if (!user.permissions.has(permission)) redirect("/forbidden");
   return user;
 }
@@ -85,7 +59,6 @@ export async function requirePermission(permission: Permission, callbackUrl?: st
 /** For server actions and route handlers: throw instead of redirecting. */
 export async function authorize(permission?: Permission): Promise<CurrentUser> {
   const user = await getCurrentUser();
-  if (!user) throw new AuthorizationError("unauthorized");
   if (permission && !user.permissions.has(permission)) throw new AuthorizationError("forbidden");
   return user;
 }

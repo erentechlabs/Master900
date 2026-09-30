@@ -1,0 +1,465 @@
+{
+  "labs": [
+    {
+      "slug": "manage-users-groups-roles",
+      "type": "UI_SIMULATION",
+      "title": "Manage users, groups, and directory roles in Microsoft Entra",
+      "summary": "Create a workforce user, organize access with a security group, and assign a least-privileged Microsoft Entra role in a simulated Entra admin center.",
+      "scenario": "Contoso is onboarding **Mira Ileri**, a finance analyst, and tightening helpdesk permissions. In the **simulated Microsoft Entra admin center** on your lab VM, create **mira.ileri@contoso.example**. The temporary password is generated and delivered securely, but it is hidden in the simulation. Set Mira's job title, department, and usage location, then create an assigned security group named **Finance App Access** with Mira as a member and Alex as owner. Finally, allow the existing **Contoso Helpdesk** group to reset passwords for non-admin users by assigning **Password Administrator**. Do not assign Global Administrator, Privileged Role Administrator, or User Administrator.",
+      "domainKey": "microsoft-entra",
+      "objectiveCode": "2.1",
+      "complexity": "BASIC",
+      "estimatedMinutes": 25,
+      "learningObjectives": [
+        "Create an internal member identity and distinguish authentication from authorization",
+        "Use Microsoft Entra groups to collect users that need the same access",
+        "Choose a least-privileged Microsoft Entra role for delegated administration"
+      ],
+      "prerequisites": ["Know that Microsoft Entra ID stores users, groups, and role assignments for a tenant"],
+      "sources": [
+        { "title": "How to create, invite, and delete users in Microsoft Entra ID", "url": "https://learn.microsoft.com/en-us/entra/fundamentals/how-to-create-delete-users" },
+        { "title": "How to manage groups", "url": "https://learn.microsoft.com/en-us/entra/fundamentals/how-to-manage-groups" },
+        { "title": "Assign Microsoft Entra roles", "url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/manage-roles-portal" }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Entra admin center",
+          "theme": "entra",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://entra.microsoft.com",
+          "searchPlaceholder": "Search resources, services, and docs"
+        },
+        "vm": { "name": "LAB-VM-01", "os": "windows", "apps": ["browser"] },
+        "clock": { "start": "2026-09-30T09:00:00Z" },
+        "startPage": "home",
+        "navigation": [
+          { "page": "home", "label": "Home", "icon": "Home" },
+          { "page": "users", "label": "All users", "icon": "Users", "section": "Identity > Users" },
+          { "page": "groups", "label": "All groups", "icon": "UserCheck", "section": "Identity > Groups" },
+          { "page": "roles", "label": "Roles & admins", "icon": "ShieldCheck", "section": "Identity" }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/#home",
+            "components": [
+              { "kind": "callout", "variant": "info", "title": "Simulated tenant", "text": "You are working in **Contoso (contoso.example)**. The lab VM is already signed in; credentials and generated passwords are hidden in the simulation." },
+              {
+                "kind": "tiles",
+                "id": "home-tiles",
+                "title": "Identity tasks",
+                "size": "md",
+                "items": [
+                  { "id": "tile-users", "label": "Users", "description": "Create and manage user identities.", "icon": "Users", "action": { "type": "navigate", "page": "users" } },
+                  { "id": "tile-groups", "label": "Groups", "description": "Manage access collections and membership.", "icon": "UserCheck", "action": { "type": "navigate", "page": "groups" } },
+                  { "id": "tile-roles", "label": "Roles & admins", "description": "Assign administrative roles with least privilege.", "icon": "ShieldCheck", "action": { "type": "navigate", "page": "roles" } }
+                ]
+              },
+              { "kind": "text", "id": "concepts", "text": "**Authentication** proves who a person is. **Authorization** decides what that identity can do. Microsoft Entra role-based access control assigns permissions to users or groups so administrators can delegate only the access required for a task." }
+            ]
+          },
+          {
+            "id": "users",
+            "title": "All users",
+            "subtitle": "Identity > Users",
+            "icon": "Users",
+            "url": "/#view/Microsoft_AAD_UsersAndTenants/UserManagementMenuBlade/~/AllUsers",
+            "breadcrumb": ["Home", "Identity", "Users"],
+            "commands": [
+              { "id": "users-new", "label": "+ New user", "icon": "UserPlus", "variant": "primary", "action": { "type": "navigate", "page": "user-create" } },
+              { "id": "users-refresh", "label": "Refresh", "icon": "RefreshCw", "action": { "type": "message", "tone": "info", "text": "The user list is current." } }
+            ],
+            "components": [
+              { "kind": "callout", "variant": "info", "text": "Internal members have accounts in this tenant. Guest identities authenticate externally and are not needed for this onboarding task." },
+              {
+                "kind": "table",
+                "id": "users-table",
+                "title": "Users",
+                "source": "users",
+                "rowKey": "upn",
+                "searchable": true,
+                "columns": [
+                  { "key": "displayName", "label": "Display name", "format": "link" },
+                  { "key": "upn", "label": "User principal name" },
+                  { "key": "userType", "label": "User type", "format": "badge" },
+                  { "key": "department", "label": "Department" },
+                  { "key": "accountEnabled", "label": "Account enabled", "format": "bool" }
+                ],
+                "rowAction": { "type": "navigate", "page": "user-overview", "select": { "as": "user", "path": "users", "key": "upn", "value": "{{$row.upn}}" } }
+              }
+            ]
+          },
+          {
+            "id": "user-create",
+            "title": "New user",
+            "subtitle": "Create new user",
+            "icon": "UserPlus",
+            "url": "/#view/Microsoft_AAD_UsersAndTenants/CreateUser.ReactView",
+            "navItem": "users",
+            "breadcrumb": ["Home", "Identity", "Users", "All users"],
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "new-user-wizard",
+                "description": "Create a new internal member. Generated credentials are delivered securely and are hidden in this simulation.",
+                "reviewLabel": "Review + create",
+                "tabs": [
+                  {
+                    "id": "basics",
+                    "label": "Basics",
+                    "fields": [
+                      { "id": "userName", "label": "User principal name", "control": "text", "required": true, "placeholder": "mira.ileri", "pattern": "^[a-z][a-z0-9.]{2,40}$", "patternMessage": "Use lowercase letters, numbers, and periods, such as mira.ileri.", "unique": { "path": "users", "key": "mailNickname", "message": "That user name is already in use." } },
+                      { "id": "domain", "label": "Domain", "control": "select", "required": true, "defaultValue": "contoso.example", "options": [{ "value": "contoso.example", "label": "contoso.example" }, { "value": "partners.contoso.example", "label": "partners.contoso.example" }] },
+                      { "id": "mailNickname", "label": "Mail nickname", "control": "text", "required": true, "defaultValue": "mira.ileri", "pattern": "^[a-z][a-z0-9.]{2,40}$", "patternMessage": "Use a short alias without spaces." },
+                      { "id": "displayName", "label": "Display name", "control": "text", "required": true, "defaultValue": "Mira Ileri" },
+                      { "id": "passwordMode", "label": "Password", "control": "radio", "required": true, "defaultValue": "auto-hidden", "options": [{ "value": "auto-hidden", "label": "Auto-generate password (hidden in simulation)" }, { "value": "manual", "label": "Let me create a password" }], "help": "The simulation never shows temporary passwords." },
+                      { "id": "accountEnabled", "label": "Account enabled", "control": "toggle", "defaultValue": true }
+                    ]
+                  },
+                  {
+                    "id": "properties",
+                    "label": "Properties",
+                    "fields": [
+                      { "id": "jobTitle", "label": "Job title", "control": "text", "required": true, "defaultValue": "Finance analyst" },
+                      { "id": "department", "label": "Department", "control": "text", "required": true, "defaultValue": "Finance" },
+                      { "id": "usageLocation", "label": "Usage location", "control": "select", "required": true, "defaultValue": "TR", "options": [{ "value": "TR", "label": "Türkiye" }, { "value": "GB", "label": "United Kingdom" }, { "value": "DE", "label": "Germany" }, { "value": "US", "label": "United States" }] }
+                    ]
+                  },
+                  {
+                    "id": "assignments",
+                    "label": "Assignments",
+                    "description": "Group and role assignments can be added now or after the user exists. This lab uses groups after creation.",
+                    "fields": [
+                      { "id": "initialGroup", "label": "Add group assignment now", "control": "select", "defaultValue": "none", "options": [{ "value": "none", "label": "None" }, { "value": "Finance App Access", "label": "Finance App Access (create it first if needed)" }] }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    { "rule": { "type": "equals", "path": "$form.domain", "value": "contoso.example" }, "message": "Use the Contoso workforce domain contoso.example for this internal member." },
+                    { "rule": { "type": "equals", "path": "$form.passwordMode", "value": "auto-hidden" }, "message": "Do not enter or display passwords. Use the hidden auto-generated password option." },
+                    { "rule": { "type": "equals", "path": "$form.accountEnabled", "value": true }, "message": "The onboarding user should be enabled." }
+                  ],
+                  "actions": [
+                    { "type": "append", "path": "users", "unique": "upn", "uniqueMessage": "A user with that principal name already exists.", "value": { "displayName": "{{$form.displayName}}", "upn": "{{$form.userName}}@{{$form.domain}}", "mailNickname": "{{$form.mailNickname}}", "userType": "Member", "jobTitle": "{{$form.jobTitle}}", "department": "{{$form.department}}", "usageLocation": "{{$form.usageLocation}}", "accountEnabled": "{{$form.accountEnabled}}", "authMethods": ["Temporary access pass delivered securely"], "createdAt": "{{$now}}" } },
+                    { "type": "notify", "title": "User created", "message": "{{$form.displayName}} was created. The generated temporary password is hidden and delivered securely." },
+                    { "type": "navigate", "page": "user-overview", "select": { "as": "user", "path": "users", "key": "upn", "value": "{{$form.userName}}@{{$form.domain}}" } }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "user-overview",
+            "title": "{{$sel.user.displayName}}",
+            "subtitle": "User",
+            "icon": "User",
+            "url": "/#view/Microsoft_AAD_UsersAndTenants/UserProfileMenuBlade/~/overview/userId/{{$sel.user.upn}}",
+            "requires": "user",
+            "navItem": "users",
+            "breadcrumb": ["Home", "Identity", "Users", "All users"],
+            "menu": [
+              { "page": "user-overview", "label": "Overview", "icon": "User" },
+              { "page": "user-groups", "label": "Groups", "icon": "Users", "section": "Manage" }
+            ],
+            "components": [
+              { "kind": "properties", "title": "Identity", "items": [{ "label": "User principal name", "value": "{{$sel.user.upn}}" }, { "label": "User type", "value": "{{$sel.user.userType}}", "format": "badge" }, { "label": "Job title", "value": "{{$sel.user.jobTitle}}" }, { "label": "Department", "value": "{{$sel.user.department}}" }, { "label": "Usage location", "value": "{{$sel.user.usageLocation}}" }, { "label": "Account enabled", "value": "{{$sel.user.accountEnabled}}", "format": "bool" }] },
+              { "kind": "callout", "variant": "success", "text": "Credentials are hidden in the simulation. Do not record passwords in lab notes or screenshots." }
+            ]
+          },
+          {
+            "id": "user-groups",
+            "title": "{{$sel.user.displayName}} | Groups",
+            "subtitle": "User",
+            "icon": "Users",
+            "requires": "user",
+            "navItem": "users",
+            "breadcrumb": ["Home", "Identity", "Users", "{{$sel.user.displayName}}"],
+            "menu": [
+              { "page": "user-overview", "label": "Overview", "icon": "User" },
+              { "page": "user-groups", "label": "Groups", "icon": "Users", "section": "Manage" }
+            ],
+            "components": [
+              { "kind": "table", "id": "user-group-table", "title": "Group memberships", "source": "groups", "where": { "members.0": "{{$sel.user.upn}}" }, "rowKey": "name", "emptyText": "No matching group memberships are displayed in this simplified view.", "columns": [{ "key": "name", "label": "Name" }, { "key": "groupType", "label": "Group type" }, { "key": "membershipType", "label": "Membership type" }] }
+            ]
+          },
+          {
+            "id": "groups",
+            "title": "All groups",
+            "subtitle": "Identity > Groups",
+            "icon": "Users",
+            "url": "/#view/Microsoft_AAD_IAM/GroupsManagementMenuBlade/~/AllGroups",
+            "breadcrumb": ["Home", "Identity", "Groups"],
+            "commands": [
+              { "id": "groups-new", "label": "New group", "icon": "Plus", "variant": "primary", "action": { "type": "navigate", "page": "group-create" } },
+              { "id": "groups-refresh", "label": "Refresh", "icon": "RefreshCw", "action": { "type": "message", "tone": "info", "text": "Groups refreshed." } }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "groups-table",
+                "title": "Groups",
+                "source": "groups",
+                "rowKey": "name",
+                "searchable": true,
+                "columns": [
+                  { "key": "name", "label": "Name", "format": "link" },
+                  { "key": "groupType", "label": "Group type" },
+                  { "key": "membershipType", "label": "Membership type" },
+                  { "key": "description", "label": "Description" },
+                  { "key": "roleAssignable", "label": "Role assignable", "format": "bool" }
+                ],
+                "rowAction": { "type": "navigate", "page": "group-overview", "select": { "as": "group", "path": "groups", "key": "name", "value": "{{$row.name}}" } }
+              }
+            ]
+          },
+          {
+            "id": "group-create",
+            "title": "New group",
+            "icon": "UserCheck",
+            "url": "/#view/Microsoft_AAD_IAM/GroupsManagementMenuBlade/~/NewGroup",
+            "navItem": "groups",
+            "breadcrumb": ["Home", "Identity", "Groups", "All groups"],
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "new-group-wizard",
+                "description": "Create a group for users that need the same application access. This lab uses assigned membership so the membership is explicit and easy to audit.",
+                "reviewLabel": "Create",
+                "tabs": [
+                  {
+                    "id": "basics",
+                    "label": "Basics",
+                    "fields": [
+                      { "id": "groupType", "label": "Group type", "control": "radio", "required": true, "defaultValue": "Security", "options": [{ "value": "Security", "label": "Security" }, { "value": "Microsoft 365", "label": "Microsoft 365" }] },
+                      { "id": "groupName", "label": "Group name", "control": "text", "required": true, "defaultValue": "Finance App Access", "unique": { "path": "groups", "key": "name", "message": "A group with this name already exists." } },
+                      { "id": "description", "label": "Group description", "control": "textarea", "required": true, "defaultValue": "Finance users who need access to finance applications." },
+                      { "id": "roleAssignable", "label": "Microsoft Entra roles can be assigned to the group", "control": "toggle", "defaultValue": false, "help": "Keep this off for an application access group. Use the existing role-assignable helpdesk group for directory role delegation." },
+                      { "id": "membershipType", "label": "Membership type", "control": "radio", "required": true, "defaultValue": "Assigned", "options": [{ "value": "Assigned", "label": "Assigned" }, { "value": "Dynamic User", "label": "Dynamic User" }] }
+                    ]
+                  },
+                  {
+                    "id": "members",
+                    "label": "Members",
+                    "fields": [
+                      { "id": "members", "label": "Members", "control": "checkboxes", "required": true, "optionsFrom": { "path": "users", "value": "upn", "label": "displayName" } },
+                      { "id": "owners", "label": "Owners", "control": "checkboxes", "required": true, "optionsFrom": { "path": "users", "value": "upn", "label": "displayName" } }
+                    ]
+                  },
+                  {
+                    "id": "dynamic",
+                    "label": "Dynamic membership rules",
+                    "description": "Dynamic rules automatically evaluate user attributes. This scenario intentionally uses assigned membership for a small finance access group.",
+                    "fields": [
+                      { "id": "dynamicRule", "label": "Rule syntax", "control": "text", "defaultValue": "user.department -eq \"Finance\"", "visibleWhen": { "type": "equals", "path": "$form.membershipType", "value": "Dynamic User" } }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    { "rule": { "type": "equals", "path": "$form.groupType", "value": "Security" }, "message": "Use a Security group for access control. Microsoft 365 groups are for collaboration resources." },
+                    { "rule": { "type": "equals", "path": "$form.membershipType", "value": "Assigned" }, "message": "Use Assigned membership here so the required member is explicit in the lab outcome." },
+                    { "rule": { "type": "includes", "path": "$form.members", "value": "mira.ileri@contoso.example" }, "message": "Add Mira as a member of Finance App Access." },
+                    { "rule": { "type": "includes", "path": "$form.owners", "value": "alex@contoso.example" }, "message": "Add Alex as an owner so the group has a business owner." }
+                  ],
+                  "actions": [
+                    { "type": "append", "path": "groups", "unique": "name", "value": { "name": "{{$form.groupName}}", "groupType": "{{$form.groupType}}", "membershipType": "{{$form.membershipType}}", "description": "{{$form.description}}", "members": "{{$form.members | list}}", "owners": "{{$form.owners | list}}", "roleAssignable": "{{$form.roleAssignable}}", "createdAt": "{{$now}}" } },
+                    { "type": "notify", "title": "Group created", "message": "{{$form.groupName}} was created with assigned membership." },
+                    { "type": "navigate", "page": "group-overview", "select": { "as": "group", "path": "groups", "key": "name", "value": "{{$form.groupName}}" } }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "group-overview",
+            "title": "{{$sel.group.name}}",
+            "subtitle": "Group",
+            "icon": "Users",
+            "requires": "group",
+            "navItem": "groups",
+            "breadcrumb": ["Home", "Identity", "Groups", "All groups"],
+            "menu": [
+              { "page": "group-overview", "label": "Overview", "icon": "Users" },
+              { "page": "group-members", "label": "Members", "icon": "UserCheck", "section": "Manage" }
+            ],
+            "components": [
+              { "kind": "properties", "title": "Essentials", "items": [{ "label": "Group type", "value": "{{$sel.group.groupType}}" }, { "label": "Membership type", "value": "{{$sel.group.membershipType}}" }, { "label": "Role assignable", "value": "{{$sel.group.roleAssignable}}", "format": "bool" }, { "label": "Members", "value": "{{$sel.group.members | count}}", "format": "count" }] },
+              { "kind": "text", "text": "Assigned groups are useful when membership should be reviewed directly. Dynamic user groups use rules such as `user.department -eq \"Finance\"` to calculate membership from attributes." }
+            ]
+          },
+          {
+            "id": "group-members",
+            "title": "{{$sel.group.name}} | Members",
+            "subtitle": "Group",
+            "icon": "UserCheck",
+            "requires": "group",
+            "navItem": "groups",
+            "breadcrumb": ["Home", "Identity", "Groups", "{{$sel.group.name}}"],
+            "menu": [
+              { "page": "group-overview", "label": "Overview", "icon": "Users" },
+              { "page": "group-members", "label": "Members", "icon": "UserCheck", "section": "Manage" }
+            ],
+            "components": [
+              { "kind": "table", "id": "members-table", "title": "Members", "source": "$sel.group.members", "rowKey": "$value", "columns": [{ "key": "$value", "label": "User principal name", "format": "link" }] },
+              { "kind": "table", "id": "owners-table", "title": "Owners", "source": "$sel.group.owners", "rowKey": "$value", "columns": [{ "key": "$value", "label": "User principal name", "format": "link" }] }
+            ]
+          },
+          {
+            "id": "roles",
+            "title": "Roles & admins",
+            "subtitle": "Identity",
+            "icon": "ShieldCheck",
+            "url": "/#view/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/~/RolesAndAdministrators",
+            "breadcrumb": ["Home", "Identity"],
+            "components": [
+              { "kind": "callout", "variant": "warning", "text": "Assign administrative roles only when they match the job. Global Administrator and Privileged Role Administrator are not appropriate for password reset support." },
+              {
+                "kind": "table",
+                "id": "roles-table",
+                "title": "Directory roles",
+                "source": "roles",
+                "rowKey": "name",
+                "searchable": true,
+                "columns": [
+                  { "key": "name", "label": "Role name", "format": "link" },
+                  { "key": "description", "label": "Description" },
+                  { "key": "risk", "label": "Privilege level", "format": "badge" }
+                ],
+                "rowAction": { "type": "navigate", "page": "role-detail", "select": { "as": "role", "path": "roles", "key": "name", "value": "{{$row.name}}" } }
+              }
+            ]
+          },
+          {
+            "id": "role-detail",
+            "title": "{{$sel.role.name}}",
+            "subtitle": "Directory role",
+            "icon": "Shield",
+            "requires": "role",
+            "navItem": "roles",
+            "breadcrumb": ["Home", "Identity", "Roles & admins"],
+            "components": [
+              { "kind": "properties", "title": "Role summary", "items": [{ "label": "Role", "value": "{{$sel.role.name}}" }, { "label": "Purpose", "value": "{{$sel.role.description}}" }, { "label": "Privilege level", "value": "{{$sel.role.risk}}", "format": "badge" }] },
+              { "kind": "table", "id": "role-assignments-table", "title": "Assignments", "source": "roleAssignments", "where": { "role": "{{$sel.role.name}}" }, "rowKey": "principal", "emptyText": "No assignments for this role.", "columns": [{ "key": "principal", "label": "Principal" }, { "key": "principalType", "label": "Type" }, { "key": "scope", "label": "Scope" }] },
+              {
+                "kind": "form",
+                "id": "add-role-assignment",
+                "title": "Add assignments",
+                "description": "Select a user or role-assignable group to receive this directory role at tenant scope.",
+                "fields": [
+                  { "id": "role", "label": "Role", "control": "select", "required": true, "defaultValue": "{{$sel.role.name}}", "optionsFrom": { "path": "roles", "value": "name", "label": "name" } },
+                  { "id": "principal", "label": "Select member(s)", "control": "select", "required": true, "options": [{ "value": "Contoso Helpdesk", "label": "Contoso Helpdesk (group)" }, { "value": "Alex Wilber", "label": "Alex Wilber (user)" }, { "value": "Mira Ileri", "label": "Mira Ileri (user)" }] },
+                  { "id": "scope", "label": "Scope", "control": "select", "required": true, "defaultValue": "Tenant", "options": [{ "value": "Tenant", "label": "Tenant" }, { "value": "Finance administrative unit", "label": "Finance administrative unit" }] }
+                ],
+                "submit": {
+                  "label": "Add",
+                  "checks": [
+                    { "rule": { "type": "equals", "path": "$form.role", "value": "Password Administrator" }, "message": "The helpdesk scenario needs Password Administrator. Global Administrator, Privileged Role Administrator, and User Administrator grant broader access than needed." },
+                    { "rule": { "type": "equals", "path": "$form.principal", "value": "Contoso Helpdesk" }, "message": "Assign the role to the existing Contoso Helpdesk group so membership can be managed separately." }
+                  ],
+                  "actions": [
+                    { "type": "append", "path": "roleAssignments", "unique": "id", "value": { "id": "{{$form.role | slug}}-{{$form.principal | slug}}", "role": "{{$form.role}}", "principal": "{{$form.principal}}", "principalType": "Group", "scope": "{{$form.scope}}", "createdAt": "{{$now}}" } },
+                    { "type": "notify", "title": "Role assignment added", "message": "{{$form.principal}} now has {{$form.role}} at {{$form.scope}} scope." }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "users": [
+            { "displayName": "Alex Wilber", "upn": "alex@contoso.example", "mailNickname": "alex", "userType": "Member", "jobTitle": "IT administrator", "department": "IT", "usageLocation": "TR", "accountEnabled": true, "authMethods": ["Microsoft Authenticator"] },
+            { "displayName": "Adele Vance", "upn": "adele@contoso.example", "mailNickname": "adele", "userType": "Member", "jobTitle": "Finance director", "department": "Finance", "usageLocation": "GB", "accountEnabled": true, "authMethods": ["Passkey"] },
+            { "displayName": "Diego Siciliani", "upn": "diego@contoso.example", "mailNickname": "diego", "userType": "Member", "jobTitle": "Helpdesk specialist", "department": "IT", "usageLocation": "DE", "accountEnabled": true, "authMethods": ["Microsoft Authenticator"] },
+            { "displayName": "Joni Sherman", "upn": "joni@contoso.example", "mailNickname": "joni", "userType": "Member", "jobTitle": "Sales manager", "department": "Sales", "usageLocation": "US", "accountEnabled": true, "authMethods": ["SMS"] },
+            { "displayName": "Patti Fernandez", "upn": "patti@contoso.example", "mailNickname": "patti", "userType": "Guest", "jobTitle": "Partner consultant", "department": "External", "usageLocation": "US", "accountEnabled": true, "authMethods": ["External"] }
+          ],
+          "groups": [
+            { "name": "Contoso Helpdesk", "groupType": "Security", "membershipType": "Assigned", "description": "Role-assignable group for service desk staff.", "members": ["diego@contoso.example"], "owners": ["alex@contoso.example"], "roleAssignable": true },
+            { "name": "Emergency Access Accounts", "groupType": "Security", "membershipType": "Assigned", "description": "Break-glass accounts excluded from restrictive policies.", "members": ["breakglass1@contoso.example", "breakglass2@contoso.example"], "owners": ["alex@contoso.example"], "roleAssignable": false },
+            { "name": "Finance Reviewers", "groupType": "Microsoft 365", "membershipType": "Assigned", "description": "Collaboration group for finance review documents.", "members": ["adele@contoso.example"], "owners": ["adele@contoso.example"], "roleAssignable": false },
+            { "name": "All Finance Users", "groupType": "Security", "membershipType": "Dynamic User", "description": "Dynamic group with rule user.department -eq \"Finance\".", "members": ["adele@contoso.example"], "owners": ["alex@contoso.example"], "roleAssignable": false, "rule": "user.department -eq \"Finance\"" }
+          ],
+          "roles": [
+            { "name": "Password Administrator", "description": "Can reset passwords for non-administrators and some limited administrators.", "risk": "Least privilege for helpdesk" },
+            { "name": "Helpdesk Administrator", "description": "Can reset passwords and manage support-related user settings.", "risk": "Support" },
+            { "name": "User Administrator", "description": "Can manage all aspects of users and groups, including some admin actions.", "risk": "Broad" },
+            { "name": "Privileged Role Administrator", "description": "Can manage role assignments in Microsoft Entra ID and PIM.", "risk": "High" },
+            { "name": "Global Administrator", "description": "Can manage all aspects of the tenant.", "risk": "Highest" }
+          ],
+          "roleAssignments": [
+            { "id": "global-admin-alex", "role": "Global Administrator", "principal": "Alex Wilber", "principalType": "User", "scope": "Tenant" }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "key": "create-user",
+          "title": "Create the new finance user",
+          "instruction": "Go to **All users**, select **+ New user**, choose **Create new user**, and create **Mira Ileri** with user principal name **mira.ileri@contoso.example**. Keep **Auto-generate password (hidden in simulation)** and **Account enabled** selected. On **Properties**, set **Job title** to `Finance analyst`, **Department** to `Finance`, and **Usage location** to **Türkiye**.",
+          "hint": "Use the **Basics** and **Properties** tabs in the **New user** wizard. Do not enter a password.",
+          "explanation": "The user object represents an identity. Authentication methods prove Mira is Mira; roles and groups decide what Mira can access.",
+          "targetId": "users-new",
+          "rules": [
+            { "key": "mira-created", "description": "Mira Ileri exists as an enabled internal member", "rule": { "type": "arrayContains", "path": "users", "match": { "upn": "mira.ileri@contoso.example", "displayName": "Mira Ileri", "department": "Finance", "jobTitle": "Finance analyst", "usageLocation": "TR", "accountEnabled": true, "userType": "Member" } }, "failureFeedback": "Create Mira as an enabled member in the contoso.example domain with Finance properties." }
+          ]
+        },
+        {
+          "key": "create-group",
+          "title": "Create the finance access group",
+          "instruction": "Go to **All groups**, select **New group**, and create a **Security** group named **Finance App Access** with **Assigned** membership. Add **Mira Ileri** as a member and **Alex Wilber** as an owner.",
+          "hint": "Assigned membership is intentional here: the lab outcome checks explicit membership. A dynamic group would use a rule such as `user.department -eq \"Finance\"`.",
+          "explanation": "Groups let administrators authorize a collection of identities once rather than assigning each user individually.",
+          "targetId": "groups-new",
+          "rules": [
+            { "key": "finance-group-created", "description": "Finance App Access is an assigned security group with Mira as a member", "rule": { "type": "arrayContains", "path": "groups", "match": { "name": "Finance App Access", "groupType": "Security", "membershipType": "Assigned", "members.0": "mira.ileri@contoso.example", "owners.0": "alex@contoso.example" } }, "failureFeedback": "Create Finance App Access as a Security group with Assigned membership, Mira as member, and Alex as owner." }
+          ]
+        },
+        {
+          "key": "open-roles",
+          "title": "Open Roles & admins",
+          "instruction": "Go to **Roles & admins** and open the **Password Administrator** role.",
+          "hint": "The role table includes tempting broader roles. Choose the role that matches password reset support for non-admin users.",
+          "explanation": "Microsoft Entra RBAC grants administrative capabilities. Least privilege means selecting the narrowest role that satisfies the support task.",
+          "targetId": "roles-table",
+          "rules": [
+            { "key": "visited-role", "description": "A directory role page was opened", "rule": { "type": "visited", "page": "role-detail" } }
+          ]
+        },
+        {
+          "key": "assign-password-admin",
+          "title": "Delegate password reset support",
+          "instruction": "On the **Password Administrator** role page, use **Add assignments** to assign **Password Administrator** to **Contoso Helpdesk** at **Tenant** scope.",
+          "hint": "Do not choose Global Administrator, Privileged Role Administrator, or User Administrator. Those roles are broader than the scenario requires.",
+          "explanation": "Assigning the role to the helpdesk group separates authorization from staffing: adding or removing helpdesk employees only changes group membership.",
+          "targetId": "add-role-assignment",
+          "rules": [
+            { "key": "password-admin-assigned", "description": "Contoso Helpdesk has Password Administrator", "rule": { "type": "arrayContains", "path": "roleAssignments", "match": { "role": "Password Administrator", "principal": "Contoso Helpdesk", "principalType": "Group", "scope": "Tenant" } }, "failureFeedback": "Assign Password Administrator to the Contoso Helpdesk group." }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "no-excessive-directory-role",
+          "description": "The helpdesk group was not granted broad tenant roles",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              { "type": "arrayNotContains", "path": "roleAssignments", "match": { "principal": "Contoso Helpdesk", "role": "Global Administrator" } },
+              { "type": "arrayNotContains", "path": "roleAssignments", "match": { "principal": "Contoso Helpdesk", "role": "Privileged Role Administrator" } },
+              { "type": "arrayNotContains", "path": "roleAssignments", "match": { "principal": "Contoso Helpdesk", "role": "User Administrator" } }
+            ]
+          },
+          "successFeedback": "The helpdesk group received only the role needed for password reset support.",
+          "failureFeedback": "Remove broad roles from Contoso Helpdesk. Password Administrator is enough for this scenario."
+        },
+        { "key": "new-user-in-right-group", "description": "Mira is in Finance App Access", "rule": { "type": "arrayContains", "path": "groups", "match": { "name": "Finance App Access", "members.0": "mira.ileri@contoso.example" } }, "successFeedback": "Mira is in the intended finance access group.", "failureFeedback": "Add Mira to Finance App Access." }
+      ],
+      "solution": "1. Select **All users** > **+ New user**.\n2. In **New user**, enter **User principal name** `mira.ileri`, choose **contoso.example**, set **Mail nickname** `mira.ileri`, **Display name** `Mira Ileri`, keep **Auto-generate password (hidden in simulation)** and **Account enabled**.\n3. On **Properties**, set **Job title** `Finance analyst`, **Department** `Finance`, and **Usage location** **Türkiye**. Select **Review + create** > **Create**.\n4. Select **All groups** > **New group**. Choose **Security**, name it `Finance App Access`, keep **Microsoft Entra roles can be assigned to the group** off, and choose **Assigned** membership. Add **Mira Ileri** as **Members** and **Alex Wilber** as **Owners**, then **Create**.\n5. Select **Roles & admins**, open **Password Administrator**, and in **Add assignments** choose **Contoso Helpdesk** at **Tenant** scope.\n6. Do not assign **Global Administrator**, **Privileged Role Administrator**, or **User Administrator**. Those roles exceed the helpdesk password reset requirement."
+    }
+  ]
+}

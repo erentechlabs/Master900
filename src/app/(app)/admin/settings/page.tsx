@@ -22,7 +22,6 @@ export default async function SettingsPage() {
         <Field id="ai.tutorDailyLimit" label={t("admin.settings.tutorDailyLimit")}><Input name="ai.tutorDailyLimit" type="number" min={0} max={1000} defaultValue={settings["ai.tutorDailyLimit"]} /></Field>
       </CardContent></Card>
       <Card><CardHeader><CardTitle>{t("admin.settings.platformTitle")}</CardTitle></CardHeader><CardContent className="grid gap-4 md:grid-cols-2">
-        <label className="flex items-center gap-2"><Checkbox name="platform.registrationEnabled" defaultChecked={settings["platform.registrationEnabled"]} /> {t("admin.settings.registrationEnabledShort")}</label>
         <Field id="practice.fullExamQuestions" label={t("admin.settings.fullExamQuestionsShort")}><Input name="practice.fullExamQuestions" type="number" defaultValue={settings["practice.fullExamQuestions"]} /></Field>
         <Field id="practice.fullExamMinutes" label={t("admin.settings.fullExamMinutesShort")}><Input name="practice.fullExamMinutes" type="number" defaultValue={settings["practice.fullExamMinutes"]} /></Field>
         <Field id="practice.targetPercent" label={t("admin.settings.practiceTargetShort")}><Input name="practice.targetPercent" type="number" defaultValue={settings["practice.targetPercent"]} /></Field>

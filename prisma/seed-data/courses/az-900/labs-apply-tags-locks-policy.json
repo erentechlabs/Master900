@@ -1,0 +1,1254 @@
+{
+ "labs": [
+  {
+   "slug": "apply-tags-locks-policy",
+   "type": "UI_SIMULATION",
+   "title": "Apply tags, a delete lock, and an allowed locations policy",
+   "summary": "Use Azure portal governance blades to tag a finance resource group, protect it with a delete lock, assign an allowed locations policy, and review compliance.",
+   "scenario": "Contoso Finance is preparing **rg-finance-prod** for production governance. In the **simulated Azure portal** on your lab VM, add resource-group tags **CostCenter = FIN-042** and **Environment = Production**, add a **Delete** lock named **lock-finance-delete**, and assign the built-in **Allowed locations** Azure Policy definition at the resource group scope. Allow only **(Europe) West Europe** and **(Europe) North Europe**, add a non-compliance message, then refresh compliance to find the existing Sweden Central resource. Resources do not automatically inherit resource-group tags unless a policy or automation applies them.",
+   "domainKey": "azure-management-governance",
+   "moduleSlug": "governance-and-compliance",
+   "objectiveCode": "3.2",
+   "complexity": "BASIC",
+   "estimatedMinutes": 25,
+   "learningObjectives": [
+    "Apply resource-group tags for cost allocation and explain inheritance boundaries",
+    "Choose a Delete lock instead of an overly restrictive Read-only lock",
+    "Assign an Azure Policy definition and interpret compliance results",
+    "Differentiate Azure Policy, RBAC, and resource locks"
+   ],
+   "prerequisites": [
+    "Know what a resource group is",
+    "Know that Azure Policy evaluates resource compliance"
+   ],
+   "sources": [
+    {
+     "title": "Tag resources, resource groups, and subscriptions with Azure portal",
+     "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources-portal"
+    },
+    {
+     "title": "Lock your Azure resources to protect your infrastructure",
+     "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources"
+    },
+    {
+     "title": "Quickstart: Create policy assignment using Azure portal",
+     "url": "https://learn.microsoft.com/en-us/azure/governance/policy/assign-policy-portal"
+    },
+    {
+     "title": "Overview of Azure Policy",
+     "url": "https://learn.microsoft.com/en-us/azure/governance/policy/overview"
+    }
+   ],
+   "config": {
+    "portal": {
+     "name": "Microsoft Azure",
+     "theme": "azure",
+     "user": "alex@contoso.example",
+     "tenant": "Contoso (contoso.example)",
+     "url": "https://portal.azure.com",
+     "searchPlaceholder": "Search resources, services, and docs (G+/)"
+    },
+    "vm": {
+     "name": "LAB-VM-01",
+     "os": "windows",
+     "apps": [
+      "browser"
+     ]
+    },
+    "startPage": "home",
+    "navigation": [
+     {
+      "page": "home",
+      "label": "Home",
+      "icon": "Home"
+     },
+     {
+      "page": "resource-groups",
+      "label": "Resource groups",
+      "icon": "Boxes",
+      "section": "Favorites"
+     },
+     {
+      "page": "policy-assignments",
+      "label": "Policy",
+      "icon": "ClipboardCheck",
+      "section": "Management"
+     },
+     {
+      "page": "policy-compliance",
+      "label": "Policy compliance",
+      "icon": "ListChecks",
+      "section": "Management"
+     }
+    ],
+    "pages": [
+     {
+      "id": "home",
+      "title": "Home",
+      "url": "/#home",
+      "components": [
+       {
+        "kind": "tiles",
+        "id": "home-services",
+        "title": "Azure services",
+        "size": "sm",
+        "items": [
+         {
+          "id": "tile-rg",
+          "label": "Resource groups",
+          "icon": "Boxes",
+          "action": {
+           "type": "navigate",
+           "page": "resource-groups"
+          }
+         },
+         {
+          "id": "tile-policy",
+          "label": "Policy",
+          "icon": "ClipboardCheck",
+          "action": {
+           "type": "navigate",
+           "page": "policy-assignments"
+          }
+         },
+         {
+          "id": "tile-compliance",
+          "label": "Policy compliance",
+          "icon": "ListChecks",
+          "action": {
+           "type": "navigate",
+           "page": "policy-compliance"
+          }
+         }
+        ]
+       },
+       {
+        "kind": "callout",
+        "variant": "info",
+        "title": "Finance governance lab",
+        "text": "Use tags for reporting, a Delete lock for accidental deletion protection, and Azure Policy for allowed locations compliance. Resources do not inherit resource-group tags automatically."
+       }
+      ]
+     },
+     {
+      "id": "resource-groups",
+      "title": "Resource groups",
+      "subtitle": "Contoso (contoso.example)",
+      "icon": "Boxes",
+      "url": "/#browse/resourcegroups",
+      "breadcrumb": [
+       "Home"
+      ],
+      "components": [
+       {
+        "kind": "table",
+        "id": "rg-list",
+        "source": "resourceGroups",
+        "rowKey": "name",
+        "searchable": true,
+        "columns": [
+         {
+          "key": "name",
+          "label": "Name",
+          "format": "link"
+         },
+         {
+          "key": "location",
+          "label": "Location"
+         },
+         {
+          "key": "tags",
+          "label": "Tags",
+          "format": "tags"
+         },
+         {
+          "key": "lockSummary",
+          "label": "Locks"
+         }
+        ],
+        "rowAction": {
+         "type": "navigate",
+         "page": "rg-overview",
+         "select": {
+          "as": "rg",
+          "path": "resourceGroups",
+          "key": "name",
+          "value": "{{$row.name}}"
+         }
+        }
+       }
+      ]
+     },
+     {
+      "id": "rg-overview",
+      "title": "{{$sel.rg.name}}",
+      "subtitle": "Resource group",
+      "icon": "Boxes",
+      "url": "/#@contoso.example/resource/subscriptions/{{subscription.id}}/resourceGroups/{{$sel.rg.name}}/overview",
+      "requires": "rg",
+      "navItem": "resource-groups",
+      "breadcrumb": [
+       "Home",
+       "Resource groups"
+      ],
+      "menu": [
+       {
+        "page": "rg-overview",
+        "label": "Overview",
+        "icon": "LayoutDashboard"
+       },
+       {
+        "page": "rg-tags",
+        "label": "Tags",
+        "icon": "Tags",
+        "section": "Settings"
+       },
+       {
+        "page": "rg-locks",
+        "label": "Locks",
+        "icon": "Lock",
+        "section": "Settings"
+       },
+       {
+        "page": "rg-resources",
+        "label": "Resources",
+        "icon": "Boxes",
+        "section": "Resources"
+       }
+      ],
+      "components": [
+       {
+        "kind": "properties",
+        "title": "Essentials",
+        "items": [
+         {
+          "label": "Subscription",
+          "value": "{{subscription.name}}",
+          "format": "link"
+         },
+         {
+          "label": "Location",
+          "value": "{{$sel.rg.location}}"
+         },
+         {
+          "label": "Tags",
+          "value": "{{$sel.rg.tags}}",
+          "format": "tags"
+         },
+         {
+          "label": "Locks",
+          "value": "{{$sel.rg.lockSummary}}"
+         }
+        ]
+       },
+       {
+        "kind": "callout",
+        "variant": "warning",
+        "text": "Resource-group tags organize the resource group itself. Child resources do not automatically inherit those tags unless a policy or automation applies them."
+       }
+      ]
+     },
+     {
+      "id": "rg-tags",
+      "title": "{{$sel.rg.name}} | Tags",
+      "subtitle": "Resource group",
+      "icon": "Tags",
+      "requires": "rg",
+      "navItem": "resource-groups",
+      "breadcrumb": [
+       "Home",
+       "Resource groups",
+       "{{$sel.rg.name}}"
+      ],
+      "menu": [
+       {
+        "page": "rg-overview",
+        "label": "Overview",
+        "icon": "LayoutDashboard"
+       },
+       {
+        "page": "rg-tags",
+        "label": "Tags",
+        "icon": "Tags",
+        "section": "Settings"
+       },
+       {
+        "page": "rg-locks",
+        "label": "Locks",
+        "icon": "Lock",
+        "section": "Settings"
+       },
+       {
+        "page": "rg-resources",
+        "label": "Resources",
+        "icon": "Boxes",
+        "section": "Resources"
+       }
+      ],
+      "components": [
+       {
+        "kind": "form",
+        "id": "rg-tags-form",
+        "title": "Tags",
+        "description": "Add key/value metadata for cost allocation and ownership reporting. Tags are not permissions and should not contain secrets.",
+        "fields": [
+         {
+          "id": "tagName1",
+          "label": "Name",
+          "control": "text",
+          "required": true,
+          "defaultValue": "CostCenter"
+         },
+         {
+          "id": "tagValue1",
+          "label": "Value",
+          "control": "text",
+          "required": true,
+          "defaultValue": "FIN-042"
+         },
+         {
+          "id": "tagName2",
+          "label": "Name 2",
+          "control": "text",
+          "required": true,
+          "defaultValue": "Environment"
+         },
+         {
+          "id": "tagValue2",
+          "label": "Value 2",
+          "control": "text",
+          "required": true,
+          "defaultValue": "Production"
+         }
+        ],
+        "submit": {
+         "label": "Save",
+         "checks": [
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.tagName1",
+            "value": "CostCenter"
+           },
+           "message": "Use CostCenter exactly."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.tagValue1",
+            "value": "FIN-042"
+           },
+           "message": "Use FIN-042."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.tagName2",
+            "value": "Environment"
+           },
+           "message": "Use Environment exactly."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.tagValue2",
+            "value": "Production"
+           },
+           "message": "Use Production."
+          }
+         ],
+         "actions": [
+          {
+           "type": "update",
+           "path": "resourceGroups",
+           "where": {
+            "name": "{{$sel.rg.name}}"
+           },
+           "set": {
+            "tags.CostCenter": "{{$form.tagValue1}}",
+            "tags.Environment": "{{$form.tagValue2}}",
+            "tagNote": "Resources do not inherit these tags automatically."
+           }
+          },
+          {
+           "type": "notify",
+           "title": "Tags saved",
+           "message": "Tags were applied to {{$sel.rg.name}}."
+          },
+          {
+           "type": "navigate",
+           "page": "rg-overview"
+          }
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "id": "rg-locks",
+      "title": "{{$sel.rg.name}} | Locks",
+      "subtitle": "Resource group",
+      "icon": "Lock",
+      "requires": "rg",
+      "navItem": "resource-groups",
+      "breadcrumb": [
+       "Home",
+       "Resource groups",
+       "{{$sel.rg.name}}"
+      ],
+      "menu": [
+       {
+        "page": "rg-overview",
+        "label": "Overview",
+        "icon": "LayoutDashboard"
+       },
+       {
+        "page": "rg-tags",
+        "label": "Tags",
+        "icon": "Tags",
+        "section": "Settings"
+       },
+       {
+        "page": "rg-locks",
+        "label": "Locks",
+        "icon": "Lock",
+        "section": "Settings"
+       },
+       {
+        "page": "rg-resources",
+        "label": "Resources",
+        "icon": "Boxes",
+        "section": "Resources"
+       }
+      ],
+      "components": [
+       {
+        "kind": "table",
+        "id": "locks-table",
+        "title": "Locks",
+        "source": "locks",
+        "where": {
+         "scope": "{{$sel.rg.name}}"
+        },
+        "rowKey": "name",
+        "emptyText": "No locks configured.",
+        "columns": [
+         {
+          "key": "name",
+          "label": "Name",
+          "format": "link"
+         },
+         {
+          "key": "level",
+          "label": "Lock type"
+         },
+         {
+          "key": "notes",
+          "label": "Notes"
+         }
+        ]
+       },
+       {
+        "kind": "form",
+        "id": "add-lock-form",
+        "title": "Add lock",
+        "description": "Choose Delete to prevent accidental deletion while still allowing permitted operational changes. Read-only would block many control-plane operations.",
+        "fields": [
+         {
+          "id": "lockName",
+          "label": "Lock name",
+          "control": "text",
+          "required": true,
+          "defaultValue": "lock-finance-delete",
+          "pattern": "^[A-Za-z0-9_.-]{3,80}$",
+          "patternMessage": "Use 3-80 letters, numbers, dots, underscores, or hyphens."
+         },
+         {
+          "id": "lockType",
+          "label": "Lock type",
+          "control": "radio",
+          "required": true,
+          "defaultValue": "CanNotDelete",
+          "options": [
+           {
+            "value": "CanNotDelete",
+            "label": "Delete"
+           },
+           {
+            "value": "ReadOnly",
+            "label": "Read-only"
+           }
+          ]
+         },
+         {
+          "id": "notes",
+          "label": "Notes",
+          "control": "textarea",
+          "required": true,
+          "defaultValue": "Prevent accidental deletion of production finance resources."
+         }
+        ],
+        "submit": {
+         "label": "OK",
+         "checks": [
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.lockType",
+            "value": "CanNotDelete"
+           },
+           "message": "Use Delete. Read-only would also block legitimate operations such as starting VMs or listing storage keys."
+          }
+         ],
+         "actions": [
+          {
+           "type": "append",
+           "path": "locks",
+           "unique": "name",
+           "value": {
+            "name": "{{$form.lockName}}",
+            "scope": "{{$sel.rg.name}}",
+            "level": "Delete",
+            "lockType": "{{$form.lockType}}",
+            "notes": "{{$form.notes}}"
+           }
+          },
+          {
+           "type": "update",
+           "path": "resourceGroups",
+           "where": {
+            "name": "{{$sel.rg.name}}"
+           },
+           "set": {
+            "lockSummary": "Delete"
+           }
+          },
+          {
+           "type": "notify",
+           "title": "Lock added",
+           "message": "Delete lock {{$form.lockName}} was added."
+          }
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "id": "rg-resources",
+      "title": "{{$sel.rg.name}} | Resources",
+      "subtitle": "Resource group",
+      "icon": "Boxes",
+      "requires": "rg",
+      "navItem": "resource-groups",
+      "breadcrumb": [
+       "Home",
+       "Resource groups",
+       "{{$sel.rg.name}}"
+      ],
+      "menu": [
+       {
+        "page": "rg-overview",
+        "label": "Overview",
+        "icon": "LayoutDashboard"
+       },
+       {
+        "page": "rg-tags",
+        "label": "Tags",
+        "icon": "Tags",
+        "section": "Settings"
+       },
+       {
+        "page": "rg-locks",
+        "label": "Locks",
+        "icon": "Lock",
+        "section": "Settings"
+       },
+       {
+        "page": "rg-resources",
+        "label": "Resources",
+        "icon": "Boxes",
+        "section": "Resources"
+       }
+      ],
+      "components": [
+       {
+        "kind": "table",
+        "id": "rg-resources-table",
+        "source": "resources",
+        "where": {
+         "resourceGroup": "{{$sel.rg.name}}"
+        },
+        "rowKey": "name",
+        "columns": [
+         {
+          "key": "name",
+          "label": "Name",
+          "format": "link"
+         },
+         {
+          "key": "type",
+          "label": "Type"
+         },
+         {
+          "key": "location",
+          "label": "Location"
+         },
+         {
+          "key": "tags",
+          "label": "Tags",
+          "format": "tags"
+         },
+         {
+          "key": "compliance",
+          "label": "Policy compliance",
+          "format": "status"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "policy-assignments",
+      "title": "Policy | Assignments",
+      "subtitle": "Contoso (contoso.example)",
+      "icon": "ClipboardCheck",
+      "url": "/#view/Microsoft_Azure_Policy/PolicyMenuBlade/~/Assignments",
+      "breadcrumb": [
+       "Home",
+       "Policy"
+      ],
+      "commands": [
+       {
+        "id": "assign-policy",
+        "label": "Assign policy",
+        "icon": "Plus",
+        "variant": "primary",
+        "action": {
+         "type": "navigate",
+         "page": "policy-assign"
+        }
+       }
+      ],
+      "components": [
+       {
+        "kind": "table",
+        "id": "assignments-table",
+        "title": "Assignments",
+        "source": "policyAssignments",
+        "rowKey": "name",
+        "emptyText": "No assignments.",
+        "columns": [
+         {
+          "key": "name",
+          "label": "Assignment name",
+          "format": "link"
+         },
+         {
+          "key": "definition",
+          "label": "Policy definition"
+         },
+         {
+          "key": "scope",
+          "label": "Scope"
+         },
+         {
+          "key": "allowedLocations",
+          "label": "Parameters",
+          "format": "json"
+         },
+         {
+          "key": "complianceState",
+          "label": "Compliance state",
+          "format": "status"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "policy-assign",
+      "title": "Assign policy",
+      "subtitle": "Azure Policy",
+      "icon": "ClipboardCheck",
+      "url": "/#view/Microsoft_Azure_Policy/CreateAssignmentBlade",
+      "navItem": "policy-assignments",
+      "breadcrumb": [
+       "Home",
+       "Policy",
+       "Assignments"
+      ],
+      "components": [
+       {
+        "kind": "wizard",
+        "id": "policy-assignment-wizard",
+        "description": "Assign a built-in policy definition to a scope. The assignment evaluates matching resources and reports compliance.",
+        "reviewLabel": "Review + create",
+        "tabs": [
+         {
+          "id": "basics",
+          "label": "Basics",
+          "fields": [
+           {
+            "id": "scope",
+            "label": "Scope",
+            "control": "select",
+            "required": true,
+            "options": [
+             {
+              "value": "rg-finance-prod",
+              "label": "rg-finance-prod"
+             }
+            ],
+            "defaultValue": "rg-finance-prod"
+           },
+           {
+            "id": "definition",
+            "label": "Policy definition",
+            "control": "select",
+            "required": true,
+            "options": [
+             {
+              "value": "Allowed locations",
+              "label": "Allowed locations"
+             },
+             {
+              "value": "Require a tag and its value on resources",
+              "label": "Require a tag and its value on resources"
+             },
+             {
+              "value": "Allowed resource types",
+              "label": "Allowed resource types"
+             }
+            ],
+            "defaultValue": "Allowed locations"
+           },
+           {
+            "id": "assignmentName",
+            "label": "Assignment name",
+            "control": "text",
+            "required": true,
+            "defaultValue": "finance-allowed-locations"
+           }
+          ]
+         },
+         {
+          "id": "parameters",
+          "label": "Parameters",
+          "fields": [
+           {
+            "id": "allowedLocations",
+            "label": "Allowed locations",
+            "control": "checkboxes",
+            "required": true,
+            "defaultValue": [
+             "westeurope",
+             "northeurope"
+            ],
+            "options": [
+             {
+              "value": "westeurope",
+              "label": "(Europe) West Europe"
+             },
+             {
+              "value": "northeurope",
+              "label": "(Europe) North Europe"
+             },
+             {
+              "value": "swedencentral",
+              "label": "(Europe) Sweden Central"
+             },
+             {
+              "value": "eastus",
+              "label": "(US) East US"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "id": "messages",
+          "label": "Non-compliance messages",
+          "fields": [
+           {
+            "id": "nonComplianceMessage",
+            "label": "Message",
+            "control": "textarea",
+            "required": true,
+            "defaultValue": "Finance production resources must be deployed only in West Europe or North Europe."
+           }
+          ]
+         },
+         {
+          "id": "review",
+          "label": "Review + create",
+          "fields": []
+         }
+        ],
+        "submit": {
+         "label": "Create",
+         "checks": [
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.definition",
+            "value": "Allowed locations"
+           },
+           "message": "Choose Allowed locations."
+          },
+          {
+           "rule": {
+            "type": "includes",
+            "path": "$form.allowedLocations",
+            "value": "westeurope"
+           },
+           "message": "West Europe must be allowed."
+          },
+          {
+           "rule": {
+            "type": "includes",
+            "path": "$form.allowedLocations",
+            "value": "northeurope"
+           },
+           "message": "North Europe must be allowed."
+          },
+          {
+           "rule": {
+            "type": "not",
+            "rule": {
+             "type": "includes",
+             "path": "$form.allowedLocations",
+             "value": "swedencentral"
+            }
+           },
+           "message": "Do not allow Sweden Central; an existing resource should be non-compliant."
+          }
+         ],
+         "actions": [
+          {
+           "type": "append",
+           "path": "policyAssignments",
+           "unique": "name",
+           "value": {
+            "name": "{{$form.assignmentName}}",
+            "definition": "{{$form.definition}}",
+            "scope": "{{$form.scope}}",
+            "allowedLocations": "{{$form.allowedLocations | list}}",
+            "message": "{{$form.nonComplianceMessage}}",
+            "complianceState": "Not evaluated"
+           }
+          },
+          {
+           "type": "notify",
+           "title": "Policy assignment created",
+           "message": "Assignment {{$form.assignmentName}} was created."
+          },
+          {
+           "type": "navigate",
+           "page": "policy-compliance"
+          }
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "id": "policy-compliance",
+      "title": "Policy | Compliance",
+      "subtitle": "Contoso (contoso.example)",
+      "icon": "ListChecks",
+      "url": "/#view/Microsoft_Azure_Policy/PolicyMenuBlade/~/Compliance",
+      "breadcrumb": [
+       "Home",
+       "Policy"
+      ],
+      "commands": [
+       {
+        "id": "policy-refresh",
+        "label": "Refresh",
+        "icon": "RefreshCw",
+        "variant": "primary",
+        "action": {
+         "type": "sequence",
+         "actions": [
+          {
+           "type": "update",
+           "path": "resources",
+           "where": {
+            "resourceGroup": "rg-finance-prod",
+            "location": "swedencentral"
+           },
+           "set": {
+            "compliance": "Non-compliant",
+            "complianceReason": "Location Sweden Central is not allowed."
+           }
+          },
+          {
+           "type": "update",
+           "path": "resources",
+           "where": {
+            "resourceGroup": "rg-finance-prod",
+            "location": "westeurope"
+           },
+           "set": {
+            "compliance": "Compliant",
+            "complianceReason": "Location is allowed."
+           }
+          },
+          {
+           "type": "update",
+           "path": "resources",
+           "where": {
+            "resourceGroup": "rg-finance-prod",
+            "location": "northeurope"
+           },
+           "set": {
+            "compliance": "Compliant",
+            "complianceReason": "Location is allowed."
+           }
+          },
+          {
+           "type": "update",
+           "path": "policyAssignments",
+           "where": {
+            "name": "finance-allowed-locations"
+           },
+           "set": {
+            "complianceState": "1 non-compliant resource"
+           }
+          },
+          {
+           "type": "set",
+           "path": "policyEvaluation.state",
+           "value": "Completed"
+          },
+          {
+           "type": "notify",
+           "title": "Compliance evaluation refreshed",
+           "message": "Azure Policy found one non-compliant resource."
+          }
+         ]
+        }
+       }
+      ],
+      "components": [
+       {
+        "kind": "callout",
+        "variant": "info",
+        "title": "Policy, RBAC, and locks",
+        "text": "Azure Policy evaluates and can enforce resource standards. RBAC grants who can perform actions. Resource locks prevent management operations such as deletion or updates at a scope."
+       },
+       {
+        "kind": "table",
+        "id": "compliance-assignments",
+        "title": "Assignments",
+        "source": "policyAssignments",
+        "rowKey": "name",
+        "columns": [
+         {
+          "key": "name",
+          "label": "Assignment"
+         },
+         {
+          "key": "definition",
+          "label": "Definition"
+         },
+         {
+          "key": "scope",
+          "label": "Scope"
+         },
+         {
+          "key": "complianceState",
+          "label": "Compliance state",
+          "format": "status"
+         }
+        ]
+       },
+       {
+        "kind": "table",
+        "id": "compliance-resources",
+        "title": "Resource compliance",
+        "source": "resources",
+        "where": {
+         "resourceGroup": "rg-finance-prod"
+        },
+        "rowKey": "name",
+        "columns": [
+         {
+          "key": "name",
+          "label": "Resource"
+         },
+         {
+          "key": "type",
+          "label": "Type"
+         },
+         {
+          "key": "location",
+          "label": "Location"
+         },
+         {
+          "key": "compliance",
+          "label": "Compliance",
+          "format": "status"
+         },
+         {
+          "key": "complianceReason",
+          "label": "Reason"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "initialState": {
+     "subscription": {
+      "name": "Contoso Learning (simulated)",
+      "id": "00000000-0000-4000-8000-000000000900"
+     },
+     "resourceGroups": [
+      {
+       "name": "rg-finance-prod",
+       "location": "westeurope",
+       "tags": {},
+       "lockSummary": "None"
+      },
+      {
+       "name": "rg-shared-services",
+       "location": "northeurope",
+       "tags": {
+        "Environment": "Shared"
+       },
+       "lockSummary": "None"
+      },
+      {
+       "name": "rg-web-dev",
+       "location": "westeurope",
+       "tags": {
+        "Environment": "Development"
+       },
+       "lockSummary": "None"
+      }
+     ],
+     "resources": [
+      {
+       "name": "vm-finance-app-01",
+       "type": "Virtual machine",
+       "resourceGroup": "rg-finance-prod",
+       "location": "westeurope",
+       "tags": {
+        "Owner": "finance-platform"
+       },
+       "compliance": "Not evaluated"
+      },
+      {
+       "name": "stfinreports01",
+       "type": "Storage account",
+       "resourceGroup": "rg-finance-prod",
+       "location": "northeurope",
+       "tags": {
+        "DataClass": "internal"
+       },
+       "compliance": "Not evaluated"
+      },
+      {
+       "name": "sql-fin-ledger",
+       "type": "SQL database",
+       "resourceGroup": "rg-finance-prod",
+       "location": "westeurope",
+       "tags": {},
+       "compliance": "Not evaluated"
+      },
+      {
+       "name": "app-fin-payroll",
+       "type": "App Service",
+       "resourceGroup": "rg-finance-prod",
+       "location": "swedencentral",
+       "tags": {
+        "Owner": "payroll"
+       },
+       "compliance": "Not evaluated"
+      },
+      {
+       "name": "kv-finance-prod",
+       "type": "Key vault",
+       "resourceGroup": "rg-finance-prod",
+       "location": "northeurope",
+       "tags": {},
+       "compliance": "Not evaluated"
+      }
+     ],
+     "locks": [],
+     "policyAssignments": [],
+     "policyEvaluation": {
+      "state": "Not started"
+     }
+    }
+   },
+   "steps": [
+    {
+     "key": "open-finance-rg",
+     "title": "Open the finance resource group",
+     "instruction": "In **Resource groups**, open **rg-finance-prod** and review its **Essentials** and resources.",
+     "hint": "Select the resource group name in the table.",
+     "explanation": "Governance controls are commonly applied at a resource group or subscription scope.",
+     "targetId": "rg-list",
+     "rules": [
+      {
+       "key": "visited-rg",
+       "description": "rg-finance-prod was opened",
+       "rule": {
+        "type": "visited",
+        "page": "rg-overview"
+       }
+      }
+     ]
+    },
+    {
+     "key": "add-tags",
+     "title": "Add finance tags",
+     "instruction": "Open **Tags** and save **CostCenter = FIN-042** and **Environment = Production** on the resource group.",
+     "hint": "These tags organize the resource group for reporting. Existing child resources do not inherit them automatically.",
+     "explanation": "Tags are metadata for organization and cost allocation, not permissions.",
+     "targetId": "rg-tags-form",
+     "rules": [
+      {
+       "key": "rg-tags",
+       "description": "The resource group has both required tags",
+       "rule": {
+        "type": "arrayContains",
+        "path": "resourceGroups",
+        "match": {
+         "name": "rg-finance-prod",
+         "tags.CostCenter": "FIN-042",
+         "tags.Environment": "Production"
+        }
+       },
+       "failureFeedback": "Add CostCenter FIN-042 and Environment Production."
+      }
+     ]
+    },
+    {
+     "key": "add-delete-lock",
+     "title": "Add a Delete lock",
+     "instruction": "Open **Locks** and add a lock named **lock-finance-delete** with **Lock type** set to **Delete**.",
+     "hint": "Do not choose Read-only. It can block legitimate management operations such as starting VMs or listing storage keys.",
+     "explanation": "A Delete lock protects against accidental deletion while still allowing permitted updates.",
+     "targetId": "add-lock-form",
+     "rules": [
+      {
+       "key": "delete-lock",
+       "description": "A Delete lock protects the resource group",
+       "rule": {
+        "type": "arrayContains",
+        "path": "locks",
+        "match": {
+         "name": "lock-finance-delete",
+         "scope": "rg-finance-prod",
+         "level": "Delete"
+        }
+       },
+       "failureFeedback": "Add a Delete lock named lock-finance-delete."
+      }
+     ]
+    },
+    {
+     "key": "assign-allowed-locations",
+     "title": "Assign the Allowed locations policy",
+     "instruction": "In **Policy > Assignments**, select **Assign policy**. Set **Scope** to **rg-finance-prod**, **Policy definition** to **Allowed locations**, **Assignment name** to **finance-allowed-locations**, and **Allowed locations** to **(Europe) West Europe** and **(Europe) North Europe**. Add the non-compliance message shown in the scenario, then select **Review + create** and **Create**.",
+     "hint": "The Sweden Central location must not be allowed so the existing App Service is reported as non-compliant.",
+     "explanation": "Azure Policy evaluates resources against standards such as allowed regions.",
+     "targetId": "assign-policy",
+     "rules": [
+      {
+       "key": "assignment-created",
+       "description": "Allowed locations is assigned at rg-finance-prod",
+       "rule": {
+        "type": "arrayContains",
+        "path": "policyAssignments",
+        "match": {
+         "name": "finance-allowed-locations",
+         "definition": "Allowed locations",
+         "scope": "rg-finance-prod"
+        }
+       },
+       "failureFeedback": "Create the finance-allowed-locations assignment."
+      }
+     ]
+    },
+    {
+     "key": "refresh-compliance",
+     "title": "Refresh compliance",
+     "instruction": "Open **Policy compliance** and select **Refresh** to simulate the policy evaluation cycle.",
+     "hint": "The existing App Service in Sweden Central should appear as non-compliant.",
+     "explanation": "Policy compliance is evaluated after assignment; the dashboard shows which resources match or violate the rule.",
+     "targetId": "policy-refresh",
+     "rules": [
+      {
+       "key": "noncompliant-resource",
+       "description": "The Sweden Central resource is non-compliant",
+       "rule": {
+        "type": "arrayContains",
+        "path": "resources",
+        "match": {
+         "name": "app-fin-payroll",
+         "compliance": "Non-compliant"
+        }
+       },
+       "failureFeedback": "Refresh policy compliance after creating the assignment."
+      }
+     ]
+    },
+    {
+     "key": "review-governance-differences",
+     "title": "Review Policy, RBAC, and locks",
+     "instruction": "On **Policy compliance**, read the callout that compares **Azure Policy**, **RBAC**, and **resource locks**.",
+     "hint": "Policy is for standards, RBAC is for permissions, and locks protect management operations.",
+     "explanation": "These controls are complementary, not interchangeable.",
+     "targetId": "compliance-assignments",
+     "rules": [
+      {
+       "key": "evaluation-complete",
+       "description": "Compliance evaluation is completed",
+       "rule": {
+        "type": "equals",
+        "path": "policyEvaluation.state",
+        "value": "Completed"
+       }
+      }
+     ]
+    }
+   ],
+   "finalRules": [
+    {
+     "key": "no-readonly-lock",
+     "description": "No Read-only lock exists on rg-finance-prod",
+     "rule": {
+      "type": "arrayNotContains",
+      "path": "locks",
+      "match": {
+       "scope": "rg-finance-prod",
+       "level": "Read-only"
+      }
+     },
+     "failureFeedback": "Remove any Read-only lock and add a Delete lock instead."
+    },
+    {
+     "key": "allowed-locations-exact",
+     "description": "Allowed locations are West Europe and North Europe",
+     "rule": {
+      "type": "arrayContains",
+      "path": "policyAssignments",
+      "match": {
+       "name": "finance-allowed-locations",
+       "allowedLocations": [
+        "westeurope",
+        "northeurope"
+       ]
+      }
+     },
+     "failureFeedback": "The assignment must allow only West Europe and North Europe."
+    }
+   ],
+   "solution": "1. Select **Resource groups**, then open **rg-finance-prod**.\n2. Open **Tags**. Set **Name** `CostCenter`, **Value** `FIN-042`, **Name 2** `Environment`, **Value 2** `Production`, then select **Save**.\n3. Open **Locks**. In **Add lock**, enter **Lock name** `lock-finance-delete`, set **Lock type** to **Delete**, keep a note, then select **OK**. Do not choose **Read-only**.\n4. Open **Policy > Assignments**, select **Assign policy**, set **Scope** to `rg-finance-prod`, **Policy definition** to **Allowed locations**, and **Assignment name** to `finance-allowed-locations`.\n5. On **Parameters**, select **(Europe) West Europe** and **(Europe) North Europe** only. On **Non-compliance messages**, enter `Finance production resources must be deployed only in West Europe or North Europe.` Select **Review + create** and **Create**.\n6. Open **Policy compliance** and select **Refresh**. Confirm **app-fin-payroll** is **Non-compliant**."
+  }
+ ]
+}

@@ -1,0 +1,334 @@
+{
+  "labs": [
+    {
+      "slug": "conditional-access-require-mfa",
+      "type": "UI_SIMULATION",
+      "title": "Require MFA with a Conditional Access policy",
+      "summary": "Build and test a report-only Conditional Access policy that requires MFA while excluding emergency access accounts.",
+      "scenario": "Contoso wants finance users to use multifactor authentication when accessing cloud resources, but the security team must avoid locking out emergency access accounts. In the **simulated Microsoft Entra admin center** on your lab VM, create a Conditional Access policy named **CA-Finance-Require-MFA**. Include **All finance users**, exclude **Emergency Access Accounts**, target **All resources (formerly 'All cloud apps')**, require the built-in **Multifactor authentication strength**, and leave the policy in **Report-only** while it is tested. Then use **What If** to simulate access for Mira.",
+      "domainKey": "microsoft-entra",
+      "objectiveCode": "2.2",
+      "complexity": "BASIC",
+      "estimatedMinutes": 25,
+      "learningObjectives": [
+        "Explain how Conditional Access uses signals, decisions, and enforcement controls",
+        "Create an MFA policy in report-only mode before enforcing it",
+        "Protect emergency access accounts from accidental lockout"
+      ],
+      "prerequisites": ["Know that security defaults are broad tenant protections and Conditional Access is policy-based access control"],
+      "sources": [
+        { "title": "Require MFA for all users with Conditional Access", "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-mfa-strength" },
+        { "title": "The Conditional Access What If tool", "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool" },
+        { "title": "Manage emergency access admin accounts", "url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access" }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Entra admin center",
+          "theme": "entra",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://entra.microsoft.com",
+          "searchPlaceholder": "Search resources, services, and docs"
+        },
+        "vm": { "name": "LAB-VM-01", "os": "windows", "apps": ["browser"] },
+        "clock": { "start": "2026-09-30T10:00:00Z" },
+        "startPage": "home",
+        "navigation": [
+          { "page": "home", "label": "Home", "icon": "Home" },
+          { "page": "conditional-access", "label": "Conditional Access", "icon": "ShieldCheck", "section": "Protection" },
+          { "page": "groups", "label": "Groups", "icon": "Users", "section": "Identity" },
+          { "page": "security-defaults", "label": "Identity secure score", "icon": "Gauge", "section": "Protection" }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/#home",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "ca-home-tiles",
+                "title": "Protection",
+                "size": "md",
+                "items": [
+                  { "id": "tile-ca", "label": "Conditional Access", "description": "Create and test access policies.", "icon": "ShieldCheck", "action": { "type": "navigate", "page": "conditional-access" } },
+                  { "id": "tile-groups", "label": "Groups", "description": "Review finance and emergency access groups.", "icon": "Users", "action": { "type": "navigate", "page": "groups" } },
+                  { "id": "tile-score", "label": "Identity secure score", "description": "View tenant security posture indicators.", "icon": "Gauge", "action": { "type": "navigate", "page": "security-defaults" } }
+                ]
+              },
+              { "kind": "text", "id": "ca-concepts", "text": "**Security defaults** are a simple baseline for many tenants. **Conditional Access** gives administrators more precise policies: signals such as user, resource, device, location, and risk are evaluated, then access controls such as MFA are enforced or reported." }
+            ]
+          },
+          {
+            "id": "groups",
+            "title": "Groups",
+            "subtitle": "Identity",
+            "icon": "Users",
+            "url": "/#view/Microsoft_AAD_IAM/GroupsManagementMenuBlade/~/AllGroups",
+            "breadcrumb": ["Home", "Identity", "Groups"],
+            "components": [
+              {
+                "kind": "table",
+                "id": "ca-groups-table",
+                "title": "Groups",
+                "source": "groups",
+                "rowKey": "name",
+                "columns": [
+                  { "key": "name", "label": "Name" },
+                  { "key": "membershipType", "label": "Membership type" },
+                  { "key": "members", "label": "Members", "format": "count" },
+                  { "key": "description", "label": "Description" }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "security-defaults",
+            "title": "Identity secure score",
+            "subtitle": "Protection",
+            "icon": "Gauge",
+            "url": "/#view/Microsoft_AAD_IAM/SecurityDefaults.ReactView",
+            "breadcrumb": ["Home", "Protection"],
+            "components": [
+              { "kind": "callout", "variant": "info", "title": "Security defaults vs Conditional Access", "text": "Security defaults provide broad protections with minimal configuration. Conditional Access policies are used when Contoso needs specific assignments, exclusions, report-only testing, or authentication strengths." },
+              { "kind": "properties", "title": "Tenant posture", "items": [{ "label": "Security defaults", "value": "Disabled - Conditional Access policies are managed separately" }, { "label": "Emergency access accounts", "value": "2 monitored cloud-only accounts" }, { "label": "Report-only review process", "value": "Required before enforcement" }] }
+            ]
+          },
+          {
+            "id": "conditional-access",
+            "title": "Conditional Access | Policies",
+            "subtitle": "Protection",
+            "icon": "ShieldCheck",
+            "url": "/#view/Microsoft_AAD_ConditionalAccess/ConditionalAccessBlade/~/Policies",
+            "breadcrumb": ["Home", "Protection", "Conditional Access"],
+            "commands": [
+              { "id": "ca-new-policy", "label": "+ New policy", "icon": "Plus", "variant": "primary", "action": { "type": "navigate", "page": "policy-create" } },
+              { "id": "ca-what-if", "label": "What If", "icon": "Search", "action": { "type": "navigate", "page": "what-if" } },
+              { "id": "ca-refresh", "label": "Refresh", "icon": "RefreshCw", "action": { "type": "message", "tone": "info", "text": "Conditional Access policies refreshed." } }
+            ],
+            "components": [
+              { "kind": "callout", "variant": "warning", "text": "Policies that block access can lock out administrators. Exclude monitored emergency access accounts and test with report-only mode first." },
+              {
+                "kind": "table",
+                "id": "policies-table",
+                "title": "Policies",
+                "source": "conditionalAccessPolicies",
+                "rowKey": "name",
+                "emptyText": "No custom Conditional Access policies have been created.",
+                "columns": [
+                  { "key": "name", "label": "Name", "format": "link" },
+                  { "key": "include", "label": "Users included" },
+                  { "key": "exclude", "label": "Users excluded" },
+                  { "key": "targetResources", "label": "Target resources" },
+                  { "key": "grant", "label": "Grant controls" },
+                  { "key": "state", "label": "State", "format": "status" }
+                ],
+                "rowAction": { "type": "navigate", "page": "policy-overview", "select": { "as": "policy", "path": "conditionalAccessPolicies", "key": "name", "value": "{{$row.name}}" } }
+              }
+            ]
+          },
+          {
+            "id": "policy-create",
+            "title": "New Conditional Access policy",
+            "icon": "ShieldPlus",
+            "url": "/#view/Microsoft_AAD_ConditionalAccess/PolicyBlade/~/NewPolicy",
+            "navItem": "conditional-access",
+            "breadcrumb": ["Home", "Protection", "Conditional Access", "Policies"],
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "ca-policy-wizard",
+                "description": "Define assignments, target resources, controls, and policy state. Report-only mode records policy impact without enforcing access.",
+                "reviewLabel": "Create",
+                "tabs": [
+                  { "id": "name", "label": "Name", "fields": [{ "id": "name", "label": "Name", "control": "text", "required": true, "defaultValue": "CA-Finance-Require-MFA", "unique": { "path": "conditionalAccessPolicies", "key": "name", "message": "A Conditional Access policy with this name already exists." } }] },
+                  {
+                    "id": "users",
+                    "label": "Users",
+                    "description": "Select who the policy applies to and who is excluded.",
+                    "fields": [
+                      { "id": "include", "label": "Include", "control": "radio", "required": true, "defaultValue": "All finance users", "options": [{ "value": "All users", "label": "All users" }, { "value": "All finance users", "label": "Select users and groups > All finance users" }, { "value": "Selected admins", "label": "Selected admins only" }] },
+                      { "id": "excludeEmergency", "label": "Exclude Emergency Access Accounts", "control": "toggle", "defaultValue": false, "help": "Emergency access accounts are break-glass accounts monitored outside normal sign-in policy paths." },
+                      { "id": "excludedGroup", "label": "Excluded group", "control": "select", "required": true, "visibleWhen": { "type": "equals", "path": "$form.excludeEmergency", "value": true }, "defaultValue": "Emergency Access Accounts", "optionsFrom": { "path": "groups", "value": "name", "label": "name" } }
+                    ]
+                  },
+                  {
+                    "id": "resources",
+                    "label": "Target resources",
+                    "fields": [
+                      { "id": "targetResources", "label": "Resources (formerly cloud apps)", "control": "radio", "required": true, "defaultValue": "All resources", "options": [{ "value": "All resources", "label": "All resources (formerly 'All cloud apps')" }, { "value": "Office 365", "label": "Office 365" }, { "value": "Microsoft Admin Portals", "label": "Microsoft Admin Portals" }] }
+                    ]
+                  },
+                  {
+                    "id": "conditions",
+                    "label": "Conditions",
+                    "description": "Conditions are optional in this baseline finance policy. They can add signals such as locations or device platforms.",
+                    "fields": [
+                      { "id": "devicePlatforms", "label": "Device platforms", "control": "select", "required": true, "defaultValue": "Any device", "options": [{ "value": "Any device", "label": "Any device" }, { "value": "Windows", "label": "Windows" }, { "value": "iOS and Android", "label": "iOS and Android" }] },
+                      { "id": "locations", "label": "Locations", "control": "select", "required": true, "defaultValue": "Any location", "options": [{ "value": "Any location", "label": "Any location" }, { "value": "All trusted locations", "label": "All trusted locations" }, { "value": "Selected locations", "label": "Selected locations" }] }
+                    ]
+                  },
+                  {
+                    "id": "grant",
+                    "label": "Grant",
+                    "fields": [
+                      { "id": "grantDecision", "label": "Grant", "control": "radio", "required": true, "defaultValue": "Grant access", "options": [{ "value": "Grant access", "label": "Grant access" }, { "value": "Block access", "label": "Block access" }] },
+                      { "id": "grantControl", "label": "Require", "control": "select", "required": true, "defaultValue": "Require authentication strength: Multifactor authentication", "options": [{ "value": "Require authentication strength: Multifactor authentication", "label": "Require authentication strength: Multifactor authentication" }, { "value": "Require multifactor authentication", "label": "Require multifactor authentication" }, { "value": "Require compliant device", "label": "Require compliant device" }] }
+                    ]
+                  },
+                  {
+                    "id": "session",
+                    "label": "Session",
+                    "description": "Session controls are optional for this lab.",
+                    "fields": [
+                      { "id": "signInFrequency", "label": "Sign-in frequency", "control": "select", "required": true, "defaultValue": "Not configured", "options": [{ "value": "Not configured", "label": "Not configured" }, { "value": "Every time", "label": "Every time" }, { "value": "Every 8 hours", "label": "Every 8 hours" }] }
+                    ]
+                  },
+                  {
+                    "id": "enable",
+                    "label": "Enable policy",
+                    "fields": [
+                      { "id": "state", "label": "Enable policy", "control": "radio", "required": true, "defaultValue": "Report-only", "options": [{ "value": "Off", "label": "Off" }, { "value": "Report-only", "label": "Report-only" }, { "value": "On", "label": "On" }] }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    { "rule": { "type": "equals", "path": "$form.include", "value": "All finance users" }, "message": "Target the All finance users group for this scenario rather than every user in the tenant." },
+                    { "rule": { "type": "equals", "path": "$form.excludeEmergency", "value": true }, "message": "Exclude Emergency Access Accounts to avoid accidental lockout." },
+                    { "rule": { "type": "equals", "path": "$form.excludedGroup", "value": "Emergency Access Accounts" }, "message": "Choose Emergency Access Accounts as the excluded group." },
+                    { "rule": { "type": "equals", "path": "$form.targetResources", "value": "All resources" }, "message": "Use All resources (formerly 'All cloud apps') for the baseline finance MFA policy." },
+                    { "rule": { "type": "equals", "path": "$form.grantDecision", "value": "Grant access" }, "message": "Grant access and require MFA. Blocking access would deny the finance users entirely." },
+                    { "rule": { "type": "oneOf", "path": "$form.grantControl", "values": ["Require authentication strength: Multifactor authentication", "Require multifactor authentication"] }, "message": "Require MFA using authentication strength or the MFA grant control." },
+                    { "rule": { "type": "equals", "path": "$form.state", "value": "Report-only" }, "message": "The security team wants to test first. Use Report-only, not On." }
+                  ],
+                  "actions": [
+                    { "type": "append", "path": "conditionalAccessPolicies", "unique": "name", "value": { "name": "{{$form.name}}", "include": "{{$form.include}}", "exclude": "{{$form.excludedGroup}}", "excludeEmergency": "{{$form.excludeEmergency}}", "targetResources": "{{$form.targetResources}}", "devicePlatforms": "{{$form.devicePlatforms}}", "locations": "{{$form.locations}}", "grant": "{{$form.grantControl}}", "grantDecision": "{{$form.grantDecision}}", "session": "{{$form.signInFrequency}}", "state": "{{$form.state}}", "createdAt": "{{$now}}" } },
+                    { "type": "notify", "title": "Policy created in report-only mode", "message": "{{$form.name}} will be evaluated but not enforced until enabled." },
+                    { "type": "navigate", "page": "conditional-access" }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "policy-overview",
+            "title": "{{$sel.policy.name}}",
+            "subtitle": "Conditional Access policy",
+            "icon": "ShieldCheck",
+            "requires": "policy",
+            "navItem": "conditional-access",
+            "breadcrumb": ["Home", "Protection", "Conditional Access", "Policies"],
+            "components": [
+              { "kind": "properties", "title": "Assignments and controls", "items": [{ "label": "Users included", "value": "{{$sel.policy.include}}" }, { "label": "Users excluded", "value": "{{$sel.policy.exclude}}" }, { "label": "Target resources", "value": "{{$sel.policy.targetResources}}" }, { "label": "Grant", "value": "{{$sel.policy.grant}}" }, { "label": "State", "value": "{{$sel.policy.state}}", "format": "status" }] },
+              { "kind": "callout", "variant": "success", "visibleWhen": { "type": "equals", "path": "$sel.policy.state", "value": "Report-only" }, "text": "Report-only policies appear in reports and What If evaluations but do not block or challenge users yet." }
+            ]
+          },
+          {
+            "id": "what-if",
+            "title": "What If",
+            "subtitle": "Conditional Access",
+            "icon": "Search",
+            "url": "/#view/Microsoft_AAD_ConditionalAccess/ConditionalAccessBlade/~/WhatIf",
+            "navItem": "conditional-access",
+            "breadcrumb": ["Home", "Protection", "Conditional Access", "Policies"],
+            "components": [
+              {
+                "kind": "form",
+                "id": "what-if-form",
+                "title": "Evaluate a sign-in",
+                "description": "Simulate which enabled or report-only policies apply to a specific sign-in.",
+                "fields": [
+                  { "id": "user", "label": "User, agent identity, or service principal", "control": "select", "required": true, "defaultValue": "mira.ileri@contoso.example", "options": [{ "value": "mira.ileri@contoso.example", "label": "Mira Ileri" }, { "value": "breakglass1@contoso.example", "label": "Breakglass 1" }, { "value": "alex@contoso.example", "label": "Alex Wilber" }] },
+                  { "id": "targetResource", "label": "Target resource", "control": "select", "required": true, "defaultValue": "All resources", "options": [{ "value": "All resources", "label": "All resources" }, { "value": "Office 365", "label": "Office 365" }, { "value": "Microsoft Admin Portals", "label": "Microsoft Admin Portals" }] },
+                  { "id": "devicePlatform", "label": "Device platform", "control": "select", "required": true, "defaultValue": "Windows", "options": [{ "value": "Windows", "label": "Windows" }, { "value": "iOS", "label": "iOS" }, { "value": "Android", "label": "Android" }] },
+                  { "id": "clientApp", "label": "Client app", "control": "select", "required": true, "defaultValue": "Browser", "options": [{ "value": "Browser", "label": "Browser" }, { "value": "Mobile apps and desktop clients", "label": "Mobile apps and desktop clients" }] }
+                ],
+                "submit": {
+                  "label": "What If",
+                  "actions": [
+                    { "type": "append", "path": "whatIfRuns", "value": { "user": "{{$form.user}}", "targetResource": "{{$form.targetResource}}", "devicePlatform": "{{$form.devicePlatform}}", "clientApp": "{{$form.clientApp}}", "result": "CA-Finance-Require-MFA applies in report-only mode; grant control requires Multifactor authentication strength.", "createdAt": "{{$now}}" } },
+                    { "type": "message", "tone": "success", "text": "What If evaluation complete. Matching report-only policies are listed below." }
+                  ]
+                }
+              },
+              { "kind": "table", "id": "what-if-results", "title": "Evaluation results", "source": "whatIfRuns", "rowKey": "createdAt", "emptyText": "No What If evaluations yet.", "columns": [{ "key": "user", "label": "User" }, { "key": "targetResource", "label": "Target resource" }, { "key": "result", "label": "Policies that apply" }] }
+            ]
+          }
+        ],
+        "initialState": {
+          "groups": [
+            { "name": "All finance users", "membershipType": "Dynamic User", "members": ["mira.ileri@contoso.example", "adele@contoso.example", "lana@contoso.example"], "description": "Dynamic group where user.department equals Finance." },
+            { "name": "Emergency Access Accounts", "membershipType": "Assigned", "members": ["breakglass1@contoso.example", "breakglass2@contoso.example"], "description": "Break-glass accounts monitored and stored securely." },
+            { "name": "All employees", "membershipType": "Dynamic User", "members": ["alex@contoso.example", "adele@contoso.example", "diego@contoso.example", "joni@contoso.example", "mira.ileri@contoso.example"], "description": "All enabled employee identities." },
+            { "name": "Security team", "membershipType": "Assigned", "members": ["alex@contoso.example", "sara@contoso.example"], "description": "Security administrators and policy reviewers." }
+          ],
+          "conditionalAccessPolicies": [
+            { "name": "CA-Block-Legacy-Authentication", "include": "All users", "exclude": "Emergency Access Accounts", "excludeEmergency": true, "targetResources": "All resources", "grant": "Block access", "grantDecision": "Block access", "state": "On" }
+          ],
+          "whatIfRuns": []
+        }
+      },
+      "steps": [
+        {
+          "key": "review-groups",
+          "title": "Review assignment groups",
+          "instruction": "Open **Groups** and confirm that **All finance users** and **Emergency Access Accounts** exist before creating the policy.",
+          "hint": "The policy will include the finance group and exclude emergency access accounts.",
+          "explanation": "Conditional Access assignments should be deliberate. Emergency access accounts are excluded from restrictive policies so administrators can recover the tenant during an outage or misconfiguration.",
+          "targetId": "ca-groups-table",
+          "rules": [{ "key": "visited-groups", "description": "The groups page was reviewed", "rule": { "type": "visited", "page": "groups" } }]
+        },
+        {
+          "key": "open-new-policy",
+          "title": "Start a new Conditional Access policy",
+          "instruction": "Go to **Conditional Access**, select **+ New policy**, and name the policy **CA-Finance-Require-MFA**.",
+          "hint": "Conditional Access is under the Protection section in the simulated navigation.",
+          "explanation": "A clear naming pattern helps administrators understand the assignment, target, and control before opening a policy.",
+          "targetId": "ca-new-policy",
+          "rules": [{ "key": "policy-created-by-end", "description": "The policy exists", "rule": { "type": "arrayContains", "path": "conditionalAccessPolicies", "match": { "name": "CA-Finance-Require-MFA" } }, "failureFeedback": "Create the policy named CA-Finance-Require-MFA." }]
+        },
+        {
+          "key": "assignments",
+          "title": "Configure users and target resources",
+          "instruction": "In **Users**, include **All finance users** and exclude **Emergency Access Accounts**. In **Target resources**, choose **All resources (formerly 'All cloud apps')**.",
+          "hint": "Missing the emergency access exclusion is one of the most dangerous Conditional Access mistakes.",
+          "explanation": "Assignments define the scope of the policy: who is evaluated and what resources the sign-in targets.",
+          "targetId": "ca-policy-wizard",
+          "rules": [
+            { "key": "assignments-correct", "description": "Finance users are included and break-glass accounts are excluded", "rule": { "type": "arrayContains", "path": "conditionalAccessPolicies", "match": { "name": "CA-Finance-Require-MFA", "include": "All finance users", "exclude": "Emergency Access Accounts", "excludeEmergency": true, "targetResources": "All resources" } }, "failureFeedback": "Include All finance users, exclude Emergency Access Accounts, and target All resources." }
+          ]
+        },
+        {
+          "key": "grant-report-only",
+          "title": "Require MFA and test first",
+          "instruction": "In **Grant**, choose **Grant access** and **Require authentication strength: Multifactor authentication**. Set **Enable policy** to **Report-only**, then select **Create**.",
+          "hint": "Report-only evaluates policy impact without enforcing it. Turn it **On** only after reviewing results.",
+          "explanation": "The policy decision is to grant access only when the MFA requirement is satisfied. Report-only mode lets the team validate impact first.",
+          "targetId": "ca-policy-wizard",
+          "rules": [
+            { "key": "mfa-report-only", "description": "The policy requires MFA in report-only mode", "rule": { "type": "arrayContains", "path": "conditionalAccessPolicies", "match": { "name": "CA-Finance-Require-MFA", "grantDecision": "Grant access", "grant": "Require authentication strength: Multifactor authentication", "state": "Report-only" } }, "failureFeedback": "Require MFA and leave the policy in Report-only mode." }
+          ]
+        },
+        {
+          "key": "run-what-if",
+          "title": "Test the policy with What If",
+          "instruction": "Open **What If**, evaluate **Mira Ileri** accessing **All resources** from **Windows** with **Browser**, and review the result.",
+          "hint": "The What If tool evaluates enabled and report-only policies for a simulated sign-in.",
+          "explanation": "What If helps troubleshoot which policies would apply before asking a real user to sign in.",
+          "targetId": "ca-what-if",
+          "rules": [
+            { "key": "what-if-run", "description": "A What If evaluation was run for Mira", "rule": { "type": "arrayContains", "path": "whatIfRuns", "match": { "user": "mira.ileri@contoso.example", "targetResource": "All resources" } }, "failureFeedback": "Run What If for Mira and All resources." }
+          ]
+        }
+      ],
+      "finalRules": [
+        { "key": "break-glass-excluded", "description": "Emergency access accounts are excluded", "rule": { "type": "arrayContains", "path": "conditionalAccessPolicies", "match": { "name": "CA-Finance-Require-MFA", "excludeEmergency": true, "exclude": "Emergency Access Accounts" } }, "successFeedback": "Emergency access accounts are excluded from the report-only MFA policy.", "failureFeedback": "Exclude Emergency Access Accounts to avoid lockout." },
+        { "key": "policy-report-only", "description": "The policy is not enforced yet", "rule": { "type": "arrayContains", "path": "conditionalAccessPolicies", "match": { "name": "CA-Finance-Require-MFA", "state": "Report-only" } }, "successFeedback": "The policy is safely staged for testing.", "failureFeedback": "Set Enable policy to Report-only until impact has been reviewed." },
+        { "key": "mfa-grant", "description": "The grant control requires MFA", "rule": { "type": "arrayContains", "path": "conditionalAccessPolicies", "match": { "name": "CA-Finance-Require-MFA", "grant": "Require authentication strength: Multifactor authentication" } }, "successFeedback": "The grant control requires multifactor authentication.", "failureFeedback": "Require Multifactor authentication strength for the policy." }
+      ],
+      "solution": "1. Select **Groups** and confirm **All finance users** and **Emergency Access Accounts** exist.\n2. Select **Conditional Access** > **+ New policy**. Name it `CA-Finance-Require-MFA`.\n3. Under **Users**, include **Select users and groups > All finance users**. Turn on **Exclude Emergency Access Accounts** and choose **Emergency Access Accounts**.\n4. Under **Target resources**, select **All resources (formerly 'All cloud apps')**. Leave optional **Conditions** as **Any device** and **Any location**.\n5. Under **Grant**, choose **Grant access** and **Require authentication strength: Multifactor authentication**.\n6. Set **Enable policy** to **Report-only** and select **Create**.\n7. Select **What If**, evaluate **Mira Ileri** for **All resources**, **Windows**, and **Browser**, then review the report-only result."
+    }
+  ]
+}

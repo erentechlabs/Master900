@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "certificationCode": "PL-900",
+  "contentVersionLabel": "labs-2026.09",
+  "sourceLocale": "en",
+  "isDemo": true,
+  "domains": [
+    {
+      "key": "business-value",
+      "title": "Describe the business value of Microsoft Power Platform",
+      "weightMin": 5,
+      "weightMax": 10,
+      "objectives": [
+        {
+          "code": "1.1",
+          "title": "Describe the business value of Microsoft Power Platform services"
+        }
+      ]
+    },
+    {
+      "key": "manage-environment",
+      "title": "Manage the Microsoft Power Platform environment",
+      "weightMin": 20,
+      "weightMax": 25,
+      "objectives": [
+        {
+          "code": "2.1",
+          "title": "Describe Microsoft Dataverse"
+        },
+        {
+          "code": "2.2",
+          "title": "Describe Microsoft Power Platform administration and governance"
+        }
+      ]
+    },
+    {
+      "key": "power-apps",
+      "title": "Demonstrate the capabilities of Power Apps",
+      "weightMin": 20,
+      "weightMax": 25,
+      "objectives": [
+        {
+          "code": "3.1",
+          "title": "Describe Power Apps capabilities and use cases"
+        },
+        {
+          "code": "3.2",
+          "title": "Describe how to build basic apps by using Power Apps"
+        }
+      ]
+    },
+    {
+      "key": "power-automate",
+      "title": "Demonstrate the capabilities of Power Automate",
+      "weightMin": 20,
+      "weightMax": 25,
+      "objectives": [
+        {
+          "code": "4.1",
+          "title": "Describe Power Automate use cases and capabilities"
+        },
+        {
+          "code": "4.2",
+          "title": "Describe how to build basic flows by using Power Automate"
+        }
+      ]
+    },
+    {
+      "key": "copilot-studio-agents",
+      "title": "Describe features and capabilities of agents in Microsoft Copilot Studio",
+      "weightMin": 20,
+      "weightMax": 25,
+      "objectives": [
+        {
+          "code": "5.1",
+          "title": "Describe how to build agents in Copilot Studio"
+        },
+        {
+          "code": "5.2",
+          "title": "Describe how to manage agents in Copilot Studio"
+        }
+      ]
+    }
+  ]
+}

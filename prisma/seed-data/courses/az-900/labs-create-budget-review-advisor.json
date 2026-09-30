@@ -1,0 +1,999 @@
+{
+ "labs": [
+  {
+   "slug": "create-budget-review-advisor",
+   "type": "UI_SIMULATION",
+   "title": "Create a budget and resolve an Azure Advisor cost recommendation",
+   "summary": "Use Cost Management to review fictional spending, create a monthly budget with alerts, and act on an Azure Advisor cost recommendation.",
+   "scenario": "Fabrikam platform team wants earlier cost conversations for its Azure subscription. In the **simulated Azure portal** on your lab VM, review **Cost Management > Cost analysis**, create a monthly subscription budget named **budget-platform-monthly** with fictional amount **5000**, alert on **Actual 80%** and **Forecasted 100%**, send notifications to **finance@contoso.example**, then open **Azure Advisor > Cost** and resolve the recommendation to right-size or shut down **vm-test-03**. Budgets notify people but do not stop or change resources automatically.",
+   "domainKey": "azure-management-governance",
+   "moduleSlug": "cost-management",
+   "objectiveCode": "3.1",
+   "complexity": "BASIC",
+   "estimatedMinutes": 25,
+   "learningObjectives": [
+    "Analyze cost by service and resource group with fictional amounts",
+    "Create budget thresholds and recipients",
+    "Explain that budgets alert but do not stop resources",
+    "Use Azure Advisor cost recommendations and recognize Advisor categories"
+   ],
+   "prerequisites": [
+    "Know that Azure Cost Management tracks actual and forecasted spend"
+   ],
+   "sources": [
+    {
+     "title": "Tutorial - Create and manage budgets",
+     "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets"
+    },
+    {
+     "title": "Analyze costs with Cost analysis",
+     "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/quick-acm-cost-analysis"
+    },
+    {
+     "title": "Introduction to Azure Advisor",
+     "url": "https://learn.microsoft.com/en-us/azure/advisor/advisor-overview"
+    },
+    {
+     "title": "Optimize VM spend by resizing or shutting down underutilized instances",
+     "url": "https://learn.microsoft.com/en-us/azure/advisor/advisor-cost-recommendations"
+    }
+   ],
+   "config": {
+    "portal": {
+     "name": "Microsoft Azure",
+     "theme": "azure",
+     "user": "priya@contoso.example",
+     "tenant": "Fabrikam (fabrikam.example)",
+     "url": "https://portal.azure.com",
+     "searchPlaceholder": "Search resources, services, and docs (G+/)"
+    },
+    "vm": {
+     "name": "LAB-VM-01",
+     "os": "windows",
+     "apps": [
+      "browser"
+     ]
+    },
+    "clock": {
+     "start": "2026-10-01T09:00:00Z"
+    },
+    "startPage": "home",
+    "navigation": [
+     {
+      "page": "home",
+      "label": "Home",
+      "icon": "Home"
+     },
+     {
+      "page": "cost-analysis",
+      "label": "Cost Management",
+      "icon": "Wallet",
+      "section": "Management"
+     },
+     {
+      "page": "budgets",
+      "label": "Budgets",
+      "icon": "Receipt",
+      "section": "Management"
+     },
+     {
+      "page": "advisor-overview",
+      "label": "Advisor",
+      "icon": "Lightbulb",
+      "section": "Management"
+     }
+    ],
+    "pages": [
+     {
+      "id": "home",
+      "title": "Home",
+      "url": "/#home",
+      "components": [
+       {
+        "kind": "tiles",
+        "id": "home-services",
+        "title": "Azure services",
+        "size": "sm",
+        "items": [
+         {
+          "id": "tile-cost",
+          "label": "Cost Management",
+          "icon": "Wallet",
+          "action": {
+           "type": "navigate",
+           "page": "cost-analysis"
+          }
+         },
+         {
+          "id": "tile-budgets",
+          "label": "Budgets",
+          "icon": "Receipt",
+          "action": {
+           "type": "navigate",
+           "page": "budgets"
+          }
+         },
+         {
+          "id": "tile-advisor",
+          "label": "Advisor",
+          "icon": "Lightbulb",
+          "action": {
+           "type": "navigate",
+           "page": "advisor-overview"
+          }
+         },
+         {
+          "id": "tile-vms",
+          "label": "Virtual machines",
+          "icon": "Monitor",
+          "action": {
+           "type": "navigate",
+           "page": "vms"
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "cost-analysis",
+      "title": "Cost Management | Cost analysis",
+      "subtitle": "Subscription: Contoso Learning (simulated)",
+      "icon": "ChartColumn",
+      "url": "/#view/Microsoft_Azure_CostManagement/Menu/~/costanalysis",
+      "breadcrumb": [
+       "Home",
+       "Cost Management"
+      ],
+      "commands": [
+       {
+        "id": "cost-refresh",
+        "label": "Refresh",
+        "icon": "RefreshCw",
+        "action": {
+         "type": "message",
+         "tone": "info",
+         "text": "The fictional cost data is current."
+        }
+       }
+      ],
+      "components": [
+       {
+        "kind": "callout",
+        "variant": "info",
+        "title": "Fictional cost data",
+        "text": "All amounts are fictional round numbers for learning. They are not Azure prices, quotas, or service commitments."
+       },
+       {
+        "kind": "chart",
+        "id": "service-cost-chart",
+        "title": "Cost by service",
+        "type": "bar",
+        "unit": "fictional units",
+        "points": [
+         {
+          "label": "Virtual machines",
+          "value": 2200
+         },
+         {
+          "label": "Storage",
+          "value": 900
+         },
+         {
+          "label": "App Service",
+          "value": 700
+         },
+         {
+          "label": "Azure SQL",
+          "value": 600
+         },
+         {
+          "label": "Bandwidth",
+          "value": 300
+         }
+        ]
+       },
+       {
+        "kind": "table",
+        "id": "cost-by-rg",
+        "title": "Cost by resource group",
+        "source": "costByResourceGroup",
+        "rowKey": "name",
+        "columns": [
+         {
+          "key": "name",
+          "label": "Resource group"
+         },
+         {
+          "key": "amount",
+          "label": "Fictional amount"
+         },
+         {
+          "key": "owner",
+          "label": "Owner"
+         },
+         {
+          "key": "trend",
+          "label": "Trend",
+          "format": "status"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "budgets",
+      "title": "Cost Management | Budgets",
+      "subtitle": "Subscription: Contoso Learning (simulated)",
+      "icon": "Receipt",
+      "url": "/#view/Microsoft_Azure_CostManagement/Menu/~/budgets",
+      "breadcrumb": [
+       "Home",
+       "Cost Management"
+      ],
+      "commands": [
+       {
+        "id": "budget-add",
+        "label": "Add",
+        "icon": "Plus",
+        "variant": "primary",
+        "action": {
+         "type": "navigate",
+         "page": "budget-create"
+        }
+       }
+      ],
+      "components": [
+       {
+        "kind": "callout",
+        "variant": "warning",
+        "title": "Budget behavior",
+        "text": "Budgets send alerts when thresholds are met. They do not stop resources or enforce spending caps."
+       },
+       {
+        "kind": "table",
+        "id": "budget-list",
+        "title": "Budgets",
+        "source": "budgets",
+        "rowKey": "name",
+        "emptyText": "No budgets have been created at this scope.",
+        "columns": [
+         {
+          "key": "name",
+          "label": "Name",
+          "format": "link"
+         },
+         {
+          "key": "scope",
+          "label": "Scope"
+         },
+         {
+          "key": "resetPeriod",
+          "label": "Reset period"
+         },
+         {
+          "key": "amount",
+          "label": "Fictional amount"
+         },
+         {
+          "key": "recipients",
+          "label": "Recipients",
+          "format": "json"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "budget-create",
+      "title": "Create budget",
+      "subtitle": "Cost Management",
+      "icon": "Receipt",
+      "url": "/#view/Microsoft_Azure_CostManagement/CreateBudgetBlade",
+      "navItem": "budgets",
+      "breadcrumb": [
+       "Home",
+       "Cost Management",
+       "Budgets"
+      ],
+      "components": [
+       {
+        "kind": "wizard",
+        "id": "budget-wizard",
+        "description": "Create a Cost Management budget. Alerts notify recipients; resources continue running unless an operator or automation changes them.",
+        "reviewLabel": "Review + create",
+        "tabs": [
+         {
+          "id": "basics",
+          "label": "Basics",
+          "fields": [
+           {
+            "id": "scope",
+            "label": "Scope",
+            "control": "select",
+            "required": true,
+            "defaultValue": "Subscription: Contoso Learning (simulated)",
+            "options": [
+             {
+              "value": "Subscription: Contoso Learning (simulated)",
+              "label": "Subscription: Contoso Learning (simulated)"
+             },
+             {
+              "value": "Resource group: rg-platform-dev",
+              "label": "Resource group: rg-platform-dev"
+             }
+            ]
+           },
+           {
+            "id": "name",
+            "label": "Name",
+            "control": "text",
+            "required": true,
+            "defaultValue": "budget-platform-monthly",
+            "pattern": "^[A-Za-z0-9_.-]{3,80}$",
+            "patternMessage": "Use a short budget name."
+           },
+           {
+            "id": "resetPeriod",
+            "label": "Reset period",
+            "control": "select",
+            "required": true,
+            "defaultValue": "Monthly",
+            "options": [
+             {
+              "value": "Monthly",
+              "label": "Monthly"
+             },
+             {
+              "value": "Quarterly",
+              "label": "Quarterly"
+             },
+             {
+              "value": "Annually",
+              "label": "Annually"
+             }
+            ]
+           },
+           {
+            "id": "creationDate",
+            "label": "Creation date",
+            "control": "text",
+            "required": true,
+            "defaultValue": "2026-10-01",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "patternMessage": "Use YYYY-MM-DD."
+           },
+           {
+            "id": "expirationDate",
+            "label": "Expiration date",
+            "control": "text",
+            "required": true,
+            "defaultValue": "2027-09-30",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "patternMessage": "Use YYYY-MM-DD."
+           },
+           {
+            "id": "amount",
+            "label": "Amount",
+            "control": "number",
+            "required": true,
+            "defaultValue": 5000,
+            "min": 1,
+            "help": "Fictional training amount only."
+           }
+          ]
+         },
+         {
+          "id": "conditions",
+          "label": "Alert conditions",
+          "fields": [
+           {
+            "id": "actualThreshold",
+            "label": "Actual threshold",
+            "control": "number",
+            "required": true,
+            "defaultValue": 80,
+            "min": 1,
+            "max": 100
+           },
+           {
+            "id": "forecastedThreshold",
+            "label": "Forecasted threshold",
+            "control": "number",
+            "required": true,
+            "defaultValue": 100,
+            "min": 1,
+            "max": 100
+           },
+           {
+            "id": "recipients",
+            "label": "Alert recipients",
+            "control": "text",
+            "required": true,
+            "defaultValue": "finance@contoso.example",
+            "pattern": "^[^@\\s]+@[^@\\s]+\\.example$",
+            "patternMessage": "Use a fictional .example recipient."
+           }
+          ]
+         },
+         {
+          "id": "review",
+          "label": "Review + create",
+          "fields": []
+         }
+        ],
+        "submit": {
+         "label": "Create",
+         "checks": [
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.scope",
+            "value": "Subscription: Contoso Learning (simulated)"
+           },
+           "message": "Create the budget at subscription scope."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.name",
+            "value": "budget-platform-monthly"
+           },
+           "message": "Use budget-platform-monthly."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.resetPeriod",
+            "value": "Monthly"
+           },
+           "message": "Use Monthly."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.actualThreshold",
+            "value": 80
+           },
+           "message": "Set Actual threshold to 80."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.forecastedThreshold",
+            "value": 100
+           },
+           "message": "Set Forecasted threshold to 100."
+          },
+          {
+           "rule": {
+            "type": "equals",
+            "path": "$form.recipients",
+            "value": "finance@contoso.example"
+           },
+           "message": "Send budget alerts to finance@contoso.example."
+          }
+         ],
+         "actions": [
+          {
+           "type": "append",
+           "path": "budgets",
+           "unique": "name",
+           "value": {
+            "name": "{{$form.name}}",
+            "scope": "{{$form.scope}}",
+            "resetPeriod": "{{$form.resetPeriod}}",
+            "creationDate": "{{$form.creationDate}}",
+            "expirationDate": "{{$form.expirationDate}}",
+            "amount": "{{$form.amount}}",
+            "actualThreshold": "{{$form.actualThreshold}}",
+            "forecastedThreshold": "{{$form.forecastedThreshold}}",
+            "recipients": [
+             "{{$form.recipients}}"
+            ],
+            "status": "Active"
+           }
+          },
+          {
+           "type": "notify",
+           "title": "Budget created",
+           "message": "Budget {{$form.name}} was created. Alerts notify recipients but do not stop resources."
+          },
+          {
+           "type": "navigate",
+           "page": "budgets"
+          }
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "id": "advisor-overview",
+      "title": "Azure Advisor",
+      "subtitle": "Personalized recommendations",
+      "icon": "Lightbulb",
+      "url": "/#view/Microsoft_Azure_Expert/AdvisorMenuBlade/~/overview",
+      "breadcrumb": [
+       "Home"
+      ],
+      "components": [
+       {
+        "kind": "tiles",
+        "id": "advisor-categories",
+        "title": "Advisor categories",
+        "size": "md",
+        "items": [
+         {
+          "id": "advisor-reliability",
+          "label": "Reliability",
+          "icon": "ShieldCheck",
+          "description": "Improve availability and resiliency.",
+          "action": {
+           "type": "message",
+           "tone": "info",
+           "text": "Reliability recommendations are not part of this lab."
+          }
+         },
+         {
+          "id": "advisor-security",
+          "label": "Security",
+          "icon": "Shield",
+          "description": "Strengthen security posture.",
+          "action": {
+           "type": "message",
+           "tone": "info",
+           "text": "Security recommendations are not part of this lab."
+          }
+         },
+         {
+          "id": "advisor-performance",
+          "label": "Performance",
+          "icon": "Gauge",
+          "description": "Improve speed and responsiveness.",
+          "action": {
+           "type": "message",
+           "tone": "info",
+           "text": "Performance recommendations are not part of this lab."
+          }
+         },
+         {
+          "id": "advisor-cost",
+          "label": "Cost",
+          "icon": "Wallet",
+          "description": "Reduce avoidable spend.",
+          "action": {
+           "type": "navigate",
+           "page": "advisor-cost"
+          }
+         },
+         {
+          "id": "advisor-operational",
+          "label": "Operational excellence",
+          "icon": "Settings2",
+          "description": "Improve process and manageability.",
+          "action": {
+           "type": "message",
+           "tone": "info",
+           "text": "Operational excellence recommendations are not part of this lab."
+          }
+         }
+        ]
+       },
+       {
+        "kind": "callout",
+        "variant": "info",
+        "text": "Azure Advisor groups recommendations into Reliability, Security, Performance, Cost, and Operational excellence."
+       }
+      ]
+     },
+     {
+      "id": "advisor-cost",
+      "title": "Azure Advisor | Cost",
+      "subtitle": "Cost recommendations",
+      "icon": "Wallet",
+      "url": "/#view/Microsoft_Azure_Expert/AdvisorMenuBlade/~/cost",
+      "breadcrumb": [
+       "Home",
+       "Advisor"
+      ],
+      "components": [
+       {
+        "kind": "table",
+        "id": "advisor-cost-list",
+        "title": "Cost recommendations",
+        "source": "advisorRecommendations",
+        "where": {
+         "category": "Cost"
+        },
+        "rowKey": "id",
+        "columns": [
+         {
+          "key": "title",
+          "label": "Recommendation",
+          "format": "link"
+         },
+         {
+          "key": "resource",
+          "label": "Resource"
+         },
+         {
+          "key": "impact",
+          "label": "Impact"
+         },
+         {
+          "key": "status",
+          "label": "Status",
+          "format": "status"
+         },
+         {
+          "key": "resolution",
+          "label": "Resolution"
+         }
+        ],
+        "rowActions": [
+         {
+          "id": "shut-down",
+          "label": "Shut down",
+          "icon": "PowerOff",
+          "variant": "primary",
+          "visibleWhen": {
+           "type": "notEquals",
+           "path": "$row.status",
+           "value": "Resolved"
+          },
+          "action": {
+           "type": "sequence",
+           "actions": [
+            {
+             "type": "update",
+             "path": "virtualMachines",
+             "where": {
+              "name": "{{$row.resource}}"
+             },
+             "set": {
+              "status": "Stopped (deallocated)",
+              "advisorAction": "Shut down from Advisor recommendation"
+             }
+            },
+            {
+             "type": "update",
+             "path": "advisorRecommendations",
+             "where": {
+              "id": "{{$row.id}}"
+             },
+             "set": {
+              "status": "Resolved",
+              "resolution": "Shut down underutilized VM"
+             }
+            },
+            {
+             "type": "notify",
+             "title": "Recommendation resolved",
+             "message": "{{$row.resource}} was stopped and the Advisor cost recommendation is resolved."
+            }
+           ]
+          }
+         },
+         {
+          "id": "postpone",
+          "label": "Postpone",
+          "icon": "Clock",
+          "visibleWhen": {
+           "type": "notEquals",
+           "path": "$row.status",
+           "value": "Resolved"
+          },
+          "action": {
+           "type": "sequence",
+           "actions": [
+            {
+             "type": "update",
+             "path": "advisorRecommendations",
+             "where": {
+              "id": "{{$row.id}}"
+             },
+             "set": {
+              "status": "Postponed",
+              "resolution": "Postponed with business justification"
+             }
+            },
+            {
+             "type": "notify",
+             "title": "Recommendation postponed",
+             "tone": "info",
+             "message": "The recommendation was postponed with a business reason."
+            }
+           ]
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "vms",
+      "title": "Virtual machines",
+      "subtitle": "Contoso (contoso.example)",
+      "icon": "Monitor",
+      "url": "/#browse/Microsoft.Compute%2FVirtualMachines",
+      "breadcrumb": [
+       "Home"
+      ],
+      "components": [
+       {
+        "kind": "table",
+        "id": "vm-list",
+        "source": "virtualMachines",
+        "rowKey": "name",
+        "columns": [
+         {
+          "key": "name",
+          "label": "Name",
+          "format": "link"
+         },
+         {
+          "key": "resourceGroup",
+          "label": "Resource group"
+         },
+         {
+          "key": "size",
+          "label": "Size"
+         },
+         {
+          "key": "status",
+          "label": "Status",
+          "format": "status"
+         },
+         {
+          "key": "averageCpu",
+          "label": "Average CPU"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "initialState": {
+     "subscription": {
+      "name": "Contoso Learning (simulated)",
+      "id": "00000000-0000-4000-8000-000000000900"
+     },
+     "costByResourceGroup": [
+      {
+       "name": "rg-platform-prod",
+       "amount": 2100,
+       "owner": "Platform",
+       "trend": "Rising"
+      },
+      {
+       "name": "rg-platform-dev",
+       "amount": 1200,
+       "owner": "Platform",
+       "trend": "Flat"
+      },
+      {
+       "name": "rg-data-shared",
+       "amount": 800,
+       "owner": "Data",
+       "trend": "Flat"
+      },
+      {
+       "name": "rg-test-labs",
+       "amount": 700,
+       "owner": "Engineering",
+       "trend": "Rising"
+      },
+      {
+       "name": "rg-network-shared",
+       "amount": 300,
+       "owner": "Infrastructure",
+       "trend": "Flat"
+      }
+     ],
+     "budgets": [],
+     "virtualMachines": [
+      {
+       "name": "vm-app-01",
+       "resourceGroup": "rg-platform-prod",
+       "size": "Standard_D2s_v5",
+       "status": "Running",
+       "averageCpu": "42%"
+      },
+      {
+       "name": "vm-test-03",
+       "resourceGroup": "rg-test-labs",
+       "size": "Standard_D4s_v5",
+       "status": "Running",
+       "averageCpu": "2%"
+      },
+      {
+       "name": "vm-build-02",
+       "resourceGroup": "rg-platform-dev",
+       "size": "Standard_B2s",
+       "status": "Stopped (deallocated)",
+       "averageCpu": "0%"
+      }
+     ],
+     "advisorRecommendations": [
+      {
+       "id": "cost-vm-test-03",
+       "category": "Cost",
+       "title": "Right-size or shut down underutilized virtual machines",
+       "resource": "vm-test-03",
+       "impact": "Medium",
+       "status": "Active",
+       "resolution": "None"
+      },
+      {
+       "id": "cost-orphaned-disk",
+       "category": "Cost",
+       "title": "Review unattached managed disks",
+       "resource": "disk-old-test-01",
+       "impact": "Low",
+       "status": "Active",
+       "resolution": "None"
+      },
+      {
+       "id": "rel-backup",
+       "category": "Reliability",
+       "title": "Enable backup for production virtual machines",
+       "resource": "vm-app-01",
+       "impact": "High",
+       "status": "Active",
+       "resolution": "None"
+      }
+     ]
+    }
+   },
+   "steps": [
+    {
+     "key": "review-cost-analysis",
+     "title": "Review Cost analysis",
+     "instruction": "Open **Cost Management** and review **Cost analysis** by service and resource group. Notice the fictional round amounts and rising test-lab trend.",
+     "hint": "The chart and table use training-only amounts.",
+     "explanation": "Cost analysis helps identify where spend is coming from before teams decide what to optimize.",
+     "targetId": "service-cost-chart",
+     "rules": [
+      {
+       "key": "visited-cost",
+       "description": "Cost analysis was opened",
+       "rule": {
+        "type": "visited",
+        "page": "cost-analysis"
+       }
+      }
+     ]
+    },
+    {
+     "key": "open-budget-create",
+     "title": "Open budget creation",
+     "instruction": "Open **Budgets** and select **Add**.",
+     "hint": "Budgets live under Cost Management at a selected billing or Azure scope.",
+     "explanation": "A budget is scoped to the cost boundary you want to track.",
+     "targetId": "budget-add",
+     "rules": [
+      {
+       "key": "visited-budget-create",
+       "description": "Budget creation was opened",
+       "rule": {
+        "type": "visited",
+        "page": "budget-create"
+       }
+      }
+     ]
+    },
+    {
+     "key": "create-budget",
+     "title": "Create the monthly budget",
+     "instruction": "Create **budget-platform-monthly** at **Subscription: Contoso Learning (simulated)** scope. Use **Reset period** **Monthly**, creation date **2026-10-01**, expiration date **2027-09-30**, fictional **Amount** `5000`, **Actual threshold** `80`, **Forecasted threshold** `100`, and **Alert recipients** `finance@contoso.example`.",
+     "hint": "Budgets alert recipients; they do not stop resources automatically.",
+     "explanation": "Actual and forecasted thresholds give finance and operators early warning from different perspectives.",
+     "targetId": "budget-wizard",
+     "rules": [
+      {
+       "key": "budget-created",
+       "description": "The budget exists with required scope and recipient",
+       "rule": {
+        "type": "arrayContains",
+        "path": "budgets",
+        "match": {
+         "name": "budget-platform-monthly",
+         "scope": "Subscription: Contoso Learning (simulated)",
+         "resetPeriod": "Monthly",
+         "actualThreshold": 80,
+         "forecastedThreshold": 100
+        }
+       },
+       "failureFeedback": "Create the monthly subscription budget with 80 actual and 100 forecasted thresholds."
+      }
+     ]
+    },
+    {
+     "key": "open-advisor-cost",
+     "title": "Open Advisor Cost recommendations",
+     "instruction": "Open **Advisor**, then choose the **Cost** category.",
+     "hint": "Advisor categories include Reliability, Security, Performance, Cost, and Operational excellence.",
+     "explanation": "Azure Advisor recommends ways to optimize resources you already run.",
+     "targetId": "advisor-categories",
+     "rules": [
+      {
+       "key": "visited-advisor-cost",
+       "description": "Advisor Cost page was opened",
+       "rule": {
+        "type": "visited",
+        "page": "advisor-cost"
+       }
+      }
+     ]
+    },
+    {
+     "key": "resolve-vm-recommendation",
+     "title": "Resolve the underutilized VM recommendation",
+     "instruction": "For **Right-size or shut down underutilized virtual machines** on **vm-test-03**, select **Shut down** to resolve the recommendation.",
+     "hint": "Postponing requires a business reason; for this lab, act on the underutilized test VM.",
+     "explanation": "Advisor recommendations do not change resources until an operator chooses an action or automation performs one.",
+     "targetId": "advisor-cost-list",
+     "rules": [
+      {
+       "key": "recommendation-resolved",
+       "description": "The vm-test-03 Advisor cost recommendation is resolved",
+       "rule": {
+        "type": "arrayContains",
+        "path": "advisorRecommendations",
+        "match": {
+         "id": "cost-vm-test-03",
+         "status": "Resolved"
+        }
+       },
+       "failureFeedback": "Use the Shut down action on the vm-test-03 cost recommendation."
+      },
+      {
+       "key": "vm-stopped",
+       "description": "vm-test-03 is stopped",
+       "rule": {
+        "type": "arrayContains",
+        "path": "virtualMachines",
+        "match": {
+         "name": "vm-test-03",
+         "status": "Stopped (deallocated)"
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "finalRules": [
+    {
+     "key": "budget-recipient",
+     "description": "Budget notifies finance@contoso.example",
+     "rule": {
+      "type": "arrayContains",
+      "path": "budgets",
+      "match": {
+       "name": "budget-platform-monthly",
+       "recipients": [
+        "finance@contoso.example"
+       ]
+      }
+     },
+     "failureFeedback": "The budget must notify finance@contoso.example."
+    },
+    {
+     "key": "advisor-action-recorded",
+     "description": "The Advisor recommendation has a recorded resolution",
+     "rule": {
+      "type": "arrayContains",
+      "path": "advisorRecommendations",
+      "match": {
+       "id": "cost-vm-test-03",
+       "resolution": "Shut down underutilized VM"
+      }
+     },
+     "successFeedback": "Advisor recommendation was acted on and resolved."
+    }
+   ],
+   "solution": "1. Open **Cost Management** and review **Cost analysis**. Treat all amounts as fictional training data.\n2. Open **Budgets**, then select **Add**.\n3. In **Create budget**, set **Scope** to **Subscription: Contoso Learning (simulated)**, **Name** `budget-platform-monthly`, **Reset period** **Monthly**, **Creation date** `2026-10-01`, **Expiration date** `2027-09-30`, and **Amount** `5000`.\n4. On **Alert conditions**, set **Actual threshold** `80`, **Forecasted threshold** `100`, and **Alert recipients** `finance@contoso.example`, then select **Review + create** and **Create**.\n5. Open **Advisor**, choose **Cost**, and for **Right-size or shut down underutilized virtual machines** on **vm-test-03**, select **Shut down**."
+  }
+ ]
+}
