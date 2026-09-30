@@ -1,0 +1,1440 @@
+// Microsoft Fundamentals Academy - data model
+// Modular monolith: auth, catalog, content, assessment, labs, planner,
+// analytics, tutor, administration and content versioning share one database.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum RoleKey {
+  LEARNER
+  INSTRUCTOR
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+enum CertificationStatus {
+  ACTIVE
+  ANNOUNCED
+  RETIRING
+  RETIRED
+}
+
+/// Draft -> Technical Review -> Editorial Review -> Approved -> Published -> Outdated -> Archived
+enum ContentStatus {
+  DRAFT
+  TECHNICAL_REVIEW
+  EDITORIAL_REVIEW
+  APPROVED
+  PUBLISHED
+  OUTDATED
+  ARCHIVED
+}
+
+enum TranslationStatus {
+  MACHINE_DRAFT
+  DRAFT
+  IN_REVIEW
+  APPROVED
+}
+
+enum AuthorType {
+  HUMAN
+  AI_ASSISTED
+  AI_GENERATED
+  SEED_DEMO
+  IMPORTED
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum QuestionType {
+  SINGLE_CHOICE
+  MULTIPLE_RESPONSE
+  TRUE_FALSE
+  MATCHING
+  ORDERING
+  CATEGORIZATION
+  FILL_IN_BLANK
+  CASE_STUDY
+  SCENARIO
+  COMMAND_SELECTION
+  UI_SIMULATION
+}
+
+enum ContentBlockType {
+  LEARNING_OBJECTIVES
+  EXPLANATION
+  TERMINOLOGY
+  BUSINESS_SCENARIO
+  TECHNICAL_EXAMPLE
+  MISCONCEPTION
+  EXAM_TAKEAWAY
+  SUMMARY
+  SIMPLER_EXPLANATION
+  ANOTHER_EXAMPLE
+  COMPARISON
+  DIAGRAM
+  ACTIVITY
+  VIDEO
+  CALLOUT
+  MARKDOWN
+  IMAGE
+}
+
+enum QuizKind {
+  KNOWLEDGE_CHECK
+  DOMAIN_ASSESSMENT
+  DIAGNOSTIC
+}
+
+enum PracticeMode {
+  QUICK
+  DOMAIN
+  FULL
+  ADAPTIVE
+  DAILY
+  MISTAKE_REVIEW
+}
+
+enum AttemptStatus {
+  IN_PROGRESS
+  SUBMITTED
+  EXPIRED
+  ABANDONED
+}
+
+enum AttemptContext {
+  KNOWLEDGE_CHECK
+  DOMAIN_ASSESSMENT
+  DIAGNOSTIC
+  PRACTICE
+  REVIEW
+}
+
+enum LabType {
+  UI_SIMULATION
+  COMMAND_SANDBOX
+  ARCHITECTURE
+  TROUBLESHOOTING
+  BUSINESS_SCENARIO
+}
+
+enum LabComplexity {
+  INTRO
+  BASIC
+  INTERMEDIATE
+}
+
+enum LabMode {
+  GUIDED
+  CHALLENGE
+}
+
+enum LabAttemptStatus {
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
+}
+
+enum StudySessionType {
+  LESSON
+  REVIEW
+  PRACTICE_EXAM
+  LAB
+  REVISION
+  DIAGNOSTIC
+}
+
+enum StudySessionStatus {
+  PLANNED
+  COMPLETED
+  MISSED
+  SKIPPED
+}
+
+enum PlanStatus {
+  ACTIVE
+  ARCHIVED
+}
+
+enum ReviewItemStatus {
+  ACTIVE
+  MASTERED
+  SUSPENDED
+}
+
+enum ReviewReason {
+  INCORRECT_ANSWER
+  LOW_CONFIDENCE
+  MANUAL
+  FLASHCARD
+}
+
+enum BookmarkTarget {
+  CERTIFICATION
+  LESSON
+  QUESTION
+  LAB
+  GLOSSARY
+}
+
+enum ReviewDecision {
+  SUBMITTED
+  APPROVED
+  REJECTED
+  CHANGES_REQUESTED
+  COMMENT
+  PUBLISHED
+  UNPUBLISHED
+  SCHEDULED
+  ARCHIVED
+  OUTDATED
+  ROLLED_BACK
+}
+
+enum ContentEntityType {
+  CERTIFICATION
+  MODULE
+  LESSON
+  QUESTION
+  LAB
+  FLASHCARD
+  GLOSSARY
+}
+
+enum JobStatus {
+  PENDING
+  RUNNING
+  SUCCEEDED
+  FAILED
+}
+
+enum ExperienceLevel {
+  NEW_TO_TECH
+  SOME_EXPERIENCE
+  EXPERIENCED
+}
+
+enum LearningStyle {
+  READING
+  VISUAL
+  GUIDED_PRACTICE
+  QUIZZES
+}
+
+enum SourceKind {
+  CERTIFICATION_PAGE
+  STUDY_GUIDE
+  EXAM_PAGE
+  DOCUMENTATION
+  LEARN_MODULE
+  OTHER
+}
+
+enum GlossaryKind {
+  TERM
+  SERVICE
+  CONCEPT
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  PAUSED
+  COMPLETED
+}
+
+enum ReadinessLevel {
+  STARTING
+  DEVELOPING
+  NEARLY_READY
+  PRACTICE_EXAM_READY
+}
+
+enum LessonProgressStatus {
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum BadgeCategory {
+  MASTERY
+  TRACK
+  LAB
+  QUIZ
+  STREAK
+  COMEBACK
+  PERSONAL_BEST
+  MILESTONE
+}
+
+enum LearningEventType {
+  LESSON_VIEWED
+  LESSON_COMPLETED
+  QUESTION_ANSWERED
+  QUIZ_COMPLETED
+  DIAGNOSTIC_COMPLETED
+  PRACTICE_COMPLETED
+  DAILY_CHALLENGE_COMPLETED
+  LAB_STARTED
+  LAB_COMPLETED
+  FLASHCARD_REVIEWED
+  STUDY_SESSION_COMPLETED
+  TUTOR_MESSAGE
+  BADGE_EARNED
+}
+
+enum TutorRole {
+  USER
+  ASSISTANT
+}
+
+// ---------------------------------------------------------------------------
+// Identity & preferences
+// ---------------------------------------------------------------------------
+
+model User {
+  id                    String     @id @default(cuid())
+  email                 String     @unique
+  name                  String?
+  passwordHash          String
+  status                UserStatus @default(ACTIVE)
+  /// Incremented to revoke all existing sessions (password change, role change, sign out everywhere).
+  sessionVersion        Int        @default(1)
+  locale                String     @default("en")
+  onboardingCompletedAt DateTime?
+  lastActiveAt          DateTime?
+  isDemo                Boolean    @default(false)
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+
+  roles              UserRole[]
+  preference         UserPreference?
+  enrollments        Enrollment[]
+  lessonProgress     LessonProgress[]
+  questionAttempts   QuestionAttempt[]
+  quizAttempts       QuizAttempt[]
+  practiceAttempts   PracticeExamAttempt[]
+  labAttempts        LabAttempt[]
+  studyPlans         StudyPlan[]
+  studySessions      StudySession[]
+  reviewItems        ReviewQueueItem[]
+  bookmarks          Bookmark[]
+  notes              Note[]
+  badges             UserBadge[]
+  learningEvents     LearningEvent[]
+  readinessSnapshots ReadinessSnapshot[]
+  tutorConversations TutorConversation[]
+  auditLogs          AuditLog[]
+}
+
+model Role {
+  id          String     @id @default(cuid())
+  key         RoleKey    @unique
+  name        String
+  description String
+  isSystem    Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  users       UserRole[]
+}
+
+model UserRole {
+  userId       String
+  roleId       String
+  assignedAt   DateTime @default(now())
+  assignedById String?
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role         Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+}
+
+model UserPreference {
+  userId                  String           @id
+  careerGoal              String?
+  experienceLevel         ExperienceLevel?
+  /// Days of week the learner wants to study (0 = Sunday ... 6 = Saturday)
+  studyDays               Int[]            @default([])
+  sessionMinutes          Int              @default(30)
+  learningStyle           LearningStyle?
+  gamificationEnabled     Boolean          @default(true)
+  dailyGoalMinutes        Int              @default(20)
+  reducedMotion           Boolean          @default(false)
+  shareAnonymousAnalytics Boolean          @default(true)
+  showTimerByDefault      Boolean          @default(true)
+  timezone                String           @default("UTC")
+  updatedAt               DateTime         @updatedAt
+  user                    User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Enrollment {
+  id                    String           @id @default(cuid())
+  userId                String
+  certificationId       String
+  status                EnrollmentStatus @default(ACTIVE)
+  isPrimary             Boolean          @default(false)
+  targetExamDate        DateTime?
+  diagnosticCompletedAt DateTime?
+  diagnosticResult      Json?
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @updatedAt
+  user                  User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  certification         Certification    @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, certificationId])
+}
+
+// ---------------------------------------------------------------------------
+// Certification catalog (data-driven configuration)
+// ---------------------------------------------------------------------------
+
+model Certification {
+  id                       String              @id @default(cuid())
+  code                     String              @unique
+  slug                     String              @unique
+  name                     String
+  description              String
+  audience                 String?
+  status                   CertificationStatus @default(ACTIVE)
+  /// Official exam version label, e.g. "Skills measured as of ...". Null means "Verification required".
+  examVersion              String?
+  officialUrl              String?
+  studyGuideUrl            String?
+  lastCurriculumReviewAt   DateTime?
+  /// Only set when stated on an official Microsoft page.
+  retirementDate           DateTime?
+  estimatedStudyHoursMin   Int?
+  estimatedStudyHoursMax   Int?
+  recommendedPrerequisites String[]            @default([])
+  icon                     String              @default("GraduationCap")
+  themeColor               String              @default("#2563eb")
+  sortOrder                Int                 @default(0)
+  isVisible                Boolean             @default(true)
+  hasLearningPath          Boolean             @default(false)
+  /// Field names whose values could not be verified against an official source.
+  unverifiedFields         String[]            @default([])
+  verificationNotes        String?
+  translations             Json?
+  currentVersion           Int                 @default(1)
+  replacementId            String?
+  replacement              Certification?      @relation("CertificationReplacement", fields: [replacementId], references: [id], onDelete: SetNull)
+  replaces                 Certification[]     @relation("CertificationReplacement")
+  createdAt                DateTime            @default(now())
+  updatedAt                DateTime            @updatedAt
+
+  versions           CertificationVersion[]
+  domains            ExamDomain[]
+  modules            Module[]
+  lessons            Lesson[]
+  questions          Question[]
+  labs               Lab[]
+  quizzes            Quiz[]
+  practiceExams      PracticeExam[]
+  practiceAttempts   PracticeExamAttempt[]
+  flashcards         Flashcard[]
+  sources            OfficialSource[]
+  enrollments        Enrollment[]
+  studyPlans         StudyPlan[]
+  relatedFrom        CertificationRelation[]     @relation("RelationFrom")
+  relatedTo          CertificationRelation[]     @relation("RelationTo")
+  glossaryTerms      GlossaryTermCertification[]
+  conceptLinks       ConceptLink[]
+  curriculumAlerts   CurriculumAlert[]
+  readinessSnapshots ReadinessSnapshot[]
+}
+
+model CertificationRelation {
+  fromId String
+  toId   String
+  kind   String        @default("related")
+  from   Certification @relation("RelationFrom", fields: [fromId], references: [id], onDelete: Cascade)
+  to     Certification @relation("RelationTo", fields: [toId], references: [id], onDelete: Cascade)
+
+  @@id([fromId, toId, kind])
+}
+
+/// Snapshot of an official skills outline. A new version flags aligned content as outdated.
+model CertificationVersion {
+  id              String        @id @default(cuid())
+  certificationId String
+  version         Int
+  label           String
+  skillsOutline   Json
+  sourceUrl       String?
+  changeSummary   String?
+  createdById     String?
+  createdAt       DateTime      @default(now())
+  certification   Certification @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+
+  @@unique([certificationId, version])
+}
+
+model CurriculumAlert {
+  id              String        @id @default(cuid())
+  certificationId String
+  fromVersion     Int
+  toVersion       Int
+  message         String
+  affectedCount   Int           @default(0)
+  createdAt       DateTime      @default(now())
+  resolvedAt      DateTime?
+  resolvedById    String?
+  certification   Certification @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+
+  @@index([certificationId, resolvedAt])
+}
+
+model ExamDomain {
+  id              String          @id @default(cuid())
+  certificationId String
+  key             String
+  title           String
+  description     String?
+  weightMin       Int?
+  weightMax       Int?
+  sortOrder       Int             @default(0)
+  translations    Json?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  certification   Certification   @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  objectives      ExamObjective[]
+  modules         Module[]
+  lessons         Lesson[]
+  questions       Question[]
+  labs            Lab[]
+  quizzes         Quiz[]
+
+  @@unique([certificationId, key])
+}
+
+model ExamObjective {
+  id           String     @id @default(cuid())
+  domainId     String
+  code         String
+  title        String
+  description  String?
+  sortOrder    Int        @default(0)
+  translations Json?
+  domain       ExamDomain @relation(fields: [domainId], references: [id], onDelete: Cascade)
+  lessons      Lesson[]
+  questions    Question[]
+  labs         Lab[]
+
+  @@unique([domainId, code])
+}
+
+model OfficialSource {
+  id              String           @id @default(cuid())
+  url             String           @unique
+  title           String
+  kind            SourceKind       @default(DOCUMENTATION)
+  publisher       String           @default("Microsoft Learn")
+  certificationId String?
+  lastVerifiedAt  DateTime?
+  /// Approved sources may be used to ground AI tutor answers.
+  isApproved      Boolean          @default(true)
+  notes           String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  certification   Certification?   @relation(fields: [certificationId], references: [id], onDelete: SetNull)
+  lessons         LessonSource[]
+  questions       QuestionSource[]
+  labs            LabSource[]
+  glossaryTerms   GlossaryTerm[]
+}
+
+// ---------------------------------------------------------------------------
+// Learning content
+// ---------------------------------------------------------------------------
+
+model Module {
+  id                String        @id @default(cuid())
+  certificationId   String
+  domainId          String
+  slug              String
+  title             String
+  summary           String?
+  sortOrder         Int           @default(0)
+  estimatedMinutes  Int           @default(30)
+  status            ContentStatus @default(DRAFT)
+  /// Scheduled publication for APPROVED content (same semantics as Lesson.publishAt)
+  publishAt         DateTime?
+  version           Int           @default(1)
+  curriculumVersion Int           @default(1)
+  translations      Json?
+  isDemo            Boolean       @default(false)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  certification     Certification @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  domain            ExamDomain    @relation(fields: [domainId], references: [id], onDelete: Cascade)
+  lessons           Lesson[]
+  labs              Lab[]
+
+  @@unique([certificationId, slug])
+  @@index([domainId, sortOrder])
+}
+
+model Lesson {
+  id                String              @id @default(cuid())
+  certificationId   String
+  domainId          String
+  moduleId          String
+  objectiveId       String?
+  slug              String
+  title             String
+  summary           String?
+  estimatedMinutes  Int                 @default(10)
+  sortOrder         Int                 @default(0)
+  status            ContentStatus       @default(DRAFT)
+  version           Int                 @default(1)
+  sourceLocale      String              @default("en")
+  authorType        AuthorType          @default(HUMAN)
+  authorId          String?
+  needsVerification Boolean             @default(false)
+  verificationNote  String?
+  curriculumVersion Int                 @default(1)
+  lastReviewedAt    DateTime?
+  publishAt         DateTime?
+  publishedAt       DateTime?
+  isDemo            Boolean             @default(false)
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  certification     Certification       @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  domain            ExamDomain          @relation(fields: [domainId], references: [id], onDelete: Cascade)
+  module            Module              @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  objective         ExamObjective?      @relation(fields: [objectiveId], references: [id], onDelete: SetNull)
+  blocks            ContentBlock[]
+  translations      LessonTranslation[]
+  sources           LessonSource[]
+  quizzes           Quiz[]
+  flashcards        Flashcard[]
+  questions         Question[]
+  progress          LessonProgress[]
+  notes             Note[]
+  conceptLinks      ConceptLink[]
+
+  @@unique([certificationId, slug])
+  @@index([moduleId, sortOrder])
+  @@index([status])
+}
+
+model ContentBlock {
+  id        String           @id @default(cuid())
+  lessonId  String
+  /// Stable key used to map translations (e.g. "explanation", "extra-1").
+  key       String
+  type      ContentBlockType
+  sortOrder Int              @default(0)
+  data      Json
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  lesson    Lesson           @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([lessonId, key])
+  @@index([lessonId, sortOrder])
+}
+
+model LessonTranslation {
+  id            String            @id @default(cuid())
+  lessonId      String
+  locale        String
+  title         String
+  summary       String?
+  /// Map of ContentBlock.key -> translated block data
+  blocks        Json
+  status        TranslationStatus @default(DRAFT)
+  translatedBy  String?
+  reviewedById  String?
+  reviewedAt    DateTime?
+  /// Lesson version the translation was produced from (detects stale translations).
+  sourceVersion Int               @default(1)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  lesson        Lesson            @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([lessonId, locale])
+}
+
+model LessonSource {
+  lessonId String
+  sourceId String
+  lesson   Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  source   OfficialSource @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+
+  @@id([lessonId, sourceId])
+}
+
+model LessonProgress {
+  id                  String               @id @default(cuid())
+  userId              String
+  lessonId            String
+  status              LessonProgressStatus @default(IN_PROGRESS)
+  startedAt           DateTime             @default(now())
+  completedAt         DateTime?
+  lastViewedAt        DateTime             @default(now())
+  knowledgeCheckScore Float?
+  timeSpentSeconds    Int                  @default(0)
+  user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson              Lesson               @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+  @@index([userId, lastViewedAt])
+}
+
+model Flashcard {
+  id              String            @id @default(cuid())
+  certificationId String
+  lessonId        String?
+  front           String
+  back            String
+  status          ContentStatus     @default(DRAFT)
+  publishAt       DateTime?
+  translations    Json?
+  sortOrder       Int               @default(0)
+  isDemo          Boolean           @default(false)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  certification   Certification     @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  lesson          Lesson?           @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+  reviewItems     ReviewQueueItem[]
+
+  @@index([certificationId, status])
+}
+
+model GlossaryTerm {
+  id             String                      @id @default(cuid())
+  slug           String                      @unique
+  term           String
+  definition     String
+  kind           GlossaryKind                @default(TERM)
+  /// Structured facts for service comparison (category, typical use cases, ...)
+  attributes     Json?
+  sourceId       String?
+  translations   Json?
+  status         ContentStatus               @default(PUBLISHED)
+  publishAt      DateTime?
+  isDemo         Boolean                     @default(false)
+  createdAt      DateTime                    @default(now())
+  updatedAt      DateTime                    @updatedAt
+  source         OfficialSource?             @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+  certifications GlossaryTermCertification[]
+}
+
+model GlossaryTermCertification {
+  termId          String
+  certificationId String
+  term            GlossaryTerm  @relation(fields: [termId], references: [id], onDelete: Cascade)
+  certification   Certification @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+
+  @@id([termId, certificationId])
+}
+
+/// Cross-certification concept mapping (e.g. identity across AZ-900, SC-900, MS-900)
+model Concept {
+  id           String        @id @default(cuid())
+  slug         String        @unique
+  title        String
+  description  String
+  translations Json?
+  sortOrder    Int           @default(0)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  links        ConceptLink[]
+}
+
+model ConceptLink {
+  id              String        @id @default(cuid())
+  conceptId       String
+  certificationId String
+  lessonId        String?
+  note            String?
+  concept         Concept       @relation(fields: [conceptId], references: [id], onDelete: Cascade)
+  certification   Certification @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  lesson          Lesson?       @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+
+  @@index([conceptId])
+}
+
+// ---------------------------------------------------------------------------
+// Assessment engine
+// ---------------------------------------------------------------------------
+
+model Question {
+  id                String                @id @default(cuid())
+  code              String                @unique
+  certificationId   String
+  domainId          String
+  objectiveId       String?
+  lessonId          String?
+  type              QuestionType
+  difficulty        Difficulty            @default(MEDIUM)
+  stem              String
+  scenario          String?
+  /// Why the correct answer is correct.
+  explanation       String
+  /// Public, type-specific payload (safe to send to the client).
+  interaction       Json?
+  /// Secret, type-specific answer key and per-item explanations. Never sent before submission.
+  answerKey         Json?
+  shuffleOptions    Boolean               @default(true)
+  status            ContentStatus         @default(DRAFT)
+  version           Int                   @default(1)
+  sourceLocale      String                @default("en")
+  authorType        AuthorType            @default(HUMAN)
+  authorId          String?
+  generationSource  String?
+  qualityFlags      String[]              @default([])
+  needsVerification Boolean               @default(false)
+  lastReviewedAt    DateTime?
+  publishAt         DateTime?
+  publishedAt       DateTime?
+  timesServed       Int                   @default(0)
+  timesAnswered     Int                   @default(0)
+  timesCorrect      Int                   @default(0)
+  totalTimeMs       Float                 @default(0)
+  isDemo            Boolean               @default(false)
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+  certification     Certification         @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  domain            ExamDomain            @relation(fields: [domainId], references: [id], onDelete: Cascade)
+  objective         ExamObjective?        @relation(fields: [objectiveId], references: [id], onDelete: SetNull)
+  lesson            Lesson?               @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+  options           QuestionOption[]
+  versions          QuestionVersion[]
+  translations      QuestionTranslation[]
+  sources           QuestionSource[]
+  attempts          QuestionAttempt[]
+  quizzes           QuizQuestion[]
+  reviewItems       ReviewQueueItem[]
+
+  @@index([certificationId, domainId, status])
+  @@index([lessonId])
+}
+
+model QuestionOption {
+  id          String   @id @default(cuid())
+  questionId  String
+  key         String
+  text        String
+  isCorrect   Boolean  @default(false)
+  /// Why this option is correct, or why this distractor is incorrect.
+  explanation String
+  sortOrder   Int      @default(0)
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([questionId, key])
+}
+
+model QuestionVersion {
+  id          String        @id @default(cuid())
+  questionId  String
+  version     Int
+  snapshot    Json
+  status      ContentStatus
+  changeNote  String?
+  createdById String?
+  createdAt   DateTime      @default(now())
+  question    Question      @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([questionId, version])
+}
+
+model QuestionTranslation {
+  id                 String            @id @default(cuid())
+  questionId         String
+  locale             String
+  stem               String
+  scenario           String?
+  explanation        String
+  /// { [optionKey]: { text, explanation } }
+  options            Json?
+  /// Translated public payload (same shape as Question.interaction)
+  interaction        Json?
+  /// Translated explanations (same keys as the explanations inside Question.answerKey)
+  answerExplanations Json?
+  status             TranslationStatus @default(DRAFT)
+  translatedBy       String?
+  reviewedById       String?
+  reviewedAt         DateTime?
+  sourceVersion      Int               @default(1)
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  question           Question          @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([questionId, locale])
+}
+
+model QuestionSource {
+  questionId String
+  sourceId   String
+  question   Question       @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  source     OfficialSource @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+
+  @@id([questionId, sourceId])
+}
+
+model Quiz {
+  id              String         @id @default(cuid())
+  kind            QuizKind
+  certificationId String
+  domainId        String?
+  lessonId        String?
+  title           String
+  questionCount   Int            @default(5)
+  passPercent     Int            @default(80)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  certification   Certification  @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  domain          ExamDomain?    @relation(fields: [domainId], references: [id], onDelete: Cascade)
+  lesson          Lesson?        @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  questions       QuizQuestion[]
+  attempts        QuizAttempt[]
+
+  @@index([lessonId])
+  @@index([certificationId, kind])
+}
+
+model QuizQuestion {
+  quizId     String
+  questionId String
+  sortOrder  Int      @default(0)
+  quiz       Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@id([quizId, questionId])
+}
+
+model QuizAttempt {
+  id               String            @id @default(cuid())
+  userId           String
+  quizId           String
+  status           AttemptStatus     @default(IN_PROGRESS)
+  /// [{ questionId, version, optionOrder, marked }]
+  items            Json
+  startedAt        DateTime          @default(now())
+  submittedAt      DateTime?
+  score            Float?
+  correctCount     Int?
+  totalCount       Int
+  domainBreakdown  Json?
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz             Quiz              @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  questionAttempts QuestionAttempt[]
+
+  @@index([userId, quizId])
+}
+
+/// Configurable practice exam template (e.g. the full practice exam blueprint for a certification).
+model PracticeExam {
+  id               String                @id @default(cuid())
+  certificationId  String
+  mode             PracticeMode
+  title            String
+  description      String?
+  questionCount    Int
+  timeLimitMinutes Int?
+  /// Internal practice target percentage. Not an official passing score.
+  targetPercent    Int                   @default(75)
+  blueprint        Json?
+  settings         Json?
+  isActive         Boolean               @default(true)
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  certification    Certification         @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  attempts         PracticeExamAttempt[]
+
+  @@index([certificationId, mode])
+}
+
+model PracticeExamAttempt {
+  id               String            @id @default(cuid())
+  userId           String
+  practiceExamId   String?
+  certificationId  String?
+  mode             PracticeMode
+  status           AttemptStatus     @default(IN_PROGRESS)
+  settings         Json
+  /// [{ questionId, version, optionOrder, marked }]
+  items            Json
+  startedAt        DateTime          @default(now())
+  expiresAt        DateTime?
+  submittedAt      DateTime?
+  score            Float?
+  correctCount     Int?
+  totalCount       Int
+  domainBreakdown  Json?
+  timeSpentMs      Int?
+  /// YYYY-MM-DD, set for daily challenges (one per learner per day)
+  challengeDate    String?
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  practiceExam     PracticeExam?     @relation(fields: [practiceExamId], references: [id], onDelete: SetNull)
+  certification    Certification?    @relation(fields: [certificationId], references: [id], onDelete: SetNull)
+  questionAttempts QuestionAttempt[]
+
+  @@unique([userId, challengeDate])
+  @@index([userId, mode, startedAt])
+}
+
+model QuestionAttempt {
+  id                String               @id @default(cuid())
+  userId            String
+  questionId        String
+  questionVersion   Int
+  certificationId   String
+  domainId          String
+  difficulty        Difficulty
+  context           AttemptContext
+  quizAttemptId     String?
+  practiceAttemptId String?
+  response          Json
+  isCorrect         Boolean
+  score             Float
+  timeMs            Int?
+  /// 1 = guessing, 2 = unsure, 3 = confident
+  confidence        Int?
+  reasoning         String?
+  answeredAt        DateTime             @default(now())
+  user              User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question          Question             @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  quizAttempt       QuizAttempt?         @relation(fields: [quizAttemptId], references: [id], onDelete: Cascade)
+  practiceAttempt   PracticeExamAttempt? @relation(fields: [practiceAttemptId], references: [id], onDelete: Cascade)
+
+  @@unique([quizAttemptId, questionId])
+  @@unique([practiceAttemptId, questionId])
+  @@index([userId, certificationId, answeredAt])
+  @@index([userId, questionId])
+  @@index([questionId])
+}
+
+model ReviewQueueItem {
+  id              String           @id @default(cuid())
+  userId          String
+  certificationId String?
+  domainId        String?
+  questionId      String?
+  flashcardId     String?
+  lessonId        String?
+  reason          ReviewReason
+  status          ReviewItemStatus @default(ACTIVE)
+  easeFactor      Float            @default(2.5)
+  intervalDays    Int              @default(0)
+  repetitions     Int              @default(0)
+  lapses          Int              @default(0)
+  dueAt           DateTime         @default(now())
+  lastReviewedAt  DateTime?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question        Question?        @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  flashcard       Flashcard?       @relation(fields: [flashcardId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, questionId])
+  @@unique([userId, flashcardId])
+  @@index([userId, status, dueAt])
+}
+
+// ---------------------------------------------------------------------------
+// Lab engine
+// ---------------------------------------------------------------------------
+
+model Lab {
+  id                 String              @id @default(cuid())
+  certificationId    String
+  domainId           String?
+  moduleId           String?
+  objectiveId        String?
+  slug               String
+  type               LabType
+  title              String
+  summary            String
+  scenario           String
+  learningObjectives String[]            @default([])
+  prerequisites      String[]            @default([])
+  complexity         LabComplexity       @default(INTRO)
+  estimatedMinutes   Int                 @default(15)
+  /// Engine-specific configuration (simulated portal, sandbox state, architecture palette, decision stages).
+  config             Json
+  /// Step-by-step solution (revealed on request).
+  solution           String
+  status             ContentStatus       @default(DRAFT)
+  version            Int                 @default(1)
+  sourceLocale       String              @default("en")
+  translations       Json?
+  authorType         AuthorType          @default(HUMAN)
+  authorId           String?
+  needsVerification  Boolean             @default(false)
+  lastReviewedAt     DateTime?
+  publishAt          DateTime?
+  publishedAt        DateTime?
+  sortOrder          Int                 @default(0)
+  isDemo             Boolean             @default(false)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  certification      Certification       @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  domain             ExamDomain?         @relation(fields: [domainId], references: [id], onDelete: SetNull)
+  module             Module?             @relation(fields: [moduleId], references: [id], onDelete: SetNull)
+  objective          ExamObjective?      @relation(fields: [objectiveId], references: [id], onDelete: SetNull)
+  steps              LabStep[]
+  rules              LabValidationRule[]
+  attempts           LabAttempt[]
+  sources            LabSource[]
+
+  @@unique([certificationId, slug])
+}
+
+model LabStep {
+  id          String              @id @default(cuid())
+  labId       String
+  key         String
+  sortOrder   Int                 @default(0)
+  title       String
+  instruction String
+  hint        String?
+  /// Explanation of the action performed in this step.
+  explanation String
+  /// Optional element id to highlight in guided mode.
+  targetId    String?
+  lab         Lab                 @relation(fields: [labId], references: [id], onDelete: Cascade)
+  rules       LabValidationRule[]
+
+  @@unique([labId, key])
+}
+
+model LabValidationRule {
+  id              String   @id @default(cuid())
+  labId           String
+  stepId          String?
+  key             String
+  description     String
+  rule            Json
+  successFeedback String?
+  failureFeedback String?
+  sortOrder       Int      @default(0)
+  lab             Lab      @relation(fields: [labId], references: [id], onDelete: Cascade)
+  step            LabStep? @relation(fields: [stepId], references: [id], onDelete: SetNull)
+
+  @@unique([labId, key])
+}
+
+model LabSource {
+  labId    String
+  sourceId String
+  lab      Lab            @relation(fields: [labId], references: [id], onDelete: Cascade)
+  source   OfficialSource @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+
+  @@id([labId, sourceId])
+}
+
+model LabAttempt {
+  id             String           @id @default(cuid())
+  userId         String
+  labId          String
+  labVersion     Int
+  mode           LabMode          @default(GUIDED)
+  status         LabAttemptStatus @default(IN_PROGRESS)
+  /// Ordered action / command log. The server replays it through the deterministic engine.
+  actions        Json             @default("[]")
+  state          Json?
+  stepProgress   Json?
+  hintsUsed      Int              @default(0)
+  failedChecks   Int              @default(0)
+  solutionViewed Boolean          @default(false)
+  score          Float?
+  reasoning      String?
+  startedAt      DateTime         @default(now())
+  completedAt    DateTime?
+  updatedAt      DateTime         @updatedAt
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lab            Lab              @relation(fields: [labId], references: [id], onDelete: Cascade)
+
+  @@index([userId, labId])
+}
+
+// ---------------------------------------------------------------------------
+// Study planner
+// ---------------------------------------------------------------------------
+
+model StudyPlan {
+  id                   String         @id @default(cuid())
+  userId               String
+  certificationId      String
+  startDate            DateTime
+  targetDate           DateTime
+  studyDays            Int[]
+  sessionMinutes       Int
+  revisionWeeks        Int            @default(1)
+  includePracticeExams Boolean        @default(true)
+  /// Preferred local start time "HH:MM" used for calendar export
+  preferredTime        String         @default("18:00")
+  status               PlanStatus     @default(ACTIVE)
+  curriculumVersion    Int            @default(1)
+  warnings             String[]       @default([])
+  adjustmentLog        Json           @default("[]")
+  generatedAt          DateTime       @default(now())
+  lastAdjustedAt       DateTime?
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+  user                 User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  certification        Certification  @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  sessions             StudySession[]
+
+  @@index([userId, status])
+}
+
+model StudySession {
+  id                  String             @id @default(cuid())
+  planId              String
+  userId              String
+  scheduledAt         DateTime
+  durationMinutes     Int
+  type                StudySessionType
+  title               String
+  details             Json?
+  status              StudySessionStatus @default(PLANNED)
+  completedAt         DateTime?
+  originalScheduledAt DateTime?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  plan                StudyPlan          @relation(fields: [planId], references: [id], onDelete: Cascade)
+  user                User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, scheduledAt])
+  @@index([planId, scheduledAt])
+}
+
+// ---------------------------------------------------------------------------
+// Personal knowledge tools
+// ---------------------------------------------------------------------------
+
+model Bookmark {
+  id         String         @id @default(cuid())
+  userId     String
+  targetType BookmarkTarget
+  targetId   String
+  label      String?
+  createdAt  DateTime       @default(now())
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, targetType, targetId])
+}
+
+model Note {
+  id              String   @id @default(cuid())
+  userId          String
+  lessonId        String?
+  certificationId String?
+  body            String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson          Lesson?  @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+
+  @@index([userId, lessonId])
+}
+
+// ---------------------------------------------------------------------------
+// Gamification & analytics
+// ---------------------------------------------------------------------------
+
+model Badge {
+  id           String        @id @default(cuid())
+  key          String        @unique
+  name         String
+  description  String
+  category     BadgeCategory
+  icon         String        @default("Award")
+  xpReward     Int           @default(0)
+  criteria     Json
+  translations Json?
+  sortOrder    Int           @default(0)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  users        UserBadge[]
+}
+
+model UserBadge {
+  id              String   @id @default(cuid())
+  userId          String
+  badgeId         String
+  /// "global", a certification code, or "<code>:<domainKey>"
+  scopeKey        String   @default("global")
+  certificationId String?
+  context         Json?
+  earnedAt        DateTime @default(now())
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge           Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId, scopeKey])
+}
+
+model LearningEvent {
+  id              String            @id @default(cuid())
+  userId          String
+  type            LearningEventType
+  certificationId String?
+  lessonId        String?
+  questionId      String?
+  labId           String?
+  xp              Int               @default(0)
+  durationSeconds Int?
+  metadata        Json?
+  occurredAt      DateTime          @default(now())
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, occurredAt])
+  @@index([userId, type])
+}
+
+model ReadinessSnapshot {
+  id              String         @id @default(cuid())
+  userId          String
+  certificationId String
+  score           Int
+  level           ReadinessLevel
+  signals         Json
+  createdAt       DateTime       @default(now())
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  certification   Certification  @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+
+  @@index([userId, certificationId, createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// Content workflow, versioning & governance
+// ---------------------------------------------------------------------------
+
+model ContentReview {
+  id            String            @id @default(cuid())
+  entityType    ContentEntityType
+  entityId      String
+  entityVersion Int
+  fromStatus    ContentStatus?
+  toStatus      ContentStatus?
+  decision      ReviewDecision
+  comment       String?
+  reviewerId    String?
+  reviewerName  String?
+  createdAt     DateTime          @default(now())
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}
+
+model ContentRevision {
+  id          String            @id @default(cuid())
+  entityType  ContentEntityType
+  entityId    String
+  version     Int
+  snapshot    Json
+  changeNote  String?
+  createdById String?
+  createdAt   DateTime          @default(now())
+
+  @@unique([entityType, entityId, version])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actorEmail String?
+  action     String
+  entityType String?
+  entityId   String?
+  summary    String?
+  before     Json?
+  after      Json?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+  actor      User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt])
+  @@index([action])
+  @@index([entityType, entityId])
+}
+
+model AppSetting {
+  key         String   @id
+  value       Json
+  updatedAt   DateTime @updatedAt
+  updatedById String?
+}
+
+/// Lightweight database-backed background job queue (processed by `npm run worker`).
+model Job {
+  id          String    @id @default(cuid())
+  type        String
+  payload     Json      @default("{}")
+  status      JobStatus @default(PENDING)
+  attempts    Int       @default(0)
+  maxAttempts Int       @default(3)
+  runAt       DateTime  @default(now())
+  lockedAt    DateTime?
+  lockedBy    String?
+  lastError   String?
+  result      Json?
+  createdById String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([status, runAt])
+}
+
+model MediaAsset {
+  id           String   @id @default(cuid())
+  key          String   @unique
+  contentType  String
+  size         Int
+  alt          String?
+  uploadedById String?
+  createdAt    DateTime @default(now())
+}
+
+// ---------------------------------------------------------------------------
+// AI tutor
+// ---------------------------------------------------------------------------
+
+model TutorConversation {
+  id              String         @id @default(cuid())
+  userId          String
+  title           String
+  certificationId String?
+  lessonId        String?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages        TutorMessage[]
+
+  @@index([userId, updatedAt])
+}
+
+model TutorMessage {
+  id             String            @id @default(cuid())
+  conversationId String
+  role           TutorRole
+  content        String
+  mode           String?
+  citations      Json?
+  flagged        Boolean           @default(false)
+  provider       String?
+  createdAt      DateTime          @default(now())
+  conversation   TutorConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+}

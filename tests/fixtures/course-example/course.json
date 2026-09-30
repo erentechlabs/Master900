@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "certificationCode": "XX-900",
+  "contentVersionLabel": "example-1",
+  "sourceLocale": "en",
+  "isDemo": true,
+  "domains": [
+    {
+      "key": "example-domain",
+      "title": "Describe example concepts",
+      "description": "A fictional domain used to document and test the course package format.",
+      "weightMin": 40,
+      "weightMax": 60,
+      "objectives": [
+        { "code": "1.1", "title": "Describe example concept A" },
+        { "code": "1.2", "title": "Describe example concept B" }
+      ]
+    },
+    {
+      "key": "second-domain",
+      "title": "Describe second example concepts",
+      "weightMin": 40,
+      "weightMax": 60,
+      "objectives": [{ "code": "2.1", "title": "Describe example concept C" }]
+    }
+  ]
+}

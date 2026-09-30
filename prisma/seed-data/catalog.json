@@ -1,0 +1,559 @@
+{
+  "retrievedAt": "2026-09-30",
+  "note": "Status, skills outlines, weights, dates and URLs were verified against official Microsoft Learn pages on 2026-09-30. Descriptions and study-effort estimates are written by Fundamentals Academy.",
+  "certifications": [
+    {
+      "code": "AZ-900",
+      "name": "Microsoft Azure Fundamentals",
+      "description": "Foundational knowledge of cloud concepts and core Azure services: architecture, compute, networking, storage, identity and security, cost management, governance and monitoring.",
+      "audience": "People starting with cloud computing, including non-technical roles, who want to show foundational knowledge of cloud concepts and Microsoft Azure.",
+      "status": "ACTIVE",
+      "examVersion": "Skills measured as of July 20, 2026",
+      "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/",
+      "studyGuideUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+      "lastCurriculumReviewAt": "2026-09-30",
+      "retirementDate": null,
+      "replacementCode": null,
+      "estimatedStudyHours": { "min": 15, "max": 25 },
+      "recommendedPrerequisites": ["No prerequisites are required. General IT familiarity is helpful."],
+      "relatedCodes": ["AI-901", "DP-900", "SC-900", "GH-900"],
+      "icon": "Cloud",
+      "themeColor": "#0f62c4",
+      "sortOrder": 1,
+      "unverifiedFields": [],
+      "verificationNotes": "Verified on the official certification page and study guide. No retirement date is announced.",
+      "domains": [
+        {
+          "key": "cloud-concepts",
+          "title": "Describe cloud concepts",
+          "weightMin": 25,
+          "weightMax": 30,
+          "objectives": [
+            { "code": "1.1", "title": "Describe cloud computing" },
+            { "code": "1.2", "title": "Describe the benefits of using cloud services" },
+            { "code": "1.3", "title": "Describe cloud service types" }
+          ]
+        },
+        {
+          "key": "azure-architecture-services",
+          "title": "Describe Azure architecture and services",
+          "weightMin": 35,
+          "weightMax": 40,
+          "objectives": [
+            { "code": "2.1", "title": "Describe the core architectural components of Azure" },
+            { "code": "2.2", "title": "Describe Azure compute and networking services" },
+            { "code": "2.3", "title": "Describe Azure storage services" },
+            { "code": "2.4", "title": "Describe Azure identity, access, and security" }
+          ]
+        },
+        {
+          "key": "azure-management-governance",
+          "title": "Describe Azure management and governance",
+          "weightMin": 30,
+          "weightMax": 35,
+          "objectives": [
+            { "code": "3.1", "title": "Describe cost management in Azure" },
+            { "code": "3.2", "title": "Describe features and tools in Azure for governance and compliance" },
+            { "code": "3.3", "title": "Describe features and tools for managing and deploying Azure resources" },
+            { "code": "3.4", "title": "Describe monitoring tools in Azure" }
+          ]
+        }
+      ],
+      "translations": {
+        "tr": {
+          "name": "Microsoft Azure Temelleri",
+          "description": "Bulut kavramları ve temel Azure hizmetleri hakkında temel bilgi: mimari, işlem, ağ, depolama, kimlik ve güvenlik, maliyet yönetimi, yönetişim ve izleme.",
+          "audience": "Teknik olmayan roller dahil, bulut bilişime yeni başlayan ve bulut kavramları ile Microsoft Azure hakkında temel bilgisini göstermek isteyen kişiler.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "code": "AI-901",
+      "name": "Microsoft Azure AI Fundamentals",
+      "description": "Foundational AI concepts and responsible AI, plus building AI solutions with Microsoft Foundry: generative AI apps and agents, text and speech, computer vision and image generation, and information extraction.",
+      "audience": "People at the beginning of an AI solution development career. The official study guide expects conceptual knowledge of Azure AI, familiarity with Azure resources and knowledge of Python syntax.",
+      "status": "ACTIVE",
+      "examVersion": "Skills measured as of April 15, 2026",
+      "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-fundamentals/",
+      "studyGuideUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+      "lastCurriculumReviewAt": "2026-09-30",
+      "retirementDate": null,
+      "replacementCode": null,
+      "estimatedStudyHours": { "min": 20, "max": 35 },
+      "recommendedPrerequisites": ["Basic Python syntax and programming techniques (as stated in the official study guide)", "Familiarity with Azure resources (AZ-900 is a good starting point)"],
+      "relatedCodes": ["AZ-900", "DP-900", "PL-900", "AB-900"],
+      "icon": "Brain",
+      "themeColor": "#6d28d9",
+      "sortOrder": 2,
+      "unverifiedFields": [],
+      "verificationNotes": "AI-901 replaced AI-900, which retired on June 30, 2026 (official AI-900 exam page). The study guide notes that the exam may include commonly used preview features.",
+      "domains": [
+        {
+          "key": "ai-concepts",
+          "title": "Identify AI concepts and capabilities",
+          "weightMin": 40,
+          "weightMax": 45,
+          "objectives": [
+            { "code": "1.1", "title": "Describe principles of responsible AI" },
+            { "code": "1.2", "title": "Identify AI model components and configurations" },
+            { "code": "1.3", "title": "Identify AI workloads" }
+          ]
+        },
+        {
+          "key": "foundry-solutions",
+          "title": "Implement AI solutions by using Microsoft Foundry",
+          "weightMin": 55,
+          "weightMax": 60,
+          "objectives": [
+            { "code": "2.1", "title": "Implement generative AI apps and agents by using Foundry" },
+            { "code": "2.2", "title": "Implement AI solutions for text and speech by using Foundry" },
+            { "code": "2.3", "title": "Implement AI solutions with computer vision and image-generation capabilities by using Foundry" },
+            { "code": "2.4", "title": "Implement AI solutions for information extraction by using Foundry" }
+          ]
+        }
+      ],
+      "translations": {
+        "tr": {
+          "name": "Microsoft Azure Yapay Zekâ Temelleri",
+          "description": "Temel yapay zekâ kavramları ve sorumlu yapay zekâ ile Microsoft Foundry kullanarak yapay zekâ çözümleri oluşturma: üretken yapay zekâ uygulamaları ve ajanlar, metin ve konuşma, görüntü işleme ve görüntü oluşturma ile bilgi ayıklama.",
+          "audience": "Yapay zekâ çözümü geliştirme kariyerinin başında olan kişiler. Resmî çalışma kılavuzu, Azure yapay zekâ hakkında kavramsal bilgi, Azure kaynaklarına aşinalık ve Python sözdizimi bilgisi bekler.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "code": "DP-900",
+      "name": "Microsoft Azure Data Fundamentals",
+      "description": "Core data concepts and Azure data services for relational data, non-relational data and analytics workloads, including data visualization with Power BI.",
+      "audience": "People starting to work with data in the cloud who want to show knowledge of core data concepts and how they are implemented with Azure data services.",
+      "status": "ACTIVE",
+      "examVersion": "Skills measured as of July 21, 2026",
+      "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/azure-data-fundamentals/",
+      "studyGuideUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+      "lastCurriculumReviewAt": "2026-09-30",
+      "retirementDate": null,
+      "replacementCode": null,
+      "estimatedStudyHours": { "min": 15, "max": 25 },
+      "recommendedPrerequisites": ["No prerequisites are required."],
+      "relatedCodes": ["AZ-900", "AI-901"],
+      "icon": "Database",
+      "themeColor": "#0e7490",
+      "sortOrder": 3,
+      "unverifiedFields": [],
+      "verificationNotes": "Verified on the official certification page and study guide.",
+      "domains": [
+        {
+          "key": "core-data-concepts",
+          "title": "Describe core data concepts",
+          "weightMin": 25,
+          "weightMax": 30,
+          "objectives": [
+            { "code": "1.1", "title": "Describe ways to represent data" },
+            { "code": "1.2", "title": "Identify options for data storage" },
+            { "code": "1.3", "title": "Describe common data workloads" },
+            { "code": "1.4", "title": "Identify roles and responsibilities for data workloads" }
+          ]
+        },
+        {
+          "key": "relational-data",
+          "title": "Identify considerations for relational data on Azure",
+          "weightMin": 20,
+          "weightMax": 25,
+          "objectives": [
+            { "code": "2.1", "title": "Describe relational concepts" },
+            { "code": "2.2", "title": "Describe relational Azure data services" }
+          ]
+        },
+        {
+          "key": "non-relational-data",
+          "title": "Describe considerations for working with non-relational data on Azure",
+          "weightMin": 15,
+          "weightMax": 20,
+          "objectives": [
+            { "code": "3.1", "title": "Describe the capabilities of Azure storage" },
+            { "code": "3.2", "title": "Describe the capabilities and features of Azure Cosmos DB" }
+          ]
+        },
+        {
+          "key": "analytics-workloads",
+          "title": "Describe an analytics workload on Azure",
+          "weightMin": 25,
+          "weightMax": 30,
+          "objectives": [
+            { "code": "4.1", "title": "Describe common elements of large-scale analytics" },
+            { "code": "4.2", "title": "Describe considerations for real-time data analytics" },
+            { "code": "4.3", "title": "Describe data visualization in Microsoft Power BI" }
+          ]
+        }
+      ],
+      "translations": {
+        "tr": {
+          "name": "Microsoft Azure Veri Temelleri",
+          "description": "Temel veri kavramları ile ilişkisel veri, ilişkisel olmayan veri ve analiz iş yükleri için Azure veri hizmetleri; Power BI ile veri görselleştirme dahil.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "code": "SC-900",
+      "name": "Microsoft Security, Compliance, and Identity Fundamentals",
+      "description": "Security, compliance and identity concepts and the capabilities of Microsoft Entra, Microsoft security solutions and Microsoft Purview compliance solutions.",
+      "audience": "Business stakeholders, IT professionals and students who want the fundamentals of security, compliance and identity across Microsoft cloud services.",
+      "status": "ACTIVE",
+      "examVersion": "Skills measured as of October 21, 2026",
+      "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/",
+      "studyGuideUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+      "lastCurriculumReviewAt": "2026-09-30",
+      "retirementDate": null,
+      "replacementCode": null,
+      "estimatedStudyHours": { "min": 12, "max": 20 },
+      "recommendedPrerequisites": ["Familiarity with Microsoft Azure and Microsoft 365 is helpful."],
+      "relatedCodes": ["AZ-900", "AB-900"],
+      "icon": "ShieldCheck",
+      "themeColor": "#b4233c",
+      "sortOrder": 4,
+      "unverifiedFields": [],
+      "verificationNotes": "The official page states that the English exam will be updated on October 21, 2026; the outline shown is the upcoming version published in the study guide.",
+      "domains": [
+        {
+          "key": "security-compliance-identity-concepts",
+          "title": "Describe the concepts of security, compliance, and identity",
+          "weightMin": 10,
+          "weightMax": 15,
+          "objectives": [
+            { "code": "1.1", "title": "Describe security and compliance concepts" },
+            { "code": "1.2", "title": "Define identity concepts" }
+          ]
+        },
+        {
+          "key": "microsoft-entra",
+          "title": "Describe the capabilities of Microsoft Entra",
+          "weightMin": 25,
+          "weightMax": 30,
+          "objectives": [
+            { "code": "2.1", "title": "Describe function and identity types of Microsoft Entra ID" },
+            { "code": "2.2", "title": "Describe authentication capabilities of Microsoft Entra ID" },
+            { "code": "2.3", "title": "Describe access management capabilities of Microsoft Entra ID" },
+            { "code": "2.4", "title": "Describe identity protection and governance capabilities of Microsoft Entra" }
+          ]
+        },
+        {
+          "key": "security-solutions",
+          "title": "Describe the capabilities of Microsoft security solutions",
+          "weightMin": 35,
+          "weightMax": 40,
+          "objectives": [
+            { "code": "3.1", "title": "Describe core infrastructure security services in Azure" },
+            { "code": "3.2", "title": "Describe security management capabilities of Azure" },
+            { "code": "3.3", "title": "Describe capabilities of Microsoft Sentinel" },
+            { "code": "3.4", "title": "Describe threat protection with Microsoft Defender XDR" }
+          ]
+        },
+        {
+          "key": "compliance-solutions",
+          "title": "Describe the capabilities of Microsoft compliance solutions",
+          "weightMin": 20,
+          "weightMax": 25,
+          "objectives": [
+            { "code": "4.1", "title": "Describe Microsoft Service Trust Portal and privacy principles" },
+            { "code": "4.2", "title": "Describe compliance management capabilities of Microsoft Purview" },
+            { "code": "4.3", "title": "Describe information protection, data lifecycle management, and data governance capabilities of Microsoft Purview" },
+            { "code": "4.4", "title": "Describe insider risk, eDiscovery, and audit capabilities in Microsoft Purview" }
+          ]
+        }
+      ],
+      "translations": {
+        "tr": {
+          "name": "Microsoft Güvenlik, Uyumluluk ve Kimlik Temelleri",
+          "description": "Güvenlik, uyumluluk ve kimlik kavramları ile Microsoft Entra, Microsoft güvenlik çözümleri ve Microsoft Purview uyumluluk çözümlerinin yetenekleri.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "code": "PL-900",
+      "name": "Microsoft Power Platform Fundamentals",
+      "description": "Business value and core capabilities of Microsoft Power Platform: Dataverse, administration and governance, Power Apps, Power Automate and agents in Copilot Studio.",
+      "audience": "People beginning to build solutions with Microsoft Power Platform, from business users to aspiring makers.",
+      "status": "ACTIVE",
+      "examVersion": "Skills measured as of July 24, 2026",
+      "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/power-platform-fundamentals/",
+      "studyGuideUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+      "lastCurriculumReviewAt": "2026-09-30",
+      "retirementDate": null,
+      "replacementCode": null,
+      "estimatedStudyHours": { "min": 12, "max": 20 },
+      "recommendedPrerequisites": ["No prerequisites are required."],
+      "relatedCodes": ["AB-900", "AI-901", "MB-910", "MB-920"],
+      "icon": "Workflow",
+      "themeColor": "#7e22ce",
+      "sortOrder": 5,
+      "unverifiedFields": [],
+      "verificationNotes": "Verified on the official certification page and study guide.",
+      "domains": [
+        {
+          "key": "business-value",
+          "title": "Describe the business value of Microsoft Power Platform",
+          "weightMin": 5,
+          "weightMax": 10,
+          "objectives": [{ "code": "1.1", "title": "Describe the business value of Microsoft Power Platform services" }]
+        },
+        {
+          "key": "manage-environment",
+          "title": "Manage the Microsoft Power Platform environment",
+          "weightMin": 20,
+          "weightMax": 25,
+          "objectives": [
+            { "code": "2.1", "title": "Describe Microsoft Dataverse" },
+            { "code": "2.2", "title": "Describe Microsoft Power Platform administration and governance" }
+          ]
+        },
+        {
+          "key": "power-apps",
+          "title": "Demonstrate the capabilities of Power Apps",
+          "weightMin": 20,
+          "weightMax": 25,
+          "objectives": [
+            { "code": "3.1", "title": "Describe Power Apps capabilities and use cases" },
+            { "code": "3.2", "title": "Describe how to build basic apps by using Power Apps" }
+          ]
+        },
+        {
+          "key": "power-automate",
+          "title": "Demonstrate the capabilities of Power Automate",
+          "weightMin": 20,
+          "weightMax": 25,
+          "objectives": [
+            { "code": "4.1", "title": "Describe Power Automate use cases and capabilities" },
+            { "code": "4.2", "title": "Describe how to build basic flows by using Power Automate" }
+          ]
+        },
+        {
+          "key": "copilot-studio-agents",
+          "title": "Describe features and capabilities of agents in Microsoft Copilot Studio",
+          "weightMin": 20,
+          "weightMax": 25,
+          "objectives": [
+            { "code": "5.1", "title": "Describe how to build agents in Copilot Studio" },
+            { "code": "5.2", "title": "Describe how to manage agents in Copilot Studio" }
+          ]
+        }
+      ],
+      "translations": {
+        "tr": {
+          "name": "Microsoft Power Platform Temelleri",
+          "description": "Microsoft Power Platform'un iş değeri ve temel yetenekleri: Dataverse, yönetim ve yönetişim, Power Apps, Power Automate ve Copilot Studio'daki ajanlar.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "code": "AB-900",
+      "name": "Microsoft 365 Copilot and Agent Administration Fundamentals",
+      "description": "Core objects and security features of Microsoft 365, data protection and governance for Microsoft 365 and Copilot, and basic administrative tasks for Copilot and agents.",
+      "audience": "Administrators who support, secure and protect AI-enabled Microsoft 365 environments.",
+      "status": "ACTIVE",
+      "examVersion": "Skills measured as of October 14, 2026",
+      "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/copilot-and-agent-administration-fundamentals/",
+      "studyGuideUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+      "lastCurriculumReviewAt": "2026-09-30",
+      "retirementDate": null,
+      "replacementCode": null,
+      "estimatedStudyHours": { "min": 15, "max": 25 },
+      "recommendedPrerequisites": ["Familiarity with Microsoft 365 services and admin centers is helpful."],
+      "relatedCodes": ["SC-900", "PL-900", "AI-901", "MS-900"],
+      "icon": "Bot",
+      "themeColor": "#0369a1",
+      "sortOrder": 6,
+      "unverifiedFields": [],
+      "verificationNotes": "The official page states that the English exam will be updated on October 14, 2026; the outline shown is the upcoming version published in the study guide.",
+      "domains": [
+        {
+          "key": "m365-core-features",
+          "title": "Identify the core features and objects of Microsoft 365 services",
+          "weightMin": 30,
+          "weightMax": 35,
+          "objectives": [
+            { "code": "1.1", "title": "Identify the core objects of Microsoft 365 services" },
+            { "code": "1.2", "title": "Understand the Microsoft 365 security principles" },
+            { "code": "1.3", "title": "Identify the core security features of Microsoft 365 services" }
+          ]
+        },
+        {
+          "key": "data-protection-governance",
+          "title": "Understand data protection and governance tasks for Microsoft 365 and Copilot",
+          "weightMin": 35,
+          "weightMax": 40,
+          "objectives": [
+            { "code": "2.1", "title": "Understand Microsoft Purview" },
+            { "code": "2.2", "title": "Understand data security implications of Copilot" },
+            { "code": "2.3", "title": "Identify data protection and governance risks for Microsoft 365 and Copilot" },
+            { "code": "2.4", "title": "Identify and monitor oversharing in SharePoint in Microsoft 365" }
+          ]
+        },
+        {
+          "key": "copilot-agent-administration",
+          "title": "Perform basic administrative tasks for Copilot and agents",
+          "weightMin": 25,
+          "weightMax": 30,
+          "objectives": [
+            { "code": "3.1", "title": "Understand features and capabilities of Copilot and agents" },
+            { "code": "3.2", "title": "Perform basic administrative tasks for Copilot" },
+            { "code": "3.3", "title": "Perform basic administrative tasks for agents" }
+          ]
+        }
+      ],
+      "translations": {
+        "tr": {
+          "name": "Microsoft 365 Copilot ve Ajan Yönetimi Temelleri",
+          "description": "Microsoft 365'in temel nesneleri ve güvenlik özellikleri, Microsoft 365 ve Copilot için veri koruma ve yönetişim ile Copilot ve ajanlar için temel yönetim görevleri.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "code": "GH-900",
+      "name": "GitHub Foundations",
+      "description": "Git and GitHub basics, repositories, collaboration, modern development practices, project management, privacy, security and administration, and the GitHub community.",
+      "audience": "Anyone who uses GitHub - non-developers and developers - who wants to validate foundational GitHub knowledge.",
+      "status": "ACTIVE",
+      "examVersion": "Skills at a glance as of January 2026",
+      "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/github-foundations/",
+      "studyGuideUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/gh-900",
+      "lastCurriculumReviewAt": "2026-09-30",
+      "retirementDate": null,
+      "replacementCode": null,
+      "estimatedStudyHours": { "min": 10, "max": 20 },
+      "recommendedPrerequisites": ["No prerequisites are required."],
+      "relatedCodes": ["AZ-900"],
+      "icon": "GitBranch",
+      "themeColor": "#334155",
+      "sortOrder": 7,
+      "unverifiedFields": [],
+      "verificationNotes": "The study guide uses the phrase 'Skills at a glance as of January 2026'. The separate exam page URL returned 404 during verification; the certification page is active.",
+      "domains": [
+        { "key": "git-github-basics", "title": "Understand Git and GitHub basics", "weightMin": 25, "weightMax": 30, "objectives": [{ "code": "1.1", "title": "Version control fundamentals" }, { "code": "1.2", "title": "Working with GitHub" }] },
+        { "key": "repositories", "title": "Work with GitHub repositories", "weightMin": 10, "weightMax": 15, "objectives": [{ "code": "2.1", "title": "Repository management" }] },
+        { "key": "collaboration", "title": "Collaborate using GitHub", "weightMin": 10, "weightMax": 15, "objectives": [{ "code": "3.1", "title": "Collaboration tools" }] },
+        { "key": "modern-development", "title": "Apply modern development practices", "weightMin": 10, "weightMax": 15, "objectives": [{ "code": "4.1", "title": "Automation and AI tools" }] },
+        { "key": "project-management", "title": "Manage projects with GitHub", "weightMin": 5, "weightMax": 10, "objectives": [{ "code": "5.1", "title": "Project tracking and organization" }] },
+        { "key": "privacy-security-administration", "title": "Understand privacy, security, and administration", "weightMin": 10, "weightMax": 15, "objectives": [{ "code": "6.1", "title": "Security and access management" }] },
+        { "key": "github-community", "title": "Explore the GitHub community", "weightMin": 5, "weightMax": 10, "objectives": [{ "code": "7.1", "title": "Open-source engagement" }] }
+      ],
+      "translations": {
+        "tr": {
+          "name": "GitHub Temelleri",
+          "description": "Git ve GitHub temelleri, depolar, iş birliği, modern geliştirme uygulamaları, proje yönetimi, gizlilik, güvenlik ve yönetim ile GitHub topluluğu.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "code": "MS-900",
+      "name": "Microsoft 365 Fundamentals",
+      "description": "Microsoft 365 productivity and collaboration, security, compliance, privacy and trust, and pricing, licensing and support. This exam has been retired.",
+      "audience": "People who wanted to show foundational knowledge of Microsoft 365 solutions.",
+      "status": "RETIRED",
+      "examVersion": "Skills measured as of April 30, 2025 (final outline)",
+      "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/microsoft-365-fundamentals/",
+      "studyGuideUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ms-900",
+      "lastCurriculumReviewAt": "2026-09-30",
+      "retirementDate": "2026-03-31",
+      "replacementCode": null,
+      "estimatedStudyHours": null,
+      "recommendedPrerequisites": [],
+      "relatedCodes": ["AB-900", "SC-900"],
+      "icon": "LayoutGrid",
+      "themeColor": "#b45309",
+      "sortOrder": 20,
+      "unverifiedFields": ["replacementCode"],
+      "verificationNotes": "The official study guide states the exam was retired on March 31, 2026. No official replacement exam was identified.",
+      "domains": [
+        { "key": "cloud-concepts", "title": "Describe cloud concepts", "weightMin": 5, "weightMax": 10, "objectives": [{ "code": "1.1", "title": "Describe the different types of cloud services available" }, { "code": "1.2", "title": "Describe the benefits of and considerations for using cloud, hybrid, or on-premises services" }] },
+        { "key": "apps-and-services", "title": "Describe Microsoft 365 apps and services", "weightMin": 45, "weightMax": 50, "objectives": [{ "code": "2.1", "title": "Describe productivity solutions of Microsoft 365" }, { "code": "2.2", "title": "Describe collaboration solutions of Microsoft 365" }, { "code": "2.3", "title": "Describe device and cloud endpoint management concepts and deployment options in Microsoft 365" }, { "code": "2.4", "title": "Describe Microsoft 365 administration capabilities" }] },
+        { "key": "security-compliance-privacy-trust", "title": "Describe security, compliance, privacy, and trust in Microsoft 365", "weightMin": 25, "weightMax": 30, "objectives": [{ "code": "3.1", "title": "Describe identity and access management solutions of Microsoft 365" }, { "code": "3.2", "title": "Describe threat protection solutions of Microsoft 365" }, { "code": "3.3", "title": "Describe trust, privacy, risk, and compliance solutions of Microsoft 365" }] },
+        { "key": "pricing-licensing-support", "title": "Describe Microsoft 365 pricing, licensing, and support", "weightMin": 10, "weightMax": 15, "objectives": [{ "code": "4.1", "title": "Identify Microsoft 365 pricing and billing management options" }, { "code": "4.2", "title": "Identify licensing options available in Microsoft 365" }, { "code": "4.3", "title": "Identify support options for Microsoft 365 services" }] }
+      ],
+      "translations": { "tr": { "name": "Microsoft 365 Temelleri", "description": "Microsoft 365 verimlilik ve iş birliği, güvenlik, uyumluluk, gizlilik ve güven ile fiyatlandırma, lisanslama ve destek. Bu sınav kullanımdan kaldırılmıştır.", "status": "DRAFT" } }
+    },
+    {
+      "code": "MB-910",
+      "name": "Microsoft Dynamics 365 Fundamentals (CRM)",
+      "description": "Customer engagement capabilities of Dynamics 365, including Customer Insights, Sales, Customer Service and Field Service. This exam has been retired.",
+      "audience": "People who wanted to show foundational knowledge of Dynamics 365 customer engagement apps.",
+      "status": "RETIRED",
+      "examVersion": "Skills measured as of December 17, 2024 (final outline)",
+      "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/d365-fundamentals-customer-engagement-apps-crm/",
+      "studyGuideUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/mb-910",
+      "lastCurriculumReviewAt": "2026-09-30",
+      "retirementDate": "2025-12-31",
+      "replacementCode": null,
+      "estimatedStudyHours": null,
+      "recommendedPrerequisites": [],
+      "relatedCodes": ["MB-920", "PL-900"],
+      "icon": "Users",
+      "themeColor": "#1d4ed8",
+      "sortOrder": 21,
+      "unverifiedFields": ["replacementCode"],
+      "verificationNotes": "The official study guide states the exam was retired on December 31, 2025. No official replacement exam was identified.",
+      "domains": [
+        { "key": "customer-insights", "title": "Describe Dynamics 365 Customer Insights", "weightMin": 15, "weightMax": 20, "objectives": [{ "code": "1.1", "title": "Explore Customer Insights - Journeys" }, { "code": "1.2", "title": "Describe Customer Insights - Data" }] },
+        { "key": "sales", "title": "Describe Dynamics 365 Sales", "weightMin": 20, "weightMax": 25, "objectives": [{ "code": "2.1", "title": "Explore Sales" }, { "code": "2.2", "title": "Describe Sales capabilities and related apps" }] },
+        { "key": "customer-service", "title": "Describe Dynamics 365 Customer Service", "weightMin": 20, "weightMax": 25, "objectives": [{ "code": "3.1", "title": "Explore Customer Service" }, { "code": "3.2", "title": "Describe Customer Service capabilities and related apps" }] },
+        { "key": "field-service", "title": "Describe Dynamics 365 Field Service", "weightMin": 15, "weightMax": 20, "objectives": [{ "code": "4.1", "title": "Explore Field Service" }, { "code": "4.2", "title": "Describe capabilities related to Field Service" }] },
+        { "key": "core-capabilities", "title": "Explore the core capabilities of customer engagement apps in Dynamics 365", "weightMin": 15, "weightMax": 20, "objectives": [{ "code": "5.1", "title": "Describe the foundations of customer engagement apps" }, { "code": "5.2", "title": "Describe shared activities and integration options in customer engagement apps" }] }
+      ],
+      "translations": { "tr": { "name": "Microsoft Dynamics 365 Temelleri (CRM)", "description": "Customer Insights, Sales, Customer Service ve Field Service dahil Dynamics 365 müşteri etkileşimi yetenekleri. Bu sınav kullanımdan kaldırılmıştır.", "status": "DRAFT" } }
+    },
+    {
+      "code": "MB-920",
+      "name": "Microsoft Dynamics 365 Fundamentals (ERP)",
+      "description": "Finance and operations capabilities of Dynamics 365, including Supply Chain Management and Finance. This exam has been retired.",
+      "audience": "People who wanted to show foundational knowledge of Dynamics 365 finance and operations apps.",
+      "status": "RETIRED",
+      "examVersion": "Skills measured as of December 23, 2024 (final outline)",
+      "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/d365-fundamentals-finance-and-operations-apps-erp/",
+      "studyGuideUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/mb-920",
+      "lastCurriculumReviewAt": "2026-09-30",
+      "retirementDate": "2025-12-31",
+      "replacementCode": null,
+      "estimatedStudyHours": null,
+      "recommendedPrerequisites": [],
+      "relatedCodes": ["MB-910", "PL-900"],
+      "icon": "Factory",
+      "themeColor": "#15803d",
+      "sortOrder": 22,
+      "unverifiedFields": ["replacementCode"],
+      "verificationNotes": "The official study guide states the exam was retired on December 31, 2025. No official replacement exam was identified.",
+      "domains": [
+        { "key": "supply-chain-management", "title": "Describe Dynamics 365 Supply Chain Management", "weightMin": 35, "weightMax": 40, "objectives": [{ "code": "1.1", "title": "Describe Supply Chain Management core capabilities" }, { "code": "1.2", "title": "Describe the manufacturing process" }, { "code": "1.3", "title": "Describe inventory and warehousing capabilities" }, { "code": "1.4", "title": "Describe the sales and procurement processes" }] },
+        { "key": "finance", "title": "Describe Dynamics 365 Finance", "weightMin": 30, "weightMax": 35, "objectives": [{ "code": "2.1", "title": "Describe Finance core capabilities" }, { "code": "2.2", "title": "Describe general ledgers" }, { "code": "2.3", "title": "Describe accounts payables and accounts receivables" }, { "code": "2.4", "title": "Describe expense management, fixed asset management, and budgeting" }] },
+        { "key": "core-capabilities", "title": "Describe the core capabilities of the finance and operations apps", "weightMin": 25, "weightMax": 30, "objectives": [{ "code": "3.1", "title": "Describe the finance and operations apps" }, { "code": "3.2", "title": "Describe reporting and integration capabilities" }, { "code": "3.3", "title": "Describe common features" }] }
+      ],
+      "translations": { "tr": { "name": "Microsoft Dynamics 365 Temelleri (ERP)", "description": "Supply Chain Management ve Finance dahil Dynamics 365 finans ve operasyon yetenekleri. Bu sınav kullanımdan kaldırılmıştır.", "status": "DRAFT" } }
+    },
+    {
+      "code": "AI-900",
+      "name": "Microsoft Azure AI Fundamentals",
+      "description": "Previous exam for the Azure AI Fundamentals certification. It was retired and replaced by AI-901.",
+      "status": "RETIRED",
+      "examVersion": null,
+      "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/exams/ai-900/",
+      "studyGuideUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-900",
+      "lastCurriculumReviewAt": "2026-09-30",
+      "retirementDate": "2026-06-30",
+      "replacementCode": "AI-901",
+      "estimatedStudyHours": null,
+      "recommendedPrerequisites": [],
+      "relatedCodes": ["AI-901"],
+      "icon": "Brain",
+      "themeColor": "#64748b",
+      "sortOrder": 23,
+      "unverifiedFields": ["examVersion", "domains"],
+      "verificationNotes": "The official AI-900 exam page states that AI-900 was retired on June 30, 2026 and replaced by AI-901. The final skills outline is not stored here.",
+      "domains": [],
+      "translations": { "tr": { "name": "Microsoft Azure Yapay Zekâ Temelleri (AI-900)", "description": "Azure AI Fundamentals sertifikasının önceki sınavı. Kullanımdan kaldırıldı ve yerini AI-901 aldı.", "status": "DRAFT" } }
+    }
+  ]
+}

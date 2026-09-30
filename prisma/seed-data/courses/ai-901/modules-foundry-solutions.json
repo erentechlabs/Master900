@@ -1,0 +1,2198 @@
+{
+  "domainKey": "foundry-solutions",
+  "modules": [
+    {
+      "slug": "foundry-generative-apps-agents",
+      "title": "Generative AI apps and agents with Foundry",
+      "summary": "Use Foundry projects, model deployments, prompts, agents, tools, and knowledge to build lightweight generative AI solutions.",
+      "translations": {
+        "tr": {
+          "title": "Foundry ile üretken yapay zekâ uygulamaları ve ajanlar",
+          "summary": "Foundry projeleri, model dağıtımları, istemler, ajanlar, araçlar ve bilgi kaynaklarıyla hafif üretken yapay zekâ çözümleri oluşturun.",
+          "status": "DRAFT"
+        }
+      },
+      "lessons": [
+        {
+          "slug": "foundry-projects-models-deployments",
+          "title": "Foundry projects, the model catalog, and deployments",
+          "objectiveCode": "2.1",
+          "estimatedMinutes": 12,
+          "summary": "Learn how projects organize work, the catalog supports model choice, and deployments make models callable.",
+          "learningObjectives": [
+            "Identify the Foundry capability for the scenario",
+            "Explain the main implementation steps",
+            "Apply safety and review considerations"
+          ],
+          "explanation": "Foundry solution work starts with the management boundary. A **Foundry resource** is the Azure resource that provides access to Foundry capabilities, identity, networking, policy, and endpoints. A **project** is the workspace inside that resource where developers organize app assets such as files, model deployments, evaluations, and agents. If you have seen older Azure AI Studio or hub-based terminology, treat it carefully: current Foundry investments emphasize Foundry resources and projects, while older hub/project experiences can still appear in some environments.\n\nThe **model catalog** is for discovery and comparison. A team can review model families, modalities, and supported scenarios before choosing a candidate. The catalog entry by itself is not what production code calls. To use a model from an app, the team creates a **deployment**. The deployment gives the model a configured name and endpoint routing target. In many SDK examples, the deployment name is passed as the model value so the request reaches the intended configured model.\n\nFoundry playgrounds help teams test prompts, parameters, safety behavior, and sample inputs before writing code. The Code tab and SDK documentation then help developers move from prototype to a lightweight client. Authentication is another fundamentals decision: API keys can be used in some endpoint patterns, but Microsoft Entra ID with least-privilege Foundry roles is the preferred enterprise pattern because it avoids long-lived secrets and supports governance. A sound implementation checks that the deployment is ready, stores endpoint and deployment names in configuration, and includes monitoring or evaluation before broad use.",
+          "terminology": [
+            {
+              "term": "Project",
+              "definition": "A Foundry workspace for assets and development."
+            },
+            {
+              "term": "Model catalog",
+              "definition": "A place to discover and compare model capabilities."
+            },
+            {
+              "term": "Deployment",
+              "definition": "A configured model target an app can call."
+            }
+          ],
+          "businessScenario": "Contoso support wants a chat helper for internal troubleshooting notes. The team creates a Foundry resource that meets its Azure policy requirements, then creates a project for the support prototype. In the catalog, the developers compare a fast low-cost model for short answers with a larger model for longer summaries. They deploy the selected model, test prompts in the playground with fictional support tickets, and only then connect a small web client.",
+          "technicalExample": "A developer stores `PROJECT_ENDPOINT` and `DEPLOYMENT_NAME` as app settings. During startup, the client authenticates with Microsoft Entra ID using a managed identity or developer credential, creates a Foundry/OpenAI-compatible client for the project endpoint, and sends user prompts to the named deployment. Before release, the team runs a quick deployment-state check and uses playground results as seed examples for evaluation.",
+          "misconception": {
+            "myth": "Selecting a model in the catalog is enough for an application to use it.",
+            "reality": "The catalog is a discovery surface. An app needs a deployed model or project endpoint target, plus authentication and configuration, before requests can be routed reliably."
+          },
+          "examTakeaway": "For AI-901, distinguish the resource/project that organizes work, the catalog that helps choose a model, the deployment that code calls, and the authentication method that controls access.",
+          "recap": "A Foundry resource provides the Azure management boundary; a project organizes solution assets; the catalog helps compare models; and deployments make models callable. Playground testing reduces risk before code integration, while Microsoft Entra ID and least-privilege roles are preferable for governed applications.",
+          "simplerExplanation": "Think of a Foundry project as a workshop. The model catalog is the tool shelf, a deployment is the tool installed at a workstation, and the endpoint plus authentication is the badge-controlled door your app uses to reach it.",
+          "anotherExample": "Fabrikam tests two summarization models in the playground for call-center notes. It deploys the model that best follows the required format, stores the deployment name outside the code, and uses Entra-based access for the service that generates daily summaries.",
+          "extraBlocks": [
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Foundry check",
+                "body": "If the scenario mentions portal labels, model availability, or preview features, re-check current Learn documentation."
+              }
+            },
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Implementation pattern",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "need",
+                    "label": "Requirement"
+                  },
+                  {
+                    "id": "cap",
+                    "label": "Capability"
+                  },
+                  {
+                    "id": "test",
+                    "label": "Test"
+                  },
+                  {
+                    "id": "app",
+                    "label": "App or agent"
+                  },
+                  {
+                    "id": "review",
+                    "label": "Review"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "need",
+                    "to": "cap"
+                  },
+                  {
+                    "from": "cap",
+                    "to": "test"
+                  },
+                  {
+                    "from": "test",
+                    "to": "app"
+                  },
+                  {
+                    "from": "app",
+                    "to": "review"
+                  }
+                ],
+                "caption": "A requirement leads to selecting a capability, testing it, integrating it into an app or agent, and reviewing the result."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "First design question",
+              "back": "What is the input and what output is required?"
+            },
+            {
+              "front": "Responsible review",
+              "back": "Use review when output is high impact, uncertain, or sensitive."
+            },
+            {
+              "front": "Foundry verification",
+              "back": "Re-check portal and product-specific details on Microsoft Learn."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Microsoft Foundry?",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Deploy Microsoft Foundry Models in the Foundry portal",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/deploy-foundry-models",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ai901-fdy-001",
+              "type": "SCENARIO",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which design is best?",
+              "explanation": "Create a project, deploy a model, test it, and call the deployment from the app. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Use a Foundry project, model deployment, and app configuration for endpoint and deployment name.",
+                  "correct": true,
+                  "explanation": "This matches the documented app path. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint."
+                },
+                {
+                  "key": "B",
+                  "text": "Call the catalog card directly without deployment.",
+                  "correct": false,
+                  "explanation": "The catalog is for discovery, not the app target. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint."
+                },
+                {
+                  "key": "C",
+                  "text": "Use Speech for every chat app.",
+                  "correct": false,
+                  "explanation": "Speech is only needed for audio. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint."
+                }
+              ],
+              "lessonSlug": "foundry-projects-models-deployments",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Microsoft Foundry?",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Deploy Microsoft Foundry Models in the Foundry portal",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/deploy-foundry-models",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "scenario": "Fabrikam wants a lightweight chat app that can use the same model tested in Foundry."
+            },
+            {
+              "ref": "ai901-fdy-002",
+              "type": "COMMAND_SELECTION",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which command checks a model deployment state?",
+              "explanation": "The deployment show command queries provisioningState. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`az cognitiveservices account deployment show --name <resource-name> --resource-group <resource-group> --deployment-name <deployment-name> --query properties.provisioningState --output tsv`",
+                  "correct": true,
+                  "explanation": "This matches Learn syntax. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint."
+                },
+                {
+                  "key": "B",
+                  "text": "`az account get-access-token --resource https://ai.azure.com --query expiresOn --output tsv`",
+                  "correct": false,
+                  "explanation": "This validates authentication, not deployment state. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint."
+                },
+                {
+                  "key": "C",
+                  "text": "`az group list --query properties.provisioningState --output tsv`",
+                  "correct": false,
+                  "explanation": "Resource groups are not model deployments. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint."
+                }
+              ],
+              "lessonSlug": "foundry-projects-models-deployments",
+              "sources": [
+                {
+                  "title": "Get started with Microsoft Foundry SDKs and endpoints",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/sdk-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "needsVerification": true
+            },
+            {
+              "ref": "ai901-fdy-003",
+              "type": "MATCHING",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each item to the best description.",
+              "explanation": "Each match pairs the concept with its Foundry role. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "project",
+                    "text": "Project"
+                  },
+                  {
+                    "id": "catalog",
+                    "text": "Model catalog"
+                  },
+                  {
+                    "id": "deployment",
+                    "text": "Deployment"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "work",
+                    "text": "Organizes Foundry work assets"
+                  },
+                  {
+                    "id": "browse",
+                    "text": "Helps compare model choices"
+                  },
+                  {
+                    "id": "call",
+                    "text": "Configured model target for app calls"
+                  },
+                  {
+                    "id": "audio",
+                    "text": "Synthesizes speech"
+                  }
+                ],
+                "pairs": {
+                  "project": "work",
+                  "catalog": "browse",
+                  "deployment": "call"
+                },
+                "explanations": {
+                  "project": "Project maps to Organizes Foundry work assets because that answer describes the role or capability needed in the scenario. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint.",
+                  "catalog": "Model catalog maps to Helps compare model choices because that answer describes the role or capability needed in the scenario. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint.",
+                  "deployment": "Deployment maps to Configured model target for app calls because that answer describes the role or capability needed in the scenario. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint."
+                }
+              },
+              "lessonSlug": "foundry-projects-models-deployments",
+              "sources": [
+                {
+                  "title": "What is Microsoft Foundry?",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Create a project - Microsoft Foundry",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/how-to/create-projects",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Deploy Microsoft Foundry Models in the Foundry portal",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/deploy-foundry-models",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "ai901-fdy-004",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.1",
+              "difficulty": "EASY",
+              "stem": "Why test in a playground before coding?",
+              "explanation": "Playgrounds support rapid prompt and model validation. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "To validate prompts and behavior interactively.",
+                  "correct": true,
+                  "explanation": "This is the playground purpose. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint."
+                },
+                {
+                  "key": "B",
+                  "text": "To guarantee no monitoring is needed.",
+                  "correct": false,
+                  "explanation": "Monitoring is still needed. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint."
+                },
+                {
+                  "key": "C",
+                  "text": "To avoid using a deployment.",
+                  "correct": false,
+                  "explanation": "Apps still need a callable deployment. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint."
+                }
+              ],
+              "lessonSlug": "foundry-projects-models-deployments",
+              "sources": [
+                {
+                  "title": "Microsoft Foundry Playgrounds",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/concepts/concept-playgrounds",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "ai901-fdy-005",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** practices help a secure lightweight client?",
+              "explanation": "Entra authentication and project endpoints reduce credential and endpoint confusion. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Use Microsoft Entra ID where possible.",
+                  "correct": true,
+                  "explanation": "This avoids hard-coded broad secrets. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint."
+                },
+                {
+                  "key": "B",
+                  "text": "Use the Foundry project endpoint for project APIs.",
+                  "correct": true,
+                  "explanation": "This aligns with SDK guidance. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint."
+                },
+                {
+                  "key": "C",
+                  "text": "Embed owner credentials in source code.",
+                  "correct": false,
+                  "explanation": "This is not secure. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint."
+                },
+                {
+                  "key": "D",
+                  "text": "Ignore deployment readiness.",
+                  "correct": false,
+                  "explanation": "Apps should verify dependencies. In this Foundry project scenario, the key distinction is between organizing work, choosing a model, deploying it, and calling the configured endpoint."
+                }
+              ],
+              "lessonSlug": "foundry-projects-models-deployments",
+              "sources": [
+                {
+                  "title": "Get started with Microsoft Foundry SDKs and endpoints",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/sdk-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Responsible AI for Microsoft Foundry",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-use-of-ai-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "selectCount": 2
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Re-check current Foundry portal labels, model and tool availability, SDK guidance, and preview status before publishing."
+        },
+        {
+          "slug": "building-agents-in-foundry",
+          "title": "Building agents: instructions, tools, and knowledge",
+          "objectiveCode": "2.1",
+          "estimatedMinutes": 12,
+          "summary": "Learn how agent instructions, tools, knowledge, testing, and review fit a single-agent solution.",
+          "learningObjectives": [
+            "Identify the Foundry capability for the scenario",
+            "Explain the main implementation steps",
+            "Apply safety and review considerations"
+          ],
+          "explanation": "A Foundry agent is more than a single model call. At fundamentals level, an agent combines a model with **instructions**, optional **tools**, optional **knowledge**, and a conversation state pattern. Instructions define the agent's job, boundaries, tone, escalation behavior, and safety rules. A good instruction set says what sources to trust, when to ask a clarifying question, and when the agent should not act.\n\nTools extend the agent beyond text generation. Common examples include knowledge or file search for retrieval, code interpreter for calculations or file analysis, and actions/functions that call an approved business API. A procurement agent might search policy files and draft a request, but require a manager approval tool before submission. A support agent might search a knowledge base, then create a ticket only when the answer is not found. The important design point is least capability: attach only the tools needed for the task.\n\nAgents also need conversation handling. Foundry documentation uses current agent concepts such as conversations, items, responses, and agent versions; older Assistants-style terms such as threads can still appear in developer discussions or older material, so verify the current API names before publishing detailed steps. The principle is stable: the app must keep enough conversation context for multi-turn work while preventing data leakage between users. Testing should include normal tasks, missing knowledge, tool failures, and adversarial prompts. Responsible deployment adds tracing, evaluations, monitoring, and human review for high-impact actions.",
+          "terminology": [
+            {
+              "term": "Agent",
+              "definition": "A model-based solution guided by instructions and optional tools."
+            },
+            {
+              "term": "Instruction",
+              "definition": "Guidance for role, boundaries, and behavior."
+            },
+            {
+              "term": "Tool",
+              "definition": "A callable capability for retrieval or action."
+            }
+          ],
+          "businessScenario": "Northwind Traders wants an internal inventory policy assistant. Employees ask whether a damaged item can be returned, whether a transfer needs approval, or how to open an exception. The team creates a prompt agent with a clear policy-support role, attaches approved inventory documents as knowledge, and adds one ticket-creation function for unresolved cases.",
+          "technicalExample": "The agent instructions say: answer only from approved policy content, cite the relevant policy section when available, ask one clarifying question if the item type is missing, and create a ticket only after the user confirms. In testing, the team verifies that the agent searches files for policy questions, refuses payroll questions, and does not call the ticket tool for casual greetings.",
+          "misconception": {
+            "myth": "An agent becomes safer and smarter whenever you add more tools.",
+            "reality": "Each tool expands what the agent can do and what can go wrong. Use narrow instructions, curated knowledge, tool descriptions, permissions, and review gates to control behavior."
+          },
+          "examTakeaway": "Recognize an agent as model plus instructions plus tools or knowledge. Choose a managed prompt agent for simple single-agent work and add governance before enabling actions.",
+          "recap": "Instructions shape behavior, knowledge grounds answers, and tools let the agent retrieve information or take approved actions. Test the agent with realistic conversations and edge cases, then monitor tool use and output quality after release.",
+          "simplerExplanation": "An agent is like a trained employee. The instructions are the job description, the knowledge source is the handbook, and tools are the approved systems the employee can use—but not every employee should have every system.",
+          "anotherExample": "Woodgrove Bank creates an HR FAQ agent. It answers from benefits documents, escalates account-specific payroll questions, and uses a case-creation function only after the employee confirms the summary.",
+          "extraBlocks": [
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Foundry check",
+                "body": "If the scenario mentions portal labels, model availability, or preview features, re-check current Learn documentation."
+              }
+            },
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Implementation pattern",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "need",
+                    "label": "Requirement"
+                  },
+                  {
+                    "id": "cap",
+                    "label": "Capability"
+                  },
+                  {
+                    "id": "test",
+                    "label": "Test"
+                  },
+                  {
+                    "id": "app",
+                    "label": "App or agent"
+                  },
+                  {
+                    "id": "review",
+                    "label": "Review"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "need",
+                    "to": "cap"
+                  },
+                  {
+                    "from": "cap",
+                    "to": "test"
+                  },
+                  {
+                    "from": "test",
+                    "to": "app"
+                  },
+                  {
+                    "from": "app",
+                    "to": "review"
+                  }
+                ],
+                "caption": "A requirement leads to selecting a capability, testing it, integrating it into an app or agent, and reviewing the result."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "First design question",
+              "back": "What is the input and what output is required?"
+            },
+            {
+              "front": "Responsible review",
+              "back": "Use review when output is high impact, uncertain, or sensitive."
+            },
+            {
+              "front": "Foundry verification",
+              "back": "Re-check portal and product-specific details on Microsoft Learn."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Microsoft Foundry Agent Service?",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry/agents/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Responsible AI for Microsoft Foundry",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-use-of-ai-overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ai901-fdy-006",
+              "type": "UI_SIMULATION",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Configure the simulated screen for the stated requirement.",
+              "explanation": "The selected settings apply a safer, task-focused configuration. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions.",
+              "uiSimulation": {
+                "title": "Agent settings (simulated)",
+                "description": "This is a fictional simplified screen, not the real Foundry portal.",
+                "fields": [
+                  {
+                    "id": "inst",
+                    "label": "Instructions",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "broad",
+                        "label": "Answer anything"
+                      },
+                      {
+                        "value": "bounded",
+                        "label": "Use support policy and escalate gaps"
+                      }
+                    ],
+                    "correct": "bounded",
+                    "explanation": "Bounded instructions reduce unsafe behavior. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions."
+                  },
+                  {
+                    "id": "review",
+                    "label": "Require approval for refunds",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "High-impact actions need review. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions."
+                  }
+                ]
+              },
+              "lessonSlug": "building-agents-in-foundry",
+              "sources": [
+                {
+                  "title": "What is Microsoft Foundry Agent Service?",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/agents/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Responsible AI for Microsoft Foundry",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-use-of-ai-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "needsVerification": true
+            },
+            {
+              "ref": "ai901-fdy-007",
+              "type": "CASE_STUDY",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.1",
+              "difficulty": "HARD",
+              "scenario": "Contoso builds an HR policy agent with instructions, approved documents, and a ticket tool.",
+              "stem": "For each statement, select **Yes** if it is true. Otherwise, select **No**.",
+              "explanation": "The correct statements follow the documented Foundry design pattern and responsible-use controls.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Instructions should define role and escalation behavior.",
+                    "answer": true,
+                    "explanation": "Instructions guide the agent. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "A tool should be called for every message.",
+                    "answer": false,
+                    "explanation": "Tools are used only when needed. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Approved documents can ground answers.",
+                    "answer": true,
+                    "explanation": "Knowledge sources ground responses. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions."
+                  }
+                ]
+              },
+              "lessonSlug": "building-agents-in-foundry",
+              "sources": [
+                {
+                  "title": "What is Microsoft Foundry Agent Service?",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/agents/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Foundry Playgrounds",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/concepts/concept-playgrounds",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "ai901-fdy-008",
+              "type": "SCENARIO",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which design is best?",
+              "explanation": "A prompt agent with instructions, knowledge, and one ticket tool fits a simple managed agent. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Create a prompt agent with approved knowledge and a ticket tool.",
+                  "correct": true,
+                  "explanation": "This option satisfies the scenario because it uses the Foundry capability and control named by the requirement. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions."
+                },
+                {
+                  "key": "B",
+                  "text": "Use only Translator.",
+                  "correct": false,
+                  "explanation": "The task is agentic support, not translation. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions."
+                },
+                {
+                  "key": "C",
+                  "text": "Require a custom hosted agent for every case.",
+                  "correct": false,
+                  "explanation": "Prompt agents fit simple managed scenarios. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions."
+                }
+              ],
+              "lessonSlug": "building-agents-in-foundry",
+              "sources": [
+                {
+                  "title": "What is Microsoft Foundry Agent Service?",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/agents/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                }
+              ],
+              "scenario": "Northwind needs a simple internal assistant that answers inventory policy questions and opens tickets for unknowns."
+            },
+            {
+              "ref": "ai901-fdy-009",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.1",
+              "difficulty": "EASY",
+              "stem": "What is the purpose of tools in an agent?",
+              "explanation": "Tools let the agent retrieve information or take configured actions. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Retrieve data or perform configured actions.",
+                  "correct": true,
+                  "explanation": "That is why tools are attached. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions."
+                },
+                {
+                  "key": "B",
+                  "text": "Replace all instructions.",
+                  "correct": false,
+                  "explanation": "Instructions are still required. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions."
+                },
+                {
+                  "key": "C",
+                  "text": "Guarantee deterministic answers.",
+                  "correct": false,
+                  "explanation": "Evaluation is still needed. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions."
+                }
+              ],
+              "lessonSlug": "building-agents-in-foundry",
+              "sources": [
+                {
+                  "title": "What is Microsoft Foundry Agent Service?",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/agents/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "ai901-fdy-010",
+              "type": "CATEGORIZATION",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each item.",
+              "explanation": "The categories separate the main solution responsibilities. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "instruction",
+                    "label": "Instruction"
+                  },
+                  {
+                    "id": "knowledge",
+                    "label": "Knowledge"
+                  },
+                  {
+                    "id": "tool",
+                    "label": "Tool"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Answer as a benefits specialist.",
+                    "category": "instruction",
+                    "explanation": "Answer as a benefits specialist. belongs in Instruction because its input and desired output match that category. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Approved policy PDFs.",
+                    "category": "knowledge",
+                    "explanation": "Approved policy PDFs. belongs in Knowledge because its input and desired output match that category. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Create a help-desk ticket function.",
+                    "category": "tool",
+                    "explanation": "Create a help-desk ticket function. belongs in Tool because its input and desired output match that category. In this agent scenario, the correct reasoning depends on instructions, approved knowledge, limited tools, conversation handling, and review for actions."
+                  }
+                ]
+              },
+              "lessonSlug": "building-agents-in-foundry",
+              "sources": [
+                {
+                  "title": "What is Microsoft Foundry Agent Service?",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/agents/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Re-check current Foundry portal labels, model and tool availability, SDK guidance, and preview status before publishing."
+        }
+      ]
+    },
+    {
+      "slug": "foundry-text-and-speech",
+      "title": "Text and speech solutions",
+      "summary": "Implement text analysis, translation, speech recognition, and speech synthesis with Foundry Tools.",
+      "translations": {
+        "tr": {
+          "title": "Metin ve konuşma çözümleri",
+          "summary": "Foundry Tools ile metin analizi, çeviri, konuşma tanıma ve konuşma sentezi uygulayın.",
+          "status": "DRAFT"
+        }
+      },
+      "lessons": [
+        {
+          "slug": "text-analysis-and-translation",
+          "title": "Text analysis and translation",
+          "objectiveCode": "2.2",
+          "estimatedMinutes": 12,
+          "summary": "Use Azure Language for text analysis and Translator for multilingual content workflows.",
+          "learningObjectives": [
+            "Identify the Foundry capability for the scenario",
+            "Explain the main implementation steps",
+            "Apply safety and review considerations"
+          ],
+          "explanation": "Text solutions usually ask one of two questions: *What does this text mean?* or *How should this text be expressed in another language?* Azure Language in Foundry Tools addresses the first question with natural language processing capabilities. Current core capabilities include language detection, personally identifiable information (PII) detection, named entity recognition (NER), custom NER, and text analytics for health. Existing or legacy scenarios can also include sentiment analysis, key phrase extraction, summarization, custom text classification, conversational language understanding, question answering, and orchestration workflows. For fundamentals content, focus on the scenario rather than memorizing every menu label.\n\nNER extracts entities such as people, organizations, locations, dates, or domain-specific labels. PII detection identifies personal information that may need masking or special handling. Language detection helps route text to the correct processing or translation path. Sentiment and key phrases are useful for customer feedback analysis, while summarization condenses long text for review. Translation is a separate workload: Azure Translator converts text or documents across languages and can be used in multilingual applications.\n\nA realistic solution often chains these capabilities. For example, a support app might detect the source language, identify PII, mask sensitive values for analytics, summarize the issue, and translate the approved summary for a regional team. Accuracy and responsible use matter because language models can miss nuance, domain terminology, sarcasm, or regulated content. For legal, medical, financial, or brand-sensitive text, include review and keep data retention minimal.",
+          "terminology": [
+            {
+              "term": "NER",
+              "definition": "Named entity recognition for people, places, and other entities."
+            },
+            {
+              "term": "PII detection",
+              "definition": "Detection of personal information in text."
+            },
+            {
+              "term": "Translator",
+              "definition": "A Foundry Tool for language translation."
+            }
+          ],
+          "businessScenario": "Woodgrove Bank receives support messages in multiple languages. The business wants to group issues by product, remove unnecessary personal information from analytics, translate selected summaries for a central operations team, and still preserve original messages for authorized case handlers.",
+          "technicalExample": "The intake service first calls language detection. If the text is supported for downstream translation, it calls PII detection and masks phone numbers before analytics. It then uses entity recognition to find product names and branch locations, summarizes the issue for reporting, and uses Translator to produce an English operations summary. The original text is stored with tighter access controls.",
+          "misconception": {
+            "myth": "Translation and text analysis are the same capability because both process text.",
+            "reality": "Translation changes language. Text analysis extracts meaning, labels, signals, or sensitive data from text. Many solutions use both, but they answer different questions."
+          },
+          "examTakeaway": "Choose Azure Language for analysis tasks such as entities, PII, sentiment, key phrases, language detection, and summarization. Choose Translator when the requirement is multilingual conversion.",
+          "recap": "Text analysis finds meaning in text; translation rewrites content in another language. A responsible pipeline detects sensitive data, applies the right analysis or translation capability, and adds review for regulated or high-impact content.",
+          "simplerExplanation": "Text analysis is like reading a message with a highlighter and labels. Translation is like rewriting the message for someone who speaks another language.",
+          "anotherExample": "A retailer analyzes product reviews by detecting sentiment, extracting product names, summarizing common complaints, and translating selected reviews for regional product managers.",
+          "extraBlocks": [
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Foundry check",
+                "body": "If the scenario mentions portal labels, model availability, or preview features, re-check current Learn documentation."
+              }
+            },
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Implementation pattern",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "need",
+                    "label": "Requirement"
+                  },
+                  {
+                    "id": "cap",
+                    "label": "Capability"
+                  },
+                  {
+                    "id": "test",
+                    "label": "Test"
+                  },
+                  {
+                    "id": "app",
+                    "label": "App or agent"
+                  },
+                  {
+                    "id": "review",
+                    "label": "Review"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "need",
+                    "to": "cap"
+                  },
+                  {
+                    "from": "cap",
+                    "to": "test"
+                  },
+                  {
+                    "from": "test",
+                    "to": "app"
+                  },
+                  {
+                    "from": "app",
+                    "to": "review"
+                  }
+                ],
+                "caption": "A requirement leads to selecting a capability, testing it, integrating it into an app or agent, and reviewing the result."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "First design question",
+              "back": "What is the input and what output is required?"
+            },
+            {
+              "front": "Responsible review",
+              "back": "Use review when output is high impact, uncertain, or sensitive."
+            },
+            {
+              "front": "Foundry verification",
+              "back": "Re-check portal and product-specific details on Microsoft Learn."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Azure Language in Foundry Tools",
+              "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Azure Translator in Foundry Tools?",
+              "url": "https://learn.microsoft.com/en-us/azure/ai-services/translator/overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ai901-fdy-011",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.2",
+              "difficulty": "EASY",
+              "stem": "Which capability identifies people, places, and organizations in text?",
+              "explanation": "Named entity recognition extracts predefined entity categories. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Named entity recognition",
+                  "correct": true,
+                  "explanation": "NER identifies entities. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion."
+                },
+                {
+                  "key": "B",
+                  "text": "Text to speech",
+                  "correct": false,
+                  "explanation": "That capability synthesizes spoken output, but the requirement is not to produce audio. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion."
+                },
+                {
+                  "key": "C",
+                  "text": "Image generation",
+                  "correct": false,
+                  "explanation": "That capability generates new visuals, but the requirement is not to create an image. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion."
+                }
+              ],
+              "lessonSlug": "text-analysis-and-translation",
+              "sources": [
+                {
+                  "title": "What is Azure Language in Foundry Tools",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "ai901-fdy-012",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** tasks fit Language or Translator?",
+              "explanation": "Language analyzes text; Translator converts languages. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Detect PII in support messages.",
+                  "correct": true,
+                  "explanation": "PII detection is Language. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion."
+                },
+                {
+                  "key": "B",
+                  "text": "Translate product descriptions.",
+                  "correct": true,
+                  "explanation": "Translator handles this. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion."
+                },
+                {
+                  "key": "C",
+                  "text": "Generate a product image.",
+                  "correct": false,
+                  "explanation": "That is image generation. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion."
+                },
+                {
+                  "key": "D",
+                  "text": "Speak an answer aloud.",
+                  "correct": false,
+                  "explanation": "That is Speech. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion."
+                }
+              ],
+              "lessonSlug": "text-analysis-and-translation",
+              "sources": [
+                {
+                  "title": "What is Azure Language in Foundry Tools",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Translator in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/translator/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "selectCount": 2
+            },
+            {
+              "ref": "ai901-fdy-013",
+              "type": "TRUE_FALSE",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.2",
+              "difficulty": "EASY",
+              "stem": "A translation workflow may still need human review for legal, regulated, or brand-sensitive text.",
+              "explanation": "Automated translation does not remove accountability. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "The statement is correct because it matches the capability described in the stem. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "The statement is false because it conflicts with the capability described in the stem. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion."
+                }
+              ],
+              "lessonSlug": "text-analysis-and-translation",
+              "sources": [
+                {
+                  "title": "What is Azure Translator in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/translator/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Responsible AI for Microsoft Foundry",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-use-of-ai-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "ai901-fdy-014",
+              "type": "COMMAND_SELECTION",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which command verifies a CLI identity can request a Foundry access token without printing the token?",
+              "explanation": "The command queries only the expiration time. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`az account get-access-token --resource https://ai.azure.com --query expiresOn --output tsv`",
+                  "correct": true,
+                  "explanation": "This matches the Learn validation command. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion."
+                },
+                {
+                  "key": "B",
+                  "text": "`az account clear --query expiresOn --output tsv`",
+                  "correct": false,
+                  "explanation": "This clears account information. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion."
+                },
+                {
+                  "key": "C",
+                  "text": "`az group delete --resource https://ai.azure.com`",
+                  "correct": false,
+                  "explanation": "This is unrelated and destructive. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion."
+                }
+              ],
+              "lessonSlug": "text-analysis-and-translation",
+              "sources": [
+                {
+                  "title": "Get started with Microsoft Foundry SDKs and endpoints",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/sdk-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "needsVerification": true
+            },
+            {
+              "ref": "ai901-fdy-015",
+              "type": "SCENARIO",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which design is best?",
+              "explanation": "Detect sensitive data before translation and reporting. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Use Language PII detection, then translate approved text.",
+                  "correct": true,
+                  "explanation": "This handles privacy and multilingual needs. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion."
+                },
+                {
+                  "key": "B",
+                  "text": "Translate everything and ignore privacy.",
+                  "correct": false,
+                  "explanation": "Privacy is required. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion."
+                },
+                {
+                  "key": "C",
+                  "text": "Use OCR only for text already available.",
+                  "correct": false,
+                  "explanation": "OCR is unnecessary for existing text. In this text scenario, choose Language for analysis such as entities or PII, and Translator only when the goal is language conversion."
+                }
+              ],
+              "lessonSlug": "text-analysis-and-translation",
+              "sources": [
+                {
+                  "title": "What is Azure Language in Foundry Tools",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Translator in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/translator/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Responsible AI for Microsoft Foundry",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-use-of-ai-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "scenario": "Woodgrove receives multilingual support chats and must flag sensitive data before reports are translated."
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Re-check current Foundry portal labels, model and tool availability, SDK guidance, and preview status before publishing."
+        },
+        {
+          "slug": "speech-solutions",
+          "title": "Speech to text and text to speech",
+          "objectiveCode": "2.2",
+          "estimatedMinutes": 12,
+          "summary": "Use Speech to convert audio to text, text to audio, and spoken content between languages.",
+          "learningObjectives": [
+            "Identify the Foundry capability for the scenario",
+            "Explain the main implementation steps",
+            "Apply safety and review considerations"
+          ],
+          "explanation": "Speech workloads add audio input, audio output, or multilingual spoken communication to an AI solution. **Speech to text** converts spoken audio into written text. It is used for dictation, captions, meeting transcripts, call-center analytics, and voice prompts that feed a model or agent. **Text to speech** converts written text into spoken audio using synthetic voices. It is used for accessibility, voice assistants, IVR systems, learning apps, and spoken responses from a generative solution.\n\n**Speech translation** converts spoken language across languages, either to translated text or speech depending on the implementation. Speech solutions can also involve language identification, pronunciation assessment, batch transcription for stored audio, real-time transcription for live audio, and custom speech options for domain vocabulary. In Foundry scenarios, Azure Speech in Foundry Tools can be combined with a deployed multimodal model or agent: speech recognition turns the user's audio into text, the model or agent processes the request, and text to speech reads the answer back.\n\nQuality depends on audio conditions and vocabulary. Background noise, multiple speakers, accents, microphones, and specialized product names can affect transcription. Custom vocabulary or custom speech models can improve domain-specific recognition. Responsible design includes informing users when voices are synthetic, protecting recordings and transcripts, avoiding unnecessary retention, and adding human review where spoken output might affect health, finance, safety, or legal decisions.",
+          "terminology": [
+            {
+              "term": "Speech to text",
+              "definition": "Transcribes spoken audio into text."
+            },
+            {
+              "term": "Text to speech",
+              "definition": "Synthesizes spoken audio from text."
+            },
+            {
+              "term": "Speech translation",
+              "definition": "Converts spoken language for multilingual scenarios."
+            }
+          ],
+          "businessScenario": "Adventure Works builds a visitor kiosk for a museum exhibit. Visitors ask spoken questions about fictional artifacts. The kiosk transcribes the question, sends it to a Foundry agent grounded in approved exhibit notes, and reads the answer aloud in a friendly voice.",
+          "technicalExample": "The client captures microphone audio and uses speech to text for real-time transcription. The transcript is sent to the agent with conversation context. The agent returns a concise answer and a confidence note. If the answer is safe to speak, text to speech synthesizes the response; otherwise the kiosk displays a message asking the visitor to contact staff.",
+          "misconception": {
+            "myth": "Speech to text and text to speech are interchangeable because both are speech services.",
+            "reality": "They run in opposite directions. Speech to text understands audio input; text to speech produces audio output from text."
+          },
+          "examTakeaway": "Identify the direction of conversion: audio input needs speech to text, audio output needs text to speech, and multilingual spoken conversion points to speech translation.",
+          "recap": "Speech solutions can transcribe, synthesize, translate, and identify spoken language. A voice-enabled Foundry app often combines speech to text, a model or agent, and text to speech, with privacy and review controls for recordings and output.",
+          "simplerExplanation": "Speech to text is a note-taker listening to someone speak. Text to speech is a narrator reading written words aloud. Speech translation is an interpreter between languages.",
+          "anotherExample": "A call center transcribes customer calls, summarizes action items, detects product names in the transcript, and sends a synthesized callback message only after an agent approves the wording.",
+          "extraBlocks": [
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Foundry check",
+                "body": "If the scenario mentions portal labels, model availability, or preview features, re-check current Learn documentation."
+              }
+            },
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Implementation pattern",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "need",
+                    "label": "Requirement"
+                  },
+                  {
+                    "id": "cap",
+                    "label": "Capability"
+                  },
+                  {
+                    "id": "test",
+                    "label": "Test"
+                  },
+                  {
+                    "id": "app",
+                    "label": "App or agent"
+                  },
+                  {
+                    "id": "review",
+                    "label": "Review"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "need",
+                    "to": "cap"
+                  },
+                  {
+                    "from": "cap",
+                    "to": "test"
+                  },
+                  {
+                    "from": "test",
+                    "to": "app"
+                  },
+                  {
+                    "from": "app",
+                    "to": "review"
+                  }
+                ],
+                "caption": "A requirement leads to selecting a capability, testing it, integrating it into an app or agent, and reviewing the result."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "First design question",
+              "back": "What is the input and what output is required?"
+            },
+            {
+              "front": "Responsible review",
+              "back": "Use review when output is high impact, uncertain, or sensitive."
+            },
+            {
+              "front": "Foundry verification",
+              "back": "Re-check portal and product-specific details on Microsoft Learn."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What Is Azure Speech?",
+              "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Microsoft Foundry Agent Service?",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry/agents/overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ai901-fdy-016",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.2",
+              "difficulty": "EASY",
+              "stem": "Which capability converts spoken prompts into text?",
+              "explanation": "Speech to text transcribes audio into text. In this speech scenario, the direction of audio conversion determines the right capability: audio to text, text to audio, or speech translation.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Speech to text",
+                  "correct": true,
+                  "explanation": "Speech to text is the transcription capability because it converts spoken input into written text."
+                },
+                {
+                  "key": "B",
+                  "text": "Text to speech",
+                  "correct": false,
+                  "explanation": "That capability synthesizes spoken output, but the requirement is not to produce audio. In this speech scenario, the direction of audio conversion determines the right capability: audio to text, text to audio, or speech translation."
+                },
+                {
+                  "key": "C",
+                  "text": "Named entity recognition",
+                  "correct": false,
+                  "explanation": "This analyzes text after transcription. In this speech scenario, the direction of audio conversion determines the right capability: audio to text, text to audio, or speech translation."
+                }
+              ],
+              "lessonSlug": "speech-solutions",
+              "sources": [
+                {
+                  "title": "What Is Azure Speech?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "ai901-fdy-017",
+              "type": "MATCHING",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Match each item to the best description.",
+              "explanation": "Each match pairs the concept with its Foundry role. In this speech scenario, the direction of audio conversion determines the right capability: audio to text, text to audio, or speech translation.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "transcribe",
+                    "text": "Convert audio to text"
+                  },
+                  {
+                    "id": "speak",
+                    "text": "Read an answer aloud"
+                  },
+                  {
+                    "id": "multilingual",
+                    "text": "Convert spoken language"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "stt",
+                    "text": "Speech to text"
+                  },
+                  {
+                    "id": "tts",
+                    "text": "Text to speech"
+                  },
+                  {
+                    "id": "str",
+                    "text": "Speech translation"
+                  },
+                  {
+                    "id": "img",
+                    "text": "Image generation"
+                  }
+                ],
+                "pairs": {
+                  "transcribe": "stt",
+                  "speak": "tts",
+                  "multilingual": "str"
+                },
+                "explanations": {
+                  "transcribe": "Convert audio to text maps to Speech to text because that answer describes the role or capability needed in the scenario. In this speech scenario, the direction of audio conversion determines the right capability: audio to text, text to audio, or speech translation.",
+                  "speak": "Read an answer aloud maps to Text to speech because that answer describes the role or capability needed in the scenario. In this speech scenario, the direction of audio conversion determines the right capability: audio to text, text to audio, or speech translation.",
+                  "multilingual": "Convert spoken language maps to Speech translation because that answer describes the role or capability needed in the scenario. In this speech scenario, the direction of audio conversion determines the right capability: audio to text, text to audio, or speech translation."
+                }
+              },
+              "lessonSlug": "speech-solutions",
+              "sources": [
+                {
+                  "title": "What Is Azure Speech?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "ai901-fdy-018",
+              "type": "CASE_STUDY",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.2",
+              "difficulty": "HARD",
+              "scenario": "Adventure Works builds a kiosk where visitors ask spoken questions and hear spoken answers.",
+              "stem": "For each statement, select **Yes** if it is true. Otherwise, select **No**.",
+              "explanation": "The correct statements follow the documented Foundry design pattern and responsible-use controls.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Speech to text handles the spoken question.",
+                    "answer": true,
+                    "explanation": "It transcribes input. In this speech scenario, the direction of audio conversion determines the right capability: audio to text, text to audio, or speech translation."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Text to speech can produce the spoken answer.",
+                    "answer": true,
+                    "explanation": "It synthesizes output. In this speech scenario, the direction of audio conversion determines the right capability: audio to text, text to audio, or speech translation."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Speech translation is mandatory when all users use one language.",
+                    "answer": false,
+                    "explanation": "Translation is only needed for language conversion. In this speech scenario, the direction of audio conversion determines the right capability: audio to text, text to audio, or speech translation."
+                  }
+                ]
+              },
+              "lessonSlug": "speech-solutions",
+              "sources": [
+                {
+                  "title": "What Is Azure Speech?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "ai901-fdy-019",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Complete the sentence.",
+              "explanation": "The accepted answer names the capability used in this scenario. In this speech scenario, the direction of audio conversion determines the right capability: audio to text, text to audio, or speech translation.",
+              "fillInBlank": {
+                "template": "To make an app read a generated answer aloud, use {{b1}}.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "text to speech",
+                      "Text to speech"
+                    ],
+                    "explanation": "The accepted answer completes the sentence with the exact capability required by the scenario. In this speech scenario, the direction of audio conversion determines the right capability: audio to text, text to audio, or speech translation."
+                  }
+                ],
+                "wordBank": [
+                  "text to speech",
+                  "Text to speech",
+                  "OCR",
+                  "translation",
+                  "deployment"
+                ]
+              },
+              "lessonSlug": "speech-solutions",
+              "sources": [
+                {
+                  "title": "What Is Azure Speech?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "ai901-fdy-020",
+              "type": "SCENARIO",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which architecture is best?",
+              "explanation": "Use speech recognition for input and synthesis for output. In this speech scenario, the direction of audio conversion determines the right capability: audio to text, text to audio, or speech translation.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Speech to text, model or agent processing, then text to speech.",
+                  "correct": true,
+                  "explanation": "This covers the full voice loop. In this speech scenario, the direction of audio conversion determines the right capability: audio to text, text to audio, or speech translation."
+                },
+                {
+                  "key": "B",
+                  "text": "Document translation only.",
+                  "correct": false,
+                  "explanation": "The input and output are audio. In this speech scenario, the direction of audio conversion determines the right capability: audio to text, text to audio, or speech translation."
+                },
+                {
+                  "key": "C",
+                  "text": "Image generation.",
+                  "correct": false,
+                  "explanation": "No image output is required. In this speech scenario, the direction of audio conversion determines the right capability: audio to text, text to audio, or speech translation."
+                }
+              ],
+              "lessonSlug": "speech-solutions",
+              "sources": [
+                {
+                  "title": "What Is Azure Speech?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                }
+              ],
+              "scenario": "Proseware wants spoken prompts and spoken answers in a lightweight service-desk app."
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Re-check current Foundry portal labels, model and tool availability, SDK guidance, and preview status before publishing."
+        }
+      ]
+    },
+    {
+      "slug": "foundry-vision-and-extraction",
+      "title": "Vision, image generation, and information extraction",
+      "summary": "Interpret images, generate visual drafts, and extract structured data from multimodal content.",
+      "translations": {
+        "tr": {
+          "title": "Görüntü işleme, görüntü oluşturma ve bilgi ayıklama",
+          "summary": "Görüntüleri yorumlayın, görsel taslaklar oluşturun ve çok modlu içerikten yapılandırılmış veri çıkarın.",
+          "status": "DRAFT"
+        }
+      },
+      "lessons": [
+        {
+          "slug": "vision-and-image-generation",
+          "title": "Computer vision and image generation",
+          "objectiveCode": "2.3",
+          "estimatedMinutes": 12,
+          "summary": "Separate visual understanding from creating new images, and add review for generated visuals.",
+          "learningObjectives": [
+            "Identify the Foundry capability for the scenario",
+            "Explain the main implementation steps",
+            "Apply safety and review considerations"
+          ],
+          "explanation": "Vision and image generation are related but different. **Computer vision** interprets existing visual content. Azure Vision in Foundry Tools includes capabilities such as image analysis, OCR for printed or handwritten text, and face-related scenarios where appropriate policies allow them. Vision-enabled chat models add multimodal reasoning: a user can upload an image and ask questions about visible content, damage, layout, or context. If the goal is to understand an existing photo, diagram, screenshot, or receipt image, choose a vision or extraction capability.\n\n**Image generation** creates new visual output from text prompts and, for some models, optional image inputs. It can support concept art, product mockups, storyboards, and marketing drafts. Prompt quality matters: specify subject, style, constraints, intended use, and what to avoid. Generated images should be treated as drafts until reviewed for accuracy, safety, accessibility, brand fit, and intellectual-property concerns.\n\nContent safety is important in both directions. Visual input might contain personal data, people, unsafe scenes, or copyrighted material. Generated output might be misleading, unsafe, or inappropriate for the audience. A fundamentals-level design keeps generated images out of automatic publication, adds review, and avoids claiming that generated visuals are factual evidence. For OCR-heavy or structured document scenarios, Azure Document Intelligence or Content Understanding might be a better fit than a general vision chat prompt.",
+          "terminology": [
+            {
+              "term": "Vision-enabled model",
+              "definition": "A model that can reason over image input."
+            },
+            {
+              "term": "Image generation",
+              "definition": "Creating new visuals from prompts."
+            },
+            {
+              "term": "OCR",
+              "definition": "Extracting text from images."
+            }
+          ],
+          "businessScenario": "Alpine Ski House receives customer photos of damaged rental equipment and also needs draft banner images for a winter campaign. The operations team wants visual inspection notes from uploaded photos, while marketing wants creative drafts that a human designer can approve or revise.",
+          "technicalExample": "The claims app sends uploaded equipment photos to a vision-enabled model with instructions to describe visible damage, avoid identifying people, and flag unclear images for review. Separately, the marketing workflow sends approved text prompts to an image-generation model, stores generated drafts in a review queue, and records the prompt used for traceability.",
+          "misconception": {
+            "myth": "Any image-related requirement should use image generation.",
+            "reality": "Image generation creates new visuals. Use vision, OCR, Document Intelligence, or Content Understanding when the requirement is to inspect, read, or extract information from existing visuals."
+          },
+          "examTakeaway": "Separate visual understanding from visual creation. Choose vision-enabled models or OCR for existing images, and image generation for new visual drafts with safety review.",
+          "recap": "Vision interprets images; OCR reads text in images; image generation creates new images. Responsible implementations review generated output, protect sensitive visual data, and choose structured extraction tools when exact fields are needed.",
+          "simplerExplanation": "Vision is looking at a picture and explaining what is there. Image generation is drawing a new picture from instructions. OCR is reading words inside the picture.",
+          "anotherExample": "A retailer uses a vision-enabled model to describe shelf photos for planogram checks, OCR to read shelf labels, and image generation to draft seasonal display concepts for a designer to approve.",
+          "extraBlocks": [
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Foundry check",
+                "body": "If the scenario mentions portal labels, model availability, or preview features, re-check current Learn documentation."
+              }
+            },
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Implementation pattern",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "need",
+                    "label": "Requirement"
+                  },
+                  {
+                    "id": "cap",
+                    "label": "Capability"
+                  },
+                  {
+                    "id": "test",
+                    "label": "Test"
+                  },
+                  {
+                    "id": "app",
+                    "label": "App or agent"
+                  },
+                  {
+                    "id": "review",
+                    "label": "Review"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "need",
+                    "to": "cap"
+                  },
+                  {
+                    "from": "cap",
+                    "to": "test"
+                  },
+                  {
+                    "from": "test",
+                    "to": "app"
+                  },
+                  {
+                    "from": "app",
+                    "to": "review"
+                  }
+                ],
+                "caption": "A requirement leads to selecting a capability, testing it, integrating it into an app or agent, and reviewing the result."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "First design question",
+              "back": "What is the input and what output is required?"
+            },
+            {
+              "front": "Responsible review",
+              "back": "Use review when output is high impact, uncertain, or sensitive."
+            },
+            {
+              "front": "Foundry verification",
+              "back": "Re-check portal and product-specific details on Microsoft Learn."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "How to use vision-enabled chat models",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/gpt-with-vision",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "How to Use Image Generation Models from OpenAI",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ai901-fdy-021",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.3",
+              "difficulty": "EASY",
+              "stem": "Which capability answers questions about an uploaded product photo?",
+              "explanation": "Vision-enabled models can interpret image input. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "A vision-enabled model",
+                  "correct": true,
+                  "explanation": "It can reason over images. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields."
+                },
+                {
+                  "key": "B",
+                  "text": "Translator only",
+                  "correct": false,
+                  "explanation": "Translator changes language. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields."
+                },
+                {
+                  "key": "C",
+                  "text": "Text to speech only",
+                  "correct": false,
+                  "explanation": "Text to speech produces spoken output, so it does not help analyze or generate visual content in this image-focused question."
+                }
+              ],
+              "lessonSlug": "vision-and-image-generation",
+              "sources": [
+                {
+                  "title": "How to use vision-enabled chat models",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/gpt-with-vision",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                }
+              ]
+            },
+            {
+              "ref": "ai901-fdy-022",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** tasks fit vision or image generation?",
+              "explanation": "One interprets images and one creates images. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Answer questions about objects in a photo.",
+                  "correct": true,
+                  "explanation": "Vision interprets existing images, which is the correct fit when the requirement asks about uploaded visual content."
+                },
+                {
+                  "key": "B",
+                  "text": "Create a marketing illustration from a prompt.",
+                  "correct": true,
+                  "explanation": "Image generation creates new visuals, which fits requirements that ask for a draft or illustration from a prompt."
+                },
+                {
+                  "key": "C",
+                  "text": "Detect language in an email.",
+                  "correct": false,
+                  "explanation": "This is language. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields."
+                },
+                {
+                  "key": "D",
+                  "text": "Transcribe audio.",
+                  "correct": false,
+                  "explanation": "This is speech. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields."
+                }
+              ],
+              "lessonSlug": "vision-and-image-generation",
+              "sources": [
+                {
+                  "title": "How to use vision-enabled chat models",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/gpt-with-vision",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "How to Use Image Generation Models from OpenAI",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "selectCount": 2
+            },
+            {
+              "ref": "ai901-fdy-023",
+              "type": "UI_SIMULATION",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "stem": "Configure the simulated screen for the stated requirement.",
+              "explanation": "The selected settings apply a safer, task-focused configuration. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields.",
+              "uiSimulation": {
+                "title": "Image generation settings (simulated)",
+                "description": "This is a fictional simplified screen, not the real Foundry portal.",
+                "fields": [
+                  {
+                    "id": "purpose",
+                    "label": "Purpose",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "mockup",
+                        "label": "Product concept mockup"
+                      },
+                      {
+                        "value": "impersonate",
+                        "label": "Imitate a real person"
+                      }
+                    ],
+                    "correct": "mockup",
+                    "explanation": "Product concepts are a suitable creative use. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields."
+                  },
+                  {
+                    "id": "human",
+                    "label": "Human review before publishing",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "Review supports responsible use. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields."
+                  }
+                ]
+              },
+              "lessonSlug": "vision-and-image-generation",
+              "sources": [
+                {
+                  "title": "How to Use Image Generation Models from OpenAI",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Responsible AI for Microsoft Foundry",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-use-of-ai-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "needsVerification": true
+            },
+            {
+              "ref": "ai901-fdy-024",
+              "type": "ORDERING",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "stem": "Place the steps in the correct order.",
+              "explanation": "The workflow moves from setup to use and review. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields.",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Select a vision-capable deployment"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Provide task-specific instructions"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Submit the image and question"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Review the response"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "Select a vision-capable deployment belongs at this point because the workflow must complete prerequisite setup before later integration or review. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields.",
+                  "s2": "Provide task-specific instructions belongs at this point because the workflow must complete prerequisite setup before later integration or review. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields.",
+                  "s3": "Submit the image and question belongs at this point because the workflow must complete prerequisite setup before later integration or review. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields.",
+                  "s4": "Review the response belongs at this point because the workflow must complete prerequisite setup before later integration or review. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields."
+                }
+              },
+              "lessonSlug": "vision-and-image-generation",
+              "sources": [
+                {
+                  "title": "How to use vision-enabled chat models",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/gpt-with-vision",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Foundry Playgrounds",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/concepts/concept-playgrounds",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Responsible AI for Microsoft Foundry",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-use-of-ai-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "ai901-fdy-025",
+              "type": "SCENARIO",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which approach is best?",
+              "explanation": "Use vision for existing images and image generation for new visuals. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Use a vision-capable model for uploads and an image-generation model for drafts.",
+                  "correct": true,
+                  "explanation": "This option covers both parts of the scenario instead of treating all visual work as a single task. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields."
+                },
+                {
+                  "key": "B",
+                  "text": "Use OCR only for all visual work.",
+                  "correct": false,
+                  "explanation": "OCR only extracts text. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields."
+                },
+                {
+                  "key": "C",
+                  "text": "Use Speech because images are audio.",
+                  "correct": false,
+                  "explanation": "Speech is unrelated. In this visual scenario, distinguish interpreting an existing image from generating a new image or extracting exact text and fields."
+                }
+              ],
+              "lessonSlug": "vision-and-image-generation",
+              "sources": [
+                {
+                  "title": "How to use vision-enabled chat models",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/gpt-with-vision",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "How to Use Image Generation Models from OpenAI",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "scenario": "Alpine Ski House wants to inspect uploaded equipment photos and create draft campaign images."
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Re-check current Foundry portal labels, model and tool availability, SDK guidance, and preview status before publishing."
+        },
+        {
+          "slug": "information-extraction",
+          "title": "Extracting information from documents and content",
+          "objectiveCode": "2.4",
+          "estimatedMinutes": 12,
+          "summary": "Use Content Understanding to extract structured fields from documents, images, audio, and video.",
+          "learningObjectives": [
+            "Identify the Foundry capability for the scenario",
+            "Explain the main implementation steps",
+            "Apply safety and review considerations"
+          ],
+          "explanation": "Information extraction turns unstructured content into structured data that software can route, validate, search, or analyze. In Foundry Tools, **Azure Content Understanding** is positioned for multimodal extraction from documents, images, audio, and video into user-defined outputs. It can help create schema-aligned fields, classifications, summaries, evidence, and confidence signals from messy real-world content. **Azure Document Intelligence in Foundry Tools** remains important for intelligent document processing, OCR, layout, prebuilt document models such as invoices or receipts, and custom document models. Microsoft Learn notes that Document Intelligence provides deterministic extraction for structured documents, while Content Understanding adds LLM-powered analyzers for complex, unstructured, and multimodal content.\n\nA good extraction design begins with the output contract. Decide which fields are required, what data type each field should have, and what evidence or confidence is needed. For invoices, the fields might include vendor, invoice number, date, subtotal, tax, and total. For call recordings, they might include customer intent, sentiment, promised action, and callback date. For videos, they might include topics, speakers, scenes, or compliance flags.\n\nHuman review is part of the architecture, not a failure. Low-confidence values, missing evidence, high-value transactions, regulated fields, and contradictory documents should route to a reviewer. A lightweight app can call the analyzer, store extracted fields with confidence and source evidence, and send exceptions to a queue. Because Content Understanding and Document Intelligence naming, API versions, and preview capabilities can change, keep needsVerification enabled for portal- or version-specific details.",
+          "terminology": [
+            {
+              "term": "Content Understanding",
+              "definition": "A Foundry Tool for multimodal extraction."
+            },
+            {
+              "term": "Analyzer",
+              "definition": "A schema or configuration for extracting fields."
+            },
+            {
+              "term": "Confidence",
+              "definition": "A signal that can trigger human review."
+            }
+          ],
+          "businessScenario": "Litware processes supplier invoices, delivery-label photos, support-call recordings, and training videos. Staff need structured fields for automation but also evidence and confidence so they can review uncertain values before payments, customer follow-up, or compliance reporting.",
+          "technicalExample": "The intake workflow classifies each file. Structured invoices use a Document Intelligence prebuilt or custom model to extract fields and layout. Mixed media and complex packets use Content Understanding analyzers that output a schema with field values, confidence, and grounding evidence. Values below the review threshold or above a business-risk threshold are sent to a human queue.",
+          "misconception": {
+            "myth": "Information extraction is just summarization.",
+            "reality": "A summary is narrative text. Extraction produces structured fields, classifications, and evidence that downstream systems can validate and act on."
+          },
+          "examTakeaway": "Choose Content Understanding for multimodal structured extraction, and recognize Document Intelligence for document OCR, layout, prebuilt models, and custom document processing.",
+          "recap": "Extraction solutions define fields, process content, return values with evidence or confidence, and route exceptions for review. Documents, images, audio, and video may require different analyzers or tools depending on structure and risk.",
+          "simplerExplanation": "Information extraction is like turning a messy pile of papers, photos, calls, and videos into a checked spreadsheet, with sticky notes showing where each value came from.",
+          "anotherExample": "A mortgage team extracts borrower names and property addresses from forms with Document Intelligence, then uses Content Understanding to analyze supporting photos and call recordings for missing-document evidence.",
+          "extraBlocks": [
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Foundry check",
+                "body": "If the scenario mentions portal labels, model availability, or preview features, re-check current Learn documentation."
+              }
+            },
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Implementation pattern",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "need",
+                    "label": "Requirement"
+                  },
+                  {
+                    "id": "cap",
+                    "label": "Capability"
+                  },
+                  {
+                    "id": "test",
+                    "label": "Test"
+                  },
+                  {
+                    "id": "app",
+                    "label": "App or agent"
+                  },
+                  {
+                    "id": "review",
+                    "label": "Review"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "need",
+                    "to": "cap"
+                  },
+                  {
+                    "from": "cap",
+                    "to": "test"
+                  },
+                  {
+                    "from": "test",
+                    "to": "app"
+                  },
+                  {
+                    "from": "app",
+                    "to": "review"
+                  }
+                ],
+                "caption": "A requirement leads to selecting a capability, testing it, integrating it into an app or agent, and reviewing the result."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "First design question",
+              "back": "What is the input and what output is required?"
+            },
+            {
+              "front": "Responsible review",
+              "back": "Use review when output is high impact, uncertain, or sensitive."
+            },
+            {
+              "front": "Foundry verification",
+              "back": "Re-check portal and product-specific details on Microsoft Learn."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Azure Content Understanding in Foundry Tools?",
+              "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Responsible AI for Microsoft Foundry",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-use-of-ai-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What Is Azure Document Intelligence in Foundry Tools?",
+              "url": "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ai901-fdy-026",
+              "type": "CATEGORIZATION",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.4",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each item.",
+              "explanation": "The categories separate the main solution responsibilities. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "doc",
+                    "label": "Document"
+                  },
+                  {
+                    "id": "image",
+                    "label": "Image"
+                  },
+                  {
+                    "id": "audio",
+                    "label": "Audio"
+                  },
+                  {
+                    "id": "video",
+                    "label": "Video"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Invoice PDF fields.",
+                    "category": "doc",
+                    "explanation": "Invoice PDF fields. belongs in Document because its input and desired output match that category. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Photo of a delivery label.",
+                    "category": "image",
+                    "explanation": "Photo of a delivery label. belongs in Image because its input and desired output match that category. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Call recording action items.",
+                    "category": "audio",
+                    "explanation": "Call recording action items. belongs in Audio because its input and desired output match that category. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Training video topics.",
+                    "category": "video",
+                    "explanation": "Training video topics. belongs in Video because its input and desired output match that category. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response."
+                  }
+                ]
+              },
+              "lessonSlug": "information-extraction",
+              "sources": [
+                {
+                  "title": "What is Azure Content Understanding in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "ai901-fdy-027",
+              "type": "TRUE_FALSE",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.4",
+              "difficulty": "EASY",
+              "stem": "Content Understanding can convert unstructured content into schema-aligned structured output.",
+              "explanation": "Content Understanding extracts structured outputs from mixed content. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "The statement is correct because it matches the capability described in the stem. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "The statement is false because it conflicts with the capability described in the stem. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response."
+                }
+              ],
+              "lessonSlug": "information-extraction",
+              "sources": [
+                {
+                  "title": "What is Azure Content Understanding in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "ai901-fdy-028",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.4",
+              "difficulty": "MEDIUM",
+              "stem": "Which approach fits scanned claim forms needing policy number, date, and amount?",
+              "explanation": "Content Understanding can extract fields into a review workflow. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Define an analyzer or schema and extract fields for review.",
+                  "correct": true,
+                  "explanation": "This is structured extraction. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response."
+                },
+                {
+                  "key": "B",
+                  "text": "Generate a new form image.",
+                  "correct": false,
+                  "explanation": "Generation does not extract values. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response."
+                },
+                {
+                  "key": "C",
+                  "text": "Use text to speech only.",
+                  "correct": false,
+                  "explanation": "Audio output is not extraction. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response."
+                }
+              ],
+              "lessonSlug": "information-extraction",
+              "sources": [
+                {
+                  "title": "What is Azure Content Understanding in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "ai901-fdy-029",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.4",
+              "difficulty": "HARD",
+              "stem": "Why are confidence values useful?",
+              "explanation": "They help route uncertain or important fields to review. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "They support review decisions for uncertain extracted values.",
+                  "correct": true,
+                  "explanation": "Confidence helps govern automation. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response."
+                },
+                {
+                  "key": "B",
+                  "text": "They guarantee every value is correct.",
+                  "correct": false,
+                  "explanation": "Confidence is not a guarantee. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response."
+                },
+                {
+                  "key": "C",
+                  "text": "They replace the field schema.",
+                  "correct": false,
+                  "explanation": "Fields still must be defined. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response."
+                }
+              ],
+              "lessonSlug": "information-extraction",
+              "sources": [
+                {
+                  "title": "What is Azure Content Understanding in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Responsible AI for Microsoft Foundry",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-use-of-ai-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "ai901-fdy-030",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.4",
+              "difficulty": "MEDIUM",
+              "stem": "Which scenario best fits Content Understanding?",
+              "explanation": "It is for structured extraction from multimodal content. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Extract fields and evidence from contracts, images, calls, and videos.",
+                  "correct": true,
+                  "explanation": "This is multimodal extraction. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response."
+                },
+                {
+                  "key": "B",
+                  "text": "Translate one sentence.",
+                  "correct": false,
+                  "explanation": "That is Translator. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response."
+                },
+                {
+                  "key": "C",
+                  "text": "Read a paragraph aloud.",
+                  "correct": false,
+                  "explanation": "That is text to speech. In this extraction scenario, the business needs structured fields, evidence, confidence, and review rather than a free-form response."
+                }
+              ],
+              "lessonSlug": "information-extraction",
+              "sources": [
+                {
+                  "title": "What is Azure Content Understanding in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Translator in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/translator/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What Is Azure Speech?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Re-check current Foundry portal labels, model and tool availability, SDK guidance, and preview status before publishing."
+        }
+      ]
+    }
+  ]
+}

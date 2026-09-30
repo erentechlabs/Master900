@@ -1,0 +1,1193 @@
+{
+  "terms": [
+    {
+      "slug": "azure-virtual-machines",
+      "term": "Azure Virtual Machines",
+      "definition": "An Azure compute service that provides on-demand virtualized servers with customer control over the operating system and installed software.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Compute",
+        "useCases": [
+          "Lift and shift server workloads",
+          "Run software that requires OS-level control"
+        ],
+        "keyFeatures": [
+          "Configurable VM sizes",
+          "Customer-managed operating system"
+        ],
+        "serviceModel": "IaaS",
+        "comparesWith": [
+          "azure-app-service",
+          "azure-functions"
+        ]
+      },
+      "source": {
+        "title": "Overview of virtual machines in Azure",
+        "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure Virtual Machines",
+          "definition": "İşletim sistemi ve yüklü yazılımlar üzerinde müşteri denetimi sağlayan, isteğe bağlı sanallaştırılmış sunucular sunan Azure işlem hizmeti.",
+          "status": "DRAFT",
+          "useCases": [
+            "Lift and shift server workloads",
+            "Run software that requires OS-level control"
+          ],
+          "keyFeatures": [
+            "Configurable VM sizes",
+            "Customer-managed operating system"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-app-service",
+      "term": "Azure App Service",
+      "definition": "A managed hosting platform for web apps and APIs that lets teams deploy code without administering the underlying web servers.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Compute",
+        "useCases": [
+          "Host web applications",
+          "Host REST APIs"
+        ],
+        "keyFeatures": [
+          "Managed platform runtime",
+          "Integrated deployment options"
+        ],
+        "serviceModel": "PaaS",
+        "comparesWith": [
+          "azure-virtual-machines",
+          "azure-functions"
+        ]
+      },
+      "source": {
+        "title": "Overview of Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure App Service",
+          "definition": "Ekiplerin temel web sunucularını yönetmeden kod dağıtmasına olanak tanıyan web uygulamaları ve API'ler için yönetilen barındırma platformu.",
+          "status": "DRAFT",
+          "useCases": [
+            "Host web applications",
+            "Host REST APIs"
+          ],
+          "keyFeatures": [
+            "Managed platform runtime",
+            "Integrated deployment options"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-functions",
+      "term": "Azure Functions",
+      "definition": "An event-driven compute service for running small pieces of code in response to triggers without managing servers.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Compute",
+        "useCases": [
+          "Run code on events",
+          "Automate lightweight background tasks"
+        ],
+        "keyFeatures": [
+          "Trigger-based execution",
+          "Serverless hosting model"
+        ],
+        "serviceModel": "PaaS",
+        "comparesWith": [
+          "azure-app-service",
+          "azure-kubernetes-service"
+        ]
+      },
+      "source": {
+        "title": "Azure Functions overview",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure Functions",
+          "definition": "Sunucuları yönetmeden tetikleyicilere yanıt olarak küçük kod parçaları çalıştırmaya yönelik olay odaklı işlem hizmeti.",
+          "status": "DRAFT",
+          "useCases": [
+            "Run code on events",
+            "Automate lightweight background tasks"
+          ],
+          "keyFeatures": [
+            "Trigger-based execution",
+            "Serverless hosting model"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-kubernetes-service",
+      "term": "Azure Kubernetes Service",
+      "definition": "A managed Kubernetes service for deploying and operating containerized applications with orchestration capabilities.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Compute",
+        "useCases": [
+          "Run multi-container applications",
+          "Orchestrate container scaling and updates"
+        ],
+        "keyFeatures": [
+          "Managed Kubernetes control plane",
+          "Integration with Azure services"
+        ],
+        "serviceModel": "PaaS",
+        "comparesWith": [
+          "azure-kubernetes-service",
+          "azure-app-service"
+        ]
+      },
+      "source": {
+        "title": "What is Azure Kubernetes Service?",
+        "url": "https://learn.microsoft.com/en-us/azure/aks/what-is-aks",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure Kubernetes Service",
+          "definition": "Kapsayıcılı uygulamaları orkestrasyon özellikleriyle dağıtmak ve işletmek için yönetilen Kubernetes hizmeti.",
+          "status": "DRAFT",
+          "useCases": [
+            "Run multi-container applications",
+            "Orchestrate container scaling and updates"
+          ],
+          "keyFeatures": [
+            "Managed Kubernetes control plane",
+            "Integration with Azure services"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-virtual-network",
+      "term": "Azure Virtual Network",
+      "definition": "A networking service that provides isolated private networks in Azure, including subnets and connectivity controls.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Networking",
+        "useCases": [
+          "Connect Azure resources privately",
+          "Segment workloads with subnets"
+        ],
+        "keyFeatures": [
+          "Private address space",
+          "Subnet and peering support"
+        ],
+        "serviceModel": "Networking",
+        "comparesWith": [
+          "azure-vpn-gateway",
+          "azure-expressroute"
+        ]
+      },
+      "source": {
+        "title": "What is Azure Virtual Network?",
+        "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure Virtual Network",
+          "definition": "Azure'da alt ağlar ve bağlantı denetimleri dahil yalıtılmış özel ağlar sağlayan ağ hizmeti.",
+          "status": "DRAFT",
+          "useCases": [
+            "Connect Azure resources privately",
+            "Segment workloads with subnets"
+          ],
+          "keyFeatures": [
+            "Private address space",
+            "Subnet and peering support"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-vpn-gateway",
+      "term": "Azure VPN Gateway",
+      "definition": "A networking service that connects Azure virtual networks to on-premises networks over encrypted tunnels across the internet.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Networking",
+        "useCases": [
+          "Site-to-site VPN connectivity",
+          "Encrypted hybrid network access"
+        ],
+        "keyFeatures": [
+          "IPsec/IKE VPN tunnels",
+          "Connects virtual networks and on-premises networks"
+        ],
+        "serviceModel": "Networking",
+        "comparesWith": [
+          "azure-expressroute",
+          "azure-virtual-network"
+        ]
+      },
+      "source": {
+        "title": "About Azure VPN Gateway",
+        "url": "https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure VPN Gateway",
+          "definition": "Azure sanal ağlarını internet üzerinden şifreli tünellerle şirket içi ağlara bağlayan ağ hizmeti.",
+          "status": "DRAFT",
+          "useCases": [
+            "Site-to-site VPN connectivity",
+            "Encrypted hybrid network access"
+          ],
+          "keyFeatures": [
+            "IPsec/IKE VPN tunnels",
+            "Connects virtual networks and on-premises networks"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-expressroute",
+      "term": "Azure ExpressRoute",
+      "definition": "A service for extending on-premises networks to Azure over private connectivity through a connectivity provider.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Networking",
+        "useCases": [
+          "Private hybrid connectivity",
+          "Connect datacenters to Azure without using the public internet path"
+        ],
+        "keyFeatures": [
+          "Private connection model",
+          "Connectivity provider integration"
+        ],
+        "serviceModel": "Networking",
+        "comparesWith": [
+          "azure-vpn-gateway",
+          "azure-virtual-network"
+        ]
+      },
+      "source": {
+        "title": "Azure ExpressRoute overview",
+        "url": "https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure ExpressRoute",
+          "definition": "Şirket içi ağları bir bağlantı sağlayıcısı üzerinden özel bağlantıyla Azure'a genişletmeye yönelik hizmet.",
+          "status": "DRAFT",
+          "useCases": [
+            "Private hybrid connectivity",
+            "Connect datacenters to Azure without using the public internet path"
+          ],
+          "keyFeatures": [
+            "Private connection model",
+            "Connectivity provider integration"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-blob-storage",
+      "term": "Azure Blob Storage",
+      "definition": "Azure Storage's object storage service for unstructured data such as documents, media, backups, and logs.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Storage",
+        "useCases": [
+          "Store unstructured files",
+          "Keep backup or log objects"
+        ],
+        "keyFeatures": [
+          "Object storage containers",
+          "Access tier options"
+        ],
+        "serviceModel": "PaaS",
+        "comparesWith": [
+          "azure-files",
+          "azure-virtual-machines"
+        ]
+      },
+      "source": {
+        "title": "Introduction to Azure Storage",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-introduction",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900",
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure Blob Storage",
+          "definition": "Belgeler, medya, yedekler ve günlükler gibi yapılandırılmamış veriler için Azure Storage'ın nesne depolama hizmeti.",
+          "status": "DRAFT",
+          "useCases": [
+            "Store unstructured files",
+            "Keep backup or log objects"
+          ],
+          "keyFeatures": [
+            "Object storage containers",
+            "Access tier options"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-files",
+      "term": "Azure Files",
+      "definition": "A managed file share service in Azure Storage that can be mounted by cloud or on-premises systems.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Storage",
+        "useCases": [
+          "Provide shared file storage",
+          "Support lift-and-shift apps needing file shares"
+        ],
+        "keyFeatures": [
+          "Managed file shares",
+          "SMB and NFS protocol options"
+        ],
+        "serviceModel": "PaaS",
+        "comparesWith": [
+          "azure-blob-storage",
+          "azure-virtual-network"
+        ]
+      },
+      "source": {
+        "title": "What is Azure Files?",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-introduction",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900",
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure Files",
+          "definition": "Bulut veya şirket içi sistemler tarafından bağlanabilen, Azure Storage içinde yönetilen dosya paylaşımı hizmeti.",
+          "status": "DRAFT",
+          "useCases": [
+            "Provide shared file storage",
+            "Support lift-and-shift apps needing file shares"
+          ],
+          "keyFeatures": [
+            "Managed file shares",
+            "SMB and NFS protocol options"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "microsoft-entra-id",
+      "term": "Microsoft Entra ID",
+      "definition": "Microsoft's cloud identity and access service for authentication, single sign-on, and identity management.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Identity",
+        "useCases": [
+          "Centralize user sign-in",
+          "Enable single sign-on to applications"
+        ],
+        "keyFeatures": [
+          "Cloud identity provider",
+          "Authentication and access features"
+        ],
+        "serviceModel": "Identity",
+        "comparesWith": [
+          "azure-rbac",
+          "microsoft-defender-for-cloud"
+        ]
+      },
+      "source": {
+        "title": "What is Microsoft Entra?",
+        "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900",
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Microsoft Entra ID",
+          "definition": "Kimlik doğrulama, tek oturum açma ve kimlik yönetimi için Microsoft'un bulut kimlik ve erişim hizmeti.",
+          "status": "DRAFT",
+          "useCases": [
+            "Centralize user sign-in",
+            "Enable single sign-on to applications"
+          ],
+          "keyFeatures": [
+            "Cloud identity provider",
+            "Authentication and access features"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-rbac",
+      "term": "Azure role-based access control",
+      "definition": "An authorization system for managing who can perform actions on Azure resources at a chosen scope.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Identity and access",
+        "useCases": [
+          "Grant least-privilege resource access",
+          "Assign built-in or custom roles"
+        ],
+        "keyFeatures": [
+          "Role assignments",
+          "Scope-based access control"
+        ],
+        "serviceModel": "Identity",
+        "comparesWith": [
+          "microsoft-entra-id",
+          "zero-trust"
+        ]
+      },
+      "source": {
+        "title": "What is Azure RBAC?",
+        "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900",
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure role-based access control",
+          "definition": "Seçilen bir kapsamda Azure kaynakları üzerinde kimlerin eylem gerçekleştirebileceğini yönetmeye yönelik yetkilendirme sistemi.",
+          "status": "DRAFT",
+          "useCases": [
+            "Grant least-privilege resource access",
+            "Assign built-in or custom roles"
+          ],
+          "keyFeatures": [
+            "Role assignments",
+            "Scope-based access control"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-policy",
+      "term": "Azure Policy",
+      "definition": "A governance service that evaluates Azure resources against rules and can audit, deny, or modify configurations.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Governance",
+        "useCases": [
+          "Enforce required tags",
+          "Audit configuration compliance"
+        ],
+        "keyFeatures": [
+          "Policy definitions and assignments",
+          "Compliance reporting"
+        ],
+        "serviceModel": "Management",
+        "comparesWith": [
+          "management-group",
+          "microsoft-purview"
+        ]
+      },
+      "source": {
+        "title": "Overview of Azure Policy",
+        "url": "https://learn.microsoft.com/en-us/azure/governance/policy/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure Policy",
+          "definition": "Azure kaynaklarını kurallara göre değerlendiren ve yapılandırmaları denetleyebilen, reddedebilen veya değiştirebilen yönetişim hizmeti.",
+          "status": "DRAFT",
+          "useCases": [
+            "Enforce required tags",
+            "Audit configuration compliance"
+          ],
+          "keyFeatures": [
+            "Policy definitions and assignments",
+            "Compliance reporting"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "microsoft-purview",
+      "term": "Microsoft Purview",
+      "definition": "A family of data governance, security, risk, and compliance solutions for discovering and managing data estates.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Governance and compliance",
+        "useCases": [
+          "Govern data across environments",
+          "Support compliance and risk workflows"
+        ],
+        "keyFeatures": [
+          "Data governance capabilities",
+          "Compliance and risk management solutions"
+        ],
+        "serviceModel": "Management",
+        "comparesWith": [
+          "azure-policy",
+          "microsoft-defender-for-cloud"
+        ]
+      },
+      "source": {
+        "title": "Learn about Microsoft Purview",
+        "url": "https://learn.microsoft.com/en-us/purview/purview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900",
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Microsoft Purview",
+          "definition": "Veri varlıklarını keşfetme ve yönetme için veri yönetişimi, güvenlik, risk ve uyumluluk çözümleri ailesi.",
+          "status": "DRAFT",
+          "useCases": [
+            "Govern data across environments",
+            "Support compliance and risk workflows"
+          ],
+          "keyFeatures": [
+            "Data governance capabilities",
+            "Compliance and risk management solutions"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-advisor",
+      "term": "Azure Advisor",
+      "definition": "A recommendation service that analyzes deployed Azure resources and suggests improvements across operational categories.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Monitoring and optimization",
+        "useCases": [
+          "Find optimization recommendations",
+          "Improve cost, reliability, or security posture"
+        ],
+        "keyFeatures": [
+          "Personalized recommendations",
+          "Multiple recommendation categories"
+        ],
+        "serviceModel": "Management",
+        "comparesWith": [
+          "azure-monitor",
+          "azure-service-health"
+        ]
+      },
+      "source": {
+        "title": "Introduction to Azure Advisor",
+        "url": "https://learn.microsoft.com/en-us/azure/advisor/advisor-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure Advisor",
+          "definition": "Dağıtılmış Azure kaynaklarını analiz ederek operasyonel kategorilerde iyileştirme önerileri sunan öneri hizmeti.",
+          "status": "DRAFT",
+          "useCases": [
+            "Find optimization recommendations",
+            "Improve cost, reliability, or security posture"
+          ],
+          "keyFeatures": [
+            "Personalized recommendations",
+            "Multiple recommendation categories"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-monitor",
+      "term": "Azure Monitor",
+      "definition": "Azure's monitoring service for collecting, analyzing, and responding to telemetry from applications and resources.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Monitoring",
+        "useCases": [
+          "Collect metrics and logs",
+          "Create alerts for operational conditions"
+        ],
+        "keyFeatures": [
+          "Metrics and logs",
+          "Alerts and analysis tools"
+        ],
+        "serviceModel": "Management",
+        "comparesWith": [
+          "azure-advisor",
+          "azure-service-health"
+        ]
+      },
+      "source": {
+        "title": "Azure Monitor overview",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure Monitor",
+          "definition": "Uygulamalardan ve kaynaklardan telemetri toplama, analiz etme ve yanıtlama için Azure'ın izleme hizmeti.",
+          "status": "DRAFT",
+          "useCases": [
+            "Collect metrics and logs",
+            "Create alerts for operational conditions"
+          ],
+          "keyFeatures": [
+            "Metrics and logs",
+            "Alerts and analysis tools"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-service-health",
+      "term": "Azure Service Health",
+      "definition": "A service that provides personalized information about Azure service issues, planned maintenance, and health advisories.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Monitoring",
+        "useCases": [
+          "Track Azure incidents affecting subscriptions",
+          "Review planned maintenance notifications"
+        ],
+        "keyFeatures": [
+          "Personalized service issue views",
+          "Health alerts"
+        ],
+        "serviceModel": "Management",
+        "comparesWith": [
+          "azure-monitor",
+          "azure-advisor"
+        ]
+      },
+      "source": {
+        "title": "What is Azure Service Health?",
+        "url": "https://learn.microsoft.com/en-us/azure/service-health/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure Service Health",
+          "definition": "Azure hizmet sorunları, planlı bakım ve sağlık bildirimleri hakkında kişiselleştirilmiş bilgi sağlayan hizmet.",
+          "status": "DRAFT",
+          "useCases": [
+            "Track Azure incidents affecting subscriptions",
+            "Review planned maintenance notifications"
+          ],
+          "keyFeatures": [
+            "Personalized service issue views",
+            "Health alerts"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "microsoft-defender-for-cloud",
+      "term": "Microsoft Defender for Cloud",
+      "definition": "A cloud security posture management and workload protection service for Azure and hybrid environments.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Security",
+        "useCases": [
+          "Improve cloud security posture",
+          "Protect workloads across environments"
+        ],
+        "keyFeatures": [
+          "Security recommendations",
+          "Workload protection capabilities"
+        ],
+        "serviceModel": "Security",
+        "comparesWith": [
+          "azure-policy",
+          "microsoft-entra-id"
+        ]
+      },
+      "source": {
+        "title": "Microsoft Defender for Cloud overview",
+        "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900",
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Microsoft Defender for Cloud",
+          "definition": "Azure ve hibrit ortamlar için bulut güvenlik duruşu yönetimi ve iş yükü koruma hizmeti.",
+          "status": "DRAFT",
+          "useCases": [
+            "Improve cloud security posture",
+            "Protect workloads across environments"
+          ],
+          "keyFeatures": [
+            "Security recommendations",
+            "Workload protection capabilities"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-arc",
+      "term": "Azure Arc",
+      "definition": "A service that extends Azure management and governance to resources running outside Azure.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Management",
+        "useCases": [
+          "Manage hybrid resources",
+          "Apply Azure governance beyond Azure"
+        ],
+        "keyFeatures": [
+          "Extended Azure control plane",
+          "Hybrid and multicloud management"
+        ],
+        "serviceModel": "Management",
+        "comparesWith": [
+          "azure-resource-manager",
+          "azure-policy"
+        ]
+      },
+      "source": {
+        "title": "Azure Arc overview",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-arc/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure Arc",
+          "definition": "Azure yönetimini ve yönetişimini Azure dışında çalışan kaynaklara genişleten hizmet.",
+          "status": "DRAFT",
+          "useCases": [
+            "Manage hybrid resources",
+            "Apply Azure governance beyond Azure"
+          ],
+          "keyFeatures": [
+            "Extended Azure control plane",
+            "Hybrid and multicloud management"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "microsoft-cost-management",
+      "term": "Microsoft Cost Management",
+      "definition": "A set of tools for monitoring, analyzing, and optimizing Azure costs and usage.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Cost management",
+        "useCases": [
+          "Analyze cloud spending",
+          "Set budgets and review cost trends"
+        ],
+        "keyFeatures": [
+          "Cost analysis",
+          "Budgets and alerts"
+        ],
+        "serviceModel": "Management",
+        "comparesWith": [
+          "azure-advisor",
+          "azure-advisor"
+        ]
+      },
+      "source": {
+        "title": "Overview of Billing and Cost Management",
+        "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/cost-management-billing-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Microsoft Cost Management",
+          "definition": "Azure maliyetlerini ve kullanımını izleme, analiz etme ve iyileştirme için araçlar kümesi.",
+          "status": "DRAFT",
+          "useCases": [
+            "Analyze cloud spending",
+            "Set budgets and review cost trends"
+          ],
+          "keyFeatures": [
+            "Cost analysis",
+            "Budgets and alerts"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-resource-manager",
+      "term": "Azure Resource Manager",
+      "definition": "The deployment and management layer for Azure that provides a consistent way to create, update, and organize resources.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Management",
+        "useCases": [
+          "Deploy resources with templates",
+          "Manage Azure resources consistently"
+        ],
+        "keyFeatures": [
+          "Resource management layer",
+          "Template-based deployments"
+        ],
+        "serviceModel": "Management",
+        "comparesWith": [
+          "azure-arc",
+          "resource-group"
+        ]
+      },
+      "source": {
+        "title": "Azure Resource Manager overview",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure Resource Manager",
+          "definition": "Azure kaynaklarını oluşturmak, güncelleştirmek ve düzenlemek için tutarlı bir yol sağlayan Azure dağıtım ve yönetim katmanı.",
+          "status": "DRAFT",
+          "useCases": [
+            "Deploy resources with templates",
+            "Manage Azure resources consistently"
+          ],
+          "keyFeatures": [
+            "Resource management layer",
+            "Template-based deployments"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "region",
+      "term": "Azure region",
+      "definition": "A geographic area containing Azure datacenters where customers can deploy resources close to users or business needs.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Architecture",
+        "comparesWith": [
+          "region",
+          "availability-zone",
+          "azure-virtual-network"
+        ]
+      },
+      "source": {
+        "title": "Azure availability zones overview",
+        "url": "https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure bölgesi",
+          "definition": "Müşterilerin kaynakları kullanıcılara veya iş gereksinimlerine yakın dağıtabildiği Azure veri merkezlerini içeren coğrafi alan.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "availability-zone",
+      "term": "Availability zone",
+      "definition": "A physically separate datacenter location within a supported Azure region, used to improve resilience against localized failures.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Architecture",
+        "comparesWith": [
+          "region",
+          "high-availability"
+        ]
+      },
+      "source": {
+        "title": "Azure availability zones overview",
+        "url": "https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Kullanılabilirlik alanı",
+          "definition": "Yerel arızalara karşı dayanıklılığı artırmak için desteklenen bir Azure bölgesi içindeki fiziksel olarak ayrı veri merkezi konumu.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "resource-group",
+      "term": "Resource group",
+      "definition": "A logical container for related Azure resources that are managed together within a subscription.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Architecture",
+        "comparesWith": [
+          "subscription",
+          "azure-resource-manager"
+        ]
+      },
+      "source": {
+        "title": "Azure Resource Manager overview",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Kaynak grubu",
+          "definition": "Bir abonelik içinde birlikte yönetilen ilişkili Azure kaynakları için mantıksal kapsayıcı.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "subscription",
+      "term": "Azure subscription",
+      "definition": "A boundary for Azure billing, access management, and resource organization.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Architecture",
+        "comparesWith": [
+          "management-group",
+          "resource-group"
+        ]
+      },
+      "source": {
+        "title": "What are Azure management groups?",
+        "url": "https://learn.microsoft.com/en-us/azure/governance/management-groups/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Azure aboneliği",
+          "definition": "Azure faturalama, erişim yönetimi ve kaynak düzenleme için bir sınır.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "management-group",
+      "term": "Management group",
+      "definition": "A governance container that helps organize subscriptions so policies and access can be applied at a higher scope.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Governance",
+        "comparesWith": [
+          "subscription",
+          "azure-policy"
+        ]
+      },
+      "source": {
+        "title": "What are Azure management groups?",
+        "url": "https://learn.microsoft.com/en-us/azure/governance/management-groups/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Yönetim grubu",
+          "definition": "İlkelerin ve erişimin daha yüksek bir kapsamda uygulanabilmesi için abonelikleri düzenlemeye yardımcı olan yönetişim kapsayıcısı.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "shared-responsibility-model",
+      "term": "Shared responsibility model",
+      "definition": "A cloud security concept that separates responsibilities between the cloud provider and the customer depending on the service type.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Cloud concepts",
+        "comparesWith": [
+          "azure-virtual-machines",
+          "azure-app-service"
+        ]
+      },
+      "source": {
+        "title": "Shared responsibility in the cloud",
+        "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900",
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Paylaşılan sorumluluk modeli",
+          "definition": "Bulut sağlayıcısı ile müşteri arasındaki sorumlulukları hizmet türüne göre ayıran bulut güvenliği kavramı.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "high-availability",
+      "term": "High availability",
+      "definition": "A design goal of keeping services accessible by reducing the impact of component or location failures.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Reliability",
+        "comparesWith": [
+          "availability-zone",
+          "scalability"
+        ]
+      },
+      "source": {
+        "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+        "kind": "STUDY_GUIDE"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Yüksek kullanılabilirlik",
+          "definition": "Bileşen veya konum arızalarının etkisini azaltarak hizmetleri erişilebilir tutma tasarım hedefi.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "scalability",
+      "term": "Scalability",
+      "definition": "The ability of a system to increase or decrease capacity to match workload demand.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Cloud concepts",
+        "comparesWith": [
+          "elasticity",
+          "high-availability"
+        ]
+      },
+      "source": {
+        "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+        "kind": "STUDY_GUIDE"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Ölçeklenebilirlik",
+          "definition": "Bir sistemin iş yükü talebini karşılamak için kapasiteyi artırma veya azaltma yeteneği.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "elasticity",
+      "term": "Elasticity",
+      "definition": "The ability to add and remove resources dynamically as demand changes, often closely tied to consumption-based cloud use.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Cloud concepts",
+        "comparesWith": [
+          "scalability",
+          "microsoft-cost-management"
+        ]
+      },
+      "source": {
+        "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+        "kind": "STUDY_GUIDE"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Esneklik",
+          "definition": "Talep değiştikçe kaynakları dinamik olarak ekleme ve kaldırma yeteneği; çoğu zaman tüketime dayalı bulut kullanımıyla yakından ilişkilidir.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "zero-trust",
+      "term": "Zero Trust",
+      "definition": "A security strategy based on verifying explicitly, using least privilege, and assuming breach rather than trusting a network location.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Security",
+        "comparesWith": [
+          "microsoft-defender-for-cloud",
+          "azure-rbac"
+        ]
+      },
+      "source": {
+        "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+        "kind": "STUDY_GUIDE"
+      },
+      "certifications": [
+        "AZ-900",
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Zero Trust",
+          "definition": "Bir ağ konumuna güvenmek yerine açıkça doğrulama, en az ayrıcalığı kullanma ve ihlal varsayma ilkelerine dayanan güvenlik stratejisi.",
+          "status": "DRAFT"
+        }
+      }
+    }
+  ]
+}

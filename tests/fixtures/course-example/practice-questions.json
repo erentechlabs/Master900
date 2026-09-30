@@ -1,0 +1,124 @@
+{
+  "questions": [
+    {
+      "ref": "xx900-px-001",
+      "type": "CATEGORIZATION",
+      "domainKey": "second-domain",
+      "objectiveCode": "2.1",
+      "difficulty": "MEDIUM",
+      "stem": "Classify each responsibility.",
+      "explanation": "Customers always own their data; providers own the physical datacenter.",
+      "categorization": {
+        "categories": [
+          { "id": "customer", "label": "Customer" },
+          { "id": "provider", "label": "Provider" }
+        ],
+        "items": [
+          { "id": "i1", "text": "Information and data", "category": "customer", "explanation": "Data is always the customer's responsibility." },
+          { "id": "i2", "text": "Physical datacenter security", "category": "provider", "explanation": "The provider secures the physical facilities." },
+          { "id": "i3", "text": "User accounts", "category": "customer", "explanation": "Customers manage their accounts and identities." }
+        ]
+      },
+      "sources": [{ "title": "Example source", "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility" }]
+    },
+    {
+      "ref": "xx900-px-002",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "second-domain",
+      "difficulty": "EASY",
+      "stem": "Complete the sentence.",
+      "explanation": "Paying only for what you use is called consumption-based pricing.",
+      "fillInBlank": {
+        "template": "Paying only for the resources you use is called {{b1}} pricing.",
+        "blanks": [{ "id": "b1", "accepted": ["consumption-based", "consumption based", "pay-as-you-go"], "explanation": "Usage-based billing is consumption-based pricing." }],
+        "wordBank": ["consumption-based", "reserved", "perpetual"]
+      },
+      "sources": [{ "title": "Example source", "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-compute/" }],
+      "translations": {
+        "tr": {
+          "stem": "Cümleyi tamamlayın.",
+          "explanation": "Yalnızca kullandığınız kadar ödemeye tüketime dayalı fiyatlandırma denir.",
+          "fillInBlank": {
+            "template": "Yalnızca kullandığınız kaynaklar için ödeme yapmaya {{b1}} fiyatlandırma denir.",
+            "accepted": { "b1": ["tüketime dayalı", "kullandıkça öde"] },
+            "wordBank": ["tüketime dayalı", "rezerve", "kalıcı"]
+          },
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "ref": "xx900-px-003",
+      "type": "CASE_STUDY",
+      "domainKey": "second-domain",
+      "difficulty": "HARD",
+      "scenario": "Fabrikam runs a fictional ordering system. It needs to scale quickly during sales and wants to reduce server maintenance.",
+      "stem": "For each statement, select **Yes** if the statement is true. Otherwise, select **No**.",
+      "explanation": "Managed platforms scale and reduce maintenance, but data ownership stays with the customer.",
+      "caseStudy": {
+        "statements": [
+          { "id": "s1", "text": "A managed platform can reduce server maintenance for Fabrikam.", "answer": true, "explanation": "The provider maintains the platform." },
+          { "id": "s2", "text": "Moving to the cloud makes the provider responsible for Fabrikam's customer data.", "answer": false, "explanation": "Customers remain responsible for their data." }
+        ]
+      },
+      "sources": [{ "title": "Example source", "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility" }]
+    },
+    {
+      "ref": "xx900-px-004",
+      "type": "SCENARIO",
+      "domainKey": "second-domain",
+      "difficulty": "MEDIUM",
+      "scenario": "A startup expects unpredictable traffic and has no operations team.",
+      "stem": "Which option best fits the startup?",
+      "explanation": "A managed platform with automatic scaling suits unpredictable load without an operations team.",
+      "options": [
+        { "key": "A", "text": "A managed platform with autoscaling", "correct": true, "explanation": "It scales automatically and reduces operations work." },
+        { "key": "B", "text": "A single large on-premises server", "correct": false, "explanation": "It cannot scale elastically and needs maintenance." },
+        { "key": "C", "text": "A fixed pool of self-managed virtual machines", "correct": false, "explanation": "It requires operations work and manual scaling." }
+      ],
+      "sources": [{ "title": "Example source", "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-compute/" }]
+    },
+    {
+      "ref": "xx900-px-005",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "second-domain",
+      "difficulty": "MEDIUM",
+      "stem": "Which Azure CLI command lists the resource groups in the current subscription?",
+      "explanation": "`az group list` returns the resource groups in the active subscription.",
+      "options": [
+        { "key": "A", "text": "`az group list`", "correct": true, "explanation": "This lists resource groups." },
+        { "key": "B", "text": "`az group create`", "correct": false, "explanation": "This creates a resource group." },
+        { "key": "C", "text": "`az account list`", "correct": false, "explanation": "This lists subscriptions, not resource groups." }
+      ],
+      "shuffleOptions": true,
+      "sources": [{ "title": "az group", "url": "https://learn.microsoft.com/en-us/cli/azure/group" }]
+    },
+    {
+      "ref": "xx900-px-006",
+      "type": "UI_SIMULATION",
+      "domainKey": "second-domain",
+      "difficulty": "MEDIUM",
+      "stem": "Configure the simulated settings so that only people in your organization can sign in, and multifactor authentication is required.",
+      "explanation": "Restricting sign-in to internal accounts and requiring MFA reduces the risk of account compromise.",
+      "uiSimulation": {
+        "title": "Simulated sign-in settings (fictional)",
+        "description": "This screen is a simplified simulation, not a real product interface.",
+        "fields": [
+          {
+            "id": "who",
+            "label": "Who can sign in",
+            "control": "select",
+            "options": [
+              { "value": "anyone", "label": "Anyone with a link" },
+              { "value": "org", "label": "People in my organization" }
+            ],
+            "correct": "org",
+            "explanation": "Only internal accounts should be allowed."
+          },
+          { "id": "mfa", "label": "Require multifactor authentication", "control": "toggle", "correct": true, "explanation": "MFA adds a second verification factor." }
+        ]
+      },
+      "sources": [{ "title": "Example source", "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-mfa-howitworks" }]
+    }
+  ]
+}

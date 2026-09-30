@@ -1,0 +1,2307 @@
+{
+  "domainKey": "ai-concepts",
+  "modules": [
+    {
+      "slug": "responsible-ai",
+      "title": "Responsible AI",
+      "summary": "Build a foundation in responsible AI principles and practical controls for safe, transparent, and accountable AI solutions.",
+      "translations": {
+        "tr": {
+          "title": "Sorumlu yapay zekâ",
+          "summary": "Güvenli, şeffaf ve hesap verebilir AI çözümleri için sorumlu yapay zekâ ilkeleri ve pratik denetimler konusunda temel oluşturun.",
+          "status": "DRAFT"
+        }
+      },
+      "lessons": [
+        {
+          "slug": "responsible-ai-principles",
+          "title": "Principles of responsible AI",
+          "objectiveCode": "1.1",
+          "estimatedMinutes": 10,
+          "summary": "Learn the six responsible AI principles and how they guide trustworthy AI solution design.",
+          "learningObjectives": [
+            "Describe the six responsible AI principles",
+            "Apply responsible AI principles to beginner AI scenarios",
+            "Recognize why evaluation and oversight matter beyond accuracy"
+          ],
+          "explanation": "Responsible AI is an approach for designing, building, and operating AI systems in ways that are safe, ethical, and trustworthy. A model is not ready just because it can produce accurate predictions. Teams also need to ask who might be affected, what data is used, how errors are found, and who owns the outcome.\n\nMicrosoft describes six core principles: **fairness**, **reliability and safety**, **privacy and security**, **inclusiveness**, **transparency**, and **accountability**. Fairness checks whether similar people or groups receive consistent treatment. Reliability and safety means dependable behavior and safe failure. Privacy and security protects data, identities, networks, and access. Inclusiveness considers people with different abilities, languages, contexts, and needs. Transparency helps stakeholders understand purpose, limits, and important behavior. Accountability keeps people and processes responsible for decisions and incidents.\n\nThese principles overlap. A loan assistance tool might compare error rates by applicant cohort, restrict access to sensitive data, document model limitations, require human review, and log deployment approvals.",
+          "terminology": [
+            {
+              "term": "Responsible AI",
+              "definition": "Developing and operating AI systems safely, ethically, and with trust."
+            },
+            {
+              "term": "Fairness",
+              "definition": "Assessing whether similar people or groups are treated consistently."
+            },
+            {
+              "term": "Transparency",
+              "definition": "Making purpose, limits, and behavior understandable."
+            },
+            {
+              "term": "Accountability",
+              "definition": "Keeping people and processes responsible for outcomes."
+            }
+          ],
+          "businessScenario": "Contoso is building an AI tool that prioritizes support requests and must show it does not systematically disadvantage a customer group.",
+          "technicalExample": "The team evaluates errors by segment, restricts data access, documents limits, and stores approval records.",
+          "misconception": {
+            "myth": "High model accuracy means responsible AI concerns are solved.",
+            "reality": "Overall accuracy can hide fairness gaps, privacy risks, unclear explanations, or missing ownership."
+          },
+          "examTakeaway": "Map unequal outcomes, unsafe behavior, sensitive data, unclear explanations, or no owner to the responsible AI principle being tested.",
+          "recap": "Responsible AI combines technical quality with human impact so AI systems are fairer, safer, clearer, and governable.",
+          "simplerExplanation": "Think of responsible AI like safe driving: a powerful engine still needs mirrors, brakes, rules, and an accountable driver.",
+          "anotherExample": "A school using AI to triage support requests should test whether students with different language skills are treated fairly and ensure counselors make final decisions.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Scenario clues",
+                "columns": [
+                  {
+                    "title": "Look for",
+                    "points": [
+                      "Input type",
+                      "Expected output",
+                      "Risk or control"
+                    ]
+                  },
+                  {
+                    "title": "Then choose",
+                    "points": [
+                      "Workload",
+                      "Model capability",
+                      "Responsible AI principle"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Study tip",
+                "body": "Use the scenario verbs: extract, transcribe, generate, summarize, explain, monitor, or approve."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Training",
+              "back": "Learning or adapting patterns from data."
+            },
+            {
+              "front": "Inference",
+              "back": "Using a deployed model for a new input."
+            },
+            {
+              "front": "Grounding",
+              "back": "Supplying retrieved source content to a model."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Responsible AI",
+              "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ai901-con-001",
+              "type": "SCENARIO",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "EASY",
+              "stem": "Which responsible AI principle should the team emphasize first?",
+              "explanation": "Fairness focuses on testing whether similar people or groups receive consistent treatment and whether outcome gaps have a valid reason.",
+              "lessonSlug": "responsible-ai-principles",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Responsible AI",
+                  "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Fairness",
+                  "correct": true,
+                  "explanation": "Fairness covers equitable treatment and outcome assessment across groups."
+                },
+                {
+                  "key": "B",
+                  "text": "Transparency",
+                  "correct": false,
+                  "explanation": "Transparency helps explain behavior, but the immediate concern is unequal outcomes."
+                },
+                {
+                  "key": "C",
+                  "text": "Reliability and safety",
+                  "correct": false,
+                  "explanation": "This principle focuses on dependable and safe operation, not primarily group outcome gaps."
+                },
+                {
+                  "key": "D",
+                  "text": "Accountability",
+                  "correct": false,
+                  "explanation": "Accountability assigns ownership, but it does not by itself identify the disparity."
+                }
+              ],
+              "scenario": "Northwind Traders pilots an AI screening aid. Testing shows it recommends interviews at a lower rate for one group of otherwise similar applicants.",
+              "translations": {
+                "tr": {
+                  "stem": "Ekip önce hangi sorumlu yapay zekâ ilkesini vurgulamalıdır?",
+                  "scenario": "Northwind Traders bir yapay zekâ destekli ön eleme yardımcısını deniyor. Testler, benzer niteliklere sahip adaylar arasında bir grup için mülakat önerme oranının daha düşük olduğunu gösteriyor.",
+                  "explanation": "Fairness, benzer kişi veya gruplara tutarlı davranılıp davranılmadığını ve sonuç farklarının geçerli bir nedeni olup olmadığını test etmeye odaklanır.",
+                  "options": {
+                    "A": {
+                      "text": "Fairness",
+                      "explanation": "Fairness, gruplar arasında adil muameleyi ve sonuç değerlendirmesini kapsar."
+                    },
+                    "B": {
+                      "text": "Transparency",
+                      "explanation": "Transparency davranışı açıklamaya yardım eder; ancak acil sorun eşit olmayan sonuçlardır."
+                    },
+                    "C": {
+                      "text": "Reliability and safety",
+                      "explanation": "Bu ilke güvenilir ve güvenli çalışmaya odaklanır; temel olarak grup sonucu farklarına değil."
+                    },
+                    "D": {
+                      "text": "Accountability",
+                      "explanation": "Accountability sahipliği belirler; ancak tek başına farkı belirlemez."
+                    }
+                  },
+                  "status": "DRAFT"
+                }
+              }
+            },
+            {
+              "ref": "ai901-con-002",
+              "type": "TRUE_FALSE",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "EASY",
+              "stem": "Privacy and security considerations apply only after an AI model is deployed to production.",
+              "explanation": "Privacy and security should be considered across data collection, training, deployment, access control, monitoring, and retirement.",
+              "lessonSlug": "responsible-ai-principles",
+              "sources": [
+                {
+                  "title": "What is Responsible AI",
+                  "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": false,
+                  "explanation": "Waiting until production can leave sensitive data, access, and network risks unaddressed."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": true,
+                  "explanation": "Responsible teams design privacy and security controls from the start and maintain them after release."
+                }
+              ],
+              "translations": {
+                "tr": {
+                  "stem": "Privacy and security değerlendirmeleri yalnızca yapay zekâ modeli üretime alındıktan sonra uygulanır.",
+                  "explanation": "Privacy and security; veri toplama, eğitim, dağıtım, erişim denetimi, izleme ve kullanımdan kaldırma dahil tüm yaşam döngüsünde ele alınmalıdır.",
+                  "options": {
+                    "TRUE": {
+                      "text": "True",
+                      "explanation": "Üretime kadar beklemek hassas veri, erişim ve ağ risklerini çözümsüz bırakabilir."
+                    },
+                    "FALSE": {
+                      "text": "False",
+                      "explanation": "Sorumlu ekipler privacy ve security denetimlerini en baştan tasarlar ve yayın sonrasında sürdürür."
+                    }
+                  },
+                  "status": "DRAFT"
+                }
+              }
+            },
+            {
+              "ref": "ai901-con-003",
+              "type": "MATCHING",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each concern to the responsible AI principle it best represents.",
+              "explanation": "Each principle highlights a different governance concern: explainability, human ownership, safe operation, and broad usability.",
+              "lessonSlug": "responsible-ai-principles",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Responsible AI",
+                  "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Stakeholders need to understand why the model made a recommendation."
+                  },
+                  {
+                    "id": "p2",
+                    "text": "A named owner must approve changes and respond to incidents."
+                  },
+                  {
+                    "id": "p3",
+                    "text": "The solution should work predictably when inputs are noisy or unusual."
+                  },
+                  {
+                    "id": "p4",
+                    "text": "The interface should support people with different abilities and contexts."
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Transparency"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Accountability"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Reliability and safety"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Inclusiveness"
+                  },
+                  {
+                    "id": "a5",
+                    "text": "Privacy and security"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3",
+                  "p4": "a4"
+                },
+                "explanations": {
+                  "p1": "Transparency includes understandable explanations of AI behavior.",
+                  "p2": "Accountability means people and processes are responsible for outcomes.",
+                  "p3": "Reliability and safety cover consistent, safe operation.",
+                  "p4": "Inclusiveness considers whether a solution works for diverse users."
+                }
+              },
+              "translations": {
+                "tr": {
+                  "stem": "Her kaygıyı en iyi temsil eden sorumlu yapay zekâ ilkesiyle eşleştirin.",
+                  "explanation": "Her ilke farklı bir yönetişim kaygısını vurgular: açıklanabilirlik, insan sahipliği, güvenli çalışma ve geniş kullanılabilirlik.",
+                  "matching": {
+                    "prompts": {
+                      "p1": "Paydaşların modelin neden bir öneri verdiğini anlaması gerekiyor.",
+                      "p2": "Değişiklikleri onaylayacak ve olaylara yanıt verecek belirlenmiş bir sahip olmalıdır.",
+                      "p3": "Çözüm, girdiler gürültülü veya sıra dışı olduğunda öngörülebilir çalışmalıdır.",
+                      "p4": "Arayüz, farklı yeteneklere ve bağlamlara sahip kişileri desteklemelidir."
+                    },
+                    "answers": {
+                      "a1": "Transparency",
+                      "a2": "Accountability",
+                      "a3": "Reliability and safety",
+                      "a4": "Inclusiveness",
+                      "a5": "Privacy and security"
+                    },
+                    "explanations": {
+                      "p1": "Transparency, yapay zekâ davranışının anlaşılır açıklamalarını içerir.",
+                      "p2": "Accountability, sonuçlardan insanların ve süreçlerin sorumlu olmasıdır.",
+                      "p3": "Reliability and safety tutarlı ve güvenli çalışmayı kapsar.",
+                      "p4": "Inclusiveness çözümün farklı kullanıcılar için çalışmasını dikkate alır."
+                    }
+                  },
+                  "status": "DRAFT"
+                }
+              }
+            },
+            {
+              "ref": "ai901-con-004",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "A model card states where the model performs poorly and which data was used for evaluation. Which responsible AI principle does this documentation most directly support?",
+              "explanation": "Documentation that helps people understand model behavior, limitations, and evaluation evidence directly supports transparency.",
+              "lessonSlug": "responsible-ai-principles",
+              "sources": [
+                {
+                  "title": "What is Responsible AI",
+                  "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Transparency",
+                  "correct": true,
+                  "explanation": "It makes system behavior, limits, and evidence easier to inspect."
+                },
+                {
+                  "key": "B",
+                  "text": "Inclusiveness",
+                  "correct": false,
+                  "explanation": "Inclusiveness is about designing for diverse users; documentation can help but is not primary here."
+                },
+                {
+                  "key": "C",
+                  "text": "Privacy and security",
+                  "correct": false,
+                  "explanation": "The statement does not focus on protecting data or access."
+                },
+                {
+                  "key": "D",
+                  "text": "Reliability and safety",
+                  "correct": false,
+                  "explanation": "Reliability testing may be documented, but explaining limits is transparency."
+                }
+              ],
+              "translations": {
+                "tr": {
+                  "stem": "Bir model kartı, modelin nerelerde zayıf performans gösterdiğini ve değerlendirmede hangi verilerin kullanıldığını belirtir. Bu belge doğrudan en çok hangi sorumlu yapay zekâ ilkesini destekler?",
+                  "explanation": "İnsanların model davranışını, sınırlamalarını ve değerlendirme kanıtlarını anlamasına yardımcı olan belgeler doğrudan transparency ilkesini destekler.",
+                  "options": {
+                    "A": {
+                      "text": "Transparency",
+                      "explanation": "Sistem davranışını, sınırlarını ve kanıtları incelemeyi kolaylaştırır."
+                    },
+                    "B": {
+                      "text": "Inclusiveness",
+                      "explanation": "Inclusiveness farklı kullanıcılar için tasarımla ilgilidir; belge yardımcı olabilir ama buradaki ana ilke değildir."
+                    },
+                    "C": {
+                      "text": "Privacy and security",
+                      "explanation": "İfade veriyi veya erişimi korumaya odaklanmıyor."
+                    },
+                    "D": {
+                      "text": "Reliability and safety",
+                      "explanation": "Güvenilirlik testleri belgelenebilir; ancak sınırları açıklama eylemi transparency kapsamındadır."
+                    }
+                  },
+                  "status": "DRAFT"
+                }
+              }
+            },
+            {
+              "ref": "ai901-con-005",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "HARD",
+              "stem": "Which **two** practices best support accountability for an AI solution?",
+              "explanation": "Accountability is strengthened by traceable ownership and operational monitoring so people can govern changes and respond to issues.",
+              "lessonSlug": "responsible-ai-principles",
+              "sources": [
+                {
+                  "title": "What is Responsible AI",
+                  "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Record who approved each model deployment and why.",
+                  "correct": true,
+                  "explanation": "Change records create ownership and traceability."
+                },
+                {
+                  "key": "B",
+                  "text": "Monitor production behavior and alert owners when drift or incidents occur.",
+                  "correct": true,
+                  "explanation": "Monitoring and alerts help accountable owners respond."
+                },
+                {
+                  "key": "C",
+                  "text": "Remove all human review so the model is the final decision maker.",
+                  "correct": false,
+                  "explanation": "Accountability requires meaningful human oversight, especially for impactful decisions."
+                },
+                {
+                  "key": "D",
+                  "text": "Hide evaluation results to avoid confusing users.",
+                  "correct": false,
+                  "explanation": "Hiding evidence undermines transparency and accountability."
+                }
+              ],
+              "selectCount": 2,
+              "translations": {
+                "tr": {
+                  "stem": "Bir yapay zekâ çözümünde accountability ilkesini en iyi destekleyen **iki** uygulama hangisidir?",
+                  "explanation": "Accountability; değişiklikleri yönetmek ve sorunlara yanıt vermek için izlenebilir sahiplik ve operasyonel izleme ile güçlenir.",
+                  "options": {
+                    "A": {
+                      "text": "Her model dağıtımını kimin ve neden onayladığını kaydetmek.",
+                      "explanation": "Değişiklik kayıtları sahiplik ve izlenebilirlik sağlar."
+                    },
+                    "B": {
+                      "text": "Üretim davranışını izlemek ve sapma ya da olay olduğunda sahipleri uyarmak.",
+                      "explanation": "İzleme ve uyarılar sorumlu sahiplerin yanıt vermesine yardım eder."
+                    },
+                    "C": {
+                      "text": "Tüm insan incelemesini kaldırıp modeli nihai karar verici yapmak.",
+                      "explanation": "Accountability, özellikle etkili kararlarda anlamlı insan gözetimi gerektirir."
+                    },
+                    "D": {
+                      "text": "Kullanıcıların kafası karışmasın diye değerlendirme sonuçlarını gizlemek.",
+                      "explanation": "Kanıtları gizlemek transparency ve accountability ilkelerini zayıflatır."
+                    }
+                  },
+                  "status": "DRAFT"
+                }
+              }
+            }
+          ],
+          "translations": {
+            "tr": {
+              "title": "Sorumlu yapay zekâ ilkeleri",
+              "summary": "Sorumlu yapay zekânın altı temel ilkesini ve AI senaryolarında nasıl kullanıldığını öğrenin.",
+              "learningObjectives": [
+                "Temel kavramları açıklamak",
+                "Senaryolarda doğru ilkeyi veya denetimi seçmek"
+              ],
+              "explanation": "Bu ders, AI-901 kapsamındaki kavramları özgün örneklerle açıklar. Sorumlu yapay zekâ; fairness, reliability and safety, privacy and security, inclusiveness, transparency ve accountability ilkelerini birlikte uygular. Üretken AI senaryolarında system message, evaluation, grounding, human oversight ve monitoring gibi katmanlar tek bir ayardan daha güvenilir sonuç verir.",
+              "terminology": [
+                {
+                  "term": "Responsible AI",
+                  "definition": "AI sistemlerini güvenli, etik ve güvenilir şekilde geliştirme yaklaşımı."
+                },
+                {
+                  "term": "Evaluation",
+                  "definition": "Model davranışını kalite, güvenlik ve uygunluk açısından ölçme süreci."
+                }
+              ],
+              "businessScenario": "Contoso, AI destekli bir asistanı yayınlamadan önce sınırlarını, kaynaklarını ve insan gözetimini tanımlar.",
+              "technicalExample": "Ekip system message yazar, test istemleri çalıştırır, kaynak belgelerle grounding kullanır ve olayları izlemek için sahipler atar.",
+              "misconception": {
+                "myth": "Tek bir model ayarı tüm riskleri çözer.",
+                "reality": "Güvenilir çözümler yönergeler, test, izleme ve insan gözetimini birlikte kullanır."
+              },
+              "examTakeaway": "Senaryodaki riski belirleyin ve en uygun ilke veya kontrolle eşleştirin.",
+              "recap": "Sorumlu AI, teknik doğruluğu insan etkisi ve yönetişimle birlikte ele alır.",
+              "simplerExplanation": "AI asistanını yeni bir çalışan gibi düşünün: görev tanımı, kaynaklar, deneme soruları ve gerektiğinde yönetici desteği gerekir.",
+              "anotherExample": "Bir destek botu ürün sorularını yanıtlayabilir; ancak kapsam dışı istekleri insana yönlendirmelidir.",
+              "extraBlocks": [
+                {
+                  "title": "Kısa karşılaştırma",
+                  "columns": [
+                    {
+                      "title": "İlke",
+                      "points": [
+                        "Fairness",
+                        "Transparency"
+                      ]
+                    },
+                    {
+                      "title": "Kontrol",
+                      "points": [
+                        "Evaluation",
+                        "Human oversight"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "title": "Mini etkinlik",
+                  "instructions": "Senaryodaki temel riski bulun.",
+                  "items": [
+                    {
+                      "prompt": "Bir grup için hata oranı daha yüksek.",
+                      "answer": "Fairness değerlendirmesi gerekir."
+                    }
+                  ]
+                }
+              ],
+              "flashcards": [
+                {
+                  "front": "Fairness",
+                  "back": "Benzer kişiler için tutarlı ve gerekçeli sonuçlar."
+                },
+                {
+                  "front": "Grounding",
+                  "back": "Yanıtları güvenilir kaynak içeriğe dayandırma."
+                },
+                {
+                  "front": "Accountability",
+                  "back": "Sahiplik ve olay yanıtı sorumluluğu."
+                }
+              ],
+              "status": "DRAFT"
+            }
+          }
+        },
+        {
+          "slug": "applying-responsible-ai",
+          "title": "Applying responsible AI: safety, transparency, and oversight",
+          "objectiveCode": "1.1",
+          "estimatedMinutes": 11,
+          "summary": "Turn responsible AI principles into practical controls such as system messages, evaluation, grounding, monitoring, and human oversight.",
+          "learningObjectives": [
+            "Identify practical controls for responsible AI risks",
+            "Explain how system messages, evaluation, and grounding support safer behavior",
+            "Choose when human oversight and monitoring are needed"
+          ],
+          "explanation": "Responsible AI becomes real when principles are built into the product lifecycle. A team starts by defining purpose, users, data, and possible harms. Then it chooses controls for data preparation, prompting, model selection, deployment, user experience, and monitoring.\n\nFor generative AI, a **system message** is an important control. It gives high-priority instructions about role, scope, tone, boundaries, refusal behavior, and tool use. But a system message is only one layer. Teams should create test sets with normal and adversarial prompts, evaluate whether the model follows boundaries, use grounding when answers must come from approved sources, and add content safety or human review where risk is higher.\n\nTransparency means users know what the feature is for, what it cannot do, and when to seek help. Oversight means a model is not treated as the final authority for impactful decisions. Accountability means owners are named, changes are logged, production behavior is monitored, and incidents have a response path.",
+          "terminology": [
+            {
+              "term": "System message",
+              "definition": "High-priority instructions and context that steer a chat model."
+            },
+            {
+              "term": "Grounding",
+              "definition": "Providing trusted source content so a generative response is based on that content."
+            },
+            {
+              "term": "Human oversight",
+              "definition": "People review, approve, or intervene in AI-assisted decisions."
+            },
+            {
+              "term": "Evaluation",
+              "definition": "Testing model behavior for quality, safety, fairness, and fit."
+            }
+          ],
+          "businessScenario": "Fabrikam is preparing an HR policy assistant that should answer from approved documents and route uncertain cases to HR staff.",
+          "technicalExample": "Developers write a system message, connect approved documents through retrieval, run a prompt test set, and assign review owners.",
+          "misconception": {
+            "myth": "A safety system message is enough to satisfy responsible AI requirements.",
+            "reality": "System messages help, but should be combined with evaluation, monitoring, grounding, content safety, and human oversight."
+          },
+          "examTakeaway": "For safety and transparency scenarios, look for layered controls rather than a single model setting.",
+          "recap": "Applying responsible AI means defining boundaries, testing behavior, grounding answers, involving humans, and monitoring after release.",
+          "simplerExplanation": "Treat an AI assistant like a new employee: give a job description, approved references, practice questions, and a manager for sensitive cases.",
+          "anotherExample": "A retail bot can answer return policy questions, but should hand off legal or account-specific issues to support staff.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Scenario clues",
+                "columns": [
+                  {
+                    "title": "Look for",
+                    "points": [
+                      "Input type",
+                      "Expected output",
+                      "Risk or control"
+                    ]
+                  },
+                  {
+                    "title": "Then choose",
+                    "points": [
+                      "Workload",
+                      "Model capability",
+                      "Responsible AI principle"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Study tip",
+                "body": "Use the scenario verbs: extract, transcribe, generate, summarize, explain, monitor, or approve."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Training",
+              "back": "Learning or adapting patterns from data."
+            },
+            {
+              "front": "Inference",
+              "back": "Using a deployed model for a new input."
+            },
+            {
+              "front": "Grounding",
+              "back": "Supplying retrieved source content to a model."
+            }
+          ],
+          "sources": [
+            {
+              "title": "What is Responsible AI",
+              "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Safety system messages",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/system-message",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Prompt engineering techniques",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/prompt-engineering",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Retrieval augmented generation and indexes in Microsoft Foundry",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry/concepts/retrieval-augmented-generation",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ai901-con-006",
+              "type": "CASE_STUDY",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "HARD",
+              "stem": "For each statement, choose Yes if it is an appropriate responsible AI action; otherwise choose No.",
+              "explanation": "Responsible AI actions combine fairness testing, human oversight, transparency, and secure handling of sensitive data.",
+              "lessonSlug": "applying-responsible-ai",
+              "sources": [
+                {
+                  "title": "What is Responsible AI",
+                  "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                }
+              ],
+              "scenario": "Woodgrove Bank plans a loan assistance tool. The tool drafts recommendations for loan officers, but final decisions remain with trained staff. The team found higher error rates for applicants with limited credit histories.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Review error rates by relevant cohorts before expanding the pilot.",
+                    "answer": true,
+                    "explanation": "Cohort analysis helps detect fairness and reliability problems."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Keep the issue private from loan officers because the model will improve over time.",
+                    "answer": false,
+                    "explanation": "Operational users need clear limits and escalation guidance."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Require staff to document when they override a model recommendation.",
+                    "answer": true,
+                    "explanation": "Override records support accountability and improvement."
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Use more applicant data than necessary because more data always improves safety.",
+                    "answer": false,
+                    "explanation": "Privacy requires minimizing and protecting sensitive data."
+                  }
+                ]
+              },
+              "translations": {
+                "tr": {
+                  "stem": "Her ifade için uygun bir sorumlu yapay zekâ eylemiyse Yes, değilse No seçin.",
+                  "scenario": "Woodgrove Bank bir kredi yardım aracı planlıyor. Araç kredi uzmanları için öneri taslakları oluşturuyor, ancak son kararlar eğitimli personelde kalıyor. Ekip, sınırlı kredi geçmişi olan başvuru sahiplerinde daha yüksek hata oranları buldu.",
+                  "explanation": "Sorumlu yapay zekâ eylemleri fairness testi, insan gözetimi, transparency ve hassas verinin güvenli işlenmesini birleştirir.",
+                  "caseStudy": {
+                    "statements": {
+                      "s1": "Pilotu genişletmeden önce ilgili kohortlara göre hata oranlarını inceleyin.",
+                      "s2": "Model zamanla iyileşeceği için sorunu kredi uzmanlarından gizleyin.",
+                      "s3": "Personelin model önerisini geçersiz kıldığında bunu belgelemesini zorunlu tutun.",
+                      "s4": "Daha fazla veri her zaman güvenliği artırdığı için gerekenden fazla başvuru sahibi verisi kullanın."
+                    },
+                    "explanations": {
+                      "s1": "Kohort analizi fairness ve reliability sorunlarını tespit etmeye yardım eder.",
+                      "s2": "Operasyonel kullanıcıların net sınırlar ve yükseltme rehberliği bilmesi gerekir.",
+                      "s3": "Geçersiz kılma kayıtları accountability ve iyileştirmeyi destekler.",
+                      "s4": "Privacy hassas veriyi en aza indirmeyi ve korumayı gerektirir."
+                    }
+                  },
+                  "status": "DRAFT"
+                }
+              }
+            },
+            {
+              "ref": "ai901-con-007",
+              "type": "CATEGORIZATION",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Categorize each mitigation by the responsible AI concern it primarily addresses.",
+              "explanation": "The mitigations map to the concern they most directly reduce, though mature solutions often combine several controls.",
+              "lessonSlug": "applying-responsible-ai",
+              "sources": [
+                {
+                  "title": "What is Responsible AI",
+                  "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "fair",
+                    "label": "Fairness"
+                  },
+                  {
+                    "id": "safe",
+                    "label": "Reliability and safety"
+                  },
+                  {
+                    "id": "priv",
+                    "label": "Privacy and security"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Compare model errors across applicant cohorts.",
+                    "category": "fair",
+                    "explanation": "Cohort comparison helps reveal unequal outcomes."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Test adversarial prompts and noisy inputs before release.",
+                    "category": "safe",
+                    "explanation": "Stress testing supports safe, reliable operation."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Limit access to training data by role.",
+                    "category": "priv",
+                    "explanation": "Role-based access helps protect sensitive data."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Encrypt stored evaluation datasets.",
+                    "category": "priv",
+                    "explanation": "Encryption protects data at rest."
+                  },
+                  {
+                    "id": "i5",
+                    "text": "Define a fallback path when the model is uncertain.",
+                    "category": "safe",
+                    "explanation": "Fallbacks reduce unsafe behavior when confidence is low."
+                  }
+                ]
+              },
+              "translations": {
+                "tr": {
+                  "stem": "Her azaltımı öncelikli olarak ele aldığı sorumlu yapay zekâ kaygısına göre sınıflandırın.",
+                  "explanation": "Azaltımlar en doğrudan azalttıkları kaygıyla eşleşir; olgun çözümler çoğu zaman birkaç denetimi birleştirir.",
+                  "categorization": {
+                    "categories": {
+                      "fair": "Fairness",
+                      "safe": "Reliability and safety",
+                      "priv": "Privacy and security"
+                    },
+                    "items": {
+                      "i1": "Model hatalarını başvuru sahibi kohortları arasında karşılaştırın.",
+                      "i2": "Yayın öncesinde saldırgan istemleri ve gürültülü girdileri test edin.",
+                      "i3": "Eğitim verisine erişimi role göre sınırlayın.",
+                      "i4": "Depolanan değerlendirme veri kümelerini şifreleyin.",
+                      "i5": "Model emin olmadığında kullanılacak bir geri dönüş yolu tanımlayın."
+                    },
+                    "explanations": {
+                      "i1": "Kohort karşılaştırması eşit olmayan sonuçları ortaya çıkarmaya yardım eder.",
+                      "i2": "Stres testi güvenli ve güvenilir çalışmayı destekler.",
+                      "i3": "Rol tabanlı erişim hassas veriyi korumaya yardım eder.",
+                      "i4": "Şifreleme veriyi bekleme durumunda korur.",
+                      "i5": "Geri dönüşler, güven düşükken güvenli olmayan davranışı azaltır."
+                    }
+                  },
+                  "status": "DRAFT"
+                }
+              }
+            },
+            {
+              "ref": "ai901-con-008",
+              "type": "TRUE_FALSE",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "EASY",
+              "stem": "A safety system message can help guide model behavior, but it should be used with other controls such as evaluation, grounding, and content safety.",
+              "explanation": "System messages are useful guardrails, but responsible deployment needs layered controls and ongoing measurement.",
+              "lessonSlug": "applying-responsible-ai",
+              "sources": [
+                {
+                  "title": "Safety system messages",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/system-message",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Responsible AI",
+                  "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Safety instructions complement other mitigations."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Relying on a system message alone leaves gaps in testing, monitoring, and enforcement."
+                }
+              ],
+              "translations": {
+                "tr": {
+                  "stem": "Bir safety system message model davranışını yönlendirmeye yardımcı olabilir; ancak evaluation, grounding ve content safety gibi diğer denetimlerle birlikte kullanılmalıdır.",
+                  "explanation": "System message yararlı bir koruma katmanıdır; ancak sorumlu dağıtım katmanlı denetimler ve sürekli ölçüm gerektirir.",
+                  "options": {
+                    "TRUE": {
+                      "text": "True",
+                      "explanation": "Güvenlik yönergeleri diğer azaltımları tamamlar."
+                    },
+                    "FALSE": {
+                      "text": "False",
+                      "explanation": "Yalnızca system message kullanmak test, izleme ve yaptırımda boşluk bırakır."
+                    }
+                  },
+                  "status": "DRAFT"
+                }
+              }
+            },
+            {
+              "ref": "ai901-con-009",
+              "type": "SCENARIO",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "What should the team do before allowing the assistant to answer customers?",
+              "explanation": "Testing benign and adversarial prompts against the defined scope helps validate that the assistant follows boundaries and escalates appropriately.",
+              "lessonSlug": "applying-responsible-ai",
+              "sources": [
+                {
+                  "title": "Safety system messages",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/system-message",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Prompt engineering techniques",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/prompt-engineering",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Create a test set that includes normal support questions and boundary cases.",
+                  "correct": true,
+                  "explanation": "A test set validates behavior across expected and risky inputs."
+                },
+                {
+                  "key": "B",
+                  "text": "Remove the system message so the model can be more creative.",
+                  "correct": false,
+                  "explanation": "Removing instructions weakens consistency and safety."
+                },
+                {
+                  "key": "C",
+                  "text": "Tell customers the assistant is always correct.",
+                  "correct": false,
+                  "explanation": "Responsible AI avoids overclaiming and should communicate limitations."
+                },
+                {
+                  "key": "D",
+                  "text": "Skip human review because the model uses a large training set.",
+                  "correct": false,
+                  "explanation": "Training data size does not replace evaluation and oversight."
+                }
+              ],
+              "scenario": "Contoso Electronics is building a support assistant. The system message says the assistant should answer only warranty and return questions and should not request unnecessary personal information.",
+              "translations": {
+                "tr": {
+                  "stem": "Ekip, asistanın müşterilere yanıt vermesine izin vermeden önce ne yapmalıdır?",
+                  "scenario": "Contoso Electronics bir destek asistanı geliştiriyor. System message, asistanın yalnızca garanti ve iade sorularını yanıtlamasını ve gereksiz kişisel bilgi istememesini söylüyor.",
+                  "explanation": "Tanımlı kapsam için olağan ve saldırgan istemleri test etmek, asistanın sınırları izlediğini ve uygun şekilde yükselttiğini doğrulamaya yardım eder.",
+                  "options": {
+                    "A": {
+                      "text": "Normal destek sorularını ve sınır durumlarını içeren bir test kümesi oluşturmak.",
+                      "explanation": "Bir test kümesi beklenen ve riskli girdilerde davranışı doğrular."
+                    },
+                    "B": {
+                      "text": "Model daha yaratıcı olsun diye system message'ı kaldırmak.",
+                      "explanation": "Yönergeleri kaldırmak tutarlılık ve güvenliği zayıflatır."
+                    },
+                    "C": {
+                      "text": "Müşterilere asistanın her zaman doğru olduğunu söylemek.",
+                      "explanation": "Sorumlu yapay zekâ abartılı iddialardan kaçınır ve sınırlamaları iletmelidir."
+                    },
+                    "D": {
+                      "text": "Model büyük bir eğitim kümesi kullandığı için insan incelemesini atlamak.",
+                      "explanation": "Eğitim verisinin büyüklüğü evaluation ve oversight yerine geçmez."
+                    }
+                  },
+                  "status": "DRAFT"
+                }
+              }
+            },
+            {
+              "ref": "ai901-con-010",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which statement best describes transparency in a customer-facing generative AI feature?",
+              "explanation": "Transparency means users and stakeholders can understand the feature's purpose, limits, data use, and reasons for important behavior at an appropriate level of detail.",
+              "lessonSlug": "applying-responsible-ai",
+              "sources": [
+                {
+                  "title": "What is Responsible AI",
+                  "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Safety system messages",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/system-message",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Explain what the feature can and cannot do, and provide escalation paths.",
+                  "correct": true,
+                  "explanation": "Clear capabilities, limitations, and escalation support informed use."
+                },
+                {
+                  "key": "B",
+                  "text": "Expose every model weight to all users.",
+                  "correct": false,
+                  "explanation": "Transparency does not require disclosing every technical detail or proprietary artifact."
+                },
+                {
+                  "key": "C",
+                  "text": "Avoid mentioning AI so users trust the experience.",
+                  "correct": false,
+                  "explanation": "Hiding AI involvement undermines informed use."
+                },
+                {
+                  "key": "D",
+                  "text": "Let the model decide when explanations are unnecessary.",
+                  "correct": false,
+                  "explanation": "Teams should define explanation and disclosure expectations."
+                }
+              ],
+              "translations": {
+                "tr": {
+                  "stem": "Müşteriye dönük bir üretken yapay zekâ özelliğinde transparency kavramını en iyi hangi ifade açıklar?",
+                  "explanation": "Transparency; kullanıcıların ve paydaşların özelliğin amacını, sınırlarını, veri kullanımını ve önemli davranışların nedenlerini uygun ayrıntı düzeyinde anlayabilmesi demektir.",
+                  "options": {
+                    "A": {
+                      "text": "Özelliğin ne yapıp ne yapamayacağını açıklamak ve yükseltme yolları sağlamak.",
+                      "explanation": "Net yetenekler, sınırlamalar ve yükseltme yolları bilinçli kullanımı destekler."
+                    },
+                    "B": {
+                      "text": "Her model ağırlığını tüm kullanıcılara açmak.",
+                      "explanation": "Transparency her teknik ayrıntıyı veya özel varlığı açıklamayı gerektirmez."
+                    },
+                    "C": {
+                      "text": "Kullanıcılar deneyime güvensin diye yapay zekâdan söz etmemek.",
+                      "explanation": "Yapay zekâ kullanımını gizlemek bilinçli kullanımı zayıflatır."
+                    },
+                    "D": {
+                      "text": "Açıklamaların ne zaman gereksiz olduğuna modelin karar vermesine izin vermek.",
+                      "explanation": "Ekipler açıklama ve bildirim beklentilerini tanımlamalıdır."
+                    }
+                  },
+                  "status": "DRAFT"
+                }
+              }
+            }
+          ],
+          "translations": {
+            "tr": {
+              "title": "Sorumlu yapay zekâyı uygulama: güvenlik, transparency ve gözetim",
+              "summary": "Sorumlu yapay zekâ ilkelerini güvenlik yönergeleri, test, insan gözetimi ve dokümantasyonla uygulamaya dönüştürün.",
+              "learningObjectives": [
+                "Temel kavramları açıklamak",
+                "Senaryolarda doğru ilkeyi veya denetimi seçmek"
+              ],
+              "explanation": "Bu ders, AI-901 kapsamındaki kavramları özgün örneklerle açıklar. Sorumlu yapay zekâ; fairness, reliability and safety, privacy and security, inclusiveness, transparency ve accountability ilkelerini birlikte uygular. Üretken AI senaryolarında system message, evaluation, grounding, human oversight ve monitoring gibi katmanlar tek bir ayardan daha güvenilir sonuç verir.",
+              "terminology": [
+                {
+                  "term": "Responsible AI",
+                  "definition": "AI sistemlerini güvenli, etik ve güvenilir şekilde geliştirme yaklaşımı."
+                },
+                {
+                  "term": "Evaluation",
+                  "definition": "Model davranışını kalite, güvenlik ve uygunluk açısından ölçme süreci."
+                }
+              ],
+              "businessScenario": "Contoso, AI destekli bir asistanı yayınlamadan önce sınırlarını, kaynaklarını ve insan gözetimini tanımlar.",
+              "technicalExample": "Ekip system message yazar, test istemleri çalıştırır, kaynak belgelerle grounding kullanır ve olayları izlemek için sahipler atar.",
+              "misconception": {
+                "myth": "Tek bir model ayarı tüm riskleri çözer.",
+                "reality": "Güvenilir çözümler yönergeler, test, izleme ve insan gözetimini birlikte kullanır."
+              },
+              "examTakeaway": "Senaryodaki riski belirleyin ve en uygun ilke veya kontrolle eşleştirin.",
+              "recap": "Sorumlu AI, teknik doğruluğu insan etkisi ve yönetişimle birlikte ele alır.",
+              "simplerExplanation": "AI asistanını yeni bir çalışan gibi düşünün: görev tanımı, kaynaklar, deneme soruları ve gerektiğinde yönetici desteği gerekir.",
+              "anotherExample": "Bir destek botu ürün sorularını yanıtlayabilir; ancak kapsam dışı istekleri insana yönlendirmelidir.",
+              "extraBlocks": [
+                {
+                  "title": "Kısa karşılaştırma",
+                  "columns": [
+                    {
+                      "title": "İlke",
+                      "points": [
+                        "Fairness",
+                        "Transparency"
+                      ]
+                    },
+                    {
+                      "title": "Kontrol",
+                      "points": [
+                        "Evaluation",
+                        "Human oversight"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "title": "Mini etkinlik",
+                  "instructions": "Senaryodaki temel riski bulun.",
+                  "items": [
+                    {
+                      "prompt": "Bir grup için hata oranı daha yüksek.",
+                      "answer": "Fairness değerlendirmesi gerekir."
+                    }
+                  ]
+                }
+              ],
+              "flashcards": [
+                {
+                  "front": "Fairness",
+                  "back": "Benzer kişiler için tutarlı ve gerekçeli sonuçlar."
+                },
+                {
+                  "front": "Grounding",
+                  "back": "Yanıtları güvenilir kaynak içeriğe dayandırma."
+                },
+                {
+                  "front": "Accountability",
+                  "back": "Sahiplik ve olay yanıtı sorumluluğu."
+                }
+              ],
+              "status": "DRAFT"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "slug": "ai-models-and-workloads",
+      "title": "AI models and workloads",
+      "summary": "Recognize common AI workloads and understand how models, inference, prompts, tokens, grounding, and configuration choices shape AI solutions.",
+      "translations": {
+        "tr": {
+          "title": "Yapay zekâ modelleri ve iş yükleri",
+          "summary": "Yaygın AI iş yüklerini tanıyın; modellerin, inference sürecinin, promptların, tokenların, grounding'in ve yapılandırma seçimlerinin çözümleri nasıl şekillendirdiğini anlayın.",
+          "status": "DRAFT"
+        }
+      },
+      "lessons": [
+        {
+          "slug": "ai-workloads-overview",
+          "title": "Common AI workloads",
+          "objectiveCode": "1.3",
+          "estimatedMinutes": 10,
+          "summary": "Identify common AI workloads such as generative and agentic AI, text analysis, speech, computer vision, and information extraction.",
+          "learningObjectives": [
+            "Match business scenarios to common AI workloads",
+            "Recognize text, speech, vision, generative, agentic, and extraction capabilities",
+            "Distinguish analysis workloads from generation workloads"
+          ],
+          "explanation": "AI workloads are categories of tasks that AI systems perform. For AI-901, recognize the scenario from the input, output, and goal.\n\n**Generative AI** creates new content such as text, code, images, or summaries from prompts. **Agentic AI** uses a model with instructions and tools so it can plan steps or take actions within boundaries. **Text analysis** finds meaning in text: key phrases, named entities, sentiment, language, or summaries. **Speech** workloads convert speech to text, text to speech, translate spoken language, or support voice interactions. **Computer vision** analyzes images or video, such as detecting objects or extracting visible text. **Information extraction** turns unstructured content such as documents, images, audio, or video into structured fields that business processes can use.\n\nChoose the workload by asking: What is the source content? What output is needed? Audio to captions is speech recognition. Scanned form to fields is information extraction. Comments to sentiment and entities is text analysis.",
+          "terminology": [
+            {
+              "term": "Text analysis",
+              "definition": "NLP techniques that identify meaning, entities, sentiment, key phrases, or summaries."
+            },
+            {
+              "term": "Speech recognition",
+              "definition": "Converting spoken audio into text."
+            },
+            {
+              "term": "Computer vision",
+              "definition": "Analyzing images or video to detect visual features or extract text."
+            },
+            {
+              "term": "Information extraction",
+              "definition": "Transforming unstructured content into structured values."
+            }
+          ],
+          "businessScenario": "Tailwind Traders wants to summarize reviews, caption videos, read receipt photos, and generate campaign images.",
+          "technicalExample": "A solution can combine Azure Language, Azure Speech, Azure Vision or Content Understanding, and a generative model.",
+          "misconception": {
+            "myth": "All AI workloads are basically the same if they use a model.",
+            "reality": "Workloads differ by input type, output type, and task."
+          },
+          "examTakeaway": "Identify the workload from verbs such as summarize, transcribe, synthesize, detect, classify, extract, or generate.",
+          "recap": "Common AI workloads include text, speech, vision, generation, agents, and extraction.",
+          "simplerExplanation": "Think of workloads as specialist departments: one reads text, one listens, one looks at images, one extracts fields, and one creates new content.",
+          "anotherExample": "A call center may use speech recognition to transcribe calls, text analysis to detect sentiment, and summarization to produce notes.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Scenario clues",
+                "columns": [
+                  {
+                    "title": "Look for",
+                    "points": [
+                      "Input type",
+                      "Expected output",
+                      "Risk or control"
+                    ]
+                  },
+                  {
+                    "title": "Then choose",
+                    "points": [
+                      "Workload",
+                      "Model capability",
+                      "Responsible AI principle"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Study tip",
+                "body": "Use the scenario verbs: extract, transcribe, generate, summarize, explain, monitor, or approve."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Training",
+              "back": "Learning or adapting patterns from data."
+            },
+            {
+              "front": "Inference",
+              "back": "Using a deployed model for a new input."
+            },
+            {
+              "front": "Grounding",
+              "back": "Supplying retrieved source content to a model."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What are Foundry Tools?",
+              "url": "https://learn.microsoft.com/en-us/azure/ai-services/what-are-ai-services",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Azure Language in Foundry Tools",
+              "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What Is Azure Speech?",
+              "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Azure Vision in Foundry Tools?",
+              "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Azure Content Understanding in Foundry Tools?",
+              "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ai901-con-011",
+              "type": "CATEGORIZATION",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "EASY",
+              "stem": "Categorize each scenario by the common AI workload it represents.",
+              "explanation": "Workloads are identified by the kind of input and output: text insight, speech conversion, visual analysis, information extraction, or generated content.",
+              "lessonSlug": "ai-workloads-overview",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Language in Foundry Tools",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What Is Azure Speech?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Vision in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Content Understanding in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "text",
+                    "label": "Text analysis"
+                  },
+                  {
+                    "id": "speech",
+                    "label": "Speech"
+                  },
+                  {
+                    "id": "vision",
+                    "label": "Computer vision"
+                  },
+                  {
+                    "id": "extract",
+                    "label": "Information extraction"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Find key phrases and sentiment in support emails.",
+                    "category": "text",
+                    "explanation": "Key phrases and sentiment are text analysis techniques."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Convert a call recording to captions.",
+                    "category": "speech",
+                    "explanation": "Speech to text converts spoken audio into text."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Detect objects in product photos.",
+                    "category": "vision",
+                    "explanation": "Object detection uses visual input."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Pull invoice number and total from a scanned invoice.",
+                    "category": "extract",
+                    "explanation": "Structured fields from documents are an information extraction task."
+                  },
+                  {
+                    "id": "i5",
+                    "text": "Summarize a long policy document.",
+                    "category": "text",
+                    "explanation": "Summarization is a text analysis capability."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "ai901-con-012",
+              "type": "MATCHING",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "MEDIUM",
+              "stem": "Match each business requirement to the best-fitting AI workload.",
+              "explanation": "The best workload follows the input modality and desired output.",
+              "lessonSlug": "ai-workloads-overview",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Language in Foundry Tools",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What Is Azure Speech?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Content Understanding in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Translate spoken questions during a live help desk call."
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Identify named organizations in customer feedback."
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Generate an image from a marketing concept."
+                  },
+                  {
+                    "id": "p4",
+                    "text": "Extract fields from contracts and route them for review."
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Speech"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Text analysis"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Image generation"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Information extraction"
+                  },
+                  {
+                    "id": "a5",
+                    "text": "Recommendation"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3",
+                  "p4": "a4"
+                },
+                "explanations": {
+                  "p1": "Speech workloads include speech recognition, synthesis, and translation.",
+                  "p2": "Named entity recognition is a text analysis technique.",
+                  "p3": "Image generation creates new visual output from a prompt.",
+                  "p4": "Information extraction turns unstructured content into structured fields."
+                }
+              }
+            },
+            {
+              "ref": "ai901-con-013",
+              "type": "SCENARIO",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which workload should Relecloud choose first?",
+              "explanation": "The requirement is to process documents and produce schema-aligned fields, which is an information extraction workload.",
+              "lessonSlug": "ai-workloads-overview",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Content Understanding in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Information extraction",
+                  "correct": true,
+                  "explanation": "It extracts structured values from unstructured documents."
+                },
+                {
+                  "key": "B",
+                  "text": "Speech synthesis",
+                  "correct": false,
+                  "explanation": "Speech synthesis creates audio from text, not document fields."
+                },
+                {
+                  "key": "C",
+                  "text": "Image generation",
+                  "correct": false,
+                  "explanation": "Image generation creates new visuals rather than extracting form values."
+                },
+                {
+                  "key": "D",
+                  "text": "Sentiment analysis",
+                  "correct": false,
+                  "explanation": "Sentiment analysis detects opinions in text, not invoice fields."
+                }
+              ],
+              "scenario": "Relecloud receives supplier invoices as PDF scans and phone photos. It needs invoice number, supplier, date, and total in predictable JSON for approval automation."
+            },
+            {
+              "ref": "ai901-con-014",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** capabilities are common text analysis techniques?",
+              "explanation": "The study guide calls out entity detection, keyword extraction, sentiment analysis, and summarization as text analysis techniques.",
+              "lessonSlug": "ai-workloads-overview",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Language in Foundry Tools",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Entity detection",
+                  "correct": true,
+                  "explanation": "Entity detection finds items such as people, locations, or organizations in text."
+                },
+                {
+                  "key": "B",
+                  "text": "Keyword or key phrase extraction",
+                  "correct": true,
+                  "explanation": "Key phrase extraction returns important concepts from text."
+                },
+                {
+                  "key": "C",
+                  "text": "Speech synthesis",
+                  "correct": false,
+                  "explanation": "Speech synthesis produces spoken audio from text."
+                },
+                {
+                  "key": "D",
+                  "text": "Object detection",
+                  "correct": false,
+                  "explanation": "Object detection is a computer vision capability."
+                }
+              ],
+              "selectCount": 2
+            },
+            {
+              "ref": "ai901-con-015",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "EASY",
+              "stem": "Which workload converts typed content into natural-sounding audio for an app?",
+              "explanation": "Text to speech is a speech workload that synthesizes audio from text.",
+              "lessonSlug": "ai-workloads-overview",
+              "sources": [
+                {
+                  "title": "What Is Azure Speech?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Text to speech",
+                  "correct": true,
+                  "explanation": "It turns text into spoken output."
+                },
+                {
+                  "key": "B",
+                  "text": "OCR",
+                  "correct": false,
+                  "explanation": "OCR extracts text from images."
+                },
+                {
+                  "key": "C",
+                  "text": "Named entity recognition",
+                  "correct": false,
+                  "explanation": "NER identifies entities in text."
+                },
+                {
+                  "key": "D",
+                  "text": "RAG",
+                  "correct": false,
+                  "explanation": "RAG grounds generated answers in retrieved content."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "how-ai-models-work",
+          "title": "Models, training, and inference",
+          "objectiveCode": "1.2",
+          "estimatedMinutes": 10,
+          "summary": "Understand model components, training, evaluation, deployment, and inference at a beginner-friendly level.",
+          "learningObjectives": [
+            "Describe the difference between training and inference",
+            "Identify how model capabilities influence model choice",
+            "Explain why evaluation and deployment configuration matter"
+          ],
+          "explanation": "An AI model maps inputs to outputs. In traditional machine learning, training uses data and an algorithm to adjust model parameters. In generative AI, large pretrained models have already learned broad patterns, and you often select, configure, ground, or fine-tune a model rather than train one from the beginning.\n\n**Training** is the learning phase. **Evaluation** checks whether the model is good enough for the intended task and whether risks are acceptable. **Deployment** makes a chosen model available for applications to call. **Inference** happens when new input is sent to the deployed model and the model returns a prediction, classification, generated response, or other output.\n\nModel choice depends on capability. A text-only model is not suitable if the application must reason over photos. A multimodal model may be needed for image plus text prompts. A speech model is appropriate for transcription or synthesis. Deployment choices and parameters also matter, and supported settings can differ by model and API.",
+          "terminology": [
+            {
+              "term": "Model",
+              "definition": "A system that maps inputs to outputs based on learned patterns or configured capabilities."
+            },
+            {
+              "term": "Training",
+              "definition": "The process of adjusting a model by learning from data."
+            },
+            {
+              "term": "Inference",
+              "definition": "Using a trained or deployed model to produce output for new input."
+            },
+            {
+              "term": "Deployment",
+              "definition": "Making a selected model available for applications to call."
+            }
+          ],
+          "businessScenario": "Adventure Works needs to choose between a text model for policy questions, a multimodal model for equipment photos, and a speech model for voice calls.",
+          "technicalExample": "A developer deploys a model, sends a chat request with system and user messages, reviews token usage, and evaluates responses.",
+          "misconception": {
+            "myth": "After a model is deployed, it no longer needs evaluation or monitoring.",
+            "reality": "Deployment enables inference, but teams still evaluate, monitor, and update controls as usage changes."
+          },
+          "examTakeaway": "Know the lifecycle words: training learns patterns, deployment exposes the model, and inference uses it for new inputs.",
+          "recap": "Models are chosen by capability and then evaluated for the scenario. Deployment and inference are how applications use them.",
+          "simplerExplanation": "Training is like studying examples; inference is answering a new question after studying; deployment is making the helper available.",
+          "anotherExample": "A sentiment classifier trained on product reviews may not work well on medical notes unless evaluated for that context.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Scenario clues",
+                "columns": [
+                  {
+                    "title": "Look for",
+                    "points": [
+                      "Input type",
+                      "Expected output",
+                      "Risk or control"
+                    ]
+                  },
+                  {
+                    "title": "Then choose",
+                    "points": [
+                      "Workload",
+                      "Model capability",
+                      "Responsible AI principle"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Study tip",
+                "body": "Use the scenario verbs: extract, transcribe, generate, summarize, explain, monitor, or approve."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Training",
+              "back": "Learning or adapting patterns from data."
+            },
+            {
+              "front": "Inference",
+              "back": "Using a deployed model for a new input."
+            },
+            {
+              "front": "Grounding",
+              "back": "Supplying retrieved source content to a model."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Microsoft Foundry Models overview",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry-classic/concepts/foundry-models-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Work with chat completion models",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/chatgpt",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ai901-con-016",
+              "type": "ORDERING",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "MEDIUM",
+              "stem": "Place the basic model lifecycle steps in the most logical order.",
+              "explanation": "You define the goal and prepare data before training. After evaluation, the approved model can be deployed and used for inference.",
+              "lessonSlug": "how-ai-models-work",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Microsoft Foundry Models overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry-classic/concepts/foundry-models-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Responsible AI",
+                  "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Define the task and prepare representative data"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Train or select a model"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Evaluate performance and risks"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Deploy the approved model"
+                  },
+                  {
+                    "id": "s5",
+                    "text": "Send new inputs for inference"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4",
+                  "s5"
+                ],
+                "explanations": {
+                  "s1": "The task and data determine what the model can learn.",
+                  "s2": "Training or selection creates the candidate model.",
+                  "s3": "Evaluation checks quality, safety, and fit before release.",
+                  "s4": "Deployment makes the model available to an application.",
+                  "s5": "Inference uses the deployed model for new inputs."
+                }
+              }
+            },
+            {
+              "ref": "ai901-con-017",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence using the word bank.",
+              "explanation": "Inference is the use of a trained or deployed model to produce output for new input.",
+              "lessonSlug": "how-ai-models-work",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Microsoft Foundry Models overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry-classic/concepts/foundry-models-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "fillInBlank": {
+                "template": "After a model is deployed, using it to generate a prediction or response for a new input is called {{b1}}.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "inference"
+                    ],
+                    "explanation": "Inference means applying a model to new input."
+                  }
+                ],
+                "wordBank": [
+                  "training",
+                  "inference",
+                  "labeling",
+                  "encryption"
+                ]
+              }
+            },
+            {
+              "ref": "ai901-con-018",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "MEDIUM",
+              "stem": "What is the best description of a model deployment?",
+              "explanation": "A deployment makes a selected model available for applications to call, often with configuration choices supported by the model or API.",
+              "lessonSlug": "how-ai-models-work",
+              "sources": [
+                {
+                  "title": "Microsoft Foundry Models overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry-classic/concepts/foundry-models-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Work with chat completion models",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/chatgpt",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "A hosted or managed way for an application to send inputs to a chosen model.",
+                  "correct": true,
+                  "explanation": "Deployment exposes the model for inference."
+                },
+                {
+                  "key": "B",
+                  "text": "The raw dataset used to train the model.",
+                  "correct": false,
+                  "explanation": "Training data is not the same as deployment."
+                },
+                {
+                  "key": "C",
+                  "text": "A prompt example stored inside every response.",
+                  "correct": false,
+                  "explanation": "Prompts guide model behavior but are not deployments."
+                },
+                {
+                  "key": "D",
+                  "text": "A guarantee that the model will never make mistakes.",
+                  "correct": false,
+                  "explanation": "Deployment does not remove the need for testing and monitoring."
+                }
+              ]
+            },
+            {
+              "ref": "ai901-con-019",
+              "type": "SCENARIO",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "HARD",
+              "stem": "Which model capability should the team prioritize?",
+              "explanation": "The assistant must understand both images and text, so a multimodal model is a better fit than a text-only model.",
+              "lessonSlug": "how-ai-models-work",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Microsoft Foundry Models overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry-classic/concepts/foundry-models-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Vision in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "A multimodal model that can process visual input and text prompts",
+                  "correct": true,
+                  "explanation": "The use case combines uploaded images with written questions."
+                },
+                {
+                  "key": "B",
+                  "text": "A text-only summarization model",
+                  "correct": false,
+                  "explanation": "A text-only model cannot directly inspect the equipment photo."
+                },
+                {
+                  "key": "C",
+                  "text": "A speech recognition model",
+                  "correct": false,
+                  "explanation": "The input is an image and text, not audio."
+                },
+                {
+                  "key": "D",
+                  "text": "A key phrase extraction model",
+                  "correct": false,
+                  "explanation": "Key phrase extraction finds important text phrases but does not analyze images."
+                }
+              ],
+              "scenario": "Adventure Works wants a maintenance assistant. A technician uploads a photo of a machine panel and asks what warning label is visible and what the next inspection step should be."
+            },
+            {
+              "ref": "ai901-con-020",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "MEDIUM",
+              "stem": "Why is evaluation needed after selecting a powerful foundation model?",
+              "explanation": "Even capable models can perform differently by use case, data, prompt, and user population, so teams need evidence that the model is suitable and risks are controlled.",
+              "lessonSlug": "how-ai-models-work",
+              "sources": [
+                {
+                  "title": "Microsoft Foundry Models overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry-classic/concepts/foundry-models-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Responsible AI",
+                  "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "To measure fit, quality, and risk for the intended scenario",
+                  "correct": true,
+                  "explanation": "Evaluation provides scenario-specific evidence."
+                },
+                {
+                  "key": "B",
+                  "text": "To permanently add every user prompt to the training data",
+                  "correct": false,
+                  "explanation": "Evaluation does not require adding prompts to training data."
+                },
+                {
+                  "key": "C",
+                  "text": "To remove the need for monitoring after deployment",
+                  "correct": false,
+                  "explanation": "Evaluation complements monitoring."
+                },
+                {
+                  "key": "D",
+                  "text": "To prove responsible AI controls are unnecessary",
+                  "correct": false,
+                  "explanation": "Evaluation often informs which controls are needed."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "generative-ai-model-configuration",
+          "title": "Generative AI models and their configuration",
+          "objectiveCode": "1.2",
+          "estimatedMinutes": 12,
+          "summary": "Learn how prompts, messages, tokens, temperature, grounding, and deployment settings influence generative AI behavior.",
+          "learningObjectives": [
+            "Identify common generative AI configuration concepts",
+            "Explain how prompts, system messages, tokens, and grounding affect responses",
+            "Choose settings for consistency, creativity, and grounded answers"
+          ],
+          "explanation": "Generative AI models produce new content from input. In chat-style applications, the input is usually a sequence of messages. A **system message** gives high-priority instructions such as role, scope, tone, and boundaries. A **user message** contains the user's request. Previous assistant messages can provide context or examples.\n\nModels process text as **tokens**, which are chunks of text rather than always whole words. Token usage affects how much context fits in a request. Many chat APIs also let you set a maximum output token value so responses do not run longer than intended.\n\nSome model/API combinations support parameters such as **temperature**. Lower temperature generally makes output more focused and repeatable; higher temperature can make output more varied. Newer reasoning models can support different parameter sets, so verify what the chosen model accepts.\n\n**Grounding** provides retrieved or trusted content to the model. RAG retrieves relevant passages from an index, adds them to the prompt, and asks the model to answer from that content. Grounding can improve usefulness and citations, but does not guarantee correctness.",
+          "terminology": [
+            {
+              "term": "Prompt",
+              "definition": "Input instructions or content provided to a generative model."
+            },
+            {
+              "term": "System message",
+              "definition": "High-priority chat instructions that guide behavior."
+            },
+            {
+              "term": "Token",
+              "definition": "A chunk of text processed by a language model."
+            },
+            {
+              "term": "Temperature",
+              "definition": "A generation parameter, when supported, that influences randomness."
+            },
+            {
+              "term": "Grounding",
+              "definition": "Supplying trusted or retrieved content to reduce unsupported answers."
+            }
+          ],
+          "businessScenario": "Fabrikam wants a consistent benefits FAQ grounded in HR documents and a marketing brainstormer that may produce varied ideas.",
+          "technicalExample": "The FAQ assistant uses strict system instructions, RAG over approved HR pages, and low temperature when supported.",
+          "misconception": {
+            "myth": "Grounding guarantees that every answer is correct.",
+            "reality": "Grounding can reduce unsupported answers, but poor retrieval or unclear instructions can still produce wrong or incomplete responses."
+          },
+          "examTakeaway": "Connect the setting to the goal: low variation for repeatability, grounding for source-based answers, and system messages for boundaries.",
+          "recap": "Generative AI behavior is shaped by messages, tokens, parameters, grounding, and deployment choices.",
+          "simplerExplanation": "The system message is the assignment brief, grounding is the source packet, tokens are the space available, and temperature is how adventurous the draft should be.",
+          "anotherExample": "A policy helper should answer from approved documents and cite sources; an ideation tool may allow more variety after review.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Scenario clues",
+                "columns": [
+                  {
+                    "title": "Look for",
+                    "points": [
+                      "Input type",
+                      "Expected output",
+                      "Risk or control"
+                    ]
+                  },
+                  {
+                    "title": "Then choose",
+                    "points": [
+                      "Workload",
+                      "Model capability",
+                      "Responsible AI principle"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Study tip",
+                "body": "Use the scenario verbs: extract, transcribe, generate, summarize, explain, monitor, or approve."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Training",
+              "back": "Learning or adapting patterns from data."
+            },
+            {
+              "front": "Inference",
+              "back": "Using a deployed model for a new input."
+            },
+            {
+              "front": "Grounding",
+              "back": "Supplying retrieved source content to a model."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Safety system messages",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/system-message",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Work with chat completion models",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/chatgpt",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Prompt engineering techniques",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/prompt-engineering",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Retrieval augmented generation and indexes in Microsoft Foundry",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry/concepts/retrieval-augmented-generation",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ai901-con-021",
+              "type": "COMMAND_SELECTION",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which configuration snippet best favors more repeatable answers for a policy FAQ assistant?",
+              "explanation": "For models and APIs that support temperature, a lower value generally reduces randomness. Check the chosen model and API for supported parameters.",
+              "lessonSlug": "generative-ai-model-configuration",
+              "sources": [
+                {
+                  "title": "Work with chat completion models",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/chatgpt",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Prompt engineering techniques",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/prompt-engineering",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`{ \"temperature\": 0.2 }`",
+                  "correct": true,
+                  "explanation": "A lower temperature favors more focused, repeatable output when supported."
+                },
+                {
+                  "key": "B",
+                  "text": "`{ \"temperature\": 1.7 }`",
+                  "correct": false,
+                  "explanation": "A higher temperature increases randomness and is less suitable for repeatable FAQ answers."
+                },
+                {
+                  "key": "C",
+                  "text": "`{ \"delete_training_data\": true }`",
+                  "correct": false,
+                  "explanation": "This is not a chat generation parameter for controlling answer repeatability."
+                },
+                {
+                  "key": "D",
+                  "text": "`{ \"disable_system_message\": true }`",
+                  "correct": false,
+                  "explanation": "Disabling high-priority instructions would not improve controlled behavior."
+                }
+              ],
+              "needsVerification": true
+            },
+            {
+              "ref": "ai901-con-022",
+              "type": "UI_SIMULATION",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "MEDIUM",
+              "stem": "Select the settings that best match the requirement.",
+              "explanation": "A low temperature and enabled grounding are appropriate when the assistant should be consistent and use retrieved company content.",
+              "lessonSlug": "generative-ai-model-configuration",
+              "sources": [
+                {
+                  "title": "Retrieval augmented generation and indexes in Microsoft Foundry",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/concepts/retrieval-augmented-generation",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Work with chat completion models",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/chatgpt",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "needsVerification": true,
+              "uiSimulation": {
+                "title": "Model deployment settings (simulated)",
+                "description": "Fabrikam wants a benefits assistant that answers from approved HR documents with minimal variation.",
+                "fields": [
+                  {
+                    "id": "temp",
+                    "label": "Temperature",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "low",
+                        "label": "Low"
+                      },
+                      {
+                        "value": "high",
+                        "label": "High"
+                      }
+                    ],
+                    "correct": "low",
+                    "explanation": "Low temperature favors more consistent responses when supported by the selected model."
+                  },
+                  {
+                    "id": "ground",
+                    "label": "Use grounding data",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "Grounding with approved documents helps the model answer from company content."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "ai901-con-023",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "EASY",
+              "stem": "In a chat request, what is the role of a system message?",
+              "explanation": "A system message provides high-priority instructions and context that steer the model's behavior, such as role, boundaries, tone, and tool guidance.",
+              "lessonSlug": "generative-ai-model-configuration",
+              "sources": [
+                {
+                  "title": "Safety system messages",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/system-message",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Work with chat completion models",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/chatgpt",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "It gives high-priority instructions and context to guide responses.",
+                  "correct": true,
+                  "explanation": "System messages steer model behavior."
+                },
+                {
+                  "key": "B",
+                  "text": "It stores the user's password for later prompts.",
+                  "correct": false,
+                  "explanation": "System messages should not be used to store secrets."
+                },
+                {
+                  "key": "C",
+                  "text": "It converts audio into text.",
+                  "correct": false,
+                  "explanation": "Speech recognition converts audio to text."
+                },
+                {
+                  "key": "D",
+                  "text": "It is the model's final answer to the user.",
+                  "correct": false,
+                  "explanation": "The assistant message contains the model's response."
+                }
+              ]
+            },
+            {
+              "ref": "ai901-con-024",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "HARD",
+              "stem": "Which **two** statements about grounding and RAG are correct?",
+              "explanation": "RAG retrieves relevant content and includes it as grounding data. Quality still depends on retrieval, instructions, access controls, and evaluation.",
+              "lessonSlug": "generative-ai-model-configuration",
+              "sources": [
+                {
+                  "title": "Retrieval augmented generation and indexes in Microsoft Foundry",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/concepts/retrieval-augmented-generation",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "RAG can help answer from private or frequently changing data by retrieving relevant content.",
+                  "correct": true,
+                  "explanation": "Retrieval brings external content into the model input."
+                },
+                {
+                  "key": "B",
+                  "text": "Grounding data can support citations back to source content.",
+                  "correct": true,
+                  "explanation": "RAG designs commonly include source references for retrieved passages."
+                },
+                {
+                  "key": "C",
+                  "text": "RAG guarantees every generated answer is correct.",
+                  "correct": false,
+                  "explanation": "Poor retrieval or prompting can still produce incomplete or inaccurate answers."
+                },
+                {
+                  "key": "D",
+                  "text": "RAG removes the need for access control on source documents.",
+                  "correct": false,
+                  "explanation": "Retrieved content must still respect permissions."
+                }
+              ],
+              "selectCount": 2
+            },
+            {
+              "ref": "ai901-con-025",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "MEDIUM",
+              "stem": "What is a token in the context of generative language models?",
+              "explanation": "A token is a chunk of text that the model processes. Token usage affects how much input and output fit in a request.",
+              "lessonSlug": "generative-ai-model-configuration",
+              "sources": [
+                {
+                  "title": "Work with chat completion models",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/chatgpt",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Prompt engineering techniques",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/prompt-engineering",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "A unit of text processed by the model",
+                  "correct": true,
+                  "explanation": "Models process prompts and responses as tokens."
+                },
+                {
+                  "key": "B",
+                  "text": "A Microsoft Entra user account",
+                  "correct": false,
+                  "explanation": "Identity tokens are different from model text tokens."
+                },
+                {
+                  "key": "C",
+                  "text": "A required label for every training image",
+                  "correct": false,
+                  "explanation": "Image labels are annotations, not language-model tokens."
+                },
+                {
+                  "key": "D",
+                  "text": "A permanent memory stored by every model",
+                  "correct": false,
+                  "explanation": "A token is not persistent memory."
+                }
+              ]
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Re-check supported generation parameters and Microsoft Foundry portal labels for the selected model/API before release."
+        }
+      ]
+    }
+  ]
+}

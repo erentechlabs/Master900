@@ -1,0 +1,332 @@
+{
+  "labs": [
+    {
+      "slug": "choose-ai-capabilities-for-support",
+      "type": "BUSINESS_SCENARIO",
+      "title": "Choose AI capabilities for a customer service team",
+      "summary": "Match business requirements to AI workloads and pick responsible AI safeguards for a fictional support team.",
+      "scenario": "**Contoso Retail** wants to use AI responsibly to help its customer service agents with calls, e-mails, scanned invoices and policy questions. For each requirement, choose the most suitable AI capability, then choose safeguards.",
+      "domainKey": "ai-concepts",
+      "objectiveCode": "1.3",
+      "complexity": "INTRO",
+      "estimatedMinutes": 12,
+      "learningObjectives": [
+        "Map business requirements to AI workloads such as speech, language, information extraction and generative AI",
+        "Explain why grounding helps a generative AI assistant answer from approved documents",
+        "Select responsible AI safeguards such as human review, content filtering and transparency"
+      ],
+      "prerequisites": ["Lesson: Common AI workloads", "Lesson: Principles of responsible AI"],
+      "sources": [
+        { "title": "Study guide for Exam AI-901", "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901", "kind": "STUDY_GUIDE" },
+        { "title": "Microsoft Foundry documentation", "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/" }
+      ],
+      "config": {
+        "context": {
+          "environment": "Contoso Retail's support team handles recorded phone calls, customer e-mails, scanned supplier invoices and questions about the returns policy. Agents must stay in control of every reply.",
+          "requirements": [
+            "R1: Turn recorded support calls into searchable text.",
+            "R2: Detect whether customer e-mails are positive, neutral or negative.",
+            "R3: Extract the invoice number, date and total from scanned invoices.",
+            "R4: Let agents ask questions about the returns policy and get answers based on the official policy document."
+          ],
+          "constraints": [
+            "Customer data may only be used for support.",
+            "Agents review AI output before anything is sent to a customer."
+          ]
+        },
+        "stages": [
+          {
+            "id": "r1",
+            "prompt": "R1 - Which capability turns recorded calls into text?",
+            "kind": "single",
+            "options": [
+              { "id": "stt", "text": "Speech to text", "correct": true, "feedback": "Speech to text transcribes spoken audio into written text that can be searched." },
+              { "id": "tts", "text": "Text to speech", "correct": false, "feedback": "Text to speech does the opposite: it creates audio from text." },
+              { "id": "translation", "text": "Text translation", "correct": false, "feedback": "Translation converts text between languages; the calls must first be transcribed." },
+              { "id": "image-gen", "text": "Image generation", "correct": false, "feedback": "Image generation creates pictures and does not process audio." }
+            ]
+          },
+          {
+            "id": "r2",
+            "prompt": "R2 - Which capability classifies the tone of e-mails?",
+            "kind": "single",
+            "options": [
+              { "id": "sentiment", "text": "Sentiment analysis", "correct": true, "feedback": "Sentiment analysis labels text as positive, neutral or negative." },
+              { "id": "key-phrases", "text": "Key phrase extraction", "correct": false, "feedback": "Key phrases show the main topics, not the emotional tone." },
+              { "id": "ocr", "text": "Optical character recognition (OCR)", "correct": false, "feedback": "OCR reads text from images; e-mails are already text." },
+              { "id": "speech-synthesis", "text": "Speech synthesis", "correct": false, "feedback": "Speech synthesis produces audio and does not analyze tone." }
+            ]
+          },
+          {
+            "id": "r3",
+            "prompt": "R3 - Which capability pulls specific fields out of scanned invoices?",
+            "kind": "single",
+            "options": [
+              { "id": "extraction", "text": "Document information extraction (for example a prebuilt invoice model)", "correct": true, "feedback": "Information extraction identifies structured fields such as invoice number, date and total from documents." },
+              { "id": "image-gen", "text": "Image generation", "correct": false, "feedback": "Generating images does not read existing documents." },
+              { "id": "sentiment", "text": "Sentiment analysis", "correct": false, "feedback": "Sentiment analysis measures opinion in text; it does not extract invoice fields." },
+              { "id": "language-detection", "text": "Language detection", "correct": false, "feedback": "Language detection only identifies which language the text is written in." }
+            ]
+          },
+          {
+            "id": "r4",
+            "prompt": "R4 - What is the best way to answer questions about the returns policy?",
+            "kind": "single",
+            "options": [
+              { "id": "grounded", "text": "A generative AI assistant grounded in the official returns policy document", "correct": true, "feedback": "Grounding gives the model the approved document as context, which improves relevance and reduces made-up answers." },
+              { "id": "ungrounded", "text": "A general chat model with no access to the policy document", "correct": false, "feedback": "Without the policy as context, the model may produce plausible but incorrect answers." },
+              { "id": "tts", "text": "Text to speech", "correct": false, "feedback": "Reading answers aloud does not help find the correct policy information." },
+              { "id": "image-analysis", "text": "Image analysis", "correct": false, "feedback": "The policy is a text document; image analysis is not the right tool." }
+            ]
+          },
+          {
+            "id": "safeguards",
+            "prompt": "Which responsible AI safeguards should Contoso apply? Select all that apply.",
+            "kind": "multiple",
+            "options": [
+              { "id": "human-review", "text": "Agents review AI-generated replies before they are sent", "correct": true, "feedback": "Human oversight supports accountability and catches mistakes." },
+              { "id": "content-filters", "text": "Apply content safety filters to the assistant", "correct": true, "feedback": "Content filtering reduces the risk of harmful output." },
+              { "id": "transparency", "text": "Tell customers when a reply was drafted with AI assistance", "correct": true, "feedback": "Transparency helps people understand how AI is used." },
+              { "id": "keep-forever", "text": "Keep every call recording forever to improve future models", "correct": false, "feedback": "This conflicts with privacy and data minimization; data should only be used for the stated purpose." }
+            ]
+          },
+          {
+            "id": "reasoning",
+            "prompt": "In one or two sentences, explain why grounding and human review matter in this scenario.",
+            "kind": "text",
+            "minLength": 40,
+            "modelAnswer": "Grounding the assistant in the official returns policy keeps answers based on approved content instead of guesses, and human review keeps agents accountable for what customers receive, which catches errors before they reach customers."
+          }
+        ]
+      },
+      "steps": [
+        { "key": "requirement-1", "title": "Transcribe calls", "instruction": "Choose the capability for requirement R1.", "explanation": "Speech workloads convert between audio and text.", "rules": [{ "key": "r1-correct", "description": "R1 matched to speech to text", "rule": { "type": "stageCorrect", "stage": "r1" } }] },
+        { "key": "requirement-2", "title": "Classify e-mail tone", "instruction": "Choose the capability for requirement R2.", "explanation": "Natural language processing includes sentiment analysis, key phrases, entities and more.", "rules": [{ "key": "r2-correct", "description": "R2 matched to sentiment analysis", "rule": { "type": "stageCorrect", "stage": "r2" } }] },
+        { "key": "requirement-3", "title": "Extract invoice fields", "instruction": "Choose the capability for requirement R3.", "explanation": "Information extraction turns documents into structured data.", "rules": [{ "key": "r3-correct", "description": "R3 matched to information extraction", "rule": { "type": "stageCorrect", "stage": "r3" } }] },
+        { "key": "requirement-4", "title": "Answer policy questions", "instruction": "Choose the approach for requirement R4.", "hint": "Which option gives the model access to the approved document?", "explanation": "Grounding (retrieval-augmented generation) provides relevant, approved content to the model at question time.", "rules": [{ "key": "r4-correct", "description": "R4 uses a grounded assistant", "rule": { "type": "stageCorrect", "stage": "r4" } }] },
+        { "key": "choose-safeguards", "title": "Choose safeguards", "instruction": "Select every responsible AI safeguard that fits.", "explanation": "Responsible AI principles include accountability, transparency, reliability and safety, and privacy and security.", "rules": [{ "key": "safeguards-correct", "description": "You chose appropriate safeguards", "rule": { "type": "stageCorrect", "stage": "safeguards" } }] },
+        { "key": "explain", "title": "Explain your reasoning", "instruction": "Explain why grounding and human review matter here.", "explanation": "Putting reasoning into words strengthens memory.", "rules": [{ "key": "reasoning-done", "description": "You explained your reasoning", "rule": { "type": "stageCorrect", "stage": "reasoning" } }] }
+      ],
+      "finalRules": [],
+      "solution": "- **R1:** Speech to text.\n- **R2:** Sentiment analysis.\n- **R3:** Document information extraction (for example a prebuilt invoice model).\n- **R4:** A generative AI assistant grounded in the official returns policy.\n- **Safeguards:** human review, content filters and transparency. Keeping recordings forever conflicts with privacy.\n\nMicrosoft Foundry product names and features change often - check the official documentation for current capabilities."
+    },
+    {
+      "slug": "configure-safe-support-assistant",
+      "type": "UI_SIMULATION",
+      "title": "Configure a safe support assistant (simulated)",
+      "summary": "Deploy a chat model, write a focused system message, ground it in a policy document and turn on safety settings in a fictional AI portal.",
+      "scenario": "**Contoso** wants an internal assistant that answers questions about product returns. In the **simulated** Contoso AI Studio, deploy a chat model, restrict the assistant to the support topic with a system message, ground it in the returns policy, and configure safety settings. The portal, models and data are fictional.",
+      "domainKey": "foundry-solutions",
+      "moduleSlug": "foundry-generative-apps-agents",
+      "objectiveCode": "2.1",
+      "complexity": "INTRO",
+      "estimatedMinutes": 12,
+      "learningObjectives": [
+        "Distinguish chat models from embedding models when deploying",
+        "Use a system message to set scope and behavior",
+        "Combine grounding and content safety settings for a responsible assistant"
+      ],
+      "prerequisites": ["Lesson: Generative AI models and their configuration", "Lesson: Foundry projects, the model catalog, and deployments"],
+      "sources": [
+        { "title": "Microsoft Foundry documentation", "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/" },
+        { "title": "Study guide for Exam AI-901", "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901", "kind": "STUDY_GUIDE" }
+      ],
+      "config": {
+        "portal": { "name": "Contoso AI Studio (simulated)", "theme": "generic", "user": "maker@contoso.example" },
+        "startPage": "home",
+        "navigation": [
+          { "page": "home", "label": "Overview" },
+          { "page": "models", "label": "Model catalog" },
+          { "page": "deployments", "label": "Deployments" },
+          { "page": "assistant", "label": "Assistant setup" },
+          { "page": "safety", "label": "Safety settings" }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Overview",
+            "components": [
+              { "kind": "callout", "variant": "info", "text": "This is a fictional, simplified portal for learning. It is not a real product interface and it does not call any AI service." },
+              {
+                "kind": "links",
+                "id": "overview-links",
+                "title": "Get started",
+                "items": [
+                  { "id": "go-models", "label": "Browse the model catalog", "page": "models" },
+                  { "id": "go-deployments", "label": "Create a deployment", "page": "deployments" },
+                  { "id": "go-assistant", "label": "Set up the assistant", "page": "assistant" },
+                  { "id": "go-safety", "label": "Configure safety", "page": "safety" }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "models",
+            "title": "Model catalog",
+            "components": [
+              {
+                "kind": "table",
+                "id": "model-table",
+                "source": "catalog",
+                "columns": [
+                  { "key": "name", "label": "Model (fictional)" },
+                  { "key": "capability", "label": "Capability" }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "deployments",
+            "title": "Deployments",
+            "components": [
+              {
+                "kind": "table",
+                "id": "deployment-table",
+                "source": "deployments",
+                "columns": [
+                  { "key": "name", "label": "Deployment name" },
+                  { "key": "model", "label": "Model" }
+                ],
+                "emptyText": "No deployments yet."
+              },
+              {
+                "kind": "form",
+                "id": "create-deployment",
+                "title": "Create deployment",
+                "fields": [
+                  {
+                    "id": "model",
+                    "label": "Model",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      { "value": "general-chat-mini", "label": "general-chat-mini (chat)" },
+                      { "value": "vision-chat", "label": "vision-chat (chat with images)" },
+                      { "value": "embed-small", "label": "embed-small (embeddings)" }
+                    ]
+                  },
+                  { "id": "name", "label": "Deployment name", "control": "text", "required": true, "placeholder": "e.g. returns-assistant" }
+                ],
+                "submit": { "label": "Deploy", "action": { "type": "append", "path": "deployments", "successMessage": "Deployment created." } }
+              }
+            ]
+          },
+          {
+            "id": "assistant",
+            "title": "Assistant setup",
+            "components": [
+              {
+                "kind": "settings",
+                "id": "assistant-settings",
+                "title": "Instructions and knowledge",
+                "fields": [
+                  { "id": "system", "label": "System message", "control": "text", "bindTo": "systemMessage", "placeholder": "Describe the assistant's role and limits", "help": "Keep the assistant focused on its task and tell it what to do when it does not know." },
+                  { "id": "returns-policy", "label": "Ground answers in: Returns policy (PDF)", "control": "toggle", "bindTo": "knowledge.returnsPolicy" },
+                  { "id": "marketing-brochure", "label": "Ground answers in: Marketing brochure (PDF)", "control": "toggle", "bindTo": "knowledge.marketingBrochure" }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "safety",
+            "title": "Safety settings",
+            "components": [
+              {
+                "kind": "settings",
+                "id": "safety-settings",
+                "title": "Content safety",
+                "fields": [
+                  {
+                    "id": "filter",
+                    "label": "Harmful content filter strength",
+                    "control": "select",
+                    "bindTo": "safety.filter",
+                    "options": [
+                      { "value": "off", "label": "Off" },
+                      { "value": "low", "label": "Low" },
+                      { "value": "medium", "label": "Medium" },
+                      { "value": "high", "label": "High" }
+                    ]
+                  },
+                  { "id": "prompt-shield", "label": "Detect prompt attacks (jailbreak attempts)", "control": "toggle", "bindTo": "safety.promptShield" }
+                ]
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "catalog": [
+            { "name": "general-chat-mini", "capability": "Chat and text generation" },
+            { "name": "vision-chat", "capability": "Chat with image input" },
+            { "name": "embed-small", "capability": "Text embeddings for search" }
+          ],
+          "deployments": [],
+          "systemMessage": "",
+          "knowledge": { "returnsPolicy": false, "marketingBrochure": false },
+          "safety": { "filter": "low", "promptShield": false }
+        }
+      },
+      "steps": [
+        {
+          "key": "deploy-chat-model",
+          "title": "Deploy a chat model",
+          "instruction": "Open **Deployments** and deploy a model that can hold a conversation.",
+          "hint": "Embedding models turn text into vectors for search; they do not generate replies.",
+          "explanation": "A **deployment** makes a model available to call from an app. A chat model generates responses; an embeddings model supports search and similarity.",
+          "targetId": "create-deployment",
+          "rules": [
+            {
+              "key": "chat-deployed",
+              "description": "A chat model is deployed",
+              "rule": { "type": "anyOf", "rules": [
+                { "type": "arrayContains", "path": "deployments", "match": { "model": "general-chat-mini" } },
+                { "type": "arrayContains", "path": "deployments", "match": { "model": "vision-chat" } }
+              ] },
+              "failureFeedback": "Deploy one of the chat models."
+            }
+          ]
+        },
+        {
+          "key": "system-message",
+          "title": "Write a focused system message",
+          "instruction": "In **Assistant setup**, write a system message that limits the assistant to **returns and support** questions.",
+          "hint": "For example: You are Contoso's returns support assistant. Answer only questions about returns using the provided policy. If you are unsure, say so.",
+          "explanation": "A **system message** sets the assistant's role, scope, tone and boundaries before any user message is processed.",
+          "targetId": "assistant-settings",
+          "rules": [
+            {
+              "key": "system-message-scope",
+              "description": "The system message mentions returns or support",
+              "rule": { "type": "allOf", "rules": [
+                { "type": "textMinLength", "path": "systemMessage", "min": 20 },
+                { "type": "matches", "path": "systemMessage", "pattern": "return|support|iade|destek" }
+              ] }
+            }
+          ]
+        },
+        {
+          "key": "ground",
+          "title": "Ground the assistant in the policy",
+          "instruction": "Connect the **Returns policy** document as knowledge. Do not add unrelated documents.",
+          "explanation": "**Grounding** gives the model approved content at answer time, which makes answers more relevant and reduces made-up information.",
+          "rules": [
+            { "key": "grounded-policy", "description": "The returns policy is connected", "rule": { "type": "equals", "path": "knowledge.returnsPolicy", "value": true } },
+            { "key": "no-brochure", "description": "Unrelated documents are not connected", "rule": { "type": "equals", "path": "knowledge.marketingBrochure", "value": false }, "failureFeedback": "The marketing brochure is unrelated to returns and could confuse answers." }
+          ]
+        },
+        {
+          "key": "safety",
+          "title": "Configure safety settings",
+          "instruction": "In **Safety settings**, use at least **Medium** filtering and turn on prompt attack detection.",
+          "explanation": "Content filters reduce harmful output, and prompt attack detection helps stop users from overriding the system message.",
+          "rules": [
+            { "key": "filter-medium", "description": "Filter strength is Medium or High", "rule": { "type": "oneOf", "path": "safety.filter", "values": ["medium", "high"] } },
+            { "key": "prompt-shield-on", "description": "Prompt attack detection is on", "rule": { "type": "equals", "path": "safety.promptShield", "value": true } }
+          ]
+        }
+      ],
+      "finalRules": [],
+      "solution": "1. **Deployments:** deploy `general-chat-mini` (or `vision-chat`) with a name such as `returns-assistant`.\n2. **Assistant setup:** system message such as *You are Contoso's returns support assistant. Answer only questions about returns using the provided policy. If you do not know, say so and refer the customer to a human agent.*\n3. Turn on **Returns policy (PDF)**; leave the marketing brochure off.\n4. **Safety settings:** filter strength **Medium** or **High** and **Detect prompt attacks** on.\n\nThis simulation is simplified; real portals differ and change over time."
+    }
+  ]
+}

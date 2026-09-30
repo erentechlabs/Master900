@@ -1,0 +1,188 @@
+{
+  "domainKey": "example-domain",
+  "modules": [
+    {
+      "slug": "example-module",
+      "title": "Example module",
+      "summary": "Demonstrates every lesson section and every question type supported by the platform.",
+      "translations": { "tr": { "title": "Örnek modül", "summary": "Platformun desteklediği tüm ders bölümlerini ve soru türlerini gösterir.", "status": "DRAFT" } },
+      "lessons": [
+        {
+          "slug": "example-lesson",
+          "title": "What is an example service?",
+          "objectiveCode": "1.1",
+          "estimatedMinutes": 10,
+          "summary": "A short, beginner-friendly lesson used to document the lesson format.",
+          "learningObjectives": ["Explain what an example service is", "Choose between two example options"],
+          "explanation": "An **example service** is a fictional service used in documentation.\n\n- It is managed for you.\n- You pay only for what you use.",
+          "terminology": [
+            { "term": "Managed service", "definition": "A service where the provider operates the underlying infrastructure." },
+            { "term": "Consumption", "definition": "Paying based on actual usage." }
+          ],
+          "businessScenario": "Contoso Bakery wants to launch an online order form without buying servers.",
+          "technicalExample": "The bakery deploys a web app to a managed platform and scales it during holidays.",
+          "misconception": { "myth": "Managed services give you no control.", "reality": "You still control configuration, data and access; the provider runs the infrastructure." },
+          "examTakeaway": "When a scenario says *minimize infrastructure management*, prefer a managed (PaaS or SaaS) option.",
+          "recap": "Managed services reduce operational work while you keep control of your data and configuration.",
+          "simplerExplanation": "Think of a managed service like renting a furnished flat: someone else fixes the boiler.",
+          "anotherExample": "A school uses a hosted email service instead of running its own mail servers.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Self-managed vs managed",
+                "columns": [
+                  { "title": "Self-managed", "points": ["You patch the OS", "You plan capacity"] },
+                  { "title": "Managed", "points": ["Provider patches the platform", "Built-in scaling options"] }
+                ]
+              }
+            },
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Request flow",
+                "kind": "flow",
+                "nodes": [
+                  { "id": "user", "label": "Customer" },
+                  { "id": "app", "label": "Web app" },
+                  { "id": "db", "label": "Database" }
+                ],
+                "edges": [
+                  { "from": "user", "to": "app", "label": "HTTPS" },
+                  { "from": "app", "to": "db" }
+                ],
+                "caption": "A customer sends a request over HTTPS to the web app, which reads and writes data in a database."
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Quick check",
+                "instructions": "Decide before revealing the answer.",
+                "items": [{ "prompt": "Who patches the OS of a managed platform?", "answer": "The provider." }]
+              }
+            },
+            { "type": "CALLOUT", "data": { "variant": "tip", "title": "Exam tip", "body": "Look for keywords such as *minimize management effort*." } }
+          ],
+          "flashcards": [
+            { "front": "Managed service", "back": "The provider operates the underlying infrastructure." },
+            { "front": "Consumption-based pricing", "back": "You pay for what you use." }
+          ],
+          "sources": [{ "title": "What is cloud computing?", "url": "https://azure.microsoft.com/resources/cloud-computing-dictionary/what-is-cloud-computing", "kind": "DOCUMENTATION" }],
+          "knowledgeCheck": [
+            {
+              "ref": "xx900-ex-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "example-domain",
+              "objectiveCode": "1.1",
+              "difficulty": "EASY",
+              "stem": "Contoso wants to minimize the time spent patching servers. Which approach best meets this goal?",
+              "explanation": "A managed platform shifts OS patching to the provider.",
+              "options": [
+                { "key": "A", "text": "Use a managed platform service", "correct": true, "explanation": "The provider patches the platform, reducing operational work." },
+                { "key": "B", "text": "Buy additional on-premises servers", "correct": false, "explanation": "More servers increase patching work." },
+                { "key": "C", "text": "Run virtual machines and patch them manually", "correct": false, "explanation": "You remain responsible for patching the guest OS." }
+              ],
+              "sources": [{ "title": "What is cloud computing?", "url": "https://azure.microsoft.com/resources/cloud-computing-dictionary/what-is-cloud-computing" }],
+              "translations": {
+                "tr": {
+                  "stem": "Contoso, sunuculara yama uygulamak için harcanan zamanı en aza indirmek istiyor. Bu hedefi en iyi hangi yaklaşım karşılar?",
+                  "explanation": "Yönetilen bir platform, işletim sistemi yamalarını sağlayıcıya devreder.",
+                  "options": {
+                    "A": { "text": "Yönetilen bir platform hizmeti kullanmak", "explanation": "Platforma sağlayıcı yama uygular ve operasyonel iş azalır." },
+                    "B": { "text": "Ek şirket içi sunucular satın almak", "explanation": "Daha fazla sunucu daha fazla yama işi demektir." },
+                    "C": { "text": "Sanal makineler çalıştırıp elle yama uygulamak", "explanation": "Konuk işletim sisteminin yamalanmasından siz sorumlu kalırsınız." }
+                  },
+                  "status": "DRAFT"
+                }
+              }
+            },
+            {
+              "ref": "xx900-ex-002",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "example-domain",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** are benefits of consumption-based pricing?",
+              "selectCount": 2,
+              "explanation": "Consumption-based pricing avoids upfront costs and lets you pay only for what you use.",
+              "options": [
+                { "key": "A", "text": "No upfront infrastructure purchase", "correct": true, "explanation": "You do not buy hardware in advance." },
+                { "key": "B", "text": "Pay only for resources you use", "correct": true, "explanation": "Billing follows actual usage." },
+                { "key": "C", "text": "Guaranteed fixed monthly cost", "correct": false, "explanation": "Costs vary with usage." },
+                { "key": "D", "text": "No need to monitor costs", "correct": false, "explanation": "Monitoring is still important to avoid surprises." }
+              ],
+              "sources": [{ "title": "What is cloud computing?", "url": "https://azure.microsoft.com/resources/cloud-computing-dictionary/what-is-cloud-computing" }]
+            },
+            {
+              "ref": "xx900-ex-003",
+              "type": "TRUE_FALSE",
+              "domainKey": "example-domain",
+              "difficulty": "EASY",
+              "stem": "With a managed service, the customer is still responsible for managing access to their own data.",
+              "explanation": "Customers always remain responsible for their data and access management.",
+              "options": [
+                { "key": "TRUE", "text": "True", "correct": true, "explanation": "Data and access remain the customer's responsibility." },
+                { "key": "FALSE", "text": "False", "correct": false, "explanation": "The provider never takes over responsibility for who can access your data." }
+              ],
+              "sources": [{ "title": "What is cloud computing?", "url": "https://azure.microsoft.com/resources/cloud-computing-dictionary/what-is-cloud-computing" }]
+            },
+            {
+              "ref": "xx900-ex-004",
+              "type": "MATCHING",
+              "domainKey": "example-domain",
+              "difficulty": "MEDIUM",
+              "stem": "Match each requirement to the most suitable option.",
+              "explanation": "Each requirement maps to the option that best reduces effort for that need.",
+              "matching": {
+                "prompts": [
+                  { "id": "p1", "text": "Full control of the operating system" },
+                  { "id": "p2", "text": "Ready-to-use email for staff" }
+                ],
+                "answers": [
+                  { "id": "a1", "text": "Infrastructure as a service" },
+                  { "id": "a2", "text": "Software as a service" },
+                  { "id": "a3", "text": "On-premises only" }
+                ],
+                "pairs": { "p1": "a1", "p2": "a2" },
+                "explanations": { "p1": "IaaS gives you control of the OS.", "p2": "SaaS provides ready-to-use applications." }
+              },
+              "sources": [{ "title": "What is cloud computing?", "url": "https://azure.microsoft.com/resources/cloud-computing-dictionary/what-is-cloud-computing" }]
+            },
+            {
+              "ref": "xx900-ex-005",
+              "type": "ORDERING",
+              "domainKey": "example-domain",
+              "difficulty": "MEDIUM",
+              "stem": "Place the steps in the correct order to publish the order form.",
+              "explanation": "You create the container first, then deploy, then test.",
+              "ordering": {
+                "items": [
+                  { "id": "s1", "text": "Create the app resource" },
+                  { "id": "s2", "text": "Deploy the code" },
+                  { "id": "s3", "text": "Test the public URL" }
+                ],
+                "correctOrder": ["s1", "s2", "s3"],
+                "explanations": { "s1": "A resource must exist before deployment.", "s2": "Code is deployed into the resource.", "s3": "Testing confirms the deployment." }
+              },
+              "sources": [{ "title": "What is cloud computing?", "url": "https://azure.microsoft.com/resources/cloud-computing-dictionary/what-is-cloud-computing" }]
+            }
+          ],
+          "translations": {
+            "tr": {
+              "title": "Örnek hizmet nedir?",
+              "summary": "Ders biçimini belgelemek için kullanılan kısa, başlangıç düzeyinde bir ders.",
+              "learningObjectives": ["Örnek hizmetin ne olduğunu açıklamak", "İki örnek seçenek arasında seçim yapmak"],
+              "explanation": "**Örnek hizmet**, belgelerde kullanılan kurgusal bir hizmettir.",
+              "recap": "Yönetilen hizmetler operasyonel işi azaltır.",
+              "flashcards": [
+                { "front": "Yönetilen hizmet", "back": "Altyapıyı sağlayıcı işletir." },
+                { "front": "Tüketime dayalı fiyatlandırma", "back": "Kullandığınız kadar ödersiniz." }
+              ],
+              "status": "DRAFT"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

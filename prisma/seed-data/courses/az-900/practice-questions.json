@@ -1,0 +1,1665 @@
+{
+  "questions": [
+    {
+      "ref": "az900-px-001",
+      "type": "TRUE_FALSE",
+      "domainKey": "cloud-concepts",
+      "objectiveCode": "1.1",
+      "difficulty": "EASY",
+      "stem": "True or False: In a cloud shared responsibility model, the customer always keeps responsibility for its data and account access decisions.",
+      "explanation": "The provider operates parts of the cloud platform, but the customer remains responsible for the information it places in the service and for decisions about who can access it.",
+      "lessonSlug": "shared-responsibility-model",
+      "sources": [
+        {
+          "title": "Shared responsibility in the cloud",
+          "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "options": [
+        {
+          "key": "TRUE",
+          "text": "True",
+          "correct": true,
+          "explanation": "Customer data, identities, and access choices remain customer responsibilities across cloud models."
+        },
+        {
+          "key": "FALSE",
+          "text": "False",
+          "correct": false,
+          "explanation": "The provider does not take ownership of the customer's business data or access decisions simply because the workload runs in the cloud."
+        }
+      ],
+      "translations": {
+        "tr": {
+          "stem": "Doğru veya Yanlış: Bulut paylaşılan sorumluluk modelinde müşteri, verileri ve hesap erişimi kararlarından her zaman sorumludur.",
+          "explanation": "Sağlayıcı bulut platformunun bazı bölümlerini işletir; ancak müşteri hizmete koyduğu bilgilerden ve kimlerin erişeceğine ilişkin kararlardan sorumlu kalır.",
+          "options": {
+            "TRUE": {
+              "text": "Doğru",
+              "explanation": "Müşteri verileri, kimlikler ve erişim seçimleri tüm bulut modellerinde müşterinin sorumluluğunda kalır."
+            },
+            "FALSE": {
+              "text": "Yanlış",
+              "explanation": "Bir iş yükü bulutta çalıştığı için sağlayıcı müşterinin iş verilerinin veya erişim kararlarının sahibi olmaz."
+            }
+          },
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "ref": "az900-px-002",
+      "type": "CATEGORIZATION",
+      "domainKey": "cloud-concepts",
+      "objectiveCode": "1.1",
+      "difficulty": "MEDIUM",
+      "stem": "Classify each responsibility in a typical cloud adoption scenario.",
+      "explanation": "Shared responsibility separates platform operations from customer configuration, identity, and data responsibilities.",
+      "lessonSlug": "shared-responsibility-model",
+      "sources": [
+        {
+          "title": "Shared responsibility in the cloud",
+          "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "categorization": {
+        "categories": [
+          {
+            "id": "customer",
+            "label": "Customer responsibility"
+          },
+          {
+            "id": "provider",
+            "label": "Cloud provider responsibility"
+          }
+        ],
+        "items": [
+          {
+            "id": "data",
+            "text": "Classifying and protecting business data",
+            "category": "customer",
+            "explanation": "Customers understand their data and decide how it should be classified and protected."
+          },
+          {
+            "id": "identity",
+            "text": "Managing user accounts and access assignments",
+            "category": "customer",
+            "explanation": "Identity and access decisions are customer-controlled even when cloud identity services are used."
+          },
+          {
+            "id": "facility",
+            "text": "Maintaining physical datacenter buildings",
+            "category": "provider",
+            "explanation": "The cloud provider runs and secures the physical facilities that host the cloud."
+          },
+          {
+            "id": "hardware",
+            "text": "Replacing failed physical server hardware",
+            "category": "provider",
+            "explanation": "Hardware maintenance in the provider datacenter is handled by the provider."
+          }
+        ]
+      },
+      "translations": {
+        "tr": {
+          "stem": "Tipik bir buluta geçiş senaryosunda her sorumluluğu sınıflandırın.",
+          "explanation": "Paylaşılan sorumluluk, platform işletimini müşteri yapılandırması, kimlik ve veri sorumluluklarından ayırır.",
+          "categorization": {
+            "categories": {
+              "customer": "Müşteri sorumluluğu",
+              "provider": "Bulut sağlayıcısı sorumluluğu"
+            },
+            "items": {
+              "data": "İş verilerini sınıflandırma ve koruma",
+              "identity": "Kullanıcı hesaplarını ve erişim atamalarını yönetme",
+              "facility": "Fiziksel veri merkezi binalarını sürdürme",
+              "hardware": "Arızalı fiziksel sunucu donanımını değiştirme"
+            },
+            "explanations": {
+              "data": "Müşteriler verilerini anlar ve nasıl sınıflandırılıp korunacağına karar verir.",
+              "identity": "Bulut kimlik hizmetleri kullanılsa bile kimlik ve erişim kararları müşteri tarafından kontrol edilir.",
+              "facility": "Bulut sağlayıcısı, bulutu barındıran fiziksel tesisleri işletir ve güvenliğini sağlar.",
+              "hardware": "Sağlayıcı veri merkezindeki donanım bakımı sağlayıcı tarafından yapılır."
+            }
+          },
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "ref": "az900-px-003",
+      "type": "SCENARIO",
+      "domainKey": "cloud-concepts",
+      "objectiveCode": "1.2",
+      "difficulty": "MEDIUM",
+      "stem": "Which cloud benefit best addresses the concern?",
+      "explanation": "Scalability lets the environment add or remove capacity as demand changes, which is the central need in this scenario.",
+      "lessonSlug": "benefits-of-cloud-services",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "scenario": "Tailwind Traders runs a ticketing site. Traffic rises sharply during concert announcements and falls after sales close. The team wants capacity to follow demand without buying permanent hardware.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Scalability",
+          "correct": true,
+          "explanation": "Scalability is the ability to adjust resources to meet changing demand."
+        },
+        {
+          "key": "B",
+          "text": "Capital expenditure",
+          "correct": false,
+          "explanation": "Buying permanent hardware is a capital spending model, not the desired cloud benefit."
+        },
+        {
+          "key": "C",
+          "text": "Private cloud ownership",
+          "correct": false,
+          "explanation": "Private cloud ownership does not by itself solve variable public demand."
+        },
+        {
+          "key": "D",
+          "text": "Manual deployment",
+          "correct": false,
+          "explanation": "Manual deployment would not automatically align capacity with demand."
+        }
+      ],
+      "translations": {
+        "tr": {
+          "scenario": "Tailwind Traders bir biletleme sitesi çalıştırıyor. Trafik konser duyurularında hızla artıyor ve satışlar kapandıktan sonra düşüyor. Ekip kalıcı donanım satın almadan kapasitenin talebi izlemesini istiyor.",
+          "stem": "Bu endişeyi en iyi hangi bulut avantajı karşılar?",
+          "explanation": "Ölçeklenebilirlik, talep değiştikçe ortamın kapasite eklemesini veya azaltmasını sağlar; bu senaryodaki temel ihtiyaç budur.",
+          "options": {
+            "A": {
+              "text": "Ölçeklenebilirlik",
+              "explanation": "Ölçeklenebilirlik, kaynakları değişen talebi karşılayacak şekilde ayarlama yeteneğidir."
+            },
+            "B": {
+              "text": "Sermaye harcaması",
+              "explanation": "Kalıcı donanım satın almak bir sermaye harcaması modelidir, istenen bulut avantajı değildir."
+            },
+            "C": {
+              "text": "Özel bulut sahipliği",
+              "explanation": "Özel bulut sahipliği tek başına değişken genel talebi çözmez."
+            },
+            "D": {
+              "text": "El ile dağıtım",
+              "explanation": "El ile dağıtım kapasiteyi talep ile otomatik olarak hizalamaz."
+            }
+          },
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "ref": "az900-px-004",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "cloud-concepts",
+      "objectiveCode": "1.2",
+      "difficulty": "MEDIUM",
+      "stem": "Which **two** statements describe benefits of cloud services for Northwind Traders?",
+      "explanation": "Cloud services can improve manageability through provider-hosted tools and can support high availability designs without requiring the customer to own duplicate facilities.",
+      "lessonSlug": "benefits-of-cloud-services",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "selectCount": 2,
+      "options": [
+        {
+          "key": "A",
+          "text": "They can provide management tools for monitoring and deployment from a central place.",
+          "correct": true,
+          "explanation": "Cloud platforms commonly include centralized management and deployment capabilities."
+        },
+        {
+          "key": "B",
+          "text": "They can support highly available designs without the customer purchasing a second datacenter.",
+          "correct": true,
+          "explanation": "Cloud services offer architectural options for resilience without customer-owned duplicate facilities."
+        },
+        {
+          "key": "C",
+          "text": "They remove the need for the customer to manage data classification.",
+          "correct": false,
+          "explanation": "Customers still need to understand and classify their data."
+        },
+        {
+          "key": "D",
+          "text": "They guarantee that every application will be redesigned automatically.",
+          "correct": false,
+          "explanation": "The cloud does not automatically redesign applications; architecture choices still matter."
+        },
+        {
+          "key": "E",
+          "text": "They require all spending to be paid before any resource is used.",
+          "correct": false,
+          "explanation": "Cloud commonly supports consumption-based spending rather than only upfront payment."
+        }
+      ],
+      "translations": {
+        "tr": {
+          "stem": "Northwind Traders için bulut hizmetlerinin avantajlarını açıklayan **iki** ifade hangisidir?",
+          "explanation": "Bulut hizmetleri, sağlayıcı tarafından barındırılan araçlarla yönetilebilirliği artırabilir ve müşterinin yinelenen tesislere sahip olmasını gerektirmeden yüksek kullanılabilirlik tasarımlarını destekleyebilir.",
+          "options": {
+            "A": {
+              "text": "İzleme ve dağıtım için merkezi bir yerden yönetim araçları sağlayabilir.",
+              "explanation": "Bulut platformları genellikle merkezi yönetim ve dağıtım özellikleri içerir."
+            },
+            "B": {
+              "text": "Müşteri ikinci bir veri merkezi satın almadan yüksek kullanılabilir tasarımları destekleyebilir.",
+              "explanation": "Bulut hizmetleri, müşteriye ait yinelenen tesisler olmadan dayanıklılık için mimari seçenekler sunar."
+            },
+            "C": {
+              "text": "Müşterinin veri sınıflandırmasını yönetme ihtiyacını ortadan kaldırır.",
+              "explanation": "Müşteriler yine de verilerini anlamalı ve sınıflandırmalıdır."
+            },
+            "D": {
+              "text": "Her uygulamanın otomatik olarak yeniden tasarlanmasını garanti eder.",
+              "explanation": "Bulut uygulamaları otomatik olarak yeniden tasarlamaz; mimari seçimler hâlâ önemlidir."
+            },
+            "E": {
+              "text": "Tüm harcamaların herhangi bir kaynak kullanılmadan önce ödenmesini gerektirir.",
+              "explanation": "Bulut genellikle yalnızca peşin ödeme yerine tüketime dayalı harcamayı destekler."
+            }
+          },
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "ref": "az900-px-005",
+      "type": "MATCHING",
+      "domainKey": "cloud-concepts",
+      "objectiveCode": "1.3",
+      "difficulty": "MEDIUM",
+      "stem": "Match each cloud service type to the best example use case.",
+      "explanation": "IaaS gives the most infrastructure control, PaaS reduces platform maintenance for applications, and SaaS provides a finished application experience.",
+      "lessonSlug": "iaas-paas-saas",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "matching": {
+        "prompts": [
+          {
+            "id": "iaas",
+            "text": "IaaS"
+          },
+          {
+            "id": "paas",
+            "text": "PaaS"
+          },
+          {
+            "id": "saas",
+            "text": "SaaS"
+          }
+        ],
+        "answers": [
+          {
+            "id": "lift",
+            "text": "Lift and shift a legacy server with operating system control"
+          },
+          {
+            "id": "code",
+            "text": "Deploy application code without managing the web server platform"
+          },
+          {
+            "id": "mail",
+            "text": "Use a ready-made business email application"
+          }
+        ],
+        "pairs": {
+          "iaas": "lift",
+          "paas": "code",
+          "saas": "mail"
+        },
+        "explanations": {
+          "iaas": "IaaS is appropriate when the customer needs operating system and VM-level control.",
+          "paas": "PaaS is appropriate when developers want to focus on code and configuration instead of platform maintenance.",
+          "saas": "SaaS provides a complete application that users consume rather than build."
+        }
+      },
+      "translations": {
+        "tr": {
+          "stem": "Her bulut hizmet türünü en uygun örnek kullanım amacıyla eşleştirin.",
+          "explanation": "IaaS en fazla altyapı denetimini sağlar, PaaS uygulamalar için platform bakımını azaltır, SaaS ise hazır bir uygulama deneyimi sunar.",
+          "matching": {
+            "prompts": {
+              "iaas": "IaaS",
+              "paas": "PaaS",
+              "saas": "SaaS"
+            },
+            "answers": {
+              "lift": "İşletim sistemi denetimiyle eski bir sunucuyu taşıma",
+              "code": "Web sunucusu platformunu yönetmeden uygulama kodu dağıtma",
+              "mail": "Hazır bir iş e-posta uygulaması kullanma"
+            },
+            "explanations": {
+              "iaas": "IaaS, müşterinin işletim sistemi ve VM düzeyinde denetime ihtiyaç duyduğu durumlarda uygundur.",
+              "paas": "PaaS, geliştiricilerin platform bakımı yerine koda ve yapılandırmaya odaklanmak istediği durumlarda uygundur.",
+              "saas": "SaaS, kullanıcıların oluşturmak yerine tükettiği eksiksiz bir uygulama sağlar."
+            }
+          },
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "ref": "az900-px-006",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "cloud-concepts",
+      "objectiveCode": "1.1",
+      "difficulty": "EASY",
+      "stem": "Complete the sentence about cloud spending.",
+      "explanation": "A consumption-based model aligns cost with usage because the organization pays for resources as it consumes them.",
+      "lessonSlug": "consumption-and-serverless",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "fillInBlank": {
+        "template": "In a {{b1}} model, an organization pays for the cloud resources it uses rather than buying all capacity upfront.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "consumption-based",
+              "consumption based",
+              "pay-as-you-go"
+            ],
+            "explanation": "Consumption-based and pay-as-you-go both describe paying as resources are consumed."
+          }
+        ],
+        "wordBank": [
+          "consumption-based",
+          "perpetual",
+          "manual",
+          "sovereign"
+        ]
+      },
+      "translations": {
+        "tr": {
+          "stem": "Bulut harcamalarıyla ilgili cümleyi tamamlayın.",
+          "explanation": "Tüketime dayalı model, kuruluş kaynakları kullandıkça ödeme yaptığı için maliyeti kullanımla hizalar.",
+          "fillInBlank": {
+            "template": "{{b1}} modelinde bir kuruluş, tüm kapasiteyi peşin satın almak yerine kullandığı bulut kaynakları için ödeme yapar.",
+            "accepted": {
+              "b1": [
+                "tüketime dayalı",
+                "kullandıkça öde"
+              ]
+            },
+            "explanations": {
+              "b1": "Tüketime dayalı ve kullandıkça öde ifadeleri, kaynaklar tüketildikçe ödeme yapmayı açıklar."
+            },
+            "wordBank": [
+              "tüketime dayalı",
+              "kalıcı",
+              "el ile",
+              "egemen"
+            ]
+          },
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "ref": "az900-px-007",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "cloud-concepts",
+      "objectiveCode": "1.3",
+      "difficulty": "EASY",
+      "stem": "A team wants to use a customer relationship management application without managing servers, runtime, or application updates. Which service type best fits?",
+      "explanation": "SaaS is a finished application delivered for use; the customer configures and consumes the app rather than managing the underlying platform.",
+      "lessonSlug": "iaas-paas-saas",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "SaaS",
+          "correct": true,
+          "explanation": "SaaS provides a ready-to-use application managed by the provider."
+        },
+        {
+          "key": "B",
+          "text": "IaaS",
+          "correct": false,
+          "explanation": "IaaS still requires the customer to manage operating systems and installed software."
+        },
+        {
+          "key": "C",
+          "text": "Private cloud",
+          "correct": false,
+          "explanation": "Private cloud is a deployment model, not the service type for a ready-made application."
+        },
+        {
+          "key": "D",
+          "text": "Serverless infrastructure",
+          "correct": false,
+          "explanation": "Serverless can reduce infrastructure management, but it is not the same as a complete business application."
+        }
+      ]
+    },
+    {
+      "ref": "az900-px-008",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "cloud-concepts",
+      "objectiveCode": "1.2",
+      "difficulty": "MEDIUM",
+      "stem": "Proseware wants its monitoring and deployment tasks to be available through browser tools and automation instead of only by signing in to individual servers. Which cloud benefit is most relevant?",
+      "explanation": "Manageability is the benefit focused on operating resources through portals, APIs, command-line tools, policies, and automation.",
+      "lessonSlug": "benefits-of-cloud-services",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Manageability",
+          "correct": true,
+          "explanation": "Cloud management tools help operate resources centrally and through automation."
+        },
+        {
+          "key": "B",
+          "text": "Capital expense",
+          "correct": false,
+          "explanation": "Capital expense describes upfront investment, not easier operations."
+        },
+        {
+          "key": "C",
+          "text": "Single tenancy",
+          "correct": false,
+          "explanation": "Single tenancy is not the main benefit described."
+        },
+        {
+          "key": "D",
+          "text": "Physical isolation",
+          "correct": false,
+          "explanation": "The requirement is about operations tooling, not physical isolation."
+        }
+      ]
+    },
+    {
+      "ref": "az900-px-009",
+      "type": "ORDERING",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.1",
+      "difficulty": "MEDIUM",
+      "stem": "Place the Azure resource hierarchy from broadest governance scope to narrowest container for resources.",
+      "explanation": "Management groups can contain subscriptions, subscriptions contain resource groups, and resource groups contain resources.",
+      "lessonSlug": "azure-resource-hierarchy",
+      "sources": [
+        {
+          "title": "What are Azure management groups?",
+          "url": "https://learn.microsoft.com/en-us/azure/governance/management-groups/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "ordering": {
+        "items": [
+          {
+            "id": "mg",
+            "text": "Management group"
+          },
+          {
+            "id": "sub",
+            "text": "Subscription"
+          },
+          {
+            "id": "rg",
+            "text": "Resource group"
+          },
+          {
+            "id": "res",
+            "text": "Resource"
+          }
+        ],
+        "correctOrder": [
+          "mg",
+          "sub",
+          "rg",
+          "res"
+        ],
+        "explanations": {
+          "mg": "Management groups organize subscriptions for governance.",
+          "sub": "Subscriptions are billing and management boundaries below management groups.",
+          "rg": "Resource groups hold related resources inside a subscription.",
+          "res": "Resources are the deployed instances such as VMs or storage accounts."
+        }
+      }
+    },
+    {
+      "ref": "az900-px-010",
+      "type": "UI_SIMULATION",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.1",
+      "difficulty": "MEDIUM",
+      "stem": "Configure the simulated resource placement screen for a workload that should use zone-redundant placement in an Azure region.",
+      "explanation": "A zone-redundant design places resources across availability zones within a supported region to reduce impact from a single zone failure.",
+      "lessonSlug": "regions-and-availability-zones",
+      "sources": [
+        {
+          "title": "Azure availability zones overview",
+          "url": "https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "uiSimulation": {
+        "title": "Availability placement (simulated)",
+        "description": "This fictional screen simplifies placement choices for learning; it is not the real Azure portal.",
+        "fields": [
+          {
+            "id": "region",
+            "label": "Region selection",
+            "control": "select",
+            "options": [
+              {
+                "value": "single-region",
+                "label": "Use one supported Azure region"
+              },
+              {
+                "value": "random-global",
+                "label": "Place resources randomly worldwide"
+              }
+            ],
+            "correct": "single-region",
+            "explanation": "Availability zones are selected within a supported Azure region, not by random worldwide placement."
+          },
+          {
+            "id": "zones",
+            "label": "Availability zone placement",
+            "control": "select",
+            "options": [
+              {
+                "value": "one-zone",
+                "label": "Deploy only to one zone"
+              },
+              {
+                "value": "multi-zone",
+                "label": "Use multiple zones where supported"
+              }
+            ],
+            "correct": "multi-zone",
+            "explanation": "Using multiple zones is the simulated choice that matches zone-redundant placement."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "az900-px-011",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.2",
+      "difficulty": "EASY",
+      "stem": "Which Azure CLI command creates a resource group named `rg-demo` in the `eastus` location?",
+      "explanation": "The `az group create` command creates a resource group and accepts `--name` and `--location` parameters.",
+      "lessonSlug": "tools-for-managing-azure",
+      "sources": [
+        {
+          "title": "az group",
+          "url": "https://learn.microsoft.com/en-us/cli/azure/group",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "`az group create --name rg-demo --location eastus`",
+          "correct": true,
+          "explanation": "This is valid Azure CLI syntax for creating a resource group in a location."
+        },
+        {
+          "key": "B",
+          "text": "`az group list --name rg-demo --location eastus`",
+          "correct": false,
+          "explanation": "`az group list` lists resource groups and does not create one."
+        },
+        {
+          "key": "C",
+          "text": "`az vm create --resource-group eastus --name rg-demo`",
+          "correct": false,
+          "explanation": "This command would attempt to create a VM, and the parameters are not creating a resource group."
+        },
+        {
+          "key": "D",
+          "text": "`az account set --name rg-demo --location eastus`",
+          "correct": false,
+          "explanation": "`az account set` selects a subscription; it does not create resource groups."
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "az900-px-012",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.2",
+      "difficulty": "MEDIUM",
+      "stem": "Which **two** Azure compute options are best aligned with running containerized workloads?",
+      "explanation": "Azure Container Instances and Azure Kubernetes Service are both container-oriented compute options, with different levels of orchestration and operational control.",
+      "lessonSlug": "azure-compute-options",
+      "sources": [
+        {
+          "title": "Serverless containers in Azure",
+          "url": "https://learn.microsoft.com/en-us/azure/container-instances/container-instances-overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "What is Azure Kubernetes Service?",
+          "url": "https://learn.microsoft.com/en-us/azure/aks/what-is-aks",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "selectCount": 2,
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure Container Instances",
+          "correct": true,
+          "explanation": "ACI can run containers without managing container hosts."
+        },
+        {
+          "key": "B",
+          "text": "Azure Kubernetes Service",
+          "correct": true,
+          "explanation": "AKS is a managed Kubernetes service for orchestrating containers."
+        },
+        {
+          "key": "C",
+          "text": "Azure Files",
+          "correct": false,
+          "explanation": "Azure Files is a storage service, not a compute host for containers."
+        },
+        {
+          "key": "D",
+          "text": "Azure Policy",
+          "correct": false,
+          "explanation": "Azure Policy governs resources; it does not run workloads."
+        },
+        {
+          "key": "E",
+          "text": "Microsoft Purview",
+          "correct": false,
+          "explanation": "Microsoft Purview focuses on data governance and compliance, not container hosting."
+        }
+      ]
+    },
+    {
+      "ref": "az900-px-013",
+      "type": "SCENARIO",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.2",
+      "difficulty": "MEDIUM",
+      "stem": "Which Azure service should the team choose?",
+      "explanation": "Azure App Service is designed for hosting web applications while reducing the need to manage the underlying web server infrastructure.",
+      "lessonSlug": "azure-compute-options",
+      "sources": [
+        {
+          "title": "Overview of Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "scenario": "Adventure Works has a web application written by its development team. The team wants built-in platform management for the web host and does not need direct operating system control.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure App Service",
+          "correct": true,
+          "explanation": "App Service hosts web apps as a managed platform."
+        },
+        {
+          "key": "B",
+          "text": "Azure Virtual Machines",
+          "correct": false,
+          "explanation": "Virtual machines provide OS control but require more server administration."
+        },
+        {
+          "key": "C",
+          "text": "Azure VPN Gateway",
+          "correct": false,
+          "explanation": "VPN Gateway provides network connectivity, not web application hosting."
+        },
+        {
+          "key": "D",
+          "text": "Azure Blob Storage",
+          "correct": false,
+          "explanation": "Blob Storage stores objects; it is not the managed web application platform described."
+        }
+      ]
+    },
+    {
+      "ref": "az900-px-014",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.3",
+      "difficulty": "EASY",
+      "stem": "Complete the statement about object storage.",
+      "explanation": "Azure Blob Storage is the object storage option commonly used for unstructured data such as images, documents, and backups.",
+      "lessonSlug": "azure-storage-fundamentals",
+      "sources": [
+        {
+          "title": "Introduction to Azure Storage",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-introduction",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "fillInBlank": {
+        "template": "For unstructured object data such as images and backup files, choose Azure {{b1}} Storage.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "Blob",
+              "blob"
+            ],
+            "explanation": "Azure Blob Storage is Azure Storage's object storage service."
+          }
+        ],
+        "wordBank": [
+          "Blob",
+          "Files",
+          "VPN",
+          "Policy"
+        ]
+      }
+    },
+    {
+      "ref": "az900-px-015",
+      "type": "MATCHING",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.3",
+      "difficulty": "MEDIUM",
+      "stem": "Match each storage or data movement tool to the best use case.",
+      "explanation": "Different Azure storage tools address object storage, shared file access, and data transfer workflows.",
+      "lessonSlug": "moving-data-to-azure",
+      "sources": [
+        {
+          "title": "Introduction to Azure Storage",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-introduction",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "What is Azure Files?",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-introduction",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "matching": {
+        "prompts": [
+          {
+            "id": "blob",
+            "text": "Azure Blob Storage"
+          },
+          {
+            "id": "files",
+            "text": "Azure Files"
+          },
+          {
+            "id": "azcopy",
+            "text": "AzCopy"
+          }
+        ],
+        "answers": [
+          {
+            "id": "object",
+            "text": "Store unstructured objects such as media files"
+          },
+          {
+            "id": "share",
+            "text": "Provide managed file shares accessed by multiple systems"
+          },
+          {
+            "id": "copy",
+            "text": "Copy data to or from Azure Storage from a command line"
+          }
+        ],
+        "pairs": {
+          "blob": "object",
+          "files": "share",
+          "azcopy": "copy"
+        },
+        "explanations": {
+          "blob": "Blob Storage is designed for unstructured object data.",
+          "files": "Azure Files provides managed file shares.",
+          "azcopy": "AzCopy is used for command-line data transfer with Azure Storage."
+        }
+      }
+    },
+    {
+      "ref": "az900-px-016",
+      "type": "TRUE_FALSE",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.4",
+      "difficulty": "EASY",
+      "stem": "True or False: Azure RBAC is used to grant users, groups, service principals, or managed identities access to Azure resources at scopes such as resource group or subscription.",
+      "explanation": "Azure RBAC assigns roles to security principals at scopes, enabling least-privilege access to Azure resources.",
+      "lessonSlug": "rbac-zero-trust-defender",
+      "sources": [
+        {
+          "title": "What is Azure RBAC?",
+          "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "options": [
+        {
+          "key": "TRUE",
+          "text": "True",
+          "correct": true,
+          "explanation": "Azure RBAC uses role assignments at scopes to control access to Azure resources."
+        },
+        {
+          "key": "FALSE",
+          "text": "False",
+          "correct": false,
+          "explanation": "Azure RBAC is specifically for access control to Azure resources; the statement correctly describes it."
+        }
+      ]
+    },
+    {
+      "ref": "az900-px-017",
+      "type": "CASE_STUDY",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.4",
+      "difficulty": "HARD",
+      "stem": "For each statement, select **Yes** if it is true. Otherwise, select **No**.",
+      "explanation": "Identity, RBAC, Zero Trust, and Defender for Cloud address different layers of access and security posture.",
+      "lessonSlug": "rbac-zero-trust-defender",
+      "sources": [
+        {
+          "title": "What is Microsoft Entra?",
+          "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "What is Azure RBAC?",
+          "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Microsoft Defender for Cloud overview",
+          "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "scenario": "Woodgrove Bank is moving a customer portal to Azure. It wants centralized employee sign-in, least-privilege access to Azure resources, and recommendations for improving cloud security posture.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Microsoft Entra ID can provide centralized identity and authentication capabilities for employees.",
+            "answer": true,
+            "explanation": "Microsoft Entra ID is Microsoft's cloud identity and access solution."
+          },
+          {
+            "id": "s2",
+            "text": "Azure RBAC can help assign only the needed permissions to Azure resources.",
+            "answer": true,
+            "explanation": "Azure RBAC supports least privilege through scoped role assignments."
+          },
+          {
+            "id": "s3",
+            "text": "Microsoft Defender for Cloud replaces the need for identity and access design.",
+            "answer": false,
+            "explanation": "Defender for Cloud helps with security posture and threat protection, but identity and access design are still required."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "az900-px-018",
+      "type": "CATEGORIZATION",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.4",
+      "difficulty": "MEDIUM",
+      "stem": "Classify each security concept or tool by its main purpose.",
+      "explanation": "The items separate identity, authorization, security posture, and trust strategy concepts.",
+      "lessonSlug": "rbac-zero-trust-defender",
+      "sources": [
+        {
+          "title": "What is Microsoft Entra?",
+          "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "What is Azure RBAC?",
+          "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Microsoft Defender for Cloud overview",
+          "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "categorization": {
+        "categories": [
+          {
+            "id": "identity",
+            "label": "Identity and authentication"
+          },
+          {
+            "id": "authorization",
+            "label": "Azure resource authorization"
+          },
+          {
+            "id": "posture",
+            "label": "Security posture and protection"
+          },
+          {
+            "id": "strategy",
+            "label": "Security strategy"
+          }
+        ],
+        "items": [
+          {
+            "id": "entra",
+            "text": "Microsoft Entra ID sign-in and authentication",
+            "category": "identity",
+            "explanation": "Microsoft Entra ID provides identity and authentication capabilities."
+          },
+          {
+            "id": "rbac",
+            "text": "Role assignment at a resource group scope",
+            "category": "authorization",
+            "explanation": "RBAC role assignments authorize actions on Azure resources."
+          },
+          {
+            "id": "defender",
+            "text": "Recommendations to improve cloud security posture",
+            "category": "posture",
+            "explanation": "Defender for Cloud provides security posture management and protection capabilities."
+          },
+          {
+            "id": "zerotrust",
+            "text": "Verify explicitly and use least privilege",
+            "category": "strategy",
+            "explanation": "These are core Zero Trust principles."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "az900-px-019",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.3",
+      "difficulty": "EASY",
+      "stem": "A legacy app needs a managed file share that can be mounted by multiple machines. Which Azure Storage service is the best fit?",
+      "explanation": "Azure Files provides managed file shares that can be accessed by multiple systems using standard file-sharing protocols.",
+      "lessonSlug": "azure-storage-fundamentals",
+      "sources": [
+        {
+          "title": "What is Azure Files?",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-introduction",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure Files",
+          "correct": true,
+          "explanation": "Azure Files provides managed file shares."
+        },
+        {
+          "key": "B",
+          "text": "Azure VPN Gateway",
+          "correct": false,
+          "explanation": "VPN Gateway connects networks; it is not a file share service."
+        },
+        {
+          "key": "C",
+          "text": "Azure Functions",
+          "correct": false,
+          "explanation": "Functions runs event-driven code, not shared file storage."
+        },
+        {
+          "key": "D",
+          "text": "Azure Policy",
+          "correct": false,
+          "explanation": "Azure Policy enforces governance rules but does not provide file shares."
+        }
+      ]
+    },
+    {
+      "ref": "az900-px-020",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.4",
+      "difficulty": "MEDIUM",
+      "stem": "Litware wants to require additional verification only when sign-in risk is high or users are outside trusted conditions. Which capability is most relevant?",
+      "explanation": "Microsoft Entra Conditional Access can evaluate signals and apply access controls such as requiring multifactor authentication.",
+      "lessonSlug": "entra-id-and-authentication",
+      "sources": [
+        {
+          "title": "What is Microsoft Entra?",
+          "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Microsoft Entra Conditional Access",
+          "correct": true,
+          "explanation": "Conditional Access applies controls based on conditions and signals."
+        },
+        {
+          "key": "B",
+          "text": "Azure Availability Zones",
+          "correct": false,
+          "explanation": "Availability zones improve resilience, not sign-in policy."
+        },
+        {
+          "key": "C",
+          "text": "Azure Blob Storage tiers",
+          "correct": false,
+          "explanation": "Storage tiers affect storage cost and access patterns, not authentication."
+        },
+        {
+          "key": "D",
+          "text": "Azure ExpressRoute",
+          "correct": false,
+          "explanation": "ExpressRoute provides private connectivity, not conditional identity controls."
+        }
+      ]
+    },
+    {
+      "ref": "az900-px-021",
+      "type": "ORDERING",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.1",
+      "difficulty": "MEDIUM",
+      "stem": "Put these cost-control activities in a sensible early cloud adoption order.",
+      "explanation": "A team should estimate likely cost, organize spend with tags, monitor actual usage, then tune resources based on observed data.",
+      "lessonSlug": "cost-tools-and-tags",
+      "sources": [
+        {
+          "title": "Overview of Billing and Cost Management",
+          "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/cost-management-billing-overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "ordering": {
+        "items": [
+          {
+            "id": "estimate",
+            "text": "Estimate planned resources with a calculator"
+          },
+          {
+            "id": "tag",
+            "text": "Apply cost allocation tags"
+          },
+          {
+            "id": "monitor",
+            "text": "Review actual costs in Cost Management"
+          },
+          {
+            "id": "optimize",
+            "text": "Adjust resources based on findings"
+          }
+        ],
+        "correctOrder": [
+          "estimate",
+          "tag",
+          "monitor",
+          "optimize"
+        ],
+        "explanations": {
+          "estimate": "Estimating helps set expectations before resources are created.",
+          "tag": "Tags make later cost grouping and ownership easier.",
+          "monitor": "Cost Management shows actual usage and spending patterns.",
+          "optimize": "Optimization is based on the estimates, ownership data, and actual usage trends."
+        }
+      }
+    },
+    {
+      "ref": "az900-px-022",
+      "type": "UI_SIMULATION",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.2",
+      "difficulty": "MEDIUM",
+      "stem": "Configure the simulated governance screen so newly created resources must include a department tag and accidental deletion is discouraged.",
+      "explanation": "Azure Policy is the governance tool for enforcing or auditing requirements such as tags, and resource locks help prevent accidental deletion or modification.",
+      "lessonSlug": "azure-policy-and-resource-locks",
+      "sources": [
+        {
+          "title": "Overview of Azure Policy",
+          "url": "https://learn.microsoft.com/en-us/azure/governance/policy/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Protect your Azure resources with a lock",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "uiSimulation": {
+        "title": "Governance controls (simulated)",
+        "description": "This fictional screen combines simplified governance choices for practice; it is not the real Azure portal.",
+        "fields": [
+          {
+            "id": "tagpolicy",
+            "label": "Tag requirement",
+            "control": "select",
+            "options": [
+              {
+                "value": "none",
+                "label": "No tag rule"
+              },
+              {
+                "value": "require-department",
+                "label": "Require department tag"
+              }
+            ],
+            "correct": "require-department",
+            "explanation": "A policy requiring a tag supports consistent governance and cost grouping."
+          },
+          {
+            "id": "deleteLock",
+            "label": "Deletion protection",
+            "control": "toggle",
+            "correct": true,
+            "explanation": "A delete lock helps prevent accidental resource deletion."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "az900-px-023",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.3",
+      "difficulty": "HARD",
+      "stem": "Which Azure CLI command starts a resource group deployment of an ARM template file named `main.json` to the `rg-app` resource group?",
+      "explanation": "The `az deployment group create` command creates a deployment at resource group scope and accepts a resource group name and template file.",
+      "lessonSlug": "infrastructure-as-code",
+      "sources": [
+        {
+          "title": "az deployment group",
+          "url": "https://learn.microsoft.com/en-us/cli/azure/deployment/group",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Azure Resource Manager overview",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "`az deployment group create --resource-group rg-app --template-file main.json`",
+          "correct": true,
+          "explanation": "This is valid Azure CLI syntax for a resource group template deployment."
+        },
+        {
+          "key": "B",
+          "text": "`az group create --resource-group rg-app --template-file main.json`",
+          "correct": false,
+          "explanation": "`az group create` creates a resource group and does not deploy a template file."
+        },
+        {
+          "key": "C",
+          "text": "`az monitor metrics list --resource-group rg-app --template-file main.json`",
+          "correct": false,
+          "explanation": "This command reads metrics and does not deploy infrastructure."
+        },
+        {
+          "key": "D",
+          "text": "`az policy assignment list --template-file main.json --resource-group rg-app`",
+          "correct": false,
+          "explanation": "This lists policy assignments and does not deploy an ARM template."
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "az900-px-024",
+      "type": "CASE_STUDY",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.4",
+      "difficulty": "HARD",
+      "stem": "For each statement, select **Yes** if it is true. Otherwise, select **No**.",
+      "explanation": "Azure Monitor, Advisor, and Service Health serve complementary monitoring and operational-awareness purposes.",
+      "lessonSlug": "azure-monitor-basics",
+      "sources": [
+        {
+          "title": "Azure Monitor overview",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Introduction to Azure Advisor",
+          "url": "https://learn.microsoft.com/en-us/azure/advisor/advisor-overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "What is Azure Service Health?",
+          "url": "https://learn.microsoft.com/en-us/azure/service-health/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "scenario": "Relecloud operates several Azure workloads. The operations team needs telemetry from its apps, personalized recommendations for resource improvements, and notifications about Azure service incidents that could affect its subscriptions.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Azure Monitor is the primary service for collecting and analyzing telemetry from Azure resources and applications.",
+            "answer": true,
+            "explanation": "Azure Monitor collects and analyzes monitoring data such as metrics and logs."
+          },
+          {
+            "id": "s2",
+            "text": "Azure Advisor provides personalized recommendations that can include reliability, security, performance, operational excellence, and cost areas.",
+            "answer": true,
+            "explanation": "Advisor gives recommendations based on deployed resources."
+          },
+          {
+            "id": "s3",
+            "text": "Azure Service Health is used to deploy ARM templates to resource groups.",
+            "answer": false,
+            "explanation": "Service Health provides information about Azure service issues, planned maintenance, and health advisories; deployments use tools such as ARM templates and CLI commands."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "az900-px-025",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.1",
+      "difficulty": "EASY",
+      "stem": "A finance team wants to group Azure spending by project owner across many resource groups. Which feature should it apply consistently?",
+      "explanation": "Tags add metadata to resources so costs and ownership can be grouped and reported more meaningfully.",
+      "lessonSlug": "cost-tools-and-tags",
+      "sources": [
+        {
+          "title": "Overview of Billing and Cost Management",
+          "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/cost-management-billing-overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Tags",
+          "correct": true,
+          "explanation": "Tags can label resources with values such as project, owner, or cost center."
+        },
+        {
+          "key": "B",
+          "text": "Availability zones",
+          "correct": false,
+          "explanation": "Availability zones improve resilience, not cost grouping."
+        },
+        {
+          "key": "C",
+          "text": "Virtual network peering",
+          "correct": false,
+          "explanation": "Peering connects virtual networks; it does not categorize spending."
+        },
+        {
+          "key": "D",
+          "text": "MFA registration",
+          "correct": false,
+          "explanation": "MFA improves sign-in security, not cost allocation."
+        }
+      ]
+    },
+    {
+      "ref": "az900-px-026",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.2",
+      "difficulty": "MEDIUM",
+      "stem": "Wide World Importers wants to audit whether resources follow required configuration rules and optionally block noncompliant deployments. Which Azure service should it use?",
+      "explanation": "Azure Policy evaluates resources against rules and can audit or deny deployments that do not meet policy requirements.",
+      "lessonSlug": "azure-policy-and-resource-locks",
+      "sources": [
+        {
+          "title": "Overview of Azure Policy",
+          "url": "https://learn.microsoft.com/en-us/azure/governance/policy/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure Policy",
+          "correct": true,
+          "explanation": "Azure Policy supports governance through policy definitions, assignments, and compliance evaluation."
+        },
+        {
+          "key": "B",
+          "text": "Azure Monitor",
+          "correct": false,
+          "explanation": "Azure Monitor collects telemetry but is not the primary policy enforcement engine."
+        },
+        {
+          "key": "C",
+          "text": "Azure Functions",
+          "correct": false,
+          "explanation": "Functions runs code; it is not the built-in governance policy service."
+        },
+        {
+          "key": "D",
+          "text": "Azure Files",
+          "correct": false,
+          "explanation": "Azure Files provides managed file shares and does not enforce governance rules."
+        }
+      ]
+    },
+    {
+      "ref": "az900-px-027",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.3",
+      "difficulty": "MEDIUM",
+      "stem": "Alpine Ski House wants to manage resources in Azure and on other infrastructure from a consistent control plane. Which service extends Azure management beyond Azure?",
+      "explanation": "Azure Arc extends Azure management and governance capabilities to resources outside Azure, supporting a consistent management approach.",
+      "lessonSlug": "tools-for-managing-azure",
+      "sources": [
+        {
+          "title": "Azure Arc overview",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-arc/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure Arc",
+          "correct": true,
+          "explanation": "Azure Arc helps manage resources across Azure, on-premises, and other clouds."
+        },
+        {
+          "key": "B",
+          "text": "Azure Blob Storage",
+          "correct": false,
+          "explanation": "Blob Storage stores unstructured data and does not extend management to external resources."
+        },
+        {
+          "key": "C",
+          "text": "Azure Availability Zones",
+          "correct": false,
+          "explanation": "Availability zones are datacenter groupings within a region, not a hybrid management service."
+        },
+        {
+          "key": "D",
+          "text": "Azure VPN Gateway",
+          "correct": false,
+          "explanation": "VPN Gateway connects networks but does not provide the Azure management plane for external resources."
+        }
+      ]
+    },
+    {
+      "ref": "az900-px-028",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.4",
+      "difficulty": "EASY",
+      "stem": "Which tool should an administrator check for personalized guidance to improve cost, reliability, performance, operational excellence, and security of deployed Azure resources?",
+      "explanation": "Azure Advisor analyzes deployed resources and provides recommendations in multiple operational categories.",
+      "lessonSlug": "azure-advisor-and-service-health",
+      "sources": [
+        {
+          "title": "Introduction to Azure Advisor",
+          "url": "https://learn.microsoft.com/en-us/azure/advisor/advisor-overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure Advisor",
+          "correct": true,
+          "explanation": "Advisor provides personalized recommendations for deployed Azure resources."
+        },
+        {
+          "key": "B",
+          "text": "Microsoft Purview",
+          "correct": false,
+          "explanation": "Purview focuses on data governance, risk, and compliance."
+        },
+        {
+          "key": "C",
+          "text": "Azure Data Box",
+          "correct": false,
+          "explanation": "Data Box is used for offline data transfer scenarios, not operational recommendations."
+        },
+        {
+          "key": "D",
+          "text": "Microsoft Entra ID",
+          "correct": false,
+          "explanation": "Entra ID handles identity and access, not broad resource optimization recommendations."
+        }
+      ]
+    },
+    {
+      "ref": "az900-px-029",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.4",
+      "difficulty": "MEDIUM",
+      "stem": "A support team wants alerts when an application's response time crosses a threshold and wants to inspect logs for the app. Which Azure service is most relevant?",
+      "explanation": "Azure Monitor includes metrics, logs, alerts, and Application Insights capabilities for monitoring applications and resources.",
+      "lessonSlug": "azure-monitor-basics",
+      "sources": [
+        {
+          "title": "Azure Monitor overview",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure Monitor",
+          "correct": true,
+          "explanation": "Azure Monitor provides monitoring data, alerts, and log analysis capabilities."
+        },
+        {
+          "key": "B",
+          "text": "Azure Policy",
+          "correct": false,
+          "explanation": "Policy evaluates compliance; it is not the main telemetry and alerting service."
+        },
+        {
+          "key": "C",
+          "text": "Azure ExpressRoute",
+          "correct": false,
+          "explanation": "ExpressRoute provides private connectivity, not application logs and alerts."
+        },
+        {
+          "key": "D",
+          "text": "Microsoft Cost Management",
+          "correct": false,
+          "explanation": "Cost Management helps analyze spending, not app response-time telemetry."
+        }
+      ]
+    },
+    {
+      "ref": "az900-px-030",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.3",
+      "difficulty": "MEDIUM",
+      "stem": "A developer wants to deploy the same Azure environment repeatedly using declarative files stored with application code. Which approach best fits?",
+      "explanation": "Infrastructure as code uses declarative templates or configuration files to deploy consistent environments through automation.",
+      "lessonSlug": "infrastructure-as-code",
+      "sources": [
+        {
+          "title": "Azure Resource Manager overview",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Infrastructure as code with ARM templates or Bicep",
+          "correct": true,
+          "explanation": "Declarative files can define Azure resources for repeatable deployments."
+        },
+        {
+          "key": "B",
+          "text": "Manual portal-only configuration",
+          "correct": false,
+          "explanation": "Manual-only steps are harder to repeat consistently from source-controlled files."
+        },
+        {
+          "key": "C",
+          "text": "Changing resource names after deployment",
+          "correct": false,
+          "explanation": "Renaming resources does not define repeatable infrastructure."
+        },
+        {
+          "key": "D",
+          "text": "A delete lock on every resource",
+          "correct": false,
+          "explanation": "Locks protect resources; they do not define or deploy an environment."
+        }
+      ]
+    }
+  ]
+}

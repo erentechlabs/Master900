@@ -1,0 +1,802 @@
+{
+  "questions": [
+    {
+      "ref": "ai901-px-001",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "ai-concepts",
+      "objectiveCode": "1.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which **two** practices best support responsible AI for a customer-facing assistant?",
+      "explanation": "Fairness testing and monitoring help discover and govern risks. For responsible AI, the scenario requires concrete fairness, transparency, privacy, and governance practices rather than convenience shortcuts.",
+      "lessonSlug": "responsible-ai-principles",
+      "sources": [
+        {
+          "title": "Responsible AI for Microsoft Foundry",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-use-of-ai-overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Test prompts from different user groups.",
+          "correct": true,
+          "explanation": "Supports fairness and inclusiveness. For responsible AI, the scenario requires concrete fairness, transparency, privacy, and governance practices rather than convenience shortcuts."
+        },
+        {
+          "key": "B",
+          "text": "Monitor production behavior and investigate safety issues.",
+          "correct": true,
+          "explanation": "Supports governance. For responsible AI, the scenario requires concrete fairness, transparency, privacy, and governance practices rather than convenience shortcuts."
+        },
+        {
+          "key": "C",
+          "text": "Hide that responses are AI-generated.",
+          "correct": false,
+          "explanation": "Transparency matters. For responsible AI, the scenario requires concrete fairness, transparency, privacy, and governance practices rather than convenience shortcuts."
+        },
+        {
+          "key": "D",
+          "text": "Use personal data even when unnecessary.",
+          "correct": false,
+          "explanation": "Privacy requires minimization. For responsible AI, the scenario requires concrete fairness, transparency, privacy, and governance practices rather than convenience shortcuts."
+        }
+      ],
+      "selectCount": 2,
+      "translations": {
+        "tr": {
+          "stem": "Müşteriyle etkileşen bir yardımcı için sorumlu yapay zekâyı en iyi destekleyen **iki** uygulama hangisidir?",
+          "explanation": "Adillik testleri ve izleme, riskleri keşfetmeye ve yönetmeye yardımcı olur. Açıklama, seçimin senaryodaki gereksinimle nasıl bağlantılı olduğunu belirtir.",
+          "options": {
+            "A": {
+              "text": "Farklı kullanıcı gruplarından istemleri test etmek.",
+              "explanation": "Adillik ve kapsayıcılığı destekler."
+            },
+            "B": {
+              "text": "Üretim davranışını izlemek ve güvenlik sorunlarını incelemek.",
+              "explanation": "Yönetişimi destekler."
+            },
+            "C": {
+              "text": "Yanıtların yapay zekâ tarafından üretildiğini gizlemek.",
+              "explanation": "Şeffaflık önemlidir."
+            },
+            "D": {
+              "text": "Gereksiz olsa bile kişisel veri kullanmak.",
+              "explanation": "Gizlilik veri minimizasyonu gerektirir."
+            }
+          },
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "ref": "ai901-px-002",
+      "type": "TRUE_FALSE",
+      "domainKey": "ai-concepts",
+      "objectiveCode": "1.2",
+      "difficulty": "MEDIUM",
+      "stem": "A model deployment configuration can affect how an application routes requests to a model.",
+      "explanation": "Endpoint and deployment details are part of app configuration. For model configuration, the app must target a deployed model through endpoint and deployment settings rather than a general catalog listing.",
+      "lessonSlug": "generative-ai-model-configuration",
+      "sources": [
+        {
+          "title": "Deploy Microsoft Foundry Models in the Foundry portal",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/deploy-foundry-models",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Get started with Microsoft Foundry SDKs and endpoints",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/sdk-overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "options": [
+        {
+          "key": "TRUE",
+          "text": "True",
+          "correct": true,
+          "explanation": "Deployment details matter. For model configuration, the app must target a deployed model through endpoint and deployment settings rather than a general catalog listing."
+        },
+        {
+          "key": "FALSE",
+          "text": "False",
+          "correct": false,
+          "explanation": "The app does not call only a catalog card. For model configuration, the app must target a deployed model through endpoint and deployment settings rather than a general catalog listing."
+        }
+      ],
+      "translations": {
+        "tr": {
+          "stem": "Bir model dağıtım yapılandırması, uygulamanın istekleri modele nasıl yönlendirdiğini etkileyebilir.",
+          "explanation": "Uç nokta ve dağıtım ayrıntıları uygulama yapılandırmasının parçasıdır. Açıklama, seçimin senaryodaki gereksinimle nasıl bağlantılı olduğunu belirtir.",
+          "options": {
+            "TRUE": {
+              "text": "Doğru",
+              "explanation": "Dağıtım ayrıntıları önemlidir."
+            },
+            "FALSE": {
+              "text": "Yanlış",
+              "explanation": "Uygulama yalnızca katalog kartını çağırmaz."
+            }
+          },
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "ref": "ai901-px-003",
+      "type": "MATCHING",
+      "domainKey": "ai-concepts",
+      "objectiveCode": "1.3",
+      "difficulty": "MEDIUM",
+      "stem": "Match each workload to its description.",
+      "explanation": "The matches reflect common AI workloads. For workload identification, the input and output type determine whether the scenario is generative AI, speech, vision, or something unrelated.",
+      "lessonSlug": "ai-workloads-overview",
+      "sources": [
+        {
+          "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "matching": {
+        "prompts": [
+          {
+            "id": "gen",
+            "text": "Generative AI"
+          },
+          {
+            "id": "speech",
+            "text": "Speech"
+          },
+          {
+            "id": "vision",
+            "text": "Computer vision"
+          }
+        ],
+        "answers": [
+          {
+            "id": "create",
+            "text": "Creates or transforms content"
+          },
+          {
+            "id": "audio",
+            "text": "Transcribes or synthesizes audio"
+          },
+          {
+            "id": "visual",
+            "text": "Interprets images"
+          },
+          {
+            "id": "backup",
+            "text": "Copies files"
+          }
+        ],
+        "pairs": {
+          "gen": "create",
+          "speech": "audio",
+          "vision": "visual"
+        },
+        "explanations": {
+          "gen": "Generative AI maps to Creates or transforms content because that answer describes the role or capability needed in the scenario. For workload identification, the input and output type determine whether the scenario is generative AI, speech, vision, or something unrelated.",
+          "speech": "Speech maps to Transcribes or synthesizes audio because that answer describes the role or capability needed in the scenario. For workload identification, the input and output type determine whether the scenario is generative AI, speech, vision, or something unrelated.",
+          "vision": "Computer vision maps to Interprets images because that answer describes the role or capability needed in the scenario. For workload identification, the input and output type determine whether the scenario is generative AI, speech, vision, or something unrelated."
+        }
+      },
+      "translations": {
+        "tr": {
+          "stem": "Her iş yükünü açıklamasıyla eşleştirin.",
+          "explanation": "Eşleşmeler yaygın yapay zekâ iş yüklerini yansıtır. Açıklama, seçimin senaryodaki gereksinimle nasıl bağlantılı olduğunu belirtir.",
+          "matching": {
+            "prompts": {
+              "gen": "Üretken yapay zekâ",
+              "speech": "Konuşma",
+              "vision": "Görüntü işleme"
+            },
+            "answers": {
+              "create": "İçerik oluşturur veya dönüştürür",
+              "audio": "Sesi yazıya döker veya ses üretir",
+              "visual": "Görüntüleri yorumlar",
+              "backup": "Dosya kopyalar"
+            },
+            "explanations": {
+              "gen": "Üretken yapay zekâ içerik oluşturur.",
+              "speech": "Konuşma sesle çalışır.",
+              "vision": "Görüntü işleme görsellerle çalışır."
+            }
+          },
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "ref": "ai901-px-004",
+      "type": "SCENARIO",
+      "domainKey": "ai-concepts",
+      "objectiveCode": "1.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which principle is most directly involved?",
+      "explanation": "Privacy and security focus on protecting personal data. For this ticket-summary scenario, sensitive support data makes privacy and security the primary responsible AI consideration.",
+      "lessonSlug": "applying-responsible-ai",
+      "sources": [
+        {
+          "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Responsible AI for Microsoft Foundry",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-use-of-ai-overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "scenario": "Proseware summarizes support tickets that can contain phone numbers and account details.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Privacy and security",
+          "correct": true,
+          "explanation": "Sensitive data is central. For this ticket-summary scenario, sensitive support data makes privacy and security the primary responsible AI consideration."
+        },
+        {
+          "key": "B",
+          "text": "Image quality",
+          "correct": false,
+          "explanation": "No image output is involved. For this ticket-summary scenario, sensitive support data makes privacy and security the primary responsible AI consideration."
+        },
+        {
+          "key": "C",
+          "text": "Autoscale only",
+          "correct": false,
+          "explanation": "This is not the responsible AI focus. For this ticket-summary scenario, sensitive support data makes privacy and security the primary responsible AI consideration."
+        }
+      ],
+      "translations": {
+        "tr": {
+          "scenario": "Proseware, telefon numaraları ve hesap ayrıntıları içerebilen destek kayıtlarını özetler.",
+          "stem": "En doğrudan ilgili ilke hangisidir?",
+          "explanation": "Gizlilik ve güvenlik kişisel verileri korumaya odaklanır. Açıklama, seçimin senaryodaki gereksinimle nasıl bağlantılı olduğunu belirtir.",
+          "options": {
+            "A": {
+              "text": "Gizlilik ve güvenlik",
+              "explanation": "Hassas veri merkezdedir."
+            },
+            "B": {
+              "text": "Görüntü kalitesi",
+              "explanation": "Görüntü çıktısı yoktur."
+            },
+            "C": {
+              "text": "Yalnızca otomatik ölçeklendirme",
+              "explanation": "Sorumlu yapay zekâ odağı bu değildir."
+            }
+          },
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "ref": "ai901-px-005",
+      "type": "ORDERING",
+      "domainKey": "ai-concepts",
+      "objectiveCode": "1.2",
+      "difficulty": "MEDIUM",
+      "stem": "Place the model-app steps in order.",
+      "explanation": "Select, deploy, call, then evaluate. For a model-backed app, the team must choose a model, deploy it, call it, and evaluate the behavior in that order.",
+      "lessonSlug": "how-ai-models-work",
+      "sources": [
+        {
+          "title": "Deploy Microsoft Foundry Models in the Foundry portal",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/deploy-foundry-models",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Microsoft Foundry Playgrounds",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/concepts/concept-playgrounds",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "ordering": {
+        "items": [
+          {
+            "id": "s1",
+            "text": "Choose a model"
+          },
+          {
+            "id": "s2",
+            "text": "Create a deployment"
+          },
+          {
+            "id": "s3",
+            "text": "Call from the app"
+          },
+          {
+            "id": "s4",
+            "text": "Evaluate outputs"
+          }
+        ],
+        "correctOrder": [
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "explanations": {
+          "s1": "Choose a model belongs at this point because the workflow must complete prerequisite setup before later integration or review. For a model-backed app, the team must choose a model, deploy it, call it, and evaluate the behavior in that order.",
+          "s2": "Create a deployment belongs at this point because the workflow must complete prerequisite setup before later integration or review. For a model-backed app, the team must choose a model, deploy it, call it, and evaluate the behavior in that order.",
+          "s3": "Call from the app belongs at this point because the workflow must complete prerequisite setup before later integration or review. For a model-backed app, the team must choose a model, deploy it, call it, and evaluate the behavior in that order.",
+          "s4": "Evaluate outputs belongs at this point because the workflow must complete prerequisite setup before later integration or review. For a model-backed app, the team must choose a model, deploy it, call it, and evaluate the behavior in that order."
+        }
+      }
+    },
+    {
+      "ref": "ai901-px-006",
+      "type": "CATEGORIZATION",
+      "domainKey": "ai-concepts",
+      "objectiveCode": "1.3",
+      "difficulty": "MEDIUM",
+      "stem": "Classify each scenario by workload.",
+      "explanation": "Each item maps to the primary input. For workload classification, email text, meeting audio, and product photos each point to a different AI workload.",
+      "lessonSlug": "ai-workloads-overview",
+      "sources": [
+        {
+          "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "categorization": {
+        "categories": [
+          {
+            "id": "text",
+            "label": "Text"
+          },
+          {
+            "id": "speech",
+            "label": "Speech"
+          },
+          {
+            "id": "vision",
+            "label": "Vision"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "text": "Detect key phrases in emails.",
+            "category": "text",
+            "explanation": "Detect key phrases in emails. belongs in Text because its input and desired output match that category. For workload classification, email text, meeting audio, and product photos each point to a different AI workload."
+          },
+          {
+            "id": "i2",
+            "text": "Caption meeting audio.",
+            "category": "speech",
+            "explanation": "Caption meeting audio. belongs in Speech because its input and desired output match that category. For workload classification, email text, meeting audio, and product photos each point to a different AI workload."
+          },
+          {
+            "id": "i3",
+            "text": "Describe a product photo.",
+            "category": "vision",
+            "explanation": "Describe a product photo. belongs in Vision because its input and desired output match that category. For workload classification, email text, meeting audio, and product photos each point to a different AI workload."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "ai901-px-007",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "ai-concepts",
+      "objectiveCode": "1.2",
+      "difficulty": "EASY",
+      "stem": "Complete the sentence.",
+      "explanation": "A system prompt defines high-level behavior. For prompt configuration, the system prompt is the high-level instruction layer that frames assistant behavior.",
+      "lessonSlug": "generative-ai-model-configuration",
+      "sources": [
+        {
+          "title": "Prompt engineering techniques",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/prompt-engineering",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "fillInBlank": {
+        "template": "A {{b1}} prompt is commonly used to define the assistant's role and boundaries.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "system",
+              "System"
+            ],
+            "explanation": "The accepted answer completes the sentence with the exact capability required by the scenario. For prompt configuration, the system prompt is the high-level instruction layer that frames assistant behavior."
+          }
+        ],
+        "wordBank": [
+          "system",
+          "storage",
+          "billing",
+          "image"
+        ]
+      }
+    },
+    {
+      "ref": "ai901-px-008",
+      "type": "CASE_STUDY",
+      "domainKey": "foundry-solutions",
+      "objectiveCode": "2.1",
+      "difficulty": "HARD",
+      "stem": "For each statement, select **Yes** if it is true. Otherwise, select **No**.",
+      "explanation": "Knowledge, instructions, and review fit this agent design. For this procurement agent, grounding, instructions, and manager approval control how far the agent can act.",
+      "lessonSlug": "building-agents-in-foundry",
+      "sources": [
+        {
+          "title": "What is Microsoft Foundry Agent Service?",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/agents/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Responsible AI for Microsoft Foundry",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-use-of-ai-overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "scenario": "Relecloud builds a procurement agent using approved policy documents and manager approval for submissions.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Approved policy documents can ground answers.",
+            "answer": true,
+            "explanation": "Approved policy documents are knowledge sources because the agent can ground procurement answers in them before taking or drafting any action."
+          },
+          {
+            "id": "s2",
+            "text": "The agent should submit purchases without review.",
+            "answer": false,
+            "explanation": "Approval is required. For this procurement agent, grounding, instructions, and manager approval control how far the agent can act."
+          },
+          {
+            "id": "s3",
+            "text": "Instructions should define escalation.",
+            "answer": true,
+            "explanation": "Escalation is part of behavior. For this procurement agent, grounding, instructions, and manager approval control how far the agent can act."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "ai901-px-009",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "foundry-solutions",
+      "objectiveCode": "2.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which command sets the active Azure subscription?",
+      "explanation": "az account set is the documented command. For Azure CLI setup, selecting the active subscription is separate from token retrieval or resource deletion.",
+      "lessonSlug": "foundry-projects-models-deployments",
+      "sources": [
+        {
+          "title": "Create a project - Microsoft Foundry",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/how-to/create-projects",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "`az account set --subscription \"{subscription-name}\"`",
+          "correct": true,
+          "explanation": "This command selects the Azure subscription used by later CLI commands. For Azure CLI setup, selecting the active subscription is separate from token retrieval or resource deletion."
+        },
+        {
+          "key": "B",
+          "text": "`az account get-access-token --subscription \"{subscription-name}\"`",
+          "correct": false,
+          "explanation": "This command retrieves authentication information, but it does not change the active subscription. For Azure CLI setup, selecting the active subscription is separate from token retrieval or resource deletion."
+        },
+        {
+          "key": "C",
+          "text": "`az group delete --subscription \"{subscription-name}\"`",
+          "correct": false,
+          "explanation": "This command is destructive and does not configure which subscription subsequent commands use. For Azure CLI setup, selecting the active subscription is separate from token retrieval or resource deletion."
+        }
+      ],
+      "needsVerification": true
+    },
+    {
+      "ref": "ai901-px-010",
+      "type": "UI_SIMULATION",
+      "domainKey": "foundry-solutions",
+      "objectiveCode": "2.1",
+      "difficulty": "MEDIUM",
+      "stem": "Configure the simulated screen for safer public chat testing.",
+      "explanation": "Blocking harmful output and review logging support protection and governance. For public chat testing, content-risk controls and review logs reduce unsafe output and support governance.",
+      "lessonSlug": "building-agents-in-foundry",
+      "sources": [
+        {
+          "title": "Responsible AI for Microsoft Foundry",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-use-of-ai-overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "uiSimulation": {
+        "title": "Content filter settings (simulated)",
+        "description": "Fictional simplified screen, not the real portal.",
+        "fields": [
+          {
+            "id": "harm",
+            "label": "Harmful content action",
+            "control": "select",
+            "options": [
+              {
+                "value": "block",
+                "label": "Block and explain safely"
+              },
+              {
+                "value": "allow",
+                "label": "Allow without review"
+              }
+            ],
+            "correct": "block",
+            "explanation": "Blocking aligns with protection. For public chat testing, content-risk controls and review logs reduce unsafe output and support governance."
+          },
+          {
+            "id": "log",
+            "label": "Log flagged interactions",
+            "control": "toggle",
+            "correct": true,
+            "explanation": "Logs support review. For public chat testing, content-risk controls and review logs reduce unsafe output and support governance."
+          }
+        ]
+      },
+      "needsVerification": true
+    },
+    {
+      "ref": "ai901-px-011",
+      "type": "SCENARIO",
+      "domainKey": "foundry-solutions",
+      "objectiveCode": "2.2",
+      "difficulty": "MEDIUM",
+      "stem": "Which pair of capabilities should the app use?",
+      "explanation": "Speech to text handles input and text to speech handles output. For this kiosk, spoken input and spoken output require both transcription and synthesis.",
+      "lessonSlug": "speech-solutions",
+      "sources": [
+        {
+          "title": "What Is Azure Speech?",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "scenario": "A kiosk accepts spoken questions and gives spoken answers.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Speech to text and text to speech",
+          "correct": true,
+          "explanation": "This covers both directions. For this kiosk, spoken input and spoken output require both transcription and synthesis."
+        },
+        {
+          "key": "B",
+          "text": "Image generation and OCR",
+          "correct": false,
+          "explanation": "The task is audio. For this kiosk, spoken input and spoken output require both transcription and synthesis."
+        },
+        {
+          "key": "C",
+          "text": "Document translation and image generation",
+          "correct": false,
+          "explanation": "These do not provide the voice loop. For this kiosk, spoken input and spoken output require both transcription and synthesis."
+        }
+      ]
+    },
+    {
+      "ref": "ai901-px-012",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "foundry-solutions",
+      "objectiveCode": "2.2",
+      "difficulty": "EASY",
+      "stem": "Which capability identifies personal data in customer text?",
+      "explanation": "PII detection identifies personal information. For customer-message analysis, PII detection inspects text for personal data while audio or image services do not.",
+      "lessonSlug": "text-analysis-and-translation",
+      "sources": [
+        {
+          "title": "What is Azure Language in Foundry Tools",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "PII detection in Azure Language",
+          "correct": true,
+          "explanation": "This option directly provides the capability requested in the question rather than a neighboring AI workload. For customer-message analysis, PII detection inspects text for personal data while audio or image services do not."
+        },
+        {
+          "key": "B",
+          "text": "Text to speech",
+          "correct": false,
+          "explanation": "That capability synthesizes spoken output, but the requirement is not to produce audio. For customer-message analysis, PII detection inspects text for personal data while audio or image services do not."
+        },
+        {
+          "key": "C",
+          "text": "Image generation",
+          "correct": false,
+          "explanation": "This creates visuals. For customer-message analysis, PII detection inspects text for personal data while audio or image services do not."
+        }
+      ]
+    },
+    {
+      "ref": "ai901-px-013",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "foundry-solutions",
+      "objectiveCode": "2.3",
+      "difficulty": "MEDIUM",
+      "stem": "Which **two** requirements point to vision or image generation?",
+      "explanation": "One interprets images and one creates images. For visual requirements, uploaded photos require vision analysis and prompt-created illustrations require image generation.",
+      "lessonSlug": "vision-and-image-generation",
+      "sources": [
+        {
+          "title": "How to use vision-enabled chat models",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/gpt-with-vision",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "How to Use Image Generation Models from OpenAI",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Answer questions about uploaded site photos.",
+          "correct": true,
+          "explanation": "Vision interprets existing images, which is the correct fit when the requirement asks about uploaded visual content."
+        },
+        {
+          "key": "B",
+          "text": "Create a draft illustration from text.",
+          "correct": true,
+          "explanation": "Image generation creates new visuals, which fits requirements that ask for a draft or illustration from a prompt."
+        },
+        {
+          "key": "C",
+          "text": "Detect the language of a paragraph.",
+          "correct": false,
+          "explanation": "Language capabilities analyze text, but this option does not match the visual requirement in the stem."
+        },
+        {
+          "key": "D",
+          "text": "Transcribe a call.",
+          "correct": false,
+          "explanation": "Speech capabilities handle audio, but this scenario is not asking for an audio workflow. For visual requirements, uploaded photos require vision analysis and prompt-created illustrations require image generation."
+        }
+      ],
+      "selectCount": 2
+    },
+    {
+      "ref": "ai901-px-014",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "foundry-solutions",
+      "objectiveCode": "2.3",
+      "difficulty": "MEDIUM",
+      "stem": "A user uploads a receipt image and asks for merchant and total. Which is aligned?",
+      "explanation": "The task extracts text and fields from visual content. For a receipt image, the goal is to read or extract data from existing visual content, not create new media.",
+      "lessonSlug": "vision-and-image-generation",
+      "sources": [
+        {
+          "title": "What is Azure Vision in Foundry Tools?",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "What is Azure Content Understanding in Foundry Tools?",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "Extract text and fields from the receipt image.",
+          "correct": true,
+          "explanation": "This option reads values from an existing image, which is what OCR or extraction is designed to do. For a receipt image, the goal is to read or extract data from existing visual content, not create new media."
+        },
+        {
+          "key": "B",
+          "text": "Generate a new receipt.",
+          "correct": false,
+          "explanation": "The goal is not generation. For a receipt image, the goal is to read or extract data from existing visual content, not create new media."
+        },
+        {
+          "key": "C",
+          "text": "Synthesize speech from the receipt.",
+          "correct": false,
+          "explanation": "Audio output is not extraction. For a receipt image, the goal is to read or extract data from existing visual content, not create new media."
+        }
+      ]
+    },
+    {
+      "ref": "ai901-px-015",
+      "type": "SCENARIO",
+      "domainKey": "foundry-solutions",
+      "objectiveCode": "2.4",
+      "difficulty": "HARD",
+      "stem": "Which capability best fits?",
+      "explanation": "Content Understanding handles structured extraction from documents. For vendor documents, the need for fields, confidence, and evidence points to information extraction.",
+      "lessonSlug": "information-extraction",
+      "sources": [
+        {
+          "title": "What is Azure Content Understanding in Foundry Tools?",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "scenario": "Wide World Importers needs vendor name, dates, totals, clauses, confidence, and evidence from contracts and invoices.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure Content Understanding in Foundry Tools",
+          "correct": true,
+          "explanation": "It supports schema-oriented extraction. For vendor documents, the need for fields, confidence, and evidence points to information extraction."
+        },
+        {
+          "key": "B",
+          "text": "Text to speech",
+          "correct": false,
+          "explanation": "Text to speech would only produce spoken output; it would not extract vendor names, totals, clauses, confidence, or evidence from documents."
+        },
+        {
+          "key": "C",
+          "text": "Image generation",
+          "correct": false,
+          "explanation": "Image generation would create new visual content; it would not read contracts and invoices or return structured fields with evidence."
+        }
+      ]
+    },
+    {
+      "ref": "ai901-px-016",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "foundry-solutions",
+      "objectiveCode": "2.4",
+      "difficulty": "MEDIUM",
+      "stem": "Why route some extracted fields to a reviewer?",
+      "explanation": "Low confidence or high impact values need confirmation. For extracted business data, human review is used when confidence or impact makes blind automation risky.",
+      "lessonSlug": "information-extraction",
+      "sources": [
+        {
+          "title": "What is Azure Content Understanding in Foundry Tools?",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Responsible AI for Microsoft Foundry",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-use-of-ai-overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "options": [
+        {
+          "key": "A",
+          "text": "To verify uncertain or high-impact extracted values.",
+          "correct": true,
+          "explanation": "This is a review pattern. For extracted business data, human review is used when confidence or impact makes blind automation risky."
+        },
+        {
+          "key": "B",
+          "text": "To avoid defining fields.",
+          "correct": false,
+          "explanation": "Fields still matter. For extracted business data, human review is used when confidence or impact makes blind automation risky."
+        },
+        {
+          "key": "C",
+          "text": "To create generated images.",
+          "correct": false,
+          "explanation": "Unrelated to extraction. For extracted business data, human review is used when confidence or impact makes blind automation risky."
+        }
+      ]
+    }
+  ]
+}

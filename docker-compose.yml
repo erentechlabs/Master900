@@ -1,0 +1,86 @@
+# Local production-like stack: PostgreSQL + one-off migrations/seed + web app + background worker.
+#
+#   1. Create a .env next to this file with at least:  NEXTAUTH_SECRET=<32+ random characters>
+#   2. docker compose up --build
+#   3. Open http://localhost:3000  (demo accounts are created when SEED_DEMO_USERS is not "false")
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: academy
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-academy}
+      POSTGRES_DB: fundamentals_academy
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U academy -d fundamentals_academy"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  migrate:
+    build:
+      context: .
+      target: tools
+    environment:
+      DATABASE_URL: postgresql://academy:${POSTGRES_PASSWORD:-academy}@db:5432/fundamentals_academy
+      # Seed the catalog and demonstration courses only into an empty database (never overwrites CMS edits).
+      SEED_MODE: if-empty
+      # Demo accounts (admin@example.com, learner@example.com, ...). Set to "false" for real deployments and
+      # provide ADMIN_EMAIL / ADMIN_PASSWORD to bootstrap the first administrator instead.
+      SEED_DEMO_USERS: ${SEED_DEMO_USERS:-true}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+    command: ["sh", "-c", "npx prisma migrate deploy && npm run db:seed"]
+    depends_on:
+      db:
+        condition: service_healthy
+
+  app:
+    build:
+      context: .
+      target: runner
+      args:
+        NEXTAUTH_URL: ${APP_URL:-http://localhost:3000}
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://academy:${POSTGRES_PASSWORD:-academy}@db:5432/fundamentals_academy
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:?Set NEXTAUTH_SECRET (32+ random characters) in .env}
+      NEXTAUTH_URL: ${APP_URL:-http://localhost:3000}
+      APP_URL: ${APP_URL:-http://localhost:3000}
+      AI_PROVIDER: ${AI_PROVIDER:-mock}
+      AI_API_KEY: ${AI_API_KEY:-}
+      AI_BASE_URL: ${AI_BASE_URL:-https://api.openai.com/v1}
+      AI_MODEL: ${AI_MODEL:-gpt-4o-mini}
+      REGISTRATION_ENABLED: ${REGISTRATION_ENABLED:-true}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    ports:
+      - "3000:3000"
+    volumes:
+      - media:/app/storage
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  worker:
+    build:
+      context: .
+      target: tools
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://academy:${POSTGRES_PASSWORD:-academy}@db:5432/fundamentals_academy
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:?Set NEXTAUTH_SECRET (32+ random characters) in .env}
+      APP_URL: ${APP_URL:-http://localhost:3000}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      STORAGE_LOCAL_DIR: /app/storage
+    command: ["npm", "run", "worker"]
+    volumes:
+      - media:/app/storage
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+volumes:
+  db-data:
+  media:

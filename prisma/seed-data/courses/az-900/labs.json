@@ -1,0 +1,599 @@
+{
+  "labs": [
+    {
+      "slug": "rbac-least-privilege-portal",
+      "type": "UI_SIMULATION",
+      "title": "Grant least-privilege access in a simulated portal",
+      "summary": "Use Azure role-based access control concepts to give a finance analyst read-only access at the right scope.",
+      "scenario": "Alex, a finance analyst at **Contoso**, needs to view the reports stored in the resource group **rg-finance-reports**. Alex must **not** be able to change or delete resources. Your task is to assign the least-privileged built-in role at the correct scope using a **simulated** portal. All people and resources are fictional.",
+      "domainKey": "azure-architecture-services",
+      "moduleSlug": "azure-identity-security",
+      "objectiveCode": "2.4",
+      "complexity": "INTRO",
+      "estimatedMinutes": 10,
+      "learningObjectives": [
+        "Explain how a role assignment combines a security principal, a role and a scope",
+        "Choose between Reader, Contributor and Owner using the principle of least privilege",
+        "Recognize that assignments at a resource group apply to every resource inside it"
+      ],
+      "prerequisites": ["Lesson: Azure RBAC, Zero Trust, and Microsoft Defender for Cloud"],
+      "sources": [
+        { "title": "What is Azure role-based access control (Azure RBAC)?", "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview" },
+        { "title": "Azure built-in roles", "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles" }
+      ],
+      "config": {
+        "portal": { "name": "Contoso Cloud Portal (simulated)", "theme": "azure", "user": "admin@contoso.example" },
+        "startPage": "home",
+        "navigation": [
+          { "page": "home", "label": "Home" },
+          { "page": "resource-groups", "label": "Resource groups" },
+          { "page": "users", "label": "Users" }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "components": [
+              { "kind": "text", "text": "Welcome to the **simulated** Contoso Cloud Portal. Everything on these pages is fictional and runs only in your browser." },
+              {
+                "kind": "links",
+                "id": "home-links",
+                "title": "Quick access",
+                "items": [
+                  { "id": "go-rgs", "label": "Resource groups", "page": "resource-groups", "description": "Logical containers for related resources" },
+                  { "id": "go-users", "label": "Users", "page": "users", "description": "People in the Contoso directory" }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "users",
+            "title": "Users",
+            "components": [
+              {
+                "kind": "table",
+                "id": "users-table",
+                "source": "users",
+                "columns": [
+                  { "key": "name", "label": "Name" },
+                  { "key": "department", "label": "Department" },
+                  { "key": "job", "label": "Job title" }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "resource-groups",
+            "title": "Resource groups",
+            "components": [
+              { "kind": "text", "text": "Select a resource group to open it." },
+              {
+                "kind": "table",
+                "id": "rg-table",
+                "source": "resourceGroups",
+                "columns": [
+                  { "key": "name", "label": "Name" },
+                  { "key": "location", "label": "Location" }
+                ],
+                "rowKey": "name",
+                "rowLinks": { "rg-finance-reports": "rg-finance", "rg-marketing-web": "rg-marketing" }
+              }
+            ]
+          },
+          {
+            "id": "rg-finance",
+            "title": "rg-finance-reports",
+            "breadcrumb": ["Resource groups", "rg-finance-reports"],
+            "components": [
+              { "kind": "text", "text": "Resource group for the finance reporting storage account and dashboard." },
+              {
+                "kind": "table",
+                "id": "rg-finance-resources",
+                "title": "Resources",
+                "source": "financeResources",
+                "columns": [
+                  { "key": "name", "label": "Name" },
+                  { "key": "type", "label": "Type" }
+                ]
+              },
+              { "kind": "button", "id": "open-iam", "label": "Access control (IAM)", "variant": "secondary", "action": { "type": "navigate", "page": "rg-finance-iam" } }
+            ]
+          },
+          {
+            "id": "rg-marketing",
+            "title": "rg-marketing-web",
+            "breadcrumb": ["Resource groups", "rg-marketing-web"],
+            "components": [
+              { "kind": "callout", "variant": "info", "text": "This resource group hosts the marketing website. It is not part of Alex's request." },
+              { "kind": "button", "id": "back-to-rgs", "label": "Back to resource groups", "variant": "secondary", "action": { "type": "navigate", "page": "resource-groups" } }
+            ]
+          },
+          {
+            "id": "rg-finance-iam",
+            "title": "Access control (IAM)",
+            "breadcrumb": ["Resource groups", "rg-finance-reports", "Access control (IAM)"],
+            "components": [
+              { "kind": "callout", "variant": "info", "text": "Role assignments at this scope apply to every resource in **rg-finance-reports**." },
+              {
+                "kind": "table",
+                "id": "assignments",
+                "title": "Role assignments",
+                "source": "roleAssignments",
+                "columns": [
+                  { "key": "principal", "label": "Member" },
+                  { "key": "role", "label": "Role" },
+                  { "key": "scope", "label": "Scope" }
+                ],
+                "emptyText": "No role assignments at this scope."
+              },
+              {
+                "kind": "form",
+                "id": "add-assignment",
+                "title": "Add role assignment",
+                "description": "Choose a role and a member. The scope is this resource group.",
+                "fields": [
+                  {
+                    "id": "role",
+                    "label": "Role",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      { "value": "Reader", "label": "Reader - view resources" },
+                      { "value": "Contributor", "label": "Contributor - manage resources, but not access" },
+                      { "value": "Owner", "label": "Owner - full access, including access management" }
+                    ]
+                  },
+                  {
+                    "id": "principal",
+                    "label": "Member",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      { "value": "Alex (Finance analyst)", "label": "Alex - Finance analyst" },
+                      { "value": "Priya (Marketing)", "label": "Priya - Marketing specialist" },
+                      { "value": "Mehmet (IT operations)", "label": "Mehmet - IT operations" }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Review + assign",
+                  "action": { "type": "append", "path": "roleAssignments", "extra": { "scope": "rg-finance-reports" }, "successMessage": "Role assignment added." }
+                }
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "users": [
+            { "name": "Alex", "department": "Finance", "job": "Finance analyst" },
+            { "name": "Priya", "department": "Marketing", "job": "Marketing specialist" },
+            { "name": "Mehmet", "department": "IT", "job": "IT operations" }
+          ],
+          "resourceGroups": [
+            { "name": "rg-finance-reports", "location": "westeurope" },
+            { "name": "rg-marketing-web", "location": "northeurope" }
+          ],
+          "financeResources": [
+            { "name": "stfinreports01", "type": "Storage account" },
+            { "name": "fin-dashboard", "type": "Dashboard" }
+          ],
+          "roleAssignments": [{ "principal": "Mehmet (IT operations)", "role": "Owner", "scope": "rg-finance-reports" }]
+        }
+      },
+      "steps": [
+        {
+          "key": "open-resource-group",
+          "title": "Open the finance resource group",
+          "instruction": "Go to **Resource groups** and open **rg-finance-reports**.",
+          "hint": "Use the left navigation or the quick links on the Home page, then select the row for rg-finance-reports.",
+          "explanation": "A resource group is a valid **scope** for access management. Assigning a role here applies it to every resource in the group - now and in the future.",
+          "targetId": "rg-table",
+          "rules": [{ "key": "visited-finance", "description": "You opened rg-finance-reports", "rule": { "type": "visited", "page": "rg-finance" } }]
+        },
+        {
+          "key": "open-iam",
+          "title": "Open Access control (IAM)",
+          "instruction": "Select **Access control (IAM)** for the resource group.",
+          "hint": "The button is below the list of resources.",
+          "explanation": "The IAM page shows the **role assignments** at this scope. Each assignment combines a security principal (who), a role definition (what) and a scope (where).",
+          "targetId": "open-iam",
+          "rules": [{ "key": "visited-iam", "description": "You opened the IAM page", "rule": { "type": "visited", "page": "rg-finance-iam" } }]
+        },
+        {
+          "key": "assign-reader",
+          "title": "Assign the least-privileged role to Alex",
+          "instruction": "Add a role assignment that lets **Alex** view the resources but not change them.",
+          "hint": "Alex only needs to view resources. Which built-in role allows reading but not writing?",
+          "explanation": "**Reader** allows viewing resources but not changing them. Contributor and Owner would give Alex more access than needed, which breaks the **principle of least privilege**.",
+          "targetId": "add-assignment",
+          "rules": [
+            {
+              "key": "alex-reader",
+              "description": "Alex has the Reader role on rg-finance-reports",
+              "rule": { "type": "arrayContains", "path": "roleAssignments", "match": { "principal": "Alex (Finance analyst)", "role": "Reader", "scope": "rg-finance-reports" } },
+              "failureFeedback": "Alex still needs a role assignment with the Reader role."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "no-excess-access",
+          "description": "Alex has no role that allows changes",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              { "type": "arrayNotContains", "path": "roleAssignments", "match": { "principal": "Alex (Finance analyst)", "role": "Owner" } },
+              { "type": "arrayNotContains", "path": "roleAssignments", "match": { "principal": "Alex (Finance analyst)", "role": "Contributor" } }
+            ]
+          },
+          "successFeedback": "Alex can view but not modify resources - least privilege.",
+          "failureFeedback": "Alex was given a role that allows changes. Least privilege means Reader is enough here."
+        },
+        {
+          "key": "no-unneeded-access",
+          "description": "No access was granted to people who did not request it",
+          "rule": { "type": "arrayNotContains", "path": "roleAssignments", "match": { "principal": "Priya (Marketing)" } },
+          "successFeedback": "Only the requested access was granted.",
+          "failureFeedback": "Priya did not request access to the finance reports."
+        }
+      ],
+      "solution": "1. Select **Resource groups** in the navigation.\n2. Select **rg-finance-reports**.\n3. Select **Access control (IAM)**.\n4. In **Add role assignment**, choose **Reader** as the role and **Alex - Finance analyst** as the member.\n5. Select **Review + assign**.\n\n**Why:** Reader is the least-privileged built-in role that lets Alex view resources. Assigning it at the resource group scope covers the reports and any resources added to the group later, without affecting other resource groups.",
+      "translations": {
+        "tr": {
+          "title": "Simüle bir portalda en az ayrıcalıkla erişim verin",
+          "summary": "Bir finans analistine doğru kapsamda salt okunur erişim vermek için Azure rol tabanlı erişim denetimi kavramlarını kullanın.",
+          "scenario": "**Contoso** şirketinde finans analisti olan Alex'in **rg-finance-reports** kaynak grubundaki raporları görüntülemesi gerekiyor. Alex kaynakları **değiştirememeli veya silememeli**. Göreviniz, **simüle** bir portal kullanarak doğru kapsamda en az ayrıcalıklı yerleşik rolü atamak. Tüm kişiler ve kaynaklar kurgusaldır.",
+          "steps": {
+            "open-resource-group": { "title": "Finans kaynak grubunu açın", "instruction": "**Resource groups** sayfasına gidin ve **rg-finance-reports** grubunu açın.", "hint": "Sol gezinmeyi veya ana sayfadaki hızlı bağlantıları kullanın.", "explanation": "Kaynak grubu, erişim yönetimi için geçerli bir **kapsamdır**. Burada yapılan rol ataması gruptaki tüm kaynaklara uygulanır." },
+            "open-iam": { "title": "Erişim denetimini (IAM) açın", "instruction": "Kaynak grubu için **Access control (IAM)** düğmesini seçin.", "hint": "Düğme kaynak listesinin altındadır.", "explanation": "IAM sayfası bu kapsamdaki **rol atamalarını** gösterir. Her atama bir güvenlik sorumlusunu (kim), bir rol tanımını (ne) ve bir kapsamı (nerede) birleştirir." },
+            "assign-reader": { "title": "Alex'e en az ayrıcalıklı rolü atayın", "instruction": "**Alex**'in kaynakları görüntülemesini ancak değiştirmemesini sağlayan bir rol ataması ekleyin.", "hint": "Alex'in yalnızca görüntülemesi gerekiyor. Hangi yerleşik rol okumaya izin verir ama yazmaya izin vermez?", "explanation": "**Reader** rolü kaynakları görüntülemeye izin verir ancak değiştirmeye izin vermez. Contributor ve Owner, gerekenden fazla erişim vererek **en az ayrıcalık ilkesini** ihlal eder." }
+          },
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "cli-resource-group-and-storage",
+      "type": "COMMAND_SANDBOX",
+      "title": "Create and tag a resource group with a simulated Azure CLI",
+      "summary": "Practise beginner Azure CLI commands in a safe sandbox: explore, create a tagged resource group and add a zone-redundant storage account.",
+      "scenario": "**Tailwind Traders** is starting a small learning project. Using the **simulated** command line, create a resource group named **rg-learn-dev** in **West Europe**, tag it with **env=dev** and **owner=training**, and add a zone-redundant storage account named **stlearndev001**. Do not delete the existing shared resource group. Nothing you type is executed on real infrastructure.",
+      "domainKey": "azure-management-governance",
+      "moduleSlug": "managing-and-deploying-resources",
+      "objectiveCode": "3.3",
+      "complexity": "BASIC",
+      "estimatedMinutes": 15,
+      "learningObjectives": [
+        "Use the Azure CLI command structure: az <group> <subgroup> <command> --parameters",
+        "Create a resource group in a region and apply tags for organization and cost tracking",
+        "Choose a storage redundancy option (SKU) that matches a requirement"
+      ],
+      "prerequisites": ["Lesson: Azure portal, Cloud Shell, CLI, PowerShell, and Azure Arc", "Lesson: Storage accounts, redundancy, and access tiers"],
+      "sources": [
+        { "title": "az group - Azure CLI reference", "url": "https://learn.microsoft.com/en-us/cli/azure/group" },
+        { "title": "az storage account - Azure CLI reference", "url": "https://learn.microsoft.com/en-us/cli/azure/storage/account" },
+        { "title": "Azure Storage redundancy", "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy" }
+      ],
+      "config": {
+        "shell": "azure-cli",
+        "prompt": "learner@sandbox:~$",
+        "welcome": "Simulated Azure CLI sandbox. Type 'help' to list the available commands. Nothing runs on real Azure resources.",
+        "initialState": {
+          "account": {
+            "subscriptionName": "Tailwind Learning (simulated)",
+            "subscriptionId": "00000000-0000-4000-8000-000000000900",
+            "tenantDomain": "tailwindtraders.example",
+            "user": "learner@tailwindtraders.example"
+          },
+          "locations": [
+            { "name": "eastus", "displayName": "East US" },
+            { "name": "westus2", "displayName": "West US 2" },
+            { "name": "westeurope", "displayName": "West Europe" },
+            { "name": "northeurope", "displayName": "North Europe" },
+            { "name": "swedencentral", "displayName": "Sweden Central" },
+            { "name": "uksouth", "displayName": "UK South" },
+            { "name": "southeastasia", "displayName": "Southeast Asia" },
+            { "name": "australiaeast", "displayName": "Australia East" }
+          ],
+          "resourceGroups": [{ "name": "rg-shared-services", "location": "northeurope", "tags": { "env": "prod" } }],
+          "storageAccounts": []
+        }
+      },
+      "steps": [
+        {
+          "key": "explore",
+          "title": "See what already exists",
+          "instruction": "List the existing resource groups as a table:\n\n`az group list --output table`",
+          "hint": "Type the command exactly as shown and press Enter.",
+          "explanation": "`az group list` returns the resource groups in the current subscription. `--output table` formats the result for people instead of scripts.",
+          "rules": [{ "key": "listed-groups", "description": "You listed resource groups", "rule": { "type": "commandUsed", "pattern": "^az group list" } }]
+        },
+        {
+          "key": "find-region",
+          "title": "Find the region name",
+          "instruction": "Show the available regions and find the name for **West Europe**:\n\n`az account list-locations --output table`",
+          "hint": "The CLI uses short names such as westeurope for regions.",
+          "explanation": "Commands use the region **name** (for example `westeurope`). The display name is only for people.",
+          "rules": [{ "key": "listed-locations", "description": "You listed the regions", "rule": { "type": "commandUsed", "pattern": "^az account list-locations" } }]
+        },
+        {
+          "key": "create-group",
+          "title": "Create the resource group",
+          "instruction": "Create **rg-learn-dev** in **West Europe**.",
+          "hint": "az group create --name rg-learn-dev --location westeurope",
+          "explanation": "A resource group is a logical container for resources that share a lifecycle. Its location stores the group's metadata.",
+          "rules": [
+            {
+              "key": "group-exists",
+              "description": "rg-learn-dev exists in West Europe",
+              "rule": { "type": "arrayContains", "path": "resourceGroups", "match": { "name": "rg-learn-dev", "location": "westeurope" } },
+              "failureFeedback": "rg-learn-dev was not found in westeurope yet."
+            }
+          ]
+        },
+        {
+          "key": "tag-group",
+          "title": "Tag the resource group",
+          "instruction": "Make sure **rg-learn-dev** has the tags **env=dev** and **owner=training**.",
+          "hint": "Either add --tags env=dev owner=training when you create the group, or run: az group update --name rg-learn-dev --tags env=dev owner=training",
+          "explanation": "Tags are name/value pairs. They help you organize resources and group costs, for example by environment or owner.",
+          "rules": [
+            {
+              "key": "group-tagged",
+              "description": "rg-learn-dev has the env and owner tags",
+              "rule": { "type": "arrayContains", "path": "resourceGroups", "match": { "name": "rg-learn-dev", "tags.env": "dev", "tags.owner": "training" } }
+            }
+          ]
+        },
+        {
+          "key": "create-storage",
+          "title": "Add a zone-redundant storage account",
+          "instruction": "Create the storage account **stlearndev001** in **rg-learn-dev** using **zone-redundant storage** (ZRS).",
+          "hint": "az storage account create --name stlearndev001 --resource-group rg-learn-dev --sku Standard_ZRS",
+          "explanation": "The SKU sets the redundancy. **Standard_ZRS** copies data across availability zones in one region, so the data stays available if one zone has a problem.",
+          "rules": [
+            {
+              "key": "storage-zrs",
+              "description": "stlearndev001 exists in rg-learn-dev with ZRS",
+              "rule": { "type": "arrayContains", "path": "storageAccounts", "match": { "name": "stlearndev001", "resourceGroup": "rg-learn-dev", "sku": "Standard_ZRS" } },
+              "failureFeedback": "Check the name, resource group and SKU (Standard_ZRS)."
+            }
+          ]
+        },
+        {
+          "key": "verify",
+          "title": "Verify your work",
+          "instruction": "List what you created, for example:\n\n`az resource list --resource-group rg-learn-dev --output table`",
+          "hint": "az storage account list --resource-group rg-learn-dev --output table also works.",
+          "explanation": "Verifying after a change is a good habit - scripts and people both make typos.",
+          "rules": [
+            {
+              "key": "verified",
+              "description": "You listed the resources you created",
+              "rule": {
+                "type": "anyOf",
+                "rules": [
+                  { "type": "commandUsed", "pattern": "^az resource list" },
+                  { "type": "commandUsed", "pattern": "^az storage account (list|show)" }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "shared-untouched",
+          "description": "The shared production resource group still exists",
+          "rule": { "type": "arrayContains", "path": "resourceGroups", "match": { "name": "rg-shared-services" } },
+          "successFeedback": "You left the shared production resources untouched.",
+          "failureFeedback": "rg-shared-services was deleted. Deleting a resource group deletes everything in it - reset the lab and try again."
+        }
+      ],
+      "solution": "```\naz group list --output table\naz account list-locations --output table\naz group create --name rg-learn-dev --location westeurope --tags env=dev owner=training\naz storage account create --name stlearndev001 --resource-group rg-learn-dev --sku Standard_ZRS\naz resource list --resource-group rg-learn-dev --output table\n```\n\n**Why:** the resource group groups the project's resources; the tags identify the environment and owner for organization and cost reporting; `Standard_ZRS` keeps copies across availability zones in the region.",
+      "translations": {
+        "tr": {
+          "title": "Simüle Azure CLI ile kaynak grubu oluşturun ve etiketleyin",
+          "summary": "Güvenli bir sanal ortamda temel Azure CLI komutlarını deneyin: keşfedin, etiketli bir kaynak grubu oluşturun ve bölge yedekli bir depolama hesabı ekleyin.",
+          "scenario": "**Tailwind Traders** küçük bir öğrenme projesine başlıyor. **Simüle** komut satırını kullanarak **West Europe** bölgesinde **rg-learn-dev** adlı bir kaynak grubu oluşturun, **env=dev** ve **owner=training** etiketlerini ekleyin ve **stlearndev001** adlı bölge yedekli (ZRS) bir depolama hesabı ekleyin. Mevcut paylaşılan kaynak grubunu silmeyin. Yazdığınız hiçbir şey gerçek altyapıda çalıştırılmaz.",
+          "steps": {
+            "explore": { "title": "Mevcut kaynakları görün", "instruction": "Mevcut kaynak gruplarını tablo olarak listeleyin:\n\n`az group list --output table`", "hint": "Komutu gösterildiği gibi yazıp Enter tuşuna basın.", "explanation": "`az group list`, geçerli abonelikteki kaynak gruplarını döndürür. `--output table` sonucu insanlar için biçimlendirir." },
+            "find-region": { "title": "Bölge adını bulun", "instruction": "Kullanılabilir bölgeleri gösterin ve **West Europe** için adı bulun:\n\n`az account list-locations --output table`", "hint": "CLI, bölgeler için westeurope gibi kısa adlar kullanır.", "explanation": "Komutlarda bölge **adı** (örneğin `westeurope`) kullanılır. Görünen ad yalnızca insanlar içindir." },
+            "create-group": { "title": "Kaynak grubunu oluşturun", "instruction": "**West Europe** bölgesinde **rg-learn-dev** grubunu oluşturun.", "hint": "az group create --name rg-learn-dev --location westeurope", "explanation": "Kaynak grubu, aynı yaşam döngüsünü paylaşan kaynaklar için mantıksal bir kapsayıcıdır." },
+            "tag-group": { "title": "Kaynak grubunu etiketleyin", "instruction": "**rg-learn-dev** grubunun **env=dev** ve **owner=training** etiketlerine sahip olduğundan emin olun.", "hint": "Oluştururken --tags env=dev owner=training ekleyin veya az group update --name rg-learn-dev --tags env=dev owner=training komutunu çalıştırın.", "explanation": "Etiketler ad/değer çiftleridir; kaynakları düzenlemeye ve maliyetleri gruplamaya yardımcı olur." },
+            "create-storage": { "title": "Bölge yedekli bir depolama hesabı ekleyin", "instruction": "**rg-learn-dev** içinde **bölge yedekli depolama** (ZRS) kullanan **stlearndev001** hesabını oluşturun.", "hint": "az storage account create --name stlearndev001 --resource-group rg-learn-dev --sku Standard_ZRS", "explanation": "SKU yedekliliği belirler. **Standard_ZRS**, verileri bir bölgedeki kullanılabilirlik alanlarına kopyalar." },
+            "verify": { "title": "Çalışmanızı doğrulayın", "instruction": "Oluşturduklarınızı listeleyin, örneğin:\n\n`az resource list --resource-group rg-learn-dev --output table`", "hint": "az storage account list --resource-group rg-learn-dev --output table da çalışır.", "explanation": "Değişiklikten sonra doğrulama yapmak iyi bir alışkanlıktır." }
+          },
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "design-web-app-architecture",
+      "type": "ARCHITECTURE",
+      "title": "Design an order portal architecture",
+      "summary": "Select Azure services for hosting, data, identity, monitoring and governance, and connect the web tier to its database.",
+      "scenario": "**Adventure Works** wants an online order portal.\n\n- The web front end should need **minimal server management**.\n- Orders require a **relational database** with transactions.\n- Product images are stored as **files**.\n- Staff sign in with their **company accounts**.\n- The operations team must **monitor performance** and **enforce** that resources are deployed only to approved regions.\n\nPlace the most suitable service cards in each zone and connect the web tier to the order database.",
+      "domainKey": "azure-architecture-services",
+      "moduleSlug": "azure-compute-and-networking",
+      "objectiveCode": "2.2",
+      "complexity": "INTRO",
+      "estimatedMinutes": 12,
+      "learningObjectives": [
+        "Match business requirements to IaaS, PaaS and serverless compute options",
+        "Choose between relational, non-relational and object storage",
+        "Identify identity, monitoring and governance services"
+      ],
+      "prerequisites": ["Lesson: Virtual machines, containers, and Azure Functions", "Lesson: Storage accounts, redundancy, and access tiers"],
+      "sources": [
+        { "title": "App Service overview", "url": "https://learn.microsoft.com/en-us/azure/app-service/overview" },
+        { "title": "What is Azure SQL Database?", "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/sql-database-paas-overview" },
+        { "title": "Azure Policy overview", "url": "https://learn.microsoft.com/en-us/azure/governance/policy/overview" }
+      ],
+      "config": {
+        "zones": [
+          { "id": "hosting", "label": "Application hosting", "description": "Where the web front end runs" },
+          { "id": "data", "label": "Data", "description": "Where orders and images are stored" },
+          { "id": "identity", "label": "Identity and access", "description": "How staff sign in" },
+          { "id": "operations", "label": "Monitoring and governance", "description": "How the team observes and controls the environment" }
+        ],
+        "palette": [
+          { "id": "app-service", "label": "Azure App Service", "category": "Compute (PaaS)", "description": "Managed platform for web apps and APIs; the provider manages the OS and runtime patching." },
+          { "id": "virtual-machines", "label": "Azure Virtual Machines", "category": "Compute (IaaS)", "description": "Full control of the operating system - and responsibility for managing it." },
+          { "id": "azure-functions", "label": "Azure Functions", "category": "Compute (serverless)", "description": "Event-driven code that runs on demand." },
+          { "id": "azure-sql", "label": "Azure SQL Database", "category": "Data (relational)", "description": "Managed relational database with transactions." },
+          { "id": "cosmos-db", "label": "Azure Cosmos DB", "category": "Data (NoSQL)", "description": "Globally distributed, multi-model NoSQL database." },
+          { "id": "blob-storage", "label": "Azure Blob Storage", "category": "Data (objects)", "description": "Object storage for files such as images and documents." },
+          { "id": "entra-id", "label": "Microsoft Entra ID", "category": "Identity", "description": "Cloud identity and access management." },
+          { "id": "azure-monitor", "label": "Azure Monitor", "category": "Monitoring", "description": "Collects and analyzes metrics and logs." },
+          { "id": "azure-policy", "label": "Azure Policy", "category": "Governance", "description": "Evaluates and enforces rules, such as allowed locations." },
+          { "id": "azure-advisor", "label": "Azure Advisor", "category": "Recommendations", "description": "Personalized best-practice recommendations." }
+        ],
+        "allowConnections": true,
+        "maxPerZone": 4
+      },
+      "steps": [
+        {
+          "key": "choose-hosting",
+          "title": "Choose the hosting service",
+          "instruction": "Place a compute service in **Application hosting** that minimizes server management.",
+          "hint": "Which option is a managed platform (PaaS) where you do not patch the operating system?",
+          "explanation": "**App Service** is PaaS: Microsoft manages the servers, OS and runtime patching, so the team focuses on the app. Virtual machines would add OS management work.",
+          "rules": [
+            { "key": "hosting-app-service", "description": "App Service hosts the web front end", "rule": { "type": "placedIn", "item": "app-service", "zone": "hosting" }, "failureFeedback": "A managed web hosting platform fits 'minimal server management' best." },
+            { "key": "hosting-no-vm", "description": "No virtual machines in the hosting zone", "rule": { "type": "zoneLacks", "zone": "hosting", "items": ["virtual-machines"] }, "failureFeedback": "Virtual machines require you to manage the operating system." }
+          ]
+        },
+        {
+          "key": "choose-data",
+          "title": "Choose the data services",
+          "instruction": "Place services in **Data** for the orders (relational, transactional) and for the product images (files).",
+          "hint": "One card is a relational database; another is object storage for files.",
+          "explanation": "**Azure SQL Database** is a managed relational database that supports transactions. **Blob Storage** is optimized for unstructured objects such as images.",
+          "rules": [
+            { "key": "data-sql", "description": "Azure SQL Database stores orders", "rule": { "type": "placedIn", "item": "azure-sql", "zone": "data" } },
+            { "key": "data-blob", "description": "Blob Storage stores product images", "rule": { "type": "placedIn", "item": "blob-storage", "zone": "data" } }
+          ]
+        },
+        {
+          "key": "choose-identity",
+          "title": "Choose the identity service",
+          "instruction": "Place the service that lets staff sign in with company accounts in **Identity and access**.",
+          "explanation": "**Microsoft Entra ID** provides cloud identity, single sign-on and multifactor authentication for staff accounts.",
+          "rules": [{ "key": "identity-entra", "description": "Microsoft Entra ID handles sign-in", "rule": { "type": "placedIn", "item": "entra-id", "zone": "identity" } }]
+        },
+        {
+          "key": "choose-operations",
+          "title": "Choose monitoring and governance",
+          "instruction": "Place the services that **monitor performance** and **enforce approved regions** in **Monitoring and governance**.",
+          "hint": "One service collects telemetry; another evaluates rules such as allowed locations.",
+          "explanation": "**Azure Monitor** collects metrics and logs. **Azure Policy** can deny deployments to locations that are not allowed. Azure Advisor gives recommendations but does not enforce rules.",
+          "rules": [
+            { "key": "ops-monitor", "description": "Azure Monitor monitors performance", "rule": { "type": "placedIn", "item": "azure-monitor", "zone": "operations" } },
+            { "key": "ops-policy", "description": "Azure Policy enforces approved regions", "rule": { "type": "placedIn", "item": "azure-policy", "zone": "operations" } }
+          ]
+        },
+        {
+          "key": "connect",
+          "title": "Connect the web tier to the database",
+          "instruction": "Add a connection from **Azure App Service** to **Azure SQL Database**.",
+          "explanation": "The web app reads and writes orders in the database, so the two components are connected in the design.",
+          "rules": [{ "key": "web-to-sql", "description": "App Service is connected to Azure SQL Database", "rule": { "type": "connected", "from": "app-service", "to": "azure-sql" } }]
+        }
+      ],
+      "finalRules": [],
+      "solution": "- **Application hosting:** Azure App Service (PaaS - minimal server management).\n- **Data:** Azure SQL Database for orders (relational, transactional) and Azure Blob Storage for product images.\n- **Identity and access:** Microsoft Entra ID for staff sign-in.\n- **Monitoring and governance:** Azure Monitor for performance and Azure Policy to enforce allowed regions.\n- **Connection:** App Service -> Azure SQL Database.\n\nAzure Functions, Cosmos DB and Azure Advisor are useful services, but they do not match these specific requirements as closely."
+    },
+    {
+      "slug": "troubleshoot-blocked-deployment",
+      "type": "TROUBLESHOOTING",
+      "title": "Troubleshoot a blocked deployment",
+      "summary": "Read a fictional error log and settings, find why a deployment fails, and choose a fix that respects governance.",
+      "scenario": "A developer at **Northwind Traders** reports that deploying a storage account fails immediately, while the same template works for a colleague. Investigate the fictional environment below and resolve the issue without weakening governance.",
+      "domainKey": "azure-management-governance",
+      "moduleSlug": "governance-and-compliance",
+      "objectiveCode": "3.2",
+      "complexity": "BASIC",
+      "estimatedMinutes": 10,
+      "learningObjectives": [
+        "Recognize when Azure Policy denies a deployment",
+        "Choose diagnostic steps: error details and policy assignments at inherited scopes",
+        "Select a fix that complies with governance requirements"
+      ],
+      "prerequisites": ["Lesson: Azure Policy and resource locks"],
+      "sources": [
+        { "title": "Azure Policy overview", "url": "https://learn.microsoft.com/en-us/azure/governance/policy/overview" },
+        { "title": "Lock your resources to protect your infrastructure", "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources" }
+      ],
+      "config": {
+        "context": {
+          "environment": "Northwind Traders assigned an **Allowed locations** policy to the management group that contains all production subscriptions. Production data must stay in the EU.",
+          "symptoms": [
+            "A developer's storage account deployment to **East US** fails immediately.",
+            "The same template deployed to **West Europe** succeeds for a colleague."
+          ],
+          "logs": "Deployment failed (simulated log)\nStatus: Failed\nError: The resource was disallowed by policy.\nPolicy assignment: 'Allowed locations - production'\nRequested location: eastus",
+          "settings": [
+            { "name": "Policy effect", "value": "Deny" },
+            { "name": "Assignment scope", "value": "Management group: mg-production" },
+            { "name": "Allowed values", "value": "westeurope, northeurope" },
+            { "name": "Developer role", "value": "Contributor on the subscription" },
+            { "name": "Resource locks", "value": "CanNotDelete on rg-core-network (another resource group)" }
+          ],
+          "constraints": ["Production data must remain in EU regions.", "Governance policies may only be changed through the change-approval process."]
+        },
+        "stages": [
+          {
+            "id": "issue",
+            "prompt": "What is the most likely cause of the failure?",
+            "kind": "single",
+            "options": [
+              { "id": "policy", "text": "Azure Policy denies the deployment because East US is not an allowed location", "correct": true, "feedback": "Correct. The error names the policy assignment, and the requested location is not in the allowed list." },
+              { "id": "permissions", "text": "The Contributor role cannot create storage accounts", "correct": false, "feedback": "Contributor can create and manage resources; it only cannot manage access. The error also points to a policy, not permissions." },
+              { "id": "lock", "text": "A CanNotDelete lock blocks new deployments", "correct": false, "feedback": "A CanNotDelete lock prevents deletion of the locked resources, and here it is on a different resource group." },
+              { "id": "name", "text": "The storage account name is already taken", "correct": false, "feedback": "A name conflict produces a different error, and the same template works in West Europe." }
+            ]
+          },
+          {
+            "id": "diagnostics",
+            "prompt": "Which diagnostic steps help confirm the cause? Select all that apply.",
+            "kind": "multiple",
+            "options": [
+              { "id": "error-details", "text": "Read the error details in the deployment history or activity log", "correct": true, "feedback": "The error details identify the policy assignment and requested location." },
+              { "id": "assignments", "text": "Review policy assignments inherited from the management group and subscription", "correct": true, "feedback": "Policies assigned at a higher scope are inherited by subscriptions and resource groups below it." },
+              { "id": "recreate", "text": "Delete and recreate the subscription", "correct": false, "feedback": "This is destructive and would not remove a policy inherited from the management group." },
+              { "id": "restart", "text": "Restart the developer's computer", "correct": false, "feedback": "The failure happens in the cloud control plane, not on the local computer." }
+            ]
+          },
+          {
+            "id": "solution",
+            "prompt": "Which solution is most appropriate?",
+            "kind": "single",
+            "options": [
+              { "id": "redeploy-eu", "text": "Redeploy the storage account to West Europe or North Europe", "correct": true, "feedback": "This meets the data residency requirement and complies with the policy." },
+              { "id": "remove-policy", "text": "Remove the policy assignment so any region can be used", "correct": false, "feedback": "This weakens governance and breaks the EU data residency requirement." },
+              { "id": "owner", "text": "Give the developer the Owner role to bypass the policy", "correct": false, "feedback": "A Deny policy applies regardless of the deployer's role." },
+              { "id": "add-lock", "text": "Add a resource lock to the subscription", "correct": false, "feedback": "Locks prevent changes or deletion; they do not allow a denied location." }
+            ]
+          },
+          {
+            "id": "reasoning",
+            "prompt": "Explain your reasoning in one or two sentences.",
+            "kind": "text",
+            "minLength": 40,
+            "modelAnswer": "The error shows that the 'Allowed locations' policy assigned at the management group denied the request for East US. Policies are inherited by every subscription below the management group, so deploying to an allowed EU region fixes the issue while keeping the data residency requirement."
+          }
+        ]
+      },
+      "steps": [
+        { "key": "identify", "title": "Identify the likely issue", "instruction": "Read the symptoms, log and settings, then choose the most likely cause.", "hint": "Look closely at the error message in the log.", "explanation": "Azure Policy evaluates requests to Azure Resource Manager. With the **Deny** effect, non-compliant requests are rejected before any resource is created.", "rules": [{ "key": "issue-correct", "description": "You identified the cause", "rule": { "type": "stageCorrect", "stage": "issue" } }] },
+        { "key": "diagnose", "title": "Choose diagnostic steps", "instruction": "Select the steps that confirm the cause.", "hint": "Where are deployment errors recorded, and where can policies be assigned?", "explanation": "Error details and the list of policy assignments at every inherited scope tell you exactly which rule blocked the request.", "rules": [{ "key": "diagnostics-correct", "description": "You chose useful diagnostic steps", "rule": { "type": "stageCorrect", "stage": "diagnostics" } }] },
+        { "key": "fix", "title": "Select a solution", "instruction": "Choose the fix that resolves the issue without weakening governance.", "explanation": "The compliant fix is to deploy to an allowed region. Changing the policy would require the approval process and would break the data residency rule.", "rules": [{ "key": "solution-correct", "description": "You chose a compliant solution", "rule": { "type": "stageCorrect", "stage": "solution" } }] },
+        { "key": "explain", "title": "Explain your reasoning", "instruction": "Write a short explanation of what happened and why your fix works.", "explanation": "Explaining your reasoning helps you remember the pattern for next time.", "rules": [{ "key": "reasoning-done", "description": "You explained your reasoning", "rule": { "type": "stageCorrect", "stage": "reasoning" } }] }
+      ],
+      "finalRules": [],
+      "solution": "**Walkthrough**\n\n1. The log says the resource was **disallowed by policy** and names the **Allowed locations - production** assignment.\n2. The assignment is at the **management group** scope, so it is inherited by every production subscription and resource group.\n3. The request used **eastus**, which is not in the allowed list (westeurope, northeurope). The **Deny** effect blocks the request.\n4. Roles do not bypass Deny policies, and the CanNotDelete lock is unrelated.\n5. **Fix:** deploy to West Europe or North Europe. If the business truly needs another region, request a policy change or exemption through the approval process."
+    }
+  ]
+}

@@ -1,0 +1,3433 @@
+{
+  "domainKey": "azure-architecture-services",
+  "modules": [
+    {
+      "slug": "azure-core-architecture",
+      "title": "Core architectural components",
+      "summary": "Azure architecture begins with regions, resilience boundaries, resources, and the hierarchy used to organize workloads.",
+      "translations": {
+        "tr": {
+          "title": "Temel mimari bileşenler",
+          "summary": "Azure mimarisi; bölgeler, dayanıklılık sınırları, kaynaklar ve iş yüklerini düzenlemek için kullanılan hiyerarşiyle başlar.",
+          "status": "DRAFT"
+        }
+      },
+      "lessons": [
+        {
+          "slug": "regions-and-availability-zones",
+          "title": "Regions, region pairs, and availability zones",
+          "objectiveCode": "2.1",
+          "estimatedMinutes": 10,
+          "summary": "Learn how Azure location choices and resilience boundaries affect architecture decisions.",
+          "learningObjectives": [
+            "Describe the main Azure concepts in regions, region pairs, and availability zones",
+            "Choose the right service or feature for a beginner-level business scenario",
+            "Avoid common misconceptions about this objective"
+          ],
+          "explanation": "Azure infrastructure is organized around locations and resilience boundaries. An **Azure region** is a geographic area that contains datacenters connected by a low-latency network. You usually choose a region when creating resources such as virtual machines, storage accounts, and virtual networks. That choice can affect latency, data residency planning, and whether a service or feature is available.\n\nSome regions support **availability zones**. A zone is a physically separate location inside a region, with independent power, cooling, and networking. When a service supports zonal or zone-redundant deployment, you can design the workload so a single facility problem is less likely to stop the whole solution.\n\nAzure also uses **region pairs** in resilience planning. A paired region can be part of a disaster recovery strategy for broader regional disruptions. Region pairs do not automatically make every workload resilient; you must still choose suitable services, redundancy, backups, and recovery procedures.",
+          "terminology": [
+            {
+              "term": "Region",
+              "definition": "A geographic area where Azure resources can be deployed."
+            },
+            {
+              "term": "Availability zone",
+              "definition": "A physically separate location in a supported Azure region."
+            },
+            {
+              "term": "Region pair",
+              "definition": "A paired-region relationship used in Azure resilience planning."
+            },
+            {
+              "term": "Data residency",
+              "definition": "Planning where data is stored or processed."
+            }
+          ],
+          "businessScenario": "Tailwind Traders wants a store inventory app near its users while reducing the impact of a localized datacenter issue.",
+          "technicalExample": "The design places resources in a nearby region and uses zone-redundant or zonal options where supported by the selected services.",
+          "misconception": {
+            "myth": "Azure automatically makes every deployed workload resilient.",
+            "reality": "Azure provides resilience building blocks, but architects must select and configure them."
+          },
+          "examTakeaway": "Region is the location choice; availability zones and region pairs are resilience planning concepts.",
+          "recap": "Learn how Azure location choices and resilience boundaries affect architecture decisions. Focus on purpose, boundaries, and when each option is appropriate.",
+          "simplerExplanation": "A region is like a city, zones are separate buildings in that city, and a region pair is another city considered for emergency planning.",
+          "anotherExample": "A school portal may run in a nearby region and use supported zone-redundant services to reduce localized outage impact.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Location concepts",
+                "columns": [
+                  {
+                    "title": "Region",
+                    "points": [
+                      "Primary placement decision",
+                      "Affects latency and service availability"
+                    ]
+                  },
+                  {
+                    "title": "Availability zone",
+                    "points": [
+                      "Separate physical location",
+                      "Used by supported resilient designs"
+                    ]
+                  },
+                  {
+                    "title": "Region pair",
+                    "points": [
+                      "Broad recovery planning concept",
+                      "Does not replace application design"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Azure location layers",
+                "kind": "layers",
+                "nodes": [
+                  {
+                    "id": "geo",
+                    "label": "Geography"
+                  },
+                  {
+                    "id": "region",
+                    "label": "Region"
+                  },
+                  {
+                    "id": "zone1",
+                    "label": "Zone 1"
+                  },
+                  {
+                    "id": "zone2",
+                    "label": "Zone 2"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "geo",
+                    "to": "region",
+                    "label": "contains"
+                  },
+                  {
+                    "from": "region",
+                    "to": "zone1",
+                    "label": "contains"
+                  },
+                  {
+                    "from": "region",
+                    "to": "zone2",
+                    "label": "contains"
+                  }
+                ],
+                "caption": "A geography contains regions, and a supported region can contain multiple availability zones."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Azure region",
+              "back": "A geographic area for deploying resources."
+            },
+            {
+              "front": "Availability zone",
+              "back": "A separate physical location within a supported region."
+            },
+            {
+              "front": "Region pair",
+              "back": "A paired relationship used for resilience planning."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What are Azure Availability Zones?",
+              "url": "https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-aas-001",
+              "type": "SCENARIO",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which design best addresses the requirement?",
+              "explanation": "Availability zones separate supported resources across physically distinct locations within a region.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Deploy supported components across multiple availability zones in the selected region",
+                  "correct": true,
+                  "explanation": "This directly addresses a localized datacenter failure."
+                },
+                {
+                  "key": "B",
+                  "text": "Place all components in one resource group",
+                  "correct": false,
+                  "explanation": "A resource group is a logical container, not a resilience boundary."
+                },
+                {
+                  "key": "C",
+                  "text": "Rename the subscription to include the region",
+                  "correct": false,
+                  "explanation": "A subscription name does not add resilience."
+                },
+                {
+                  "key": "D",
+                  "text": "Use only one virtual machine in one subnet",
+                  "correct": false,
+                  "explanation": "A single instance does not meet the resilience goal."
+                }
+              ],
+              "lessonSlug": "regions-and-availability-zones",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What are Azure Availability Zones?",
+                  "url": "https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "scenario": "Relecloud needs an app to remain available if one datacenter facility in an Azure region has a localized issue.",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-002",
+              "type": "TRUE_FALSE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.1",
+              "difficulty": "EASY",
+              "stem": "An Azure region is a geographic area that contains one or more datacenters connected by a low-latency network.",
+              "explanation": "A region is the location boundary you choose for many Azure resources.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "The statement is accurate."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "The statement is not accurate."
+                }
+              ],
+              "lessonSlug": "regions-and-availability-zones",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What are Azure Availability Zones?",
+                  "url": "https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "az900-aas-003",
+              "type": "MATCHING",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each Azure location term to its description.",
+              "explanation": "These terms describe different placement and resilience concepts.",
+              "lessonSlug": "regions-and-availability-zones",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What are Azure Availability Zones?",
+                  "url": "https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Azure region"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Region pair"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Availability zone"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "A geographic area for deploying resources"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "A relationship between two regions used in resilience planning"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "A physically separate location inside a supported region"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "A container for role assignments only"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "Regions are the broad location choice.",
+                  "p2": "Region pairs are used in broader recovery planning.",
+                  "p3": "Zones are separate physical locations in a region."
+                }
+              }
+            },
+            {
+              "ref": "az900-aas-004",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.1",
+              "difficulty": "EASY",
+              "stem": "What should you confirm before choosing a region for a workload?",
+              "explanation": "A required service must be available in the selected region before the design can use it.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Required Azure services are available in that region",
+                  "correct": true,
+                  "explanation": "Service availability can vary by region."
+                },
+                {
+                  "key": "B",
+                  "text": "The resource group name contains a city",
+                  "correct": false,
+                  "explanation": "Names do not prove service availability."
+                },
+                {
+                  "key": "C",
+                  "text": "The subscription contains no other resources",
+                  "correct": false,
+                  "explanation": "Existing resources do not determine regional service support."
+                },
+                {
+                  "key": "D",
+                  "text": "The workload uses only one tag",
+                  "correct": false,
+                  "explanation": "Tags are for organization and governance metadata."
+                }
+              ],
+              "lessonSlug": "regions-and-availability-zones",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What are Azure Availability Zones?",
+                  "url": "https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-005",
+              "type": "CASE_STUDY",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.1",
+              "difficulty": "HARD",
+              "scenario": "Fabrikam is designing a customer portal in Azure. It wants regional placement near users, resilience against a localized facility problem, and a recovery discussion for broader regional events.",
+              "stem": "For each statement, select **Yes** if it is accurate. Otherwise, select **No**.",
+              "explanation": "Regions, availability zones, and region pairs each support a different architecture decision.",
+              "lessonSlug": "regions-and-availability-zones",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What are Azure Availability Zones?",
+                  "url": "https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Availability zones can help supported services tolerate a zone-level failure.",
+                    "answer": true,
+                    "explanation": "Supported zonal designs can reduce impact from one zone."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "A resource group automatically replicates all resources to a paired region.",
+                    "answer": false,
+                    "explanation": "Resource groups organize resources; they do not automatically replicate every service."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Region pairs can be considered in broader disaster recovery planning.",
+                    "answer": true,
+                    "explanation": "Region pairs are relevant to recovery planning."
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "slug": "azure-resource-hierarchy",
+          "title": "Resources, resource groups, subscriptions, and management groups",
+          "objectiveCode": "2.1",
+          "estimatedMinutes": 11,
+          "summary": "Understand how Azure Resource Manager organizes services from individual resources up to management groups.",
+          "learningObjectives": [
+            "Describe the main Azure concepts in resources, resource groups, subscriptions, and management groups",
+            "Choose the right service or feature for a beginner-level business scenario",
+            "Avoid common misconceptions about this objective"
+          ],
+          "explanation": "Azure Resource Manager provides the management layer used to deploy and manage Azure resources. A **resource** is an individual service instance such as a virtual machine, virtual network, or storage account. Each resource has a type, name, location, and configuration.\n\nResources are placed in **resource groups**. A resource group is a logical container, often organized around an application, environment, or lifecycle. It helps teams view, manage, and remove related resources together.\n\nA **subscription** is a major boundary for billing, quotas, and access management. Resource groups exist inside subscriptions. Larger organizations often use multiple subscriptions for production, development, departments, or workload isolation.\n\nAbove subscriptions, **management groups** help organize many subscriptions into a hierarchy. They are useful when central teams want governance to inherit across multiple subscriptions. The key hierarchy is: management groups contain subscriptions; subscriptions contain resource groups; resource groups contain resources.",
+          "terminology": [
+            {
+              "term": "Resource",
+              "definition": "An individual manageable Azure service instance."
+            },
+            {
+              "term": "Resource group",
+              "definition": "A logical container for related resources."
+            },
+            {
+              "term": "Subscription",
+              "definition": "An Azure boundary for billing, access, and organization."
+            },
+            {
+              "term": "Management group",
+              "definition": "A container for organizing subscriptions for governance."
+            }
+          ],
+          "businessScenario": "Contoso separates web, data, and analytics teams while central IT applies baseline governance.",
+          "technicalExample": "Central IT places team subscriptions under management groups, and each team uses resource groups such as `rg-orders-prod` for related app resources.",
+          "misconception": {
+            "myth": "Resource groups are physical datacenters.",
+            "reality": "Resource groups are logical containers; resources in them can use different regions when the service supports it."
+          },
+          "examTakeaway": "Remember the hierarchy: management group > subscription > resource group > resource.",
+          "recap": "Understand how Azure Resource Manager organizes services from individual resources up to management groups. Focus on purpose, boundaries, and when each option is appropriate.",
+          "simplerExplanation": "Think of a filing cabinet: management groups are sections, subscriptions are drawers, resource groups are folders, and resources are documents.",
+          "anotherExample": "A university might use one management group for research subscriptions and separate resource groups for each project environment.",
+          "extraBlocks": [
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Azure management hierarchy",
+                "kind": "layers",
+                "nodes": [
+                  {
+                    "id": "mg",
+                    "label": "Management group"
+                  },
+                  {
+                    "id": "sub",
+                    "label": "Subscription"
+                  },
+                  {
+                    "id": "rg",
+                    "label": "Resource group"
+                  },
+                  {
+                    "id": "res",
+                    "label": "Resources"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "mg",
+                    "to": "sub",
+                    "label": "contains"
+                  },
+                  {
+                    "from": "sub",
+                    "to": "rg",
+                    "label": "contains"
+                  },
+                  {
+                    "from": "rg",
+                    "to": "res",
+                    "label": "contains"
+                  }
+                ],
+                "caption": "The Azure hierarchy flows from management groups down to individual resources."
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "info",
+                "title": "Names help, scopes govern",
+                "body": "A clear naming convention helps people, but governance comes from scopes, policies, and role assignments."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Resource group",
+              "back": "Logical container for related resources."
+            },
+            {
+              "front": "Subscription",
+              "back": "Boundary for billing, access, and organization."
+            },
+            {
+              "front": "Management group",
+              "back": "Scope for organizing subscriptions."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Azure Resource Manager?",
+              "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "az group",
+              "url": "https://learn.microsoft.com/en-us/cli/azure/group",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-aas-006",
+              "type": "COMMAND_SELECTION",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.1",
+              "difficulty": "EASY",
+              "stem": "Which Azure CLI command creates a resource group named `rg-demo` in `eastus`?",
+              "explanation": "`az group create` creates a resource group and accepts name and location parameters.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`az group create --name rg-demo --location eastus`",
+                  "correct": true,
+                  "explanation": "This is the correct create command syntax."
+                },
+                {
+                  "key": "B",
+                  "text": "`az group list --name rg-demo --location eastus`",
+                  "correct": false,
+                  "explanation": "`list` does not create a resource group."
+                },
+                {
+                  "key": "C",
+                  "text": "`az vm list --name rg-demo`",
+                  "correct": false,
+                  "explanation": "This relates to virtual machines, not resource group creation."
+                },
+                {
+                  "key": "D",
+                  "text": "`az storage account create --resource-group rg-demo`",
+                  "correct": false,
+                  "explanation": "This creates a storage account and is incomplete."
+                }
+              ],
+              "lessonSlug": "azure-resource-hierarchy",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Resource Manager?",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "az group",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/group",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-007",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** statements about resource groups are correct?",
+              "explanation": "Resource groups are logical containers in a subscription, and a resource belongs to one resource group at a time.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "A resource group can contain multiple related Azure resources",
+                  "correct": true,
+                  "explanation": "This is a common use of resource groups."
+                },
+                {
+                  "key": "B",
+                  "text": "A single Azure resource belongs to one resource group at a time",
+                  "correct": true,
+                  "explanation": "A resource has one containing resource group."
+                },
+                {
+                  "key": "C",
+                  "text": "A resource group is the same thing as a Microsoft Entra tenant",
+                  "correct": false,
+                  "explanation": "A tenant is an identity boundary."
+                },
+                {
+                  "key": "D",
+                  "text": "A resource group automatically creates a management group",
+                  "correct": false,
+                  "explanation": "Management groups are separate hierarchy containers."
+                }
+              ],
+              "lessonSlug": "azure-resource-hierarchy",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Resource Manager?",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "az group",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/group",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "selectCount": 2,
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-008",
+              "type": "CATEGORIZATION",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each item by where it belongs in the Azure hierarchy.",
+              "explanation": "The hierarchy is management group, subscription, resource group, resource.",
+              "lessonSlug": "azure-resource-hierarchy",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Resource Manager?",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "az group",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/group",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "mg",
+                    "label": "Management group"
+                  },
+                  {
+                    "id": "sub",
+                    "label": "Subscription"
+                  },
+                  {
+                    "id": "rg",
+                    "label": "Resource group"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Organize many subscriptions for governance",
+                    "category": "mg",
+                    "explanation": "Management groups sit above subscriptions."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Boundary often associated with billing and access",
+                    "category": "sub",
+                    "explanation": "Subscriptions are major Azure boundaries."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Hold a VM and network interface for one app environment",
+                    "category": "rg",
+                    "explanation": "Resource groups hold related resources."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Apply governance inherited by several subscriptions",
+                    "category": "mg",
+                    "explanation": "Management group scope supports inheritance."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "az900-aas-009",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.1",
+              "difficulty": "EASY",
+              "stem": "Which term describes an individual manageable item such as a virtual machine or storage account?",
+              "explanation": "An Azure resource is an instance of a service managed through Azure Resource Manager.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Resource",
+                  "correct": true,
+                  "explanation": "A resource is the individual manageable item."
+                },
+                {
+                  "key": "B",
+                  "text": "Region pair",
+                  "correct": false,
+                  "explanation": "A region pair is a location resilience concept."
+                },
+                {
+                  "key": "C",
+                  "text": "Management group",
+                  "correct": false,
+                  "explanation": "A management group organizes subscriptions."
+                },
+                {
+                  "key": "D",
+                  "text": "Tenant display name",
+                  "correct": false,
+                  "explanation": "This relates to identity, not the resource instance."
+                }
+              ],
+              "lessonSlug": "azure-resource-hierarchy",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Resource Manager?",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "az group",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/group",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-010",
+              "type": "SCENARIO",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Where should the company apply broad governance for all current and future division subscriptions?",
+              "explanation": "Management groups organize subscriptions and allow governance inheritance above subscription scope.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "A management group containing the division subscriptions",
+                  "correct": true,
+                  "explanation": "This is the correct higher-level governance scope."
+                },
+                {
+                  "key": "B",
+                  "text": "A single resource group in one subscription",
+                  "correct": false,
+                  "explanation": "A resource group cannot contain other subscriptions."
+                },
+                {
+                  "key": "C",
+                  "text": "A virtual network shared by all teams",
+                  "correct": false,
+                  "explanation": "Networking does not provide subscription governance hierarchy."
+                },
+                {
+                  "key": "D",
+                  "text": "A storage account that stores policy documents",
+                  "correct": false,
+                  "explanation": "Documentation alone does not enforce governance."
+                }
+              ],
+              "lessonSlug": "azure-resource-hierarchy",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Resource Manager?",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "az group",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/group",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "scenario": "Northwind Traders has development, test, and production subscriptions for one business division.",
+              "shuffleOptions": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "azure-compute-and-networking",
+      "title": "Compute and networking",
+      "summary": "Compare Azure compute models and understand the networking services that connect Azure and hybrid workloads.",
+      "translations": {
+        "tr": {
+          "title": "İşlem ve ağ",
+          "summary": "Azure işlem modellerini karşılaştırın ve Azure ile hibrit iş yüklerini bağlayan ağ hizmetlerini anlayın.",
+          "status": "DRAFT"
+        }
+      },
+      "lessons": [
+        {
+          "slug": "azure-compute-options",
+          "title": "Virtual machines, containers, and Azure Functions",
+          "objectiveCode": "2.2",
+          "estimatedMinutes": 12,
+          "summary": "Compare common Azure compute options and decide when to use VMs, containers, or functions.",
+          "learningObjectives": [
+            "Describe the main Azure concepts in virtual machines, containers, and azure functions",
+            "Choose the right service or feature for a beginner-level business scenario",
+            "Avoid common misconceptions about this objective"
+          ],
+          "explanation": "Azure compute services run applications and workloads. **Virtual machines** are the most familiar model: choose an operating system, size, disks, and network settings. VMs are useful when you need operating system control, custom software, or a migration target for apps that cannot easily be redesigned. That control also means you manage the guest OS.\n\n**Containers** package an app with its dependencies so it runs consistently across environments. They are common for web APIs, microservices, and repeatable deployments. Azure has services that run containers while reducing infrastructure management.\n\n**Azure Functions** is a serverless compute option for event-driven code. A function might run when a queue message arrives, a timer fires, or an HTTP request is received. It suits small units of work where the team wants to focus on code rather than servers.\n\nFor fundamentals, choose based on control and management effort: VMs for maximum OS control, containers for portable packaged apps, and functions for event-driven serverless tasks.",
+          "terminology": [
+            {
+              "term": "Virtual machine",
+              "definition": "A software-based computer where you manage the guest OS and apps."
+            },
+            {
+              "term": "Container",
+              "definition": "A packaged app environment with dependencies."
+            },
+            {
+              "term": "Serverless",
+              "definition": "A model where the platform manages server infrastructure."
+            },
+            {
+              "term": "Azure Functions",
+              "definition": "A service for event-driven code without managing servers."
+            }
+          ],
+          "businessScenario": "Litware is modernizing apps: one needs full OS control, one API is containerized, and one cleanup job runs briefly each night.",
+          "technicalExample": "The team keeps the legacy app on VMs, deploys the API as containers, and runs the cleanup job as a scheduled Azure Function.",
+          "misconception": {
+            "myth": "Serverless means no servers exist.",
+            "reality": "Servers still exist, but the provider manages the infrastructure layer."
+          },
+          "examTakeaway": "Ask how much OS control is needed, how the app is packaged, and whether work is event-driven.",
+          "recap": "Compare common Azure compute options and decide when to use VMs, containers, or functions. Focus on purpose, boundaries, and when each option is appropriate.",
+          "simplerExplanation": "A VM is an empty workshop, a container is a standard shipping box, and a function is a task that runs when a bell rings.",
+          "anotherExample": "A retailer might use VMs for a legacy ERP, containers for a product API, and Functions to resize uploaded images.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Compute choices",
+                "columns": [
+                  {
+                    "title": "Virtual machines",
+                    "points": [
+                      "Most OS control",
+                      "More administration"
+                    ]
+                  },
+                  {
+                    "title": "Containers",
+                    "points": [
+                      "Portable app package",
+                      "Repeatable deployment"
+                    ]
+                  },
+                  {
+                    "title": "Functions",
+                    "points": [
+                      "Event-driven code",
+                      "Serverless operations model"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Pick the compute model",
+                "instructions": "Choose an answer, then compare it with the model answer.",
+                "items": [
+                  {
+                    "prompt": "Need custom OS agents?",
+                    "answer": "Virtual machines."
+                  },
+                  {
+                    "prompt": "Need a small task when a file arrives?",
+                    "answer": "Azure Functions."
+                  },
+                  {
+                    "prompt": "Need portable app packaging?",
+                    "answer": "Containers."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "VM",
+              "back": "Best when guest OS control is needed."
+            },
+            {
+              "front": "Container",
+              "back": "Packages an app and dependencies."
+            },
+            {
+              "front": "Azure Functions",
+              "back": "Runs event-driven code without managing servers."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Overview of virtual machines in Azure",
+              "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "az vm",
+              "url": "https://learn.microsoft.com/en-us/cli/azure/vm",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-aas-011",
+              "type": "SCENARIO",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which compute option is the best starting point?",
+              "explanation": "Virtual machines provide guest operating system control for applications that need it.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure Virtual Machines",
+                  "correct": true,
+                  "explanation": "VMs provide OS-level control."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Functions",
+                  "correct": false,
+                  "explanation": "Functions are event-driven and do not provide full OS control."
+                },
+                {
+                  "key": "C",
+                  "text": "Blob Storage",
+                  "correct": false,
+                  "explanation": "Blob Storage stores data; it does not run the legacy app."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure DNS",
+                  "correct": false,
+                  "explanation": "Azure DNS manages name resolution."
+                }
+              ],
+              "lessonSlug": "azure-compute-options",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Overview of virtual machines in Azure",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "az vm",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/vm",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "scenario": "Adventure Works must run a legacy app that requires custom Windows software and full operating system control.",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-012",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** compute options can reduce operating-system management compared with self-managed VMs?",
+              "explanation": "Containers and functions can reduce infrastructure work compared with managing guest operating systems yourself.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure Functions for event-driven code",
+                  "correct": true,
+                  "explanation": "Functions abstract server management for event-driven work."
+                },
+                {
+                  "key": "B",
+                  "text": "Containers on a managed container platform",
+                  "correct": true,
+                  "explanation": "Containers package apps and can run on managed platforms."
+                },
+                {
+                  "key": "C",
+                  "text": "A manually patched virtual machine",
+                  "correct": false,
+                  "explanation": "This keeps OS management with the customer."
+                },
+                {
+                  "key": "D",
+                  "text": "A resource group",
+                  "correct": false,
+                  "explanation": "A resource group is not a compute runtime."
+                }
+              ],
+              "lessonSlug": "azure-compute-options",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Overview of virtual machines in Azure",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "az vm",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/vm",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "selectCount": 2,
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-013",
+              "type": "COMMAND_SELECTION",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "EASY",
+              "stem": "Which Azure CLI command lists virtual machines in the current subscription?",
+              "explanation": "`az vm list` lists VMs.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`az vm list`",
+                  "correct": true,
+                  "explanation": "This lists virtual machines."
+                },
+                {
+                  "key": "B",
+                  "text": "`az group list`",
+                  "correct": false,
+                  "explanation": "This lists resource groups."
+                },
+                {
+                  "key": "C",
+                  "text": "`az storage account list`",
+                  "correct": false,
+                  "explanation": "This lists storage accounts."
+                },
+                {
+                  "key": "D",
+                  "text": "`az vm image accept-terms`",
+                  "correct": false,
+                  "explanation": "This is not for listing VMs."
+                }
+              ],
+              "lessonSlug": "azure-compute-options",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Overview of virtual machines in Azure",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "az vm",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/vm",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-014",
+              "type": "ORDERING",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Place these VM deployment activities in a sensible order.",
+              "explanation": "You plan first, create resources, install the app, then validate.",
+              "lessonSlug": "azure-compute-options",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Overview of virtual machines in Azure",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "az vm",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/vm",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Plan region, network, size, and image"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Create the VM and dependent resources"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Install or deploy the application"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Test connectivity and monitoring"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "Planning comes before creation.",
+                  "s2": "Resources must exist before app deployment.",
+                  "s3": "The app is deployed onto the compute environment.",
+                  "s4": "Testing confirms the deployment."
+                }
+              }
+            },
+            {
+              "ref": "az900-aas-015",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "HARD",
+              "stem": "Which requirement most strongly suggests Azure Functions?",
+              "explanation": "Azure Functions fits event-driven code that runs in response to a trigger.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Run code when queue messages arrive",
+                  "correct": true,
+                  "explanation": "This is an event-driven pattern."
+                },
+                {
+                  "key": "B",
+                  "text": "Install a custom kernel driver",
+                  "correct": false,
+                  "explanation": "This points to VM-level control."
+                },
+                {
+                  "key": "C",
+                  "text": "Provide full desktop sessions",
+                  "correct": false,
+                  "explanation": "This is not a Functions scenario."
+                },
+                {
+                  "key": "D",
+                  "text": "Manually patch the guest OS",
+                  "correct": false,
+                  "explanation": "Functions is chosen to avoid server management."
+                }
+              ],
+              "lessonSlug": "azure-compute-options",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Overview of virtual machines in Azure",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "az vm",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/vm",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true
+            }
+          ]
+        },
+        {
+          "slug": "azure-networking-basics",
+          "title": "Virtual networks, VPN Gateway, and ExpressRoute",
+          "objectiveCode": "2.2",
+          "estimatedMinutes": 12,
+          "summary": "Learn the basic Azure networking services used to connect resources and extend networks to Azure.",
+          "learningObjectives": [
+            "Describe the main Azure concepts in virtual networks, vpn gateway, and expressroute",
+            "Choose the right service or feature for a beginner-level business scenario",
+            "Avoid common misconceptions about this objective"
+          ],
+          "explanation": "Azure networking lets resources communicate securely with each other, users, and on-premises systems. The foundation is **Azure Virtual Network** (VNet). A VNet gives resources private IP communication inside an Azure address space you define. You can divide the address space into **subnets** to organize tiers and apply network controls.\n\nWhen a company needs to connect on-premises networks to Azure, two common options appear in AZ-900. **VPN Gateway** supports encrypted connections between an on-premises network and an Azure virtual network, commonly over the internet. **ExpressRoute** provides private connectivity through a connectivity provider and is considered when a company wants provider-based private connectivity.\n\nAzure also uses public and private endpoints. A public endpoint is reachable through public addressing. A private endpoint lets supported services be reached privately through a VNet. At fundamentals level, know the purpose: VNets organize private cloud networks, while VPN Gateway and ExpressRoute connect on-premises environments to Azure in different ways.",
+          "terminology": [
+            {
+              "term": "Virtual network",
+              "definition": "A private network boundary for Azure resources."
+            },
+            {
+              "term": "Subnet",
+              "definition": "A segment of a VNet address space."
+            },
+            {
+              "term": "VPN Gateway",
+              "definition": "A service for encrypted connectivity between Azure and other networks."
+            },
+            {
+              "term": "ExpressRoute",
+              "definition": "Private connectivity through a connectivity provider."
+            },
+            {
+              "term": "Private endpoint",
+              "definition": "A private network interface for supported Azure services."
+            }
+          ],
+          "businessScenario": "Alpine Ski House wants separate web and database network segments plus secure administrator access from headquarters.",
+          "technicalExample": "The design uses one VNet with separate subnets and a VPN Gateway for headquarters connectivity. ExpressRoute is evaluated if private provider connectivity is required.",
+          "misconception": {
+            "myth": "A VNet is only needed for VMs.",
+            "reality": "VNets support many designs, including private endpoints and hybrid connectivity."
+          },
+          "examTakeaway": "VNet is the private network; VPN Gateway and ExpressRoute are hybrid connectivity choices.",
+          "recap": "Learn the basic Azure networking services used to connect resources and extend networks to Azure. Focus on purpose, boundaries, and when each option is appropriate.",
+          "simplerExplanation": "A VNet is a private office floor, subnets are rooms, VPN Gateway is a secure tunnel, and ExpressRoute is a private provider route.",
+          "anotherExample": "A hospital might put application servers and database servers in different subnets and use ExpressRoute for private connectivity.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Hybrid connectivity",
+                "columns": [
+                  {
+                    "title": "VPN Gateway",
+                    "points": [
+                      "Encrypted connection",
+                      "Commonly internet-based"
+                    ]
+                  },
+                  {
+                    "title": "ExpressRoute",
+                    "points": [
+                      "Private provider connectivity",
+                      "Dedicated connectivity scenario"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "VNet and hybrid access",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "office",
+                    "label": "On-premises office"
+                  },
+                  {
+                    "id": "vpn",
+                    "label": "VPN Gateway"
+                  },
+                  {
+                    "id": "vnet",
+                    "label": "Azure VNet"
+                  },
+                  {
+                    "id": "web",
+                    "label": "Web subnet"
+                  },
+                  {
+                    "id": "data",
+                    "label": "Data subnet"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "office",
+                    "to": "vpn",
+                    "label": "encrypted tunnel"
+                  },
+                  {
+                    "from": "vpn",
+                    "to": "vnet",
+                    "label": "connects"
+                  },
+                  {
+                    "from": "vnet",
+                    "to": "web",
+                    "label": "contains"
+                  },
+                  {
+                    "from": "vnet",
+                    "to": "data",
+                    "label": "contains"
+                  }
+                ],
+                "caption": "An office connects through VPN Gateway to an Azure virtual network that contains web and data subnets."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "VNet",
+              "back": "Private network space for Azure resources."
+            },
+            {
+              "front": "Subnet",
+              "back": "A smaller segment of a VNet."
+            },
+            {
+              "front": "VPN Gateway",
+              "back": "Encrypted connectivity to Azure."
+            },
+            {
+              "front": "ExpressRoute",
+              "back": "Private provider connectivity."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Azure Virtual Network?",
+              "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-aas-016",
+              "type": "SCENARIO",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which Azure networking service should provide the private address space?",
+              "explanation": "Azure Virtual Network is the core private networking boundary for Azure resources.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure Virtual Network",
+                  "correct": true,
+                  "explanation": "A VNet provides private network space."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Blob Storage",
+                  "correct": false,
+                  "explanation": "This is storage, not networking."
+                },
+                {
+                  "key": "C",
+                  "text": "Microsoft Defender for Cloud",
+                  "correct": false,
+                  "explanation": "This is security posture management and protection."
+                },
+                {
+                  "key": "D",
+                  "text": "Management groups",
+                  "correct": false,
+                  "explanation": "These organize subscriptions."
+                }
+              ],
+              "lessonSlug": "azure-networking-basics",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Virtual Network?",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "scenario": "Proseware is deploying a web tier and data tier that need private IP communication and subnet separation.",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-017",
+              "type": "MATCHING",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Match each networking option to its description.",
+              "explanation": "VNet, VPN Gateway, and ExpressRoute solve different networking needs.",
+              "lessonSlug": "azure-networking-basics",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Virtual Network?",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Virtual network"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "VPN Gateway"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "ExpressRoute"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Private network space for Azure resources"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Encrypted network connection to Azure"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Private connectivity through a provider"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Blob lifecycle management"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "VNets provide private addressing.",
+                  "p2": "VPN Gateway supports encrypted connectivity.",
+                  "p3": "ExpressRoute provides provider-based private connectivity."
+                }
+              }
+            },
+            {
+              "ref": "az900-aas-018",
+              "type": "TRUE_FALSE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "EASY",
+              "stem": "Subnets divide an Azure virtual network address space into smaller segments.",
+              "explanation": "Subnets organize resources inside a VNet.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "The statement is accurate."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "The statement is not accurate."
+                }
+              ],
+              "lessonSlug": "azure-networking-basics",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Virtual Network?",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "az900-aas-019",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "HARD",
+              "stem": "Which option fits private connectivity from an on-premises datacenter to Azure through a connectivity provider rather than an internet VPN?",
+              "explanation": "ExpressRoute provides private connectivity through a connectivity provider.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "ExpressRoute",
+                  "correct": true,
+                  "explanation": "This meets the provider-based private connectivity requirement."
+                },
+                {
+                  "key": "B",
+                  "text": "VPN Gateway only",
+                  "correct": false,
+                  "explanation": "VPN Gateway commonly uses encrypted tunnels over the internet."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure Functions",
+                  "correct": false,
+                  "explanation": "This is compute."
+                },
+                {
+                  "key": "D",
+                  "text": "Access tiers",
+                  "correct": false,
+                  "explanation": "These are storage settings."
+                }
+              ],
+              "lessonSlug": "azure-networking-basics",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Virtual Network?",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-020",
+              "type": "CASE_STUDY",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "scenario": "Woodgrove Bank has an Azure workload with web and data subnets. Administrators also need secure connectivity from an on-premises office.",
+              "stem": "For each statement, select **Yes** if it is accurate. Otherwise, select **No**.",
+              "explanation": "VNets and subnets organize private networking; VPN Gateway and ExpressRoute connect networks.",
+              "lessonSlug": "azure-networking-basics",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Virtual Network?",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "A VNet can contain separate web and data subnets.",
+                    "answer": true,
+                    "explanation": "Subnets divide VNet address space."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "VPN Gateway is an Azure Storage access tier.",
+                    "answer": false,
+                    "explanation": "VPN Gateway is a networking service."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "ExpressRoute may be considered for provider-based private connectivity.",
+                    "answer": true,
+                    "explanation": "That is the purpose of ExpressRoute."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "azure-storage-services",
+      "title": "Storage services",
+      "summary": "Explore Azure Storage accounts, redundancy, access tiers, and tools for moving data and migrating workloads.",
+      "translations": {
+        "tr": {
+          "title": "Depolama hizmetleri",
+          "summary": "Azure Storage hesaplarını, yedekliliği, erişim katmanlarını ve verileri taşıma ile iş yüklerini geçirme araçlarını keşfedin.",
+          "status": "DRAFT"
+        }
+      },
+      "lessons": [
+        {
+          "slug": "azure-storage-fundamentals",
+          "title": "Storage accounts, redundancy, and access tiers",
+          "objectiveCode": "2.3",
+          "estimatedMinutes": 12,
+          "summary": "Understand storage accounts, storage services, redundancy choices, and blob access tiers.",
+          "learningObjectives": [
+            "Describe the main Azure concepts in storage accounts, redundancy, and access tiers",
+            "Choose the right service or feature for a beginner-level business scenario",
+            "Avoid common misconceptions about this objective"
+          ],
+          "explanation": "Azure Storage provides cloud storage for many data types. A **storage account** is the top-level container that provides a unique namespace and configuration boundary. Inside a storage account, common services include Blob Storage for object data, Azure Files for file shares, Queue Storage for messages, and Table Storage for NoSQL key-value data.\n\nTwo ideas often appear together but mean different things: **redundancy** and **access tiers**. Redundancy describes how Azure stores copies of data to improve durability and availability. Options such as locally redundant, zone-redundant, and geo-redundant storage reflect different replication approaches.\n\nAccess tiers describe how blob data is expected to be used. Hot is for data accessed often. Cool and cold are for less frequent access. Archive is for rarely accessed data that can tolerate retrieval steps. Avoid memorizing prices or thresholds; focus on matching access pattern and resilience need to the storage setting.",
+          "terminology": [
+            {
+              "term": "Storage account",
+              "definition": "Top-level Azure Storage namespace and configuration boundary."
+            },
+            {
+              "term": "Blob Storage",
+              "definition": "Object storage for unstructured data."
+            },
+            {
+              "term": "Redundancy",
+              "definition": "How data is replicated for durability and availability."
+            },
+            {
+              "term": "Access tier",
+              "definition": "A blob setting aligned to expected access frequency."
+            }
+          ],
+          "businessScenario": "Wide World Importers stores product images, transaction exports, and older audit files, each with different access patterns.",
+          "technicalExample": "The team stores product images in Blob Storage with hot tier, older audit data in a cooler tier, and selects redundancy based on recovery requirements.",
+          "misconception": {
+            "myth": "Archive tier is always best for old data.",
+            "reality": "Archive is for rarely accessed data and has retrieval considerations; the best tier depends on access needs."
+          },
+          "examTakeaway": "Separate the questions: what data service, how often accessed, and how resilient must it be?",
+          "recap": "Understand storage accounts, storage services, redundancy choices, and blob access tiers. Focus on purpose, boundaries, and when each option is appropriate.",
+          "simplerExplanation": "A storage account is a warehouse, redundancy is backup warehouse strategy, and access tier is front shelf versus deep storage.",
+          "anotherExample": "A media company stores active thumbnails in hot tier and completed raw footage in a cooler tier.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Storage decisions",
+                "columns": [
+                  {
+                    "title": "Service",
+                    "points": [
+                      "Blob, Files, Queue, or Table",
+                      "Based on data shape"
+                    ]
+                  },
+                  {
+                    "title": "Redundancy",
+                    "points": [
+                      "Replication approach",
+                      "Based on resilience"
+                    ]
+                  },
+                  {
+                    "title": "Access tier",
+                    "points": [
+                      "Hot, cool, cold, archive",
+                      "Based on access frequency"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Storage account container",
+                "kind": "layers",
+                "nodes": [
+                  {
+                    "id": "acct",
+                    "label": "Storage account"
+                  },
+                  {
+                    "id": "blob",
+                    "label": "Blob service"
+                  },
+                  {
+                    "id": "files",
+                    "label": "File shares"
+                  },
+                  {
+                    "id": "queue",
+                    "label": "Queues"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "acct",
+                    "to": "blob",
+                    "label": "contains"
+                  },
+                  {
+                    "from": "acct",
+                    "to": "files",
+                    "label": "contains"
+                  },
+                  {
+                    "from": "acct",
+                    "to": "queue",
+                    "label": "contains"
+                  }
+                ],
+                "caption": "A storage account can contain multiple Azure Storage data services."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Storage account",
+              "back": "Top-level namespace for Azure Storage."
+            },
+            {
+              "front": "Redundancy",
+              "back": "How data copies are maintained."
+            },
+            {
+              "front": "Hot tier",
+              "back": "For frequently accessed blob data."
+            },
+            {
+              "front": "Archive tier",
+              "back": "For rarely accessed blob data with retrieval considerations."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Storage account overview",
+              "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Azure Storage redundancy",
+              "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Access tiers for blob data",
+              "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "az storage account",
+              "url": "https://learn.microsoft.com/en-us/cli/azure/storage/account",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-aas-021",
+              "type": "UI_SIMULATION",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "stem": "Configure the simulated settings for frequently accessed app logs that should tolerate a zone problem in a supported region.",
+              "explanation": "Hot tier fits frequent access, and zone-redundant storage aligns with zone resilience.",
+              "lessonSlug": "azure-storage-fundamentals",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Storage account overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Storage redundancy",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Access tiers for blob data",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "az storage account",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/storage/account",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "uiSimulation": {
+                "title": "Storage account basics (simulated)",
+                "description": "This is a fictional simplified screen, not a real Azure portal page.",
+                "fields": [
+                  {
+                    "id": "tier",
+                    "label": "Default blob access tier",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "hot",
+                        "label": "Hot - frequent access"
+                      },
+                      {
+                        "value": "cool",
+                        "label": "Cool - infrequent access"
+                      },
+                      {
+                        "value": "archive",
+                        "label": "Archive - rarely accessed"
+                      }
+                    ],
+                    "correct": "hot",
+                    "explanation": "Hot is for frequently accessed blob data."
+                  },
+                  {
+                    "id": "redundancy",
+                    "label": "Redundancy",
+                    "control": "radio",
+                    "options": [
+                      {
+                        "value": "lrs",
+                        "label": "Locally redundant storage"
+                      },
+                      {
+                        "value": "zrs",
+                        "label": "Zone-redundant storage"
+                      },
+                      {
+                        "value": "grs",
+                        "label": "Geo-redundant storage"
+                      }
+                    ],
+                    "correct": "zrs",
+                    "explanation": "ZRS is the zone-resilient choice in supported regions."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "az900-aas-022",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** statements correctly describe Azure Storage?",
+              "explanation": "Storage accounts provide the namespace and redundancy determines data replication.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "A storage account provides a namespace for Azure Storage services",
+                  "correct": true,
+                  "explanation": "This is the top-level storage resource."
+                },
+                {
+                  "key": "B",
+                  "text": "Redundancy options affect how data copies are maintained",
+                  "correct": true,
+                  "explanation": "Redundancy describes replication approach."
+                },
+                {
+                  "key": "C",
+                  "text": "Archive tier is optimized for constantly accessed data",
+                  "correct": false,
+                  "explanation": "Archive is for rarely accessed data."
+                },
+                {
+                  "key": "D",
+                  "text": "A resource group is a storage redundancy option",
+                  "correct": false,
+                  "explanation": "A resource group is an organization container."
+                }
+              ],
+              "lessonSlug": "azure-storage-fundamentals",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Storage account overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Storage redundancy",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Access tiers for blob data",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "az storage account",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/storage/account",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "selectCount": 2,
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-023",
+              "type": "COMMAND_SELECTION",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which command creates a storage account with locally redundant standard storage?",
+              "explanation": "`az storage account create` uses `--sku Standard_LRS` for locally redundant standard storage.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`az storage account create --name stprosedemo01 --resource-group rg-demo --location eastus --sku Standard_LRS`",
+                  "correct": true,
+                  "explanation": "This uses valid storage account create syntax."
+                },
+                {
+                  "key": "B",
+                  "text": "`az storage account list --name stprosedemo01 --sku Standard_LRS`",
+                  "correct": false,
+                  "explanation": "`list` does not create an account."
+                },
+                {
+                  "key": "C",
+                  "text": "`az group create --name stprosedemo01 --sku Standard_LRS`",
+                  "correct": false,
+                  "explanation": "This is the resource group command, not storage account creation."
+                },
+                {
+                  "key": "D",
+                  "text": "`az storage account create --vm-name stprosedemo01 --tier Standard_LRS`",
+                  "correct": false,
+                  "explanation": "The storage account name parameter is `--name`, and SKU is set with `--sku`."
+                }
+              ],
+              "lessonSlug": "azure-storage-fundamentals",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Storage account overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Storage redundancy",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Access tiers for blob data",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "az storage account",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/storage/account",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-024",
+              "type": "CATEGORIZATION",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each storage choice by the idea it represents.",
+              "explanation": "Access tiers describe expected blob usage; redundancy describes replication.",
+              "lessonSlug": "azure-storage-fundamentals",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Storage account overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Storage redundancy",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Access tiers for blob data",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "az storage account",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/storage/account",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "tier",
+                    "label": "Access tier"
+                  },
+                  {
+                    "id": "red",
+                    "label": "Redundancy"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Hot",
+                    "category": "tier",
+                    "explanation": "Hot is an access tier for frequently accessed data."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Cool",
+                    "category": "tier",
+                    "explanation": "Cool is an access tier for less frequent access."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Locally redundant storage",
+                    "category": "red",
+                    "explanation": "LRS is a redundancy option."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Geo-redundant storage",
+                    "category": "red",
+                    "explanation": "GRS is a redundancy option."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "az900-aas-025",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.3",
+              "difficulty": "EASY",
+              "stem": "Which Azure Storage service is commonly used for object storage such as images and backups?",
+              "explanation": "Blob Storage stores unstructured object data.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure Blob Storage",
+                  "correct": true,
+                  "explanation": "Blob Storage is object storage."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Virtual Network",
+                  "correct": false,
+                  "explanation": "This is networking."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure Functions",
+                  "correct": false,
+                  "explanation": "This is compute."
+                },
+                {
+                  "key": "D",
+                  "text": "ExpressRoute",
+                  "correct": false,
+                  "explanation": "This is connectivity."
+                }
+              ],
+              "lessonSlug": "azure-storage-fundamentals",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Storage account overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Storage redundancy",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Access tiers for blob data",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "az storage account",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/storage/account",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true
+            }
+          ]
+        },
+        {
+          "slug": "moving-data-to-azure",
+          "title": "Moving files and migrating to Azure",
+          "objectiveCode": "2.3",
+          "estimatedMinutes": 10,
+          "summary": "Learn common tools for moving files into Azure Storage and planning migrations to Azure.",
+          "learningObjectives": [
+            "Describe the main Azure concepts in moving files and migrating to azure",
+            "Choose the right service or feature for a beginner-level business scenario",
+            "Avoid common misconceptions about this objective"
+          ],
+          "explanation": "Moving data to Azure can mean a simple file copy or a broader migration project. For storage-focused movement, **AzCopy** is a command-line utility used to copy data to, from, or between Azure Storage accounts. It is useful for scripts and repeatable transfer jobs. **Azure Storage Explorer** is a graphical tool for browsing and managing storage data.\n\nFor file server scenarios, **Azure Files** provides managed file shares, and **Azure File Sync** can help synchronize on-premises Windows file servers with Azure file shares.\n\nMigration is broader than copying files. **Azure Migrate** helps discover, assess, and migrate on-premises workloads to Azure. **Azure Data Box** is an option for large offline transfers when network transfer is impractical. At fundamentals level, classify the scenario: scripted storage copy, graphical storage management, file server synchronization, offline bulk transfer, or full workload migration assessment.",
+          "terminology": [
+            {
+              "term": "AzCopy",
+              "definition": "Command-line utility for Azure Storage transfers."
+            },
+            {
+              "term": "Azure Storage Explorer",
+              "definition": "Graphical tool for browsing and managing Azure Storage data."
+            },
+            {
+              "term": "Azure File Sync",
+              "definition": "Service for syncing Windows file servers with Azure file shares."
+            },
+            {
+              "term": "Azure Migrate",
+              "definition": "Service for discovering, assessing, and migrating workloads."
+            },
+            {
+              "term": "Azure Data Box",
+              "definition": "Offline transfer option for large data movement scenarios."
+            }
+          ],
+          "businessScenario": "Fabrikam has nightly report uploads, a branch office file share, and a server migration project.",
+          "technicalExample": "The team scripts uploads with AzCopy, evaluates Azure File Sync for branch files, and uses Azure Migrate to assess servers.",
+          "misconception": {
+            "myth": "Every Azure migration starts by copying all files with AzCopy.",
+            "reality": "AzCopy is useful for storage transfers, but workload migrations need assessment and planning."
+          },
+          "examTakeaway": "AzCopy is for command-line copy; Storage Explorer is GUI management; Azure Migrate is for migration projects.",
+          "recap": "Learn common tools for moving files into Azure Storage and planning migrations to Azure. Focus on purpose, boundaries, and when each option is appropriate.",
+          "simplerExplanation": "Moving a few boxes is different from relocating an office. AzCopy moves files; Azure Migrate plans workload moves.",
+          "anotherExample": "A design agency might use Storage Explorer for ad hoc uploads and AzCopy for scheduled transfers.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Movement tools",
+                "columns": [
+                  {
+                    "title": "AzCopy",
+                    "points": [
+                      "Command-line copy",
+                      "Good for scripts"
+                    ]
+                  },
+                  {
+                    "title": "Storage Explorer",
+                    "points": [
+                      "Graphical browsing",
+                      "Good for manual management"
+                    ]
+                  },
+                  {
+                    "title": "Azure Migrate",
+                    "points": [
+                      "Discovery and assessment",
+                      "Good for migration planning"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Start with the scenario",
+                "body": "Copy files to storage suggests AzCopy or Storage Explorer. Assess servers for migration suggests Azure Migrate."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "AzCopy",
+              "back": "Command-line tool for storage transfers."
+            },
+            {
+              "front": "Storage Explorer",
+              "back": "Graphical storage management tool."
+            },
+            {
+              "front": "Azure Migrate",
+              "back": "Discovery, assessment, and migration service."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Copy or move data to Azure Storage by using AzCopy",
+              "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "About Azure Migrate",
+              "url": "https://learn.microsoft.com/en-us/azure/migrate/migrate-services-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Storage account overview",
+              "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-aas-026",
+              "type": "SCENARIO",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which tool is the best fit for a direct scripted copy to Azure Storage?",
+              "explanation": "AzCopy is a command-line utility for copying data to, from, and between storage accounts.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "AzCopy",
+                  "correct": true,
+                  "explanation": "AzCopy is designed for command-line storage copy operations."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure RBAC",
+                  "correct": false,
+                  "explanation": "RBAC controls access."
+                },
+                {
+                  "key": "C",
+                  "text": "Conditional Access",
+                  "correct": false,
+                  "explanation": "Conditional Access controls sign-in decisions."
+                },
+                {
+                  "key": "D",
+                  "text": "Availability zones",
+                  "correct": false,
+                  "explanation": "Zones are infrastructure locations."
+                }
+              ],
+              "lessonSlug": "moving-data-to-azure",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Copy or move data to Azure Storage by using AzCopy",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About Azure Migrate",
+                  "url": "https://learn.microsoft.com/en-us/azure/migrate/migrate-services-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Storage account overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "scenario": "Contoso needs to copy exported reports from a build server to Azure Storage every night using a script.",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-027",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.3",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about data movement tools.",
+              "explanation": "AzCopy is commonly used for command-line Azure Storage transfers.",
+              "lessonSlug": "moving-data-to-azure",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Copy or move data to Azure Storage by using AzCopy",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About Azure Migrate",
+                  "url": "https://learn.microsoft.com/en-us/azure/migrate/migrate-services-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Storage account overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "fillInBlank": {
+                "template": "The command-line utility commonly used to copy data to and from Azure Storage is {{tool}}.",
+                "blanks": [
+                  {
+                    "id": "tool",
+                    "accepted": [
+                      "AzCopy",
+                      "azcopy"
+                    ],
+                    "explanation": "AzCopy is the Azure Storage copy utility."
+                  }
+                ],
+                "wordBank": [
+                  "AzCopy",
+                  "ExpressRoute",
+                  "Azure Policy",
+                  "Defender for Cloud"
+                ]
+              }
+            },
+            {
+              "ref": "az900-aas-028",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which option helps keep an on-premises Windows file server synchronized with Azure file shares?",
+              "explanation": "Azure File Sync works with Azure Files to synchronize Windows file servers with Azure file shares.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure File Sync",
+                  "correct": true,
+                  "explanation": "This is the file synchronization service."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Functions",
+                  "correct": false,
+                  "explanation": "Functions runs code."
+                },
+                {
+                  "key": "C",
+                  "text": "Management groups",
+                  "correct": false,
+                  "explanation": "These organize subscriptions."
+                },
+                {
+                  "key": "D",
+                  "text": "Region pairs",
+                  "correct": false,
+                  "explanation": "This is a resilience concept."
+                }
+              ],
+              "lessonSlug": "moving-data-to-azure",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Copy or move data to Azure Storage by using AzCopy",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About Azure Migrate",
+                  "url": "https://learn.microsoft.com/en-us/azure/migrate/migrate-services-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Storage account overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-029",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.3",
+              "difficulty": "HARD",
+              "stem": "Which service helps discover, assess, and migrate on-premises servers to Azure?",
+              "explanation": "Azure Migrate is the central service for discovery, assessment, and migration scenarios.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure Migrate",
+                  "correct": true,
+                  "explanation": "It supports migration assessment and migration."
+                },
+                {
+                  "key": "B",
+                  "text": "AzCopy",
+                  "correct": false,
+                  "explanation": "AzCopy copies storage data but does not assess server migrations."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure Storage Explorer",
+                  "correct": false,
+                  "explanation": "This is a graphical storage tool."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure DNS",
+                  "correct": false,
+                  "explanation": "This hosts DNS zones and records."
+                }
+              ],
+              "lessonSlug": "moving-data-to-azure",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Copy or move data to Azure Storage by using AzCopy",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About Azure Migrate",
+                  "url": "https://learn.microsoft.com/en-us/azure/migrate/migrate-services-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Storage account overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-030",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "stem": "A user wants a graphical tool to browse containers and upload a few files. Which option is most appropriate?",
+              "explanation": "Azure Storage Explorer provides a graphical interface for managing Azure Storage data.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure Storage Explorer",
+                  "correct": true,
+                  "explanation": "It is a GUI for Azure Storage data."
+                },
+                {
+                  "key": "B",
+                  "text": "ExpressRoute",
+                  "correct": false,
+                  "explanation": "This is private connectivity."
+                },
+                {
+                  "key": "C",
+                  "text": "Microsoft Defender for Cloud",
+                  "correct": false,
+                  "explanation": "This is security posture and protection."
+                },
+                {
+                  "key": "D",
+                  "text": "Virtual Machine Scale Sets",
+                  "correct": false,
+                  "explanation": "This manages VM instances."
+                }
+              ],
+              "lessonSlug": "moving-data-to-azure",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Copy or move data to Azure Storage by using AzCopy",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About Azure Migrate",
+                  "url": "https://learn.microsoft.com/en-us/azure/migrate/migrate-services-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Storage account overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "azure-identity-security",
+      "title": "Identity, access, and security",
+      "summary": "Understand Microsoft Entra ID, authentication, Azure RBAC, Zero Trust, and Microsoft Defender for Cloud.",
+      "translations": {
+        "tr": {
+          "title": "Kimlik, erişim ve güvenlik",
+          "summary": "Microsoft Entra ID, kimlik doğrulama, Azure RBAC, Zero Trust ve Microsoft Defender for Cloud'u anlayın.",
+          "status": "DRAFT"
+        }
+      },
+      "lessons": [
+        {
+          "slug": "entra-id-and-authentication",
+          "title": "Microsoft Entra ID and authentication methods",
+          "objectiveCode": "2.4",
+          "estimatedMinutes": 11,
+          "summary": "Understand Microsoft Entra ID and authentication methods such as SSO, MFA, and passwordless sign-in.",
+          "learningObjectives": [
+            "Describe the main Azure concepts in microsoft entra id and authentication methods",
+            "Choose the right service or feature for a beginner-level business scenario",
+            "Avoid common misconceptions about this objective"
+          ],
+          "explanation": "**Microsoft Entra ID** is Microsoft’s cloud identity and access service. It helps organizations manage users, groups, applications, and sign-in for cloud resources. When employees access Azure, Microsoft 365, or integrated applications, Microsoft Entra ID can authenticate them and provide access tokens.\n\n**Single sign-on** (SSO) lets a user sign in once and access multiple supported applications without repeatedly entering credentials. **Multifactor authentication** (MFA) requires an additional verification factor, such as an approved app prompt, security key, or other method. MFA reduces the risk of password-only compromise.\n\n**Passwordless** authentication reduces or removes dependence on typed passwords. The user still proves identity, but not by entering a traditional password. **Conditional Access** uses signals such as user, device, location, or risk to make access decisions. A policy might require MFA for risky sign-ins. For AZ-900, understand the purpose rather than detailed policy configuration.",
+          "terminology": [
+            {
+              "term": "Microsoft Entra ID",
+              "definition": "Microsoft's cloud identity and access service."
+            },
+            {
+              "term": "Single sign-on",
+              "definition": "One sign-in experience for multiple supported apps."
+            },
+            {
+              "term": "Multifactor authentication",
+              "definition": "Authentication requiring more than one verification factor."
+            },
+            {
+              "term": "Passwordless authentication",
+              "definition": "Sign-in methods that do not rely on typing a traditional password."
+            },
+            {
+              "term": "Conditional Access",
+              "definition": "Policy-based access decisions using identity and context signals."
+            }
+          ],
+          "businessScenario": "Northwind Traders wants employees to access SaaS apps and Azure resources with a consistent sign-in experience and stronger risky sign-in protection.",
+          "technicalExample": "The identity team uses Microsoft Entra ID, enables SSO for supported apps, and requires MFA through policy when risk is higher.",
+          "misconception": {
+            "myth": "MFA is only useful for administrators.",
+            "reality": "MFA can protect many user groups; administrators are simply a high-priority group."
+          },
+          "examTakeaway": "Entra ID handles cloud identity; MFA and passwordless strengthen authentication; Conditional Access applies policy decisions.",
+          "recap": "Understand Microsoft Entra ID and authentication methods such as SSO, MFA, and passwordless sign-in. Focus on purpose, boundaries, and when each option is appropriate.",
+          "simplerExplanation": "Entra ID is the front desk, SSO is one badge for many doors, MFA is a second proof, and Conditional Access is a rulebook.",
+          "anotherExample": "A retailer may allow SSO for HR apps but require MFA when a sign-in comes from an unfamiliar context.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Authentication methods",
+                "columns": [
+                  {
+                    "title": "SSO",
+                    "points": [
+                      "One sign-in for supported apps",
+                      "Improves user experience"
+                    ]
+                  },
+                  {
+                    "title": "MFA",
+                    "points": [
+                      "Adds another factor",
+                      "Reduces password-only risk"
+                    ]
+                  },
+                  {
+                    "title": "Passwordless",
+                    "points": [
+                      "Avoids typed passwords",
+                      "Still verifies identity"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Choose the control",
+                "instructions": "Choose an answer, then compare it with the model answer.",
+                "items": [
+                  {
+                    "prompt": "Fewer repeated prompts across apps.",
+                    "answer": "Single sign-on."
+                  },
+                  {
+                    "prompt": "Risky sign-in needs extra proof.",
+                    "answer": "Multifactor authentication."
+                  },
+                  {
+                    "prompt": "Less dependence on passwords.",
+                    "answer": "Passwordless authentication."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Microsoft Entra ID",
+              "back": "Cloud identity and access service."
+            },
+            {
+              "front": "SSO",
+              "back": "One sign-in for multiple supported apps."
+            },
+            {
+              "front": "MFA",
+              "back": "Requires more than one verification factor."
+            },
+            {
+              "front": "Conditional Access",
+              "back": "Uses signals and policies for access decisions."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Microsoft Entra?",
+              "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Microsoft Entra multifactor authentication overview",
+              "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-mfa-howitworks",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-aas-031",
+              "type": "UI_SIMULATION",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.4",
+              "difficulty": "MEDIUM",
+              "stem": "Configure the simulated sign-in policy so employees must use an extra verification step when risk is higher.",
+              "explanation": "MFA adds another verification factor, and policy can require it for selected users or conditions.",
+              "lessonSlug": "entra-id-and-authentication",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Microsoft Entra?",
+                  "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Entra multifactor authentication overview",
+                  "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-mfa-howitworks",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "uiSimulation": {
+                "title": "Conditional sign-in settings (simulated)",
+                "description": "This is a fictional simplified screen, not a real Azure portal page.",
+                "fields": [
+                  {
+                    "id": "users",
+                    "label": "Applies to",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "employees",
+                        "label": "Employees"
+                      },
+                      {
+                        "value": "public",
+                        "label": "Anonymous internet users"
+                      }
+                    ],
+                    "correct": "employees",
+                    "explanation": "The scenario is about employee identities."
+                  },
+                  {
+                    "id": "mfa",
+                    "label": "Require multifactor authentication",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "MFA provides the extra verification step."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "az900-aas-032",
+              "type": "SCENARIO",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.4",
+              "difficulty": "MEDIUM",
+              "stem": "Which identity service should be the foundation?",
+              "explanation": "Microsoft Entra ID is the cloud identity and access service used for Microsoft cloud resources.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Microsoft Entra ID",
+                  "correct": true,
+                  "explanation": "It provides cloud identity and access management."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Blob Storage",
+                  "correct": false,
+                  "explanation": "This stores object data."
+                },
+                {
+                  "key": "C",
+                  "text": "ExpressRoute",
+                  "correct": false,
+                  "explanation": "This provides private connectivity."
+                },
+                {
+                  "key": "D",
+                  "text": "Availability zones",
+                  "correct": false,
+                  "explanation": "These are resilience locations."
+                }
+              ],
+              "lessonSlug": "entra-id-and-authentication",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Microsoft Entra?",
+                  "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Entra multifactor authentication overview",
+                  "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-mfa-howitworks",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "scenario": "Relecloud wants employees to use one cloud identity for Microsoft 365 and Azure resource access.",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-033",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.4",
+              "difficulty": "EASY",
+              "stem": "Which authentication method requires more than one form of verification?",
+              "explanation": "Multifactor authentication requires additional verification beyond a single password.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Multifactor authentication",
+                  "correct": true,
+                  "explanation": "MFA uses multiple factors."
+                },
+                {
+                  "key": "B",
+                  "text": "Resource group",
+                  "correct": false,
+                  "explanation": "This organizes Azure resources."
+                },
+                {
+                  "key": "C",
+                  "text": "Storage redundancy",
+                  "correct": false,
+                  "explanation": "This is data replication."
+                },
+                {
+                  "key": "D",
+                  "text": "Virtual network peering",
+                  "correct": false,
+                  "explanation": "This connects VNets."
+                }
+              ],
+              "lessonSlug": "entra-id-and-authentication",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Microsoft Entra?",
+                  "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Entra multifactor authentication overview",
+                  "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-mfa-howitworks",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-034",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.4",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** capabilities are associated with Microsoft Entra ID authentication scenarios?",
+              "explanation": "Microsoft Entra ID supports SSO and MFA for cloud identity scenarios.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Single sign-on to supported applications",
+                  "correct": true,
+                  "explanation": "SSO is a core identity capability."
+                },
+                {
+                  "key": "B",
+                  "text": "Multifactor authentication",
+                  "correct": true,
+                  "explanation": "MFA strengthens sign-in."
+                },
+                {
+                  "key": "C",
+                  "text": "Choosing blob archive tier",
+                  "correct": false,
+                  "explanation": "This is a storage setting."
+                },
+                {
+                  "key": "D",
+                  "text": "Creating availability zones",
+                  "correct": false,
+                  "explanation": "Zones are infrastructure locations."
+                }
+              ],
+              "lessonSlug": "entra-id-and-authentication",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Microsoft Entra?",
+                  "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Entra multifactor authentication overview",
+                  "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-mfa-howitworks",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "selectCount": 2,
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-035",
+              "type": "TRUE_FALSE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.4",
+              "difficulty": "EASY",
+              "stem": "Passwordless authentication can reduce reliance on memorized passwords while still verifying identity.",
+              "explanation": "Passwordless methods verify identity without traditional password entry.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "The statement is accurate."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "The statement is not accurate."
+                }
+              ],
+              "lessonSlug": "entra-id-and-authentication",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Microsoft Entra?",
+                  "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Entra multifactor authentication overview",
+                  "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-mfa-howitworks",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "rbac-zero-trust-defender",
+          "title": "Azure RBAC, Zero Trust, and Microsoft Defender for Cloud",
+          "objectiveCode": "2.4",
+          "estimatedMinutes": 12,
+          "summary": "Learn how Azure RBAC, Zero Trust principles, and Defender for Cloud support access control and security posture.",
+          "learningObjectives": [
+            "Describe the main Azure concepts in azure rbac, zero trust, and microsoft defender for cloud",
+            "Choose the right service or feature for a beginner-level business scenario",
+            "Avoid common misconceptions about this objective"
+          ],
+          "explanation": "Security in Azure combines identity, authorization, network controls, monitoring, and workload protection. **Azure role-based access control** (Azure RBAC) is an authorization system for Azure resources. A role assignment connects a security principal, a role definition such as Reader or Contributor, and a scope such as a subscription, resource group, or resource.\n\n**Zero Trust** is a security approach that avoids implicit trust. Common principles include verify explicitly, use least privilege access, and assume breach. In practice, this means checking identity and context, limiting permissions, segmenting access, and monitoring for suspicious activity. Zero Trust is not one product; it is a design and operating model.\n\n**Microsoft Defender for Cloud** helps organizations improve security posture and protect workloads across Azure, hybrid, and multicloud environments. It can provide recommendations and workload protection capabilities. Together, RBAC limits who can do what, Zero Trust guides secure design, and Defender for Cloud helps identify and address risks.",
+          "terminology": [
+            {
+              "term": "Azure RBAC",
+              "definition": "Authorization system controlling access to Azure resources."
+            },
+            {
+              "term": "Role assignment",
+              "definition": "A combination of principal, role definition, and scope."
+            },
+            {
+              "term": "Least privilege",
+              "definition": "Granting only the access required for a task."
+            },
+            {
+              "term": "Zero Trust",
+              "definition": "Security model based on explicit verification, least privilege, and assuming breach."
+            },
+            {
+              "term": "Microsoft Defender for Cloud",
+              "definition": "Service that helps improve security posture and protect workloads."
+            }
+          ],
+          "businessScenario": "Proseware needs limited developer operations access, read-only auditor visibility, and prioritized security recommendations.",
+          "technicalExample": "The cloud team assigns scoped RBAC roles, follows least privilege, and reviews Microsoft Defender for Cloud recommendations.",
+          "misconception": {
+            "myth": "Users on the corporate network should automatically be trusted.",
+            "reality": "Zero Trust avoids implicit trust based only on network location."
+          },
+          "examTakeaway": "RBAC answers authorization, Zero Trust is a security strategy, and Defender for Cloud helps with posture and workload protection.",
+          "recap": "Learn how Azure RBAC, Zero Trust principles, and Defender for Cloud support access control and security posture. Focus on purpose, boundaries, and when each option is appropriate.",
+          "simplerExplanation": "RBAC is keys for specific rooms, Zero Trust checks badges every time, and Defender for Cloud is a security inspector.",
+          "anotherExample": "A finance team might assign Reader for auditors, Contributor only on one resource group for operators, and review Defender recommendations weekly.",
+          "extraBlocks": [
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Access and security layers",
+                "kind": "layers",
+                "nodes": [
+                  {
+                    "id": "id",
+                    "label": "Identity"
+                  },
+                  {
+                    "id": "rbac",
+                    "label": "RBAC authorization"
+                  },
+                  {
+                    "id": "res",
+                    "label": "Azure resources"
+                  },
+                  {
+                    "id": "dfc",
+                    "label": "Defender for Cloud"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "id",
+                    "to": "rbac",
+                    "label": "principal"
+                  },
+                  {
+                    "from": "rbac",
+                    "to": "res",
+                    "label": "scoped access"
+                  },
+                  {
+                    "from": "dfc",
+                    "to": "res",
+                    "label": "recommendations"
+                  }
+                ],
+                "caption": "An identity receives scoped access through RBAC, while Defender for Cloud evaluates security posture."
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Least privilege",
+                "body": "When two roles could work, prefer the role and scope that grant only what is needed."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Azure RBAC",
+              "back": "Controls Azure resource access through role assignments."
+            },
+            {
+              "front": "Scope",
+              "back": "Boundary where an RBAC assignment applies."
+            },
+            {
+              "front": "Zero Trust",
+              "back": "Verify explicitly, least privilege, assume breach."
+            },
+            {
+              "front": "Defender for Cloud",
+              "back": "Helps improve security posture and protect workloads."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Azure role-based access control?",
+              "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Zero Trust as a security foundation",
+              "url": "https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Microsoft Defender for Cloud overview",
+              "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-aas-036",
+              "type": "CASE_STUDY",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.4",
+              "difficulty": "HARD",
+              "scenario": "Woodgrove Bank is improving cloud security. Developers need permission to restart VMs in one resource group, security wants posture recommendations, and leadership wants least privilege.",
+              "stem": "For each statement, select **Yes** if it is accurate. Otherwise, select **No**.",
+              "explanation": "RBAC grants scoped permissions, Defender for Cloud helps with posture, and Zero Trust emphasizes least privilege.",
+              "lessonSlug": "rbac-zero-trust-defender",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure role-based access control?",
+                  "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Zero Trust as a security foundation",
+                  "url": "https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Defender for Cloud overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Azure RBAC can assign an appropriate role at resource group scope.",
+                    "answer": true,
+                    "explanation": "RBAC role assignments include a role, principal, and scope."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Microsoft Defender for Cloud is only a DNS naming service.",
+                    "answer": false,
+                    "explanation": "Defender for Cloud helps with security posture and workload protection."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Zero Trust encourages implicit trust based only on network location.",
+                    "answer": false,
+                    "explanation": "Zero Trust avoids implicit trust."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "az900-aas-037",
+              "type": "CATEGORIZATION",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.4",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each statement by the best security concept.",
+              "explanation": "RBAC is scoped authorization; Zero Trust is a security model; Defender for Cloud helps assess and protect resources.",
+              "lessonSlug": "rbac-zero-trust-defender",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure role-based access control?",
+                  "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Zero Trust as a security foundation",
+                  "url": "https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Defender for Cloud overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "rbac",
+                    "label": "Azure RBAC"
+                  },
+                  {
+                    "id": "zt",
+                    "label": "Zero Trust"
+                  },
+                  {
+                    "id": "dfc",
+                    "label": "Microsoft Defender for Cloud"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Assign Reader on a subscription to an auditor",
+                    "category": "rbac",
+                    "explanation": "This is a role assignment at a scope."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Verify explicitly and use least privilege",
+                    "category": "zt",
+                    "explanation": "These are Zero Trust principles."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Review cloud security posture recommendations",
+                    "category": "dfc",
+                    "explanation": "Defender for Cloud provides posture recommendations."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Grant Contributor only on one resource group",
+                    "category": "rbac",
+                    "explanation": "This is scoped RBAC."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "az900-aas-038",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.4",
+              "difficulty": "MEDIUM",
+              "stem": "Which Azure RBAC element defines where a role assignment applies?",
+              "explanation": "Scope defines the boundary for the role assignment.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Scope",
+                  "correct": true,
+                  "explanation": "Scope is where the assignment applies."
+                },
+                {
+                  "key": "B",
+                  "text": "Access tier",
+                  "correct": false,
+                  "explanation": "This is storage."
+                },
+                {
+                  "key": "C",
+                  "text": "Availability zone",
+                  "correct": false,
+                  "explanation": "This is a location concept."
+                },
+                {
+                  "key": "D",
+                  "text": "Function trigger",
+                  "correct": false,
+                  "explanation": "This starts a function."
+                }
+              ],
+              "lessonSlug": "rbac-zero-trust-defender",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure role-based access control?",
+                  "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Zero Trust as a security foundation",
+                  "url": "https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Defender for Cloud overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-039",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.4",
+              "difficulty": "EASY",
+              "stem": "Which service helps assess and improve security posture for Azure, hybrid, and multicloud resources?",
+              "explanation": "Microsoft Defender for Cloud provides cloud security posture management and workload protection capabilities.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Microsoft Defender for Cloud",
+                  "correct": true,
+                  "explanation": "It helps assess posture and protect workloads."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Storage Explorer",
+                  "correct": false,
+                  "explanation": "This manages storage data."
+                },
+                {
+                  "key": "C",
+                  "text": "AzCopy",
+                  "correct": false,
+                  "explanation": "This copies storage data."
+                },
+                {
+                  "key": "D",
+                  "text": "VPN Gateway",
+                  "correct": false,
+                  "explanation": "This provides connectivity."
+                }
+              ],
+              "lessonSlug": "rbac-zero-trust-defender",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure role-based access control?",
+                  "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Zero Trust as a security foundation",
+                  "url": "https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Defender for Cloud overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-aas-040",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.4",
+              "difficulty": "MEDIUM",
+              "stem": "Which statement best describes Azure RBAC?",
+              "explanation": "Azure RBAC is an authorization system for assigning roles to identities at scopes.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "It authorizes access to Azure resources by assigning roles to identities at scopes",
+                  "correct": true,
+                  "explanation": "This describes RBAC."
+                },
+                {
+                  "key": "B",
+                  "text": "It replicates storage data across regions",
+                  "correct": false,
+                  "explanation": "Storage redundancy handles replication."
+                },
+                {
+                  "key": "C",
+                  "text": "It creates private network tunnels",
+                  "correct": false,
+                  "explanation": "VPN Gateway handles VPN connectivity."
+                },
+                {
+                  "key": "D",
+                  "text": "It runs event-driven code",
+                  "correct": false,
+                  "explanation": "Azure Functions runs event-driven code."
+                }
+              ],
+              "lessonSlug": "rbac-zero-trust-defender",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure role-based access control?",
+                  "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Zero Trust as a security foundation",
+                  "url": "https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Defender for Cloud overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

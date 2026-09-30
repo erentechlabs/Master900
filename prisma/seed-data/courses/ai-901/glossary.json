@@ -1,0 +1,684 @@
+{
+  "terms": [
+    {
+      "slug": "responsible-ai",
+      "term": "Responsible AI",
+      "definition": "An approach to designing, assessing, and operating AI systems so they are safe, ethical, trustworthy, and centered on people.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Responsible AI",
+        "useCases": [
+          "Guide AI governance",
+          "Plan safety controls"
+        ],
+        "comparesWith": [
+          "fairness",
+          "transparency"
+        ]
+      },
+      "source": {
+        "title": "What is Responsible AI",
+        "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Sorumlu yapay zekâ",
+          "definition": "AI sistemlerini güvenli, etik, güvenilir ve insan merkezli olacak şekilde tasarlama, değerlendirme ve işletme yaklaşımı.",
+          "useCases": [
+            "AI yönetişimine rehberlik etmek",
+            "Güvenlik denetimlerini planlamak"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "fairness",
+      "term": "Fairness",
+      "definition": "The responsible AI principle that checks whether people or groups in similar situations are treated consistently and without unjustified outcome differences.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Responsible AI",
+        "useCases": [
+          "Compare outcomes across cohorts"
+        ],
+        "comparesWith": [
+          "responsible-ai"
+        ]
+      },
+      "source": {
+        "title": "What is Responsible AI",
+        "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Fairness",
+          "definition": "Benzer durumdaki kişi veya gruplara tutarlı davranılıp davranılmadığını ve gerekçesiz sonuç farkları oluşup oluşmadığını denetleyen sorumlu AI ilkesi.",
+          "useCases": [
+            "Sonuçları kohortlar arasında karşılaştırmak"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "transparency",
+      "term": "Transparency",
+      "definition": "The responsible AI principle of making an AI system's purpose, behavior, limitations, and evidence understandable to stakeholders.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Responsible AI",
+        "useCases": [
+          "Document model limitations"
+        ],
+        "comparesWith": [
+          "accountability"
+        ]
+      },
+      "source": {
+        "title": "What is Responsible AI",
+        "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Transparency",
+          "definition": "Bir AI sisteminin amacını, davranışını, sınırlamalarını ve kanıtlarını paydaşlar için anlaşılır hale getirme ilkesi.",
+          "useCases": [
+            "Model sınırlamalarını belgelemek"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "accountability",
+      "term": "Accountability",
+      "definition": "The responsible AI principle that keeps people and processes responsible for approvals, monitoring, incidents, and outcomes.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Responsible AI",
+        "useCases": [
+          "Assign model owners"
+        ],
+        "comparesWith": [
+          "transparency"
+        ]
+      },
+      "source": {
+        "title": "What is Responsible AI",
+        "url": "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Accountability",
+          "definition": "AI sistemlerinin onayları, izlenmesi, olayları ve sonuçları için insanları ve süreçleri sorumlu tutan ilke.",
+          "useCases": [
+            "Model sahipleri atamak"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "machine-learning",
+      "term": "Machine learning",
+      "definition": "A branch of AI in which systems learn patterns from data and use those patterns for predictions, classifications, or decisions.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "AI concepts",
+        "useCases": [
+          "Predict outcomes",
+          "Classify records"
+        ],
+        "comparesWith": [
+          "training",
+          "inference"
+        ]
+      },
+      "source": {
+        "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+        "kind": "STUDY_GUIDE"
+      },
+      "certifications": [
+        "AI-901",
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Makine öğrenmesi",
+          "definition": "Sistemlerin veriden örüntüler öğrenip bu örüntüleri yeni girdiler için tahmin, sınıflandırma veya karar üretmekte kullandığı AI dalı.",
+          "useCases": [
+            "Sonuçları tahmin etmek",
+            "Kayıtları sınıflandırmak"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "training",
+      "term": "Training",
+      "definition": "The process of using data and an algorithm to create or adjust a model so it can perform a task.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Model lifecycle",
+        "useCases": [
+          "Build a custom model"
+        ],
+        "comparesWith": [
+          "inference"
+        ]
+      },
+      "source": {
+        "title": "Microsoft Foundry Models overview",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry-classic/concepts/foundry-models-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Training",
+          "definition": "Bir modelin bir görevi yerine getirebilmesi için veri ve algoritma kullanılarak oluşturulması veya ayarlanması süreci.",
+          "useCases": [
+            "Özel model oluşturmak"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "inference",
+      "term": "Inference",
+      "definition": "The use of a trained or deployed model to produce an output for a new input.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Model lifecycle",
+        "useCases": [
+          "Generate a response"
+        ],
+        "comparesWith": [
+          "training"
+        ]
+      },
+      "source": {
+        "title": "Work with chat completion models",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/chatgpt",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Inference",
+          "definition": "Eğitilmiş veya dağıtılmış bir modeli yeni bir girdi için çıktı üretmek üzere kullanma.",
+          "useCases": [
+            "Yanıt üretmek"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "model",
+      "term": "Model",
+      "definition": "An AI component that maps inputs to outputs based on learned patterns, configured instructions, or model capabilities.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "AI concepts",
+        "useCases": [
+          "Generate text",
+          "Analyze images"
+        ],
+        "comparesWith": [
+          "large-language-model"
+        ]
+      },
+      "source": {
+        "title": "Microsoft Foundry Models overview",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry-classic/concepts/foundry-models-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Model",
+          "definition": "Öğrenilmiş örüntülere, yapılandırılmış yönergelere veya model yeteneklerine dayanarak girdileri çıktılara dönüştüren AI bileşeni.",
+          "useCases": [
+            "Metin üretmek",
+            "Görüntüleri analiz etmek"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "large-language-model",
+      "term": "Large language model",
+      "definition": "A generative AI model trained to process and produce language, often used for chat, summarization, drafting, and reasoning over text.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "AI concepts",
+        "useCases": [
+          "Chat assistants",
+          "Summarization"
+        ],
+        "comparesWith": [
+          "token",
+          "prompt"
+        ]
+      },
+      "source": {
+        "title": "Prompt engineering techniques",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/prompt-engineering",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Büyük dil modeli",
+          "definition": "Dili işlemek ve üretmek için eğitilmiş; sohbet, özetleme, taslak oluşturma ve metin üzerinde akıl yürütme için kullanılan üretken AI modeli.",
+          "useCases": [
+            "Sohbet asistanları geliştirmek",
+            "Özetleme yapmak"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "token",
+      "term": "Token",
+      "definition": "A chunk of text processed by a language model; prompts and responses are counted in tokens rather than simply characters or words.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Generative AI",
+        "useCases": [
+          "Estimate prompt size"
+        ],
+        "comparesWith": [
+          "prompt"
+        ]
+      },
+      "source": {
+        "title": "Work with chat completion models",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/chatgpt",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Token",
+          "definition": "Bir dil modelinin işlediği metin parçası; promptlar ve yanıtlar yalnızca karakter veya kelime olarak değil token olarak sayılır.",
+          "useCases": [
+            "Prompt boyutunu tahmin etmek"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "prompt",
+      "term": "Prompt",
+      "definition": "Input instructions, questions, examples, or content supplied to a generative AI model to guide its output.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Generative AI",
+        "useCases": [
+          "Ask a model to summarize"
+        ],
+        "comparesWith": [
+          "system-message"
+        ]
+      },
+      "source": {
+        "title": "Prompt engineering techniques",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/prompt-engineering",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Prompt",
+          "definition": "Üretken AI modelinin çıktısını yönlendirmek için verilen giriş yönergeleri, sorular, örnekler veya içerik.",
+          "useCases": [
+            "Modelden özetleme istemek"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "system-message",
+      "term": "System message",
+      "definition": "High-priority instructions and context sent to a chat model to define role, scope, behavior, safety boundaries, and response style.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Generative AI",
+        "useCases": [
+          "Set assistant role"
+        ],
+        "comparesWith": [
+          "prompt"
+        ]
+      },
+      "source": {
+        "title": "Safety system messages",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/system-message",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "System message",
+          "definition": "Bir sohbet modeline rol, kapsam, davranış, güvenlik sınırları ve yanıt stilini tanımlamak için gönderilen yüksek öncelikli yönergeler ve bağlam.",
+          "useCases": [
+            "Asistan rolünü belirlemek"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "temperature",
+      "term": "Temperature",
+      "definition": "A generation parameter, when supported by the selected model and API, that influences how varied or focused generated output is.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Generative AI",
+        "useCases": [
+          "Favor repeatable answers"
+        ],
+        "comparesWith": [
+          "grounding"
+        ]
+      },
+      "source": {
+        "title": "Work with chat completion models",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/chatgpt",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Temperature",
+          "definition": "Seçilen model ve API tarafından desteklendiğinde, üretilen çıktının ne kadar değişken veya odaklı olacağını etkileyen üretim parametresi.",
+          "useCases": [
+            "Tekrarlanabilir yanıtları desteklemek"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "grounding",
+      "term": "Grounding",
+      "definition": "Providing trusted or retrieved source content to a generative model so its response can be based on that content.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Generative AI",
+        "useCases": [
+          "Answer from company documents"
+        ],
+        "comparesWith": [
+          "retrieval-augmented-generation",
+          "hallucination"
+        ]
+      },
+      "source": {
+        "title": "Retrieval augmented generation and indexes in Microsoft Foundry",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry/concepts/retrieval-augmented-generation",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Grounding",
+          "definition": "Üretken modele, yanıtını güvenilir veya alınmış kaynak içeriğe dayandırabilmesi için içerik sağlama.",
+          "useCases": [
+            "Şirket belgelerinden yanıt vermek"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "retrieval-augmented-generation",
+      "term": "Retrieval augmented generation",
+      "definition": "A pattern that retrieves relevant content, adds it to the model input as grounding data, and generates an answer from that context.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Generative AI",
+        "useCases": [
+          "Use private knowledge bases"
+        ],
+        "comparesWith": [
+          "grounding"
+        ]
+      },
+      "source": {
+        "title": "Retrieval augmented generation and indexes in Microsoft Foundry",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry/concepts/retrieval-augmented-generation",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Retrieval augmented generation",
+          "definition": "İlgili içeriği alıp model girdisine grounding verisi olarak ekleyen ve bu bağlamdan yanıt üreten desen.",
+          "useCases": [
+            "Özel bilgi tabanlarını kullanmak"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "hallucination",
+      "term": "Hallucination",
+      "definition": "A generated response that sounds plausible but is unsupported, incomplete, or inaccurate for the provided context or facts.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Generative AI risks",
+        "useCases": [
+          "Evaluate answer quality"
+        ],
+        "comparesWith": [
+          "grounding"
+        ]
+      },
+      "source": {
+        "title": "Retrieval augmented generation and indexes in Microsoft Foundry",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry/concepts/retrieval-augmented-generation",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Hallucination",
+          "definition": "Kulağa makul gelen ancak verilen bağlam veya gerçekler tarafından desteklenmeyen, eksik ya da yanlış üretken yanıt.",
+          "useCases": [
+            "Yanıt kalitesini değerlendirmek"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "computer-vision",
+      "term": "Computer vision",
+      "definition": "An AI workload that processes images or video to detect, classify, describe, or extract visual information.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "AI workloads",
+        "useCases": [
+          "Detect objects in photos"
+        ]
+      },
+      "source": {
+        "title": "What is Azure Vision in Foundry Tools?",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Computer vision",
+          "definition": "Görüntü veya videoları işleyerek görsel bilgileri algılama, sınıflandırma, açıklama veya çıkarma AI iş yükü.",
+          "useCases": [
+            "Fotoğraflardaki nesneleri algılamak"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "natural-language-processing",
+      "term": "Natural language processing",
+      "definition": "AI techniques for understanding and analyzing written language, including entity recognition, language detection, sentiment, key phrase extraction, and summarization.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "AI workloads",
+        "useCases": [
+          "Analyze feedback"
+        ]
+      },
+      "source": {
+        "title": "What is Azure Language in Foundry Tools",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Natural language processing",
+          "definition": "Entity recognition, language detection, sentiment, key phrase extraction ve summarization dahil yazılı dili anlama ve analiz etme AI teknikleri.",
+          "useCases": [
+            "Geri bildirimi analiz etmek"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "ai-agent",
+      "term": "AI agent",
+      "definition": "An AI system that combines a model with instructions, tools, and sometimes memory or retrieval so it can plan or take actions within defined boundaries.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Agentic AI",
+        "useCases": [
+          "Automate multi-step assistance"
+        ],
+        "comparesWith": [
+          "microsoft-foundry"
+        ]
+      },
+      "source": {
+        "title": "What is Microsoft Foundry?",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901",
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "AI agent",
+          "definition": "Belirlenmiş sınırlar içinde plan yapabilen veya eylem alabilen; modeli yönergeler, araçlar ve bazen bellek ya da retrieval ile birleştiren AI sistemi.",
+          "useCases": [
+            "Çok adımlı yardımı otomatikleştirmek"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "microsoft-foundry",
+      "term": "Microsoft Foundry",
+      "definition": "A Microsoft platform for building and managing AI agents, models, and tools with enterprise capabilities such as RBAC, policies, tracing, monitoring, and evaluations.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "AI development platform",
+        "useCases": [
+          "Build agents and model-powered apps"
+        ],
+        "keyFeatures": [
+          "Unified management for agents, models, and tools",
+          "Enterprise controls such as RBAC and policies",
+          "Evaluation, tracing, and monitoring capabilities"
+        ],
+        "serviceModel": "Managed Azure platform",
+        "comparesWith": [
+          "ai-agent"
+        ]
+      },
+      "source": {
+        "title": "What is Microsoft Foundry?",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901",
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Microsoft Foundry",
+          "definition": "RBAC, policies, tracing, monitoring ve evaluations gibi kurumsal yeteneklerle AI agent, model ve araçları oluşturma ve yönetme Microsoft platformu.",
+          "useCases": [
+            "Agent ve model destekli uygulamalar geliştirmek"
+          ],
+          "keyFeatures": [
+            "Agent, model ve araçlar için birleşik yönetim",
+            "RBAC ve policies gibi kurumsal denetimler",
+            "Evaluation, tracing ve monitoring yetenekleri"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    }
+  ]
+}

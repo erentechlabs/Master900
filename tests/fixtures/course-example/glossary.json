@@ -1,0 +1,19 @@
+{
+  "terms": [
+    {
+      "slug": "example-managed-service",
+      "term": "Managed service",
+      "definition": "A service where the provider operates the underlying infrastructure so the customer can focus on configuration and data.",
+      "kind": "CONCEPT",
+      "attributes": { "category": "Cloud concepts", "useCases": ["Reduce operations work"], "comparesWith": ["example-self-managed"] },
+      "translations": { "tr": { "term": "Yönetilen hizmet", "definition": "Altyapıyı sağlayıcının işlettiği, müşterinin yapılandırmaya ve veriye odaklandığı hizmet.", "status": "DRAFT" } }
+    },
+    {
+      "slug": "example-self-managed",
+      "term": "Self-managed infrastructure",
+      "definition": "Infrastructure that the customer operates, patches and scales.",
+      "kind": "CONCEPT",
+      "attributes": { "category": "Cloud concepts", "comparesWith": ["example-managed-service"] }
+    }
+  ]
+}

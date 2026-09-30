@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "certificationCode": "AI-901",
+  "contentVersionLabel": "demo-2026.09",
+  "sourceLocale": "en",
+  "isDemo": true,
+  "domains": [
+    {
+      "key": "ai-concepts",
+      "title": "Identify AI concepts and capabilities",
+      "description": "Responsible AI principles, AI model components and configurations, and common AI workloads.",
+      "weightMin": 40,
+      "weightMax": 45,
+      "objectives": [
+        { "code": "1.1", "title": "Describe principles of responsible AI", "translations": { "tr": { "title": "Sorumlu yapay zekâ ilkelerini açıklama", "status": "DRAFT" } } },
+        { "code": "1.2", "title": "Identify AI model components and configurations", "translations": { "tr": { "title": "Yapay zekâ modeli bileşenlerini ve yapılandırmalarını tanımlama", "status": "DRAFT" } } },
+        { "code": "1.3", "title": "Identify AI workloads", "translations": { "tr": { "title": "Yapay zekâ iş yüklerini tanımlama", "status": "DRAFT" } } }
+      ],
+      "translations": {
+        "tr": {
+          "title": "Yapay zekâ kavramlarını ve yeteneklerini tanımlama",
+          "description": "Sorumlu yapay zekâ ilkeleri, yapay zekâ modeli bileşenleri ve yapılandırmaları ile yaygın yapay zekâ iş yükleri.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "key": "foundry-solutions",
+      "title": "Implement AI solutions by using Microsoft Foundry",
+      "description": "Generative AI apps and agents, text and speech, computer vision and image generation, and information extraction with Microsoft Foundry.",
+      "weightMin": 55,
+      "weightMax": 60,
+      "objectives": [
+        { "code": "2.1", "title": "Implement generative AI apps and agents by using Foundry", "translations": { "tr": { "title": "Foundry ile üretken yapay zekâ uygulamaları ve ajanlar uygulama", "status": "DRAFT" } } },
+        { "code": "2.2", "title": "Implement AI solutions for text and speech by using Foundry", "translations": { "tr": { "title": "Foundry ile metin ve konuşma için yapay zekâ çözümleri uygulama", "status": "DRAFT" } } },
+        { "code": "2.3", "title": "Implement AI solutions with computer vision and image-generation capabilities by using Foundry", "translations": { "tr": { "title": "Foundry ile görüntü işleme ve görüntü oluşturma yetenekleri kullanan yapay zekâ çözümleri uygulama", "status": "DRAFT" } } },
+        { "code": "2.4", "title": "Implement AI solutions for information extraction by using Foundry", "translations": { "tr": { "title": "Foundry ile bilgi ayıklama için yapay zekâ çözümleri uygulama", "status": "DRAFT" } } }
+      ],
+      "translations": {
+        "tr": {
+          "title": "Microsoft Foundry kullanarak yapay zekâ çözümleri uygulama",
+          "description": "Microsoft Foundry ile üretken yapay zekâ uygulamaları ve ajanlar, metin ve konuşma, görüntü işleme ve görüntü oluşturma ile bilgi ayıklama.",
+          "status": "DRAFT"
+        }
+      }
+    }
+  ]
+}

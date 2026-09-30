@@ -1,0 +1,2971 @@
+{
+  "domainKey": "azure-management-governance",
+  "modules": [
+    {
+      "slug": "cost-management",
+      "title": "Cost management",
+      "summary": "Estimate, monitor, allocate, and optimize Azure costs using planning tools, Cost Management, and tags.",
+      "translations": {
+        "tr": {
+          "title": "Maliyet yönetimi",
+          "summary": "Planlama araçları, Cost Management ve etiketlerle Azure maliyetlerini tahmin etme, izleme, dağıtma ve iyileştirme.",
+          "status": "DRAFT"
+        }
+      },
+      "lessons": [
+        {
+          "slug": "factors-affecting-azure-cost",
+          "title": "Factors that affect Azure costs",
+          "objectiveCode": "3.1",
+          "estimatedMinutes": 10,
+          "summary": "Understand choices that influence Azure spending, including resource type, size, runtime, storage, and usage patterns.",
+          "learningObjectives": [
+            "Explain the Azure feature in beginner-friendly terms",
+            "Choose the right tool for a practical scenario",
+            "Recognize common exam-style cues"
+          ],
+          "explanation": "Azure cost management begins with understanding that many services follow a consumption model. Costs are affected by what you deploy, how large it is, how long it runs, how much data is stored or moved, and which support, licensing, or Marketplace choices apply. A virtual machine that runs all month usually costs more than one stopped when not needed. Larger resource sizes usually cost more than smaller suitable sizes. Storage redundancy, transactions, and network traffic can also affect spend.\n\nCost is not only a finance topic. Architects and operators influence cost by right-sizing resources, removing unused items, choosing appropriate redundancy, and reviewing recommendations. Microsoft Cost Management helps analyze actual spending, while Azure Advisor can surface optimization opportunities. Tags support reporting by business meaning, but tags only help when teams use them consistently and act on the reports.",
+          "terminology": [
+            {
+              "term": "Consumption",
+              "definition": "Using and paying for cloud resources based on measured usage."
+            },
+            {
+              "term": "SKU",
+              "definition": "A service tier or size that defines capabilities and can influence cost."
+            },
+            {
+              "term": "Budget",
+              "definition": "A Cost Management setting that tracks spend against a threshold."
+            },
+            {
+              "term": "Cost allocation",
+              "definition": "Grouping spend by owner, project, environment, or cost center."
+            }
+          ],
+          "businessScenario": "Contoso wants a development environment available during office hours but not overnight.",
+          "technicalExample": "The team reviews VM size and runtime, tags resources Environment=Dev, and creates a budget.",
+          "misconception": {
+            "myth": "Azure is always cheaper regardless of configuration.",
+            "reality": "Azure can reduce waste, but oversized or unused resources still cost money."
+          },
+          "examTakeaway": "Usage, size, storage, region, licensing, and support clues explain why cost changes.",
+          "recap": "Understand choices that influence Azure spending, including resource type, size, runtime, storage, and usage patterns. Focus on purpose, scope, and when to use each tool.",
+          "simplerExplanation": "Think of the tool as a labeled part of a workshop: pick the right tool for the job instead of memorizing every setting.",
+          "anotherExample": "A small pilot team can use the same concept at a resource-group scope before expanding it across subscriptions.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Cost influence vs control",
+                "columns": [
+                  {
+                    "title": "Influence",
+                    "points": [
+                      "Resource type and size",
+                      "Runtime and data usage",
+                      "Support choices"
+                    ]
+                  },
+                  {
+                    "title": "Control",
+                    "points": [
+                      "Budgets and alerts",
+                      "Advisor recommendations",
+                      "Tags for reporting"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Avoid price memorization",
+                "body": "AZ-900 focuses on concepts and tools, not current price tables."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Consumption",
+              "back": "Using and paying for cloud resources based on measured usage."
+            },
+            {
+              "front": "SKU",
+              "back": "A service tier or size that defines capabilities and can influence cost."
+            },
+            {
+              "front": "Exam cue",
+              "back": "Usage, size, storage, region, licensing, and support clues explain why cost changes."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Overview of Cost Management",
+              "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "AZ-900 study guide",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+              "kind": "STUDY_GUIDE"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-amg-001",
+              "type": "SCENARIO",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which cost factor matters most?",
+              "explanation": "Compute runtime is a direct consumption factor for many resources.",
+              "lessonSlug": "factors-affecting-azure-cost",
+              "sources": [
+                {
+                  "title": "Overview of Cost Management",
+                  "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "AZ-900 study guide",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "How long the VM runs",
+                  "correct": true,
+                  "explanation": "Runtime affects compute consumption."
+                },
+                {
+                  "key": "B",
+                  "text": "The resource name",
+                  "correct": false,
+                  "explanation": "Names do not create usage."
+                },
+                {
+                  "key": "C",
+                  "text": "The dashboard color",
+                  "correct": false,
+                  "explanation": "Dashboard appearance is unrelated."
+                },
+                {
+                  "key": "D",
+                  "text": "The number of readers",
+                  "correct": false,
+                  "explanation": "Access alone is not the consumption meter."
+                }
+              ],
+              "scenario": "Tailwind Traders can stop a development VM outside office hours."
+            },
+            {
+              "ref": "az900-amg-002",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** actions help reduce avoidable Azure costs?",
+              "explanation": "Removing waste and right-sizing reduce unnecessary consumption.",
+              "lessonSlug": "factors-affecting-azure-cost",
+              "sources": [
+                {
+                  "title": "Overview of Cost Management",
+                  "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Use tags to organize Azure resources",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Stop or delete unused resources",
+                  "correct": true,
+                  "explanation": "Unused resources may still accrue charges."
+                },
+                {
+                  "key": "B",
+                  "text": "Choose a size that matches demand",
+                  "correct": true,
+                  "explanation": "Oversizing wastes capacity."
+                },
+                {
+                  "key": "C",
+                  "text": "Put passwords in tags",
+                  "correct": false,
+                  "explanation": "Tags should not hold secrets."
+                },
+                {
+                  "key": "D",
+                  "text": "Ignore budgets",
+                  "correct": false,
+                  "explanation": "Budgets help catch trends."
+                },
+                {
+                  "key": "E",
+                  "text": "Duplicate everything everywhere",
+                  "correct": false,
+                  "explanation": "Unneeded duplication adds cost."
+                }
+              ],
+              "selectCount": 2
+            },
+            {
+              "ref": "az900-amg-003",
+              "type": "TRUE_FALSE",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.1",
+              "difficulty": "EASY",
+              "stem": "Azure removes the need to monitor cost because all services automatically minimize spending.",
+              "explanation": "Azure provides tools, but customers still control usage and configuration.",
+              "lessonSlug": "factors-affecting-azure-cost",
+              "sources": [
+                {
+                  "title": "Overview of Cost Management",
+                  "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": false,
+                  "explanation": "Incorrect."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": true,
+                  "explanation": "Correct."
+                }
+              ]
+            },
+            {
+              "ref": "az900-amg-004",
+              "type": "CATEGORIZATION",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Categorize each item.",
+              "explanation": "Cost drivers increase or change spend; controls help analyze or reduce waste.",
+              "lessonSlug": "factors-affecting-azure-cost",
+              "sources": [
+                {
+                  "title": "Overview of Cost Management",
+                  "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Use tags to organize Azure resources",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "driver",
+                    "label": "Cost driver"
+                  },
+                  {
+                    "id": "control",
+                    "label": "Cost-control practice"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Running compute longer",
+                    "category": "driver",
+                    "explanation": "More runtime can increase cost."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Choosing a larger SKU",
+                    "category": "driver",
+                    "explanation": "Larger tiers often cost more."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Configuring budgets",
+                    "category": "control",
+                    "explanation": "Budgets notify teams about spend."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Tagging by cost center",
+                    "category": "control",
+                    "explanation": "Tags support allocation."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "az900-amg-005",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.1",
+              "difficulty": "EASY",
+              "stem": "What pricing idea means paying based on actual use instead of buying hardware up front?",
+              "explanation": "Consumption-based pricing follows measured usage.",
+              "lessonSlug": "factors-affecting-azure-cost",
+              "sources": [
+                {
+                  "title": "AZ-900 study guide",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Overview of Cost Management",
+                  "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Consumption-based pricing",
+                  "correct": true,
+                  "explanation": "It aligns cost to use."
+                },
+                {
+                  "key": "B",
+                  "text": "Manual procurement",
+                  "correct": false,
+                  "explanation": "That is hardware purchase."
+                },
+                {
+                  "key": "C",
+                  "text": "Resource lock",
+                  "correct": false,
+                  "explanation": "Locks protect resources."
+                },
+                {
+                  "key": "D",
+                  "text": "Activity log alert",
+                  "correct": false,
+                  "explanation": "Alerts notify about events."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "cost-tools-and-tags",
+          "title": "Pricing calculator, Cost Management, and tags",
+          "objectiveCode": "3.1",
+          "estimatedMinutes": 10,
+          "summary": "Estimate planned costs, monitor actual costs, and group resources with tags.",
+          "learningObjectives": [
+            "Explain the Azure feature in beginner-friendly terms",
+            "Choose the right tool for a practical scenario",
+            "Recognize common exam-style cues"
+          ],
+          "explanation": "Cost work happens in stages. Before deployment, the Azure pricing calculator helps create an estimate from anticipated services and usage. It is useful for planning, but it is not a guarantee of the invoice because actual cost follows measured usage, discounts, and later configuration changes. After resources exist, Microsoft Cost Management helps analyze, monitor, alert on, export, and optimize actual spend.\n\nTags add business metadata such as Environment, Owner, Application, or CostCenter. Tags can make cost reports more meaningful, but they must be applied consistently. Tags are stored as plain text and should not contain secrets or sensitive values. A beginner-friendly pattern is: estimate first, deploy with tags, set budgets and alerts, then review Cost Management and Advisor recommendations.",
+          "terminology": [
+            {
+              "term": "Azure pricing calculator",
+              "definition": "A web-based estimator for anticipated Azure usage."
+            },
+            {
+              "term": "Cost Management",
+              "definition": "Tools for analyzing, monitoring, alerting on, and optimizing costs."
+            },
+            {
+              "term": "Tag",
+              "definition": "A plain-text key-value pair used to organize resources."
+            },
+            {
+              "term": "Budget alert",
+              "definition": "A notification triggered when cost reaches configured thresholds."
+            }
+          ],
+          "businessScenario": "Fabrikam needs both a pilot estimate and monthly ownership reporting.",
+          "technicalExample": "Priya builds an estimate, deploys tagged resources, and creates a Cost Management budget.",
+          "misconception": {
+            "myth": "The calculator guarantees the final invoice.",
+            "reality": "It estimates from inputs; actual usage and billing details determine cost."
+          },
+          "examTakeaway": "Calculator means planning; Cost Management means actual spend; tags mean organization and allocation.",
+          "recap": "Estimate planned costs, monitor actual costs, and group resources with tags. Focus on purpose, scope, and when to use each tool.",
+          "simplerExplanation": "Think of the tool as a labeled part of a workshop: pick the right tool for the job instead of memorizing every setting.",
+          "anotherExample": "A small pilot team can use the same concept at a resource-group scope before expanding it across subscriptions.",
+          "extraBlocks": [
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Cost workflow",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "estimate",
+                    "label": "Estimate"
+                  },
+                  {
+                    "id": "deploy",
+                    "label": "Deploy with tags"
+                  },
+                  {
+                    "id": "monitor",
+                    "label": "Monitor budgets"
+                  },
+                  {
+                    "id": "optimize",
+                    "label": "Optimize"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "estimate",
+                    "to": "deploy"
+                  },
+                  {
+                    "from": "deploy",
+                    "to": "monitor"
+                  },
+                  {
+                    "from": "monitor",
+                    "to": "optimize"
+                  }
+                ],
+                "caption": "Estimate first, deploy with tags, monitor spend, and optimize over time."
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "warning",
+                "title": "Tags are visible",
+                "body": "Never put passwords or secrets in tags."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Azure pricing calculator",
+              "back": "A web-based estimator for anticipated Azure usage."
+            },
+            {
+              "front": "Cost Management",
+              "back": "Tools for analyzing, monitoring, alerting on, and optimizing costs."
+            },
+            {
+              "front": "Exam cue",
+              "back": "Calculator means planning; Cost Management means actual spend; tags mean organization and allocation."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Estimate costs with the Azure pricing calculator",
+              "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/pricing-calculator",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Overview of Cost Management",
+              "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Use tags to organize Azure resources",
+              "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-amg-006",
+              "type": "UI_SIMULATION",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "On the fictional budget screen, choose settings that notify app owners before spending surprises them.",
+              "explanation": "A budget needs scope, threshold, and notification action.",
+              "lessonSlug": "cost-tools-and-tags",
+              "sources": [
+                {
+                  "title": "Overview of Cost Management",
+                  "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "uiSimulation": {
+                "title": "Budget alert setup (simulated)",
+                "description": "A simplified screen for a monthly app budget.",
+                "fields": [
+                  {
+                    "id": "scope",
+                    "label": "Budget scope",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "rg",
+                        "label": "Resource group rg-app-prod"
+                      },
+                      {
+                        "value": "note",
+                        "label": "Unscoped note"
+                      }
+                    ],
+                    "correct": "rg",
+                    "explanation": "Scope the budget to owned resources."
+                  },
+                  {
+                    "id": "threshold",
+                    "label": "Alert timing",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "early",
+                        "label": "Before full budget is consumed"
+                      },
+                      {
+                        "value": "none",
+                        "label": "No notification"
+                      }
+                    ],
+                    "correct": "early",
+                    "explanation": "Early warning allows action."
+                  },
+                  {
+                    "id": "email",
+                    "label": "Email app owners",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "Notifications inform accountable owners."
+                  }
+                ]
+              },
+              "needsVerification": true
+            },
+            {
+              "ref": "az900-amg-007",
+              "type": "COMMAND_SELECTION",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which Azure CLI command creates or replaces the tag set on a resource?",
+              "explanation": "The `az tag create` reference uses `--resource-id` and `--tags`.",
+              "lessonSlug": "cost-tools-and-tags",
+              "sources": [
+                {
+                  "title": "az tag reference",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/tag?view=azure-cli-latest",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Use tags to organize Azure resources",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`az tag create --resource-id /subscriptions/{sub-id}/resourceGroups/{rg}/providers/Microsoft.Compute/virtualMachines/{vmName} --tags Department=Finance Environment=Prod`",
+                  "correct": true,
+                  "explanation": "This is documented tag syntax."
+                },
+                {
+                  "key": "B",
+                  "text": "`az lock create --name Department --lock-type Finance`",
+                  "correct": false,
+                  "explanation": "This is a lock command and invalid lock type."
+                },
+                {
+                  "key": "C",
+                  "text": "`az group delete --tags Department=Finance`",
+                  "correct": false,
+                  "explanation": "This deletes a group, not tags resources."
+                },
+                {
+                  "key": "D",
+                  "text": "`az monitor alert tag --resource-id vm1 Department=Finance`",
+                  "correct": false,
+                  "explanation": "This is not documented tag syntax."
+                }
+              ]
+            },
+            {
+              "ref": "az900-amg-008",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** statements about tags are correct?",
+              "explanation": "Tags are metadata for organization and reporting; they are not secret storage.",
+              "lessonSlug": "cost-tools-and-tags",
+              "sources": [
+                {
+                  "title": "Use tags to organize Azure resources",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Tags are key-value metadata",
+                  "correct": true,
+                  "explanation": "That is their purpose."
+                },
+                {
+                  "key": "B",
+                  "text": "Tags can help group billing data",
+                  "correct": true,
+                  "explanation": "They can appear in cost reports."
+                },
+                {
+                  "key": "C",
+                  "text": "Tags should store passwords",
+                  "correct": false,
+                  "explanation": "Microsoft warns against sensitive tag values."
+                },
+                {
+                  "key": "D",
+                  "text": "Resources always inherit resource group tags automatically",
+                  "correct": false,
+                  "explanation": "Inheritance requires policy or other action."
+                },
+                {
+                  "key": "E",
+                  "text": "Tags replace RBAC",
+                  "correct": false,
+                  "explanation": "RBAC controls access."
+                }
+              ],
+              "selectCount": 2
+            },
+            {
+              "ref": "az900-amg-009",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.1",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence.",
+              "explanation": "The Azure pricing calculator estimates costs before deployment.",
+              "lessonSlug": "cost-tools-and-tags",
+              "sources": [
+                {
+                  "title": "Estimate costs with the Azure pricing calculator",
+                  "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/pricing-calculator",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "fillInBlank": {
+                "template": "Before deployment, use the Azure {{tool}} to estimate anticipated usage costs.",
+                "blanks": [
+                  {
+                    "id": "tool",
+                    "accepted": [
+                      "pricing calculator"
+                    ],
+                    "explanation": "The pricing calculator is for predeployment estimates."
+                  }
+                ],
+                "wordBank": [
+                  "pricing calculator",
+                  "Service Health",
+                  "resource lock",
+                  "Log Analytics"
+                ]
+              }
+            },
+            {
+              "ref": "az900-amg-010",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.1",
+              "difficulty": "EASY",
+              "stem": "Which tool is best for exploring estimated cost before deployment?",
+              "explanation": "The Azure pricing calculator estimates anticipated usage.",
+              "lessonSlug": "cost-tools-and-tags",
+              "sources": [
+                {
+                  "title": "Estimate costs with the Azure pricing calculator",
+                  "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/pricing-calculator",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "AZ-900 study guide",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure pricing calculator",
+                  "correct": true,
+                  "explanation": "It supports planning estimates."
+                },
+                {
+                  "key": "B",
+                  "text": "Resource Health",
+                  "correct": false,
+                  "explanation": "It reports health."
+                },
+                {
+                  "key": "C",
+                  "text": "Service Trust Portal",
+                  "correct": false,
+                  "explanation": "It provides compliance documents."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure Policy",
+                  "correct": false,
+                  "explanation": "It governs compliance."
+                }
+              ]
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Re-check current portal wording and product page before publishing because product experiences can change."
+        }
+      ]
+    },
+    {
+      "slug": "governance-and-compliance",
+      "title": "Governance and compliance",
+      "summary": "Apply governance standards, protect important resources, and find data governance and compliance evidence tools.",
+      "translations": {
+        "tr": {
+          "title": "Yönetişim ve uyumluluk",
+          "summary": "Yönetişim standartlarını uygulama, önemli kaynakları koruma, veri yönetişimi ve uyumluluk kanıtı araçlarını ayırt etme.",
+          "status": "DRAFT"
+        }
+      },
+      "lessons": [
+        {
+          "slug": "azure-policy-and-resource-locks",
+          "title": "Azure Policy and resource locks",
+          "objectiveCode": "3.2",
+          "estimatedMinutes": 10,
+          "summary": "Use Azure Policy for governance standards and resource locks for protection against accidental deletion or changes.",
+          "learningObjectives": [
+            "Explain the Azure feature in beginner-friendly terms",
+            "Choose the right tool for a practical scenario",
+            "Recognize common exam-style cues"
+          ],
+          "explanation": "Azure Policy evaluates resources against business rules. A policy definition describes a condition and an effect such as audit, deny, modify, or deploy related settings. Assignments apply definitions or initiatives at scopes such as management groups, subscriptions, or resource groups. Policy is useful for allowed regions, required tags, diagnostic settings, and compliance dashboards.\n\nResource locks solve a different problem. A lock can apply to a subscription, resource group, or resource to prevent deletion or modification. Portal lock names are Delete and Read-only; command-line names are CanNotDelete and ReadOnly. Locks override normal permissions for management operations, so they should be documented and used carefully.\n\nUse Policy to evaluate and enforce standards across many resources. Use locks to protect important scopes from accidental administrative action.",
+          "terminology": [
+            {
+              "term": "Policy definition",
+              "definition": "A rule that Azure Policy evaluates."
+            },
+            {
+              "term": "Initiative",
+              "definition": "A collection of policy definitions assigned together."
+            },
+            {
+              "term": "CanNotDelete lock",
+              "definition": "A lock that blocks deletion."
+            },
+            {
+              "term": "ReadOnly lock",
+              "definition": "A lock that blocks deletion and many management updates."
+            }
+          ],
+          "businessScenario": "Woodgrove Bank must keep production resources in approved regions and protect shared networking.",
+          "technicalExample": "The platform team assigns an allowed-locations policy and adds a CanNotDelete lock to production networking.",
+          "misconception": {
+            "myth": "Azure Policy and locks are interchangeable.",
+            "reality": "Policy governs compliance rules; locks protect management operations on scopes."
+          },
+          "examTakeaway": "Standards or compliance dashboard means Policy; accidental deletion or update protection means lock.",
+          "recap": "Use Azure Policy for governance standards and resource locks for protection against accidental deletion or changes. Focus on purpose, scope, and when to use each tool.",
+          "simplerExplanation": "Think of the tool as a labeled part of a workshop: pick the right tool for the job instead of memorizing every setting.",
+          "anotherExample": "A small pilot team can use the same concept at a resource-group scope before expanding it across subscriptions.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Policy vs locks",
+                "columns": [
+                  {
+                    "title": "Azure Policy",
+                    "points": [
+                      "Evaluates compliance",
+                      "Can deny or audit",
+                      "Works at scale"
+                    ]
+                  },
+                  {
+                    "title": "Resource locks",
+                    "points": [
+                      "Protect from deletion or updates",
+                      "Apply at scope",
+                      "Override permissions for management operations"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "info",
+                "title": "Control plane only",
+                "body": "Locks apply to Azure management operations, not every data operation."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Policy definition",
+              "back": "A rule that Azure Policy evaluates."
+            },
+            {
+              "front": "Initiative",
+              "back": "A collection of policy definitions assigned together."
+            },
+            {
+              "front": "Exam cue",
+              "back": "Standards or compliance dashboard means Policy; accidental deletion or update protection means lock."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Overview of Azure Policy",
+              "url": "https://learn.microsoft.com/en-us/azure/governance/policy/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Lock Azure resources",
+              "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-amg-011",
+              "type": "MATCHING",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Match each need to the best feature.",
+              "explanation": "Policy evaluates standards; locks protect resources from changes or deletion.",
+              "lessonSlug": "azure-policy-and-resource-locks",
+              "sources": [
+                {
+                  "title": "Overview of Azure Policy",
+                  "url": "https://learn.microsoft.com/en-us/azure/governance/policy/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Lock Azure resources",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Audit allowed locations"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Prevent accidental deletion"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Group policy definitions"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Azure Policy"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Resource lock"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Policy initiative"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Log Analytics"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "Policy evaluates resource properties.",
+                  "p2": "Locks block management operations at a scope.",
+                  "p3": "Initiatives group definitions."
+                }
+              }
+            },
+            {
+              "ref": "az900-amg-012",
+              "type": "SCENARIO",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which feature fits best?",
+              "explanation": "Azure Policy enforces standards and assesses compliance at scale.",
+              "lessonSlug": "azure-policy-and-resource-locks",
+              "sources": [
+                {
+                  "title": "Overview of Azure Policy",
+                  "url": "https://learn.microsoft.com/en-us/azure/governance/policy/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure Policy",
+                  "correct": true,
+                  "explanation": "Policy can evaluate and enforce resource rules."
+                },
+                {
+                  "key": "B",
+                  "text": "Pricing calculator",
+                  "correct": false,
+                  "explanation": "It estimates cost."
+                },
+                {
+                  "key": "C",
+                  "text": "Service Health",
+                  "correct": false,
+                  "explanation": "It reports service events."
+                },
+                {
+                  "key": "D",
+                  "text": "Purview Data Map",
+                  "correct": false,
+                  "explanation": "It governs data metadata."
+                }
+              ],
+              "scenario": "Northwind Traders wants new resources only in approved regions and wants compliance reporting."
+            },
+            {
+              "ref": "az900-amg-013",
+              "type": "TRUE_FALSE",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.2",
+              "difficulty": "EASY",
+              "stem": "A ReadOnly lock can block control plane changes even for users who otherwise have permission.",
+              "explanation": "Management locks apply restrictions across users and roles.",
+              "lessonSlug": "azure-policy-and-resource-locks",
+              "sources": [
+                {
+                  "title": "Lock Azure resources",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Incorrect."
+                }
+              ]
+            },
+            {
+              "ref": "az900-amg-014",
+              "type": "COMMAND_SELECTION",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which command creates a resource group lock that prevents deletion but allows permitted updates?",
+              "explanation": "`CanNotDelete` is the Azure CLI lock type for delete protection.",
+              "lessonSlug": "azure-policy-and-resource-locks",
+              "sources": [
+                {
+                  "title": "az lock reference",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/lock?view=azure-cli-latest",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Lock Azure resources",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`az lock create --name prod-delete-lock --resource-group rg-prod --lock-type CanNotDelete`",
+                  "correct": true,
+                  "explanation": "This is documented syntax."
+                },
+                {
+                  "key": "B",
+                  "text": "`az lock create --name prod-delete-lock --resource-group rg-prod --lock-type DeleteOnly`",
+                  "correct": false,
+                  "explanation": "DeleteOnly is invalid."
+                },
+                {
+                  "key": "C",
+                  "text": "`New-AzResourceLock -LockLevel ReadOnly -LockName prod-delete-lock`",
+                  "correct": false,
+                  "explanation": "ReadOnly is too restrictive and scope is missing."
+                },
+                {
+                  "key": "D",
+                  "text": "`az tag create --resource-id rg-prod --tags Lock=CanNotDelete`",
+                  "correct": false,
+                  "explanation": "Tags do not enforce locks."
+                }
+              ]
+            },
+            {
+              "ref": "az900-amg-015",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.2",
+              "difficulty": "HARD",
+              "stem": "Why might a ReadOnly lock surprise an operator restarting a VM?",
+              "explanation": "Some operations use management control plane POST requests blocked by ReadOnly locks.",
+              "lessonSlug": "azure-policy-and-resource-locks",
+              "sources": [
+                {
+                  "title": "Lock Azure resources",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Restarting can require a blocked control plane operation",
+                  "correct": true,
+                  "explanation": "The lock can block management operations."
+                },
+                {
+                  "key": "B",
+                  "text": "It encrypts the disk",
+                  "correct": false,
+                  "explanation": "Locks do not encrypt disks."
+                },
+                {
+                  "key": "C",
+                  "text": "It disables sign-in",
+                  "correct": false,
+                  "explanation": "Locks do not disable authentication."
+                },
+                {
+                  "key": "D",
+                  "text": "It schedules deletion",
+                  "correct": false,
+                  "explanation": "Locks protect against changes."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "purview-and-service-trust-portal",
+          "title": "Microsoft Purview and the Service Trust Portal",
+          "objectiveCode": "3.2",
+          "estimatedMinutes": 10,
+          "summary": "Distinguish data governance in Microsoft Purview from trust and compliance evidence in the Service Trust Portal.",
+          "learningObjectives": [
+            "Explain the Azure feature in beginner-friendly terms",
+            "Choose the right tool for a practical scenario",
+            "Recognize common exam-style cues"
+          ],
+          "explanation": "Microsoft Purview helps organizations govern data by improving visibility, discovery, quality, lineage, and business context. Data Map and Unified Catalog focus on metadata: what data exists, where it came from, who owns it, and how it should be used. These capabilities help governance but do not automatically grant access to the underlying data.\n\nThe Microsoft Service Trust Portal serves a different purpose. It provides audit reports, compliance information, whitepapers, and artifacts about Microsoft cloud services. Some resources require sign-in with a Microsoft Entra organization account and acceptance of terms.\n\nFor fundamentals, keep the tool selection clear. Choose Purview when the scenario asks about cataloging, lineage, or governing data assets. Choose the Service Trust Portal when it asks for Microsoft compliance documentation, audit reports, or trust resources.",
+          "terminology": [
+            {
+              "term": "Microsoft Purview",
+              "definition": "Microsoft data governance, risk, and compliance capabilities; here, focus on data governance."
+            },
+            {
+              "term": "Data Map",
+              "definition": "A Purview capability for scanning and capturing metadata."
+            },
+            {
+              "term": "Unified Catalog",
+              "definition": "A searchable catalog for governed data assets."
+            },
+            {
+              "term": "Service Trust Portal",
+              "definition": "Microsoft's portal for audit reports and compliance resources."
+            }
+          ],
+          "businessScenario": "Alpine Ski House needs analysts to find trusted data and auditors to review cloud compliance evidence.",
+          "technicalExample": "The data office uses Purview for cataloging; auditors use STP for reports.",
+          "misconception": {
+            "myth": "Purview catalog roles automatically grant database row access.",
+            "reality": "Purview metadata supports governance but does not automatically grant underlying data access."
+          },
+          "examTakeaway": "Catalog or lineage means Purview; audit reports or compliance artifacts means STP.",
+          "recap": "Distinguish data governance in Microsoft Purview from trust and compliance evidence in the Service Trust Portal. Focus on purpose, scope, and when to use each tool.",
+          "simplerExplanation": "Think of the tool as a labeled part of a workshop: pick the right tool for the job instead of memorizing every setting.",
+          "anotherExample": "A small pilot team can use the same concept at a resource-group scope before expanding it across subscriptions.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Purview vs STP",
+                "columns": [
+                  {
+                    "title": "Microsoft Purview",
+                    "points": [
+                      "Data discovery",
+                      "Metadata and lineage",
+                      "Data governance"
+                    ]
+                  },
+                  {
+                    "title": "Service Trust Portal",
+                    "points": [
+                      "Audit reports",
+                      "Compliance artifacts",
+                      "Whitepapers"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Choose the tool",
+                "instructions": "Decide before revealing the answer.",
+                "items": [
+                  {
+                    "prompt": "A team asks for SOC reports for Microsoft cloud services. Which tool?",
+                    "answer": "Use the Microsoft Service Trust Portal."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Microsoft Purview",
+              "back": "Microsoft data governance, risk, and compliance capabilities; here, focus on data governance."
+            },
+            {
+              "front": "Data Map",
+              "back": "A Purview capability for scanning and capturing metadata."
+            },
+            {
+              "front": "Exam cue",
+              "back": "Catalog or lineage means Purview; audit reports or compliance artifacts means STP."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Microsoft Purview data governance overview",
+              "url": "https://learn.microsoft.com/en-us/purview/data-governance-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Get started with the Service Trust Portal",
+              "url": "https://learn.microsoft.com/en-us/compliance/assurance/stp-get-started",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-amg-016",
+              "type": "CASE_STUDY",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.2",
+              "difficulty": "HARD",
+              "stem": "Decide whether each statement fits.",
+              "explanation": "Purview governs data metadata; STP provides trust and compliance documentation.",
+              "lessonSlug": "purview-and-service-trust-portal",
+              "sources": [
+                {
+                  "title": "Microsoft Purview data governance overview",
+                  "url": "https://learn.microsoft.com/en-us/purview/data-governance-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Get started with the Service Trust Portal",
+                  "url": "https://learn.microsoft.com/en-us/compliance/assurance/stp-get-started",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "scenario": "Adventure Works needs to catalog data assets and obtain Microsoft cloud audit reports.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Use Microsoft Purview to catalog and discover data assets.",
+                    "answer": true,
+                    "explanation": "Purview supports data governance and catalog scenarios."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Use the Service Trust Portal for external audit reports when available.",
+                    "answer": true,
+                    "explanation": "STP publishes audit reports and compliance materials."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Use resource locks to prove Microsoft compliance certifications.",
+                    "answer": false,
+                    "explanation": "Locks protect resources, not audit evidence."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "az900-amg-017",
+              "type": "SCENARIO",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which service matches?",
+              "explanation": "Purview data governance includes Data Map and Unified Catalog.",
+              "lessonSlug": "purview-and-service-trust-portal",
+              "sources": [
+                {
+                  "title": "Microsoft Purview data governance overview",
+                  "url": "https://learn.microsoft.com/en-us/purview/data-governance-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Microsoft Purview",
+                  "correct": true,
+                  "explanation": "Purview is for data governance and cataloging."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Advisor",
+                  "correct": false,
+                  "explanation": "Advisor recommends optimizations."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure Service Health",
+                  "correct": false,
+                  "explanation": "It reports service events."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure Cloud Shell",
+                  "correct": false,
+                  "explanation": "It is a terminal."
+                }
+              ],
+              "scenario": "A data steward wants a searchable catalog of scanned data assets and business context."
+            },
+            {
+              "ref": "az900-amg-018",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** resources are associated with the Service Trust Portal?",
+              "explanation": "STP contains audit reports and compliance resources.",
+              "lessonSlug": "purview-and-service-trust-portal",
+              "sources": [
+                {
+                  "title": "Get started with the Service Trust Portal",
+                  "url": "https://learn.microsoft.com/en-us/compliance/assurance/stp-get-started",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "External audit reports",
+                  "correct": true,
+                  "explanation": "Audit reports are a core STP resource."
+                },
+                {
+                  "key": "B",
+                  "text": "Compliance whitepapers and artifacts",
+                  "correct": true,
+                  "explanation": "STP includes these materials."
+                },
+                {
+                  "key": "C",
+                  "text": "Live VM CPU metrics",
+                  "correct": false,
+                  "explanation": "Use monitoring tools."
+                },
+                {
+                  "key": "D",
+                  "text": "A deployment shell",
+                  "correct": false,
+                  "explanation": "Use Cloud Shell or CLI."
+                },
+                {
+                  "key": "E",
+                  "text": "Resource deletion protection",
+                  "correct": false,
+                  "explanation": "Use locks."
+                }
+              ],
+              "selectCount": 2
+            },
+            {
+              "ref": "az900-amg-019",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.2",
+              "difficulty": "EASY",
+              "stem": "Which statement best describes Microsoft Purview here?",
+              "explanation": "Purview helps govern, discover, classify, and understand data assets and metadata.",
+              "lessonSlug": "purview-and-service-trust-portal",
+              "sources": [
+                {
+                  "title": "Microsoft Purview data governance overview",
+                  "url": "https://learn.microsoft.com/en-us/purview/data-governance-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "AZ-900 study guide",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "It helps with data governance across a data estate",
+                  "correct": true,
+                  "explanation": "That is the AZ-900 governance context."
+                },
+                {
+                  "key": "B",
+                  "text": "It estimates costs",
+                  "correct": false,
+                  "explanation": "Use the pricing calculator."
+                },
+                {
+                  "key": "C",
+                  "text": "It creates ARM templates",
+                  "correct": false,
+                  "explanation": "Use ARM or Bicep."
+                },
+                {
+                  "key": "D",
+                  "text": "It sends Service Health alerts",
+                  "correct": false,
+                  "explanation": "Use Service Health."
+                }
+              ]
+            },
+            {
+              "ref": "az900-amg-020",
+              "type": "CATEGORIZATION",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Categorize each requirement.",
+              "explanation": "Purview is for data governance; STP is for compliance evidence.",
+              "lessonSlug": "purview-and-service-trust-portal",
+              "sources": [
+                {
+                  "title": "Microsoft Purview data governance overview",
+                  "url": "https://learn.microsoft.com/en-us/purview/data-governance-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Get started with the Service Trust Portal",
+                  "url": "https://learn.microsoft.com/en-us/compliance/assurance/stp-get-started",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "purview",
+                    "label": "Microsoft Purview"
+                  },
+                  {
+                    "id": "stp",
+                    "label": "Service Trust Portal"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Discover data assets",
+                    "category": "purview",
+                    "explanation": "Purview catalogs data assets."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Review Microsoft cloud audit reports",
+                    "category": "stp",
+                    "explanation": "STP publishes audit reports."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Understand data lineage",
+                    "category": "purview",
+                    "explanation": "Purview supports lineage."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Find compliance whitepapers",
+                    "category": "stp",
+                    "explanation": "STP contains compliance artifacts."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "managing-and-deploying-resources",
+      "title": "Managing and deploying resources",
+      "summary": "Select Azure management experiences and understand repeatable deployments with ARM templates and Bicep.",
+      "translations": {
+        "tr": {
+          "title": "Kaynakları yönetme ve dağıtma",
+          "summary": "Azure yönetim deneyimlerini seçme ve ARM templates ile Bicep kullanarak tekrarlanabilir dağıtımları anlama.",
+          "status": "DRAFT"
+        }
+      },
+      "lessons": [
+        {
+          "slug": "tools-for-managing-azure",
+          "title": "Azure portal, Cloud Shell, CLI, PowerShell, and Azure Arc",
+          "objectiveCode": "3.3",
+          "estimatedMinutes": 10,
+          "summary": "Choose the right Azure management tool for graphical tasks, browser commands, scripting, and hybrid management.",
+          "learningObjectives": [
+            "Explain the Azure feature in beginner-friendly terms",
+            "Choose the right tool for a practical scenario",
+            "Recognize common exam-style cues"
+          ],
+          "explanation": "Azure provides multiple management experiences because teams work in different ways. The Azure portal is a browser-based graphical console for creating, configuring, monitoring, and managing resources. Azure Cloud Shell is an authenticated browser terminal that offers Bash or PowerShell with Azure tools available. Azure CLI is a cross-platform command-line tool using `az` commands, while Azure PowerShell is the Az module for administrators who prefer PowerShell cmdlets and objects.\n\nAzure Arc extends management and governance to supported resources outside Azure, such as servers or Kubernetes clusters, by projecting them into Azure Resource Manager. For AZ-900, choose the tool by workflow: visual portal, browser shell, command-line script, PowerShell automation, or hybrid governance.",
+          "terminology": [
+            {
+              "term": "Azure portal",
+              "definition": "A web-based graphical console for Azure management."
+            },
+            {
+              "term": "Azure Cloud Shell",
+              "definition": "An authenticated browser-accessible shell with Azure tools."
+            },
+            {
+              "term": "Azure CLI",
+              "definition": "A cross-platform command-line tool using az commands."
+            },
+            {
+              "term": "Azure PowerShell",
+              "definition": "Az PowerShell modules for managing Azure resources."
+            },
+            {
+              "term": "Azure Arc",
+              "definition": "A service for managing supported non-Azure resources through Azure."
+            }
+          ],
+          "businessScenario": "Relecloud has new admins, script authors, and a datacenter modernization project.",
+          "technicalExample": "Admins use the portal, script authors use CLI in Cloud Shell, and hybrid teams evaluate Azure Arc.",
+          "misconception": {
+            "myth": "There is one correct Azure management tool for every task.",
+            "reality": "The best tool depends on workflow, skills, automation needs, and where resources run."
+          },
+          "examTakeaway": "Portal is graphical; Cloud Shell is browser terminal; CLI and PowerShell automate; Arc extends management.",
+          "recap": "Choose the right Azure management tool for graphical tasks, browser commands, scripting, and hybrid management. Focus on purpose, scope, and when to use each tool.",
+          "simplerExplanation": "Think of the tool as a labeled part of a workshop: pick the right tool for the job instead of memorizing every setting.",
+          "anotherExample": "A small pilot team can use the same concept at a resource-group scope before expanding it across subscriptions.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Management experiences",
+                "columns": [
+                  {
+                    "title": "Interactive",
+                    "points": [
+                      "Portal for GUI",
+                      "Cloud Shell for browser commands"
+                    ]
+                  },
+                  {
+                    "title": "Automation and hybrid",
+                    "points": [
+                      "CLI or PowerShell for scripts",
+                      "Arc for non-Azure resources"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Cloud Shell context",
+                "body": "Cloud Shell is temporary per session but authenticated and preconfigured."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Azure portal",
+              "back": "A web-based graphical console for Azure management."
+            },
+            {
+              "front": "Azure Cloud Shell",
+              "back": "An authenticated browser-accessible shell with Azure tools."
+            },
+            {
+              "front": "Exam cue",
+              "back": "Portal is graphical; Cloud Shell is browser terminal; CLI and PowerShell automate; Arc extends management."
+            }
+          ],
+          "sources": [
+            {
+              "title": "What is the Azure portal?",
+              "url": "https://learn.microsoft.com/en-us/azure/azure-portal/azure-portal-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Azure Cloud Shell?",
+              "url": "https://learn.microsoft.com/en-us/azure/cloud-shell/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Azure CLI documentation",
+              "url": "https://learn.microsoft.com/en-us/cli/azure/?view=azure-cli-latest",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Azure PowerShell",
+              "url": "https://learn.microsoft.com/en-us/powershell/azure/what-is-azure-powershell?view=azps-16.3.0",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Azure Arc overview",
+              "url": "https://learn.microsoft.com/en-us/azure/azure-arc/overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-amg-021",
+              "type": "MATCHING",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.3",
+              "difficulty": "MEDIUM",
+              "stem": "Match each management need to a tool.",
+              "explanation": "Portal is graphical, Cloud Shell is browser terminal, PowerShell uses cmdlets, and Arc extends management.",
+              "lessonSlug": "tools-for-managing-azure",
+              "sources": [
+                {
+                  "title": "What is the Azure portal?",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-portal/azure-portal-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Cloud Shell?",
+                  "url": "https://learn.microsoft.com/en-us/azure/cloud-shell/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Arc overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-arc/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure PowerShell",
+                  "url": "https://learn.microsoft.com/en-us/powershell/azure/what-is-azure-powershell?view=azps-16.3.0",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Graphical web console"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Authenticated commands in a browser"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Manage on-premises servers through Azure"
+                  },
+                  {
+                    "id": "p4",
+                    "text": "Use PowerShell objects"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Azure portal"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Azure Cloud Shell"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Azure Arc"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Azure PowerShell"
+                  },
+                  {
+                    "id": "a5",
+                    "text": "Service Trust Portal"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3",
+                  "p4": "a4"
+                },
+                "explanations": {
+                  "p1": "The portal is graphical.",
+                  "p2": "Cloud Shell is browser-accessible.",
+                  "p3": "Arc projects non-Azure resources into ARM.",
+                  "p4": "Azure PowerShell uses Az cmdlets."
+                }
+              }
+            },
+            {
+              "ref": "az900-amg-022",
+              "type": "COMMAND_SELECTION",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.3",
+              "difficulty": "EASY",
+              "stem": "Which command is the Azure CLI pattern for creating a resource group named rg-demo in eastus?",
+              "explanation": "Azure CLI uses `az group create` with name and location.",
+              "lessonSlug": "tools-for-managing-azure",
+              "sources": [
+                {
+                  "title": "Azure CLI documentation",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/?view=azure-cli-latest",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`az group create --name rg-demo --location eastus`",
+                  "correct": true,
+                  "explanation": "This is the Azure CLI pattern."
+                },
+                {
+                  "key": "B",
+                  "text": "`New-AzResourceLock -LockName rg-demo -Location eastus`",
+                  "correct": false,
+                  "explanation": "This creates a lock, not a group."
+                },
+                {
+                  "key": "C",
+                  "text": "`az portal create rg-demo eastus`",
+                  "correct": false,
+                  "explanation": "This is not an Azure CLI command."
+                },
+                {
+                  "key": "D",
+                  "text": "`Connect-AzAccount --resource-group rg-demo`",
+                  "correct": false,
+                  "explanation": "This signs in, not create a group."
+                }
+              ]
+            },
+            {
+              "ref": "az900-amg-023",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.3",
+              "difficulty": "EASY",
+              "stem": "Which tool provides guided graphical wizards and dashboards in a browser?",
+              "explanation": "The Azure portal is the web-based graphical console.",
+              "lessonSlug": "tools-for-managing-azure",
+              "sources": [
+                {
+                  "title": "What is the Azure portal?",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-portal/azure-portal-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure portal",
+                  "correct": true,
+                  "explanation": "It provides graphical management."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure CLI",
+                  "correct": false,
+                  "explanation": "CLI is command-line."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure PowerShell",
+                  "correct": false,
+                  "explanation": "PowerShell uses cmdlets."
+                },
+                {
+                  "key": "D",
+                  "text": "ARM template",
+                  "correct": false,
+                  "explanation": "Templates are files."
+                }
+              ]
+            },
+            {
+              "ref": "az900-amg-024",
+              "type": "SCENARIO",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which service should it evaluate?",
+              "explanation": "Azure Arc extends Azure management to supported non-Azure resources.",
+              "lessonSlug": "tools-for-managing-azure",
+              "sources": [
+                {
+                  "title": "Azure Arc overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-arc/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure Arc",
+                  "correct": true,
+                  "explanation": "Arc supports hybrid and multicloud management."
+                },
+                {
+                  "key": "B",
+                  "text": "Pricing calculator",
+                  "correct": false,
+                  "explanation": "It estimates cost."
+                },
+                {
+                  "key": "C",
+                  "text": "Service Trust Portal",
+                  "correct": false,
+                  "explanation": "It provides documents."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure Status",
+                  "correct": false,
+                  "explanation": "It reports platform health."
+                }
+              ],
+              "scenario": "Litware has datacenter servers and wants consistent inventory and governance from Azure."
+            },
+            {
+              "ref": "az900-amg-025",
+              "type": "UI_SIMULATION",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.3",
+              "difficulty": "MEDIUM",
+              "stem": "On the fictional chooser screen, pick tools for a visual task and repeatable script.",
+              "explanation": "Portal fits visual work; CLI fits repeatable scripts.",
+              "lessonSlug": "tools-for-managing-azure",
+              "sources": [
+                {
+                  "title": "What is the Azure portal?",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-portal/azure-portal-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure CLI documentation",
+                  "url": "https://learn.microsoft.com/en-us/cli/azure/?view=azure-cli-latest",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "uiSimulation": {
+                "title": "Management tool chooser (simulated)",
+                "description": "A simplified Azure management selection screen.",
+                "fields": [
+                  {
+                    "id": "visual",
+                    "label": "One-time guided setup",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "portal",
+                        "label": "Azure portal"
+                      },
+                      {
+                        "value": "arc",
+                        "label": "Azure Arc"
+                      }
+                    ],
+                    "correct": "portal",
+                    "explanation": "The portal provides guided graphical setup."
+                  },
+                  {
+                    "id": "script",
+                    "label": "Repeatable command script",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "cli",
+                        "label": "Azure CLI"
+                      },
+                      {
+                        "value": "stp",
+                        "label": "Service Trust Portal"
+                      }
+                    ],
+                    "correct": "cli",
+                    "explanation": "Azure CLI is designed for commands and scripts."
+                  }
+                ]
+              },
+              "needsVerification": true
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Re-check current portal wording and product page before publishing because product experiences can change."
+        },
+        {
+          "slug": "infrastructure-as-code",
+          "title": "Infrastructure as code: ARM templates and Bicep",
+          "objectiveCode": "3.3",
+          "estimatedMinutes": 10,
+          "summary": "Use ARM templates and Bicep to make Azure deployments repeatable, reviewable, and consistent.",
+          "learningObjectives": [
+            "Explain the Azure feature in beginner-friendly terms",
+            "Choose the right tool for a practical scenario",
+            "Recognize common exam-style cues"
+          ],
+          "explanation": "Infrastructure as code means defining cloud infrastructure in files instead of relying only on manual portal clicks. The file can be stored, reviewed, versioned, and reused with the project. Azure Resource Manager templates are JSON files that declare resources and configuration. You state what should exist, and Resource Manager orchestrates the deployment.\n\nBicep is a domain-specific language for Azure resources. It offers a more concise authoring experience than JSON while using the same underlying Resource Manager deployment capabilities. Both ARM templates and Bicep are declarative and support repeatable results. IaC helps teams reduce drift between environments, review infrastructure changes, and rebuild environments more reliably.",
+          "terminology": [
+            {
+              "term": "Infrastructure as code",
+              "definition": "Managing infrastructure definitions in source files."
+            },
+            {
+              "term": "ARM template",
+              "definition": "A JSON file that declaratively defines Azure resources."
+            },
+            {
+              "term": "Bicep",
+              "definition": "A concise declarative language for Azure resources."
+            },
+            {
+              "term": "Idempotent",
+              "definition": "Repeatable with the same intended result when desired state is unchanged."
+            }
+          ],
+          "businessScenario": "Wide World Importers needs dev and test environments that match production.",
+          "technicalExample": "The team stores Bicep files in source control and deploys to separate resource groups.",
+          "misconception": {
+            "myth": "IaC is only useful for large enterprises.",
+            "reality": "Small teams also benefit from repeatable environments and reviewed changes."
+          },
+          "examTakeaway": "Repeatable, consistent, source-controlled deployment points to ARM templates or Bicep.",
+          "recap": "Use ARM templates and Bicep to make Azure deployments repeatable, reviewable, and consistent. Focus on purpose, scope, and when to use each tool.",
+          "simplerExplanation": "Think of the tool as a labeled part of a workshop: pick the right tool for the job instead of memorizing every setting.",
+          "anotherExample": "A small pilot team can use the same concept at a resource-group scope before expanding it across subscriptions.",
+          "extraBlocks": [
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Declarative deployment",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "file",
+                    "label": "IaC file"
+                  },
+                  {
+                    "id": "arm",
+                    "label": "Resource Manager"
+                  },
+                  {
+                    "id": "azure",
+                    "label": "Azure resources"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "file",
+                    "to": "arm",
+                    "label": "Submit desired state"
+                  },
+                  {
+                    "from": "arm",
+                    "to": "azure",
+                    "label": "Orchestrate"
+                  }
+                ],
+                "caption": "An IaC file is submitted to Resource Manager, which creates or updates resources."
+              }
+            },
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "ARM template vs Bicep",
+                "columns": [
+                  {
+                    "title": "ARM template",
+                    "points": [
+                      "JSON syntax",
+                      "Direct template format"
+                    ]
+                  },
+                  {
+                    "title": "Bicep",
+                    "points": [
+                      "Concise syntax",
+                      "Transpiles to ARM template"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Infrastructure as code",
+              "back": "Managing infrastructure definitions in source files."
+            },
+            {
+              "front": "ARM template",
+              "back": "A JSON file that declaratively defines Azure resources."
+            },
+            {
+              "front": "Exam cue",
+              "back": "Repeatable, consistent, source-controlled deployment points to ARM templates or Bicep."
+            }
+          ],
+          "sources": [
+            {
+              "title": "ARM templates overview",
+              "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Bicep?",
+              "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-amg-026",
+              "type": "ORDERING",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.3",
+              "difficulty": "MEDIUM",
+              "stem": "Place the basic IaC workflow in order.",
+              "explanation": "Define desired state, review it, deploy it, and repeat.",
+              "lessonSlug": "infrastructure-as-code",
+              "sources": [
+                {
+                  "title": "ARM templates overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Bicep?",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Define desired resources in code"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Store and review the file"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Deploy the template"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Repeat as the environment evolves"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "The file describes desired state.",
+                  "s2": "Versioning enables review.",
+                  "s3": "Deployment asks ARM to create or update resources.",
+                  "s4": "IaC supports repeatability."
+                }
+              }
+            },
+            {
+              "ref": "az900-amg-027",
+              "type": "SCENARIO",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which practice helps most?",
+              "explanation": "IaC stores definitions in files for repeatable deployments.",
+              "lessonSlug": "infrastructure-as-code",
+              "sources": [
+                {
+                  "title": "ARM templates overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Bicep?",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Use ARM templates or Bicep",
+                  "correct": true,
+                  "explanation": "Declarative IaC improves consistency."
+                },
+                {
+                  "key": "B",
+                  "text": "Create resources manually from memory",
+                  "correct": false,
+                  "explanation": "Manual steps increase drift."
+                },
+                {
+                  "key": "C",
+                  "text": "Use Service Health alerts",
+                  "correct": false,
+                  "explanation": "Alerts do not define infrastructure."
+                },
+                {
+                  "key": "D",
+                  "text": "Apply a lock before resources exist",
+                  "correct": false,
+                  "explanation": "Locks protect existing scopes."
+                }
+              ],
+              "scenario": "Proseware repeatedly creates dev, test, and production environments. Manual steps cause drift."
+            },
+            {
+              "ref": "az900-amg-028",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.3",
+              "difficulty": "EASY",
+              "stem": "What is a key difference between ARM templates and Bicep?",
+              "explanation": "ARM templates are JSON; Bicep uses concise declarative syntax and deploys through ARM.",
+              "lessonSlug": "infrastructure-as-code",
+              "sources": [
+                {
+                  "title": "ARM templates overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Bicep?",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "ARM templates use JSON; Bicep uses concise syntax",
+                  "correct": true,
+                  "explanation": "Both are declarative Azure IaC options."
+                },
+                {
+                  "key": "B",
+                  "text": "Bicep is only for alerts",
+                  "correct": false,
+                  "explanation": "Bicep deploys infrastructure."
+                },
+                {
+                  "key": "C",
+                  "text": "ARM templates only create VMs",
+                  "correct": false,
+                  "explanation": "They support many resources."
+                },
+                {
+                  "key": "D",
+                  "text": "Bicep requires manual creation first",
+                  "correct": false,
+                  "explanation": "Bicep defines resources to deploy."
+                }
+              ]
+            },
+            {
+              "ref": "az900-amg-029",
+              "type": "TRUE_FALSE",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.3",
+              "difficulty": "MEDIUM",
+              "stem": "Declarative IaC files describe the desired end state rather than every manual step.",
+              "explanation": "ARM templates and Bicep use declarative syntax.",
+              "lessonSlug": "infrastructure-as-code",
+              "sources": [
+                {
+                  "title": "ARM templates overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Bicep?",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Incorrect."
+                }
+              ]
+            },
+            {
+              "ref": "az900-amg-030",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.3",
+              "difficulty": "HARD",
+              "stem": "Why is idempotency important for ARM templates and Bicep?",
+              "explanation": "Repeated deployments can converge on the same desired state.",
+              "lessonSlug": "infrastructure-as-code",
+              "sources": [
+                {
+                  "title": "ARM templates overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Bicep?",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "The same definition can be deployed repeatedly with consistent results",
+                  "correct": true,
+                  "explanation": "This supports reliable lifecycle management."
+                },
+                {
+                  "key": "B",
+                  "text": "It guarantees deployments are free",
+                  "correct": false,
+                  "explanation": "Resource costs still apply."
+                },
+                {
+                  "key": "C",
+                  "text": "It removes every approval",
+                  "correct": false,
+                  "explanation": "Approvals may still exist."
+                },
+                {
+                  "key": "D",
+                  "text": "It replaces source control",
+                  "correct": false,
+                  "explanation": "Source control remains useful."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "monitoring-tools",
+      "title": "Monitoring tools",
+      "summary": "Use Advisor, Service Health, Azure Monitor, Log Analytics, and alerts for optimization and operational awareness.",
+      "translations": {
+        "tr": {
+          "title": "İzleme araçları",
+          "summary": "İyileştirme ve operasyonel farkındalık için Advisor, Service Health, Azure Monitor, Log Analytics ve uyarıları kullanma.",
+          "status": "DRAFT"
+        }
+      },
+      "lessons": [
+        {
+          "slug": "azure-advisor-and-service-health",
+          "title": "Azure Advisor and Azure Service Health",
+          "objectiveCode": "3.4",
+          "estimatedMinutes": 10,
+          "summary": "Differentiate optimization recommendations from personalized platform health communications.",
+          "learningObjectives": [
+            "Explain the Azure feature in beginner-friendly terms",
+            "Choose the right tool for a practical scenario",
+            "Recognize common exam-style cues"
+          ],
+          "explanation": "Azure Advisor is a recommendation service. It analyzes resource configuration and usage telemetry, then suggests ways to improve reliability, security, performance, cost, and operational excellence. Use Advisor when you ask how to improve resources you already run.\n\nAzure Service Health answers a different question: is Azure experiencing an issue or upcoming maintenance that may affect me? It brings together Azure Status, Service Health, and Resource Health. Azure Status is a broad public view. Service Health provides personalized communications about incidents, planned maintenance, and advisories for services and regions you use. Resource Health focuses on individual resource availability.\n\nUse Advisor for optimization guidance. Use Service Health to stay informed about platform events and configure relevant alerts.",
+          "terminology": [
+            {
+              "term": "Azure Advisor",
+              "definition": "A service that provides personalized best-practice recommendations."
+            },
+            {
+              "term": "Service Health",
+              "definition": "A personalized view of Azure incidents, maintenance, and advisories."
+            },
+            {
+              "term": "Azure Status",
+              "definition": "A public global status view across Azure."
+            },
+            {
+              "term": "Resource Health",
+              "definition": "Health information for individual Azure resources."
+            }
+          ],
+          "businessScenario": "Northwind Traders needs to reduce waste and alert operations about planned maintenance.",
+          "technicalExample": "The team reviews Advisor cost recommendations and configures Service Health alerts.",
+          "misconception": {
+            "myth": "Advisor and Service Health show the same information.",
+            "reality": "Advisor recommends improvements; Service Health reports platform health events."
+          },
+          "examTakeaway": "Optimization recommendation means Advisor; outage, maintenance, or resource availability means Service Health or Resource Health.",
+          "recap": "Differentiate optimization recommendations from personalized platform health communications. Focus on purpose, scope, and when to use each tool.",
+          "simplerExplanation": "Think of the tool as a labeled part of a workshop: pick the right tool for the job instead of memorizing every setting.",
+          "anotherExample": "A small pilot team can use the same concept at a resource-group scope before expanding it across subscriptions.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Advisor vs Service Health",
+                "columns": [
+                  {
+                    "title": "Azure Advisor",
+                    "points": [
+                      "Best-practice recommendations",
+                      "Cost and reliability optimization"
+                    ]
+                  },
+                  {
+                    "title": "Azure Service Health",
+                    "points": [
+                      "Service incidents",
+                      "Planned maintenance",
+                      "Personalized health alerts"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Three health views",
+                "body": "Azure Status is broad, Service Health is personalized, and Resource Health is per resource."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Azure Advisor",
+              "back": "A service that provides personalized best-practice recommendations."
+            },
+            {
+              "front": "Service Health",
+              "back": "A personalized view of Azure incidents, maintenance, and advisories."
+            },
+            {
+              "front": "Exam cue",
+              "back": "Optimization recommendation means Advisor; outage, maintenance, or resource availability means Service Health or Resource Health."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Introduction to Azure Advisor",
+              "url": "https://learn.microsoft.com/en-us/azure/advisor/advisor-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Azure Service Health?",
+              "url": "https://learn.microsoft.com/en-us/azure/service-health/overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-amg-031",
+              "type": "CASE_STUDY",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.4",
+              "difficulty": "HARD",
+              "stem": "Decide whether each statement is correct.",
+              "explanation": "Advisor recommends optimizations; Service Health communicates service-impact events.",
+              "lessonSlug": "azure-advisor-and-service-health",
+              "sources": [
+                {
+                  "title": "Introduction to Azure Advisor",
+                  "url": "https://learn.microsoft.com/en-us/azure/advisor/advisor-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Service Health?",
+                  "url": "https://learn.microsoft.com/en-us/azure/service-health/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "scenario": "Contoso wants best-practice recommendations and alerts about Azure service incidents or planned maintenance.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Use Azure Advisor for cost, reliability, security, performance, and operational excellence recommendations.",
+                    "answer": true,
+                    "explanation": "Advisor recommendations use these categories."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Use Azure Service Health for personalized incidents, maintenance, and advisories.",
+                    "answer": true,
+                    "explanation": "That is Service Health's purpose."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Use Advisor as the primary source for Microsoft audit reports.",
+                    "answer": false,
+                    "explanation": "Use the Service Trust Portal for audit reports."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "az900-amg-032",
+              "type": "SCENARIO",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.4",
+              "difficulty": "MEDIUM",
+              "stem": "Which tool is most appropriate?",
+              "explanation": "Service Health provides personalized service-impact information and alerts.",
+              "lessonSlug": "azure-advisor-and-service-health",
+              "sources": [
+                {
+                  "title": "What is Azure Service Health?",
+                  "url": "https://learn.microsoft.com/en-us/azure/service-health/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure Service Health",
+                  "correct": true,
+                  "explanation": "It provides incidents, maintenance, and advisories."
+                },
+                {
+                  "key": "B",
+                  "text": "Pricing calculator",
+                  "correct": false,
+                  "explanation": "It estimates cost."
+                },
+                {
+                  "key": "C",
+                  "text": "Bicep",
+                  "correct": false,
+                  "explanation": "It defines infrastructure."
+                },
+                {
+                  "key": "D",
+                  "text": "Purview",
+                  "correct": false,
+                  "explanation": "It catalogs data assets."
+                }
+              ],
+              "scenario": "Fabrikam wants to know whether planned Azure maintenance may affect services in regions it uses."
+            },
+            {
+              "ref": "az900-amg-033",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.4",
+              "difficulty": "EASY",
+              "stem": "Which Azure Advisor category relates to reducing unnecessary spend?",
+              "explanation": "Advisor includes a Cost category.",
+              "lessonSlug": "azure-advisor-and-service-health",
+              "sources": [
+                {
+                  "title": "Introduction to Azure Advisor",
+                  "url": "https://learn.microsoft.com/en-us/azure/advisor/advisor-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Cost",
+                  "correct": true,
+                  "explanation": "Cost recommendations optimize spending."
+                },
+                {
+                  "key": "B",
+                  "text": "Service incidents",
+                  "correct": false,
+                  "explanation": "Use Service Health."
+                },
+                {
+                  "key": "C",
+                  "text": "Data lineage",
+                  "correct": false,
+                  "explanation": "Use Purview."
+                },
+                {
+                  "key": "D",
+                  "text": "Compliance reports",
+                  "correct": false,
+                  "explanation": "Use STP."
+                }
+              ]
+            },
+            {
+              "ref": "az900-amg-034",
+              "type": "MATCHING",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.4",
+              "difficulty": "MEDIUM",
+              "stem": "Match each health experience to its scope.",
+              "explanation": "Azure Status is broad, Service Health is personalized, and Resource Health is per resource.",
+              "lessonSlug": "azure-advisor-and-service-health",
+              "sources": [
+                {
+                  "title": "What is Azure Service Health?",
+                  "url": "https://learn.microsoft.com/en-us/azure/service-health/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Global public Azure service health"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Personalized issues for services you use"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Health of a specific resource"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Azure Status"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Service Health"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Resource Health"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Pricing calculator"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "Azure Status is broad and public.",
+                  "p2": "Service Health is tailored to your usage.",
+                  "p3": "Resource Health focuses on individual resources."
+                }
+              }
+            },
+            {
+              "ref": "az900-amg-035",
+              "type": "ORDERING",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.4",
+              "difficulty": "MEDIUM",
+              "stem": "Place these Service Health response actions in order.",
+              "explanation": "Read details, assess impact, notify owners, and monitor updates.",
+              "lessonSlug": "azure-advisor-and-service-health",
+              "sources": [
+                {
+                  "title": "What is Azure Service Health?",
+                  "url": "https://learn.microsoft.com/en-us/azure/service-health/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Read event details"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Identify affected services and regions"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Notify application owners"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Monitor updates until resolved"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "Details explain the event.",
+                  "s2": "Impact determines who cares.",
+                  "s3": "Owners need relevant communication.",
+                  "s4": "Events can change over time."
+                }
+              }
+            }
+          ]
+        },
+        {
+          "slug": "azure-monitor-basics",
+          "title": "Azure Monitor, Log Analytics, and alerts",
+          "objectiveCode": "3.4",
+          "estimatedMinutes": 10,
+          "summary": "Understand Azure Monitor telemetry, Log Analytics queries, and alerts with action groups.",
+          "learningObjectives": [
+            "Explain the Azure feature in beginner-friendly terms",
+            "Choose the right tool for a practical scenario",
+            "Recognize common exam-style cues"
+          ],
+          "explanation": "Azure Monitor is Microsoft's unified observability service for collecting, analyzing, and acting on telemetry from cloud and hybrid environments. It brings together metrics, logs, traces, and events so teams can understand health, performance, and reliability. Metrics are numerical measurements over time, useful for trends and thresholds. Logs contain detailed records that can be queried.\n\nLog Analytics is the Azure portal tool used to run and edit queries against Azure Monitor Logs, including Kusto Query Language mode for advanced analysis. Alerts help teams respond before users report a problem. An alert rule watches a resource signal, evaluates a condition, and fires when the condition is met. Action groups then notify people or trigger automation. AZ-900 expects you to recognize these building blocks, not write complex queries.",
+          "terminology": [
+            {
+              "term": "Azure Monitor",
+              "definition": "A unified observability service for collecting and acting on telemetry."
+            },
+            {
+              "term": "Metric",
+              "definition": "A numerical measurement collected over time."
+            },
+            {
+              "term": "Log Analytics",
+              "definition": "A tool for querying Azure Monitor Logs."
+            },
+            {
+              "term": "Alert rule",
+              "definition": "A configuration that evaluates a signal and condition."
+            },
+            {
+              "term": "Action group",
+              "definition": "Notification or automation actions invoked by alerts."
+            }
+          ],
+          "businessScenario": "Litware needs to know when performance degrades and investigate detailed log records.",
+          "technicalExample": "The team creates metric alerts and uses Log Analytics queries for investigation.",
+          "misconception": {
+            "myth": "Monitoring is only useful after an outage ends.",
+            "reality": "Monitoring helps detect, investigate, and respond while issues are developing."
+          },
+          "examTakeaway": "Metrics, logs, Log Analytics, alerts, and action groups are the Azure Monitor basics.",
+          "recap": "Understand Azure Monitor telemetry, Log Analytics queries, and alerts with action groups. Focus on purpose, scope, and when to use each tool.",
+          "simplerExplanation": "Think of the tool as a labeled part of a workshop: pick the right tool for the job instead of memorizing every setting.",
+          "anotherExample": "A small pilot team can use the same concept at a resource-group scope before expanding it across subscriptions.",
+          "extraBlocks": [
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Alert flow",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "resource",
+                    "label": "Resource telemetry"
+                  },
+                  {
+                    "id": "rule",
+                    "label": "Alert rule"
+                  },
+                  {
+                    "id": "action",
+                    "label": "Action group"
+                  },
+                  {
+                    "id": "team",
+                    "label": "Operators"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "resource",
+                    "to": "rule",
+                    "label": "Signal"
+                  },
+                  {
+                    "from": "rule",
+                    "to": "action",
+                    "label": "Fires"
+                  },
+                  {
+                    "from": "action",
+                    "to": "team",
+                    "label": "Notify"
+                  }
+                ],
+                "caption": "Telemetry is evaluated by an alert rule; when conditions are met, an action group notifies operators."
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "KQL awareness",
+                "body": "Know that Log Analytics can use KQL; deep query writing is beyond AZ-900."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Azure Monitor",
+              "back": "A unified observability service for collecting and acting on telemetry."
+            },
+            {
+              "front": "Metric",
+              "back": "A numerical measurement collected over time."
+            },
+            {
+              "front": "Exam cue",
+              "back": "Metrics, logs, Log Analytics, alerts, and action groups are the Azure Monitor basics."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Azure Monitor overview",
+              "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Log Analytics overview",
+              "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Azure Monitor alerts overview",
+              "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-amg-036",
+              "type": "UI_SIMULATION",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.4",
+              "difficulty": "MEDIUM",
+              "stem": "On the fictional alert rule screen, choose settings to notify operators when a VM metric crosses a threshold.",
+              "explanation": "An alert rule needs a signal, condition, and action group.",
+              "lessonSlug": "azure-monitor-basics",
+              "sources": [
+                {
+                  "title": "Azure Monitor overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Monitor alerts overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "uiSimulation": {
+                "title": "Metric alert rule (simulated)",
+                "description": "A simplified Azure Monitor alert screen.",
+                "fields": [
+                  {
+                    "id": "signal",
+                    "label": "Signal type",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "metric",
+                        "label": "VM metric"
+                      },
+                      {
+                        "value": "report",
+                        "label": "Compliance report"
+                      }
+                    ],
+                    "correct": "metric",
+                    "explanation": "Metric alerts evaluate resource metrics."
+                  },
+                  {
+                    "id": "condition",
+                    "label": "Condition",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "threshold",
+                        "label": "Metric crosses threshold"
+                      },
+                      {
+                        "value": "none",
+                        "label": "No condition"
+                      }
+                    ],
+                    "correct": "threshold",
+                    "explanation": "Alerts fire when conditions are met."
+                  },
+                  {
+                    "id": "action",
+                    "label": "Notify action group",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "Action groups send notifications or automation."
+                  }
+                ]
+              },
+              "needsVerification": true
+            },
+            {
+              "ref": "az900-amg-037",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.4",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** statements about Azure Monitor are correct?",
+              "explanation": "Azure Monitor collects telemetry and supports logs, metrics, analysis, and alerting.",
+              "lessonSlug": "azure-monitor-basics",
+              "sources": [
+                {
+                  "title": "Azure Monitor overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Log Analytics overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "It collects metrics and logs from Azure and hybrid environments",
+                  "correct": true,
+                  "explanation": "Azure Monitor is a unified observability service."
+                },
+                {
+                  "key": "B",
+                  "text": "Log Analytics runs and edits log queries",
+                  "correct": true,
+                  "explanation": "Log Analytics queries Azure Monitor Logs."
+                },
+                {
+                  "key": "C",
+                  "text": "It replaces testing",
+                  "correct": false,
+                  "explanation": "Monitoring complements testing."
+                },
+                {
+                  "key": "D",
+                  "text": "It is a data governance catalog",
+                  "correct": false,
+                  "explanation": "That is Purview."
+                },
+                {
+                  "key": "E",
+                  "text": "It guarantees incidents never occur",
+                  "correct": false,
+                  "explanation": "Monitoring detects and helps respond."
+                }
+              ],
+              "selectCount": 2
+            },
+            {
+              "ref": "az900-amg-038",
+              "type": "SCENARIO",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.4",
+              "difficulty": "MEDIUM",
+              "stem": "Which tool should the operator use?",
+              "explanation": "Log Analytics is used to run and edit log queries against Azure Monitor Logs.",
+              "lessonSlug": "azure-monitor-basics",
+              "sources": [
+                {
+                  "title": "Log Analytics overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Monitor overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Log Analytics",
+                  "correct": true,
+                  "explanation": "It supports KQL over logs."
+                },
+                {
+                  "key": "B",
+                  "text": "Pricing calculator",
+                  "correct": false,
+                  "explanation": "It estimates cost."
+                },
+                {
+                  "key": "C",
+                  "text": "Resource locks",
+                  "correct": false,
+                  "explanation": "They protect resources."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure Status",
+                  "correct": false,
+                  "explanation": "It shows public service health."
+                }
+              ],
+              "scenario": "An operator needs to run KQL queries over collected logs to investigate failures."
+            },
+            {
+              "ref": "az900-amg-039",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.4",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence.",
+              "explanation": "Action groups notify people or trigger automation when alerts fire.",
+              "lessonSlug": "azure-monitor-basics",
+              "sources": [
+                {
+                  "title": "Azure Monitor alerts overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "fillInBlank": {
+                "template": "In Azure Monitor, an {{thing}} can notify people or trigger automation when an alert fires.",
+                "blanks": [
+                  {
+                    "id": "thing",
+                    "accepted": [
+                      "action group"
+                    ],
+                    "explanation": "Action groups define alert notifications and automation actions."
+                  }
+                ],
+                "wordBank": [
+                  "action group",
+                  "tag",
+                  "policy initiative",
+                  "pricing estimate"
+                ]
+              }
+            },
+            {
+              "ref": "az900-amg-040",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-management-governance",
+              "objectiveCode": "3.4",
+              "difficulty": "HARD",
+              "stem": "Why might a team use both metrics and logs in Azure Monitor?",
+              "explanation": "Metrics are numeric time-series signals; logs provide detailed queryable records.",
+              "lessonSlug": "azure-monitor-basics",
+              "sources": [
+                {
+                  "title": "Azure Monitor overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Log Analytics overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Monitor alerts overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "They answer different monitoring questions and complement each other",
+                  "correct": true,
+                  "explanation": "Both can support analysis and alerting."
+                },
+                {
+                  "key": "B",
+                  "text": "Logs are only used before deployment",
+                  "correct": false,
+                  "explanation": "Logs are operational telemetry."
+                },
+                {
+                  "key": "C",
+                  "text": "Metrics are compliance audit reports",
+                  "correct": false,
+                  "explanation": "Metrics are measurements."
+                },
+                {
+                  "key": "D",
+                  "text": "Using both disables alerts",
+                  "correct": false,
+                  "explanation": "Both can feed alerts."
+                }
+              ]
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Re-check current portal wording and product page before publishing because product experiences can change."
+        }
+      ]
+    }
+  ]
+}
