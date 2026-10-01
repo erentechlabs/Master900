@@ -186,6 +186,8 @@ remain in the catalog for reference. Demo content is labelled as such and is not
 Prerequisites: **Node.js ≥ 20.9** (tested with 24.x) and npm. PostgreSQL is optional — an embedded server is included.
 
 ```bash
+git clone https://github.com/erentechlabs/Master900.git
+cd Master900
 npm install
 cp .env.example .env
 
