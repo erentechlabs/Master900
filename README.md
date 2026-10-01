@@ -196,7 +196,7 @@ npm run db:start
 
 # Terminal 2
 npm run db:migrate              # apply migrations (prisma migrate dev)
-npm run db:seed                 # catalog, course and lab packages for all seven certifications, badges and local profile
+npm run db:seed                 # catalog, courses and labs for all seven certifications
 npm run dev                     # http://127.0.0.1:3000 (localhost only)
 ```
 
@@ -303,8 +303,9 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the data model, page map, k
 
 ```
 src/app            routes: marketing, learner app, admin, API
-src/components     WinUI-style UI kit, layout, feature components (labs: VM shell, portal renderer, terminal)
-src/modules        domain modules (assessment, labs, learning, planner, analytics, tutor, content, catalog, auth, admin)
+src/components     WinUI-style UI kit, layout and feature components (lab VM, portal renderer)
+src/modules        domain modules: assessment, labs, learning, planner, analytics, tutor,
+                   content, catalog, search, account, auth, admin
 src/i18n           typed translator, formatters, messages/en/*, messages/tr/*
 prisma             schema, migrations, seed and seed-data (catalog + course and lab packages)
 scripts            dev database, worker, content validation, smoke, integration and lab UI replay
