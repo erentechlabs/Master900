@@ -69,9 +69,13 @@ export function SimTerminal({
           <span className="pb-2 font-mono text-sm text-emerald-300" aria-hidden="true">
             {prompt}
           </span>
-          <Field id="ui-sim-terminal-input" label={t("labs.terminal.inputLabel")} hint={<>{t("labs.terminal.historyHint")} <Kbd>↑</Kbd> <Kbd>↓</Kbd></>} className="min-w-0 flex-1">
+          <Field id="ui-sim-terminal-input" label={t("labs.terminal.inputLabel")} hint={<>{t("labs.terminal.historyHint")} <Kbd>↑</Kbd> <Kbd>↓</Kbd></>} className="min-w-0 flex-1 text-zinc-200 [&_kbd]:border-white/20 [&_kbd]:bg-white/10 [&_kbd]:text-zinc-100 [&_p]:text-zinc-400">
             <Input
-              className="h-9 bg-zinc-900 font-mono text-zinc-50"
+              className="h-9 border-white/15 border-b-white/40 bg-white/5 font-mono text-zinc-50 placeholder:text-zinc-500 hover:bg-white/10 focus-visible:border-b-sky-300 focus-visible:bg-black focus-visible:shadow-[inset_0_-1px_0_theme(colors.sky.300)]"
+              spellCheck={false}
+              autoCapitalize="off"
+              autoCorrect="off"
+              autoComplete="off"
               value={command}
               placeholder={t("labs.terminal.placeholder")}
               onChange={(event) => setCommand(event.currentTarget.value)}

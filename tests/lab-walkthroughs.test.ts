@@ -11,7 +11,7 @@ import { evaluateRules, type KeyedRule } from "@/modules/labs/engine/rules";
 import { architectureConfigSchema, architectureEventSchema, replayArchitecture } from "@/modules/labs/engine/architecture";
 import { replaySandbox, sandboxConfigSchema } from "@/modules/labs/engine/command-sandbox";
 import { decisionAnswerSchema, decisionConfigSchema, initialDecisionState, submitDecisionStage, type DecisionState } from "@/modules/labs/engine/decision";
-import { applyUiSimEvent, buildContext, currentPage, initialUiSimState, uiSimConfigSchema, uiSimEventSchema } from "@/modules/labs/engine/ui-simulation";
+import { applyUiSimEvent, buildContext, codeView, currentPage, deploymentView, initialUiSimState, uiSimConfigSchema, uiSimEventSchema } from "@/modules/labs/engine/ui-simulation";
 
 const coursesRoot = path.resolve(__dirname, "../prisma/seed-data/courses");
 const walkthroughRoot = path.resolve(__dirname, "fixtures/lab-walkthroughs");
@@ -185,6 +185,36 @@ describe("lab walkthroughs", () => {
         const targets = componentTargets(lab.config);
         const unknown = lab.steps.filter((s) => s.targetId && !targets.has(s.targetId)).map((s) => `${s.key} -> ${s.targetId}`);
         expect(unknown).toEqual([]);
+      });
+
+      it(`${certification} ${lab.slug}: code blocks and deployment panels render their templates`, () => {
+        // Replay the walkthrough and check every page on the way: shown text must never contain raw {{...}}.
+        const config = uiSimConfigSchema.parse(lab.config);
+        const leftovers = new Set<string>();
+        const inspect = (state: ReturnType<typeof initialUiSimState>) => {
+          const page = currentPage(config, state);
+          const ctx = buildContext(config, state);
+          if (page.requires && !(ctx.$sel as Record<string, unknown>)[page.requires]) return;
+          for (const component of page.components) {
+            const texts =
+              component.kind === "code"
+                ? Object.values(codeView(component, ctx))
+                : component.kind === "deployment"
+                  ? (() => {
+                      const view = deploymentView(component, ctx);
+                      return [view.title, view.detail, ...view.resources.flatMap((r) => [r.name, r.type, r.status])];
+                    })()
+                  : [];
+            for (const text of texts) if (text.includes("{{")) leftovers.add(`${page.id}/${component.kind}: ${text.slice(0, 80)}`);
+          }
+        };
+        let state = initialUiSimState(config);
+        inspect(state);
+        for (const raw of walkthrough.events) {
+          state = applyUiSimEvent(config, state, uiSimEventSchema.parse(raw));
+          inspect(state);
+        }
+        expect([...leftovers]).toEqual([]);
       });
     }
   }

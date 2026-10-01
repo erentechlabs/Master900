@@ -276,3 +276,20 @@ export function visibleFields(fields: UiSimField[], draft: Record<string, unknow
 export function terminalPrompt(config: UiSimConfig, state: UiSimState): string {
   return config.terminal ? renderText(config.terminal.prompt, buildContext(config, state)) : "$";
 }
+
+/** Text of a code block as shown to the learner (title and content are templates). */
+export function codeView(component: UiSimComponentOf<"code">, ctx: TemplateContext): { title: string; content: string } {
+  return { title: component.title ? renderText(component.title, ctx) : "", content: renderText(component.content, ctx) };
+}
+
+/** Text of a deployment panel as shown to the learner (title, status, note and resources are templates). */
+export function deploymentView(
+  component: UiSimComponentOf<"deployment">,
+  ctx: TemplateContext,
+): { title: string; detail: string; resources: { name: string; type: string; status: string }[] } {
+  return {
+    title: renderText(component.title, ctx),
+    detail: renderText(component.note ?? component.status, ctx),
+    resources: (component.resources ?? []).map((r) => ({ name: renderText(r.name, ctx), type: renderText(r.type, ctx), status: renderText(r.status, ctx) })),
+  };
+}

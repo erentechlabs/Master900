@@ -40,7 +40,9 @@ import type {
 import {
   buildContext,
   cellValue,
+  codeView,
   currentPage,
+  deploymentView,
   fieldDefaultValue,
   formFields,
   getPage,
@@ -830,7 +832,7 @@ function FieldControl({ field, value, error, ctx, onChange, onCommit }: { field:
     const selected = Array.isArray(value) ? value : [];
     return <fieldset className="space-y-2"><legend className="text-sm font-medium">{field.label}</legend>{options.map((option) => <label key={option.value} className="flex min-h-6 items-center gap-2 text-sm"><Checkbox value={option.value} data-sim-field={field.id} checked={selected.includes(option.value)} onChange={(event) => onChange(event.currentTarget.checked ? [...selected, option.value] : selected.filter((v) => v !== option.value))} disabled={field.readOnly} />{option.label}</label>)}{error ? <p className="text-xs text-destructive">{error}</p> : null}</fieldset>;
   }
-  if (field.control === "textarea" || field.control === "code") return <Field id={id} label={field.label} hint={field.help} error={error} required={field.required}><Textarea data-sim-field={field.id} className={field.control === "code" ? "font-mono" : undefined} value={typeof value === "string" ? value : ""} placeholder={field.placeholder} onChange={(event) => onChange(event.currentTarget.value)} onBlur={onCommit} readOnly={field.readOnly} /></Field>;
+  if (field.control === "textarea" || field.control === "code") return <Field id={id} label={field.label} hint={field.help} error={error} required={field.required}><Textarea data-sim-field={field.id} className={field.control === "code" ? "font-mono" : undefined} spellCheck={field.control === "code" ? false : undefined} value={typeof value === "string" ? value : ""} placeholder={field.placeholder} onChange={(event) => onChange(event.currentTarget.value)} onBlur={onCommit} readOnly={field.readOnly} /></Field>;
   return <Field id={id} label={field.label} hint={field.help ?? (field.control === "number" ? t("labs.portal.numberField") : undefined)} error={error} required={field.required}><Input data-sim-field={field.id} type={field.control === "number" ? "number" : "text"} value={typeof value === "number" || typeof value === "string" ? value : ""} placeholder={field.placeholder} onChange={(event) => onChange(field.control === "number" && event.currentTarget.value !== "" ? Number(event.currentTarget.value) : event.currentTarget.value)} onBlur={onCommit} onKeyDown={(event) => { if (event.key === "Enter") onCommit?.(); }} readOnly={field.readOnly} /></Field>;
 }
 
@@ -1044,7 +1046,7 @@ function SqlEditor({ component, state, targetId, onEvent }: { component: UiSimCo
     <section data-sim-sql={component.id} className={cn("space-y-3 rounded-lg border bg-card p-4", highlight(component.id, targetId))}>
       {component.title ? <h2 className="font-semibold">{component.title}</h2> : null}
       <div className="flex flex-wrap gap-2">{component.sampleQueries?.map((sample, index) => <Button key={index} size="sm" variant="outline" onClick={() => setSql(sample.sql)}>{sample.label}</Button>)}</div>
-      <Field id={`${component.id}-sql`} label={t("labs.portal.sqlEditor")}><Textarea className="min-h-32 font-mono" value={sql} onChange={(event) => setSql(event.currentTarget.value)} onKeyDown={(event) => { if ((event.ctrlKey || event.metaKey) && event.key === "Enter") onEvent({ type: "query", componentId: component.id, sql }); }} /></Field>
+      <Field id={`${component.id}-sql`} label={t("labs.portal.sqlEditor")}><Textarea className="min-h-32 font-mono" spellCheck={false} autoCapitalize="off" autoCorrect="off" value={sql} onChange={(event) => setSql(event.currentTarget.value)} onKeyDown={(event) => { if ((event.ctrlKey || event.metaKey) && event.key === "Enter") onEvent({ type: "query", componentId: component.id, sql }); }} /></Field>
       <Button data-sim-run="" onClick={() => onEvent({ type: "query", componentId: component.id, sql })}>{t("labs.portal.runQuery")}</Button>
       {result ? <SqlResultView result={result} /> : null}
     </section>
@@ -1080,17 +1082,18 @@ function ChatComponent({ component, state, targetId, onEvent }: { component: UiS
   );
 }
 
-function CodeComponent({ component }: { component: UiSimComponentOf<"code"> }) {
+function CodeComponent({ component, ctx }: { component: UiSimComponentOf<"code">; ctx: TemplateContext }) {
   const { t } = useI18n();
+  const { title, content } = codeView(component, ctx);
   return (
     <section className="rounded-lg border bg-card">
-      <div className="flex items-center justify-between border-b px-3 py-2">{component.title ? <h2 className="font-semibold">{component.title}</h2> : <span /> }<Button size="sm" variant="ghost" onClick={() => { void navigator.clipboard.writeText(component.content); toast.success(t("labs.portal.copied")); }}><Copy className="h-4 w-4" aria-hidden="true" />{t("labs.portal.copy")}</Button></div>
-      <pre className="max-h-96 overflow-auto p-3 text-xs"><code>{component.content}</code></pre>
+      <div className="flex items-center justify-between border-b px-3 py-2">{title ? <h2 className="font-semibold">{title}</h2> : <span /> }<Button size="sm" variant="ghost" onClick={() => { void navigator.clipboard.writeText(content); toast.success(t("labs.portal.copied")); }}><Copy className="h-4 w-4" aria-hidden="true" />{t("labs.portal.copy")}</Button></div>
+      <pre className="max-h-96 overflow-auto p-3 text-xs"><code>{content}</code></pre>
     </section>
   );
 }
 
-function DeploymentComponent({ component }: { component: UiSimComponentOf<"deployment"> }) {
+function DeploymentComponent({ component, ctx }: { component: UiSimComponentOf<"deployment">; ctx: TemplateContext }) {
   const { t } = useI18n();
   const [done, setDone] = React.useState(() => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   React.useEffect(() => {
@@ -1098,11 +1101,13 @@ function DeploymentComponent({ component }: { component: UiSimComponentOf<"deplo
     const id = window.setTimeout(() => setDone(true), 1200);
     return () => window.clearTimeout(id);
   }, []);
+  const { title, detail, resources } = deploymentView(component, ctx);
   return (
     <section className="space-y-3 rounded-lg border bg-card p-4" aria-live="polite">
       <h2 className="flex items-center gap-2 font-semibold">{done ? <CheckCircle2 className="h-5 w-5 text-success" aria-hidden="true" /> : <Spinner className="h-5 w-5" />}{done ? t("labs.portal.deploymentComplete") : t("labs.portal.deploymentProgress")}</h2>
-      <p className="text-sm text-muted-foreground">{component.note ?? component.status}</p>
-      {done && component.resources?.length ? <Table><THead><TR><TH>{t("labs.portal.name")}</TH><TH>{t("labs.portal.type")}</TH><TH>{t("labs.portal.status")}</TH></TR></THead><TBody>{component.resources.map((resource, index) => <TR key={`${resource.type}-${resource.name}-${index}`}><TD>{resource.name}</TD><TD>{resource.type}</TD><TD>{resource.status}</TD></TR>)}</TBody></Table> : null}
+      {title ? <p className="text-sm font-semibold">{title}</p> : null}
+      {detail ? <p className="text-sm text-muted-foreground">{detail}</p> : null}
+      {done && resources.length ? <Table><THead><TR><TH>{t("labs.portal.name")}</TH><TH>{t("labs.portal.type")}</TH><TH>{t("labs.portal.status")}</TH></TR></THead><TBody>{resources.map((resource, index) => <TR key={`${resource.type}-${resource.name}-${index}`}><TD>{resource.name}</TD><TD>{resource.type}</TD><TD>{resource.status}</TD></TR>)}</TBody></Table> : null}
     </section>
   );
 }
