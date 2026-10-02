@@ -20,9 +20,9 @@
           "estimatedMinutes": 10,
           "summary": "Learn the six responsible AI principles and how they guide trustworthy AI solution design.",
           "learningObjectives": [
-            "Describe the six responsible AI principles",
-            "Apply responsible AI principles to beginner AI scenarios",
-            "Recognize why evaluation and oversight matter beyond accuracy"
+            "Describe fairness, reliability, privacy, inclusiveness, transparency, and accountability in AI",
+            "Identify responsible AI risks that accuracy alone does not address",
+            "Recognize why evaluation, documentation, and oversight support trustworthy AI"
           ],
           "explanation": "Responsible AI is an approach for designing, building, and operating AI systems in ways that are safe, ethical, and trustworthy. A model is not ready just because it can produce accurate predictions. Teams also need to ask who might be affected, what data is used, how errors are found, and who owns the outcome.\n\nMicrosoft describes six core principles: **fairness**, **reliability and safety**, **privacy and security**, **inclusiveness**, **transparency**, and **accountability**. Fairness checks whether similar people or groups receive consistent treatment. Reliability and safety means dependable behavior and safe failure. Privacy and security protects data, identities, networks, and access. Inclusiveness considers people with different abilities, languages, contexts, and needs. Transparency helps stakeholders understand purpose, limits, and important behavior. Accountability keeps people and processes responsible for decisions and incidents.\n\nThese principles overlap. A loan assistance tool might compare error rates by applicant cohort, restrict access to sensitive data, document model limitations, require human review, and log deployment approvals.",
           "terminology": [
@@ -46,59 +46,85 @@
           "businessScenario": "Contoso is building an AI tool that prioritizes support requests and must show it does not systematically disadvantage a customer group.",
           "technicalExample": "The team evaluates errors by segment, restricts data access, documents limits, and stores approval records.",
           "misconception": {
-            "myth": "High model accuracy means responsible AI concerns are solved.",
-            "reality": "Overall accuracy can hide fairness gaps, privacy risks, unclear explanations, or missing ownership."
+            "myth": "Responsible AI is a final checklist after the model is accurate.",
+            "reality": "Responsible AI is designed into the whole lifecycle: data choices, evaluation, documentation, access, monitoring, escalation, and human ownership."
           },
-          "examTakeaway": "Map unequal outcomes, unsafe behavior, sensitive data, unclear explanations, or no owner to the responsible AI principle being tested.",
-          "recap": "Responsible AI combines technical quality with human impact so AI systems are fairer, safer, clearer, and governable.",
-          "simplerExplanation": "Think of responsible AI like safe driving: a powerful engine still needs mirrors, brakes, rules, and an accountable driver.",
-          "anotherExample": "A school using AI to triage support requests should test whether students with different language skills are treated fairly and ensure counselors make final decisions.",
+          "examTakeaway": "When a scenario mentions unequal outcomes, unsafe behavior, sensitive data, inaccessible design, unclear explanations, or missing ownership, map the clue to the matching responsible AI principle rather than to a model feature.",
+          "recap": "Responsible AI uses fairness, reliability and safety, privacy and security, inclusiveness, transparency, and accountability to make AI systems trustworthy in context.",
+          "simplerExplanation": "Responsible AI is like opening a public playground: the equipment may work, but you still need safe surfaces, clear signs, access for different children, privacy rules, and an adult responsible for problems.",
+          "anotherExample": "Woodgrove Bank adds an AI recommendation to route customer requests. It checks error rates for different customer groups, explains when staff should override a suggestion, and records who approved the release.",
           "extraBlocks": [
             {
               "type": "COMPARISON",
               "data": {
-                "title": "Scenario clues",
+                "title": "Six principles as design questions",
                 "columns": [
                   {
-                    "title": "Look for",
+                    "title": "Fairness / inclusiveness",
                     "points": [
-                      "Input type",
-                      "Expected output",
-                      "Risk or control"
+                      "Who might receive worse outcomes?",
+                      "Can people with different abilities, languages, or contexts use the solution?"
                     ]
                   },
                   {
-                    "title": "Then choose",
+                    "title": "Reliability / privacy",
                     "points": [
-                      "Workload",
-                      "Model capability",
-                      "Responsible AI principle"
+                      "How does the system fail safely?",
+                      "Which data, identities, and access paths need protection?"
+                    ]
+                  },
+                  {
+                    "title": "Transparency / accountability",
+                    "points": [
+                      "Can users understand purpose and limits?",
+                      "Who reviews, approves, monitors, and responds to incidents?"
                     ]
                   }
                 ]
               }
             },
             {
-              "type": "CALLOUT",
+              "type": "ACTIVITY",
               "data": {
-                "variant": "tip",
-                "title": "Study tip",
-                "body": "Use the scenario verbs: extract, transcribe, generate, summarize, explain, monitor, or approve."
+                "title": "Principle spotting",
+                "instructions": "Read each clue and name the responsible AI principle it most directly suggests.",
+                "items": [
+                  {
+                    "prompt": "A hiring model has higher false negatives for one candidate group.",
+                    "answer": "Fairness: investigate and reduce unjustified outcome gaps."
+                  },
+                  {
+                    "prompt": "Users cannot tell when a support reply was generated by AI.",
+                    "answer": "Transparency: disclose AI use and explain limitations."
+                  },
+                  {
+                    "prompt": "No team owns incident response for model failures.",
+                    "answer": "Accountability: assign owners, approvals, monitoring, and escalation."
+                  }
+                ]
               }
             }
           ],
           "flashcards": [
             {
-              "front": "Training",
-              "back": "Learning or adapting patterns from data."
+              "front": "Fairness clue",
+              "back": "Look for unjustified differences in outcomes for similar people or groups."
             },
             {
-              "front": "Inference",
-              "back": "Using a deployed model for a new input."
+              "front": "Reliability and safety clue",
+              "back": "Look for dependable behavior, testing, safe failure, and monitoring under expected conditions."
             },
             {
-              "front": "Grounding",
-              "back": "Supplying retrieved source content to a model."
+              "front": "Privacy and security clue",
+              "back": "Look for protecting data, identities, network paths, keys, and access permissions."
+            },
+            {
+              "front": "Transparency clue",
+              "back": "Look for explaining purpose, limitations, data use, and when AI is involved."
+            },
+            {
+              "front": "Accountability clue",
+              "back": "Look for a human owner, approval process, audit trail, and incident response."
             }
           ],
           "sources": [
@@ -210,13 +236,13 @@
                   "key": "TRUE",
                   "text": "True",
                   "correct": false,
-                  "explanation": "Waiting until production can leave sensitive data, access, and network risks unaddressed."
+                  "explanation": "Choosing True misses that privacy and security risks must be addressed during data collection, training, deployment, monitoring, and retirement."
                 },
                 {
                   "key": "FALSE",
                   "text": "False",
                   "correct": true,
-                  "explanation": "Responsible teams design privacy and security controls from the start and maintain them after release."
+                  "explanation": "Correct. Responsible AI work applies privacy and security controls throughout the lifecycle, not only after production deployment."
                 }
               ],
               "translations": {
@@ -226,11 +252,11 @@
                   "options": {
                     "TRUE": {
                       "text": "True",
-                      "explanation": "Üretime kadar beklemek hassas veri, erişim ve ağ risklerini çözümsüz bırakabilir."
+                      "explanation": "True seçeneği; privacy ve security risklerinin veri toplama, eğitim, dağıtım, izleme ve kullanımdan kaldırma aşamalarında ele alınması gerektiğini gözden kaçırır."
                     },
                     "FALSE": {
                       "text": "False",
-                      "explanation": "Sorumlu ekipler privacy ve security denetimlerini en baştan tasarlar ve yayın sonrasında sürdürür."
+                      "explanation": "Doğru. Sorumlu yapay zekâ çalışmaları privacy ve security denetimlerini yalnızca üretimden sonra değil, tüm yaşam döngüsü boyunca uygular."
                     }
                   },
                   "status": "DRAFT"
@@ -484,8 +510,9 @@
               "title": "Sorumlu yapay zekâ ilkeleri",
               "summary": "Sorumlu yapay zekânın altı temel ilkesini ve AI senaryolarında nasıl kullanıldığını öğrenin.",
               "learningObjectives": [
-                "Temel kavramları açıklamak",
-                "Senaryolarda doğru ilkeyi veya denetimi seçmek"
+                "AI için fairness, reliability, privacy, inclusiveness, transparency ve accountability ilkelerini açıkla",
+                "Doğruluğun tek başına çözmediği responsible AI risklerini belirle",
+                "Değerlendirme, dokümantasyon ve gözetimin güvenilir AI çözümlerini nasıl desteklediğini tanı"
               ],
               "explanation": "Bu ders, AI-901 kapsamındaki kavramları özgün örneklerle açıklar. Sorumlu yapay zekâ; fairness, reliability and safety, privacy and security, inclusiveness, transparency ve accountability ilkelerini birlikte uygular. Üretken AI senaryolarında system message, evaluation, grounding, human oversight ve monitoring gibi katmanlar tek bir ayardan daha güvenilir sonuç verir.",
               "terminology": [
@@ -501,56 +528,79 @@
               "businessScenario": "Contoso, AI destekli bir asistanı yayınlamadan önce sınırlarını, kaynaklarını ve insan gözetimini tanımlar.",
               "technicalExample": "Ekip system message yazar, test istemleri çalıştırır, kaynak belgelerle grounding kullanır ve olayları izlemek için sahipler atar.",
               "misconception": {
-                "myth": "Tek bir model ayarı tüm riskleri çözer.",
-                "reality": "Güvenilir çözümler yönergeler, test, izleme ve insan gözetimini birlikte kullanır."
+                "myth": "Sorumlu yapay zekâ, model doğru çalıştıktan sonra yapılan son kontroldür.",
+                "reality": "Sorumlu yapay zekâ; veri seçimi, değerlendirme, dokümantasyon, erişim, izleme, eskalasyon ve insan sahipliği dahil tüm yaşam döngüsüne tasarlanır."
               },
-              "examTakeaway": "Senaryodaki riski belirleyin ve en uygun ilke veya kontrolle eşleştirin.",
-              "recap": "Sorumlu AI, teknik doğruluğu insan etkisi ve yönetişimle birlikte ele alır.",
-              "simplerExplanation": "AI asistanını yeni bir çalışan gibi düşünün: görev tanımı, kaynaklar, deneme soruları ve gerektiğinde yönetici desteği gerekir.",
-              "anotherExample": "Bir destek botu ürün sorularını yanıtlayabilir; ancak kapsam dışı istekleri insana yönlendirmelidir.",
+              "examTakeaway": "Senaryoda eşit olmayan sonuçlar, güvenli olmayan davranış, hassas veri, erişilebilir olmayan tasarım, belirsiz açıklamalar veya sahiplik eksikliği geçiyorsa ipucunu bir model özelliğine değil ilgili responsible AI ilkesine eşleyin.",
+              "recap": "Responsible AI; fairness, reliability and safety, privacy and security, inclusiveness, transparency ve accountability ilkelerini kullanarak AI sistemlerini bağlam içinde güvenilir kılar.",
+              "simplerExplanation": "Responsible AI, halka açık bir oyun alanı açmaya benzer: ekipman çalışabilir; ama güvenli zemin, net tabelalar, farklı çocuklara erişim, gizlilik kuralları ve sorunlardan sorumlu bir yetişkin gerekir.",
+              "anotherExample": "Woodgrove Bank, müşteri taleplerini yönlendirmek için bir AI önerisi ekler. Farklı müşteri grupları için hata oranlarını kontrol eder, personelin öneriyi ne zaman geçersiz kılacağını açıklar ve yayını kimin onayladığını kaydeder.",
               "extraBlocks": [
                 {
-                  "title": "Kısa karşılaştırma",
+                  "title": "Altı ilkeyi tasarım sorusuna çevirme",
                   "columns": [
                     {
-                      "title": "İlke",
+                      "title": "Fairness / inclusiveness",
                       "points": [
-                        "Fairness",
-                        "Transparency"
+                        "Kimler daha kötü sonuç alabilir?",
+                        "Farklı yetenek, dil veya bağlamdaki kişiler çözümü kullanabilir mi?"
                       ]
                     },
                     {
-                      "title": "Kontrol",
+                      "title": "Reliability / privacy",
                       "points": [
-                        "Evaluation",
-                        "Human oversight"
+                        "Sistem güvenli biçimde nasıl hata verir?",
+                        "Hangi veri, kimlik ve erişim yolları korunmalı?"
+                      ]
+                    },
+                    {
+                      "title": "Transparency / accountability",
+                      "points": [
+                        "Kullanıcılar amacı ve sınırları anlayabilir mi?",
+                        "Kim gözden geçirir, onaylar, izler ve olaylara yanıt verir?"
                       ]
                     }
                   ]
                 },
                 {
-                  "title": "Mini etkinlik",
-                  "instructions": "Senaryodaki temel riski bulun.",
+                  "title": "İlke bulma",
+                  "instructions": "Her ipucunu okuyun ve en doğrudan ilgili responsible AI ilkesini adlandırın.",
                   "items": [
                     {
-                      "prompt": "Bir grup için hata oranı daha yüksek.",
-                      "answer": "Fairness değerlendirmesi gerekir."
+                      "prompt": "Bir işe alım modelinde bir aday grubu için yanlış negatif oranı daha yüksek.",
+                      "answer": "Fairness: gerekçesiz sonuç farklarını araştırın ve azaltın."
+                    },
+                    {
+                      "prompt": "Kullanıcılar bir destek yanıtının AI tarafından üretildiğini anlayamıyor.",
+                      "answer": "Transparency: AI kullanımını ve sınırları açıklayın."
+                    },
+                    {
+                      "prompt": "Model hataları için olay yanıtından hiçbir ekip sorumlu değil.",
+                      "answer": "Accountability: sahipleri, onayları, izlemeyi ve eskalasyonu belirleyin."
                     }
                   ]
                 }
               ],
               "flashcards": [
                 {
-                  "front": "Fairness",
-                  "back": "Benzer kişiler için tutarlı ve gerekçeli sonuçlar."
+                  "front": "Fairness ipucu",
+                  "back": "Benzer kişi veya gruplar için gerekçesiz sonuç farklarını arayın."
                 },
                 {
-                  "front": "Grounding",
-                  "back": "Yanıtları güvenilir kaynak içeriğe dayandırma."
+                  "front": "Reliability and safety ipucu",
+                  "back": "Beklenen koşullarda güvenilir davranış, test, güvenli hata ve izleme arayın."
                 },
                 {
-                  "front": "Accountability",
-                  "back": "Sahiplik ve olay yanıtı sorumluluğu."
+                  "front": "Privacy and security ipucu",
+                  "back": "Veri, kimlik, ağ yolları, anahtarlar ve erişim izinlerinin korunmasını arayın."
+                },
+                {
+                  "front": "Transparency ipucu",
+                  "back": "Amaç, sınırlar, veri kullanımı ve AI'ın ne zaman devrede olduğunu açıklamayı arayın."
+                },
+                {
+                  "front": "Accountability ipucu",
+                  "back": "İnsan sahibi, onay süreci, denetim izi ve olay yanıtı arayın."
                 }
               ],
               "status": "DRAFT"
@@ -564,9 +614,9 @@
           "estimatedMinutes": 11,
           "summary": "Turn responsible AI principles into practical controls such as system messages, evaluation, grounding, monitoring, and human oversight.",
           "learningObjectives": [
-            "Identify practical controls for responsible AI risks",
-            "Explain how system messages, evaluation, and grounding support safer behavior",
-            "Choose when human oversight and monitoring are needed"
+            "Identify controls that turn responsible AI principles into product practices",
+            "Explain how system messages, grounding, and evaluation reduce generative AI risk",
+            "Choose monitoring or human review for sensitive or uncertain AI outputs"
           ],
           "explanation": "Responsible AI becomes real when principles are built into the product lifecycle. A team starts by defining purpose, users, data, and possible harms. Then it chooses controls for data preparation, prompting, model selection, deployment, user experience, and monitoring.\n\nFor generative AI, a **system message** is an important control. It gives high-priority instructions about role, scope, tone, boundaries, refusal behavior, and tool use. But a system message is only one layer. Teams should create test sets with normal and adversarial prompts, evaluate whether the model follows boundaries, use grounding when answers must come from approved sources, and add content safety or human review where risk is higher.\n\nTransparency means users know what the feature is for, what it cannot do, and when to seek help. Oversight means a model is not treated as the final authority for impactful decisions. Accountability means owners are named, changes are logged, production behavior is monitored, and incidents have a response path.",
           "terminology": [
@@ -590,59 +640,100 @@
           "businessScenario": "Fabrikam is preparing an HR policy assistant that should answer from approved documents and route uncertain cases to HR staff.",
           "technicalExample": "Developers write a system message, connect approved documents through retrieval, run a prompt test set, and assign review owners.",
           "misconception": {
-            "myth": "A safety system message is enough to satisfy responsible AI requirements.",
-            "reality": "System messages help, but should be combined with evaluation, monitoring, grounding, content safety, and human oversight."
+            "myth": "A safety message alone makes a generative AI assistant safe enough for customers.",
+            "reality": "Safety instructions help, but teams also need grounded sources, content filters, evaluations, monitoring, escalation paths, and human review for sensitive outcomes."
           },
-          "examTakeaway": "For safety and transparency scenarios, look for layered controls rather than a single model setting.",
-          "recap": "Applying responsible AI means defining boundaries, testing behavior, grounding answers, involving humans, and monitoring after release.",
-          "simplerExplanation": "Treat an AI assistant like a new employee: give a job description, approved references, practice questions, and a manager for sensitive cases.",
-          "anotherExample": "A retail bot can answer return policy questions, but should hand off legal or account-specific issues to support staff.",
+          "examTakeaway": "For implementation scenarios, choose layered controls: define allowed behavior, ground answers in approved content, evaluate outputs, monitor use, and keep humans in the loop when impact or uncertainty is high.",
+          "recap": "Applying responsible AI turns principles into controls such as safety instructions, data protection, evaluation, grounded responses, monitoring, documentation, and human oversight.",
+          "simplerExplanation": "Think of a customer assistant like a new employee. A handbook helps, but you also give approved references, limit what they can do, review risky answers, and watch for patterns that need coaching.",
+          "anotherExample": "Proseware builds an HR benefits assistant. It answers from approved policy pages, refuses medical advice, logs low-confidence questions, and routes exceptions to an HR specialist.",
           "extraBlocks": [
             {
-              "type": "COMPARISON",
+              "type": "DIAGRAM",
               "data": {
-                "title": "Scenario clues",
-                "columns": [
+                "title": "Responsible AI control loop",
+                "kind": "flow",
+                "nodes": [
                   {
-                    "title": "Look for",
-                    "points": [
-                      "Input type",
-                      "Expected output",
-                      "Risk or control"
-                    ]
+                    "id": "scope",
+                    "label": "Define allowed use"
                   },
                   {
-                    "title": "Then choose",
-                    "points": [
-                      "Workload",
-                      "Model capability",
-                      "Responsible AI principle"
-                    ]
+                    "id": "ground",
+                    "label": "Ground in approved content"
+                  },
+                  {
+                    "id": "eval",
+                    "label": "Evaluate with test cases"
+                  },
+                  {
+                    "id": "monitor",
+                    "label": "Monitor and improve"
+                  },
+                  {
+                    "id": "review",
+                    "label": "Escalate sensitive cases"
                   }
-                ]
+                ],
+                "edges": [
+                  {
+                    "from": "scope",
+                    "to": "ground",
+                    "label": "instructions"
+                  },
+                  {
+                    "from": "ground",
+                    "to": "eval",
+                    "label": "sample answers"
+                  },
+                  {
+                    "from": "eval",
+                    "to": "monitor",
+                    "label": "release criteria"
+                  },
+                  {
+                    "from": "monitor",
+                    "to": "review",
+                    "label": "flags"
+                  },
+                  {
+                    "from": "review",
+                    "to": "scope",
+                    "label": "lessons learned"
+                  }
+                ],
+                "caption": "The loop starts with allowed use, grounds the assistant in approved content, evaluates outputs, monitors real use, escalates sensitive cases, and feeds improvements back into the instructions."
               }
             },
             {
               "type": "CALLOUT",
               "data": {
-                "variant": "tip",
-                "title": "Study tip",
-                "body": "Use the scenario verbs: extract, transcribe, generate, summarize, explain, monitor, or approve."
+                "variant": "warning",
+                "title": "Layer controls, not promises",
+                "body": "A safety system message is useful, but it is not a substitute for evaluation, grounding, access control, content safety, logging, and human review when answers affect people."
               }
             }
           ],
           "flashcards": [
             {
-              "front": "Training",
-              "back": "Learning or adapting patterns from data."
+              "front": "Safety system message",
+              "back": "Instructions that define the assistant's role, boundaries, refusal behavior, and tone."
             },
             {
-              "front": "Inference",
-              "back": "Using a deployed model for a new input."
+              "front": "Grounded answer",
+              "back": "A response based on approved source content rather than only the model's general knowledge."
             },
             {
-              "front": "Grounding",
-              "back": "Supplying retrieved source content to a model."
+              "front": "Evaluation set",
+              "back": "Representative prompts and expected behaviors used to test quality and safety before release."
+            },
+            {
+              "front": "Human oversight",
+              "back": "A person reviews or approves outputs when impact, uncertainty, or sensitivity is high."
+            },
+            {
+              "front": "Monitoring signal",
+              "back": "Logs, feedback, or metrics that reveal unsafe outputs, drift, or gaps after deployment."
             }
           ],
           "sources": [
@@ -674,7 +765,7 @@
               "domainKey": "ai-concepts",
               "objectiveCode": "1.1",
               "difficulty": "HARD",
-              "stem": "For each statement, choose Yes if it is an appropriate responsible AI action; otherwise choose No.",
+              "stem": "For each proposed control for Contoso's customer-support assistant, choose Yes if it is an appropriate responsible AI action; otherwise choose No.",
               "explanation": "Responsible AI actions combine fairness testing, human oversight, transparency, and secure handling of sensitive data.",
               "lessonSlug": "applying-responsible-ai",
               "sources": [
@@ -720,7 +811,7 @@
               },
               "translations": {
                 "tr": {
-                  "stem": "Her ifade için uygun bir sorumlu yapay zekâ eylemiyse Yes, değilse No seçin.",
+                  "stem": "Contoso'nun müşteri destek asistanı için önerilen her denetimde, uygun bir responsible AI eylemiyse Yes; değilse No seçin.",
                   "scenario": "Woodgrove Bank bir kredi yardım aracı planlıyor. Araç kredi uzmanları için öneri taslakları oluşturuyor, ancak son kararlar eğitimli personelde kalıyor. Ekip, sınırlı kredi geçmişi olan başvuru sahiplerinde daha yüksek hata oranları buldu.",
                   "explanation": "Sorumlu yapay zekâ eylemleri fairness testi, insan gözetimi, transparency ve hassas verinin güvenli işlenmesini birleştirir.",
                   "caseStudy": {
@@ -747,7 +838,7 @@
               "domainKey": "ai-concepts",
               "objectiveCode": "1.1",
               "difficulty": "MEDIUM",
-              "stem": "Categorize each mitigation by the responsible AI concern it primarily addresses.",
+              "stem": "Categorize each mitigation for Contoso's support assistant by the responsible AI concern it primarily addresses.",
               "explanation": "The mitigations map to the concern they most directly reduce, though mature solutions often combine several controls.",
               "lessonSlug": "applying-responsible-ai",
               "sources": [
@@ -807,7 +898,7 @@
               },
               "translations": {
                 "tr": {
-                  "stem": "Her azaltımı öncelikli olarak ele aldığı sorumlu yapay zekâ kaygısına göre sınıflandırın.",
+                  "stem": "Contoso'nun destek asistanı için her azaltma önlemini, öncelikle ele aldığı responsible AI konusuna göre sınıflandırın.",
                   "explanation": "Azaltımlar en doğrudan azalttıkları kaygıyla eşleşir; olgun çözümler çoğu zaman birkaç denetimi birleştirir.",
                   "categorization": {
                     "categories": {
@@ -860,13 +951,13 @@
                   "key": "TRUE",
                   "text": "True",
                   "correct": true,
-                  "explanation": "Safety instructions complement other mitigations."
+                  "explanation": "Correct. A safety system message can steer behavior, but evaluation, grounding, content safety, and monitoring provide needed additional controls."
                 },
                 {
                   "key": "FALSE",
                   "text": "False",
                   "correct": false,
-                  "explanation": "Relying on a system message alone leaves gaps in testing, monitoring, and enforcement."
+                  "explanation": "Choosing False misses that system messages are useful guardrails when they are combined with other responsible deployment controls."
                 }
               ],
               "translations": {
@@ -876,11 +967,11 @@
                   "options": {
                     "TRUE": {
                       "text": "True",
-                      "explanation": "Güvenlik yönergeleri diğer azaltımları tamamlar."
+                      "explanation": "Doğru. Safety system message davranışı yönlendirebilir; ancak evaluation, grounding, content safety ve izleme gibi ek denetimler de gerekir."
                     },
                     "FALSE": {
                       "text": "False",
-                      "explanation": "Yalnızca system message kullanmak test, izleme ve yaptırımda boşluk bırakır."
+                      "explanation": "False seçeneği, system message yönergelerinin diğer sorumlu dağıtım denetimleriyle birlikte kullanıldığında yararlı olduğunu gözden kaçırır."
                     }
                   },
                   "status": "DRAFT"
@@ -1041,8 +1132,9 @@
               "title": "Sorumlu yapay zekâyı uygulama: güvenlik, transparency ve gözetim",
               "summary": "Sorumlu yapay zekâ ilkelerini güvenlik yönergeleri, test, insan gözetimi ve dokümantasyonla uygulamaya dönüştürün.",
               "learningObjectives": [
-                "Temel kavramları açıklamak",
-                "Senaryolarda doğru ilkeyi veya denetimi seçmek"
+                "Responsible AI ilkelerini ürün uygulamalarına dönüştüren kontrolleri belirle",
+                "System messages, grounding ve evaluation kullanımının generative AI riskini nasıl azalttığını açıkla",
+                "Hassas veya belirsiz AI çıktıları için monitoring ya da human review seç"
               ],
               "explanation": "Bu ders, AI-901 kapsamındaki kavramları özgün örneklerle açıklar. Sorumlu yapay zekâ; fairness, reliability and safety, privacy and security, inclusiveness, transparency ve accountability ilkelerini birlikte uygular. Üretken AI senaryolarında system message, evaluation, grounding, human oversight ve monitoring gibi katmanlar tek bir ayardan daha güvenilir sonuç verir.",
               "terminology": [
@@ -1058,56 +1150,94 @@
               "businessScenario": "Contoso, AI destekli bir asistanı yayınlamadan önce sınırlarını, kaynaklarını ve insan gözetimini tanımlar.",
               "technicalExample": "Ekip system message yazar, test istemleri çalıştırır, kaynak belgelerle grounding kullanır ve olayları izlemek için sahipler atar.",
               "misconception": {
-                "myth": "Tek bir model ayarı tüm riskleri çözer.",
-                "reality": "Güvenilir çözümler yönergeler, test, izleme ve insan gözetimini birlikte kullanır."
+                "myth": "Tek başına güvenlik mesajı, üretken AI asistanını müşteriler için yeterince güvenli yapar.",
+                "reality": "Güvenlik yönergeleri yardımcı olur; ancak ekiplerin grounded kaynaklar, content filters, değerlendirmeler, izleme, eskalasyon yolları ve hassas sonuçlar için insan incelemesi de gerekir."
               },
-              "examTakeaway": "Senaryodaki riski belirleyin ve en uygun ilke veya kontrolle eşleştirin.",
-              "recap": "Sorumlu AI, teknik doğruluğu insan etkisi ve yönetişimle birlikte ele alır.",
-              "simplerExplanation": "AI asistanını yeni bir çalışan gibi düşünün: görev tanımı, kaynaklar, deneme soruları ve gerektiğinde yönetici desteği gerekir.",
-              "anotherExample": "Bir destek botu ürün sorularını yanıtlayabilir; ancak kapsam dışı istekleri insana yönlendirmelidir.",
+              "examTakeaway": "Uygulama senaryolarında katmanlı denetimleri seçin: izin verilen davranışı tanımlayın, yanıtları onaylı içerikle grounded yapın, çıktıları değerlendirin, kullanımı izleyin ve etki veya belirsizlik yüksekse insanı süreçte tutun.",
+              "recap": "Responsible AI uygulamak; ilkeleri güvenlik yönergeleri, veri koruması, değerlendirme, grounded yanıtlar, izleme, dokümantasyon ve insan gözetimi gibi denetimlere dönüştürür.",
+              "simplerExplanation": "Müşteri asistanını yeni bir çalışan gibi düşünün. El kitabı yardımcı olur; ama onaylı kaynaklar verirsiniz, yapabileceklerini sınırlandırırsınız, riskli yanıtları incelersiniz ve koçluk gerektiren örüntüleri izlersiniz.",
+              "anotherExample": "Proseware bir İK yan haklar asistanı oluşturur. Onaylı politika sayfalarından yanıt verir, tıbbi tavsiye vermeyi reddeder, düşük güvenli soruları kaydeder ve istisnaları bir İK uzmanına yönlendirir.",
               "extraBlocks": [
                 {
-                  "title": "Kısa karşılaştırma",
-                  "columns": [
+                  "title": "Responsible AI denetim döngüsü",
+                  "kind": "flow",
+                  "nodes": [
                     {
-                      "title": "İlke",
-                      "points": [
-                        "Fairness",
-                        "Transparency"
-                      ]
+                      "id": "scope",
+                      "label": "İzin verilen kullanımı tanımla"
                     },
                     {
-                      "title": "Kontrol",
-                      "points": [
-                        "Evaluation",
-                        "Human oversight"
-                      ]
+                      "id": "ground",
+                      "label": "Onaylı içerikle ground et"
+                    },
+                    {
+                      "id": "eval",
+                      "label": "Test senaryolarıyla değerlendir"
+                    },
+                    {
+                      "id": "monitor",
+                      "label": "İzle ve geliştir"
+                    },
+                    {
+                      "id": "review",
+                      "label": "Hassas durumları eskale et"
                     }
-                  ]
+                  ],
+                  "edges": [
+                    {
+                      "from": "scope",
+                      "to": "ground",
+                      "label": "yönergeler"
+                    },
+                    {
+                      "from": "ground",
+                      "to": "eval",
+                      "label": "örnek yanıtlar"
+                    },
+                    {
+                      "from": "eval",
+                      "to": "monitor",
+                      "label": "yayın ölçütleri"
+                    },
+                    {
+                      "from": "monitor",
+                      "to": "review",
+                      "label": "bayraklar"
+                    },
+                    {
+                      "from": "review",
+                      "to": "scope",
+                      "label": "öğrenilenler"
+                    }
+                  ],
+                  "caption": "Döngü izin verilen kullanımla başlar, asistanı onaylı içerikle ground eder, çıktıları değerlendirir, gerçek kullanımı izler, hassas durumları eskale eder ve iyileştirmeleri yönergelere geri besler."
                 },
                 {
-                  "title": "Mini etkinlik",
-                  "instructions": "Senaryodaki temel riski bulun.",
-                  "items": [
-                    {
-                      "prompt": "Bir grup için hata oranı daha yüksek.",
-                      "answer": "Fairness değerlendirmesi gerekir."
-                    }
-                  ]
+                  "variant": "warning",
+                  "title": "Vaat değil, katmanlı denetim",
+                  "body": "Güvenlik sistem mesajı yararlıdır; ancak değerlendirme, grounding, erişim denetimi, content safety, günlükleme ve insan incelemesinin yerine geçmez."
                 }
               ],
               "flashcards": [
                 {
-                  "front": "Fairness",
-                  "back": "Benzer kişiler için tutarlı ve gerekçeli sonuçlar."
+                  "front": "Güvenlik sistem mesajı",
+                  "back": "Asistanın rolünü, sınırlarını, reddetme davranışını ve tonunu tanımlayan yönergeler."
                 },
                 {
-                  "front": "Grounding",
-                  "back": "Yanıtları güvenilir kaynak içeriğe dayandırma."
+                  "front": "Grounded yanıt",
+                  "back": "Yalnızca modelin genel bilgisine değil, onaylı kaynak içeriğe dayanan yanıt."
                 },
                 {
-                  "front": "Accountability",
-                  "back": "Sahiplik ve olay yanıtı sorumluluğu."
+                  "front": "Değerlendirme seti",
+                  "back": "Yayın öncesinde kalite ve güvenliği test etmek için kullanılan temsilî istemler ve beklenen davranışlar."
+                },
+                {
+                  "front": "İnsan gözetimi",
+                  "back": "Etki, belirsizlik veya hassasiyet yüksek olduğunda çıktıları bir kişinin incelemesi ya da onaylaması."
+                },
+                {
+                  "front": "İzleme sinyali",
+                  "back": "Yayın sonrası güvenli olmayan çıktıları, sapmayı veya boşlukları gösteren günlükler, geri bildirimler ya da metrikler."
                 }
               ],
               "status": "DRAFT"
@@ -1135,9 +1265,9 @@
           "estimatedMinutes": 10,
           "summary": "Identify common AI workloads such as generative and agentic AI, text analysis, speech, computer vision, and information extraction.",
           "learningObjectives": [
-            "Match business scenarios to common AI workloads",
-            "Recognize text, speech, vision, generative, agentic, and extraction capabilities",
-            "Distinguish analysis workloads from generation workloads"
+            "Identify generative, agentic, text, speech, vision, and extraction workloads",
+            "Match input types and business goals to the right AI workload",
+            "Distinguish analysis workloads from content generation and tool-using agents"
           ],
           "explanation": "AI workloads are categories of tasks that AI systems perform. For AI-901, recognize the scenario from the input, output, and goal.\n\n**Generative AI** creates new content such as text, code, images, or summaries from prompts. **Agentic AI** uses a model with instructions and tools so it can plan steps or take actions within boundaries. **Text analysis** finds meaning in text: key phrases, named entities, sentiment, language, or summaries. **Speech** workloads convert speech to text, text to speech, translate spoken language, or support voice interactions. **Computer vision** analyzes images or video, such as detecting objects or extracting visible text. **Information extraction** turns unstructured content such as documents, images, audio, or video into structured fields that business processes can use.\n\nChoose the workload by asking: What is the source content? What output is needed? Audio to captions is speech recognition. Scanned form to fields is information extraction. Comments to sentiment and entities is text analysis.",
           "terminology": [
@@ -1172,48 +1302,81 @@
             {
               "type": "COMPARISON",
               "data": {
-                "title": "Scenario clues",
+                "title": "Choose the workload from the input and output",
                 "columns": [
                   {
-                    "title": "Look for",
+                    "title": "Language",
                     "points": [
-                      "Input type",
-                      "Expected output",
-                      "Risk or control"
+                      "Input: written text",
+                      "Output: entities, sentiment, key phrases, summaries, classifications"
                     ]
                   },
                   {
-                    "title": "Then choose",
+                    "title": "Speech",
                     "points": [
-                      "Workload",
-                      "Model capability",
-                      "Responsible AI principle"
+                      "Input or output: audio",
+                      "Output: transcription, synthesized voice, or speech translation"
+                    ]
+                  },
+                  {
+                    "title": "Vision and extraction",
+                    "points": [
+                      "Input: images, video frames, documents",
+                      "Output: labels, captions, OCR text, fields, or structured data"
+                    ]
+                  },
+                  {
+                    "title": "Generative AI",
+                    "points": [
+                      "Input: prompt plus context",
+                      "Output: new text, code, images, or conversational responses"
                     ]
                   }
                 ]
               }
             },
             {
-              "type": "CALLOUT",
+              "type": "ACTIVITY",
               "data": {
-                "variant": "tip",
-                "title": "Study tip",
-                "body": "Use the scenario verbs: extract, transcribe, generate, summarize, explain, monitor, or approve."
+                "title": "Workload warm-up",
+                "instructions": "Pick the first workload you would investigate for each request.",
+                "items": [
+                  {
+                    "prompt": "Detect names and places in customer comments.",
+                    "answer": "Language: named entity recognition."
+                  },
+                  {
+                    "prompt": "Read kiosk instructions aloud in a natural voice.",
+                    "answer": "Speech: text to speech."
+                  },
+                  {
+                    "prompt": "Extract invoice number and total from uploaded PDFs.",
+                    "answer": "Document intelligence or Content Understanding for information extraction."
+                  }
+                ]
               }
             }
           ],
           "flashcards": [
             {
-              "front": "Training",
-              "back": "Learning or adapting patterns from data."
+              "front": "Language workload",
+              "back": "Understands or transforms written text, such as entities, sentiment, key phrases, summaries, or translation."
             },
             {
-              "front": "Inference",
-              "back": "Using a deployed model for a new input."
+              "front": "Speech workload",
+              "back": "Works with audio, such as speech to text, text to speech, speaker scenarios, or speech translation."
             },
             {
-              "front": "Grounding",
-              "back": "Supplying retrieved source content to a model."
+              "front": "Vision workload",
+              "back": "Interprets images or video frames, such as labels, captions, object detection, or image-aware chat."
+            },
+            {
+              "front": "Information extraction workload",
+              "back": "Turns documents, forms, images, or mixed content into structured fields and values."
+            },
+            {
+              "front": "Generative AI workload",
+              "back": "Creates new content or conversational responses from prompts, context, and model configuration."
             }
           ],
           "sources": [
@@ -1345,7 +1508,7 @@
               "objectiveCode": "1.3",
               "difficulty": "MEDIUM",
               "stem": "Match each business requirement to the best-fitting AI workload.",
-              "explanation": "The best workload follows the input modality and desired output.",
+              "explanation": "Speech, text analysis, image generation, and extraction each fit a different input and result: live audio, text entities, prompted visuals, and structured fields from documents.",
               "lessonSlug": "ai-workloads-overview",
               "sources": [
                 {
@@ -1579,9 +1742,9 @@
           "estimatedMinutes": 10,
           "summary": "Understand model components, training, evaluation, deployment, and inference at a beginner-friendly level.",
           "learningObjectives": [
-            "Describe the difference between training and inference",
-            "Identify how model capabilities influence model choice",
-            "Explain why evaluation and deployment configuration matter"
+            "Distinguish training, evaluation, deployment, and inference in an AI lifecycle",
+            "Identify how model capabilities and configuration affect solution fit",
+            "Explain why deployed model endpoints are tested before business use"
           ],
           "explanation": "An AI model maps inputs to outputs. In traditional machine learning, training uses data and an algorithm to adjust model parameters. In generative AI, large pretrained models have already learned broad patterns, and you often select, configure, ground, or fine-tune a model rather than train one from the beginning.\n\n**Training** is the learning phase. **Evaluation** checks whether the model is good enough for the intended task and whether risks are acceptable. **Deployment** makes a chosen model available for applications to call. **Inference** happens when new input is sent to the deployed model and the model returns a prediction, classification, generated response, or other output.\n\nModel choice depends on capability. A text-only model is not suitable if the application must reason over photos. A multimodal model may be needed for image plus text prompts. A speech model is appropriate for transcription or synthesis. Deployment choices and parameters also matter, and supported settings can differ by model and API.",
           "terminology": [
@@ -1614,50 +1777,91 @@
           "anotherExample": "A sentiment classifier trained on product reviews may not work well on medical notes unless evaluated for that context.",
           "extraBlocks": [
             {
-              "type": "COMPARISON",
+              "type": "DIAGRAM",
               "data": {
-                "title": "Scenario clues",
-                "columns": [
+                "title": "From data to prediction",
+                "kind": "flow",
+                "nodes": [
                   {
-                    "title": "Look for",
-                    "points": [
-                      "Input type",
-                      "Expected output",
-                      "Risk or control"
-                    ]
+                    "id": "data",
+                    "label": "Training data"
                   },
                   {
-                    "title": "Then choose",
-                    "points": [
-                      "Workload",
-                      "Model capability",
-                      "Responsible AI principle"
-                    ]
+                    "id": "train",
+                    "label": "Training"
+                  },
+                  {
+                    "id": "model",
+                    "label": "Model"
+                  },
+                  {
+                    "id": "deploy",
+                    "label": "Deployment"
+                  },
+                  {
+                    "id": "infer",
+                    "label": "Inference"
+                  },
+                  {
+                    "id": "eval",
+                    "label": "Evaluation"
                   }
-                ]
+                ],
+                "edges": [
+                  {
+                    "from": "data",
+                    "to": "train"
+                  },
+                  {
+                    "from": "train",
+                    "to": "model"
+                  },
+                  {
+                    "from": "model",
+                    "to": "deploy"
+                  },
+                  {
+                    "from": "deploy",
+                    "to": "infer"
+                  },
+                  {
+                    "from": "infer",
+                    "to": "eval",
+                    "label": "measure"
+                  }
+                ],
+                "caption": "Training data is used during training to produce a model. A deployment makes the model callable for inference, and evaluation measures whether outputs meet quality and safety expectations."
               }
             },
             {
               "type": "CALLOUT",
               "data": {
                 "variant": "tip",
-                "title": "Study tip",
-                "body": "Use the scenario verbs: extract, transcribe, generate, summarize, explain, monitor, or approve."
+                "title": "Do not mix up training and inference",
+                "body": "Training changes or creates a model from data. Inference uses an already available model to process a new input. Evaluation can happen before and after deployment."
               }
             }
           ],
           "flashcards": [
             {
+              "front": "Model",
+              "back": "A learned function or foundation model that maps inputs to outputs such as predictions, labels, or generated text."
+            },
+            {
               "front": "Training",
-              "back": "Learning or adapting patterns from data."
+              "back": "The process that learns patterns from data or adapts a model for a task."
             },
             {
               "front": "Inference",
-              "back": "Using a deployed model for a new input."
+              "back": "Using a model with a new input to produce an output."
             },
             {
-              "front": "Grounding",
-              "back": "Supplying retrieved source content to a model."
+              "front": "Model deployment",
+              "back": "A configured endpoint or target that lets applications call a selected model for inference."
+            },
+            {
+              "front": "Evaluation",
+              "back": "Testing outputs against quality, safety, and task requirements before trusting the model broadly."
             }
           ],
           "sources": [
@@ -1749,7 +1953,7 @@
               "domainKey": "ai-concepts",
               "objectiveCode": "1.2",
               "difficulty": "EASY",
-              "stem": "Complete the sentence using the word bank.",
+              "stem": "Complete the sentence about model use by choosing the correct lifecycle term from the word bank.",
               "explanation": "Inference is the use of a trained or deployed model to produce output for new input.",
               "lessonSlug": "how-ai-models-work",
               "sources": [
@@ -1942,9 +2146,9 @@
           "estimatedMinutes": 12,
           "summary": "Learn how prompts, messages, tokens, temperature, grounding, and deployment settings influence generative AI behavior.",
           "learningObjectives": [
-            "Identify common generative AI configuration concepts",
-            "Explain how prompts, system messages, tokens, and grounding affect responses",
-            "Choose settings for consistency, creativity, and grounded answers"
+            "Identify prompts, system messages, tokens, temperature, grounding, and deployments",
+            "Explain how configuration choices influence consistency, creativity, and safety",
+            "Choose grounding and low temperature when answers must follow approved sources"
           ],
           "explanation": "Generative AI models produce new content from input. In chat-style applications, the input is usually a sequence of messages. A **system message** gives high-priority instructions such as role, scope, tone, and boundaries. A **user message** contains the user's request. Previous assistant messages can provide context or examples.\n\nModels process text as **tokens**, which are chunks of text rather than always whole words. Token usage affects how much context fits in a request. Many chat APIs also let you set a maximum output token value so responses do not run longer than intended.\n\nSome model/API combinations support parameters such as **temperature**. Lower temperature generally makes output more focused and repeatable; higher temperature can make output more varied. Newer reasoning models can support different parameter sets, so verify what the chosen model accepts.\n\n**Grounding** provides retrieved or trusted content to the model. RAG retrieves relevant passages from an index, adds them to the prompt, and asks the model to answer from that content. Grounding can improve usefulness and citations, but does not guarantee correctness.",
           "terminology": [
@@ -1983,48 +2187,74 @@
             {
               "type": "COMPARISON",
               "data": {
-                "title": "Scenario clues",
+                "title": "Configuration knobs and what they change",
                 "columns": [
                   {
-                    "title": "Look for",
+                    "title": "System message",
                     "points": [
-                      "Input type",
-                      "Expected output",
-                      "Risk or control"
+                      "Sets role, boundaries, style, and safety instructions",
+                      "Useful for consistent behavior across conversations"
                     ]
                   },
                   {
-                    "title": "Then choose",
+                    "title": "Temperature",
                     "points": [
-                      "Workload",
-                      "Model capability",
-                      "Responsible AI principle"
+                      "Lower values usually make answers more focused and repeatable",
+                      "Higher values can increase variety but may reduce predictability"
+                    ]
+                  },
+                  {
+                    "title": "Grounding / RAG",
+                    "points": [
+                      "Adds retrieved source content to the prompt",
+                      "Helps answers cite or follow approved knowledge"
                     ]
                   }
                 ]
               }
             },
             {
-              "type": "CALLOUT",
+              "type": "ACTIVITY",
               "data": {
-                "variant": "tip",
-                "title": "Study tip",
-                "body": "Use the scenario verbs: extract, transcribe, generate, summarize, explain, monitor, or approve."
+                "title": "Tune the FAQ assistant",
+                "instructions": "Choose the best first adjustment for each symptom.",
+                "items": [
+                  {
+                    "prompt": "The assistant invents policy details not found in the handbook.",
+                    "answer": "Add grounding with approved policy content and require answers to use it."
+                  },
+                  {
+                    "prompt": "The assistant gives a different format each time.",
+                    "answer": "Strengthen the system message and lower temperature for more repeatability."
+                  },
+                  {
+                    "prompt": "The assistant answers outside the support team's scope.",
+                    "answer": "Add clearer boundaries and refusal instructions in the system message."
+                  }
+                ]
               }
             }
           ],
           "flashcards": [
             {
-              "front": "Training",
-              "back": "Learning or adapting patterns from data."
+              "front": "System message",
+              "back": "High-priority instructions that define role, scope, tone, safety boundaries, and response format."
             },
             {
-              "front": "Inference",
-              "back": "Using a deployed model for a new input."
+              "front": "Temperature",
+              "back": "A generation setting that influences randomness; lower values generally make output more repeatable."
             },
             {
               "front": "Grounding",
-              "back": "Supplying retrieved source content to a model."
+              "back": "Supplying source content so the model can answer from approved information."
+            },
+            {
+              "front": "Retrieval augmented generation (RAG)",
+              "back": "Retrieving relevant content and adding it to the prompt before generation."
+            },
+            {
+              "front": "Token",
+              "back": "A chunk of text processed by the model; prompts and responses consume tokens."
             }
           ],
           "sources": [
@@ -2110,7 +2340,7 @@
               "domainKey": "ai-concepts",
               "objectiveCode": "1.2",
               "difficulty": "MEDIUM",
-              "stem": "Select the settings that best match the requirement.",
+              "stem": "Select the simulated chat settings that make a policy FAQ assistant more repeatable and grounded in approved content.",
               "explanation": "A low temperature and enabled grounding are appropriate when the assistant should be consistent and use retrieved company content.",
               "lessonSlug": "generative-ai-model-configuration",
               "sources": [

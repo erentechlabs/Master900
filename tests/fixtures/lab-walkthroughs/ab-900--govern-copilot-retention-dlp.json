@@ -1,0 +1,78 @@
+{
+  "certification": "AB-900",
+  "lab": "govern-copilot-retention-dlp",
+  "note": "Create Copilot retention and DLP policies with current Purview location names, review simulation, then enforce.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "retention"
+    },
+    {
+      "type": "click",
+      "componentId": "create-retention"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "retention-wizard",
+      "values": {
+        "name": "Copilot interactions retention",
+        "description": "Retain Copilot and AI app prompts and responses according to Contoso policy.",
+        "locations": [
+          "Microsoft Copilot experiences"
+        ],
+        "retentionAction": "Retain then delete",
+        "status": "On"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "dlp"
+    },
+    {
+      "type": "click",
+      "componentId": "create-dlp"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "dlp-wizard",
+      "values": {
+        "template": "Custom policy",
+        "name": "Block Highly Confidential content in Copilot",
+        "description": "Prevent Microsoft 365 Copilot and Copilot Chat from processing items labeled Highly Confidential.",
+        "locations": [
+          "Microsoft 365 Copilot and Copilot Chat"
+        ],
+        "condition": "Content contains sensitivity labels",
+        "labels": [
+          "Highly Confidential"
+        ],
+        "action": "Prevent Copilot from processing content",
+        "state": "Run the policy in simulation mode"
+      }
+    },
+    {
+      "type": "rowClick",
+      "componentId": "dlp-table",
+      "rowKey": "Block Highly Confidential content in Copilot"
+    },
+    {
+      "type": "click",
+      "componentId": "review-simulation"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "dlp-state-form",
+      "values": {
+        "state": "Turn it on"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "retention"
+    },
+    {
+      "type": "navigate",
+      "page": "dlp"
+    }
+  ]
+}

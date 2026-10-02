@@ -1,0 +1,493 @@
+{
+  "terms": [
+    {
+      "slug": "microsoft-365-group",
+      "term": "Microsoft 365 group",
+      "kind": "CONCEPT",
+      "definition": "A collaboration membership object that can connect people to shared Microsoft 365 resources such as mailbox, calendar, SharePoint files, and Teams experiences.",
+      "attributes": {
+        "category": "Microsoft 365 objects",
+        "useCases": [
+          "Create team workspaces",
+          "Manage shared membership"
+        ],
+        "keyFeatures": [
+          "Shared membership",
+          "Connects to multiple services"
+        ],
+        "comparesWith": [
+          "security-group"
+        ]
+      },
+      "source": {
+        "title": "Compare types of groups in Microsoft 365",
+        "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/create-groups/compare-groups?view=o365-worldwide",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir collaboration membership object that can connect people to shared Microsoft 365 resources such as mailbox, calendar, SharePoint files, and Teams experiences.",
+          "useCases": [
+            "Create team workspaces",
+            "Manage shared membership"
+          ],
+          "keyFeatures": [
+            "Shared membership",
+            "Connects to multiple services"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "security-group",
+      "term": "Security group",
+      "kind": "CONCEPT",
+      "definition": "A group commonly used to grant permissions, target policies, assign access, or manage security boundaries.",
+      "attributes": {
+        "category": "Identity and access",
+        "useCases": [
+          "Assign app access",
+          "Target policies"
+        ],
+        "keyFeatures": [
+          "Access-focused",
+          "Supports least privilege"
+        ],
+        "comparesWith": [
+          "microsoft-365-group"
+        ]
+      },
+      "source": {
+        "title": "Compare types of groups in Microsoft 365",
+        "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/create-groups/compare-groups?view=o365-worldwide",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir group commonly used to grant permissions, target policies, assign access, or manage security boundaries.",
+          "useCases": [
+            "Assign app access",
+            "Target policies"
+          ],
+          "keyFeatures": [
+            "Access-focused",
+            "Supports least privilege"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "shared-mailbox",
+      "term": "Shared mailbox",
+      "kind": "CONCEPT",
+      "definition": "An Exchange mailbox that multiple authorized users can use to read and send mail from a shared address.",
+      "attributes": {
+        "category": "Exchange Online",
+        "useCases": [
+          "Team inboxes",
+          "Service addresses"
+        ],
+        "keyFeatures": [
+          "Shared address",
+          "Delegated access"
+        ]
+      },
+      "source": {
+        "title": "Microsoft 365 admin center overview",
+        "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/admin-overview/admin-center-overview?view=o365-worldwide",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir Exchange mailbox that multiple authorized users can use to read and send mail from a shared address.",
+          "useCases": [
+            "Team inboxes",
+            "Service addresses"
+          ],
+          "keyFeatures": [
+            "Shared address",
+            "Delegated access"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "microsoft-365-admin-center",
+      "term": "Microsoft 365 admin center",
+      "kind": "SERVICE",
+      "definition": "The central web administration experience for common Microsoft 365 tasks such as users, groups, licenses, settings, reports, Copilot, and agents.",
+      "attributes": {
+        "category": "Administration",
+        "useCases": [
+          "Manage users and groups",
+          "Assign licenses",
+          "Review reports"
+        ],
+        "keyFeatures": [
+          "Role-based access",
+          "Links to specialized admin centers"
+        ],
+        "serviceModel": "SaaS"
+      },
+      "source": {
+        "title": "Microsoft 365 admin center overview",
+        "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/admin-overview/admin-center-overview?view=o365-worldwide",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "The central web administration experience for common Microsoft 365 tasks such as users, groups, licenses, settings, reports, Copilot, and agents.",
+          "useCases": [
+            "Manage users and groups",
+            "Assign licenses",
+            "Review reports"
+          ],
+          "keyFeatures": [
+            "Role-based access",
+            "Links to specialized admin centers"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "identity-secure-score",
+      "term": "Secure Score",
+      "kind": "CONCEPT",
+      "definition": "A security posture measurement and recommendation experience that helps administrators prioritize improvements.",
+      "attributes": {
+        "category": "Security posture",
+        "useCases": [
+          "Prioritize security work",
+          "Track posture"
+        ],
+        "keyFeatures": [
+          "Recommendation-based",
+          "Risk-informed"
+        ]
+      },
+      "source": {
+        "title": "What is the Identity Secure Score?",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/monitoring-health/concept-identity-secure-score",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir security posture measurement and recommendation experience that helps administrators prioritize improvements.",
+          "useCases": [
+            "Prioritize security work",
+            "Track posture"
+          ],
+          "keyFeatures": [
+            "Recommendation-based",
+            "Risk-informed"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "defender-for-office-365",
+      "term": "Microsoft Defender for Office 365",
+      "kind": "SERVICE",
+      "definition": "A Microsoft security service that helps protect email and collaboration workloads from phishing, malware, and business email compromise.",
+      "attributes": {
+        "category": "Threat protection",
+        "useCases": [
+          "Protect email",
+          "Investigate phishing"
+        ],
+        "keyFeatures": [
+          "Email and collaboration protection",
+          "Defender integration"
+        ],
+        "serviceModel": "SaaS"
+      },
+      "source": {
+        "title": "Why do I need Microsoft Defender for Office 365?",
+        "url": "https://learn.microsoft.com/en-us/defender-office-365/mdo-about",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir Microsoft security service that helps protect email and collaboration workloads from phishing, malware, and business email compromise.",
+          "useCases": [
+            "Protect email",
+            "Investigate phishing"
+          ],
+          "keyFeatures": [
+            "Email and collaboration protection",
+            "Defender integration"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "microsoft-365-copilot",
+      "term": "Microsoft 365 Copilot",
+      "kind": "SERVICE",
+      "definition": "Licensed Copilot capabilities for work that integrate with Microsoft 365 apps and organizational context according to permissions and policies.",
+      "attributes": {
+        "category": "AI productivity",
+        "useCases": [
+          "Draft and summarize work content",
+          "Use work context"
+        ],
+        "keyFeatures": [
+          "Licensed experience",
+          "Respects permissions"
+        ],
+        "serviceModel": "SaaS"
+      },
+      "source": {
+        "title": "What is Microsoft Copilot?",
+        "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Licensed Copilot capabilities for work that integrate with Microsoft 365 apps and organizational context according to permissions and policies.",
+          "useCases": [
+            "Draft and summarize work content",
+            "Use work context"
+          ],
+          "keyFeatures": [
+            "Licensed experience",
+            "Respects permissions"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "copilot-chat",
+      "term": "Microsoft Copilot Chat",
+      "kind": "SERVICE",
+      "definition": "A managed Copilot chat experience organizations can administer for users, distinct from licensed Microsoft 365 Copilot app experiences.",
+      "attributes": {
+        "category": "AI productivity",
+        "useCases": [
+          "General prompts",
+          "Managed chat access"
+        ],
+        "keyFeatures": [
+          "Chat interface",
+          "Admin controls"
+        ],
+        "serviceModel": "SaaS"
+      },
+      "source": {
+        "title": "Manage Microsoft Copilot Chat",
+        "url": "https://learn.microsoft.com/en-us/copilot/manage",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir managed Copilot chat experience organizations can administer for users, distinct from licensed Microsoft 365 Copilot app experiences.",
+          "useCases": [
+            "General prompts",
+            "Managed chat access"
+          ],
+          "keyFeatures": [
+            "Chat interface",
+            "Admin controls"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "copilot-license",
+      "term": "Copilot license",
+      "kind": "TERM",
+      "definition": "A user or group assignment that grants entitlement to licensed Copilot capabilities when prerequisites and settings are satisfied.",
+      "attributes": {
+        "category": "Licensing",
+        "useCases": [
+          "Enable pilot users",
+          "Control rollout"
+        ],
+        "keyFeatures": [
+          "Assigned to eligible users",
+          "Supports group rollout"
+        ]
+      },
+      "source": {
+        "title": "Set Up Microsoft Copilot and Assign Licenses",
+        "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-setup",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir user or group assignment that grants entitlement to licensed Copilot capabilities when prerequisites and settings are satisfied.",
+          "useCases": [
+            "Enable pilot users",
+            "Control rollout"
+          ],
+          "keyFeatures": [
+            "Assigned to eligible users",
+            "Supports group rollout"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "agent-inventory",
+      "term": "Agent inventory",
+      "kind": "CONCEPT",
+      "definition": "An administrative view or registry that helps organizations discover, review, govern, and audit agents across their tenant.",
+      "attributes": {
+        "category": "Agent governance",
+        "useCases": [
+          "Find agents",
+          "Review owners",
+          "Monitor lifecycle"
+        ],
+        "keyFeatures": [
+          "Agent visibility",
+          "Ownership details"
+        ]
+      },
+      "source": {
+        "title": "Agent Registry in Microsoft 365 admin center",
+        "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-registry?view=o365-worldwide",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir administrative view or registry that helps organizations discover, review, govern, and audit agents across their tenant.",
+          "useCases": [
+            "Find agents",
+            "Review owners",
+            "Monitor lifecycle"
+          ],
+          "keyFeatures": [
+            "Agent visibility",
+            "Ownership details"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "admin-role",
+      "term": "Admin role",
+      "kind": "CONCEPT",
+      "definition": "A set of administrative permissions assigned to an identity so it can perform specific management tasks without unnecessary broader access.",
+      "attributes": {
+        "category": "Administration and access",
+        "useCases": [
+          "Delegate tasks",
+          "Apply least privilege"
+        ],
+        "keyFeatures": [
+          "Task-focused permissions",
+          "Role-based access"
+        ],
+        "comparesWith": [
+          "least-privilege"
+        ]
+      },
+      "source": {
+        "title": "About administrator roles in the Microsoft 365 admin center",
+        "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/add-users/about-admin-roles?view=o365-worldwide",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir set of administrative permissions assigned to an identity so it can perform specific management tasks without unnecessary broader access.",
+          "useCases": [
+            "Delegate tasks",
+            "Apply least privilege"
+          ],
+          "keyFeatures": [
+            "Task-focused permissions",
+            "Role-based access"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "least-privilege",
+      "term": "Least privilege",
+      "kind": "CONCEPT",
+      "definition": "A security principle that grants only the access required for a task, for only the users or workloads that need it.",
+      "attributes": {
+        "category": "Security principle",
+        "useCases": [
+          "Limit admin access",
+          "Reduce compromise impact"
+        ],
+        "keyFeatures": [
+          "Narrow access",
+          "Core Zero Trust principle"
+        ],
+        "comparesWith": [
+          "admin-role"
+        ]
+      },
+      "source": {
+        "title": "Zero Trust as a security foundation",
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir security principle that grants only the access required for a task, for only the users or workloads that need it.",
+          "useCases": [
+            "Limit admin access",
+            "Reduce compromise impact"
+          ],
+          "keyFeatures": [
+            "Narrow access",
+            "Core Zero Trust principle"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    }
+  ]
+}
+

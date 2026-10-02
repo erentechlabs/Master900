@@ -4,33 +4,75 @@
       "slug": "create-power-bi-report",
       "type": "UI_SIMULATION",
       "title": "Create and share a Power BI report from a semantic model",
-      "summary": "Explore a Sales semantic model, build appropriate report visuals, save the report, and share it with least-privilege read access.",
-      "scenario": "Tailwind Traders has a certified **Sales** semantic model in the Power BI service. In the **simulated Power BI experience** on your lab VM, open the model, review its tables and relationships, create a report from scratch, add a KPI card, a regional column chart, a monthly line chart, and a Year slicer, save the report as **Regional sales**, and share it with **Sales managers** using read-only permissions.",
+      "summary": "Explore a star-schema semantic model, build a two-page Power BI report with appropriate visuals, save it, verify it, and share with least privilege.",
+      "scenario": "Tailwind Traders has a certified **Sales** semantic model in the Power BI service and managers need both an executive overview and product detail page. In the **simulated Power BI experience** on your lab VM, review the star-schema model, create a report with KPI, comparison, trend, slicer, and detail visuals, save it as **Regional sales**, run a final verification check, and share it with **Sales managers** using read-only permissions.",
       "domainKey": "analytics-workloads",
       "objectiveCode": "4.3",
       "complexity": "BASIC",
       "estimatedMinutes": 30,
       "learningObjectives": [
-        "Explain the role of a Power BI semantic model",
-        "Choose visual types that fit KPI, comparison, trend, and filtering tasks",
+        "Explain the role of a Power BI semantic model and star-schema relationships",
+        "Choose visual types that fit KPI, comparison, trend, detail, and filtering tasks",
+        "Create multiple report pages from one governed semantic model",
         "Share a report with least-privilege permissions"
       ],
-      "prerequisites": ["Know basic chart types and measures"],
+      "prerequisites": [
+        "Know basic chart types and measures"
+      ],
       "sources": [
-        { "title": "Create Quick Reports in the Power BI Service", "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/service-quick-create-report" },
-        { "title": "Semantic Models in the Power BI Service", "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-understand" },
-        { "title": "Share and Collaborate on Power BI Reports and Dashboards", "url": "https://learn.microsoft.com/en-us/power-bi/collaborate-share/service-share-dashboards" },
-        { "title": "Create reports based on semantic models from different workspaces", "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-discover-across-workspaces" }
+        {
+          "title": "Create Quick Reports in the Power BI Service",
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/service-quick-create-report"
+        },
+        {
+          "title": "Semantic Models in the Power BI Service",
+          "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-understand"
+        },
+        {
+          "title": "Share and Collaborate on Power BI Reports and Dashboards",
+          "url": "https://learn.microsoft.com/en-us/power-bi/collaborate-share/service-share-dashboards"
+        },
+        {
+          "title": "Create reports based on semantic models from different workspaces",
+          "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-discover-across-workspaces"
+        }
       ],
       "config": {
-        "portal": { "name": "Power BI", "theme": "power-bi", "user": "alex@tailwind.example", "tenant": "Tailwind Traders (tailwind.example)", "url": "https://app.powerbi.com", "searchPlaceholder": "Search" },
-        "vm": { "name": "LAB-VM-01", "os": "windows", "apps": ["browser"] },
-        "clock": { "start": "2026-09-30T09:00:00Z" },
+        "portal": {
+          "name": "Power BI",
+          "theme": "power-bi",
+          "user": "alex@tailwind.example",
+          "tenant": "Tailwind Traders (tailwind.example)",
+          "url": "https://app.powerbi.com",
+          "searchPlaceholder": "Search"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
         "startPage": "home",
         "navigation": [
-          { "page": "home", "label": "Home", "icon": "Home" },
-          { "page": "workspaces", "label": "Workspaces", "icon": "Briefcase" },
-          { "page": "browse", "label": "Browse", "icon": "FolderOpen" }
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "workspaces",
+            "label": "Workspaces",
+            "icon": "Briefcase"
+          },
+          {
+            "page": "browse",
+            "label": "Browse",
+            "icon": "FolderOpen"
+          }
         ],
         "pages": [
           {
@@ -44,9 +86,34 @@
                 "title": "Power BI",
                 "size": "md",
                 "items": [
-                  { "id": "workspaces", "label": "Workspaces", "icon": "Briefcase", "action": { "type": "navigate", "page": "workspaces" } },
-                  { "id": "browse", "label": "Browse", "icon": "FolderOpen", "action": { "type": "navigate", "page": "browse" } },
-                  { "id": "apps", "label": "Apps", "icon": "LayoutGrid", "action": { "type": "message", "tone": "info", "text": "Apps package finished content for broad consumption. This lab creates a report in a workspace." } }
+                  {
+                    "id": "workspaces",
+                    "label": "Workspaces",
+                    "icon": "Briefcase",
+                    "action": {
+                      "type": "navigate",
+                      "page": "workspaces"
+                    }
+                  },
+                  {
+                    "id": "browse",
+                    "label": "Browse",
+                    "icon": "FolderOpen",
+                    "action": {
+                      "type": "navigate",
+                      "page": "browse"
+                    }
+                  },
+                  {
+                    "id": "apps",
+                    "label": "Apps",
+                    "icon": "LayoutGrid",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Apps package finished content for broad consumption. This lab creates a report in a workspace."
+                    }
+                  }
                 ]
               }
             ]
@@ -63,11 +130,31 @@
                 "source": "items",
                 "rowKey": "name",
                 "columns": [
-                  { "key": "name", "label": "Name", "format": "link" },
-                  { "key": "type", "label": "Type", "format": "badge" },
-                  { "key": "workspace", "label": "Workspace" }
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Type",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "workspace",
+                    "label": "Workspace"
+                  }
                 ],
-                "rowAction": { "type": "navigate", "page": "semantic-model", "select": { "as": "model", "path": "models", "key": "name", "value": "{{$row.name}}" } }
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "semantic-model",
+                  "select": {
+                    "as": "model",
+                    "path": "models",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
               }
             ]
           },
@@ -83,11 +170,30 @@
                 "source": "workspaces",
                 "rowKey": "name",
                 "columns": [
-                  { "key": "name", "label": "Name", "format": "link" },
-                  { "key": "role", "label": "Your role" },
-                  { "key": "description", "label": "Description" }
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "role",
+                    "label": "Your role"
+                  },
+                  {
+                    "key": "description",
+                    "label": "Description"
+                  }
                 ],
-                "rowAction": { "type": "navigate", "page": "workspace", "select": { "as": "workspace", "path": "workspaces", "key": "name", "value": "{{$row.name}}" } }
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "workspace",
+                  "select": {
+                    "as": "workspace",
+                    "path": "workspaces",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
               }
             ]
           },
@@ -98,21 +204,46 @@
             "icon": "Briefcase",
             "url": "/groups/sales-analytics/list",
             "requires": "workspace",
-            "breadcrumb": ["Home", "Workspaces"],
+            "breadcrumb": [
+              "Home",
+              "Workspaces"
+            ],
             "components": [
               {
                 "kind": "table",
                 "id": "workspace-items",
                 "title": "Items",
                 "source": "items",
-                "where": { "workspace": "{{$sel.workspace.name}}" },
+                "where": {
+                  "workspace": "{{$sel.workspace.name}}"
+                },
                 "rowKey": "name",
                 "columns": [
-                  { "key": "name", "label": "Name", "format": "link" },
-                  { "key": "type", "label": "Type", "format": "badge" },
-                  { "key": "owner", "label": "Owner" }
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Type",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "owner",
+                    "label": "Owner"
+                  }
                 ],
-                "rowAction": { "type": "navigate", "page": "semantic-model", "select": { "as": "model", "path": "models", "key": "name", "value": "{{$row.name}}" } }
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "semantic-model",
+                  "select": {
+                    "as": "model",
+                    "path": "models",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
               }
             ]
           },
@@ -123,12 +254,29 @@
             "icon": "Database",
             "url": "/groups/sales-analytics/datasets/sales",
             "requires": "model",
-            "breadcrumb": ["Home", "Workspaces", "Sales Analytics"],
+            "breadcrumb": [
+              "Home",
+              "Workspaces",
+              "Sales Analytics"
+            ],
             "commands": [
-              { "id": "create-report", "label": "Create report", "icon": "Plus", "variant": "primary", "action": { "type": "navigate", "page": "report-builder" } }
+              {
+                "id": "create-report",
+                "label": "Create report",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "report-builder"
+                }
+              }
             ],
             "components": [
-              { "kind": "callout", "variant": "info", "text": "A **semantic model** contains tables, relationships, measures, and security definitions that reports use as a governed source of truth. Power BI Desktop can author models locally; the Power BI service lets users create and share reports in the browser." },
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "A **semantic model** contains tables, relationships, measures, and security definitions that reports use as a governed source of truth. Power BI Desktop can author models locally; the Power BI service lets users create and share reports in the browser."
+              },
               {
                 "kind": "table",
                 "id": "model-tables",
@@ -136,9 +284,19 @@
                 "source": "modelTables",
                 "rowKey": "name",
                 "columns": [
-                  { "key": "name", "label": "Table" },
-                  { "key": "fields", "label": "Fields" },
-                  { "key": "kind", "label": "Kind", "format": "badge" }
+                  {
+                    "key": "name",
+                    "label": "Table"
+                  },
+                  {
+                    "key": "fields",
+                    "label": "Fields"
+                  },
+                  {
+                    "key": "kind",
+                    "label": "Kind",
+                    "format": "badge"
+                  }
                 ]
               },
               {
@@ -148,10 +306,22 @@
                 "source": "relationships",
                 "rowKey": "id",
                 "columns": [
-                  { "key": "from", "label": "From" },
-                  { "key": "to", "label": "To" },
-                  { "key": "cardinality", "label": "Cardinality" },
-                  { "key": "filter", "label": "Cross-filter direction" }
+                  {
+                    "key": "from",
+                    "label": "From"
+                  },
+                  {
+                    "key": "to",
+                    "label": "To"
+                  },
+                  {
+                    "key": "cardinality",
+                    "label": "Cardinality"
+                  },
+                  {
+                    "key": "filter",
+                    "label": "Cross-filter direction"
+                  }
                 ]
               }
             ]
@@ -163,10 +333,38 @@
             "icon": "ChartColumn",
             "url": "/groups/sales-analytics/reports/new?dataset=sales",
             "requires": "model",
-            "breadcrumb": ["Home", "Workspaces", "Sales Analytics", "Sales"],
+            "breadcrumb": [
+              "Home",
+              "Workspaces",
+              "Sales Analytics",
+              "Sales"
+            ],
             "commands": [
-              { "id": "save-report", "label": "Save", "icon": "Save", "action": { "type": "navigate", "page": "save-report" } },
-              { "id": "share-report", "label": "Share", "icon": "Share2", "disabledWhen": { "type": "arrayNotContains", "path": "reports", "match": { "name": "Regional sales" } }, "action": { "type": "navigate", "page": "share-report" } }
+              {
+                "id": "save-report",
+                "label": "Save",
+                "icon": "Save",
+                "action": {
+                  "type": "navigate",
+                  "page": "save-report"
+                }
+              },
+              {
+                "id": "share-report",
+                "label": "Share",
+                "icon": "Share2",
+                "disabledWhen": {
+                  "type": "arrayNotContains",
+                  "path": "reports",
+                  "match": {
+                    "name": "Regional sales"
+                  }
+                },
+                "action": {
+                  "type": "navigate",
+                  "page": "share-report"
+                }
+              }
             ],
             "components": [
               {
@@ -175,10 +373,127 @@
                 "title": "Build visual",
                 "description": "Add each required visual to the canvas. Choose a visual type that matches the analytical task.",
                 "fields": [
-                  { "id": "slot", "label": "Canvas slot", "control": "select", "required": true, "options": [{ "value": "kpi", "label": "KPI card" }, { "value": "region", "label": "Sales by Region" }, { "value": "month", "label": "Sales by Month" }, { "value": "year", "label": "Year slicer" }] },
-                  { "id": "visualType", "label": "Visual type", "control": "select", "required": true, "options": [{ "value": "Card", "label": "Card" }, { "value": "Clustered column chart", "label": "Clustered column chart" }, { "value": "Line chart", "label": "Line chart" }, { "value": "Slicer", "label": "Slicer" }, { "value": "Pie chart", "label": "Pie chart" }, { "value": "Table", "label": "Table" }] },
-                  { "id": "field1", "label": "Primary field", "control": "select", "required": true, "options": [{ "value": "Total Sales", "label": "Sales[Total Sales] measure" }, { "value": "Region", "label": "Sales[Region]" }, { "value": "Month", "label": "Date[Month]" }, { "value": "Year", "label": "Date[Year]" }, { "value": "Product", "label": "Product[Category]" }] },
-                  { "id": "field2", "label": "Value field", "control": "select", "required": true, "defaultValue": "None", "options": [{ "value": "None", "label": "None" }, { "value": "Total Sales", "label": "Sales[Total Sales] measure" }, { "value": "Region", "label": "Sales[Region]" }, { "value": "Month", "label": "Date[Month]" }, { "value": "Year", "label": "Date[Year]" }] }
+                  {
+                    "id": "slot",
+                    "label": "Canvas slot",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "kpi",
+                        "label": "KPI card"
+                      },
+                      {
+                        "value": "region",
+                        "label": "Sales by Region"
+                      },
+                      {
+                        "value": "month",
+                        "label": "Sales by Month"
+                      },
+                      {
+                        "value": "year",
+                        "label": "Year slicer"
+                      },
+                      {
+                        "value": "product-detail",
+                        "label": "Product detail page matrix"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "visualType",
+                    "label": "Visual type",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Card",
+                        "label": "Card"
+                      },
+                      {
+                        "value": "Clustered column chart",
+                        "label": "Clustered column chart"
+                      },
+                      {
+                        "value": "Line chart",
+                        "label": "Line chart"
+                      },
+                      {
+                        "value": "Slicer",
+                        "label": "Slicer"
+                      },
+                      {
+                        "value": "Pie chart",
+                        "label": "Pie chart"
+                      },
+                      {
+                        "value": "Table",
+                        "label": "Table"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "field1",
+                    "label": "Primary field",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Total Sales",
+                        "label": "Sales[Total Sales] measure"
+                      },
+                      {
+                        "value": "Region",
+                        "label": "Sales[Region]"
+                      },
+                      {
+                        "value": "Month",
+                        "label": "Date[Month]"
+                      },
+                      {
+                        "value": "Year",
+                        "label": "Date[Year]"
+                      },
+                      {
+                        "value": "Product",
+                        "label": "Product[Category]"
+                      },
+                      {
+                        "value": "Category",
+                        "label": "Product[Category]"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "field2",
+                    "label": "Value field",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "None",
+                    "options": [
+                      {
+                        "value": "None",
+                        "label": "None"
+                      },
+                      {
+                        "value": "Total Sales",
+                        "label": "Sales[Total Sales] measure"
+                      },
+                      {
+                        "value": "Region",
+                        "label": "Sales[Region]"
+                      },
+                      {
+                        "value": "Month",
+                        "label": "Date[Month]"
+                      },
+                      {
+                        "value": "Year",
+                        "label": "Date[Year]"
+                      }
+                    ]
+                  }
                 ],
                 "submit": {
                   "label": "Add visual",
@@ -187,25 +502,275 @@
                       "rule": {
                         "type": "anyOf",
                         "rules": [
-                          { "type": "allOf", "rules": [{ "type": "equals", "path": "$form.slot", "value": "kpi" }, { "type": "equals", "path": "$form.visualType", "value": "Card" }, { "type": "equals", "path": "$form.field1", "value": "Total Sales" }] },
-                          { "type": "allOf", "rules": [{ "type": "equals", "path": "$form.slot", "value": "region" }, { "type": "equals", "path": "$form.visualType", "value": "Clustered column chart" }, { "type": "equals", "path": "$form.field1", "value": "Region" }, { "type": "equals", "path": "$form.field2", "value": "Total Sales" }] },
-                          { "type": "allOf", "rules": [{ "type": "equals", "path": "$form.slot", "value": "month" }, { "type": "equals", "path": "$form.visualType", "value": "Line chart" }, { "type": "equals", "path": "$form.field1", "value": "Month" }, { "type": "equals", "path": "$form.field2", "value": "Total Sales" }] },
-                          { "type": "allOf", "rules": [{ "type": "equals", "path": "$form.slot", "value": "year" }, { "type": "equals", "path": "$form.visualType", "value": "Slicer" }, { "type": "equals", "path": "$form.field1", "value": "Year" }] }
+                          {
+                            "type": "allOf",
+                            "rules": [
+                              {
+                                "type": "equals",
+                                "path": "$form.slot",
+                                "value": "kpi"
+                              },
+                              {
+                                "type": "equals",
+                                "path": "$form.visualType",
+                                "value": "Card"
+                              },
+                              {
+                                "type": "equals",
+                                "path": "$form.field1",
+                                "value": "Total Sales"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "allOf",
+                            "rules": [
+                              {
+                                "type": "equals",
+                                "path": "$form.slot",
+                                "value": "region"
+                              },
+                              {
+                                "type": "equals",
+                                "path": "$form.visualType",
+                                "value": "Clustered column chart"
+                              },
+                              {
+                                "type": "equals",
+                                "path": "$form.field1",
+                                "value": "Region"
+                              },
+                              {
+                                "type": "equals",
+                                "path": "$form.field2",
+                                "value": "Total Sales"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "allOf",
+                            "rules": [
+                              {
+                                "type": "equals",
+                                "path": "$form.slot",
+                                "value": "month"
+                              },
+                              {
+                                "type": "equals",
+                                "path": "$form.visualType",
+                                "value": "Line chart"
+                              },
+                              {
+                                "type": "equals",
+                                "path": "$form.field1",
+                                "value": "Month"
+                              },
+                              {
+                                "type": "equals",
+                                "path": "$form.field2",
+                                "value": "Total Sales"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "allOf",
+                            "rules": [
+                              {
+                                "type": "equals",
+                                "path": "$form.slot",
+                                "value": "year"
+                              },
+                              {
+                                "type": "equals",
+                                "path": "$form.visualType",
+                                "value": "Slicer"
+                              },
+                              {
+                                "type": "equals",
+                                "path": "$form.field1",
+                                "value": "Year"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "allOf",
+                            "rules": [
+                              {
+                                "type": "equals",
+                                "path": "$form.slot",
+                                "value": "product-detail"
+                              },
+                              {
+                                "type": "equals",
+                                "path": "$form.visualType",
+                                "value": "Table"
+                              },
+                              {
+                                "type": "equals",
+                                "path": "$form.field1",
+                                "value": "Category"
+                              },
+                              {
+                                "type": "equals",
+                                "path": "$form.field2",
+                                "value": "Total Sales"
+                              }
+                            ]
+                          }
                         ]
                       },
-                      "message": "Choose the visual that fits the task: Card for a KPI, Clustered column chart for regional comparison, Line chart for a time trend, and Slicer for Year filtering. A pie chart is not appropriate for a trend over time, and a table is not a KPI card."
+                      "message": "Choose visuals that fit the task: Card for a KPI, Clustered column chart for regional comparison, Line chart for a time trend, Slicer for Year filtering, and Table for product/category detail."
                     }
                   ],
                   "actions": [
-                    { "type": "append", "path": "reportVisuals", "unique": "slot", "uniqueMessage": "That canvas slot already has a visual.", "value": { "slot": "{{$form.slot}}", "visualType": "{{$form.visualType}}", "field1": "{{$form.field1}}", "field2": "{{$form.field2}}" } },
-                    { "type": "notify", "title": "Visual added", "message": "{{$form.visualType}} added to the report canvas." }
+                    {
+                      "type": "append",
+                      "path": "reportVisuals",
+                      "unique": "slot",
+                      "uniqueMessage": "That canvas slot already has a visual.",
+                      "value": {
+                        "slot": "{{$form.slot}}",
+                        "visualType": "{{$form.visualType}}",
+                        "field1": "{{$form.field1}}",
+                        "field2": "{{$form.field2}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Visual added",
+                      "message": "{{$form.visualType}} added to the report canvas."
+                    }
                   ]
                 }
               },
-              { "kind": "properties", "id": "kpi-card", "title": "Card - Total Sales", "visibleWhen": { "type": "arrayContains", "path": "reportVisuals", "match": { "slot": "kpi", "visualType": "Card" } }, "items": [{ "label": "Total Sales", "value": "287,400" }] },
-              { "kind": "chart", "id": "region-chart", "title": "Clustered column chart - Sales by Region", "type": "bar", "unit": "sales", "visibleWhen": { "type": "arrayContains", "path": "reportVisuals", "match": { "slot": "region", "visualType": "Clustered column chart" } }, "points": [{ "label": "North", "value": 68400 }, { "label": "South", "value": 51200 }, { "label": "West", "value": 94800 }, { "label": "East", "value": 73000 }] },
-              { "kind": "chart", "id": "month-chart", "title": "Line chart - Sales by Month", "type": "line", "unit": "sales", "visibleWhen": { "type": "arrayContains", "path": "reportVisuals", "match": { "slot": "month", "visualType": "Line chart" } }, "points": [{ "label": "Jul", "value": 130000 }, { "label": "Aug", "value": 157400 }] },
-              { "kind": "table", "id": "year-slicer", "title": "Slicer - Year", "source": "years", "rowKey": "$value", "variant": "list", "visibleWhen": { "type": "arrayContains", "path": "reportVisuals", "match": { "slot": "year", "visualType": "Slicer" } }, "columns": [{ "key": "$value", "label": "Year" }] }
+              {
+                "kind": "properties",
+                "id": "kpi-card",
+                "title": "Card - Total Sales",
+                "visibleWhen": {
+                  "type": "arrayContains",
+                  "path": "reportVisuals",
+                  "match": {
+                    "slot": "kpi",
+                    "visualType": "Card"
+                  }
+                },
+                "items": [
+                  {
+                    "label": "Total Sales",
+                    "value": "287,400"
+                  }
+                ]
+              },
+              {
+                "kind": "chart",
+                "id": "region-chart",
+                "title": "Clustered column chart - Sales by Region",
+                "type": "bar",
+                "unit": "sales",
+                "visibleWhen": {
+                  "type": "arrayContains",
+                  "path": "reportVisuals",
+                  "match": {
+                    "slot": "region",
+                    "visualType": "Clustered column chart"
+                  }
+                },
+                "points": [
+                  {
+                    "label": "North",
+                    "value": 68400
+                  },
+                  {
+                    "label": "South",
+                    "value": 51200
+                  },
+                  {
+                    "label": "West",
+                    "value": 94800
+                  },
+                  {
+                    "label": "East",
+                    "value": 73000
+                  }
+                ]
+              },
+              {
+                "kind": "chart",
+                "id": "month-chart",
+                "title": "Line chart - Sales by Month",
+                "type": "line",
+                "unit": "sales",
+                "visibleWhen": {
+                  "type": "arrayContains",
+                  "path": "reportVisuals",
+                  "match": {
+                    "slot": "month",
+                    "visualType": "Line chart"
+                  }
+                },
+                "points": [
+                  {
+                    "label": "Jul",
+                    "value": 130000
+                  },
+                  {
+                    "label": "Aug",
+                    "value": 157400
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "year-slicer",
+                "title": "Slicer - Year",
+                "source": "years",
+                "rowKey": "$value",
+                "variant": "list",
+                "visibleWhen": {
+                  "type": "arrayContains",
+                  "path": "reportVisuals",
+                  "match": {
+                    "slot": "year",
+                    "visualType": "Slicer"
+                  }
+                },
+                "columns": [
+                  {
+                    "key": "$value",
+                    "label": "Year"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "product-detail-table",
+                "title": "Product detail page - Category sales table",
+                "source": "categoryRows",
+                "rowKey": "category",
+                "visibleWhen": {
+                  "type": "arrayContains",
+                  "path": "reportVisuals",
+                  "match": {
+                    "slot": "product-detail",
+                    "visualType": "Table"
+                  }
+                },
+                "columns": [
+                  {
+                    "key": "category",
+                    "label": "Category"
+                  },
+                  {
+                    "key": "sales",
+                    "label": "Total Sales"
+                  },
+                  {
+                    "key": "margin",
+                    "label": "Margin %"
+                  }
+                ]
+              }
             ]
           },
           {
@@ -221,20 +786,114 @@
                 "id": "save-report-form",
                 "title": "Save your report",
                 "fields": [
-                  { "id": "name", "label": "Report name", "control": "text", "required": true, "defaultValue": "Regional sales", "pattern": "^[A-Za-z][A-Za-z0-9 _-]{2,79}$", "patternMessage": "Use a clear report name." },
-                  { "id": "workspace", "label": "Destination workspace", "control": "select", "required": true, "defaultValue": "Sales Analytics", "optionsFrom": { "path": "workspaces", "value": "name" } }
+                  {
+                    "id": "name",
+                    "label": "Report name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Regional sales",
+                    "pattern": "^[A-Za-z][A-Za-z0-9 _-]{2,79}$",
+                    "patternMessage": "Use a clear report name."
+                  },
+                  {
+                    "id": "workspace",
+                    "label": "Destination workspace",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Sales Analytics",
+                    "optionsFrom": {
+                      "path": "workspaces",
+                      "value": "name"
+                    }
+                  }
                 ],
                 "submit": {
                   "label": "Save",
                   "checks": [
-                    { "rule": { "type": "equals", "path": "$form.name", "value": "Regional sales" }, "message": "Save the report as Regional sales." },
-                    { "rule": { "type": "allOf", "rules": [{ "type": "arrayContains", "path": "reportVisuals", "match": { "slot": "kpi" } }, { "type": "arrayContains", "path": "reportVisuals", "match": { "slot": "region" } }, { "type": "arrayContains", "path": "reportVisuals", "match": { "slot": "month" } }, { "type": "arrayContains", "path": "reportVisuals", "match": { "slot": "year" } }] }, "message": "Add all four visuals before saving: KPI card, regional column chart, monthly line chart, and Year slicer." }
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.name",
+                        "value": "Regional sales"
+                      },
+                      "message": "Save the report as Regional sales."
+                    },
+                    {
+                      "rule": {
+                        "type": "allOf",
+                        "rules": [
+                          {
+                            "type": "arrayContains",
+                            "path": "reportVisuals",
+                            "match": {
+                              "slot": "kpi"
+                            }
+                          },
+                          {
+                            "type": "arrayContains",
+                            "path": "reportVisuals",
+                            "match": {
+                              "slot": "region"
+                            }
+                          },
+                          {
+                            "type": "arrayContains",
+                            "path": "reportVisuals",
+                            "match": {
+                              "slot": "month"
+                            }
+                          },
+                          {
+                            "type": "arrayContains",
+                            "path": "reportVisuals",
+                            "match": {
+                              "slot": "year"
+                            }
+                          },
+                          {
+                            "type": "arrayContains",
+                            "path": "reportVisuals",
+                            "match": {
+                              "slot": "product-detail"
+                            }
+                          }
+                        ]
+                      },
+                      "message": "Add all five visuals before saving: KPI card, regional column chart, monthly line chart, Year slicer, and product detail table."
+                    }
                   ],
                   "actions": [
-                    { "type": "append", "path": "reports", "unique": "name", "value": { "name": "{{$form.name}}", "workspace": "{{$form.workspace}}", "semanticModel": "Sales", "saved": true } },
-                    { "type": "append", "path": "items", "unique": "name", "value": { "name": "{{$form.name}}", "workspace": "{{$form.workspace}}", "type": "Report", "owner": "Alex" } },
-                    { "type": "notify", "title": "Report saved", "message": "Regional sales was saved to Sales Analytics." },
-                    { "type": "navigate", "page": "share-report" }
+                    {
+                      "type": "append",
+                      "path": "reports",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "workspace": "{{$form.workspace}}",
+                        "semanticModel": "Sales",
+                        "saved": true
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "items",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "workspace": "{{$form.workspace}}",
+                        "type": "Report",
+                        "owner": "Alex"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Report saved",
+                      "message": "Regional sales was saved to Sales Analytics."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "verify-report"
+                    }
                   ]
                 }
               }
@@ -247,27 +906,204 @@
             "icon": "Share2",
             "url": "/groups/sales-analytics/reports/regional-sales/share",
             "components": [
-              { "kind": "callout", "variant": "info", "text": "Sharing a report also grants access to the underlying semantic model as needed to view the report. Grant **Build** only when recipients should create their own reports from the model." },
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "Sharing a report also grants access to the underlying semantic model as needed to view the report. Grant **Build** only when recipients should create their own reports from the model."
+              },
               {
                 "kind": "form",
                 "id": "share-form",
                 "title": "Send link",
                 "fields": [
-                  { "id": "recipient", "label": "Enter a name or email address", "control": "select", "required": true, "defaultValue": "Sales managers", "optionsFrom": { "path": "groups", "value": "name" } },
-                  { "id": "permission", "label": "Permission", "control": "select", "required": true, "defaultValue": "Read", "options": [{ "value": "Read", "label": "Read" }, { "value": "Edit", "label": "Edit" }] },
-                  { "id": "allowBuild", "label": "Allow recipients to build content with the data associated with this report", "control": "toggle", "defaultValue": false },
-                  { "id": "allowReshare", "label": "Allow recipients to share this report", "control": "toggle", "defaultValue": false }
+                  {
+                    "id": "recipient",
+                    "label": "Enter a name or email address",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Sales managers",
+                    "optionsFrom": {
+                      "path": "groups",
+                      "value": "name"
+                    }
+                  },
+                  {
+                    "id": "permission",
+                    "label": "Permission",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Read",
+                    "options": [
+                      {
+                        "value": "Read",
+                        "label": "Read"
+                      },
+                      {
+                        "value": "Edit",
+                        "label": "Edit"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "allowBuild",
+                    "label": "Allow recipients to build content with the data associated with this report",
+                    "control": "toggle",
+                    "defaultValue": false
+                  },
+                  {
+                    "id": "allowReshare",
+                    "label": "Allow recipients to share this report",
+                    "control": "toggle",
+                    "defaultValue": false
+                  }
                 ],
                 "submit": {
                   "label": "Share",
                   "checks": [
-                    { "rule": { "type": "equals", "path": "$form.recipient", "value": "Sales managers" }, "message": "Share with the Sales managers group." },
-                    { "rule": { "type": "equals", "path": "$form.permission", "value": "Read" }, "message": "Use Read permission. Sales managers need to view, not edit, the report." },
-                    { "rule": { "type": "equals", "path": "$form.allowBuild", "value": false }, "message": "Do not grant Build permission; it would let recipients create new content from the semantic model." }
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.recipient",
+                        "value": "Sales managers"
+                      },
+                      "message": "Share with the Sales managers group."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.permission",
+                        "value": "Read"
+                      },
+                      "message": "Use Read permission. Sales managers need to view, not edit, the report."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.allowBuild",
+                        "value": false
+                      },
+                      "message": "Do not grant Build permission; it would let recipients create new content from the semantic model."
+                    }
                   ],
                   "actions": [
-                    { "type": "append", "path": "shares", "unique": "recipient", "value": { "report": "Regional sales", "recipient": "{{$form.recipient}}", "permission": "{{$form.permission}}", "build": "{{$form.allowBuild}}", "reshare": "{{$form.allowReshare}}" } },
-                    { "type": "notify", "title": "Report shared", "message": "Regional sales was shared with Sales managers using read-only access." }
+                    {
+                      "type": "append",
+                      "path": "shares",
+                      "unique": "recipient",
+                      "value": {
+                        "report": "Regional sales",
+                        "recipient": "{{$form.recipient}}",
+                        "permission": "{{$form.permission}}",
+                        "build": "{{$form.allowBuild}}",
+                        "reshare": "{{$form.allowReshare}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Report shared",
+                      "message": "Regional sales was shared with Sales managers using read-only access."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "verify-report",
+            "title": "Regional sales | Verify",
+            "subtitle": "Report",
+            "icon": "ClipboardCheck",
+            "url": "/groups/sales-analytics/reports/regional-sales/verify",
+            "components": [
+              {
+                "kind": "form",
+                "id": "verify-report-form",
+                "title": "Final verification",
+                "fields": [
+                  {
+                    "id": "pages",
+                    "label": "Report pages",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Overview and Product detail",
+                    "options": [
+                      {
+                        "value": "Overview only",
+                        "label": "Overview only"
+                      },
+                      {
+                        "value": "Overview and Product detail",
+                        "label": "Overview and Product detail"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "model",
+                    "label": "Data source",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Sales semantic model",
+                    "options": [
+                      {
+                        "value": "Sales semantic model",
+                        "label": "Sales semantic model"
+                      },
+                      {
+                        "value": "Exported CSV",
+                        "label": "Exported CSV"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "interactions",
+                    "label": "Year slicer filters visuals",
+                    "control": "toggle",
+                    "defaultValue": true
+                  }
+                ],
+                "submit": {
+                  "label": "Verify",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.pages",
+                        "value": "Overview and Product detail"
+                      },
+                      "message": "Keep both report pages so managers get summary and detail."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.model",
+                        "value": "Sales semantic model"
+                      },
+                      "message": "The report should stay connected to the governed Sales semantic model."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.interactions",
+                        "value": true
+                      },
+                      "message": "Keep slicer interactions on so Year filters the visuals."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "reportVerified",
+                      "value": true
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Report verified",
+                      "message": "Regional sales has both pages and uses the Sales semantic model."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "share-report"
+                    }
                   ]
                 }
               }
@@ -276,34 +1112,153 @@
         ],
         "initialState": {
           "workspaces": [
-            { "name": "Sales Analytics", "role": "Member", "description": "Workspace for governed sales reporting" },
-            { "name": "Executive Dashboards", "role": "Viewer", "description": "Published leadership dashboards" }
+            {
+              "name": "Sales Analytics",
+              "role": "Member",
+              "description": "Workspace for governed sales reporting"
+            },
+            {
+              "name": "Executive Dashboards",
+              "role": "Viewer",
+              "description": "Published leadership dashboards"
+            }
           ],
           "items": [
-            { "name": "Sales", "workspace": "Sales Analytics", "type": "Semantic model", "owner": "Priya" },
-            { "name": "Margin dashboard", "workspace": "Sales Analytics", "type": "Dashboard", "owner": "Priya" },
-            { "name": "Inventory report", "workspace": "Sales Analytics", "type": "Report", "owner": "Mehmet" }
+            {
+              "name": "Sales",
+              "workspace": "Sales Analytics",
+              "type": "Semantic model",
+              "owner": "Priya"
+            },
+            {
+              "name": "Margin dashboard",
+              "workspace": "Sales Analytics",
+              "type": "Dashboard",
+              "owner": "Priya"
+            },
+            {
+              "name": "Inventory report",
+              "workspace": "Sales Analytics",
+              "type": "Report",
+              "owner": "Mehmet"
+            }
           ],
-          "models": [{ "name": "Sales", "workspace": "Sales Analytics", "owner": "Priya", "certified": true }],
+          "models": [
+            {
+              "name": "Sales",
+              "workspace": "Sales Analytics",
+              "owner": "Priya",
+              "certified": true
+            }
+          ],
           "modelTables": [
-            { "name": "Sales", "fields": "DateKey, ProductKey, Region, Quantity, Total Sales", "kind": "Fact" },
-            { "name": "Product", "fields": "ProductKey, Category, Product", "kind": "Dimension" },
-            { "name": "Date", "fields": "DateKey, Month, Quarter, Year", "kind": "Dimension" }
+            {
+              "name": "Sales",
+              "fields": "DateKey, ProductKey, Region, Quantity, Total Sales",
+              "kind": "Fact"
+            },
+            {
+              "name": "Product",
+              "fields": "ProductKey, Category, Product",
+              "kind": "Dimension"
+            },
+            {
+              "name": "Date",
+              "fields": "DateKey, Month, Quarter, Year",
+              "kind": "Dimension"
+            }
           ],
           "relationships": [
-            { "id": "sales-product", "from": "Sales[ProductKey]", "to": "Product[ProductKey]", "cardinality": "Many to one (*:1)", "filter": "Single" },
-            { "id": "sales-date", "from": "Sales[DateKey]", "to": "Date[DateKey]", "cardinality": "Many to one (*:1)", "filter": "Single" }
+            {
+              "id": "sales-product",
+              "from": "Sales[ProductKey]",
+              "to": "Product[ProductKey]",
+              "cardinality": "Many to one (*:1)",
+              "filter": "Single"
+            },
+            {
+              "id": "sales-date",
+              "from": "Sales[DateKey]",
+              "to": "Date[DateKey]",
+              "cardinality": "Many to one (*:1)",
+              "filter": "Single"
+            }
           ],
-          "years": ["2025", "2026"],
-          "groups": [{ "name": "Sales managers" }, { "name": "All employees" }, { "name": "External partners" }],
+          "years": [
+            "2025",
+            "2026"
+          ],
+          "groups": [
+            {
+              "name": "Sales managers"
+            },
+            {
+              "name": "All employees"
+            },
+            {
+              "name": "External partners"
+            }
+          ],
           "reportVisuals": [],
           "reports": [],
-          "shares": []
+          "shares": [],
+          "categoryRows": [
+            {
+              "category": "Accessories",
+              "sales": "116,900",
+              "margin": "31%"
+            },
+            {
+              "category": "Apparel",
+              "sales": "92,400",
+              "margin": "27%"
+            },
+            {
+              "category": "Bags",
+              "sales": "78,100",
+              "margin": "24%"
+            }
+          ],
+          "reportVerified": false
         }
       },
       "steps": [
-        { "key": "open-model", "title": "Open the Sales semantic model", "instruction": "Select **Workspaces**, open **Sales Analytics**, and then open the **Sales** semantic model.", "hint": "The model type is shown in the Items list.", "explanation": "A semantic model provides governed fields, measures, relationships, and security for reports.", "targetId": "workspace-items", "rules": [{ "key": "visited-model", "description": "The Sales semantic model was opened", "rule": { "type": "visited", "page": "semantic-model" } }] },
-        { "key": "review-model", "title": "Review tables and relationships", "instruction": "Review the **Tables** and **Relationships** lists. Confirm that **Sales** is a fact table related to **Product** and **Date** dimensions, then select **Create report**.", "hint": "Reports use the model relationships when visuals combine fields from multiple tables.", "explanation": "Measures such as Total Sales are evaluated through the semantic model, so visuals stay consistent across reports.", "targetId": "create-report", "rules": [{ "key": "opened-builder", "description": "Report builder was opened", "rule": { "type": "visited", "page": "report-builder" } }] },
+        {
+          "key": "open-model",
+          "title": "Open the Sales semantic model",
+          "instruction": "Select **Workspaces**, open **Sales Analytics**, and then open the **Sales** semantic model.",
+          "hint": "The model type is shown in the Items list.",
+          "explanation": "A semantic model provides governed fields, measures, relationships, and security for reports.",
+          "targetId": "workspace-items",
+          "rules": [
+            {
+              "key": "visited-model",
+              "description": "The Sales semantic model was opened",
+              "rule": {
+                "type": "visited",
+                "page": "semantic-model"
+              }
+            }
+          ]
+        },
+        {
+          "key": "review-model",
+          "title": "Review tables and relationships",
+          "instruction": "Review the **Tables** and **Relationships** lists. Confirm that **Sales** is a fact table related to **Product** and **Date** dimensions, then select **Create report**.",
+          "hint": "Reports use the model relationships when visuals combine fields from multiple tables.",
+          "explanation": "Measures such as Total Sales are evaluated through the semantic model, so visuals stay consistent across reports.",
+          "targetId": "create-report",
+          "rules": [
+            {
+              "key": "opened-builder",
+              "description": "Report builder was opened",
+              "rule": {
+                "type": "visited",
+                "page": "report-builder"
+              }
+            }
+          ]
+        },
         {
           "key": "add-visuals",
           "title": "Add four appropriate visuals",
@@ -312,21 +1267,253 @@
           "explanation": "Choosing the right visual type helps the report answer the business question quickly and accurately.",
           "targetId": "visual-form",
           "rules": [
-            { "key": "kpi-card", "description": "Card shows Total Sales", "rule": { "type": "arrayContains", "path": "reportVisuals", "match": { "slot": "kpi", "visualType": "Card", "field1": "Total Sales" } }, "failureFeedback": "Add a Card using the Total Sales measure." },
-            { "key": "region-column", "description": "Clustered column chart shows Sales by Region", "rule": { "type": "arrayContains", "path": "reportVisuals", "match": { "slot": "region", "visualType": "Clustered column chart", "field1": "Region", "field2": "Total Sales" } }, "failureFeedback": "Add a Clustered column chart with Region and Total Sales." },
-            { "key": "month-line", "description": "Line chart shows Sales by Month", "rule": { "type": "arrayContains", "path": "reportVisuals", "match": { "slot": "month", "visualType": "Line chart", "field1": "Month", "field2": "Total Sales" } }, "failureFeedback": "Add a Line chart with Month and Total Sales." },
-            { "key": "year-slicer", "description": "Slicer filters by Year", "rule": { "type": "arrayContains", "path": "reportVisuals", "match": { "slot": "year", "visualType": "Slicer", "field1": "Year" } }, "failureFeedback": "Add a Slicer using Year." }
+            {
+              "key": "kpi-card",
+              "description": "Card shows Total Sales",
+              "rule": {
+                "type": "arrayContains",
+                "path": "reportVisuals",
+                "match": {
+                  "slot": "kpi",
+                  "visualType": "Card",
+                  "field1": "Total Sales"
+                }
+              },
+              "failureFeedback": "Add a Card using the Total Sales measure."
+            },
+            {
+              "key": "region-column",
+              "description": "Clustered column chart shows Sales by Region",
+              "rule": {
+                "type": "arrayContains",
+                "path": "reportVisuals",
+                "match": {
+                  "slot": "region",
+                  "visualType": "Clustered column chart",
+                  "field1": "Region",
+                  "field2": "Total Sales"
+                }
+              },
+              "failureFeedback": "Add a Clustered column chart with Region and Total Sales."
+            },
+            {
+              "key": "month-line",
+              "description": "Line chart shows Sales by Month",
+              "rule": {
+                "type": "arrayContains",
+                "path": "reportVisuals",
+                "match": {
+                  "slot": "month",
+                  "visualType": "Line chart",
+                  "field1": "Month",
+                  "field2": "Total Sales"
+                }
+              },
+              "failureFeedback": "Add a Line chart with Month and Total Sales."
+            },
+            {
+              "key": "year-slicer",
+              "description": "Slicer filters by Year",
+              "rule": {
+                "type": "arrayContains",
+                "path": "reportVisuals",
+                "match": {
+                  "slot": "year",
+                  "visualType": "Slicer",
+                  "field1": "Year"
+                }
+              },
+              "failureFeedback": "Add a Slicer using Year."
+            }
           ]
         },
-        { "key": "save-report", "title": "Save the report", "instruction": "Select **Save** and save the report as **Regional sales** in **Sales Analytics**.", "hint": "Save only after all four visuals are present on the canvas.", "explanation": "Saving creates a report item in the workspace while the semantic model remains the shared data source.", "targetId": "save-report-form", "rules": [{ "key": "report-saved", "description": "Regional sales report is saved", "rule": { "type": "arrayContains", "path": "reports", "match": { "name": "Regional sales", "workspace": "Sales Analytics", "saved": true } }, "failureFeedback": "Save the report as Regional sales in Sales Analytics." }] },
-        { "key": "share-report", "title": "Share with least privilege", "instruction": "Share **Regional sales** with **Sales managers** using **Read** permission. Leave **Allow recipients to build content with the data associated with this report** off.", "hint": "Build permission is for users who need to create new reports from the semantic model.", "explanation": "Least privilege gives report consumers the access they need without allowing them to edit the report or build new content from the model.", "targetId": "share-form", "rules": [{ "key": "report-shared", "description": "Report is shared read-only without Build", "rule": { "type": "arrayContains", "path": "shares", "match": { "report": "Regional sales", "recipient": "Sales managers", "permission": "Read", "build": false } }, "failureFeedback": "Share with Sales managers using Read and no Build permission." }] }
+        {
+          "key": "add-detail-page",
+          "title": "Add the Product detail page visual",
+          "instruction": "Add a **Table** for **Product detail page matrix** using **Product[Category]** and **Sales[Total Sales] measure**.",
+          "hint": "A table is useful when managers need exact detail rows; charts are better for comparisons and trends.",
+          "explanation": "A second report page can provide detail while the overview stays focused on KPIs and trends. Both pages reuse the same semantic model.",
+          "targetId": "visual-form",
+          "rules": [
+            {
+              "key": "product-detail-table",
+              "description": "Product detail table exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "reportVisuals",
+                "match": {
+                  "slot": "product-detail",
+                  "visualType": "Table",
+                  "field1": "Category",
+                  "field2": "Total Sales"
+                }
+              },
+              "failureFeedback": "Add the product detail Table with Category and Total Sales."
+            }
+          ]
+        },
+        {
+          "key": "save-report",
+          "title": "Save the report",
+          "instruction": "Select **Save** and save the report as **Regional sales** in **Sales Analytics**.",
+          "hint": "Save only after all four visuals are present on the canvas.",
+          "explanation": "Saving creates a report item in the workspace while the semantic model remains the shared data source.",
+          "targetId": "save-report-form",
+          "rules": [
+            {
+              "key": "report-saved",
+              "description": "Regional sales report is saved",
+              "rule": {
+                "type": "arrayContains",
+                "path": "reports",
+                "match": {
+                  "name": "Regional sales",
+                  "workspace": "Sales Analytics",
+                  "saved": true
+                }
+              },
+              "failureFeedback": "Save the report as Regional sales in Sales Analytics."
+            }
+          ]
+        },
+        {
+          "key": "verify-report",
+          "title": "Verify the report before sharing",
+          "instruction": "After saving, complete **Final verification** with **Overview and Product detail**, **Sales semantic model**, and **Year slicer filters visuals** turned on.",
+          "hint": "Verification catches reports that accidentally use a static export or only a single page.",
+          "explanation": "A final check confirms the report uses the governed semantic model and that interactive filters support self-service analysis.",
+          "targetId": "verify-report-form",
+          "rules": [
+            {
+              "key": "report-verified",
+              "description": "Report verification completed",
+              "rule": {
+                "type": "equals",
+                "path": "reportVerified",
+                "value": true
+              },
+              "failureFeedback": "Complete the final verification form."
+            }
+          ]
+        },
+        {
+          "key": "share-report",
+          "title": "Share with least privilege",
+          "instruction": "Share **Regional sales** with **Sales managers** using **Read** permission. Leave **Allow recipients to build content with the data associated with this report** off.",
+          "hint": "Build permission is for users who need to create new reports from the semantic model.",
+          "explanation": "Least privilege gives report consumers the access they need without allowing them to edit the report or build new content from the model.",
+          "targetId": "share-form",
+          "rules": [
+            {
+              "key": "report-shared",
+              "description": "Report is shared read-only without Build",
+              "rule": {
+                "type": "arrayContains",
+                "path": "shares",
+                "match": {
+                  "report": "Regional sales",
+                  "recipient": "Sales managers",
+                  "permission": "Read",
+                  "build": false
+                }
+              },
+              "failureFeedback": "Share with Sales managers using Read and no Build permission."
+            }
+          ]
+        }
       ],
       "finalRules": [
-        { "key": "final-correct-visuals", "description": "The report contains the four required visual types", "rule": { "type": "allOf", "rules": [{ "type": "arrayContains", "path": "reportVisuals", "match": { "slot": "kpi", "visualType": "Card" } }, { "type": "arrayContains", "path": "reportVisuals", "match": { "slot": "region", "visualType": "Clustered column chart" } }, { "type": "arrayContains", "path": "reportVisuals", "match": { "slot": "month", "visualType": "Line chart" } }, { "type": "arrayContains", "path": "reportVisuals", "match": { "slot": "year", "visualType": "Slicer" } }] }, "failureFeedback": "Use Card, Clustered column chart, Line chart, and Slicer for the required visuals." },
-        { "key": "final-saved", "description": "Regional sales is saved", "rule": { "type": "arrayContains", "path": "reports", "match": { "name": "Regional sales", "saved": true } }, "failureFeedback": "Save the report as Regional sales." },
-        { "key": "final-least-privilege", "description": "Sales managers have read-only access without Build", "rule": { "type": "arrayContains", "path": "shares", "match": { "recipient": "Sales managers", "permission": "Read", "build": false } }, "successFeedback": "The report is shared with least privilege.", "failureFeedback": "Use Read access and leave Build off." }
+        {
+          "key": "final-correct-visuals",
+          "description": "The report contains the four required visual types",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayContains",
+                "path": "reportVisuals",
+                "match": {
+                  "slot": "kpi",
+                  "visualType": "Card"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "reportVisuals",
+                "match": {
+                  "slot": "region",
+                  "visualType": "Clustered column chart"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "reportVisuals",
+                "match": {
+                  "slot": "month",
+                  "visualType": "Line chart"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "reportVisuals",
+                "match": {
+                  "slot": "year",
+                  "visualType": "Slicer"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "reportVisuals",
+                "match": {
+                  "slot": "product-detail",
+                  "visualType": "Table"
+                }
+              }
+            ]
+          },
+          "failureFeedback": "Use Card, Clustered column chart, Line chart, and Slicer for the required visuals."
+        },
+        {
+          "key": "final-saved",
+          "description": "Regional sales is saved",
+          "rule": {
+            "type": "arrayContains",
+            "path": "reports",
+            "match": {
+              "name": "Regional sales",
+              "saved": true
+            }
+          },
+          "failureFeedback": "Save the report as Regional sales."
+        },
+        {
+          "key": "final-least-privilege",
+          "description": "Sales managers have read-only access without Build",
+          "rule": {
+            "type": "arrayContains",
+            "path": "shares",
+            "match": {
+              "recipient": "Sales managers",
+              "permission": "Read",
+              "build": false
+            }
+          },
+          "successFeedback": "The report is shared with least privilege.",
+          "failureFeedback": "Use Read access and leave Build off."
+        },
+        {
+          "key": "final-verified",
+          "description": "The report was verified before sharing",
+          "rule": {
+            "type": "equals",
+            "path": "reportVerified",
+            "value": true
+          },
+          "successFeedback": "The report passed final verification.",
+          "failureFeedback": "Run final verification before sharing."
+        }
       ],
-      "solution": "1. Select **Workspaces**, open **Sales Analytics**, then open the **Sales** semantic model.\n2. Review **Tables** and **Relationships**: Sales relates to Product and Date, and the model exposes the Total Sales measure.\n3. Select **Create report**. Add a **Card** with **Sales[Total Sales] measure**.\n4. Add a **Clustered column chart** with **Sales[Region]** and **Sales[Total Sales] measure**.\n5. Add a **Line chart** with **Date[Month]** and **Sales[Total Sales] measure**.\n6. Add a **Slicer** with **Date[Year]**.\n7. Select **Save** and save as `Regional sales` in **Sales Analytics**.\n8. Select **Share**. Share with **Sales managers**, permission **Read**, and leave **Allow recipients to build content with the data associated with this report** off."
+      "solution": "1. Select **Workspaces**, open **Sales Analytics**, then open the **Sales** semantic model.\n2. Review **Tables** and **Relationships**: Sales relates to Product and Date, and the model exposes the Total Sales measure.\n3. Select **Create report**. Add a **Card** with **Sales[Total Sales] measure**.\n4. Add a **Clustered column chart** with **Sales[Region]** and **Sales[Total Sales] measure**.\n5. Add a **Line chart** with **Date[Month]** and **Sales[Total Sales] measure**.\n6. Add a **Slicer** with **Date[Year]**.\n7. Add a **Table** for **Product detail page matrix** with **Product[Category]** and **Sales[Total Sales] measure**.\n8. Select **Save** and save as `Regional sales` in **Sales Analytics**.\n9. Complete **Final verification** with **Overview and Product detail**, **Sales semantic model**, and Year slicer interactions on.\n10. Select **Share**. Share with **Sales managers**, permission **Read**, and leave **Allow recipients to build content with the data associated with this report** off."
     }
   ]
 }

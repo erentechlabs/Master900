@@ -1,0 +1,467 @@
+{
+  "terms": [
+    {
+      "slug": "defense-in-depth",
+      "term": "Defense in depth",
+      "definition": "A security approach that uses multiple layers of controls so that the failure of one control does not expose the entire environment.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Security concepts",
+        "useCases": [
+          "Layer identity, network, application, and data protections",
+          "Reduce impact of a single failed control"
+        ],
+        "keyFeatures": [
+          "Multiple control layers",
+          "Compensating protections",
+          "Supports resilience"
+        ]
+      },
+      "source": {
+        "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+        "kind": "STUDY_GUIDE"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Tek bir kontrol başarısız olduğunda tüm ortamın açığa çıkmaması için birden fazla güvenlik katmanı kullanan yaklaşım.",
+          "status": "DRAFT",
+          "useCases": [
+            "Kimlik, ağ, uygulama ve veri korumalarını katmanlamak"
+          ],
+          "keyFeatures": [
+            "Birden çok kontrol katmanı",
+            "Telafi edici korumalar"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "authentication",
+      "term": "Authentication",
+      "definition": "The process of verifying that a person, device, application, or service is the identity it claims to be.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Identity concepts",
+        "useCases": [
+          "Verify sign-ins",
+          "Support MFA and passwordless methods"
+        ],
+        "keyFeatures": [
+          "Identity proof",
+          "Sign-in verification"
+        ]
+      },
+      "source": {
+        "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+        "kind": "STUDY_GUIDE"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir kişi, cihaz, uygulama veya hizmetin iddia ettiği kimlik olduğunu doğrulama süreci.",
+          "status": "DRAFT",
+          "useCases": [
+            "Oturum açma işlemlerini doğrulamak"
+          ],
+          "keyFeatures": [
+            "Kimlik kanıtı",
+            "Oturum açma doğrulaması"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "authorization",
+      "term": "Authorization",
+      "definition": "The process of deciding what an authenticated identity is allowed to access or do.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Identity concepts",
+        "useCases": [
+          "Enforce app permissions",
+          "Apply role or group-based access"
+        ],
+        "keyFeatures": [
+          "Permission evaluation",
+          "Access decisions"
+        ]
+      },
+      "source": {
+        "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+        "kind": "STUDY_GUIDE"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Kimliği doğrulanmış bir varlığın hangi kaynaklara erişebileceğini veya ne yapabileceğini belirleme süreci.",
+          "status": "DRAFT",
+          "useCases": [
+            "Uygulama izinlerini uygulamak"
+          ],
+          "keyFeatures": [
+            "İzin değerlendirmesi",
+            "Erişim kararları"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "federation",
+      "term": "Federation",
+      "definition": "A trust relationship that lets an application or identity system rely on another identity provider to authenticate users.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Identity concepts",
+        "useCases": [
+          "Enable partner or cross-organization sign-in",
+          "Avoid separate passwords for every application"
+        ],
+        "keyFeatures": [
+          "Trust relationship",
+          "Token or assertion-based sign-in"
+        ]
+      },
+      "source": {
+        "title": "OpenID Connect on the Microsoft identity platform",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir uygulama veya kimlik sisteminin kullanıcıları doğrulamak için başka bir identity provider'a güvenmesini sağlayan güven ilişkisi.",
+          "status": "DRAFT",
+          "useCases": [
+            "Partner veya kurumlar arası oturum açmayı sağlamak"
+          ],
+          "keyFeatures": [
+            "Güven ilişkisi",
+            "Token tabanlı oturum açma"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "multifactor-authentication",
+      "term": "Multifactor authentication",
+      "definition": "An authentication approach that requires two or more verification factors before access is granted.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Authentication",
+        "useCases": [
+          "Reduce risk from stolen passwords",
+          "Protect sensitive app access"
+        ],
+        "keyFeatures": [
+          "Multiple verification factors",
+          "Common Conditional Access grant control"
+        ]
+      },
+      "source": {
+        "title": "Microsoft Entra authentication overview",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/overview-authentication",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Erişim verilmeden önce iki veya daha fazla doğrulama faktörü isteyen kimlik doğrulama yaklaşımı.",
+          "status": "DRAFT",
+          "term": "Çok faktörlü kimlik doğrulama",
+          "useCases": [
+            "Çalınan parola riskini azaltmak"
+          ],
+          "keyFeatures": [
+            "Birden çok doğrulama faktörü"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "passwordless-authentication",
+      "term": "Passwordless authentication",
+      "definition": "An authentication approach that lets users sign in without typing a reusable password.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Authentication",
+        "useCases": [
+          "Improve sign-in security",
+          "Reduce reliance on passwords"
+        ],
+        "keyFeatures": [
+          "No typed reusable password",
+          "Can use modern strong methods"
+        ]
+      },
+      "source": {
+        "title": "Microsoft Entra authentication overview",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/overview-authentication",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Kullanıcıların yeniden kullanılabilir bir parola yazmadan oturum açmasını sağlayan kimlik doğrulama yaklaşımı.",
+          "status": "DRAFT",
+          "useCases": [
+            "Oturum açma güvenliğini artırmak"
+          ],
+          "keyFeatures": [
+            "Yazılan yeniden kullanılabilir parola yok"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "conditional-access",
+      "term": "Conditional Access",
+      "definition": "A Microsoft Entra policy capability that evaluates signals such as user, location, device, app, and risk, then applies access controls.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Identity and access management",
+        "useCases": [
+          "Require MFA for risky or sensitive access",
+          "Block or allow access based on conditions"
+        ],
+        "keyFeatures": [
+          "Signal-based policies",
+          "Grant and session controls",
+          "Zero Trust policy engine"
+        ],
+        "serviceModel": "Microsoft Entra"
+      },
+      "source": {
+        "title": "Microsoft Entra Conditional Access overview",
+        "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Kullanıcı, konum, cihaz, uygulama ve risk gibi sinyalleri değerlendirip erişim kontrolleri uygulayan Microsoft Entra policy özelliği.",
+          "status": "DRAFT",
+          "useCases": [
+            "Riskli veya hassas erişimde MFA istemek"
+          ],
+          "keyFeatures": [
+            "Sinyal tabanlı ilkeler",
+            "Grant ve session controls"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "privileged-identity-management",
+      "term": "Privileged Identity Management",
+      "definition": "A Microsoft Entra ID Governance capability for managing eligible privileged role assignments, activation requirements, approvals, and auditing.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Identity governance",
+        "useCases": [
+          "Reduce standing administrative privilege",
+          "Require MFA or approval for role activation"
+        ],
+        "keyFeatures": [
+          "Eligible assignments",
+          "Just-in-time activation",
+          "Activation audit history"
+        ],
+        "serviceModel": "Microsoft Entra ID Governance"
+      },
+      "source": {
+        "title": "What is Privileged Identity Management?",
+        "url": "https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Eligible ayrıcalıklı rol atamaları, aktivasyon gereksinimleri, onaylar ve denetim için kullanılan Microsoft Entra ID Governance özelliği.",
+          "status": "DRAFT",
+          "useCases": [
+            "Sürekli aktif yönetici ayrıcalığını azaltmak"
+          ],
+          "keyFeatures": [
+            "Eligible assignments",
+            "Just-in-time activation"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "access-reviews",
+      "term": "Access reviews",
+      "definition": "A Microsoft Entra ID Governance capability for periodically checking whether users should keep access to groups, applications, or roles.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Identity governance",
+        "useCases": [
+          "Review guest or contractor access",
+          "Confirm group and application access is still needed"
+        ],
+        "keyFeatures": [
+          "Periodic review campaigns",
+          "Reviewer decisions",
+          "Access lifecycle cleanup"
+        ],
+        "serviceModel": "Microsoft Entra ID Governance"
+      },
+      "source": {
+        "title": "What are access reviews?",
+        "url": "https://learn.microsoft.com/en-us/entra/id-governance/access-reviews-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Kullanıcıların gruplara, uygulamalara veya rollere erişimi sürdürüp sürdürmemesi gerektiğini periyodik olarak kontrol eden Microsoft Entra ID Governance özelliği.",
+          "status": "DRAFT",
+          "useCases": [
+            "Misafir veya yüklenici erişimini gözden geçirmek"
+          ],
+          "keyFeatures": [
+            "Periyodik review kampanyaları",
+            "Reviewer kararları"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "entitlement-management",
+      "term": "Entitlement management",
+      "definition": "A Microsoft Entra ID Governance capability that uses access packages, request policies, approvals, and lifecycle controls to manage access.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Identity governance",
+        "useCases": [
+          "Bundle project access for internal or external users",
+          "Control request approval and access expiration"
+        ],
+        "keyFeatures": [
+          "Access packages",
+          "Request and approval policies",
+          "Lifecycle controls"
+        ],
+        "serviceModel": "Microsoft Entra ID Governance"
+      },
+      "source": {
+        "title": "What is entitlement management?",
+        "url": "https://learn.microsoft.com/en-us/entra/id-governance/entitlement-management-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Access package, istek politikaları, onaylar ve yaşam döngüsü kontrolleri ile erişimi yöneten Microsoft Entra ID Governance özelliği.",
+          "status": "DRAFT",
+          "useCases": [
+            "İç veya dış kullanıcılar için proje erişimini paketlemek"
+          ],
+          "keyFeatures": [
+            "Access packages",
+            "İstek ve onay politikaları"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "workload-identity",
+      "term": "Workload identity",
+      "definition": "An identity used by an application, service, script, or automation to access resources without representing a human user.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Identity types",
+        "useCases": [
+          "Allow apps or services to access resources",
+          "Avoid shared human accounts for automation"
+        ],
+        "keyFeatures": [
+          "Represents software workload",
+          "Managed separately from users"
+        ]
+      },
+      "source": {
+        "title": "What is Microsoft Entra?",
+        "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir uygulama, hizmet, script veya otomasyonun insan kullanıcıyı temsil etmeden kaynaklara erişmesi için kullanılan kimlik.",
+          "status": "DRAFT",
+          "useCases": [
+            "Uygulama veya hizmetlerin kaynaklara erişmesini sağlamak"
+          ],
+          "keyFeatures": [
+            "Yazılım iş yükünü temsil eder"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "hashing",
+      "term": "Hashing",
+      "definition": "A one-way transformation that creates a fixed representation of data, commonly used to verify values such as passwords without storing the original value.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Data protection",
+        "useCases": [
+          "Verify passwords without storing plaintext",
+          "Compare data integrity values"
+        ],
+        "keyFeatures": [
+          "One-way transformation",
+          "Verification by comparison"
+        ]
+      },
+      "source": {
+        "title": "Azure encryption overview",
+        "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/encryption-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Verinin sabit bir temsilini oluşturan tek yönlü dönüşüm; genellikle parolaları orijinal değeri saklamadan doğrulamak için kullanılır.",
+          "status": "DRAFT",
+          "useCases": [
+            "Parolaları düz metin saklamadan doğrulamak"
+          ],
+          "keyFeatures": [
+            "Tek yönlü dönüşüm",
+            "Karşılaştırma ile doğrulama"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "certification": "SC-900",
+  "lab": "investigate-sentinel-incident",
+  "note": "Install Entra Sentinel content, connect SignInLogs, enable a scheduled rule, inspect and close the incident.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "content-hub"
+    },
+    {
+      "type": "rowAction",
+      "componentId": "content-table",
+      "rowKey": "Microsoft Entra ID",
+      "actionId": "install"
+    },
+    {
+      "type": "navigate",
+      "page": "data-connectors"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "connectors-table",
+      "rowKey": "Microsoft Entra ID"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "connect-data",
+      "values": {
+        "workspace": "soc-law",
+        "dataType": "SignInLogs"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "analytics"
+    },
+    {
+      "type": "click",
+      "componentId": "create-rule"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "rule-wizard",
+      "values": {
+        "template": "Multiple failed sign-ins followed by success",
+        "ruleName": "Multiple failed sign-ins followed by success",
+        "severity": "High",
+        "status": "Enabled",
+        "queryFrequency": "5 minutes",
+        "incidentCreation": "Create incidents from alerts triggered by this analytics rule",
+        "automationRule": "Notify SOC channel"
+      }
+    },
+    {
+      "type": "rowClick",
+      "componentId": "incidents-table",
+      "rowKey": "INC-2026-0042"
+    },
+    {
+      "type": "navigate",
+      "page": "incident-evidence"
+    },
+    {
+      "type": "command",
+      "command": "kql signin-failures --incident INC-2026-0042"
+    },
+    {
+      "type": "navigate",
+      "page": "incident-detail"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "incident-actions",
+      "values": {
+        "owner": "Alex Wilber",
+        "status": "Closed",
+        "classification": "True positive - Suspicious activity",
+        "automation": "Notify SOC channel",
+        "comment": "Evidence reviewed: repeated failed sign-ins from unfamiliar IP addresses followed by a successful sign-in. Password reset and user verification requested."
+      }
+    }
+  ]
+}

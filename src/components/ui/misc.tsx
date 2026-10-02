@@ -34,7 +34,7 @@ export function Progress({
 }
 
 export function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("animate-pulse rounded-md bg-muted", className)} aria-hidden="true" {...props} />;
+  return <div className={cn("animate-shimmer rounded-md bg-[linear-gradient(90deg,hsl(var(--muted))_0%,hsl(var(--card))_45%,hsl(var(--muted))_90%)] bg-[length:200%_100%]", className)} aria-hidden="true" {...props} />;
 }
 
 export function Separator({ className, orientation = "horizontal" }: { className?: string; orientation?: "horizontal" | "vertical" }) {

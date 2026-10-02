@@ -1,0 +1,65 @@
+{
+  "certification": "AI-901",
+  "lab": "analyze-text-language",
+  "note": "Use Azure Language for sentiment, key phrases, entities, PII redaction, capability matching, and redacted storage verification.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "tools"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "tools-table",
+      "rowKey": "Azure Language"
+    },
+    {
+      "type": "click",
+      "componentId": "open-language-playground"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "language-analysis-form",
+      "values": {
+        "sample": "reviews",
+        "capabilities": [
+          "sentiment-opinion"
+        ]
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "language-analysis-form",
+      "values": {
+        "sample": "product-feedback",
+        "capabilities": [
+          "key-phrases",
+          "ner"
+        ]
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "language-analysis-form",
+      "values": {
+        "sample": "support-transcript",
+        "capabilities": [
+          "pii"
+        ],
+        "storeRedacted": true
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "request-choice-form",
+      "values": {
+        "angryReviews": "sentiment-opinion",
+        "topicSummary": "key-phrases",
+        "privacyStore": "pii"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "stored-transcripts"
+    }
+  ]
+}

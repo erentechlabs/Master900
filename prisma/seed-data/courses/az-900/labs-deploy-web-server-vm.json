@@ -924,7 +924,7 @@
           "key": "http-rule",
           "title": "Create the HTTP inbound rule",
           "instruction": "Go to **Network settings** > **Create port rule**. Set **Service** **HTTP**, **Source** **Internet**, **Destination port ranges** `80`, **Protocol** **TCP**, **Action** **Allow**, **Priority** `300`, and **Name** `Allow-HTTP-Internet`; select **Add**.",
-          "explanation": "Only the application port should be exposed.",
+          "explanation": "Expose only the application port the workload needs. Leaving SSH, RDP, or all ports open increases the attack surface without helping the web site.",
           "targetId": "create-port-rule",
           "rules": [
             {
@@ -965,7 +965,7 @@
           "key": "shutdown",
           "title": "Enable auto-shutdown",
           "instruction": "Open **Operations > Auto-shutdown**, set **Enabled** on, **Scheduled shutdown** `19:00`, **Time zone** **(UTC+03:00) Istanbul**, and select **Save**.",
-          "explanation": "Auto-shutdown reduces waste for test VMs.",
+          "explanation": "Auto-shutdown is a simple cost-control habit for test VMs because compute can stop when nobody is using the server.",
           "targetId": "auto-shutdown-form",
           "rules": [
             {

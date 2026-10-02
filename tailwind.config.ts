@@ -150,10 +150,42 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        /** Fluent entrance: content fades in while sliding up a little. */
+        enter: {
+          from: { opacity: "0", transform: "translateY(8px)" },
+          to: { opacity: "1", transform: "none" },
+        },
+        /** Reward pop for badges, stars and counters. */
+        pop: {
+          "0%": { opacity: "0", transform: "scale(0.6)" },
+          "60%": { opacity: "1", transform: "scale(1.08)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
+        /** "+10 XP" style floating label. */
+        "float-up": {
+          "0%": { opacity: "0", transform: "translateY(6px)" },
+          "15%": { opacity: "1", transform: "translateY(0)" },
+          "100%": { opacity: "0", transform: "translateY(-24px)" },
+        },
+        /** Skeleton loading shimmer (use with a gradient background sized 200%). */
+        shimmer: {
+          from: { backgroundPosition: "200% 0" },
+          to: { backgroundPosition: "-200% 0" },
+        },
+        /** Gentle flame flicker for streaks. */
+        flicker: {
+          "0%, 100%": { transform: "scale(1) rotate(0deg)" },
+          "50%": { transform: "scale(1.06) rotate(-3deg)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s cubic-bezier(0, 0, 0, 1)",
         "accordion-up": "accordion-up 0.2s cubic-bezier(0, 0, 0, 1)",
+        enter: "enter 0.33s cubic-bezier(0, 0, 0, 1) both",
+        pop: "pop 0.45s cubic-bezier(0.2, 0.8, 0.2, 1.2) both",
+        "float-up": "float-up 1.4s cubic-bezier(0, 0, 0, 1) forwards",
+        shimmer: "shimmer 1.6s linear infinite",
+        flicker: "flicker 1.8s ease-in-out infinite",
       },
     },
   },

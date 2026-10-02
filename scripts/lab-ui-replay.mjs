@@ -86,10 +86,24 @@ async function replayLab(lab) {
   const config = configs.get(lab.cert + ":" + lab.slug);
   const page = await context.newPage();
   page.on("dialog", (dialog) => dialog.accept());
+  // The "Mission complete" dialog opens asynchronously once the last step passes; learners close it to keep exploring.
+  await page.addLocatorHandler(page.getByRole("dialog", { name: "Mission complete" }), async () => {
+    await page.keyboard.press("Escape");
+  });
   const issues = [];
   const pageErrors = [];
   page.on("pageerror", (e) => pageErrors.push(e.message.slice(0, 200)));
   await page.goto(`${base}/labs/${lab.id}`, { waitUntil: "networkidle", timeout: 90000 });
+
+  // A fresh attempt opens the modal mission briefing; start the mission so the workspace is interactive.
+  const dismissBriefing = async () => {
+    const start = page.getByRole("button", { name: "Start mission" });
+    await start
+      .waitFor({ state: "visible", timeout: 2500 })
+      .then(() => start.click())
+      .catch(() => {});
+  };
+  await dismissBriefing();
 
   // Start from a clean attempt through the Reset button of the Resources tab.
   await page.getByRole("tab", { name: "Resources", exact: true }).click();
@@ -98,6 +112,7 @@ async function replayLab(lab) {
     await reset.click();
     await page.waitForLoadState("networkidle");
     await page.waitForTimeout(800);
+    await dismissBriefing();
   }
   await page.getByRole("tab", { name: "Tasks", exact: true }).click();
 

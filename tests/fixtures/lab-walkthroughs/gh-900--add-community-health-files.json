@@ -1,0 +1,89 @@
+{
+  "certification": "GH-900",
+  "lab": "add-community-health-files",
+  "note": "Complete community health checklist and enable Discussions.",
+  "events": [
+    {
+      "type": "click",
+      "componentId": "add-file"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "readme-form",
+      "values": {
+        "content": "# Trail Mapper\n\nTrail Mapper is a fictional open-source sample that helps learners practice GitHub community workflows.\n\n## Getting started\n\nRun the sample locally with npm test.\n\n## Contributing\n\nPlease read CONTRIBUTING.md and the Code of Conduct before opening issues or pull requests.\n\n## License\n\nThis project uses the MIT License.\n",
+        "message": "Improve README community information"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "insights"
+    },
+    {
+      "type": "click",
+      "componentId": "insights-menu",
+      "itemId": "community-standards"
+    },
+    {
+      "type": "click",
+      "componentId": "add-license"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "license-form",
+      "values": {
+        "license": "MIT License",
+        "message": "Add MIT License"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "add-contributing"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "contributing-form",
+      "values": {
+        "content": "# Contributing\n\nThank you for improving Trail Mapper. Search existing issues first, use the bug report or feature request templates, keep pull requests focused, and be kind to reviewers.\n",
+        "message": "Add contribution guidelines"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "add-code-of-conduct"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "conduct-form",
+      "values": {
+        "template": "Contributor Covenant",
+        "contact": "maintainers@contoso.example"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "add-templates"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "templates-form",
+      "values": {
+        "templates": [
+          "Bug report",
+          "Feature request"
+        ],
+        "commit": "Add issue templates"
+      }
+    },
+    {
+      "type": "setField",
+      "componentId": "features-settings",
+      "fieldId": "discussions",
+      "value": true
+    },
+    {
+      "type": "click",
+      "componentId": "save-features"
+    }
+  ]
+}

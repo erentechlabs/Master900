@@ -1,0 +1,431 @@
+{
+  "domainKey": "project-management",
+  "modules": [
+    {
+      "slug": "github-project-tracking",
+      "title": "Project tracking and organization",
+      "summary": "Organize repository work with Projects, labels, milestones, templates, assignees, and views.",
+      "lessons": [
+        {
+          "slug": "track-work-with-projects",
+          "title": "Track work with Projects, labels, and milestones",
+          "objectiveCode": "5.1",
+          "estimatedMinutes": 12,
+          "summary": "Plan repository work with GitHub Projects, labels, milestones, templates, assignees, saved replies, and insights.",
+          "learningObjectives": [
+            "Describe Projects views and fields",
+            "Explain labels, milestones, and templates",
+            "Identify communication aids such as assignees and saved replies",
+            "Connect the project lab to these tools"
+          ],
+          "explanation": "A busy repository can feel like a group chat with no agenda. **GitHub Projects** turns issues, pull requests, and draft items into adaptable views such as tables and boards. Fields such as Status, Priority, and Iteration help teams sort and filter work.\n\n**Labels** classify items: `bug`, `documentation`, `good first issue`, or `blocked`. **Milestones** group issues and pull requests toward a release or goal. **Issue templates** and **pull request templates** ask contributors for consistent information. Assignees show who owns an item, saved replies speed common maintainer responses, and project insights or filtered views help teams spot progress and bottlenecks.\n\nThe `Plan repository work with Issues, milestones, and Projects` lab practises creating templated issues, organizing them with labels and a milestone, tracking priority in a Project, and linking a pull request to an issue.",
+          "terminology": [
+            {
+              "term": "GitHub Projects",
+              "definition": "Flexible planning tool for issues, pull requests, fields, and views."
+            },
+            {
+              "term": "Label",
+              "definition": "Marker used to classify issues and pull requests."
+            },
+            {
+              "term": "Milestone",
+              "definition": "Goal that groups issues and pull requests and tracks progress."
+            },
+            {
+              "term": "Template",
+              "definition": "Reusable prompt for consistent issue or pull request information."
+            },
+            {
+              "term": "Assignee",
+              "definition": "Person responsible for an item."
+            }
+          ],
+          "businessScenario": "Tailwind Traders plans a docs refresh with labels for topic, a launch milestone, and a Project grouped by status.",
+          "technicalExample": "A maintainer creates a Project table, adds a Priority field, labels issue #42 as `documentation`, assigns it to Priya, and puts it in the `Launch` milestone.",
+          "misconception": {
+            "myth": "Projects replace issues, labels, and milestones.",
+            "reality": "Projects complement them: issues describe work, labels classify, milestones group goals, and Projects show views and fields."
+          },
+          "examTakeaway": "Board or table = Project; category = label; release goal = milestone; consistent intake = template.",
+          "recap": "Plan repository work with GitHub Projects, labels, milestones, templates, assignees, saved replies, and insights.",
+          "simplerExplanation": "Think of project tracking like planning a school play: labels are colored tags on tasks, milestones are opening-night goals, templates are audition forms, and the Project view is the rehearsal board everyone checks.",
+          "anotherExample": "A mobile team could label issues by platform, group beta-release tasks in a milestone, assign owners, and build a Project table that filters only blocked high-priority work.",
+          "extraBlocks": [
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Work tracking flow",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "template",
+                    "label": "Template"
+                  },
+                  {
+                    "id": "issue",
+                    "label": "Issue"
+                  },
+                  {
+                    "id": "label",
+                    "label": "Label"
+                  },
+                  {
+                    "id": "mile",
+                    "label": "Milestone"
+                  },
+                  {
+                    "id": "project",
+                    "label": "Project"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "template",
+                    "to": "issue"
+                  },
+                  {
+                    "from": "issue",
+                    "to": "label"
+                  },
+                  {
+                    "from": "issue",
+                    "to": "mile"
+                  },
+                  {
+                    "from": "issue",
+                    "to": "project"
+                  }
+                ],
+                "caption": "Templates improve issue intake; issues are classified with labels, grouped into milestones, and tracked in Projects."
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Choose the tool",
+                "instructions": "Decide before checking the answer.",
+                "items": [
+                  {
+                    "prompt": "Group work for a release.",
+                    "answer": "Milestone."
+                  },
+                  {
+                    "prompt": "Show urgent bugs on a board.",
+                    "answer": "Project view with fields or labels."
+                  },
+                  {
+                    "prompt": "Ask for reproduction steps.",
+                    "answer": "Issue template."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What are GitHub Projects for?",
+              "back": "Tracking work with fields and views."
+            },
+            {
+              "front": "What do labels do?",
+              "back": "Classify issues and pull requests."
+            },
+            {
+              "front": "What does a milestone do?",
+              "back": "Groups work toward a goal."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Planning and tracking with Projects",
+              "url": "https://docs.github.com/issues/planning-and-tracking-with-projects",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Using labels and milestones to track work",
+              "url": "https://docs.github.com/issues/using-labels-and-milestones-to-track-work",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Using templates to encourage useful issues and pull requests",
+              "url": "https://docs.github.com/communities/using-templates-to-encourage-useful-issues-and-pull-requests",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "gh900-prj-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "project-management",
+              "objectiveCode": "5.1",
+              "difficulty": "EASY",
+              "stem": "Which feature provides adaptable table or board views with fields for issues and pull requests?",
+              "explanation": "GitHub Projects tracks work with views and fields.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "GitHub Projects",
+                  "correct": true,
+                  "explanation": "Projects provides fields and views."
+                },
+                {
+                  "key": "B",
+                  "text": "GitHub Codespaces",
+                  "correct": false,
+                  "explanation": "Codespaces is a development environment."
+                },
+                {
+                  "key": "C",
+                  "text": "Secret scanning",
+                  "correct": false,
+                  "explanation": "Secret scanning detects leaked credentials."
+                },
+                {
+                  "key": "D",
+                  "text": "GitHub Sponsors",
+                  "correct": false,
+                  "explanation": "Sponsors supports maintainers."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Planning and tracking with Projects",
+                  "url": "https://docs.github.com/issues/planning-and-tracking-with-projects",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "track-work-with-projects"
+            },
+            {
+              "ref": "gh900-prj-002",
+              "type": "CATEGORIZATION",
+              "domainKey": "project-management",
+              "objectiveCode": "5.1",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each planning item.",
+              "explanation": "Projects track work, labels classify, milestones group goals, and templates standardize intake.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "project",
+                    "label": "Project"
+                  },
+                  {
+                    "id": "label",
+                    "label": "Label"
+                  },
+                  {
+                    "id": "mile",
+                    "label": "Milestone"
+                  },
+                  {
+                    "id": "template",
+                    "label": "Template"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Board grouped by status",
+                    "category": "project",
+                    "explanation": "A Project view tracks status."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "`bug` marker",
+                    "category": "label",
+                    "explanation": "Labels classify issues and pull requests."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Release goal with progress",
+                    "category": "mile",
+                    "explanation": "Milestones group work toward a goal."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Bug report form",
+                    "category": "template",
+                    "explanation": "Templates collect consistent details."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Planning and tracking with Projects",
+                  "url": "https://docs.github.com/issues/planning-and-tracking-with-projects",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Using labels and milestones to track work",
+                  "url": "https://docs.github.com/issues/using-labels-and-milestones-to-track-work",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Using templates to encourage useful issues and pull requests",
+                  "url": "https://docs.github.com/communities/using-templates-to-encourage-useful-issues-and-pull-requests",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "track-work-with-projects"
+            },
+            {
+              "ref": "gh900-prj-003",
+              "type": "ORDERING",
+              "domainKey": "project-management",
+              "objectiveCode": "5.1",
+              "difficulty": "MEDIUM",
+              "stem": "Order the dependent setup steps for tracking bug reports toward a release goal.",
+              "explanation": "The template creates consistent issue details, those details drive labels and milestone assignment, and the Project view then uses that labeled milestone work.",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Create a bug report issue template that asks for affected release and severity"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Create bug issues from the template so each report has consistent details"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Use those details to apply labels and assign the issues to the release milestone"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Create a Project view filtered by that milestone and grouped by labels"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "The template defines the release and severity fields that later steps rely on.",
+                  "s2": "Issues created from the template contain the consistent details needed for classification.",
+                  "s3": "Labels and the release milestone can be applied from the issue details collected by the template.",
+                  "s4": "The Project view depends on the milestone and labels so it can filter and group the tracked work."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Planning and tracking with Projects",
+                  "url": "https://docs.github.com/issues/planning-and-tracking-with-projects",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Using labels and milestones to track work",
+                  "url": "https://docs.github.com/issues/using-labels-and-milestones-to-track-work",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Using templates to encourage useful issues and pull requests",
+                  "url": "https://docs.github.com/communities/using-templates-to-encourage-useful-issues-and-pull-requests",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "track-work-with-projects"
+            },
+            {
+              "ref": "gh900-prj-004",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "project-management",
+              "objectiveCode": "5.1",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about tracking the work planned for a release.",
+              "explanation": "A milestone collects the issues and pull requests planned for a release or goal, can have a due date, and shows the percentage of its items that are closed.",
+              "fillInBlank": {
+                "template": "A {{b1}} groups issues and pull requests for a release or goal, can have a due date, and shows how much of that work is complete.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "milestone"
+                    ],
+                    "explanation": "Milestones group work toward a target, optionally with a due date, and show progress as items are closed."
+                  }
+                ],
+                "wordBank": [
+                  "milestone",
+                  "label",
+                  "runner",
+                  "secret"
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Using labels and milestones to track work",
+                  "url": "https://docs.github.com/issues/using-labels-and-milestones-to-track-work",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "track-work-with-projects"
+            },
+            {
+              "ref": "gh900-prj-005",
+              "type": "CASE_STUDY",
+              "domainKey": "project-management",
+              "objectiveCode": "5.1",
+              "difficulty": "HARD",
+              "scenario": "Tailwind Traders is planning a release and wants to organize bug reports, release goals, and project tracking in GitHub.",
+              "stem": "For each statement, select Yes if it helps.",
+              "explanation": "Templates, milestones, labels, and project fields work together.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Use an issue template for reproduction steps.",
+                    "answer": true,
+                    "explanation": "Templates improve intake."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Use a milestone for the release goal.",
+                    "answer": true,
+                    "explanation": "Milestones group release work."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Use a runner as the public bug label.",
+                    "answer": false,
+                    "explanation": "Runners execute Actions jobs."
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Add a Priority field to the Project.",
+                    "answer": true,
+                    "explanation": "Fields support useful views."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Planning and tracking with Projects",
+                  "url": "https://docs.github.com/issues/planning-and-tracking-with-projects",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Using labels and milestones to track work",
+                  "url": "https://docs.github.com/issues/using-labels-and-milestones-to-track-work",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Using templates to encourage useful issues and pull requests",
+                  "url": "https://docs.github.com/communities/using-templates-to-encourage-useful-issues-and-pull-requests",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "track-work-with-projects"
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Re-check current GitHub UI labels, plan names, and feature availability before publishing."
+        }
+      ]
+    }
+  ]
+}

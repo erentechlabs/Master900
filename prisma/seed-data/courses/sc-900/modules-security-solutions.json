@@ -1,0 +1,2057 @@
+{
+  "domainKey": "security-solutions",
+  "modules": [
+    {
+      "slug": "azure-security-management",
+      "title": "Azure infrastructure security and posture management",
+      "summary": "Protect Azure resources with layered infrastructure services and manage posture with Microsoft Defender for Cloud.",
+      "lessons": [
+        {
+          "slug": "azure-infrastructure-security-services",
+          "title": "Protect Azure infrastructure services",
+          "objectiveCode": "3.1",
+          "estimatedMinutes": 12,
+          "summary": "Use Azure-native services to reduce network, web, administrative, and secret-management risk.",
+          "learningObjectives": [
+            "Identify Azure DDoS Protection for volumetric attack protection",
+            "Describe how Azure Firewall and WAF help secure network traffic",
+            "Explain how Azure Bastion reduces exposed administrative access",
+            "Choose Key Vault to protect secrets, keys, and certificates"
+          ],
+          "explanation": "**Azure infrastructure security** works best as a layered design. A flood of traffic calls for **Azure DDoS Protection**. Central network filtering points to **Azure Firewall**. Common HTTP/S web attacks point to **Web Application Firewall**. Private workload boundaries use virtual networks, subnets, and **network security groups**. Administrative access to virtual machines without public RDP or SSH points to **Azure Bastion**. Application secrets, keys, and certificates belong in **Azure Key Vault**.\n\nFor SC-900, do not treat these as interchangeable names. Read the scenario like a building plan: protect the outside crowd, inspect visitors at the web entrance, lock internal doors, provide a guarded service entrance, and store sensitive passes in a safe.",
+          "terminology": [
+            {
+              "term": "Azure DDoS Protection",
+              "definition": "Helps protect Azure resources from distributed denial-of-service attacks."
+            },
+            {
+              "term": "Azure Firewall",
+              "definition": "Central cloud-native network firewall for Azure traffic control."
+            },
+            {
+              "term": "Web Application Firewall",
+              "definition": "Inspects HTTP/S traffic for common web application attacks."
+            },
+            {
+              "term": "Network security group",
+              "definition": "Filters inbound and outbound Azure network traffic with rules."
+            },
+            {
+              "term": "Azure Bastion",
+              "definition": "Provides private RDP/SSH access to VMs without public management ports."
+            },
+            {
+              "term": "Azure Key Vault",
+              "definition": "Securely stores secrets, keys, and certificates."
+            }
+          ],
+          "businessScenario": "Fabrikam Retail is preparing a loyalty-app launch. The web tier is public, APIs and databases are private, and support engineers need emergency VM access without opening management ports to the internet.",
+          "technicalExample": "Priya sketches the traffic path: internet users reach Application Gateway with WAF; hub traffic flows through Azure Firewall; NSGs allow only web-to-API and API-to-database traffic; engineers use Bastion; app secrets are read from Key Vault.",
+          "misconception": {
+            "myth": "Putting every workload in one virtual network is enough segmentation.",
+            "reality": "A virtual network is the boundary, but subnets, route design, NSGs, Azure Firewall, and private administration patterns create useful layers inside it."
+          },
+          "examTakeaway": "For objective 3.1, match the layer: DDoS for traffic floods, WAF for web attacks, Azure Firewall for central network control, NSGs for subnet/NIC filtering, Bastion for private VM access, and Key Vault for secrets.",
+          "recap": "Use Azure-native services to reduce network, web, administrative, and secret-management risk.",
+          "simplerExplanation": "Picture a museum: crowd barriers outside are DDoS Protection, bag checks at the web entrance are WAF, locked gallery doors are NSGs, the staff-only escorted entrance is Bastion, and the artifact safe is Key Vault.",
+          "anotherExample": "Alpine Ski House exposes a booking site through WAF, blocks direct database subnet access with NSGs, and stores the payment API key in Key Vault instead of an app settings file.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Infrastructure service chooser",
+                "columns": [
+                  {
+                    "title": "Scenario clue",
+                    "points": [
+                      "Flood, HTTP/S attack, posture, SIEM, endpoint, email"
+                    ]
+                  },
+                  {
+                    "title": "Choose",
+                    "points": [
+                      "DDoS/WAF, Defender for Cloud, Sentinel, Defender XDR service"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Layer the loyalty app",
+                "instructions": "Choose the Azure infrastructure control for each design note.",
+                "items": [
+                  {
+                    "prompt": "The public booking site must resist common HTTP/S attacks.",
+                    "answer": "Use Azure Web Application Firewall."
+                  },
+                  {
+                    "prompt": "Database credentials must not be stored in source code.",
+                    "answer": "Store them in Azure Key Vault."
+                  },
+                  {
+                    "prompt": "Engineers need RDP/SSH without public VM ports.",
+                    "answer": "Use Azure Bastion."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Azure DDoS Protection",
+              "back": "Helps protect Azure resources from distributed denial-of-service attacks."
+            },
+            {
+              "front": "Azure Firewall",
+              "back": "Central cloud-native network firewall for Azure traffic control."
+            },
+            {
+              "front": "Web Application Firewall",
+              "back": "Inspects HTTP/S traffic for common web application attacks."
+            },
+            {
+              "front": "Network security group",
+              "back": "Filters inbound and outbound Azure network traffic with rules."
+            },
+            {
+              "front": "Azure Bastion",
+              "back": "Provides private RDP/SSH access to VMs without public management ports."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam SC-900",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Azure DDoS Protection overview",
+              "url": "https://learn.microsoft.com/en-us/azure/ddos-protection/ddos-protection-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Azure Firewall?",
+              "url": "https://learn.microsoft.com/en-us/azure/firewall/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Introduction to Azure Web Application Firewall",
+              "url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Azure network security groups overview",
+              "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Azure Bastion?",
+              "url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Azure Key Vault overview",
+              "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "sc900-sec-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.1",
+              "difficulty": "EASY",
+              "stem": "Which service is the best fit for reducing exposure to large-scale volumetric attacks against public Azure resources?",
+              "explanation": "DDoS Protection maps to distributed denial-of-service mitigation.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure DDoS Protection",
+                  "correct": true,
+                  "explanation": "It helps mitigate distributed denial-of-service attacks."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Bastion",
+                  "correct": false,
+                  "explanation": "Bastion is for private VM administration."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure Key Vault",
+                  "correct": false,
+                  "explanation": "Key Vault stores secrets, keys, and certificates."
+                },
+                {
+                  "key": "D",
+                  "text": "Microsoft Sentinel",
+                  "correct": false,
+                  "explanation": "Sentinel is SIEM/SOAR, not traffic-flood mitigation."
+                }
+              ],
+              "shuffleOptions": true,
+              "sources": [
+                {
+                  "title": "Azure DDoS Protection overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/ddos-protection/ddos-protection-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Study guide for Exam SC-900",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+                  "kind": "STUDY_GUIDE"
+                }
+              ],
+              "lessonSlug": "azure-infrastructure-security-services"
+            },
+            {
+              "ref": "sc900-sec-002",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** controls help segment traffic inside Azure virtual networks?",
+              "selectCount": 2,
+              "explanation": "Subnets and NSGs are segmentation controls.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Subnets in virtual networks",
+                  "explanation": "Subnets divide address space into workload areas.",
+                  "correct": true
+                },
+                {
+                  "key": "B",
+                  "text": "Network security groups",
+                  "explanation": "NSGs filter inbound and outbound traffic.",
+                  "correct": true
+                },
+                {
+                  "key": "C",
+                  "text": "Secure score",
+                  "explanation": "Secure score measures posture; it does not segment packets.",
+                  "correct": false
+                },
+                {
+                  "key": "D",
+                  "text": "Microsoft Threat Intelligence",
+                  "explanation": "Threat intelligence provides context, not segmentation.",
+                  "correct": false
+                }
+              ],
+              "shuffleOptions": true,
+              "sources": [
+                {
+                  "title": "Azure network security groups overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "azure-infrastructure-security-services"
+            },
+            {
+              "ref": "sc900-sec-003",
+              "type": "MATCHING",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each service to its primary role.",
+              "explanation": "Each service protects a different layer.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "ddos",
+                    "text": "Azure DDoS Protection"
+                  },
+                  {
+                    "id": "waf",
+                    "text": "Web Application Firewall"
+                  },
+                  {
+                    "id": "bastion",
+                    "text": "Azure Bastion"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Mitigate DDoS attacks"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Inspect web application traffic"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Connect privately to VMs"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Create SIEM incidents"
+                  }
+                ],
+                "pairs": {
+                  "ddos": "a1",
+                  "waf": "a2",
+                  "bastion": "a3"
+                },
+                "explanations": {
+                  "ddos": "DDoS Protection is for availability attacks.",
+                  "waf": "WAF focuses on HTTP/S attacks.",
+                  "bastion": "Bastion avoids public RDP/SSH exposure."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Azure DDoS Protection overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/ddos-protection/ddos-protection-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Introduction to Azure Web Application Firewall",
+                  "url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Bastion?",
+                  "url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "azure-infrastructure-security-services"
+            },
+            {
+              "ref": "sc900-sec-004",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.1",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about protecting secrets.",
+              "explanation": "Azure Key Vault is the secure store for secrets, keys, and certificates.",
+              "fillInBlank": {
+                "template": "Azure {{b1}} stores secrets, keys, and certificates.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "Key Vault",
+                      "key vault"
+                    ],
+                    "explanation": "Azure Key Vault is the secure store for secrets, keys, and certificates."
+                  }
+                ],
+                "wordBank": [
+                  "Firewall",
+                  "Key Vault",
+                  "Sentinel",
+                  "Bastion"
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Azure Key Vault overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "azure-infrastructure-security-services"
+            },
+            {
+              "ref": "sc900-sec-005",
+              "type": "CASE_STUDY",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.1",
+              "difficulty": "HARD",
+              "scenario": "Fabrikam has a public web tier, private API subnet, database subnet, and support engineers who need occasional VM access.",
+              "stem": "For each statement about layered Azure infrastructure security, select **Yes** if it is true. Otherwise, select **No**.",
+              "explanation": "The layered design uses WAF, Bastion, and NSGs for different needs.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "WAF can help protect the public web tier from common HTTP/S attacks.",
+                    "answer": true,
+                    "explanation": "WAF is designed for web application traffic."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Azure Bastion requires each VM to expose public RDP/SSH ports.",
+                    "answer": false,
+                    "explanation": "Bastion avoids public RDP/SSH exposure on the VMs."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "NSGs can filter traffic between subnets or network interfaces.",
+                    "answer": true,
+                    "explanation": "NSGs use rules to filter Azure traffic."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Introduction to Azure Web Application Firewall",
+                  "url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Bastion?",
+                  "url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure network security groups overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "azure-infrastructure-security-services"
+            }
+          ]
+        },
+        {
+          "slug": "defender-for-cloud-security-management",
+          "title": "Manage security posture with Defender for Cloud",
+          "objectiveCode": "3.2",
+          "estimatedMinutes": 12,
+          "summary": "Use Defender for Cloud to understand posture, prioritize recommendations, and add workload protection.",
+          "learningObjectives": [
+            "Describe how Defender for Cloud shows cloud security posture",
+            "Identify secure score and recommendations used to prioritize fixes",
+            "Explain when workload protection plans add threat defenses",
+            "Choose Defender for Cloud for Azure posture and workload scenarios"
+          ],
+          "explanation": "**Microsoft Defender for Cloud** helps answer: *How healthy is our cloud security posture, and what should we fix first?* It includes **cloud security posture management (CSPM)**, recommendations, secure score, regulatory compliance views, and cloud workload protection plans.\n\nCSPM is about configuration posture: find risky settings, recommend improvements, and track progress. Workload protection is about detecting and helping protect against threats for covered workloads. Secure score is a useful improvement signal, not a promise that the environment is risk-free.",
+          "terminology": [
+            {
+              "term": "Microsoft Defender for Cloud",
+              "definition": "Cloud security posture management and workload protection service."
+            },
+            {
+              "term": "CSPM",
+              "definition": "Cloud Security Posture Management finds configuration risk and recommends fixes."
+            },
+            {
+              "term": "Secure score",
+              "definition": "A posture metric that helps prioritize recommendations."
+            },
+            {
+              "term": "Recommendation",
+              "definition": "A suggested security improvement for a resource or setting."
+            },
+            {
+              "term": "Workload protection",
+              "definition": "Threat protection capabilities for specific workloads."
+            }
+          ],
+          "businessScenario": "Fabrikam's cloud operations review found dozens of differently configured subscriptions. The CISO wants a weekly posture conversation based on risk, ownership, and visible remediation progress.",
+          "technicalExample": "Priya exports the top Defender for Cloud recommendations into a backlog with columns for secure-score impact, affected resources, business owner, due date, and whether a workload protection plan is required.",
+          "misconception": {
+            "myth": "A high secure score means the environment cannot be attacked.",
+            "reality": "Secure score is a prioritization and posture signal. It guides improvements, but teams still need monitoring, incident response, identity controls, and workload protection."
+          },
+          "examTakeaway": "For objective 3.2, posture words such as recommendations, secure score, standards, regulatory compliance, and CSPM point to Defender for Cloud; active threat protection for resource types points to workload protection plans.",
+          "recap": "Use Defender for Cloud to understand posture, prioritize recommendations, and add workload protection.",
+          "simplerExplanation": "Defender for Cloud is like a safety inspector plus a patrol schedule: the inspector lists weak doors and missing signs, while workload protection watches important rooms for suspicious activity.",
+          "anotherExample": "Northwind Traders uses Defender for Cloud to find internet-exposed management ports, assigns the recommendation to the VM owner, and tracks the secure score change after remediation.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Posture versus protection",
+                "columns": [
+                  {
+                    "title": "Scenario clue",
+                    "points": [
+                      "Flood, HTTP/S attack, posture, SIEM, endpoint, email"
+                    ]
+                  },
+                  {
+                    "title": "Choose",
+                    "points": [
+                      "DDoS/WAF, Defender for Cloud, Sentinel, Defender XDR service"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Prioritize the posture backlog",
+                "instructions": "Decide which Defender for Cloud concept Priya is using.",
+                "items": [
+                  {
+                    "prompt": "A dashboard shows configuration recommendations and improvement points.",
+                    "answer": "Secure score and CSPM recommendations."
+                  },
+                  {
+                    "prompt": "The risk team compares resources to a benchmark control set.",
+                    "answer": "Regulatory compliance in Defender for Cloud."
+                  },
+                  {
+                    "prompt": "Critical servers need threat detection alerts.",
+                    "answer": "Enable an appropriate workload protection plan."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Microsoft Defender for Cloud",
+              "back": "Cloud security posture management and workload protection service."
+            },
+            {
+              "front": "CSPM",
+              "back": "Cloud Security Posture Management finds configuration risk and recommends fixes."
+            },
+            {
+              "front": "Secure score",
+              "back": "A posture metric that helps prioritize recommendations."
+            },
+            {
+              "front": "Recommendation",
+              "back": "A suggested security improvement for a resource or setting."
+            },
+            {
+              "front": "Workload protection",
+              "back": "Threat protection capabilities for specific workloads."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam SC-900",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Microsoft Defender for Cloud overview",
+              "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Cloud Security Posture Management (CSPM)?",
+              "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/concept-cloud-security-posture-management",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Cloud Secure Score in Microsoft Defender for Cloud",
+              "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/secure-score-security-controls",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Improve regulatory compliance in Microsoft Defender for Cloud",
+              "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/regulatory-compliance-dashboard",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "sc900-sec-006",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.2",
+              "difficulty": "EASY",
+              "stem": "Woodgrove wants one place to review Azure security posture, recommendations, secure score, and workload protection options. Which service fits?",
+              "explanation": "Defender for Cloud is the Azure security management service.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Microsoft Defender for Cloud",
+                  "correct": true,
+                  "explanation": "It provides CSPM, secure score, recommendations, and workload protection capabilities."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Bastion",
+                  "correct": false,
+                  "explanation": "Azure Bastion provides private RDP/SSH access to virtual machines; it does not assess secure score or workload protection."
+                },
+                {
+                  "key": "C",
+                  "text": "Microsoft Sentinel",
+                  "correct": false,
+                  "explanation": "Sentinel is SIEM/SOAR."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure Key Vault",
+                  "correct": false,
+                  "explanation": "Key Vault protects secrets."
+                }
+              ],
+              "shuffleOptions": true,
+              "sources": [
+                {
+                  "title": "Microsoft Defender for Cloud overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "defender-for-cloud-security-management"
+            },
+            {
+              "ref": "sc900-sec-007",
+              "type": "TRUE_FALSE",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.2",
+              "difficulty": "EASY",
+              "stem": "Secure score in Microsoft Defender for Cloud helps prioritize posture recommendations.",
+              "explanation": "Secure score helps teams measure and prioritize posture improvements.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Microsoft Defender for Cloud secure score helps prioritize recommendations that improve cloud security posture."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that secure score is specifically used to measure and prioritize posture improvements."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Cloud Secure Score in Microsoft Defender for Cloud",
+                  "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/secure-score-security-controls",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "defender-for-cloud-security-management"
+            },
+            {
+              "ref": "sc900-sec-008",
+              "type": "CATEGORIZATION",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each Defender for Cloud capability.",
+              "explanation": "CSPM improves posture; workload protection detects threats.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "posture",
+                    "label": "Posture management"
+                  },
+                  {
+                    "id": "protection",
+                    "label": "Workload protection"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Secure score recommendations",
+                    "category": "posture",
+                    "explanation": "Secure score and recommendations guide configuration improvement."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Regulatory compliance dashboard",
+                    "category": "posture",
+                    "explanation": "Compliance views map resources to standards."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Server threat protection plan",
+                    "category": "protection",
+                    "explanation": "Workload plans add threat protection."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Security alert for a protected workload",
+                    "category": "protection",
+                    "explanation": "Threat alerts come from workload protection."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Microsoft Defender for Cloud overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Cloud Security Posture Management (CSPM)?",
+                  "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/concept-cloud-security-posture-management",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Improve regulatory compliance in Microsoft Defender for Cloud",
+                  "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/regulatory-compliance-dashboard",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "defender-for-cloud-security-management"
+            },
+            {
+              "ref": "sc900-sec-009",
+              "type": "ORDERING",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Place the posture-improvement workflow in order.",
+              "explanation": "Posture work is iterative: review, prioritize, remediate, track.",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Review secure score and recommendations"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Prioritize high-impact resources"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Remediate configuration issues"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Track score and compliance changes"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "Start with visibility.",
+                  "s2": "Prioritize effort.",
+                  "s3": "Fix the risk.",
+                  "s4": "Measure improvement."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Cloud Secure Score in Microsoft Defender for Cloud",
+                  "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/secure-score-security-controls",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Cloud Security Posture Management (CSPM)?",
+                  "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/concept-cloud-security-posture-management",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "defender-for-cloud-security-management"
+            },
+            {
+              "ref": "sc900-sec-010",
+              "type": "UI_SIMULATION",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Configure the simulated Defender for Cloud view for posture recommendations and workload alerts.",
+              "explanation": "The simulated choices combine CSPM and workload protection.",
+              "uiSimulation": {
+                "title": "Defender for Cloud setup (simulated)",
+                "description": "A simplified fictional screen; it is not the real portal.",
+                "fields": [
+                  {
+                    "id": "cspm",
+                    "label": "Posture management",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "CSPM is needed for posture visibility."
+                  },
+                  {
+                    "id": "workload",
+                    "label": "Server workload protection plan",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "Workload protection is needed for threat alerts."
+                  },
+                  {
+                    "id": "view",
+                    "label": "Primary dashboard",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "score",
+                        "label": "Secure score and recommendations"
+                      },
+                      {
+                        "value": "secrets",
+                        "label": "Key Vault secrets list"
+                      }
+                    ],
+                    "correct": "score",
+                    "explanation": "Secure score and recommendations are the posture view."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Microsoft Defender for Cloud overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Cloud Secure Score in Microsoft Defender for Cloud",
+                  "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/secure-score-security-controls",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "defender-for-cloud-security-management"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "security-operations-and-xdr",
+      "title": "Security operations with Sentinel and Defender XDR",
+      "summary": "Collect security data, automate response, triage incidents, and map Defender services to threats.",
+      "lessons": [
+        {
+          "slug": "sentinel-siem-soar-operations",
+          "title": "Operate SIEM and SOAR with Microsoft Sentinel",
+          "objectiveCode": "3.3",
+          "estimatedMinutes": 12,
+          "summary": "Use Microsoft Sentinel to collect security data, detect threats, investigate incidents, hunt, and automate response.",
+          "learningObjectives": [
+            "Describe Microsoft Sentinel as a cloud-native SIEM and SOAR solution",
+            "Identify data connectors, analytics rules, incidents, and hunting",
+            "Explain how playbooks automate security response actions",
+            "Choose Sentinel for log correlation and threat investigation scenarios"
+          ],
+          "explanation": "**Microsoft Sentinel** is Microsoft's cloud-native **SIEM** and **SOAR** service. SIEM collects and correlates security data so analysts can detect and investigate threats. SOAR coordinates and automates response actions.\n\nSentinel uses data connectors to bring in data, workbooks to visualize it, analytics rules to create alerts or incidents, hunting to proactively search with queries, and playbooks to automate response. The **Triage and resolve a Microsoft Defender XDR incident** lab is a natural companion because it shows how security signals become analyst actions.",
+          "terminology": [
+            {
+              "term": "SIEM",
+              "definition": "Collects and analyzes security data for detection and investigation."
+            },
+            {
+              "term": "SOAR",
+              "definition": "Orchestrates and automates response actions."
+            },
+            {
+              "term": "Data connector",
+              "definition": "Brings supported data into Microsoft Sentinel."
+            },
+            {
+              "term": "Analytics rule",
+              "definition": "Detection logic that can create alerts or incidents."
+            },
+            {
+              "term": "Hunting",
+              "definition": "Proactive querying to find possible threats."
+            },
+            {
+              "term": "Playbook",
+              "definition": "An automated response workflow."
+            }
+          ],
+          "businessScenario": "Fabrikam's SOC receives identity, firewall, endpoint, and SaaS signals in separate places. Analysts miss patterns because they spend more time collecting evidence than investigating it.",
+          "technicalExample": "Priya connects sign-in and firewall logs, creates an analytics rule for repeated failures followed by a successful sign-in, builds a workbook for daily trends, and attaches a playbook that opens a ticket for high-severity incidents.",
+          "misconception": {
+            "myth": "Microsoft Sentinel is just a dashboard product.",
+            "reality": "Sentinel includes dashboards, but it is a SIEM/SOAR platform: it ingests data, detects threats, creates incidents, supports hunting, and automates response."
+          },
+          "examTakeaway": "For objective 3.3, connector means ingestion, workbook means visualization, analytics rule means detection, incident means investigation grouping, hunting means proactive query, and playbook means automation.",
+          "recap": "Use Microsoft Sentinel to collect security data, detect threats, investigate incidents, hunt, and automate response.",
+          "simplerExplanation": "Sentinel is a newsroom for security: connectors bring reports, analytics rules spot breaking stories, incidents group related facts, hunters investigate leads, and playbooks notify responders.",
+          "anotherExample": "Woodgrove Bank hunts for impossible sign-in patterns with KQL, then turns a successful query into an analytics rule so future matches create incidents automatically.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Sentinel operation objects",
+                "columns": [
+                  {
+                    "title": "Scenario clue",
+                    "points": [
+                      "Flood, HTTP/S attack, posture, SIEM, endpoint, email"
+                    ]
+                  },
+                  {
+                    "title": "Choose",
+                    "points": [
+                      "DDoS/WAF, Defender for Cloud, Sentinel, Defender XDR service"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Build the SOC workbench",
+                "instructions": "Name the Sentinel object that fits each SOC task.",
+                "items": [
+                  {
+                    "prompt": "Bring Microsoft Defender XDR alerts into the workspace.",
+                    "answer": "Data connector."
+                  },
+                  {
+                    "prompt": "Show failed sign-in trends during the morning stand-up.",
+                    "answer": "Workbook."
+                  },
+                  {
+                    "prompt": "Automatically create a ticket for a high-severity incident.",
+                    "answer": "Playbook triggered by automation."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "SIEM",
+              "back": "Collects and analyzes security data for detection and investigation."
+            },
+            {
+              "front": "SOAR",
+              "back": "Orchestrates and automates response actions."
+            },
+            {
+              "front": "Data connector",
+              "back": "Brings supported data into Microsoft Sentinel."
+            },
+            {
+              "front": "Analytics rule",
+              "back": "Detection logic that can create alerts or incidents."
+            },
+            {
+              "front": "Hunting",
+              "back": "Proactive querying to find possible threats."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam SC-900",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Microsoft Sentinel SIEM?",
+              "url": "https://learn.microsoft.com/en-us/azure/sentinel/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Microsoft Sentinel data connectors",
+              "url": "https://learn.microsoft.com/en-us/azure/sentinel/connect-data-sources",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Hunting capabilities in Microsoft Sentinel",
+              "url": "https://learn.microsoft.com/en-us/azure/sentinel/hunting",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Automation in Microsoft Sentinel",
+              "url": "https://learn.microsoft.com/en-us/azure/sentinel/automation/automation",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "sc900-sec-011",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.3",
+              "difficulty": "EASY",
+              "stem": "A security team wants to collect logs, correlate detections, investigate incidents, hunt with KQL, and automate response. Which service fits best?",
+              "explanation": "Sentinel maps to SIEM/SOAR operations.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Microsoft Sentinel",
+                  "correct": true,
+                  "explanation": "Sentinel is a cloud-native SIEM and SOAR service."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Bastion",
+                  "correct": false,
+                  "explanation": "Azure Bastion helps admins connect to virtual machines; it is not a SIEM/SOAR workspace for logs and incidents."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure Key Vault",
+                  "correct": false,
+                  "explanation": "Key Vault stores secrets."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure Firewall",
+                  "correct": false,
+                  "explanation": "Firewall filters traffic but is not the SIEM/SOAR platform."
+                }
+              ],
+              "shuffleOptions": true,
+              "sources": [
+                {
+                  "title": "What is Microsoft Sentinel SIEM?",
+                  "url": "https://learn.microsoft.com/en-us/azure/sentinel/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "sentinel-siem-soar-operations"
+            },
+            {
+              "ref": "sc900-sec-012",
+              "type": "MATCHING",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.3",
+              "difficulty": "MEDIUM",
+              "stem": "Match each Sentinel concept to its role.",
+              "explanation": "Sentinel moves from ingestion to detection and response.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "connector",
+                    "text": "Data connector"
+                  },
+                  {
+                    "id": "workbook",
+                    "text": "Workbook"
+                  },
+                  {
+                    "id": "analytics",
+                    "text": "Analytics rule"
+                  },
+                  {
+                    "id": "playbook",
+                    "text": "Playbook"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Brings data into Sentinel"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Visualizes data"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Creates alerts or incidents"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Runs automated response"
+                  },
+                  {
+                    "id": "a5",
+                    "text": "Stores app secrets"
+                  }
+                ],
+                "pairs": {
+                  "connector": "a1",
+                  "workbook": "a2",
+                  "analytics": "a3",
+                  "playbook": "a4"
+                },
+                "explanations": {
+                  "connector": "Connectors ingest data.",
+                  "workbook": "Workbooks visualize data.",
+                  "analytics": "Rules detect patterns.",
+                  "playbook": "Playbooks automate response."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Microsoft Sentinel data connectors",
+                  "url": "https://learn.microsoft.com/en-us/azure/sentinel/connect-data-sources",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Automation in Microsoft Sentinel",
+                  "url": "https://learn.microsoft.com/en-us/azure/sentinel/automation/automation",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "sentinel-siem-soar-operations"
+            },
+            {
+              "ref": "sc900-sec-013",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.3",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about Sentinel automation.",
+              "explanation": "Playbooks automate response workflows.",
+              "fillInBlank": {
+                "template": "In Microsoft Sentinel, {{b1}} are commonly used to automate response workflows.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "playbooks",
+                      "Playbooks"
+                    ],
+                    "explanation": "Playbooks automate response workflows."
+                  }
+                ],
+                "wordBank": [
+                  "workbooks",
+                  "playbooks",
+                  "subnets",
+                  "vaults"
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Automation in Microsoft Sentinel",
+                  "url": "https://learn.microsoft.com/en-us/azure/sentinel/automation/automation",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "sentinel-siem-soar-operations"
+            },
+            {
+              "ref": "sc900-sec-014",
+              "type": "CASE_STUDY",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.3",
+              "difficulty": "HARD",
+              "scenario": "Fabrikam connects firewall, identity, and endpoint logs to Microsoft Sentinel.",
+              "stem": "For each statement about Microsoft Sentinel connectors, workbooks, hunting, and automation, select **Yes** if it is true. Otherwise, select **No**.",
+              "explanation": "Connectors, workbooks, hunting, and playbooks have distinct roles.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "A data connector brings supported log data into Sentinel.",
+                    "answer": true,
+                    "explanation": "Connectors ingest supported sources."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "A workbook is the best object to automatically disable a compromised user.",
+                    "answer": false,
+                    "explanation": "Automation or playbooks perform response actions; workbooks visualize."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Hunting proactively searches data for threats that may not have generated an alert.",
+                    "answer": true,
+                    "explanation": "Hunting is proactive investigation."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Microsoft Sentinel data connectors",
+                  "url": "https://learn.microsoft.com/en-us/azure/sentinel/connect-data-sources",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Hunting capabilities in Microsoft Sentinel",
+                  "url": "https://learn.microsoft.com/en-us/azure/sentinel/hunting",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Automation in Microsoft Sentinel",
+                  "url": "https://learn.microsoft.com/en-us/azure/sentinel/automation/automation",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "sentinel-siem-soar-operations"
+            },
+            {
+              "ref": "sc900-sec-015",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.3",
+              "difficulty": "MEDIUM",
+              "stem": "An analyst writes a KQL query to look for unusual sign-in patterns before an alert exists. What Sentinel capability is this?",
+              "explanation": "Hunting is proactive query-based investigation.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Hunting",
+                  "correct": true,
+                  "explanation": "Hunting is proactive querying to search for threats."
+                },
+                {
+                  "key": "B",
+                  "text": "Secure score",
+                  "correct": false,
+                  "explanation": "Secure score measures posture."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure Bastion",
+                  "correct": false,
+                  "explanation": "Azure Bastion supports secure VM access, not proactive KQL threat hunting in Sentinel."
+                },
+                {
+                  "key": "D",
+                  "text": "Key Vault rotation",
+                  "correct": false,
+                  "explanation": "Rotation manages secrets or certificates."
+                }
+              ],
+              "shuffleOptions": true,
+              "sources": [
+                {
+                  "title": "Hunting capabilities in Microsoft Sentinel",
+                  "url": "https://learn.microsoft.com/en-us/azure/sentinel/hunting",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "sentinel-siem-soar-operations"
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Portal navigation and labels can change; re-check current Microsoft Learn pages before publishing UI-specific wording."
+        },
+        {
+          "slug": "defender-xdr-portal-incidents",
+          "title": "Investigate incidents in Microsoft Defender XDR",
+          "objectiveCode": "3.4",
+          "estimatedMinutes": 12,
+          "summary": "Understand the Defender portal, XDR incidents, and how analysts triage correlated threats.",
+          "learningObjectives": [
+            "Describe how the Defender portal brings XDR incidents together",
+            "Identify correlated alerts across email, endpoint, identity, and apps",
+            "Explain how analysts triage incidents and review evidence",
+            "Recognize when Defender XDR helps investigate multi-stage attacks"
+          ],
+          "explanation": "**Microsoft Defender XDR** helps analysts see one attack story across Microsoft Defender services. The Microsoft Defender portal can show incidents, alerts, affected assets, and evidence so a phishing email, endpoint process, and identity signal are not treated as unrelated puzzles.\n\nA safe triage rhythm is: assign the incident, review alerts and evidence, contain affected users/devices/messages, then resolve and classify. The course's **Triage and resolve a Microsoft Defender XDR incident** lab practises that flow in a simulated portal.",
+          "terminology": [
+            {
+              "term": "Microsoft Defender XDR",
+              "definition": "Coordinated threat protection across Microsoft Defender services."
+            },
+            {
+              "term": "Microsoft Defender portal",
+              "definition": "Portal experience for Microsoft Defender security capabilities."
+            },
+            {
+              "term": "Incident",
+              "definition": "A grouped investigation containing related alerts and evidence."
+            },
+            {
+              "term": "Alert",
+              "definition": "A security detection that may indicate suspicious activity."
+            },
+            {
+              "term": "Evidence",
+              "definition": "Users, devices, messages, files, or other entities linked to an investigation."
+            }
+          ],
+          "businessScenario": "Fabrikam's helpdesk reports a suspicious invoice email. Minutes later the endpoint team sees PowerShell on a finance laptop and identity protection flags the same user. Priya wants one case file instead of three disconnected queues.",
+          "technicalExample": "In the simulated Defender incident lab, Priya assigns the incident, reviews the email and device evidence, isolates DESKTOP-FIN-07, disables the compromised user, soft-deletes the phish, and resolves the incident as a true positive phishing case.",
+          "misconception": {
+            "myth": "A Defender XDR incident should be resolved as soon as the first alert is acknowledged.",
+            "reality": "Analysts should review the correlated evidence, contain affected entities, and document the classification before resolving the incident."
+          },
+          "examTakeaway": "For objective 3.4, a unified Defender portal, correlated alerts, incidents, evidence, assets, and cross-workload response actions point to Microsoft Defender XDR.",
+          "recap": "Understand the Defender portal, XDR incidents, and how analysts triage correlated threats.",
+          "simplerExplanation": "Defender XDR is a detective board: email, endpoint, identity, and cloud-app clues get pinned to one case so the analyst can follow the attack path.",
+          "anotherExample": "Relecloud receives a malware alert and a risky user alert. Defender XDR links them to the same compromised account so the responder can protect both the device and identity.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "XDR incident workflow",
+                "columns": [
+                  {
+                    "title": "Scenario clue",
+                    "points": [
+                      "Flood, HTTP/S attack, posture, SIEM, endpoint, email"
+                    ]
+                  },
+                  {
+                    "title": "Choose",
+                    "points": [
+                      "DDoS/WAF, Defender for Cloud, Sentinel, Defender XDR service"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Triage the invoice incident",
+                "instructions": "Pick the safest next action in the Defender incident flow.",
+                "items": [
+                  {
+                    "prompt": "The device shows suspicious PowerShell but has not been contained.",
+                    "answer": "Review evidence and isolate or contain the device before resolving."
+                  },
+                  {
+                    "prompt": "The phishing email is still present in one mailbox.",
+                    "answer": "Remediate the email evidence before final classification."
+                  },
+                  {
+                    "prompt": "All response actions are complete and documented.",
+                    "answer": "Resolve the incident with the appropriate classification."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Microsoft Defender XDR",
+              "back": "Coordinated threat protection across Microsoft Defender services."
+            },
+            {
+              "front": "Microsoft Defender portal",
+              "back": "Portal experience for Microsoft Defender security capabilities."
+            },
+            {
+              "front": "Incident",
+              "back": "A grouped investigation containing related alerts and evidence."
+            },
+            {
+              "front": "Alert",
+              "back": "A security detection that may indicate suspicious activity."
+            },
+            {
+              "front": "Evidence",
+              "back": "Users, devices, messages, files, or other entities linked to an investigation."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam SC-900",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Microsoft Defender XDR?",
+              "url": "https://learn.microsoft.com/en-us/defender-xdr/microsoft-365-defender",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Microsoft Defender XDR in the Microsoft Defender portal",
+              "url": "https://learn.microsoft.com/en-us/defender-xdr/microsoft-365-defender-portal",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Investigate incidents in the Microsoft Defender portal",
+              "url": "https://learn.microsoft.com/en-us/defender-xdr/investigate-incidents",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "sc900-sec-016",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.4",
+              "difficulty": "EASY",
+              "stem": "A phishing email, suspicious endpoint process, and risky user activity are correlated into one investigation queue. Which capability is described?",
+              "explanation": "Defender XDR incidents correlate multi-service threat signals.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Microsoft Defender XDR incidents",
+                  "correct": true,
+                  "explanation": "Defender XDR correlates signals across Defender services into incidents."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure DDoS mitigation",
+                  "correct": false,
+                  "explanation": "DDoS mitigation handles traffic floods."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure Key Vault access policy",
+                  "correct": false,
+                  "explanation": "Key Vault controls secret access."
+                },
+                {
+                  "key": "D",
+                  "text": "Defender for Cloud secure score",
+                  "correct": false,
+                  "explanation": "Secure score measures posture."
+                }
+              ],
+              "shuffleOptions": true,
+              "sources": [
+                {
+                  "title": "What is Microsoft Defender XDR?",
+                  "url": "https://learn.microsoft.com/en-us/defender-xdr/microsoft-365-defender",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Investigate incidents in the Microsoft Defender portal",
+                  "url": "https://learn.microsoft.com/en-us/defender-xdr/investigate-incidents",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "defender-xdr-portal-incidents"
+            },
+            {
+              "ref": "sc900-sec-017",
+              "type": "ORDERING",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.4",
+              "difficulty": "MEDIUM",
+              "stem": "Place a basic Defender XDR incident triage flow in order.",
+              "explanation": "Responsible triage investigates before resolving.",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Open the incident"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Review alerts, assets, and evidence"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Contain or remediate affected entities"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Resolve and classify the incident"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "Start from the queue.",
+                  "s2": "Understand the story.",
+                  "s3": "Act on affected entities.",
+                  "s4": "Resolve after response."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Investigate incidents in the Microsoft Defender portal",
+                  "url": "https://learn.microsoft.com/en-us/defender-xdr/investigate-incidents",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "defender-xdr-portal-incidents"
+            },
+            {
+              "ref": "sc900-sec-018",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.4",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** are examples of signals Defender XDR can correlate?",
+              "selectCount": 2,
+              "explanation": "Defender XDR combines signals from services such as Endpoint and Office 365.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Endpoint alert from Defender for Endpoint",
+                  "explanation": "Endpoint alerts can contribute to XDR incidents.",
+                  "correct": true
+                },
+                {
+                  "key": "B",
+                  "text": "Email threat from Defender for Office 365",
+                  "explanation": "Email threats can be correlated into XDR incidents.",
+                  "correct": true
+                },
+                {
+                  "key": "C",
+                  "text": "A Key Vault secret value displayed in plain text",
+                  "explanation": "XDR does not require exposing secret values.",
+                  "correct": false
+                },
+                {
+                  "key": "D",
+                  "text": "A subnet address range chosen for cost tracking",
+                  "explanation": "A subnet range is not a Defender threat signal.",
+                  "correct": false
+                }
+              ],
+              "shuffleOptions": true,
+              "sources": [
+                {
+                  "title": "What is Microsoft Defender XDR?",
+                  "url": "https://learn.microsoft.com/en-us/defender-xdr/microsoft-365-defender",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Defender for Endpoint",
+                  "url": "https://learn.microsoft.com/en-us/defender-endpoint/microsoft-defender-endpoint",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Why do I need Microsoft Defender for Office 365?",
+                  "url": "https://learn.microsoft.com/en-us/defender-office-365/mdo-about",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "defender-xdr-portal-incidents"
+            },
+            {
+              "ref": "sc900-sec-019",
+              "type": "UI_SIMULATION",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.4",
+              "difficulty": "MEDIUM",
+              "stem": "In the simulated Microsoft Defender incident screen, choose settings that reflect responsible triage.",
+              "explanation": "The simulated screen reinforces investigate, contain, then resolve.",
+              "uiSimulation": {
+                "title": "Microsoft Defender incident triage (simulated)",
+                "description": "A simplified fictional screen; it is not the real portal.",
+                "fields": [
+                  {
+                    "id": "status",
+                    "label": "Incident status",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "new",
+                        "label": "New"
+                      },
+                      {
+                        "value": "progress",
+                        "label": "In progress"
+                      },
+                      {
+                        "value": "resolved",
+                        "label": "Resolved immediately"
+                      }
+                    ],
+                    "correct": "progress",
+                    "explanation": "Set it in progress while investigating."
+                  },
+                  {
+                    "id": "review",
+                    "label": "Review evidence before resolution",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "Evidence review is needed before resolution."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Investigate incidents in the Microsoft Defender portal",
+                  "url": "https://learn.microsoft.com/en-us/defender-xdr/investigate-incidents",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Defender XDR in the Microsoft Defender portal",
+                  "url": "https://learn.microsoft.com/en-us/defender-xdr/microsoft-365-defender-portal",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "defender-xdr-portal-incidents"
+            },
+            {
+              "ref": "sc900-sec-020",
+              "type": "TRUE_FALSE",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.4",
+              "difficulty": "EASY",
+              "stem": "Microsoft Defender XDR and Microsoft Sentinel are identical products with identical purposes.",
+              "explanation": "Defender XDR correlates Defender service signals; Sentinel is SIEM/SOAR for broader security data and automation.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": false,
+                  "explanation": "Choosing True is wrong because Defender XDR and Microsoft Sentinel are related but distinct security products."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": true,
+                  "explanation": "Correct. Defender XDR correlates Microsoft Defender signals, while Sentinel provides SIEM and SOAR across broader data sources."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "What is Microsoft Defender XDR?",
+                  "url": "https://learn.microsoft.com/en-us/defender-xdr/microsoft-365-defender",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Microsoft Sentinel SIEM?",
+                  "url": "https://learn.microsoft.com/en-us/azure/sentinel/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "defender-xdr-portal-incidents"
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Portal navigation and labels can change; re-check current Microsoft Learn pages before publishing UI-specific wording."
+        },
+        {
+          "slug": "defender-xdr-services-threat-protection",
+          "title": "Map Defender XDR services to threats",
+          "objectiveCode": "3.4",
+          "estimatedMinutes": 12,
+          "summary": "Distinguish the Defender services and supporting capabilities that contribute to coordinated threat protection.",
+          "learningObjectives": [
+            "Match Defender services to endpoint, email, identity, cloud app, and cloud threats",
+            "Describe how Defender XDR coordinates protection across services",
+            "Identify supporting capabilities such as threat intelligence and exposure management",
+            "Choose the Defender service that fits a threat scenario"
+          ],
+          "explanation": "Defender XDR is the umbrella, while the Defender services are specialists. **Defender for Office 365** protects email and collaboration. **Defender for Endpoint** protects devices. **Defender for Cloud Apps** covers SaaS and cloud app activity. **Defender for Identity** detects identity-based attacks. **Defender Vulnerability Management** prioritizes endpoint weaknesses, and **Microsoft Threat Intelligence** adds context about indicators, actors, and trends.\n\nUse the workload clue: mailbox, device, cloud app, identity, vulnerability, or threat intel. In an XDR incident these clues can appear together.",
+          "terminology": [
+            {
+              "term": "Defender for Office 365",
+              "definition": "Protects email and collaboration from threats."
+            },
+            {
+              "term": "Defender for Endpoint",
+              "definition": "Endpoint security for devices and advanced threats."
+            },
+            {
+              "term": "Defender for Cloud Apps",
+              "definition": "Visibility and protection for cloud app activity."
+            },
+            {
+              "term": "Defender for Identity",
+              "definition": "Detects identity-based attacks."
+            },
+            {
+              "term": "Defender Vulnerability Management",
+              "definition": "Risk-based endpoint vulnerability management."
+            },
+            {
+              "term": "Microsoft Threat Intelligence",
+              "definition": "Threat context about indicators, actors, and trends."
+            }
+          ],
+          "businessScenario": "Fabrikam's incident report mentions a malicious attachment, a suspicious laptop process, an OAuth app anomaly, and lateral movement attempts. Priya must explain which Defender specialist saw each clue.",
+          "technicalExample": "Priya builds a mapping for the post-incident review: phishing evidence from Defender for Office 365, process evidence from Defender for Endpoint, OAuth app evidence from Defender for Cloud Apps, identity evidence from Defender for Identity, exposed software from Vulnerability Management, and indicator context from Threat Intelligence.",
+          "misconception": {
+            "myth": "Defender XDR removes the need to understand the individual Defender services.",
+            "reality": "XDR correlates the story, but the underlying services still specialize in email, endpoints, cloud apps, identity, vulnerabilities, and threat context."
+          },
+          "examTakeaway": "For objective 3.4, follow the workload clue: mailbox means Defender for Office 365, device means Defender for Endpoint, SaaS app means Defender for Cloud Apps, identity behavior means Defender for Identity, weaknesses mean Vulnerability Management, and indicator context means Threat Intelligence.",
+          "recap": "Distinguish the Defender services and supporting capabilities that contribute to coordinated threat protection.",
+          "simplerExplanation": "Think of a hospital response team: XDR coordinates the emergency, while Office 365, Endpoint, Cloud Apps, Identity, Vulnerability Management, and Threat Intelligence are specialists checking different symptoms.",
+          "anotherExample": "Contoso sees a malicious link in email and a suspicious process on a laptop. Defender for Office 365 and Defender for Endpoint contribute signals that Defender XDR correlates into one incident.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Defender service clues",
+                "columns": [
+                  {
+                    "title": "Scenario clue",
+                    "points": [
+                      "Flood, HTTP/S attack, posture, SIEM, endpoint, email"
+                    ]
+                  },
+                  {
+                    "title": "Choose",
+                    "points": [
+                      "DDoS/WAF, Defender for Cloud, Sentinel, Defender XDR service"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Call the right Defender specialist",
+                "instructions": "Match the incident clue to the Defender capability.",
+                "items": [
+                  {
+                    "prompt": "A malicious attachment was delivered to mailboxes.",
+                    "answer": "Microsoft Defender for Office 365."
+                  },
+                  {
+                    "prompt": "A laptop runs an unusual encoded PowerShell command.",
+                    "answer": "Microsoft Defender for Endpoint."
+                  },
+                  {
+                    "prompt": "An OAuth app requests risky permissions in a SaaS environment.",
+                    "answer": "Microsoft Defender for Cloud Apps."
+                  },
+                  {
+                    "prompt": "An indicator needs actor and campaign context.",
+                    "answer": "Microsoft Threat Intelligence."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Defender for Office 365",
+              "back": "Protects email and collaboration from threats."
+            },
+            {
+              "front": "Defender for Endpoint",
+              "back": "Endpoint security for devices and advanced threats."
+            },
+            {
+              "front": "Defender for Cloud Apps",
+              "back": "Visibility and protection for cloud app activity."
+            },
+            {
+              "front": "Defender for Identity",
+              "back": "Detects identity-based attacks."
+            },
+            {
+              "front": "Defender Vulnerability Management",
+              "back": "Risk-based endpoint vulnerability management."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam SC-900",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Microsoft Defender XDR?",
+              "url": "https://learn.microsoft.com/en-us/defender-xdr/microsoft-365-defender",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Why do I need Microsoft Defender for Office 365?",
+              "url": "https://learn.microsoft.com/en-us/defender-office-365/mdo-about",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Microsoft Defender for Endpoint",
+              "url": "https://learn.microsoft.com/en-us/defender-endpoint/microsoft-defender-endpoint",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Overview - Microsoft Defender for Cloud Apps",
+              "url": "https://learn.microsoft.com/en-us/defender-cloud-apps/what-is-defender-for-cloud-apps",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Microsoft Defender for Identity overview",
+              "url": "https://learn.microsoft.com/en-us/defender-for-identity/what-is",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Microsoft Defender Vulnerability Management",
+              "url": "https://learn.microsoft.com/en-us/defender-vulnerability-management/defender-vulnerability-management",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Threat intelligence in Microsoft Defender",
+              "url": "https://learn.microsoft.com/en-us/defender-xdr/defender-threat-intelligence",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "sc900-sec-021",
+              "type": "MATCHING",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.4",
+              "difficulty": "MEDIUM",
+              "stem": "Match each Defender service to the threat area it primarily helps protect.",
+              "explanation": "Each Defender service has a workload focus.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "mdo",
+                    "text": "Defender for Office 365"
+                  },
+                  {
+                    "id": "mde",
+                    "text": "Defender for Endpoint"
+                  },
+                  {
+                    "id": "mda",
+                    "text": "Defender for Cloud Apps"
+                  },
+                  {
+                    "id": "mdi",
+                    "text": "Defender for Identity"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Email and collaboration threats"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Endpoint devices"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "SaaS and cloud app usage"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Identity-based attacks"
+                  },
+                  {
+                    "id": "a5",
+                    "text": "Virtual network segmentation"
+                  }
+                ],
+                "pairs": {
+                  "mdo": "a1",
+                  "mde": "a2",
+                  "mda": "a3",
+                  "mdi": "a4"
+                },
+                "explanations": {
+                  "mdo": "Office 365 maps to email/collaboration.",
+                  "mde": "Endpoint maps to devices.",
+                  "mda": "Cloud Apps maps to SaaS activity.",
+                  "mdi": "Identity maps to identity attacks."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Why do I need Microsoft Defender for Office 365?",
+                  "url": "https://learn.microsoft.com/en-us/defender-office-365/mdo-about",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Defender for Endpoint",
+                  "url": "https://learn.microsoft.com/en-us/defender-endpoint/microsoft-defender-endpoint",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Overview - Microsoft Defender for Cloud Apps",
+                  "url": "https://learn.microsoft.com/en-us/defender-cloud-apps/what-is-defender-for-cloud-apps",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Defender for Identity overview",
+                  "url": "https://learn.microsoft.com/en-us/defender-for-identity/what-is",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "defender-xdr-services-threat-protection"
+            },
+            {
+              "ref": "sc900-sec-022",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.4",
+              "difficulty": "MEDIUM",
+              "stem": "A team wants risk-based discovery, prioritization, and remediation guidance for endpoint vulnerabilities and misconfigurations. Which capability fits?",
+              "explanation": "Defender Vulnerability Management addresses endpoint vulnerabilities.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Microsoft Defender Vulnerability Management",
+                  "correct": true,
+                  "explanation": "It is the risk-based endpoint vulnerability capability."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Bastion",
+                  "correct": false,
+                  "explanation": "Bastion is VM access."
+                },
+                {
+                  "key": "C",
+                  "text": "Microsoft Sentinel workbooks",
+                  "correct": false,
+                  "explanation": "Workbooks visualize data."
+                },
+                {
+                  "key": "D",
+                  "text": "Web Application Firewall",
+                  "correct": false,
+                  "explanation": "WAF inspects web traffic."
+                }
+              ],
+              "shuffleOptions": true,
+              "sources": [
+                {
+                  "title": "Microsoft Defender Vulnerability Management",
+                  "url": "https://learn.microsoft.com/en-us/defender-vulnerability-management/defender-vulnerability-management",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "defender-xdr-services-threat-protection"
+            },
+            {
+              "ref": "sc900-sec-023",
+              "type": "TRUE_FALSE",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.4",
+              "difficulty": "EASY",
+              "stem": "Microsoft Threat Intelligence can provide context about threat actors, indicators, and threat trends inside Microsoft Defender experiences.",
+              "explanation": "Threat intelligence helps analysts understand and prioritize what they see.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Microsoft Threat Intelligence adds context such as threat actors, indicators, and trends in Defender experiences."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that threat intelligence is meant to help analysts understand and prioritize observed threats."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Threat intelligence in Microsoft Defender",
+                  "url": "https://learn.microsoft.com/en-us/defender-xdr/defender-threat-intelligence",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "defender-xdr-services-threat-protection"
+            },
+            {
+              "ref": "sc900-sec-024",
+              "type": "CATEGORIZATION",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.4",
+              "difficulty": "MEDIUM",
+              "stem": "Categorize each scenario by the Defender capability most closely involved.",
+              "explanation": "The workload clue identifies the Defender service.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "office",
+                    "label": "Office 365"
+                  },
+                  {
+                    "id": "endpoint",
+                    "label": "Endpoint"
+                  },
+                  {
+                    "id": "cloudapps",
+                    "label": "Cloud Apps"
+                  },
+                  {
+                    "id": "identity",
+                    "label": "Identity"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Malicious email attachment delivered to mailboxes",
+                    "category": "office",
+                    "explanation": "Email threats map to Defender for Office 365."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Suspicious process on a laptop",
+                    "category": "endpoint",
+                    "explanation": "Device activity maps to Defender for Endpoint."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Risky OAuth app behavior in SaaS",
+                    "category": "cloudapps",
+                    "explanation": "SaaS app activity maps to Defender for Cloud Apps."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Suspicious identity lateral movement",
+                    "category": "identity",
+                    "explanation": "Identity-based attacks map to Defender for Identity."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Why do I need Microsoft Defender for Office 365?",
+                  "url": "https://learn.microsoft.com/en-us/defender-office-365/mdo-about",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Defender for Endpoint",
+                  "url": "https://learn.microsoft.com/en-us/defender-endpoint/microsoft-defender-endpoint",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Overview - Microsoft Defender for Cloud Apps",
+                  "url": "https://learn.microsoft.com/en-us/defender-cloud-apps/what-is-defender-for-cloud-apps",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Defender for Identity overview",
+                  "url": "https://learn.microsoft.com/en-us/defender-for-identity/what-is",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "defender-xdr-services-threat-protection"
+            },
+            {
+              "ref": "sc900-sec-025",
+              "type": "CASE_STUDY",
+              "domainKey": "security-solutions",
+              "objectiveCode": "3.4",
+              "difficulty": "HARD",
+              "scenario": "A Defender XDR incident includes a phishing email, a suspicious process, cloud app evidence, and identity-related evidence.",
+              "stem": "For each statement about Microsoft Defender XDR services and workload signals, select **Yes** if it is true. Otherwise, select **No**.",
+              "explanation": "Defender services specialize by workload and contribute to XDR incidents.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Defender for Office 365 can contribute email threat signals.",
+                    "answer": true,
+                    "explanation": "It protects email and collaboration."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Defender for Endpoint is relevant for suspicious process activity on a device.",
+                    "answer": true,
+                    "explanation": "Endpoint detections relate to device behavior."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Azure Key Vault is one of the Defender XDR services listed in the threat protection objective.",
+                    "answer": false,
+                    "explanation": "Key Vault is infrastructure security, not a Defender XDR service."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "What is Microsoft Defender XDR?",
+                  "url": "https://learn.microsoft.com/en-us/defender-xdr/microsoft-365-defender",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Why do I need Microsoft Defender for Office 365?",
+                  "url": "https://learn.microsoft.com/en-us/defender-office-365/mdo-about",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Defender for Endpoint",
+                  "url": "https://learn.microsoft.com/en-us/defender-endpoint/microsoft-defender-endpoint",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Overview - Microsoft Defender for Cloud Apps",
+                  "url": "https://learn.microsoft.com/en-us/defender-cloud-apps/what-is-defender-for-cloud-apps",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Defender for Identity overview",
+                  "url": "https://learn.microsoft.com/en-us/defender-for-identity/what-is",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "defender-xdr-services-threat-protection"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

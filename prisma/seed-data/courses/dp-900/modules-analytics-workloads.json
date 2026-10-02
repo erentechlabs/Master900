@@ -1,0 +1,2027 @@
+{
+  "domainKey": "analytics-workloads",
+  "modules": [
+    {
+      "slug": "dp900-large-scale-analytics-foundations",
+      "title": "Large-scale analytics foundations",
+      "summary": "Build the DP-900 mental model for ingestion, analytical stores, analytics platforms, and real-time event processing.",
+      "lessons": [
+        {
+          "slug": "dp900-analytics-ingestion-pipelines",
+          "title": "Ingest data with repeatable analytics pipelines",
+          "objectiveCode": "4.1",
+          "estimatedMinutes": 11,
+          "summary": "Learn how large-scale analytics starts by moving, validating, and preparing data with repeatable pipelines.",
+          "learningObjectives": [
+            "Describe how ingestion pipelines move, validate, and prepare analytics data",
+            "Distinguish ETL from ELT in lakehouse and warehouse workflows",
+            "Sequence landing, checking, transforming, and summarizing steps in a pipeline"
+          ],
+          "explanation": "A busy analytics team is a little like a restaurant kitchen: orders arrive from many places, but customers expect one clean menu. In analytics, **data ingestion** brings source data into an analytical environment, and a **data pipeline** coordinates the steps that make the data usable. Sources might be operational databases, CSV files, application logs, or events. The pipeline can copy data, check that columns look right, handle missing values, and load a prepared table for reporting.\n\nTwo patterns appear often. In **ETL**, data is extracted, transformed, and then loaded into the destination. In **ELT**, data is extracted and loaded first, then transformed inside the analytical platform. Lakehouses often suit ELT because raw files can land first and be shaped into tables later. The important exam idea is not the acronym alone; it is the flow from source data to trustworthy analytical data.\n\nMicrosoft Fabric Data Factory provides data integration experiences such as data pipelines and dataflows. In the **Build a Microsoft Fabric lakehouse and query a Delta table** lab, you practise a small version of this pattern: upload a sales file, load it to a Delta table, then query it. Large organizations automate that kind of flow so that analysts do not repeat fragile manual steps every day.",
+          "terminology": [
+            {
+              "term": "Data ingestion",
+              "definition": "The process of bringing data from source systems into an analytical environment."
+            },
+            {
+              "term": "Data pipeline",
+              "definition": "A repeatable workflow that moves and processes data."
+            },
+            {
+              "term": "ETL",
+              "definition": "Extract, transform, load: transform before loading into the final store."
+            },
+            {
+              "term": "ELT",
+              "definition": "Extract, load, transform: load first, then transform in the analytical platform."
+            },
+            {
+              "term": "Delta table",
+              "definition": "A table format commonly used in lakehouse scenarios for reliable analytical tables."
+            }
+          ],
+          "businessScenario": "Northwind Traders receives sales files from stores, web orders, and distributors. Priya wants one repeatable flow that lands raw files, validates columns, and prepares a sales table for the BI team before the morning stand-up.",
+          "technicalExample": "A simple T-SQL check after loading a table might be `SELECT Region, SUM(Amount) AS TotalSales FROM sales GROUP BY Region;`. In a pipeline, that query is not the first step; it happens after the file has landed and been loaded into a queryable table.",
+          "misconception": {
+            "myth": "A pipeline is just a diagram.",
+            "reality": "A pipeline is an executable or orchestrated workflow. The diagram helps people understand it, but the value is repeatable movement, transformation, monitoring, and recovery."
+          },
+          "examTakeaway": "Watch for scenarios about repeated movement, cleaning, scheduling, or loading of data. Those clues point to ingestion and pipelines before visualization.",
+          "recap": "Large-scale analytics starts with repeatable ingestion. Pipelines reduce manual work and prepare data for stores such as warehouses and lakehouses.",
+          "simplerExplanation": "Think of a pipeline as a conveyor belt: raw ingredients enter at one end, checks and preparation happen along the way, and organized packages come out ready for analysts.",
+          "anotherExample": "A hospital might ingest appointment data nightly, check for invalid department codes, load a curated appointments table, and refresh a report before managers arrive.",
+          "extraBlocks": [
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "From source to analytics table",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "source",
+                    "label": "Sources",
+                    "detail": "Files, apps, databases"
+                  },
+                  {
+                    "id": "land",
+                    "label": "Landing area",
+                    "detail": "Raw data retained"
+                  },
+                  {
+                    "id": "transform",
+                    "label": "Transform",
+                    "detail": "Clean and shape"
+                  },
+                  {
+                    "id": "table",
+                    "label": "Analytical table",
+                    "detail": "Ready for BI"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "source",
+                    "to": "land",
+                    "label": "copy"
+                  },
+                  {
+                    "from": "land",
+                    "to": "transform",
+                    "label": "validate"
+                  },
+                  {
+                    "from": "transform",
+                    "to": "table",
+                    "label": "load"
+                  }
+                ],
+                "caption": "Data flows from source systems to a raw landing area, through validation and transformation, and into an analytical table for BI or SQL queries."
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Pipeline spotting drill",
+                "instructions": "For each clue, name the pipeline step.",
+                "items": [
+                  {
+                    "prompt": "A file is copied from a store system into Fabric.",
+                    "answer": "Ingestion or landing."
+                  },
+                  {
+                    "prompt": "Rows with missing product codes are flagged.",
+                    "answer": "Validation or transformation."
+                  },
+                  {
+                    "prompt": "A curated sales table is refreshed for reports.",
+                    "answer": "Loading or publishing prepared data."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What does data ingestion do?",
+              "back": "It brings source data into an analytical environment."
+            },
+            {
+              "front": "What is a data pipeline?",
+              "back": "A repeatable workflow for moving and processing data."
+            },
+            {
+              "front": "ETL vs ELT",
+              "back": "ETL transforms before final load; ELT loads first and transforms in the analytical platform."
+            },
+            {
+              "front": "Why automate pipelines?",
+              "back": "To reduce manual, fragile, repeated work."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Data Factory in Microsoft Fabric?",
+              "url": "https://learn.microsoft.com/en-us/fabric/data-factory/data-factory-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is a lakehouse in Microsoft Fabric?",
+              "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "dp900-ana-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.1",
+              "difficulty": "EASY",
+              "stem": "Northwind receives a sales CSV each night and wants a repeatable flow to copy it, validate it, and load it for reporting. What should the team design?",
+              "explanation": "A data pipeline orchestrates repeated ingestion and processing steps.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "A data pipeline",
+                  "correct": true,
+                  "explanation": "Pipelines coordinate steps such as copy, transform, and load."
+                },
+                {
+                  "key": "B",
+                  "text": "A dashboard only",
+                  "correct": false,
+                  "explanation": "A dashboard displays results; it does not ingest files."
+                },
+                {
+                  "key": "C",
+                  "text": "A slicer",
+                  "correct": false,
+                  "explanation": "A slicer filters report visuals."
+                },
+                {
+                  "key": "D",
+                  "text": "A dimension table only",
+                  "correct": false,
+                  "explanation": "A dimension table can be part of a model, not the orchestration flow."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Data Factory in Microsoft Fabric?",
+                  "url": "https://learn.microsoft.com/en-us/fabric/data-factory/data-factory-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-analytics-ingestion-pipelines",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "dp900-ana-002",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** activities are common in data ingestion and processing for analytical workloads?",
+              "explanation": "Ingestion brings data in; processing cleans, transforms, or prepares it for analysis.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Copying source data into a landing area",
+                  "correct": true,
+                  "explanation": "Landing raw data is a common ingestion step."
+                },
+                {
+                  "key": "B",
+                  "text": "Transforming raw values into consistent columns",
+                  "correct": true,
+                  "explanation": "Transformation prepares data for analysis."
+                },
+                {
+                  "key": "C",
+                  "text": "Choosing a report color theme",
+                  "correct": false,
+                  "explanation": "Report design is visualization, not ingestion."
+                },
+                {
+                  "key": "D",
+                  "text": "Granting every employee owner access",
+                  "correct": false,
+                  "explanation": "That is an unsafe access decision, not a data processing step."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Data Factory in Microsoft Fabric?",
+                  "url": "https://learn.microsoft.com/en-us/fabric/data-factory/data-factory-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-analytics-ingestion-pipelines",
+              "selectCount": 2,
+              "shuffleOptions": true
+            },
+            {
+              "ref": "dp900-ana-003",
+              "type": "MATCHING",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each pipeline concept to its role.",
+              "explanation": "Each concept has a distinct job in a data pipeline.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Source"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Transformation"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Destination"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Where data starts"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Logic that cleans or reshapes data"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Where prepared data lands"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "A report page"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "The source is the originating system or file.",
+                  "p2": "Transformation changes the data into an analytical shape.",
+                  "p3": "The destination receives staged or curated data."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Data Factory in Microsoft Fabric?",
+                  "url": "https://learn.microsoft.com/en-us/fabric/data-factory/data-factory-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-analytics-ingestion-pipelines"
+            },
+            {
+              "ref": "dp900-ana-004",
+              "type": "ORDERING",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.1",
+              "difficulty": "MEDIUM",
+              "stem": "Put a simple lakehouse ingestion flow in order.",
+              "explanation": "A durable flow lands data before transforming and exposing it to analysts.",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Land the raw file"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Validate columns and data types"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Load a curated table"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Publish or query the prepared table"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "Landing the raw file first preserves the original source data before any cleaning or reshaping occurs.",
+                  "s2": "Validating columns and data types before loading curated tables catches schema and quality problems early.",
+                  "s3": "Loading a curated table comes after validation so analysts query prepared data rather than raw files.",
+                  "s4": "Publishing or querying is last because users need the prepared table before they can build reports or run SQL."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is a lakehouse in Microsoft Fabric?",
+                  "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-analytics-ingestion-pipelines"
+            },
+            {
+              "ref": "dp900-ana-005",
+              "type": "SCENARIO",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.1",
+              "difficulty": "HARD",
+              "stem": "Which approach best fits the requirement?",
+              "explanation": "ELT is a strong fit when raw data is first loaded to an analytical store and transformed there.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Load the raw files to the lakehouse, then transform them into Delta tables",
+                  "correct": true,
+                  "explanation": "This is an ELT-style analytical flow: land raw batch files in an analytical store, then transform them into queryable Delta tables."
+                },
+                {
+                  "key": "B",
+                  "text": "Create a Power BI dashboard before the data is loaded",
+                  "correct": false,
+                  "explanation": "Visuals need usable data first."
+                },
+                {
+                  "key": "C",
+                  "text": "Ask analysts to manually paste rows into a spreadsheet",
+                  "correct": false,
+                  "explanation": "Manual copy-and-paste is not repeatable large-scale ingestion."
+                },
+                {
+                  "key": "D",
+                  "text": "Use only a real-time eventhouse for nightly files",
+                  "correct": false,
+                  "explanation": "An eventhouse is aimed at event data, not the simplest nightly batch file flow."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is a lakehouse in Microsoft Fabric?",
+                  "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Data Factory in Microsoft Fabric?",
+                  "url": "https://learn.microsoft.com/en-us/fabric/data-factory/data-factory-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-analytics-ingestion-pipelines",
+              "scenario": "Northwind Traders receives a nightly CSV export from its sales system. Analysts need to query the loaded data with SQL after it is transformed into reliable analytical tables.",
+              "shuffleOptions": true
+            }
+          ]
+        },
+        {
+          "slug": "dp900-analytical-stores-platforms",
+          "title": "Choose analytical stores and platforms",
+          "objectiveCode": "4.1",
+          "estimatedMinutes": 12,
+          "summary": "Compare warehouses, data lakes, lakehouses, star schemas, Microsoft Fabric, and Azure Databricks for large-scale analytics.",
+          "learningObjectives": [
+            "Compare data warehouses, data lakes, and lakehouses for analytics storage",
+            "Explain how fact and dimension tables support a star schema",
+            "Recognize Microsoft Fabric and Azure Databricks analytics platform roles"
+          ],
+          "explanation": "Once data is flowing, the next question is where it should live. A **data warehouse** is a structured analytical store: tables, relationships, and SQL queries are central. It is a good fit when curated data must support repeatable reports and business metrics. A **data lake** is more flexible: it stores files such as CSV, JSON, images, logs, and Parquet, often in raw or staged zones. A **lakehouse** combines the lake idea with table management and SQL-friendly analytics, so teams can keep files and create governed tables.\n\nA common modeling pattern is the **star schema**. Put measurable events such as sales transactions in a fact table, then connect descriptive dimension tables such as Date, Product, Store, and Customer. This shape helps reports aggregate facts by business categories. In the Power BI lab for this course, the Sales semantic model uses a fact-like Sales table and Product and Date dimensions.\n\nFor platforms, remember the level of the question. **Microsoft Fabric** is an all-in-one analytics solution that brings data movement, data engineering, warehousing, real-time analytics, and Power BI together. **Azure Databricks** is a unified, open analytics platform for large-scale data, analytics, and AI solutions, often used by data engineers and data scientists. Both can be part of analytical workloads, but a DP-900 scenario usually asks you to recognize the broad service fit, not design an advanced architecture.",
+          "terminology": [
+            {
+              "term": "Data warehouse",
+              "definition": "A structured analytical store optimized for SQL queries and reporting."
+            },
+            {
+              "term": "Data lake",
+              "definition": "A storage approach for raw or curated files in many formats."
+            },
+            {
+              "term": "Lakehouse",
+              "definition": "An analytical pattern that combines file storage with managed tables and SQL or Spark analytics."
+            },
+            {
+              "term": "Star schema",
+              "definition": "A model with a central fact table connected to dimension tables."
+            },
+            {
+              "term": "Fact table",
+              "definition": "A table that stores measurable business events such as sales amounts."
+            },
+            {
+              "term": "Dimension table",
+              "definition": "A descriptive table used to filter or group facts, such as Date or Product."
+            }
+          ],
+          "businessScenario": "Northwind Traders has raw sales files, a curated finance warehouse, and a Power BI model. Alex must decide whether a new project needs flexible file landing, highly structured SQL reporting, or a governed semantic model.",
+          "technicalExample": "A tiny star schema might have `FactSales(SaleDateKey, ProductKey, Quantity, Amount)`, `DimDate(DateKey, Month, Year)`, and `DimProduct(ProductKey, Category)`. Reports can show `SUM(Amount)` by `DimDate[Month]` or `DimProduct[Category]`.",
+          "misconception": {
+            "myth": "A data lake, lakehouse, and warehouse are just different names for the same thing.",
+            "reality": "They overlap, but the emphasis differs: lakes store flexible files, warehouses focus on structured relational analytics, and lakehouses combine file storage with managed analytical tables."
+          },
+          "examTakeaway": "Watch for clues: raw files and mixed formats suggest a lake or lakehouse; structured SQL reporting suggests a warehouse; fact and dimension language suggests star schema modeling.",
+          "recap": "Analytical stores differ by structure and workload. Fabric and Azure Databricks are platform choices that can support large-scale analytics scenarios.",
+          "simplerExplanation": "Imagine organizing a library. A data lake is a big storage room for many item types, a warehouse is a carefully cataloged reference section, and a lakehouse adds catalog shelves inside the big room.",
+          "anotherExample": "A retailer might keep clickstream JSON in a lake, load trusted sales tables into a warehouse, and build a Power BI semantic model on top for managers.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Analytical store choices",
+                "columns": [
+                  {
+                    "title": "Data warehouse",
+                    "points": [
+                      "Curated relational tables",
+                      "SQL reporting and structured metrics"
+                    ]
+                  },
+                  {
+                    "title": "Data lake",
+                    "points": [
+                      "Raw or staged files",
+                      "Many formats and flexible exploration"
+                    ]
+                  },
+                  {
+                    "title": "Lakehouse",
+                    "points": [
+                      "Files plus managed tables",
+                      "Useful for Spark, SQL, and BI patterns"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Lab connection",
+                "body": "Practise the lakehouse choice in the **Build a Microsoft Fabric lakehouse and query a Delta table** lab, then notice how the Power BI report lab consumes a governed model for visualization."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What is a data warehouse?",
+              "back": "A structured analytical store optimized for SQL queries and reporting."
+            },
+            {
+              "front": "What is a data lake?",
+              "back": "A flexible store for files in many formats."
+            },
+            {
+              "front": "What is a lakehouse?",
+              "back": "A pattern combining file storage with managed analytical tables."
+            },
+            {
+              "front": "What is a star schema?",
+              "back": "A central fact table connected to dimension tables."
+            },
+            {
+              "front": "What is Microsoft Fabric?",
+              "back": "An all-in-one analytics platform spanning data movement through BI."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Microsoft Fabric?",
+              "url": "https://learn.microsoft.com/en-us/fabric/fundamentals/microsoft-fabric-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is a lakehouse in Microsoft Fabric?",
+              "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Fabric Data Warehouse?",
+              "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/data-warehousing",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Azure Databricks?",
+              "url": "https://learn.microsoft.com/en-us/azure/databricks/introduction/",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "dp900-ana-006",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.1",
+              "difficulty": "EASY",
+              "stem": "Which analytical store is designed primarily around relational tables, SQL, and structured reporting?",
+              "explanation": "A data warehouse organizes structured data for analytical queries and reporting.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Data warehouse",
+                  "correct": true,
+                  "explanation": "Warehouses are optimized for structured analytical queries."
+                },
+                {
+                  "key": "B",
+                  "text": "Raw data lake folder",
+                  "correct": false,
+                  "explanation": "A lake can store raw files in many formats, not necessarily relational tables."
+                },
+                {
+                  "key": "C",
+                  "text": "Eventstream",
+                  "correct": false,
+                  "explanation": "An eventstream handles streaming events."
+                },
+                {
+                  "key": "D",
+                  "text": "Dashboard",
+                  "correct": false,
+                  "explanation": "A dashboard displays metrics; it is not a store."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Fabric Data Warehouse?",
+                  "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/data-warehousing",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-analytical-stores-platforms",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "dp900-ana-007",
+              "type": "CATEGORIZATION",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.1",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each store or model feature.",
+              "explanation": "Warehouses, lakes, lakehouses, and star schemas solve different parts of an analytics design.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "warehouse",
+                    "label": "Data warehouse"
+                  },
+                  {
+                    "id": "lake",
+                    "label": "Data lake"
+                  },
+                  {
+                    "id": "lakehouse",
+                    "label": "Lakehouse"
+                  },
+                  {
+                    "id": "model",
+                    "label": "Star schema"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Structured SQL tables for reporting",
+                    "category": "warehouse",
+                    "explanation": "Warehouses emphasize relational analytical tables."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Raw CSV, JSON, image, or Parquet files",
+                    "category": "lake",
+                    "explanation": "Data lakes store files in varied formats."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Files plus managed analytical tables in one pattern",
+                    "category": "lakehouse",
+                    "explanation": "A lakehouse combines lake flexibility with table/query experiences."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Fact table surrounded by dimension tables",
+                    "category": "model",
+                    "explanation": "That is the star schema shape."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is a lakehouse in Microsoft Fabric?",
+                  "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Fabric Data Warehouse?",
+                  "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/data-warehousing",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-analytical-stores-platforms"
+            },
+            {
+              "ref": "dp900-ana-008",
+              "type": "TRUE_FALSE",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.1",
+              "difficulty": "EASY",
+              "stem": "A star schema commonly separates measurable business events in a fact table from descriptive dimension tables.",
+              "explanation": "The statement describes the common fact-and-dimension pattern used for analytics.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. In a star schema, the fact table stores measurable events such as sales amounts, and dimension tables store descriptive context such as product or date."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that fact-and-dimension separation is the standard star schema pattern for analytics."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                }
+              ],
+              "lessonSlug": "dp900-analytical-stores-platforms"
+            },
+            {
+              "ref": "dp900-ana-009",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.1",
+              "difficulty": "MEDIUM",
+              "stem": "Complete the sentence about Microsoft's end-to-end analytics platform.",
+              "explanation": "Microsoft Fabric is the all-in-one analytics platform in this sentence.",
+              "fillInBlank": {
+                "template": "{{b1}} is an all-in-one analytics platform that includes data movement, data engineering, real-time analytics, and business intelligence experiences.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "Microsoft Fabric",
+                      "Fabric"
+                    ],
+                    "explanation": "Microsoft Fabric is the all-in-one analytics platform in this sentence."
+                  }
+                ],
+                "wordBank": [
+                  "Microsoft Fabric",
+                  "Azure Databricks",
+                  "Azure Stream Analytics",
+                  "Power BI"
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Microsoft Fabric?",
+                  "url": "https://learn.microsoft.com/en-us/fabric/fundamentals/microsoft-fabric-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-analytical-stores-platforms"
+            },
+            {
+              "ref": "dp900-ana-010",
+              "type": "UI_SIMULATION",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.1",
+              "difficulty": "HARD",
+              "stem": "Configure the simulated item chooser for Northwind's file-based sales analytics requirement.",
+              "explanation": "A lakehouse fits the requirement because the team must land files and query Delta tables, similar to the Fabric lakehouse lab.",
+              "uiSimulation": {
+                "title": "Analytics item chooser (simulated)",
+                "description": "This is a simplified fictional screen for learning, not the real product interface.",
+                "fields": [
+                  {
+                    "id": "item",
+                    "label": "Item type",
+                    "control": "select",
+                    "correct": "lakehouse",
+                    "explanation": "Choose Lakehouse for files plus analytical tables.",
+                    "options": [
+                      {
+                        "value": "warehouse",
+                        "label": "Warehouse"
+                      },
+                      {
+                        "value": "lakehouse",
+                        "label": "Lakehouse"
+                      },
+                      {
+                        "value": "eventhouse",
+                        "label": "Eventhouse"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "query",
+                    "label": "SQL access needed",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "The team needs a SQL analytics endpoint over prepared tables."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "What is a lakehouse in Microsoft Fabric?",
+                  "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Fabric Data Warehouse?",
+                  "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/data-warehousing",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-analytical-stores-platforms"
+            }
+          ]
+        },
+        {
+          "slug": "dp900-real-time-analytics",
+          "title": "Understand batch and real-time analytics",
+          "objectiveCode": "4.2",
+          "estimatedMinutes": 10,
+          "summary": "Distinguish batch from streaming analytics and identify Microsoft services for real-time event scenarios.",
+          "learningObjectives": [
+            "Distinguish batch processing from stream processing using latency needs",
+            "Identify real-time analytics scenarios for IoT, alerts, dashboards, and anomalies",
+            "Choose Fabric Real-Time Intelligence or Azure Stream Analytics for event data"
+          ],
+          "explanation": "Some questions can wait until morning; others cannot. A store can process yesterday's sales as a **batch**, but a delivery company may need to react immediately when a truck sensor reports unsafe temperature. **Batch processing** collects data over a period and processes it as a group. **Stream processing** analyzes events as they arrive, often to power live dashboards, alerts, anomaly detection, IoT monitoring, or operational decisions.\n\nReal-time analytics is not simply “fast reporting.” The clue is continuous events plus a need to analyze or act while those events are still relevant. Microsoft cloud services support these patterns in different ways. **Real-Time Intelligence in Microsoft Fabric** helps organizations ingest, analyze, visualize, and act on streaming data in Fabric experiences. **Azure Stream Analytics** is a managed service for analyzing streaming data, commonly from sources such as devices, applications, or event ingestion services.\n\nFor DP-900, focus on scenario matching. If data arrives as a daily file and the report refreshes each morning, think batch. If telemetry, clicks, transactions, or messages arrive continuously and the business wants alerts, live dashboards, or immediate decisions, think streaming and real-time analytics.",
+          "terminology": [
+            {
+              "term": "Batch processing",
+              "definition": "Processing data collected over a period as a group."
+            },
+            {
+              "term": "Stream processing",
+              "definition": "Analyzing events continuously as they arrive."
+            },
+            {
+              "term": "Real-time analytics",
+              "definition": "Analytics designed to detect, visualize, or act on current events quickly."
+            },
+            {
+              "term": "Event",
+              "definition": "A record that something happened, such as a sensor reading or click."
+            },
+            {
+              "term": "Eventhouse",
+              "definition": "A Fabric item used for storing and querying event data in real-time analytics scenarios."
+            }
+          ],
+          "businessScenario": "Fabrikam Foods ships refrigerated products. Managers need nightly delivery summaries for planning, but operations staff need live alerts if a truck temperature rises while goods are still moving.",
+          "technicalExample": "A streaming rule might calculate average temperature over a recent time window and trigger an alert when the value exceeds an agreed threshold. A batch job might summarize all completed deliveries after midnight.",
+          "misconception": {
+            "myth": "Real-time analytics means every report refreshes instantly.",
+            "reality": "Real-time analytics is about event-driven processing and timely action. Many useful analytical reports are batch-based and intentionally refreshed on a schedule."
+          },
+          "examTakeaway": "Watch for words such as sensor, telemetry, clickstream, live, alert, event, and as it happens. Those clues point to stream processing and real-time analytics services.",
+          "recap": "Batch handles grouped data on a schedule. Streaming handles events as they arrive. Real-time services help teams detect and act while the event still matters.",
+          "simplerExplanation": "Batch is like reading the whole newspaper in the morning. Streaming is like a weather alert on your phone while the storm is approaching.",
+          "anotherExample": "A smart building might process energy meter readings every few seconds to detect unusual consumption, while finance reviews a monthly cost report as a batch.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Batch vs streaming",
+                "columns": [
+                  {
+                    "title": "Batch",
+                    "points": [
+                      "Data collected first",
+                      "Good for scheduled summaries",
+                      "Examples: nightly sales, monthly finance"
+                    ]
+                  },
+                  {
+                    "title": "Streaming",
+                    "points": [
+                      "Events processed as they arrive",
+                      "Good for alerts and live operations",
+                      "Examples: IoT telemetry, clickstream, fraud signals"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Scenario sorter",
+                "instructions": "Choose batch or streaming.",
+                "items": [
+                  {
+                    "prompt": "A CSV of yesterday's sales arrives at 2 AM.",
+                    "answer": "Batch."
+                  },
+                  {
+                    "prompt": "Thousands of device readings arrive every minute and require alerts.",
+                    "answer": "Streaming."
+                  },
+                  {
+                    "prompt": "Managers view a live operations dashboard.",
+                    "answer": "Streaming or real-time analytics."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What is batch processing?",
+              "back": "Processing data collected over time as a group."
+            },
+            {
+              "front": "What is stream processing?",
+              "back": "Analyzing events continuously as they arrive."
+            },
+            {
+              "front": "Name a real-time scenario.",
+              "back": "IoT monitoring, fraud detection, clickstream analysis, or operational alerts."
+            },
+            {
+              "front": "Name two real-time services.",
+              "back": "Real-Time Intelligence in Microsoft Fabric and Azure Stream Analytics."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Real-Time Intelligence in Microsoft Fabric?",
+              "url": "https://learn.microsoft.com/en-us/fabric/real-time-intelligence/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Introduction to Azure Stream Analytics",
+              "url": "https://learn.microsoft.com/en-us/azure/stream-analytics/stream-analytics-introduction",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "dp900-ana-011",
+              "type": "SCENARIO",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which processing pattern best fits this requirement?",
+              "explanation": "Continuous sensor readings that need quick detection are a streaming analytics scenario.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Stream processing",
+                  "correct": true,
+                  "explanation": "Events arrive continuously and need near-real-time analysis."
+                },
+                {
+                  "key": "B",
+                  "text": "Monthly batch processing",
+                  "correct": false,
+                  "explanation": "Monthly batches are too delayed for immediate alerts."
+                },
+                {
+                  "key": "C",
+                  "text": "Manual spreadsheet refresh",
+                  "correct": false,
+                  "explanation": "Manual refresh is not suitable for continuous telemetry."
+                },
+                {
+                  "key": "D",
+                  "text": "A static dimension table only",
+                  "correct": false,
+                  "explanation": "A dimension table can describe entities such as devices or locations, but by itself it does not ingest telemetry or trigger live alerts."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Real-Time Intelligence in Microsoft Fabric?",
+                  "url": "https://learn.microsoft.com/en-us/fabric/real-time-intelligence/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Introduction to Azure Stream Analytics",
+                  "url": "https://learn.microsoft.com/en-us/azure/stream-analytics/stream-analytics-introduction",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-real-time-analytics",
+              "scenario": "Northwind Traders monitors delivery van temperatures and wants to alert staff when readings cross a threshold while goods are still in transit.",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "dp900-ana-012",
+              "type": "TRUE_FALSE",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.2",
+              "difficulty": "EASY",
+              "stem": "Batch processing is generally used for data collected over a period and processed as a group, while stream processing handles events as they arrive.",
+              "explanation": "This is the key DP-900 distinction between batch and streaming data.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Batch processing works on collected groups of data, while stream processing evaluates events continuously as they arrive."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False reverses the DP-900 distinction: streaming is for arriving events, not grouped periodic processing."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Introduction to Azure Stream Analytics",
+                  "url": "https://learn.microsoft.com/en-us/azure/stream-analytics/stream-analytics-introduction",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-real-time-analytics"
+            },
+            {
+              "ref": "dp900-ana-013",
+              "type": "MATCHING",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.2",
+              "difficulty": "MEDIUM",
+              "stem": "Match each real-time analytics service or item to a likely use.",
+              "explanation": "Real-time scenarios use services that ingest, analyze, or store event data.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Real-Time Intelligence in Fabric"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Azure Stream Analytics"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Eventhouse"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Analyze and act on streaming data in Fabric"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Managed stream processing service for real-time data"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Store and query high-volume event data"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Design static report colors"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "Fabric Real-Time Intelligence is for event-driven streaming analysis.",
+                  "p2": "Azure Stream Analytics processes streaming inputs for real-time analysis.",
+                  "p3": "Eventhouses are used in Fabric real-time analytics for event data."
+                }
+              },
+              "sources": [
+                {
+                  "title": "What is Real-Time Intelligence in Microsoft Fabric?",
+                  "url": "https://learn.microsoft.com/en-us/fabric/real-time-intelligence/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Introduction to Azure Stream Analytics",
+                  "url": "https://learn.microsoft.com/en-us/azure/stream-analytics/stream-analytics-introduction",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-real-time-analytics"
+            },
+            {
+              "ref": "dp900-ana-014",
+              "type": "CASE_STUDY",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.2",
+              "difficulty": "HARD",
+              "scenario": "Fabrikam runs a web store. Orders are stored in a database, click events arrive continuously from the website, and managers want a live view of unusual traffic spikes.",
+              "stem": "For each statement about Fabrikam web events and real-time analytics, select **Yes** if it is true. Otherwise, select **No**.",
+              "explanation": "Traffic events and live spike detection point to streaming analytics, while historical order summaries can be batch.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Click events arriving continuously are candidates for stream processing.",
+                    "answer": true,
+                    "explanation": "Continuous events are the central streaming clue."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "A nightly summary of completed orders is always a real-time streaming workload.",
+                    "answer": false,
+                    "explanation": "A nightly summary is a batch workload."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Real-Time Intelligence in Microsoft Fabric can be considered for event-driven analytics scenarios.",
+                    "answer": true,
+                    "explanation": "Real-Time Intelligence is designed for streaming and event-driven analytics in Fabric."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Real-Time Intelligence in Microsoft Fabric?",
+                  "url": "https://learn.microsoft.com/en-us/fabric/real-time-intelligence/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-real-time-analytics"
+            },
+            {
+              "ref": "dp900-ana-015",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.2",
+              "difficulty": "EASY",
+              "stem": "Which scenario most clearly needs real-time analytics?",
+              "explanation": "Fraud or anomaly detection while events are happening is a classic real-time analytics scenario.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Detect possible fraud while card transactions are arriving",
+                  "correct": true,
+                  "explanation": "The organization must analyze events as they arrive."
+                },
+                {
+                  "key": "B",
+                  "text": "Archive last year's invoices once a year",
+                  "correct": false,
+                  "explanation": "Annual archival is a batch or storage task."
+                },
+                {
+                  "key": "C",
+                  "text": "Print a static product catalog",
+                  "correct": false,
+                  "explanation": "A static catalog is not an analytics stream."
+                },
+                {
+                  "key": "D",
+                  "text": "Manually total a small spreadsheet after a meeting",
+                  "correct": false,
+                  "explanation": "This does not require real-time cloud analytics."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Introduction to Azure Stream Analytics",
+                  "url": "https://learn.microsoft.com/en-us/azure/stream-analytics/stream-analytics-introduction",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-real-time-analytics",
+              "shuffleOptions": true
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Real-time product experiences and item names can change; re-check Microsoft Fabric Real-Time Intelligence naming before publication."
+        }
+      ]
+    },
+    {
+      "slug": "dp900-power-bi-analytics",
+      "title": "Power BI analytics and visualization",
+      "summary": "Understand Power BI capabilities, semantic models, basic modeling, and visual choices for analytics scenarios.",
+      "lessons": [
+        {
+          "slug": "dp900-power-bi-capabilities",
+          "title": "Explore Power BI reports, dashboards, and semantic models",
+          "objectiveCode": "4.3",
+          "estimatedMinutes": 11,
+          "summary": "Learn what Power BI does, how Desktop and the service differ, and why semantic models support consistent reporting.",
+          "learningObjectives": [
+            "Describe how Power BI connects, models, reports, publishes, and shares insights",
+            "Distinguish semantic models, reports, and dashboards in Power BI",
+            "Compare Power BI Desktop authoring with Power BI service sharing"
+          ],
+          "explanation": "A good report is like a clear shop window: it does not manufacture the products, but it helps people see what matters. **Power BI** is Microsoft’s business intelligence platform for connecting to data, modeling it, creating reports, publishing content, and sharing insights. Learners should know three common artifacts: a **semantic model**, a **report**, and a **dashboard**.\n\nA semantic model contains the business-ready data layer: tables, relationships, measures, and sometimes security rules. A report is an interactive set of pages and visuals built from data. A dashboard is a single canvas, often in the Power BI service, that brings together important tiles for quick monitoring.\n\nPower BI Desktop and the Power BI service work together. Desktop is a Windows application used heavily for authoring reports and models. The service is browser-based and supports publishing, sharing, collaboration, dashboards, apps, and consumption. In the **Create and share a Power BI report from a semantic model** lab, you open a Sales semantic model, build visuals, save a report, and share it with least-privilege read access. That lab illustrates the DP-900 idea: BI is not only charts; it also includes governed data models and responsible sharing.",
+          "terminology": [
+            {
+              "term": "Power BI",
+              "definition": "A business intelligence platform for modeling, reporting, dashboards, and sharing insights."
+            },
+            {
+              "term": "Power BI Desktop",
+              "definition": "A Windows authoring application for building reports and models."
+            },
+            {
+              "term": "Power BI service",
+              "definition": "The online Power BI experience for publishing, sharing, dashboards, and collaboration."
+            },
+            {
+              "term": "Semantic model",
+              "definition": "A governed data model containing tables, relationships, measures, and security definitions."
+            },
+            {
+              "term": "Report",
+              "definition": "An interactive collection of visuals, usually arranged across one or more pages."
+            },
+            {
+              "term": "Dashboard",
+              "definition": "A single canvas of tiles used to monitor key information."
+            }
+          ],
+          "businessScenario": "Tailwind Traders wants every sales manager to use the same definition of Total Sales. Priya publishes a Sales semantic model, Alex builds a regional report from it, and managers view shared content in the Power BI service.",
+          "technicalExample": "The model might contain `Sales`, `Date`, and `Product` tables plus a `Total Sales` measure. A report page can use the measure in a Card, by Region in a column chart, and by Month in a line chart without redefining the calculation each time.",
+          "misconception": {
+            "myth": "A report and a semantic model are the same thing.",
+            "reality": "The semantic model defines and secures the data. A report uses that model to display visuals and answer business questions."
+          },
+          "examTakeaway": "Watch for scenarios about shared measures, relationships, and security: those point to a semantic model. Sharing and dashboards point to the Power BI service; local authoring points to Desktop.",
+          "recap": "Power BI turns governed data into reports and dashboards. Desktop is for authoring; the service is for publishing, sharing, and consumption; semantic models keep metrics consistent.",
+          "simplerExplanation": "Think of the semantic model as a recipe book, the report as the plated meal, and the dashboard as a tasting tray of the most important bites.",
+          "anotherExample": "A school district can publish one Attendance semantic model and let different teams build reports for principals, transport planners, and finance without redefining attendance logic.",
+          "extraBlocks": [
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Power BI content relationship",
+                "kind": "hub",
+                "nodes": [
+                  {
+                    "id": "model",
+                    "label": "Semantic model",
+                    "detail": "Tables, relationships, measures"
+                  },
+                  {
+                    "id": "report",
+                    "label": "Report",
+                    "detail": "Interactive pages"
+                  },
+                  {
+                    "id": "dashboard",
+                    "label": "Dashboard",
+                    "detail": "Pinned tiles"
+                  },
+                  {
+                    "id": "consumer",
+                    "label": "Viewer",
+                    "detail": "Uses insights"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "model",
+                    "to": "report",
+                    "label": "feeds"
+                  },
+                  {
+                    "from": "report",
+                    "to": "dashboard",
+                    "label": "pins"
+                  },
+                  {
+                    "from": "dashboard",
+                    "to": "consumer",
+                    "label": "monitors"
+                  }
+                ],
+                "caption": "A semantic model feeds reports. Report visuals can be pinned to dashboards, and viewers consume the resulting insights."
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Lab connection",
+                "body": "The **Create and share a Power BI report from a semantic model** lab lets you practise opening a semantic model, building appropriate visuals, saving a report, and sharing it with least privilege."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What does Power BI do?",
+              "back": "It supports business intelligence through data modeling, reports, dashboards, and sharing."
+            },
+            {
+              "front": "Power BI Desktop vs service",
+              "back": "Desktop is a Windows authoring tool; the service is online for publishing, sharing, and collaboration."
+            },
+            {
+              "front": "What is a semantic model?",
+              "back": "A governed model of tables, relationships, measures, and security used by reports."
+            },
+            {
+              "front": "Report vs dashboard",
+              "back": "A report has interactive pages; a dashboard is a single canvas of key tiles."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Power BI?",
+              "url": "https://learn.microsoft.com/en-us/power-bi/fundamentals/power-bi-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Semantic models in the Power BI service",
+              "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-understand",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "dp900-ana-016",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.3",
+              "difficulty": "EASY",
+              "stem": "What is Power BI primarily used for in an analytics workload?",
+              "explanation": "Power BI helps users create and consume interactive reports, dashboards, and insights from data.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Creating interactive reports and dashboards from data",
+                  "correct": true,
+                  "explanation": "This is the core BI role of Power BI."
+                },
+                {
+                  "key": "B",
+                  "text": "Replacing all source databases",
+                  "correct": false,
+                  "explanation": "Power BI visualizes and models data; it is not a universal database replacement."
+                },
+                {
+                  "key": "C",
+                  "text": "Only storing raw files",
+                  "correct": false,
+                  "explanation": "Raw file storage is a lake or storage concern."
+                },
+                {
+                  "key": "D",
+                  "text": "Only processing device telemetry streams",
+                  "correct": false,
+                  "explanation": "Streaming services handle the event processing; Power BI may visualize results."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Power BI?",
+                  "url": "https://learn.microsoft.com/en-us/power-bi/fundamentals/power-bi-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-power-bi-capabilities",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "dp900-ana-017",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** statements correctly compare Power BI Desktop and the Power BI service?",
+              "explanation": "Desktop is commonly used to author reports and models locally; the service is browser-based for sharing, collaboration, and consumption.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Power BI Desktop is a Windows authoring tool for building reports and models",
+                  "correct": true,
+                  "explanation": "Desktop is used for report and model authoring."
+                },
+                {
+                  "key": "B",
+                  "text": "The Power BI service is used in a browser for sharing and collaboration",
+                  "correct": true,
+                  "explanation": "The service supports online sharing and collaboration."
+                },
+                {
+                  "key": "C",
+                  "text": "Power BI Desktop is only for viewing finished dashboards",
+                  "correct": false,
+                  "explanation": "Desktop is mainly an authoring tool."
+                },
+                {
+                  "key": "D",
+                  "text": "The Power BI service cannot host semantic models",
+                  "correct": false,
+                  "explanation": "The service includes semantic models used by reports."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "What is Power BI?",
+                  "url": "https://learn.microsoft.com/en-us/power-bi/fundamentals/power-bi-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Semantic models in the Power BI service",
+                  "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-understand",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-power-bi-capabilities",
+              "selectCount": 2,
+              "shuffleOptions": true
+            },
+            {
+              "ref": "dp900-ana-018",
+              "type": "UI_SIMULATION",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.3",
+              "difficulty": "MEDIUM",
+              "stem": "Configure the simulated sharing screen for report consumers who should view but not build new content.",
+              "explanation": "Report consumers need read access; Build is for creating new content from the semantic model.",
+              "uiSimulation": {
+                "title": "Power BI sharing settings (simulated)",
+                "description": "This is a simplified fictional screen for learning, not the real product interface.",
+                "fields": [
+                  {
+                    "id": "permission",
+                    "label": "Permission",
+                    "control": "select",
+                    "correct": "read",
+                    "explanation": "Read lets recipients view the report without editing it.",
+                    "options": [
+                      {
+                        "value": "read",
+                        "label": "Read"
+                      },
+                      {
+                        "value": "edit",
+                        "label": "Edit"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "build",
+                    "label": "Allow Build on semantic model",
+                    "control": "toggle",
+                    "correct": false,
+                    "explanation": "Do not grant Build unless recipients need to create their own reports from the model."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "What is Power BI?",
+                  "url": "https://learn.microsoft.com/en-us/power-bi/fundamentals/power-bi-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Semantic models in the Power BI service",
+                  "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-understand",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-power-bi-capabilities"
+            },
+            {
+              "ref": "dp900-ana-019",
+              "type": "ORDERING",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.3",
+              "difficulty": "MEDIUM",
+              "stem": "Place a simple report workflow in order.",
+              "explanation": "A typical workflow starts with a model, builds a report, saves it, and then shares it.",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Open or connect to a semantic model"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Create report visuals"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Save the report"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Share with appropriate permissions"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "Connecting to the semantic model comes first because report visuals need a governed dataset or model to use.",
+                  "s2": "Visuals are created after the model is available so fields and measures can be placed on the report canvas.",
+                  "s3": "Saving the report captures the authored pages before the report is distributed to other users.",
+                  "s4": "Sharing with appropriate permissions is last so consumers receive a finished report with least-privilege access."
+                }
+              },
+              "sources": [
+                {
+                  "title": "What is Power BI?",
+                  "url": "https://learn.microsoft.com/en-us/power-bi/fundamentals/power-bi-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Semantic models in the Power BI service",
+                  "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-understand",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-power-bi-capabilities"
+            },
+            {
+              "ref": "dp900-ana-020",
+              "type": "SCENARIO",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.3",
+              "difficulty": "HARD",
+              "stem": "Which item should Tailwind use as the governed source for multiple reports?",
+              "explanation": "A semantic model holds tables, relationships, measures, and security for consistent reporting.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "A shared semantic model",
+                  "correct": true,
+                  "explanation": "It provides governed fields and measures for multiple reports."
+                },
+                {
+                  "key": "B",
+                  "text": "A separate spreadsheet copy for each report",
+                  "correct": false,
+                  "explanation": "Separate copies create inconsistent metrics."
+                },
+                {
+                  "key": "C",
+                  "text": "A dashboard tile with no underlying model",
+                  "correct": false,
+                  "explanation": "A tile displays data; it is not the governed source model."
+                },
+                {
+                  "key": "D",
+                  "text": "A color palette",
+                  "correct": false,
+                  "explanation": "A palette controls appearance, not data definitions."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Semantic models in the Power BI service",
+                  "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-understand",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Power BI?",
+                  "url": "https://learn.microsoft.com/en-us/power-bi/fundamentals/power-bi-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-power-bi-capabilities",
+              "scenario": "Tailwind Traders wants regional, product, and executive reports to use the same Total Sales measure and relationships.",
+              "shuffleOptions": true
+            }
+          ]
+        },
+        {
+          "slug": "dp900-data-models-visualizations",
+          "title": "Model data and choose the right visual",
+          "objectiveCode": "4.3",
+          "estimatedMinutes": 10,
+          "summary": "Use basic data modeling and visualization principles to make Power BI reports clear and trustworthy.",
+          "learningObjectives": [
+            "Identify facts, dimensions, relationships, and measures in a simple model",
+            "Choose charts, slicers, cards, or tables based on the analytical question",
+            "Explain how clear visual design helps reports answer business questions"
+          ],
+          "explanation": "A report can be technically correct and still confusing. Data modeling and visual choice turn numbers into useful answers. In a basic analytical model, a **fact table** stores measurable events such as sales amount, quantity, or number of tickets. **Dimension tables** describe those events: date, product, region, customer, or channel. Relationships connect facts to dimensions so a visual can answer questions like “Total Sales by Month” or “Quantity by Product Category.”\n\nIn Power BI, a semantic model can also define **measures**, such as Total Sales. Measures help everyone reuse the same calculation instead of inventing a slightly different version on every report page. This is why the existing Power BI lab asks you to review tables and relationships before building visuals.\n\nChoose visuals by the question. A Card is good for one KPI. A column or bar chart compares categories. A line chart shows a trend over time. A slicer lets users filter by fields such as Year or Region. Tables are useful for detail, but not every question needs a table. Pie charts can be readable for a small part-to-whole comparison, but they are usually poor for precise comparisons or trends. The exam skill is scenario judgment: match the business question to a model feature or visual that answers it clearly.",
+          "terminology": [
+            {
+              "term": "Fact table",
+              "definition": "A table of measurable business events."
+            },
+            {
+              "term": "Dimension table",
+              "definition": "A table of descriptive attributes used to filter or group facts."
+            },
+            {
+              "term": "Relationship",
+              "definition": "A connection between tables in a model."
+            },
+            {
+              "term": "Measure",
+              "definition": "A reusable calculation such as Total Sales."
+            },
+            {
+              "term": "Visualization",
+              "definition": "A chart, card, table, map, slicer, or other visual representation of data."
+            },
+            {
+              "term": "KPI",
+              "definition": "A key performance indicator, often shown as a single important number."
+            }
+          ],
+          "businessScenario": "Tailwind Traders has a clean Sales semantic model, but the first report page tries to show every column in one huge table. Alex redesigns it into a KPI card, regional comparison, monthly trend, and Year slicer so managers can answer questions quickly.",
+          "technicalExample": "If `Sales[Amount]` is related to `Date[DateKey]`, a line chart can place `Date[Month]` on the X-axis and a `Total Sales` measure on the Y-axis. A slicer for `Date[Year]` filters the same measure without changing the calculation.",
+          "misconception": {
+            "myth": "The best visual is always the one with the most data points.",
+            "reality": "The best visual is the one that answers the specific question clearly. More marks, slices, or columns can make a report harder to read."
+          },
+          "examTakeaway": "Watch for visual-selection clues: single value means Card, categories mean bar or column, time means line, filtering means slicer, detailed records mean table or matrix.",
+          "recap": "Good Power BI reports rely on both a sensible model and appropriate visuals. Facts, dimensions, relationships, and measures create trustworthy data; visuals make the answer easy to understand.",
+          "simplerExplanation": "Modeling is like arranging ingredients in labeled containers. Visualization is choosing the serving dish: a measuring cup for one number, a row of jars for comparison, and a timeline for change over time.",
+          "anotherExample": "A support team can model Tickets as a fact table and Date, Priority, and Product as dimensions, then show open ticket count as a Card, tickets by priority as a bar chart, and ticket trend as a line chart.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Question to visual",
+                "columns": [
+                  {
+                    "title": "One important number",
+                    "points": [
+                      "Use a Card or KPI visual",
+                      "Example: Total Sales"
+                    ]
+                  },
+                  {
+                    "title": "Compare categories",
+                    "points": [
+                      "Use bar or column charts",
+                      "Example: Sales by Region"
+                    ]
+                  },
+                  {
+                    "title": "Show change over time",
+                    "points": [
+                      "Use a line chart",
+                      "Example: Sales by Month"
+                    ]
+                  },
+                  {
+                    "title": "Filter report",
+                    "points": [
+                      "Use a slicer",
+                      "Example: Year or Region"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Pick the visual",
+                "instructions": "Choose the clearest visual for each task.",
+                "items": [
+                  {
+                    "prompt": "Show total revenue for the selected year.",
+                    "answer": "Card."
+                  },
+                  {
+                    "prompt": "Compare returns by product category.",
+                    "answer": "Bar or column chart."
+                  },
+                  {
+                    "prompt": "Show support cases over the last six months.",
+                    "answer": "Line chart."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What is a fact table?",
+              "back": "A table of measurable events such as sales."
+            },
+            {
+              "front": "What is a dimension table?",
+              "back": "A descriptive table used to group or filter facts."
+            },
+            {
+              "front": "What visual shows one KPI?",
+              "back": "A Card or KPI visual."
+            },
+            {
+              "front": "What visual shows a time trend?",
+              "back": "A line chart."
+            },
+            {
+              "front": "What is a measure?",
+              "back": "A reusable calculation in a semantic model."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Semantic models in the Power BI service",
+              "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-understand",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Overview of visualizations in Power BI",
+              "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualizations-overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "dp900-ana-021",
+              "type": "CATEGORIZATION",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.3",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each reporting task by a suitable visual type.",
+              "explanation": "Different visuals answer different analytical questions.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "card",
+                    "label": "Card"
+                  },
+                  {
+                    "id": "column",
+                    "label": "Column or bar chart"
+                  },
+                  {
+                    "id": "line",
+                    "label": "Line chart"
+                  },
+                  {
+                    "id": "slicer",
+                    "label": "Slicer"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Show one KPI such as Total Sales",
+                    "category": "card",
+                    "explanation": "A card highlights a single important number."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Compare sales by region",
+                    "category": "column",
+                    "explanation": "Columns or bars compare categories."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Show sales trend by month",
+                    "category": "line",
+                    "explanation": "A line chart shows change over time."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Let users filter the page by year",
+                    "category": "slicer",
+                    "explanation": "A slicer is an interactive filter."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Overview of visualizations in Power BI",
+                  "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualizations-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-data-models-visualizations"
+            },
+            {
+              "ref": "dp900-ana-022",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.3",
+              "difficulty": "EASY",
+              "stem": "Which relationship pattern is common in a simple analytical model?",
+              "explanation": "A fact table often has many rows related to one row in each dimension table.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Many sales fact rows relate to one product dimension row",
+                  "correct": true,
+                  "explanation": "This is a common many-to-one relationship from fact to dimension."
+                },
+                {
+                  "key": "B",
+                  "text": "Every report visual must have its own unrelated copy of Date",
+                  "correct": false,
+                  "explanation": "Shared dimensions help consistency."
+                },
+                {
+                  "key": "C",
+                  "text": "A dashboard replaces all table relationships",
+                  "correct": false,
+                  "explanation": "Dashboards display results; they do not replace the model."
+                },
+                {
+                  "key": "D",
+                  "text": "Measures must be typed manually into every visual title",
+                  "correct": false,
+                  "explanation": "Measures are model calculations reused in visuals."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Semantic models in the Power BI service",
+                  "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-understand",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-data-models-visualizations",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "dp900-ana-023",
+              "type": "CASE_STUDY",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.3",
+              "difficulty": "HARD",
+              "scenario": "Tailwind Traders has a Sales fact table with Amount and Quantity, plus Date, Product, and Region dimensions. Managers need a report that quickly answers performance questions.",
+              "stem": "For each statement about Tailwind Traders star schema and visualization choices, select **Yes** if it is true. Otherwise, select **No**.",
+              "explanation": "The model and visual choices should match the analytical question.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "A line chart is suitable for showing monthly sales trend.",
+                    "answer": true,
+                    "explanation": "Line charts are commonly used for trends over time."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "A pie chart is the best choice for detailed month-by-month trend analysis.",
+                    "answer": false,
+                    "explanation": "Pie charts are not ideal for trends over time."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "A star schema can help reports aggregate sales by Date, Product, or Region dimensions.",
+                    "answer": true,
+                    "explanation": "Dimensions provide useful grouping and filtering paths for facts."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Overview of visualizations in Power BI",
+                  "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualizations-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Semantic models in the Power BI service",
+                  "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-understand",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-data-models-visualizations"
+            },
+            {
+              "ref": "dp900-ana-024",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.3",
+              "difficulty": "MEDIUM",
+              "stem": "Complete the sentence about the central table in a star schema.",
+              "explanation": "A fact table stores measurable events in a star schema.",
+              "fillInBlank": {
+                "template": "In a star schema, the central table that stores measurable events such as sales amount is commonly called a {{b1}} table.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "fact",
+                      "fact table"
+                    ],
+                    "explanation": "A fact table stores measurable events in a star schema."
+                  }
+                ],
+                "wordBank": [
+                  "fact",
+                  "dashboard",
+                  "slicer",
+                  "theme"
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Semantic models in the Power BI service",
+                  "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-understand",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-data-models-visualizations"
+            },
+            {
+              "ref": "dp900-ana-025",
+              "type": "MATCHING",
+              "domainKey": "analytics-workloads",
+              "objectiveCode": "4.3",
+              "difficulty": "MEDIUM",
+              "stem": "Match each modeling or visualization term to its meaning.",
+              "explanation": "These terms appear in Power BI and analytical modeling scenarios.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Measure"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Relationship"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Slicer"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Calculation such as Total Sales"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Connection between tables"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Interactive filter on a report"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Raw file landing area"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "A measure calculates a value for visuals.",
+                  "p2": "Relationships let fields from different tables work together.",
+                  "p3": "A slicer lets report consumers filter results."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Semantic models in the Power BI service",
+                  "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-understand",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Overview of visualizations in Power BI",
+                  "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualizations-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "dp900-data-models-visualizations"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

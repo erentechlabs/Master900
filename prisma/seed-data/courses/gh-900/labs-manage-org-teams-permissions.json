@@ -1,0 +1,994 @@
+{
+  "labs": [
+    {
+      "slug": "manage-org-teams-permissions",
+      "type": "UI_SIMULATION",
+      "title": "Manage organization teams and repository permissions",
+      "summary": "Set organization base permissions to least privilege, create teams, add members, assign repository roles, require two-factor authentication, and review repository access.",
+      "scenario": "Contoso Labs is moving **inventory-api** into a GitHub organization. The security lead wants default access minimized, developers and release managers grouped into teams, repository roles assigned by job need, and two-factor authentication required for everyone. Done means **Collaborators and teams** shows the right teams with no Admin grants.",
+      "domainKey": "privacy-security-administration",
+      "objectiveCode": "6.1",
+      "complexity": "INTERMEDIATE",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Set organization base permissions using least privilege",
+        "Create teams and add organization members",
+        "Choose repository roles from Read, Triage, Write, Maintain, and Admin based on responsibilities",
+        "Require two-factor authentication for organization access"
+      ],
+      "prerequisites": [
+        "Know the difference between organization, repository, team, and member"
+      ],
+      "sources": [
+        {
+          "title": "Setting base permissions for an organization",
+          "url": "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/setting-base-permissions-for-an-organization"
+        },
+        {
+          "title": "Repository roles for an organization",
+          "url": "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization"
+        },
+        {
+          "title": "Creating an organization team",
+          "url": "https://docs.github.com/en/organizations/organizing-members-into-teams/creating-a-team"
+        },
+        {
+          "title": "Requiring two-factor authentication in your organization",
+          "url": "https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-two-factor-authentication-for-your-organization/requiring-two-factor-authentication-in-your-organization"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "GitHub",
+          "theme": "github",
+          "user": "alex-contoso",
+          "tenant": "contoso-labs",
+          "url": "https://github.com",
+          "searchPlaceholder": "Type / to search"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
+        "startPage": "org-overview",
+        "navigation": [
+          {
+            "page": "org-overview",
+            "label": "Overview",
+            "icon": "Building2"
+          },
+          {
+            "page": "org-settings",
+            "label": "Settings",
+            "icon": "Settings"
+          },
+          {
+            "page": "org-teams",
+            "label": "Teams",
+            "icon": "Users"
+          },
+          {
+            "page": "repo-access",
+            "label": "Repository access",
+            "icon": "Shield"
+          }
+        ],
+        "pages": [
+          {
+            "id": "org-overview",
+            "title": "contoso-labs",
+            "subtitle": "Organization",
+            "icon": "Building2",
+            "url": "/orgs/contoso-labs",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "org-overview",
+                "label": "Overview",
+                "icon": "Building2"
+              },
+              {
+                "page": "org-teams",
+                "label": "Teams",
+                "icon": "Users"
+              },
+              {
+                "page": "org-settings",
+                "label": "Settings",
+                "icon": "Settings"
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Least privilege mission",
+                "text": "Base permissions apply to organization members across repositories. Set the baseline to **No permission** and grant repository access through teams."
+              },
+              {
+                "kind": "table",
+                "id": "member-list",
+                "title": "Members",
+                "source": "members",
+                "rowKey": "handle",
+                "columns": [
+                  {
+                    "key": "handle",
+                    "label": "Member",
+                    "format": "code"
+                  },
+                  {
+                    "key": "role",
+                    "label": "Organization role",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "twoFactor",
+                    "label": "2FA",
+                    "format": "status"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "org-settings",
+            "title": "Settings",
+            "subtitle": "contoso-labs",
+            "icon": "Settings",
+            "url": "/organizations/contoso-labs/settings/profile",
+            "navItem": "org-settings",
+            "menu": [
+              {
+                "page": "member-privileges",
+                "label": "Member privileges",
+                "icon": "Users",
+                "section": "Access"
+              },
+              {
+                "page": "org-security",
+                "label": "Security",
+                "icon": "ShieldCheck",
+                "section": "Security"
+              }
+            ],
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "settings-sections",
+                "title": "Organization settings",
+                "items": [
+                  {
+                    "id": "member-privileges",
+                    "label": "Member privileges",
+                    "description": "Base permissions and member access.",
+                    "icon": "Users",
+                    "action": {
+                      "type": "navigate",
+                      "page": "member-privileges"
+                    }
+                  },
+                  {
+                    "id": "security",
+                    "label": "Security",
+                    "description": "Two-factor authentication requirement.",
+                    "icon": "ShieldCheck",
+                    "action": {
+                      "type": "navigate",
+                      "page": "org-security"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "member-privileges",
+            "title": "Member privileges",
+            "subtitle": "Settings > Access",
+            "icon": "Users",
+            "url": "/organizations/contoso-labs/settings/member_privileges",
+            "navItem": "org-settings",
+            "components": [
+              {
+                "kind": "form",
+                "id": "base-permission-form",
+                "title": "Base permissions",
+                "fields": [
+                  {
+                    "id": "basePermission",
+                    "label": "Base permissions",
+                    "control": "radio",
+                    "required": true,
+                    "defaultValue": "Read",
+                    "options": [
+                      {
+                        "value": "No permission",
+                        "label": "No permission"
+                      },
+                      {
+                        "value": "Read",
+                        "label": "Read"
+                      },
+                      {
+                        "value": "Write",
+                        "label": "Write"
+                      },
+                      {
+                        "value": "Admin",
+                        "label": "Admin"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.basePermission",
+                        "value": "No permission"
+                      },
+                      "message": "Choose **No permission**. Base permissions should not grant repository access by default in this scenario."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "organization.basePermission",
+                      "value": "{{$form.basePermission}}"
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Base permissions updated"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "org-security",
+            "title": "Security",
+            "subtitle": "Settings",
+            "icon": "ShieldCheck",
+            "url": "/organizations/contoso-labs/settings/security",
+            "navItem": "org-settings",
+            "components": [
+              {
+                "kind": "form",
+                "id": "two-factor-form",
+                "title": "Two-factor authentication",
+                "fields": [
+                  {
+                    "id": "require2fa",
+                    "label": "Require two-factor authentication for everyone in your organization",
+                    "control": "toggle",
+                    "defaultValue": false
+                  },
+                  {
+                    "id": "confirm",
+                    "label": "I understand members without 2FA may lose access until they enable it",
+                    "control": "toggle",
+                    "defaultValue": false
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.require2fa",
+                        "value": true
+                      },
+                      "message": "Turn on the 2FA requirement."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.confirm",
+                        "value": true
+                      },
+                      "message": "Confirm the impact before saving."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "organization.twoFactorRequired",
+                      "value": true
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Two-factor authentication required"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "org-teams",
+            "title": "Teams",
+            "subtitle": "contoso-labs",
+            "icon": "Users",
+            "url": "/orgs/contoso-labs/teams",
+            "navItem": "org-teams",
+            "commands": [
+              {
+                "id": "new-team-command",
+                "label": "New team",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "message",
+                  "tone": "info",
+                  "text": "Use the **Create new team** form on this simulated page."
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "new-team-form",
+                "title": "Create new team",
+                "fields": [
+                  {
+                    "id": "name",
+                    "label": "Team name",
+                    "control": "text",
+                    "required": true,
+                    "placeholder": "web-developers"
+                  },
+                  {
+                    "id": "description",
+                    "label": "Description",
+                    "control": "textarea",
+                    "required": true,
+                    "placeholder": "People who build the web service"
+                  },
+                  {
+                    "id": "visibility",
+                    "label": "Team visibility",
+                    "control": "radio",
+                    "required": true,
+                    "defaultValue": "Visible",
+                    "options": [
+                      {
+                        "value": "Visible",
+                        "label": "Visible"
+                      },
+                      {
+                        "value": "Secret",
+                        "label": "Secret"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "notifications",
+                    "label": "Team notifications",
+                    "control": "radio",
+                    "required": true,
+                    "defaultValue": "Enabled",
+                    "options": [
+                      {
+                        "value": "Enabled",
+                        "label": "Enabled"
+                      },
+                      {
+                        "value": "Disabled",
+                        "label": "Disabled"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create team",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "oneOf",
+                        "path": "$form.name",
+                        "values": [
+                          "web-developers",
+                          "release-managers"
+                        ]
+                      },
+                      "message": "Create **web-developers** and **release-managers** for this lab."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "teams",
+                      "unique": "slug",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "slug": "{{$form.name | slug}}",
+                        "description": "{{$form.description}}",
+                        "visibility": "{{$form.visibility}}",
+                        "notifications": "{{$form.notifications}}",
+                        "members": [],
+                        "repos": []
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Team created"
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "form",
+                "id": "team-members-form",
+                "title": "Add members to teams",
+                "fields": [
+                  {
+                    "id": "webMembers",
+                    "label": "web-developers members",
+                    "control": "checkboxes",
+                    "optionsFrom": {
+                      "path": "members",
+                      "value": "handle",
+                      "label": "handle"
+                    },
+                    "defaultValue": [
+                      "priya-contoso",
+                      "riley-contoso"
+                    ]
+                  },
+                  {
+                    "id": "releaseMembers",
+                    "label": "release-managers members",
+                    "control": "checkboxes",
+                    "optionsFrom": {
+                      "path": "members",
+                      "value": "handle",
+                      "label": "handle"
+                    },
+                    "defaultValue": [
+                      "maya-contoso"
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Add members",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "includes",
+                        "path": "$form.webMembers",
+                        "value": "priya-contoso"
+                      },
+                      "message": "Add Priya to web-developers."
+                    },
+                    {
+                      "rule": {
+                        "type": "includes",
+                        "path": "$form.webMembers",
+                        "value": "riley-contoso"
+                      },
+                      "message": "Add Riley to web-developers."
+                    },
+                    {
+                      "rule": {
+                        "type": "includes",
+                        "path": "$form.releaseMembers",
+                        "value": "maya-contoso"
+                      },
+                      "message": "Add Maya to release-managers."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "teams",
+                      "where": {
+                        "slug": "web-developers"
+                      },
+                      "set": {
+                        "members": "{{$form.webMembers | list}}"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "teams",
+                      "where": {
+                        "slug": "release-managers"
+                      },
+                      "set": {
+                        "members": "{{$form.releaseMembers | list}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Members added"
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "form",
+                "id": "repo-role-form",
+                "title": "Add repository access",
+                "fields": [
+                  {
+                    "id": "repo",
+                    "label": "Repository",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "contoso-labs/inventory-api",
+                    "options": [
+                      {
+                        "value": "contoso-labs/inventory-api",
+                        "label": "contoso-labs/inventory-api"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "webRole",
+                    "label": "web-developers permission",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Read",
+                    "options": [
+                      {
+                        "value": "Read",
+                        "label": "Read"
+                      },
+                      {
+                        "value": "Triage",
+                        "label": "Triage"
+                      },
+                      {
+                        "value": "Write",
+                        "label": "Write"
+                      },
+                      {
+                        "value": "Maintain",
+                        "label": "Maintain"
+                      },
+                      {
+                        "value": "Admin",
+                        "label": "Admin"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "releaseRole",
+                    "label": "release-managers permission",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Read",
+                    "options": [
+                      {
+                        "value": "Read",
+                        "label": "Read"
+                      },
+                      {
+                        "value": "Triage",
+                        "label": "Triage"
+                      },
+                      {
+                        "value": "Write",
+                        "label": "Write"
+                      },
+                      {
+                        "value": "Maintain",
+                        "label": "Maintain"
+                      },
+                      {
+                        "value": "Admin",
+                        "label": "Admin"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Add repository",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.webRole",
+                        "value": "Write"
+                      },
+                      "message": "Use **Write** for web-developers: they need to push code but not manage settings."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.releaseRole",
+                        "value": "Maintain"
+                      },
+                      "message": "Use **Maintain** for release-managers: they manage releases and many repository settings without Admin."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "repositoryAccess",
+                      "value": [
+                        {
+                          "team": "web-developers",
+                          "repo": "{{$form.repo}}",
+                          "role": "{{$form.webRole}}"
+                        },
+                        {
+                          "team": "release-managers",
+                          "repo": "{{$form.repo}}",
+                          "role": "{{$form.releaseRole}}"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Repository access updated"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "repo-access"
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "table",
+                "id": "team-table",
+                "title": "Teams",
+                "source": "teams",
+                "rowKey": "slug",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "members",
+                    "label": "Members",
+                    "format": "count"
+                  },
+                  {
+                    "key": "visibility",
+                    "label": "Visibility",
+                    "format": "badge"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "repo-access",
+            "title": "Collaborators and teams",
+            "subtitle": "contoso-labs/inventory-api Settings",
+            "icon": "Shield",
+            "url": "/contoso-labs/inventory-api/settings/access",
+            "navItem": "repo-access",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "success",
+                "title": "Repository access review",
+                "text": "Expected least-privilege result: **web-developers = Write** and **release-managers = Maintain**, with no Admin grants."
+              },
+              {
+                "kind": "table",
+                "id": "repo-access-table",
+                "title": "Manage access",
+                "source": "repositoryAccess",
+                "rowKey": "team",
+                "columns": [
+                  {
+                    "key": "team",
+                    "label": "Team",
+                    "format": "code"
+                  },
+                  {
+                    "key": "repo",
+                    "label": "Repository"
+                  },
+                  {
+                    "key": "role",
+                    "label": "Role",
+                    "format": "badge"
+                  }
+                ]
+              },
+              {
+                "kind": "properties",
+                "title": "Organization policies",
+                "items": [
+                  {
+                    "label": "Base permissions",
+                    "value": "{{organization.basePermission}}",
+                    "format": "badge"
+                  },
+                  {
+                    "label": "2FA required",
+                    "value": "{{organization.twoFactorRequired | yesno}}"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "organization": {
+            "basePermission": "Read",
+            "twoFactorRequired": false
+          },
+          "members": [
+            {
+              "handle": "alex-contoso",
+              "role": "Owner",
+              "twoFactor": "Enabled"
+            },
+            {
+              "handle": "priya-contoso",
+              "role": "Member",
+              "twoFactor": "Enabled"
+            },
+            {
+              "handle": "riley-contoso",
+              "role": "Member",
+              "twoFactor": "Enabled"
+            },
+            {
+              "handle": "maya-contoso",
+              "role": "Member",
+              "twoFactor": "Enabled"
+            },
+            {
+              "handle": "sam-contoso",
+              "role": "Member",
+              "twoFactor": "Enabled"
+            }
+          ],
+          "teams": [],
+          "repositoryAccess": []
+        }
+      },
+      "steps": [
+        {
+          "key": "base",
+          "title": "Set base permissions to least privilege",
+          "instruction": "Open **Settings** > **Member privileges**. Set **Base permissions** to **No permission** and select **Save**.",
+          "hint": "Base permissions apply broadly, so start with no default repository access and grant access through teams.",
+          "explanation": "Least privilege means users get only the access they need; base permissions should not silently grant Write or Admin across repositories.",
+          "targetId": "settings-sections",
+          "rules": [
+            {
+              "key": "base-none",
+              "description": "Base permissions are No permission",
+              "rule": {
+                "type": "equals",
+                "path": "organization.basePermission",
+                "value": "No permission"
+              },
+              "failureFeedback": "Set Base permissions to No permission."
+            }
+          ]
+        },
+        {
+          "key": "teams",
+          "title": "Create the organization teams",
+          "instruction": "Open **Teams**. Use **Create new team** to create **web-developers** and **release-managers** with **Visible** team visibility.",
+          "hint": "Create both teams before adding members or repositories.",
+          "explanation": "Teams make permission reviews easier because access follows the group instead of individual users.",
+          "targetId": "new-team-form",
+          "rules": [
+            {
+              "key": "teams-exist",
+              "description": "Both teams exist",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "arrayContains",
+                    "path": "teams",
+                    "match": {
+                      "slug": "web-developers"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "teams",
+                    "match": {
+                      "slug": "release-managers"
+                    }
+                  }
+                ]
+              },
+              "failureFeedback": "Create both required teams."
+            }
+          ]
+        },
+        {
+          "key": "members",
+          "title": "Add the right members",
+          "instruction": "In **Add members to teams**, add **priya-contoso** and **riley-contoso** to **web-developers**, and **maya-contoso** to **release-managers**.",
+          "hint": "Keep Sam unassigned for this scenario.",
+          "explanation": "Membership answers who belongs to a responsibility group; repository roles answer what that group can do in a specific repository.",
+          "targetId": "team-members-form",
+          "rules": [
+            {
+              "key": "members-added",
+              "description": "Team memberships are correct",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "arrayContains",
+                    "path": "teams",
+                    "match": {
+                      "slug": "web-developers",
+                      "members": [
+                        "priya-contoso",
+                        "riley-contoso"
+                      ]
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "teams",
+                    "match": {
+                      "slug": "release-managers",
+                      "members": [
+                        "maya-contoso"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "failureFeedback": "Add Priya and Riley to web-developers, and Maya to release-managers."
+            }
+          ]
+        },
+        {
+          "key": "repo-roles",
+          "title": "Grant repository roles by responsibility",
+          "instruction": "In **Add repository access**, grant **web-developers** **Write** on **contoso-labs/inventory-api** and **release-managers** **Maintain**. Do not use **Admin**.",
+          "hint": "Write is enough to push code. Maintain can manage many non-destructive repository settings. Admin is too broad for this scenario.",
+          "explanation": "GitHub repository roles move from Read to Admin. Choose the smallest role that supports the required task.",
+          "targetId": "repo-role-form",
+          "rules": [
+            {
+              "key": "roles",
+              "description": "Repository access uses least privilege",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "arrayContains",
+                    "path": "repositoryAccess",
+                    "match": {
+                      "team": "web-developers",
+                      "role": "Write"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "repositoryAccess",
+                    "match": {
+                      "team": "release-managers",
+                      "role": "Maintain"
+                    }
+                  },
+                  {
+                    "type": "not",
+                    "rule": {
+                      "type": "arrayContains",
+                      "path": "repositoryAccess",
+                      "match": {
+                        "role": "Admin"
+                      }
+                    }
+                  }
+                ]
+              },
+              "failureFeedback": "Grant Write to web-developers and Maintain to release-managers; do not grant Admin."
+            }
+          ]
+        },
+        {
+          "key": "two-factor",
+          "title": "Require two-factor authentication",
+          "instruction": "Open **Settings** > **Security**, turn on **Require two-factor authentication for everyone in your organization**, confirm the impact, and select **Save**.",
+          "hint": "The setting protects organization resources even if a member password is compromised.",
+          "explanation": "Requiring 2FA strengthens account security for members and outside collaborators who can access organization resources.",
+          "targetId": "two-factor-form",
+          "rules": [
+            {
+              "key": "2fa",
+              "description": "Organization 2FA is required",
+              "rule": {
+                "type": "equals",
+                "path": "organization.twoFactorRequired",
+                "value": true
+              },
+              "failureFeedback": "Enable and save the organization 2FA requirement."
+            }
+          ]
+        },
+        {
+          "key": "review",
+          "title": "Review Collaborators and teams",
+          "instruction": "Open **Repository access** and verify **Collaborators and teams** shows **web-developers** with **Write**, **release-managers** with **Maintain**, base permissions **No permission**, and 2FA required.",
+          "hint": "The review table is the final check for over-privileged access.",
+          "explanation": "Regular access reviews catch accidental Admin grants and confirm permissions still match responsibilities.",
+          "targetId": "repo-access-table",
+          "rules": [
+            {
+              "key": "reviewed",
+              "description": "Repository access page visited",
+              "rule": {
+                "type": "visited",
+                "page": "repo-access"
+              }
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "least-privilege-final",
+          "description": "No base access, correct team roles, 2FA required, no Admin grants",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "equals",
+                "path": "organization.basePermission",
+                "value": "No permission"
+              },
+              {
+                "type": "equals",
+                "path": "organization.twoFactorRequired",
+                "value": true
+              },
+              {
+                "type": "arrayContains",
+                "path": "repositoryAccess",
+                "match": {
+                  "team": "web-developers",
+                  "role": "Write"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "repositoryAccess",
+                "match": {
+                  "team": "release-managers",
+                  "role": "Maintain"
+                }
+              },
+              {
+                "type": "not",
+                "rule": {
+                  "type": "arrayContains",
+                  "path": "repositoryAccess",
+                  "match": {
+                    "role": "Admin"
+                  }
+                }
+              }
+            ]
+          },
+          "successFeedback": "Access is least-privilege and protected by 2FA.",
+          "failureFeedback": "Review base permissions, team roles, and 2FA; remove any Admin grants."
+        }
+      ],
+      "solution": "1. Open **Settings** > **Member privileges**, set **Base permissions** to **No permission**, and **Save**.\n2. Open **Teams** and create **web-developers** and **release-managers**.\n3. Add `priya-contoso` and `riley-contoso` to **web-developers**; add `maya-contoso` to **release-managers**.\n4. Add repository **contoso-labs/inventory-api** with **Write** for web-developers and **Maintain** for release-managers. Do not grant **Admin**.\n5. Open **Settings** > **Security**, enable **Require two-factor authentication for everyone in your organization**, confirm, and **Save**.\n6. Open **Repository access** and verify **Collaborators and teams** shows the expected roles and no Admin grants."
+    }
+  ]
+}

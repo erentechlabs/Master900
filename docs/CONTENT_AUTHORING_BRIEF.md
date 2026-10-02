@@ -54,6 +54,12 @@ The command prints counts by domain and by question type - use them to check the
   anotherExample, extraBlocks (1-2 of COMPARISON / DIAGRAM / ACTIVITY / CALLOUT), flashcards (3-6), sources,
   knowledgeCheck (exactly 5 questions).
 - DIAGRAM blocks must include a meaningful `caption` (text alternative for screen readers).
+- Every lesson is written for its own topic: never reuse the same analogy, example, misconception, takeaway, extra
+  block, flashcard or knowledge-check stem across lessons, and write 2–4 specific learning objectives that start with
+  an action verb and name the concepts taught (never "Explain <lesson title> in practical language"). Make every stem
+  self-contained, also for case studies and fill-in-the-blank ("Complete the sentence about how Azure Cosmos DB
+  partitions data."). `content:validate` reports copied text and templated objectives as `quality` warnings — keep
+  them at zero.
 
 ## Question rules
 - Test understanding: scenarios, comparisons, choosing the right service, responsibilities, governance, security,
@@ -63,8 +69,13 @@ The command prints counts by domain and by question type - use them to check the
 - No "All of the above" / "None of the above". Avoid negative stems; if unavoidable, bold the word (**NOT**).
 - Difficulty mix roughly 30% EASY, 50% MEDIUM, 20% HARD.
 - MULTIPLE_RESPONSE: say how many to choose in the stem ("Which **two** ...") and set `selectCount`.
-- TRUE_FALSE: options with keys "TRUE" and "FALSE" (texts "True"/"False"), each with an explanation.
-- FILL_IN_BLANK: always provide a `wordBank` (3-6 words) that contains an accepted answer.
+- TRUE_FALSE: options with keys "TRUE" and "FALSE" (texts "True"/"False"). Each option explanation names the fact
+  that makes the statement true or false — never a generic "This statement is accurate." (`content:validate` warns
+  when a True/False rationale repeats across questions). The statement must be fully true or clearly false.
+- FILL_IN_BLANK: always provide a `wordBank` (3-6 words) that contains an accepted answer. The stem and the rest of
+  the template must not contain the answer ("Complete the sentence about Parquet ..." gives Parquet away).
+- ORDERING: exactly one defensible order — each step needs the result of the previous one (create the resource group,
+  then deploy into it). Process steps that teams sequence differently belong in a SINGLE_CHOICE question instead.
 - CASE_STUDY: a short fictional `scenario` + 2-4 Yes/No statements.
 - SCENARIO: requires `scenario` (context) + `stem` (the question) + options.
 - COMMAND_SELECTION: options are commands or configuration snippets in backticks. Commands must be real, valid
@@ -72,6 +83,9 @@ The command prints counts by domain and by question type - use them to check the
 - UI_SIMULATION: describe a FICTIONAL simplified settings screen; the title must include "(simulated)"; never claim it
   is the real portal.
 - `ref` values must be unique and follow the prefix given in your assignment (e.g., az900-cc-001, az900-cc-002, ...).
+- Questions are exam-style: scenarios describe real-world situations and never refer to this app's labs or folders.
+- No two questions may reuse the same stem, explanation or item skeleton with only the topic swapped;
+  `content:validate` reports such near-duplicates as `quality` warnings.
 - `domainKey` must equal your domain; `objectiveCode` must be one of the domain's objective codes; knowledge-check
   questions should set `lessonSlug` to their lesson's slug (practice questions: only use slugs from the lesson plan
   given in your assignment).

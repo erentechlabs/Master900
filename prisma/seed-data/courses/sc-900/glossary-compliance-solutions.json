@@ -1,0 +1,437 @@
+{
+  "terms": [
+    {
+      "slug": "service-trust-portal",
+      "term": "Microsoft Service Trust Portal",
+      "kind": "SERVICE",
+      "definition": "A Microsoft portal that provides cloud assurance resources such as audit reports, compliance documentation, certifications, and whitepapers for Microsoft cloud services.",
+      "attributes": {
+        "category": "Compliance assurance",
+        "useCases": [
+          "Download audit reports",
+          "Review compliance resources",
+          "Support vendor risk reviews"
+        ],
+        "keyFeatures": [
+          "Assurance document library",
+          "Restricted document access",
+          "Search and My Library features"
+        ],
+        "serviceModel": "SaaS portal"
+      },
+      "source": {
+        "title": "Get started with the Microsoft Service Trust Portal",
+        "url": "https://learn.microsoft.com/en-us/compliance/assurance/stp-get-started",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Microsoft bulut hizmetleri için denetim raporları, uyumluluk belgeleri, sertifikalar ve teknik incelemeler gibi güvence kaynakları sağlayan Microsoft portalı.",
+          "useCases": [
+            "Download audit reports",
+            "Review compliance resources",
+            "Support vendor risk reviews"
+          ],
+          "keyFeatures": [
+            "Assurance document library",
+            "Restricted document access",
+            "Search and My Library features"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "compliance-manager",
+      "term": "Compliance Manager",
+      "kind": "SERVICE",
+      "definition": "A Microsoft Purview solution that helps organizations assess, manage, assign, and track compliance activities through assessments, controls, improvement actions, and compliance score.",
+      "attributes": {
+        "category": "Compliance management",
+        "useCases": [
+          "Create regulatory assessments",
+          "Assign improvement actions",
+          "Track compliance posture"
+        ],
+        "keyFeatures": [
+          "Assessments",
+          "Improvement actions",
+          "Compliance score"
+        ],
+        "serviceModel": "SaaS"
+      },
+      "source": {
+        "title": "Microsoft Purview Compliance Manager",
+        "url": "https://learn.microsoft.com/en-us/purview/compliance-manager",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Kuruluşların değerlendirmeler, denetimler, iyileştirme eylemleri ve compliance score üzerinden uyumluluk çalışmalarını değerlendirmesine, yönetmesine, atamasına ve izlemesine yardımcı olan Microsoft Purview çözümü.",
+          "useCases": [
+            "Create regulatory assessments",
+            "Assign improvement actions",
+            "Track compliance posture"
+          ],
+          "keyFeatures": [
+            "Assessments",
+            "Improvement actions",
+            "Compliance score"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "compliance-score",
+      "term": "Compliance score",
+      "kind": "CONCEPT",
+      "definition": "A risk-based score in Compliance Manager that reflects progress in completing improvement actions and helps prioritize compliance work.",
+      "attributes": {
+        "category": "Compliance management",
+        "useCases": [
+          "Prioritize high-impact actions",
+          "Track assessment progress",
+          "Report posture trends"
+        ],
+        "keyFeatures": [
+          "Risk-based points",
+          "Assessment context",
+          "Progress tracking"
+        ]
+      },
+      "source": {
+        "title": "Microsoft Purview Compliance Manager",
+        "url": "https://learn.microsoft.com/en-us/purview/compliance-manager",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Compliance Manager içinde iyileştirme eylemlerini tamamlama ilerlemesini yansıtan ve uyumluluk çalışmalarını önceliklendirmeye yardımcı olan risk temelli puan.",
+          "useCases": [
+            "Prioritize high-impact actions",
+            "Track assessment progress",
+            "Report posture trends"
+          ],
+          "keyFeatures": [
+            "Risk-based points",
+            "Assessment context",
+            "Progress tracking"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "sensitivity-label",
+      "term": "Sensitivity label",
+      "kind": "TERM",
+      "definition": "A Microsoft Purview Information Protection label that classifies content and can apply protection settings such as encryption, access restrictions, and visual markings.",
+      "attributes": {
+        "category": "Information protection",
+        "useCases": [
+          "Classify sensitive files",
+          "Encrypt confidential content",
+          "Apply headers, footers, or watermarks"
+        ],
+        "keyFeatures": [
+          "Persistent metadata",
+          "Protection settings",
+          "Label policies"
+        ]
+      },
+      "source": {
+        "title": "Learn about sensitivity labels",
+        "url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "İçeriği sınıflandıran ve şifreleme, erişim kısıtlamaları ve görsel işaretler gibi koruma ayarları uygulayabilen Microsoft Purview Information Protection etiketi.",
+          "useCases": [
+            "Classify sensitive files",
+            "Encrypt confidential content",
+            "Apply headers, footers, or watermarks"
+          ],
+          "keyFeatures": [
+            "Persistent metadata",
+            "Protection settings",
+            "Label policies"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "data-loss-prevention",
+      "term": "Data loss prevention",
+      "kind": "CONCEPT",
+      "definition": "A set of Microsoft Purview policies and tools that identify, monitor, and protect sensitive information from risky sharing or use.",
+      "attributes": {
+        "category": "Information protection",
+        "useCases": [
+          "Warn users with policy tips",
+          "Block external sharing",
+          "Monitor sensitive data activities"
+        ],
+        "keyFeatures": [
+          "Policy conditions",
+          "Protective actions",
+          "Alerts and activity records"
+        ]
+      },
+      "source": {
+        "title": "Learn about data loss prevention",
+        "url": "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Hassas bilgilerin riskli şekilde paylaşılmasını veya kullanılmasını belirleyen, izleyen ve engellemeye yardımcı olan Microsoft Purview ilkeleri ve araçları bütünü.",
+          "useCases": [
+            "Warn users with policy tips",
+            "Block external sharing",
+            "Monitor sensitive data activities"
+          ],
+          "keyFeatures": [
+            "Policy conditions",
+            "Protective actions",
+            "Alerts and activity records"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "sensitive-information-type",
+      "term": "Sensitive information type",
+      "kind": "TERM",
+      "definition": "A pattern-based classifier in Microsoft Purview that detects sensitive data such as credit card, bank account, or national identifier values.",
+      "attributes": {
+        "category": "Classification",
+        "useCases": [
+          "Detect regulated data",
+          "Build DLP conditions",
+          "Auto-apply labels or retention labels"
+        ],
+        "keyFeatures": [
+          "Regular expressions and functions",
+          "Supporting evidence",
+          "Confidence levels"
+        ]
+      },
+      "source": {
+        "title": "Learn about sensitive information types",
+        "url": "https://learn.microsoft.com/en-us/purview/sit-sensitive-information-type-learn-about",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Kredi kartı, banka hesabı veya ulusal kimlik gibi hassas veri değerlerini algılayan Microsoft Purview içindeki desen temelli sınıflandırıcı.",
+          "useCases": [
+            "Detect regulated data",
+            "Build DLP conditions",
+            "Auto-apply labels or retention labels"
+          ],
+          "keyFeatures": [
+            "Regular expressions and functions",
+            "Supporting evidence",
+            "Confidence levels"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "retention-policy",
+      "term": "Retention policy",
+      "kind": "TERM",
+      "definition": "A Microsoft Purview Data Lifecycle Management setting that applies broad retain, delete, or retain-then-delete behavior to locations such as mailboxes, sites, or accounts.",
+      "attributes": {
+        "category": "Data lifecycle management",
+        "useCases": [
+          "Retain content for compliance",
+          "Delete old content after a period",
+          "Apply broad settings to locations"
+        ],
+        "keyFeatures": [
+          "Location targeting",
+          "Retain/delete outcomes",
+          "In-place retention"
+        ]
+      },
+      "source": {
+        "title": "Learn about retention policies & labels to retain or delete",
+        "url": "https://learn.microsoft.com/en-us/purview/retention",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Posta kutuları, siteler veya hesaplar gibi konumlara geniş kapsamlı saklama, silme ya da saklayıp sonra silme davranışı uygulayan Microsoft Purview Data Lifecycle Management ayarı.",
+          "useCases": [
+            "Retain content for compliance",
+            "Delete old content after a period",
+            "Apply broad settings to locations"
+          ],
+          "keyFeatures": [
+            "Location targeting",
+            "Retain/delete outcomes",
+            "In-place retention"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "records-management",
+      "term": "Records management",
+      "kind": "CONCEPT",
+      "definition": "Microsoft Purview capabilities for managing high-value records, file plans, record declaration, disposition reviews, and proof of deletion.",
+      "attributes": {
+        "category": "Records and information management",
+        "useCases": [
+          "Declare official records",
+          "Manage file plans",
+          "Review disposition"
+        ],
+        "keyFeatures": [
+          "Retention labels as records",
+          "File plan management",
+          "Disposition review"
+        ]
+      },
+      "source": {
+        "title": "Records management for documents and emails in Microsoft 365",
+        "url": "https://learn.microsoft.com/en-us/purview/records-management",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Yüksek değerli kayıtları, dosya planlarını, kayıt beyanını, imha incelemelerini ve silme kanıtını yönetmeye yönelik Microsoft Purview yetenekleri.",
+          "useCases": [
+            "Declare official records",
+            "Manage file plans",
+            "Review disposition"
+          ],
+          "keyFeatures": [
+            "Retention labels as records",
+            "File plan management",
+            "Disposition review"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "insider-risk-management",
+      "term": "Insider Risk Management",
+      "kind": "SERVICE",
+      "definition": "A Microsoft Purview compliance solution that correlates signals to help detect, investigate, and act on malicious or inadvertent internal risks.",
+      "attributes": {
+        "category": "Risk and compliance",
+        "useCases": [
+          "Triage risky user activity",
+          "Create insider risk cases",
+          "Escalate investigation work"
+        ],
+        "keyFeatures": [
+          "Policy templates",
+          "Alerts and cases",
+          "Privacy-by-design controls"
+        ],
+        "serviceModel": "SaaS"
+      },
+      "source": {
+        "title": "Learn about Insider Risk Management",
+        "url": "https://learn.microsoft.com/en-us/purview/insider-risk-management",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Kötü niyetli veya istem dışı iç riskleri algılamaya, araştırmaya ve eyleme geçmeye yardımcı olmak için sinyalleri ilişkilendiren Microsoft Purview uyumluluk çözümü.",
+          "useCases": [
+            "Triage risky user activity",
+            "Create insider risk cases",
+            "Escalate investigation work"
+          ],
+          "keyFeatures": [
+            "Policy templates",
+            "Alerts and cases",
+            "Privacy-by-design controls"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "ediscovery",
+      "term": "eDiscovery",
+      "kind": "CONCEPT",
+      "definition": "The process and Microsoft Purview tools for identifying, preserving, reviewing, and exporting electronically stored information for investigations and legal cases.",
+      "attributes": {
+        "category": "Investigation and legal discovery",
+        "useCases": [
+          "Search case content",
+          "Place content on hold",
+          "Export responsive information"
+        ],
+        "keyFeatures": [
+          "Cases",
+          "Search and export",
+          "Premium review capabilities"
+        ]
+      },
+      "source": {
+        "title": "Learn about eDiscovery",
+        "url": "https://learn.microsoft.com/en-us/purview/edisc",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Araştırmalar ve hukuki vakalar için elektronik olarak saklanan bilgileri belirleme, koruma, inceleme ve dışarı aktarma süreci ve Microsoft Purview araçları.",
+          "useCases": [
+            "Search case content",
+            "Place content on hold",
+            "Export responsive information"
+          ],
+          "keyFeatures": [
+            "Cases",
+            "Search and export",
+            "Premium review capabilities"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    }
+  ]
+}

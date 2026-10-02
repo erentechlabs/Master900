@@ -20,7 +20,7 @@ Microsoft Fundamentals Academy. Report vulnerabilities privately to the maintain
 * The app has exactly one local profile (`local-learner@fundamentals-academy.local`) provisioned idempotently on first use. It has both Learner and Administrator roles.
 * There is no account registration, sign-in, sign-out, password storage or browser session cookie. Opening the app locally loads the profile immediately.
 * Development and production scripts bind the Next.js server to `127.0.0.1`, and Docker publishes `127.0.0.1:3000:3000`. Do **not** expose the app to untrusted networks without an authenticating reverse proxy.
-* Rate limits still protect answers, lab actions, tutor, uploads, import/export and generic mutations (`src/lib/rate-limit.ts`). The default store is in-memory; use a shared store (`setRateLimitStore`, e.g. Redis) when running more than one instance.
+* Rate limits still protect answers, lab actions, tutor, title-bar search suggestions (`GET /api/search/suggest`), uploads, import/export and generic mutations such as quest claims, focus sessions and personalization (`src/lib/rate-limit.ts`). Rewards are re-checked on the server and recorded idempotently (one quest claim per quest and local day, one focus-session record per client session id). The default store is in-memory; use a shared store (`setRateLimitStore`, e.g. Redis) when running more than one instance.
 * Server Actions are POST-only with Next.js origin checks; JSON route handlers that mutate (`/api/tutor`, `/api/media/upload`, `/api/admin/import`) additionally verify the `Origin`.
 
 ### Authorization

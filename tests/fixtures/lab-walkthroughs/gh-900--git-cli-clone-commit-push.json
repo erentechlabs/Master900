@@ -1,1 +1,91 @@
-{"certification":"GH-900","lab":"git-cli-clone-commit-push","note":"Configure Git, clone, branch, add, commit, push, open PR.","events":[{"type":"command","command":"git --version"},{"type":"command","command":"git config --global user.name \"Alex Contoso\""},{"type":"command","command":"git config --global user.email \"alex@contoso.example\""},{"type":"command","command":"git clone https://github.com/contoso-labs/inventory-api.git"},{"type":"command","command":"cd inventory-api"},{"type":"command","command":"git status"},{"type":"command","command":"git switch -c feature/health-endpoint"},{"type":"command","command":"mkdir -p docs"},{"type":"command","command":"echo \"Health endpoint notes\" > docs/health.md"},{"type":"command","command":"git add docs/health.md"},{"type":"command","command":"git commit -m \"Add health endpoint notes\""},{"type":"command","command":"git log --oneline"},{"type":"command","command":"git push -u origin feature/health-endpoint"},{"type":"click","componentId":"compare-pr-banner-cli"},{"type":"submitForm","componentId":"open-pr-cli-form","values":{"title":"Add health endpoint notes","body":"Adds documentation for the health endpoint so reviewers can confirm the expected path.","reviewers":["maya"]}}]}
+{
+  "certification": "GH-900",
+  "lab": "git-cli-clone-commit-push",
+  "note": "Configure Git, clone, branch, add, commit, push, open PR.",
+  "events": [
+    {
+      "type": "command",
+      "command": "git --version"
+    },
+    {
+      "type": "command",
+      "command": "git config --global user.name \"Alex Contoso\""
+    },
+    {
+      "type": "command",
+      "command": "git config --global user.email \"alex@contoso.example\""
+    },
+    {
+      "type": "command",
+      "command": "git clone https://github.com/contoso-labs/inventory-api.git"
+    },
+    {
+      "type": "command",
+      "command": "cd inventory-api"
+    },
+    {
+      "type": "command",
+      "command": "git status"
+    },
+    {
+      "type": "command",
+      "command": "git switch -c feature/health-endpoint"
+    },
+    {
+      "type": "command",
+      "command": "mkdir -p docs"
+    },
+    {
+      "type": "command",
+      "command": "echo \"Health endpoint notes\" > docs/health.md"
+    },
+    {
+      "type": "command",
+      "command": "git diff"
+    },
+    {
+      "type": "command",
+      "command": "git add docs/health.md"
+    },
+    {
+      "type": "command",
+      "command": "git status"
+    },
+    {
+      "type": "command",
+      "command": "git commit -m \"Add health endpoint notes\""
+    },
+    {
+      "type": "command",
+      "command": "git log --oneline"
+    },
+    {
+      "type": "command",
+      "command": "git push -u origin feature/health-endpoint"
+    },
+    {
+      "type": "click",
+      "componentId": "compare-pr-banner-cli"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "open-pr-cli-form",
+      "values": {
+        "title": "Add health endpoint notes",
+        "body": "Adds documentation for the health endpoint so reviewers can confirm the expected path.",
+        "reviewers": [
+          "maya"
+        ]
+      }
+    },
+    {
+      "type": "rowClick",
+      "componentId": "pull-list-cli",
+      "rowKey": "2"
+    },
+    {
+      "type": "click",
+      "componentId": "resolve-cli-review"
+    }
+  ]
+}

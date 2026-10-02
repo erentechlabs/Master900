@@ -1,0 +1,824 @@
+{
+  "domainKey": "repositories",
+  "modules": [
+    {
+      "slug": "gh900-repository-management",
+      "title": "Repository management",
+      "summary": "Create, structure, protect, release, and maintain GitHub repositories with beginner-friendly practices.",
+      "lessons": [
+        {
+          "slug": "gh900-repository-structure-starter-files",
+          "title": "Create and organize repositories",
+          "objectiveCode": "2.1",
+          "estimatedMinutes": 13,
+          "summary": "Learn repository creation, visibility, README, license, .gitignore, templates, and key community files.",
+          "learningObjectives": [
+            "Describe a GitHub repository's structure and starter files",
+            "Choose visibility and template options for a scenario",
+            "Explain how README, LICENSE, .gitignore, CONTRIBUTING, CODEOWNERS, and SECURITY files guide collaboration"
+          ],
+          "explanation": "A GitHub repository is more than a folder of code. It is the home page, history, collaboration space, and set of expectations for a project. When you create a repository, you choose an owner, name, description, and visibility. Public repositories are visible broadly. Private repositories are limited to people with access. Some enterprise scenarios may use internal visibility, but avoid assuming it is available everywhere.\n\nStarter files make a new repository easier to understand. A **README** explains what the project does and how to use it. A **LICENSE** explains reuse permissions. A **.gitignore** tells Git which generated or local files should not be committed. **CONTRIBUTING** can explain how to propose changes. **CODEOWNERS** can request reviews from responsible people. **SECURITY** can explain how to report vulnerabilities, but deeper security administration belongs to another domain.\n\nTemplates help teams repeat good structure. A repository template can provide folders, starter files, and branches for new repositories. You can also add and manage files in GitHub's web UI when you have access. For hands-on practice, the **Create a repository, branch, and pull request on GitHub** lab asks you to create a private repository with README, Node .gitignore, and MIT license.",
+          "terminology": [
+            {
+              "term": "README",
+              "definition": "A file that introduces the project."
+            },
+            {
+              "term": "License",
+              "definition": "A file that states reuse permissions."
+            },
+            {
+              "term": ".gitignore",
+              "definition": "A file of patterns Git should ignore."
+            },
+            {
+              "term": "Template repository",
+              "definition": "A repository used as a starting point for new repositories."
+            },
+            {
+              "term": "Visibility",
+              "definition": "Who can view a repository."
+            }
+          ],
+          "businessScenario": "Contoso Labs creates an internal documentation repository for Inventory API. The team chooses private visibility, adds a README for onboarding, a Node .gitignore for generated files, and a license appropriate for the scenario.",
+          "technicalExample": "Starter files for a Node documentation repository might include:\n\n```text\nREADME.md\n.gitignore      # node_modules/ and .env\nLICENSE\nCONTRIBUTING.md\nCODEOWNERS\n```",
+          "misconception": {
+            "myth": "A repository is ready as soon as it has code.",
+            "reality": "A useful repository also explains purpose, ownership, contribution expectations, ignored files, and review paths."
+          },
+          "examTakeaway": "Repository management questions often describe who should see the repository and which starter file communicates a specific expectation.",
+          "recap": "Repository starter files reduce confusion. README explains the project, LICENSE covers reuse, .gitignore prevents noisy commits, and templates make consistency repeatable.",
+          "simplerExplanation": "Think of a repository like a shared workshop. The README is the welcome sign, .gitignore is the trash/recycling rule, license is the usage policy, and CODEOWNERS is the expert roster.",
+          "anotherExample": "A data team creates a template repository with `/docs`, `/src`, README, .gitignore, and CONTRIBUTING so every new analytics project starts consistently.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Starter file purposes",
+                "columns": [
+                  {
+                    "title": "README",
+                    "points": [
+                      "First explanation visitors see",
+                      "Setup and usage guidance"
+                    ]
+                  },
+                  {
+                    "title": ".gitignore",
+                    "points": [
+                      "Keeps generated/local files out",
+                      "Shared ignore rules for contributors"
+                    ]
+                  },
+                  {
+                    "title": "LICENSE",
+                    "points": [
+                      "Defines reuse permissions",
+                      "Especially important for public sharing"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Pick the file",
+                "instructions": "Choose the file that best matches each need.",
+                "items": [
+                  {
+                    "prompt": "Tell new users how to run the project.",
+                    "answer": "README.md"
+                  },
+                  {
+                    "prompt": "Avoid committing `node_modules/`.",
+                    "answer": ".gitignore"
+                  },
+                  {
+                    "prompt": "Automatically request review from a responsible team.",
+                    "answer": "CODEOWNERS"
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Repository visibility",
+              "back": "Controls who can view a repository."
+            },
+            {
+              "front": "README",
+              "back": "Introduces the project and common usage information."
+            },
+            {
+              "front": ".gitignore",
+              "back": "Lists file patterns Git should ignore."
+            },
+            {
+              "front": "Template repository",
+              "back": "A reusable starter for new repositories."
+            },
+            {
+              "front": "CODEOWNERS",
+              "back": "Defines people or teams responsible for paths."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam GH-900: GitHub Foundations",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/gh-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "About repositories",
+              "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "About READMEs",
+              "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "gh900-rep-001",
+              "type": "UI_SIMULATION",
+              "domainKey": "repositories",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Configure the simulated new repository for an internal Node documentation project.",
+              "explanation": "The scenario calls for organization ownership, private visibility, README, and Node .gitignore.",
+              "uiSimulation": {
+                "title": "New repository settings (simulated)",
+                "description": "This is a simplified repository creation form.",
+                "fields": [
+                  {
+                    "id": "owner",
+                    "label": "Owner",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "alex",
+                        "label": "alex-contoso"
+                      },
+                      {
+                        "value": "org",
+                        "label": "contoso-labs"
+                      }
+                    ],
+                    "correct": "org",
+                    "explanation": "The repository belongs to the team organization."
+                  },
+                  {
+                    "id": "visibility",
+                    "label": "Visibility",
+                    "control": "radio",
+                    "options": [
+                      {
+                        "value": "public",
+                        "label": "Public"
+                      },
+                      {
+                        "value": "private",
+                        "label": "Private"
+                      }
+                    ],
+                    "correct": "private",
+                    "explanation": "Internal documentation should not be public in this scenario."
+                  },
+                  {
+                    "id": "readme",
+                    "label": "Add README",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "A README introduces the project."
+                  },
+                  {
+                    "id": "gitignore",
+                    "label": "Add .gitignore template",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "none",
+                        "label": "None"
+                      },
+                      {
+                        "value": "node",
+                        "label": "Node"
+                      }
+                    ],
+                    "correct": "node",
+                    "explanation": "The project uses Node-related generated files."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Creating a new repository",
+                  "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Ignoring files",
+                  "url": "https://docs.github.com/en/get-started/git-basics/ignoring-files",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-repository-structure-starter-files"
+            },
+            {
+              "ref": "gh900-rep-002",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "repositories",
+              "objectiveCode": "2.1",
+              "difficulty": "EASY",
+              "stem": "Which file is usually the first place visitors look to understand what a repository does?",
+              "explanation": "A README introduces the project and often appears on the repository's main page.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "README.md",
+                  "correct": true,
+                  "explanation": "README files explain purpose and usage."
+                },
+                {
+                  "key": "B",
+                  "text": ".gitignore",
+                  "correct": false,
+                  "explanation": ".gitignore controls ignored files."
+                },
+                {
+                  "key": "C",
+                  "text": "CODEOWNERS",
+                  "correct": false,
+                  "explanation": "CODEOWNERS routes reviews."
+                },
+                {
+                  "key": "D",
+                  "text": "SECURITY.md",
+                  "correct": false,
+                  "explanation": "SECURITY.md explains security reporting."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "About READMEs",
+                  "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-repository-structure-starter-files",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "gh900-rep-003",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "repositories",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** files help set contribution and review expectations?",
+              "explanation": "CONTRIBUTING and CODEOWNERS guide how changes are proposed and reviewed.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "CONTRIBUTING.md",
+                  "correct": true,
+                  "explanation": "It can explain how to contribute."
+                },
+                {
+                  "key": "B",
+                  "text": "CODEOWNERS",
+                  "correct": true,
+                  "explanation": "It can request responsible reviewers for paths."
+                },
+                {
+                  "key": "C",
+                  "text": ".gitignore",
+                  "correct": false,
+                  "explanation": "It controls ignored local/generated files."
+                },
+                {
+                  "key": "D",
+                  "text": "package-lock.json",
+                  "correct": false,
+                  "explanation": "It records dependency versions, not contribution expectations."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "About repositories",
+                  "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About READMEs",
+                  "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-repository-structure-starter-files",
+              "selectCount": 2,
+              "shuffleOptions": true
+            },
+            {
+              "ref": "gh900-rep-004",
+              "type": "MATCHING",
+              "domainKey": "repositories",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each repository choice to the need.",
+              "explanation": "Each starter choice solves a different management problem.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "ignore",
+                    "text": "Prevent generated files from being committed"
+                  },
+                  {
+                    "id": "template",
+                    "text": "Start many projects with the same structure"
+                  },
+                  {
+                    "id": "visibility",
+                    "text": "Limit who can view the repository"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": ".gitignore"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Template repository"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Private visibility"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Release notes"
+                  }
+                ],
+                "pairs": {
+                  "ignore": "a1",
+                  "template": "a2",
+                  "visibility": "a3"
+                },
+                "explanations": {
+                  "ignore": ".gitignore lists ignored patterns.",
+                  "template": "Templates create new repositories with existing structure.",
+                  "visibility": "Private visibility limits viewing to selected access."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Ignoring files",
+                  "url": "https://docs.github.com/en/get-started/git-basics/ignoring-files",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Creating a template repository",
+                  "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Setting repository visibility",
+                  "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-repository-structure-starter-files"
+            },
+            {
+              "ref": "gh900-rep-005",
+              "type": "SCENARIO",
+              "domainKey": "repositories",
+              "objectiveCode": "2.1",
+              "difficulty": "HARD",
+              "stem": "Which maintenance action best fits this need?",
+              "explanation": "A template repository lets new projects start from a shared structure.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Create a template repository with the starter files and folders.",
+                  "correct": true,
+                  "explanation": "Templates support repeatable repository structure."
+                },
+                {
+                  "key": "B",
+                  "text": "Ask every team to copy files manually from chat.",
+                  "correct": false,
+                  "explanation": "Manual copying is inconsistent and error-prone."
+                },
+                {
+                  "key": "C",
+                  "text": "Publish a release for each empty repository.",
+                  "correct": false,
+                  "explanation": "Releases package iterations; they do not create starter structure."
+                },
+                {
+                  "key": "D",
+                  "text": "Use stars to copy repository files.",
+                  "correct": false,
+                  "explanation": "Stars save interesting repositories; they do not create new repositories."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Creating a template repository",
+                  "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-repository-structure-starter-files",
+              "scenario": "Fabrikam wants every new service repository to start with README, CONTRIBUTING, CODEOWNERS, `/docs`, and `/src`.",
+              "shuffleOptions": true
+            }
+          ]
+        },
+        {
+          "slug": "gh900-branches-protection-releases-insights",
+          "title": "Maintain repositories with branches, protections, releases, and insights",
+          "objectiveCode": "2.1",
+          "estimatedMinutes": 12,
+          "summary": "Learn branch maintenance, branch protection basics, releases and tags, stars, repository graphs, and dependency insight at a foundational level.",
+          "learningObjectives": [
+            "Explain how branches support safe repository maintenance",
+            "Describe basic branch protection and release concepts",
+            "Recognize visibility signals such as stars, repository graphs, and dependency graph"
+          ],
+          "explanation": "Once a repository exists, maintenance is about keeping collaboration clear. Branches let teams work without changing `main` directly. A default branch such as `main` often represents the stable shared version. Feature branches hold proposed changes until review.\n\n**Branch protection rules** can require conditions before changes reach an important branch. Examples include requiring a pull request, requiring reviews, or requiring status checks. At this level, focus on the idea: protection rules reduce accidental or unreviewed changes to important branches. Deeper security and administration details are handled by the security domain.\n\n**Tags** mark specific points in history. **Releases** package a project iteration with release notes and downloadable assets, and are based on Git tags. Use releases when you want people to find a named version and understand what changed.\n\nRepository visibility also includes signals. **Stars** help people save and show interest in repositories. Repository graphs can show activity such as traffic, contributors, commits, forks, and network information. The dependency graph summarizes manifest and lock files so maintainers can understand dependencies; detailed remediation belongs to security content.\n\nThe repository lab has you create a branch, review a pull request, merge it, and delete the branch after the change reaches `main`.",
+          "terminology": [
+            {
+              "term": "Default branch",
+              "definition": "The main branch new work commonly starts from."
+            },
+            {
+              "term": "Branch protection rule",
+              "definition": "A rule that places requirements on changes to an important branch."
+            },
+            {
+              "term": "Tag",
+              "definition": "A pointer to a specific point in Git history."
+            },
+            {
+              "term": "Release",
+              "definition": "A packaged project iteration based on a tag."
+            },
+            {
+              "term": "Repository graph",
+              "definition": "A view of repository activity and usage data."
+            }
+          ],
+          "businessScenario": "Relecloud maintains a small command-line tool. The team protects `main`, uses short feature branches, creates a release for each stable version, and watches repository graphs to learn whether people are using the project.",
+          "technicalExample": "A branch policy conversation might sound like: `main` requires a pull request and one review. After merge, a maintainer creates tag `v1.2.0` and publishes release notes that summarize user-facing changes.",
+          "misconception": {
+            "myth": "Branch protection is only useful for large enterprises.",
+            "reality": "Even small teams can use protection to prevent accidental pushes to important branches and encourage review."
+          },
+          "examTakeaway": "Look for scenario clues: protect `main` when direct changes are risky; use releases and tags for named versions; use graphs/stars for visibility signals.",
+          "recap": "Branches organize change, protection rules guard important branches, releases communicate versions, and repository insights help maintainers understand activity.",
+          "simplerExplanation": "A repository is like a museum exhibit. Branches are preparation rooms, protection rules are the curator checklist, releases are public exhibit labels, and graphs show visitor interest.",
+          "anotherExample": "A documentation repository tags `training-v1` when a workshop starts, publishes a release with notes for instructors, and keeps future edits on branches until reviewed.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Maintenance choices",
+                "columns": [
+                  {
+                    "title": "Branch",
+                    "points": [
+                      "Isolates work before merge",
+                      "Useful for features and fixes"
+                    ]
+                  },
+                  {
+                    "title": "Branch protection",
+                    "points": [
+                      "Adds requirements to important branches",
+                      "Helps prevent accidental direct changes"
+                    ]
+                  },
+                  {
+                    "title": "Release",
+                    "points": [
+                      "Packages a named iteration",
+                      "Communicates release notes and assets"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Foundational scope",
+                "body": "Know what branch protection, releases, stars, graphs, and dependency insight are for. Detailed security configuration is covered in another GH-900 domain."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Branch protection rule",
+              "back": "A rule that can require reviews or checks before changes reach a protected branch."
+            },
+            {
+              "front": "Release",
+              "back": "A packaged iteration based on a Git tag."
+            },
+            {
+              "front": "Stars",
+              "back": "A way to save repositories and signal interest."
+            },
+            {
+              "front": "Repository graphs",
+              "back": "Views that help maintainers understand activity and traffic."
+            },
+            {
+              "front": "Dependency graph",
+              "back": "A summary of dependencies detected from manifest and lock files."
+            }
+          ],
+          "sources": [
+            {
+              "title": "About protected branches",
+              "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "About releases",
+              "url": "https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "About repository graphs",
+              "url": "https://docs.github.com/en/repositories/viewing-activity-and-data-for-your-repository/about-repository-graphs",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "gh900-rep-006",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "repositories",
+              "objectiveCode": "2.1",
+              "difficulty": "EASY",
+              "stem": "Why would a maintainer require reviews or status checks before updates can reach `main`?",
+              "explanation": "A branch protection rule can require reviews, checks, or other conditions before changes are merged into an important branch.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "To enforce requirements before changes reach the protected branch",
+                  "correct": true,
+                  "explanation": "Branch protection is designed to guard important branches with required conditions."
+                },
+                {
+                  "key": "B",
+                  "text": "To create a public profile page",
+                  "correct": false,
+                  "explanation": "Profiles are separate from branch rules."
+                },
+                {
+                  "key": "C",
+                  "text": "To format comments with Markdown",
+                  "correct": false,
+                  "explanation": "Markdown formats text; it does not protect branches."
+                },
+                {
+                  "key": "D",
+                  "text": "To save a repository to a stars list",
+                  "correct": false,
+                  "explanation": "Stars save repositories; they are not branch rules."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "About protected branches",
+                  "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-branches-protection-releases-insights",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "gh900-rep-007",
+              "type": "CATEGORIZATION",
+              "domainKey": "repositories",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each repository feature by its primary purpose.",
+              "explanation": "Maintenance features protect change, package versions, or provide visibility.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "change",
+                    "label": "Control change"
+                  },
+                  {
+                    "id": "version",
+                    "label": "Package version"
+                  },
+                  {
+                    "id": "visibility",
+                    "label": "Understand visibility"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Require review before merging to main",
+                    "category": "change",
+                    "explanation": "Branch protection controls how important branches change."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Publish release notes for v1.2",
+                    "category": "version",
+                    "explanation": "Releases package named iterations."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Review traffic and contributor graphs",
+                    "category": "visibility",
+                    "explanation": "Repository graphs provide activity data."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Star a repository to find it later",
+                    "category": "visibility",
+                    "explanation": "Stars help users save and discover repositories."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "About protected branches",
+                  "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About releases",
+                  "url": "https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About repository graphs",
+                  "url": "https://docs.github.com/en/repositories/viewing-activity-and-data-for-your-repository/about-repository-graphs",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Saving repositories with stars",
+                  "url": "https://docs.github.com/en/get-started/exploring-projects-on-github/saving-repositories-with-stars",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-branches-protection-releases-insights"
+            },
+            {
+              "ref": "gh900-rep-008",
+              "type": "ORDERING",
+              "domainKey": "repositories",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Order a safe repository maintenance flow.",
+              "explanation": "Work is branched, reviewed, merged, and then packaged when ready.",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Create a feature branch from main"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Open a pull request for review"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Merge after requirements pass"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Create a release for the stable version"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "A feature branch keeps maintenance work separate from main while it is being prepared.",
+                  "s2": "A pull request gives reviewers and automated checks a place to evaluate the branch.",
+                  "s3": "Merging should wait until the repository requirements are satisfied.",
+                  "s4": "A release is created after the stable version exists in the repository history."
+                }
+              },
+              "sources": [
+                {
+                  "title": "About protected branches",
+                  "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About releases",
+                  "url": "https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "GitHub flow",
+                  "url": "https://docs.github.com/en/get-started/using-github/github-flow",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-branches-protection-releases-insights"
+            },
+            {
+              "ref": "gh900-rep-009",
+              "type": "TRUE_FALSE",
+              "domainKey": "repositories",
+              "objectiveCode": "2.1",
+              "difficulty": "EASY",
+              "stem": "GitHub releases are based on Git tags.",
+              "explanation": "GitHub Docs describes releases as being based on Git tags.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. GitHub releases are created from Git tags and add release notes or assets around a tagged version."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that releases in GitHub are based on Git tags."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "About releases",
+                  "url": "https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-branches-protection-releases-insights"
+            },
+            {
+              "ref": "gh900-rep-010",
+              "type": "SCENARIO",
+              "domainKey": "repositories",
+              "objectiveCode": "2.1",
+              "difficulty": "HARD",
+              "stem": "Which feature gives the maintainer a summary of dependencies found from manifest and lock files?",
+              "explanation": "The dependency graph summarizes dependencies for a repository.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Dependency graph",
+                  "correct": true,
+                  "explanation": "It summarizes dependencies found in manifest and lock files."
+                },
+                {
+                  "key": "B",
+                  "text": "Star list",
+                  "correct": false,
+                  "explanation": "Stars save repositories and signal interest."
+                },
+                {
+                  "key": "C",
+                  "text": "Wiki",
+                  "correct": false,
+                  "explanation": "A wiki hosts documentation."
+                },
+                {
+                  "key": "D",
+                  "text": "GitHub Desktop",
+                  "correct": false,
+                  "explanation": "Desktop is a client for local Git workflows."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Dependency graph",
+                  "url": "https://docs.github.com/en/code-security/concepts/supply-chain-security/dependency-graph",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-branches-protection-releases-insights",
+              "scenario": "A maintainer wants a foundational view of packages used by a repository before deciding whether to investigate updates.",
+              "shuffleOptions": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

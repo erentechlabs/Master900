@@ -5,6 +5,7 @@ import { localizedField } from "@/i18n/translator";
 import { learnerVisibleWhere } from "@/modules/content/workflow";
 import { activeDays, computeAndStoreReadiness, domainMastery, streakInfo, totalXp } from "./data";
 import { levelForXp } from "./gamification";
+import { loadJumpBackIn, loadRecommendedLabs } from "./quest-service";
 import { recommendNextAction } from "./recommend";
 
 function sessionHref(session: { type: string; details: Prisma.JsonValue | null; plan: { certification: { code: string } } }): string {
@@ -112,6 +113,10 @@ export async function loadDashboard(userId: string, locale: string, timeZone: st
   });
 
   const level = levelForXp(xp);
+  const continueLesson = lastProgress
+    ? { title: lastProgress.lesson.translations[0]?.title || lastProgress.lesson.title, href: `/learn/${lastProgress.lesson.certification.code}/${lastProgress.lesson.slug}`, code: lastProgress.lesson.certification.code }
+    : null;
+  const [recommendedLabs, jumpBackIn] = await Promise.all([loadRecommendedLabs(userId, locale, primary?.certificationId ?? null, now), loadJumpBackIn(userId, locale, continueLesson)]);
   const activeSet = new Set(active);
   const strip = Array.from({ length: 35 }, (_, index) => {
     const date = addDaysISO(today, index - 34);
@@ -125,9 +130,9 @@ export async function loadDashboard(userId: string, locale: string, timeZone: st
     readiness: latestSnapshot ? { score: latestSnapshot.score, level: latestSnapshot.level, signals: latestSnapshot.signals } : readiness,
     sessions: sessions.map((s) => ({ ...s, href: sessionHref(s) })),
     dueReviews,
-    continueLesson: lastProgress
-      ? { title: lastProgress.lesson.translations[0]?.title || lastProgress.lesson.title, href: `/learn/${lastProgress.lesson.certification.code}/${lastProgress.lesson.slug}` }
-      : null,
+    continueLesson,
+    jumpBackIn,
+    recommendedLabs,
     dailyChallengeDone: !!dailyChallenge,
     recentBadges,
     curriculumAlerts,

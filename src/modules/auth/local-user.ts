@@ -20,6 +20,8 @@ const defaultPreference = {
   showTimerByDefault: true,
   gamificationEnabled: true,
   reducedMotion: false,
+  accentColor: "default",
+  transparencyEffects: true,
   shareAnonymousAnalytics: true,
 };
 

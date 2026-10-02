@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { crossedWarnings, hasContent, remainingTime } from "@/modules/assessment/engine/response";
+import { crossedSecondWarnings, crossedWarnings, hasContent, remainingTime } from "@/modules/assessment/engine/response";
 import { plainSnippet } from "@/lib/text";
 import { safeCallbackUrl } from "@/lib/urls";
 import { errorText } from "@/i18n/errors";
@@ -44,6 +44,12 @@ describe("exam timer helpers", () => {
     expect(crossedWarnings(1_000, -1)).toEqual([]);
     // A long pause (e.g. sleeping laptop) can cross several thresholds at once.
     expect(crossedWarnings(11 * 60_000, 4 * 60_000)).toEqual([10, 5]);
+  });
+
+  it("announces short lightning thresholds in seconds", () => {
+    expect(crossedSecondWarnings(null, 50_000)).toEqual([]);
+    expect(crossedSecondWarnings(61_000, 59_000)).toEqual([60]);
+    expect(crossedSecondWarnings(31_000, 9_000)).toEqual([30, 10]);
   });
 });
 

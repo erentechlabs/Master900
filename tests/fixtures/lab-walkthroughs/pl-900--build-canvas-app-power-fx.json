@@ -1,0 +1,20 @@
+{
+  "certification": "PL-900",
+  "lab": "build-canvas-app-power-fx",
+  "note": "Connect canvas app to Dataverse, set Power Fx formulas, preview save, then save and publish.",
+  "events": [
+    { "type": "navigate", "page": "apps" },
+    { "type": "rowClick", "componentId": "apps-list", "rowKey": "Service Requests Mobile" },
+    { "type": "click", "componentId": "studio-data" },
+    { "type": "submitForm", "componentId": "connect-data-form", "values": { "connector": "Microsoft Dataverse", "table": "Service Requests" } },
+    { "type": "click", "componentId": "studio-tree" },
+    { "type": "submitForm", "componentId": "gallery-formula-form", "values": { "items": "SortByColumns(Filter('Service Requests', IsBlank(txtSearch.Text) || StartsWith(Title, txtSearch.Text) || StartsWith(Status, txtSearch.Text)), \"DueDate\", Ascending)" } },
+    { "type": "submitForm", "componentId": "count-formula-form", "values": { "text": "CountRows(galRequests.AllItems) & \" requests\"" } },
+    { "type": "submitForm", "componentId": "edit-form-formula-form", "values": { "dataSource": "'Service Requests'", "item": "galRequests.Selected", "onSelect": "SubmitForm(frmRequest); Notify(\"Request saved\", NotificationType.Success)" } },
+    { "type": "click", "componentId": "studio-preview" },
+    { "type": "rowClick", "componentId": "preview-requests", "rowKey": "Replace lobby badge printer" },
+    { "type": "submitForm", "componentId": "preview-edit-form", "values": { "status": "In progress", "notes": "Assigned to facilities today." } },
+    { "type": "click", "componentId": "studio-save" },
+    { "type": "click", "componentId": "studio-publish" }
+  ]
+}

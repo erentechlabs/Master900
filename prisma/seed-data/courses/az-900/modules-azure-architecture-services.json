@@ -20,9 +20,9 @@
           "estimatedMinutes": 10,
           "summary": "Learn how Azure location choices and resilience boundaries affect architecture decisions.",
           "learningObjectives": [
-            "Describe the main Azure concepts in regions, region pairs, and availability zones",
-            "Choose the right service or feature for a beginner-level business scenario",
-            "Avoid common misconceptions about this objective"
+            "Describe how Azure regions and availability zones affect latency and resilience",
+            "Identify when zone-redundant or zonal deployment supports availability",
+            "Recognize region pair and data residency considerations in Azure planning"
           ],
           "explanation": "Azure infrastructure is organized around locations and resilience boundaries. An **Azure region** is a geographic area that contains datacenters connected by a low-latency network. You usually choose a region when creating resources such as virtual machines, storage accounts, and virtual networks. That choice can affect latency, data residency planning, and whether a service or feature is available.\n\nSome regions support **availability zones**. A zone is a physically separate location inside a region, with independent power, cooling, and networking. When a service supports zonal or zone-redundant deployment, you can design the workload so a single facility problem is less likely to stop the whole solution.\n\nAzure also uses **region pairs** in resilience planning. A paired region can be part of a disaster recovery strategy for broader regional disruptions. Region pairs do not automatically make every workload resilient; you must still choose suitable services, redundancy, backups, and recovery procedures.",
           "terminology": [
@@ -217,13 +217,13 @@
                   "key": "TRUE",
                   "text": "True",
                   "correct": true,
-                  "explanation": "The statement is accurate."
+                  "explanation": "Correct. An Azure region is a geographic area that contains one or more datacenters connected through a low-latency network."
                 },
                 {
                   "key": "FALSE",
                   "text": "False",
                   "correct": false,
-                  "explanation": "The statement is not accurate."
+                  "explanation": "Choosing False misses that regions are Azure location boundaries made up of one or more connected datacenters."
                 }
               ],
               "lessonSlug": "regions-and-availability-zones",
@@ -362,7 +362,7 @@
               "objectiveCode": "2.1",
               "difficulty": "HARD",
               "scenario": "Fabrikam is designing a customer portal in Azure. It wants regional placement near users, resilience against a localized facility problem, and a recovery discussion for broader regional events.",
-              "stem": "For each statement, select **Yes** if it is accurate. Otherwise, select **No**.",
+              "stem": "For the Relecloud design, select **Yes** for each statement that accurately describes Azure regions, region pairs, or availability zones. Otherwise, select **No**.",
               "explanation": "Regions, availability zones, and region pairs each support a different architecture decision.",
               "lessonSlug": "regions-and-availability-zones",
               "sources": [
@@ -409,9 +409,9 @@
           "estimatedMinutes": 11,
           "summary": "Understand how Azure Resource Manager organizes services from individual resources up to management groups.",
           "learningObjectives": [
-            "Describe the main Azure concepts in resources, resource groups, subscriptions, and management groups",
-            "Choose the right service or feature for a beginner-level business scenario",
-            "Avoid common misconceptions about this objective"
+            "Describe Azure hierarchy levels from individual resources to management groups",
+            "Identify the right Azure scope for access, policy, or billing decisions",
+            "Recognize how Azure Resource Manager provides a consistent management layer"
           ],
           "explanation": "Azure Resource Manager provides the management layer used to deploy and manage Azure resources. A **resource** is an individual service instance such as a virtual machine, virtual network, or storage account. Each resource has a type, name, location, and configuration.\n\nResources are placed in **resource groups**. A resource group is a logical container, often organized around an application, environment, or lifecycle. It helps teams view, manage, and remove related resources together.\n\nA **subscription** is a major boundary for billing, quotas, and access management. Resource groups exist inside subscriptions. Larger organizations often use multiple subscriptions for production, development, departments, or workload isolation.\n\nAbove subscriptions, **management groups** help organize many subscriptions into a hierarchy. They are useful when central teams want governance to inherit across multiple subscriptions. The key hierarchy is: management groups contain subscriptions; subscriptions contain resource groups; resource groups contain resources.",
           "terminology": [
@@ -533,32 +533,32 @@
               "domainKey": "azure-architecture-services",
               "objectiveCode": "2.1",
               "difficulty": "EASY",
-              "stem": "Which Azure CLI command creates a resource group named `rg-demo` in `eastus`?",
-              "explanation": "`az group create` creates a resource group and accepts name and location parameters.",
+              "stem": "Which Azure CLI command shows details for the existing resource group named `rg-demo`?",
+              "explanation": "`az group show` reads the properties of one resource group identified by name.",
               "options": [
                 {
                   "key": "A",
-                  "text": "`az group create --name rg-demo --location eastus`",
+                  "text": "`az group show --name rg-demo`",
                   "correct": true,
-                  "explanation": "This is the correct create command syntax."
+                  "explanation": "This command returns details for the named resource group."
                 },
                 {
                   "key": "B",
-                  "text": "`az group list --name rg-demo --location eastus`",
+                  "text": "`az group create --name rg-demo --location eastus`",
                   "correct": false,
-                  "explanation": "`list` does not create a resource group."
+                  "explanation": "This creates or updates a resource group instead of showing an existing group."
                 },
                 {
                   "key": "C",
-                  "text": "`az vm list --name rg-demo`",
+                  "text": "`az vm show --name rg-demo`",
                   "correct": false,
-                  "explanation": "This relates to virtual machines, not resource group creation."
+                  "explanation": "This targets a virtual machine and also lacks the resource group for the VM."
                 },
                 {
                   "key": "D",
-                  "text": "`az storage account create --resource-group rg-demo`",
+                  "text": "`az storage account show --name rg-demo`",
                   "correct": false,
-                  "explanation": "This creates a storage account and is incomplete."
+                  "explanation": "This targets a storage account, not the resource group container."
                 }
               ],
               "lessonSlug": "azure-resource-hierarchy",
@@ -587,20 +587,20 @@
               "domainKey": "azure-architecture-services",
               "objectiveCode": "2.1",
               "difficulty": "MEDIUM",
-              "stem": "Which **two** statements about resource groups are correct?",
-              "explanation": "Resource groups are logical containers in a subscription, and a resource belongs to one resource group at a time.",
+              "stem": "In the Azure resource hierarchy, which **two** statements correctly describe resource groups?",
+              "explanation": "A resource group is a logical container inside a subscription, and each Azure resource is in one resource group at a time.",
               "options": [
                 {
                   "key": "A",
                   "text": "A resource group can contain multiple related Azure resources",
                   "correct": true,
-                  "explanation": "This is a common use of resource groups."
+                  "explanation": "A resource group is commonly used to organize related resources for an application or environment."
                 },
                 {
                   "key": "B",
                   "text": "A single Azure resource belongs to one resource group at a time",
                   "correct": true,
-                  "explanation": "A resource has one containing resource group."
+                  "explanation": "An Azure resource has one containing resource group even though it can relate to resources elsewhere."
                 },
                 {
                   "key": "C",
@@ -837,9 +837,9 @@
           "estimatedMinutes": 12,
           "summary": "Compare common Azure compute options and decide when to use VMs, containers, or functions.",
           "learningObjectives": [
-            "Describe the main Azure concepts in virtual machines, containers, and azure functions",
-            "Choose the right service or feature for a beginner-level business scenario",
-            "Avoid common misconceptions about this objective"
+            "Compare VMs, containers, and Azure Functions by control and management effort",
+            "Choose a compute option for legacy apps, packaged APIs, or event-driven jobs",
+            "Recognize when OS control or serverless execution changes the compute choice"
           ],
           "explanation": "Azure compute services run applications and workloads. **Virtual machines** are the most familiar model: choose an operating system, size, disks, and network settings. VMs are useful when you need operating system control, custom software, or a migration target for apps that cannot easily be redesigned. That control also means you manage the guest OS.\n\n**Containers** package an app with its dependencies so it runs consistently across environments. They are common for web APIs, microservices, and repeatable deployments. Azure has services that run containers while reducing infrastructure management.\n\n**Azure Functions** is a serverless compute option for event-driven code. A function might run when a queue message arrives, a timer fires, or an HTTP request is received. It suits small units of work where the team wants to focus on code rather than servers.\n\nFor fundamentals, choose based on control and management effort: VMs for maximum OS control, containers for portable packaged apps, and functions for event-driven serverless tasks.",
           "terminology": [
@@ -924,16 +924,20 @@
           ],
           "flashcards": [
             {
-              "front": "VM",
-              "back": "Best when guest OS control is needed."
+              "front": "Virtual machine fit",
+              "back": "Use a VM when you need guest operating system control or compatibility with traditional server workloads."
             },
             {
-              "front": "Container",
-              "back": "Packages an app and dependencies."
+              "front": "Container fit",
+              "back": "Use containers to package apps consistently and run them across compatible container hosts."
             },
             {
-              "front": "Azure Functions",
-              "back": "Runs event-driven code without managing servers."
+              "front": "Azure Functions fit",
+              "back": "Use Azure Functions for event-driven code where the platform abstracts server management."
+            },
+            {
+              "front": "Compute decision clue",
+              "back": "Match control, portability, event triggers, and management effort to the compute option."
             }
           ],
           "sources": [
@@ -960,14 +964,14 @@
               "domainKey": "azure-architecture-services",
               "objectiveCode": "2.2",
               "difficulty": "MEDIUM",
-              "stem": "Which compute option is the best starting point?",
-              "explanation": "Virtual machines provide guest operating system control for applications that need it.",
+              "stem": "Which Azure compute service best supports the app's operating-system control requirement?",
+              "explanation": "Azure Virtual Machines are the best fit because the scenario requires custom Windows software and control of the guest operating system.",
               "options": [
                 {
                   "key": "A",
                   "text": "Azure Virtual Machines",
                   "correct": true,
-                  "explanation": "VMs provide OS-level control."
+                  "explanation": "Virtual machines provide guest OS control for workloads that need custom server configuration."
                 },
                 {
                   "key": "B",
@@ -1240,9 +1244,9 @@
           "estimatedMinutes": 12,
           "summary": "Learn the basic Azure networking services used to connect resources and extend networks to Azure.",
           "learningObjectives": [
-            "Describe the main Azure concepts in virtual networks, vpn gateway, and expressroute",
-            "Choose the right service or feature for a beginner-level business scenario",
-            "Avoid common misconceptions about this objective"
+            "Describe how VNets and subnets provide private communication in Azure",
+            "Distinguish VPN Gateway from ExpressRoute for hybrid connectivity",
+            "Identify when a scenario needs network segmentation or on-premises connection"
           ],
           "explanation": "Azure networking lets resources communicate securely with each other, users, and on-premises systems. The foundation is **Azure Virtual Network** (VNet). A VNet gives resources private IP communication inside an Azure address space you define. You can divide the address space into **subnets** to organize tiers and apply network controls.\n\nWhen a company needs to connect on-premises networks to Azure, two common options appear in AZ-900. **VPN Gateway** supports encrypted connections between an on-premises network and an Azure virtual network, commonly over the internet. **ExpressRoute** provides private connectivity through a connectivity provider and is considered when a company wants provider-based private connectivity.\n\nAzure also uses public and private endpoints. A public endpoint is reachable through public addressing. A private endpoint lets supported services be reached privately through a VNet. At fundamentals level, know the purpose: VNets organize private cloud networks, while VPN Gateway and ExpressRoute connect on-premises environments to Azure in different ways.",
           "terminology": [
@@ -1355,20 +1359,20 @@
           ],
           "flashcards": [
             {
-              "front": "VNet",
-              "back": "Private network space for Azure resources."
+              "front": "Virtual network purpose",
+              "back": "A VNet provides a private, logically isolated network space for Azure resources."
             },
             {
-              "front": "Subnet",
-              "back": "A smaller segment of a VNet."
+              "front": "Subnet purpose",
+              "back": "A subnet divides a VNet address space so resources can be grouped and controlled."
             },
             {
-              "front": "VPN Gateway",
-              "back": "Encrypted connectivity to Azure."
+              "front": "VPN Gateway fit",
+              "back": "Use VPN Gateway for encrypted connectivity over the public internet between Azure and another network."
             },
             {
-              "front": "ExpressRoute",
-              "back": "Private provider connectivity."
+              "front": "ExpressRoute fit",
+              "back": "Use ExpressRoute when a scenario needs private connectivity through a connectivity provider rather than over the public internet."
             }
           ],
           "sources": [
@@ -1407,9 +1411,9 @@
                 },
                 {
                   "key": "C",
-                  "text": "Microsoft Defender for Cloud",
+                  "text": "Azure Policy assignment",
                   "correct": false,
-                  "explanation": "This is security posture management and protection."
+                  "explanation": "Azure Policy can enforce rules, but it does not provide private address space."
                 },
                 {
                   "key": "D",
@@ -1513,13 +1517,13 @@
                   "key": "TRUE",
                   "text": "True",
                   "correct": true,
-                  "explanation": "The statement is accurate."
+                  "explanation": "Correct. Subnets carve a virtual network address range into smaller network segments for organizing and controlling resources."
                 },
                 {
                   "key": "FALSE",
                   "text": "False",
                   "correct": false,
-                  "explanation": "The statement is not accurate."
+                  "explanation": "Choosing False misses that subnetting is the standard way to divide an Azure virtual network address space."
                 }
               ],
               "lessonSlug": "azure-networking-basics",
@@ -1555,7 +1559,7 @@
                   "key": "B",
                   "text": "VPN Gateway only",
                   "correct": false,
-                  "explanation": "VPN Gateway commonly uses encrypted tunnels over the internet."
+                  "explanation": "A VPN Gateway is typically chosen for encrypted site-to-site connectivity that traverses the public internet, which the stem rules out."
                 },
                 {
                   "key": "C",
@@ -1592,7 +1596,7 @@
               "objectiveCode": "2.2",
               "difficulty": "MEDIUM",
               "scenario": "Woodgrove Bank has an Azure workload with web and data subnets. Administrators also need secure connectivity from an on-premises office.",
-              "stem": "For each statement, select **Yes** if it is accurate. Otherwise, select **No**.",
+              "stem": "For the hybrid connectivity plan, select **Yes** for each accurate statement about VNets, VPN Gateway, and ExpressRoute. Otherwise, select **No**.",
               "explanation": "VNets and subnets organize private networking; VPN Gateway and ExpressRoute connect networks.",
               "lessonSlug": "azure-networking-basics",
               "sources": [
@@ -1653,9 +1657,9 @@
           "estimatedMinutes": 12,
           "summary": "Understand storage accounts, storage services, redundancy choices, and blob access tiers.",
           "learningObjectives": [
-            "Describe the main Azure concepts in storage accounts, redundancy, and access tiers",
-            "Choose the right service or feature for a beginner-level business scenario",
-            "Avoid common misconceptions about this objective"
+            "Identify Blob, Files, Queue, and Table storage services within a storage account",
+            "Distinguish redundancy settings from blob access tiers",
+            "Choose storage options for objects, file shares, messages, and key-value data"
           ],
           "explanation": "Azure Storage provides cloud storage for many data types. A **storage account** is the top-level container that provides a unique namespace and configuration boundary. Inside a storage account, common services include Blob Storage for object data, Azure Files for file shares, Queue Storage for messages, and Table Storage for NoSQL key-value data.\n\nTwo ideas often appear together but mean different things: **redundancy** and **access tiers**. Redundancy describes how Azure stores copies of data to improve durability and availability. Options such as locally redundant, zone-redundant, and geo-redundant storage reflect different replication approaches.\n\nAccess tiers describe how blob data is expected to be used. Hot is for data accessed often. Cool and cold are for less frequent access. Archive is for rarely accessed data that can tolerate retrieval steps. Avoid memorizing prices or thresholds; focus on matching access pattern and resilience need to the storage setting.",
           "terminology": [
@@ -1762,20 +1766,20 @@
           ],
           "flashcards": [
             {
-              "front": "Storage account",
-              "back": "Top-level namespace for Azure Storage."
+              "front": "Storage account role",
+              "back": "The top-level Azure Storage resource that contains services such as blobs, files, queues, and tables."
             },
             {
-              "front": "Redundancy",
-              "back": "How data copies are maintained."
+              "front": "Storage redundancy choice",
+              "back": "A setting that controls how Azure copies data to protect against hardware, datacenter, or regional failures."
             },
             {
-              "front": "Hot tier",
-              "back": "For frequently accessed blob data."
+              "front": "Hot access tier",
+              "back": "A tier for data accessed frequently."
             },
             {
-              "front": "Archive tier",
-              "back": "For rarely accessed blob data with retrieval considerations."
+              "front": "Archive access tier",
+              "back": "A tier for rarely accessed data that can tolerate retrieval delay."
             }
           ],
           "sources": [
@@ -2168,9 +2172,9 @@
           "estimatedMinutes": 10,
           "summary": "Learn common tools for moving files into Azure Storage and planning migrations to Azure.",
           "learningObjectives": [
-            "Describe the main Azure concepts in moving files and migrating to azure",
-            "Choose the right service or feature for a beginner-level business scenario",
-            "Avoid common misconceptions about this objective"
+            "Choose AzCopy, Storage Explorer, Azure File Sync, or Azure Migrate for data movement",
+            "Distinguish simple storage transfers from broader migration assessments",
+            "Identify when Azure Files supports shared file access in Azure"
           ],
           "explanation": "Moving data to Azure can mean a simple file copy or a broader migration project. For storage-focused movement, **AzCopy** is a command-line utility used to copy data to, from, or between Azure Storage accounts. It is useful for scripts and repeatable transfer jobs. **Azure Storage Explorer** is a graphical tool for browsing and managing storage data.\n\nFor file server scenarios, **Azure Files** provides managed file shares, and **Azure File Sync** can help synchronize on-premises Windows file servers with Azure file shares.\n\nMigration is broader than copying files. **Azure Migrate** helps discover, assess, and migrate on-premises workloads to Azure. **Azure Data Box** is an option for large offline transfers when network transfer is impractical. At fundamentals level, classify the scenario: scripted storage copy, graphical storage management, file server synchronization, offline bulk transfer, or full workload migration assessment.",
           "terminology": [
@@ -2347,8 +2351,8 @@
               "domainKey": "azure-architecture-services",
               "objectiveCode": "2.3",
               "difficulty": "EASY",
-              "stem": "Complete the sentence about data movement tools.",
-              "explanation": "AzCopy is commonly used for command-line Azure Storage transfers.",
+              "stem": "Complete the sentence about the Azure data movement tool commonly used from scripts and command lines.",
+              "explanation": "AzCopy is the command-line utility for copying data to and from Azure Storage, so it fits scripted transfer scenarios rather than graphical browsing.",
               "lessonSlug": "moving-data-to-azure",
               "sources": [
                 {
@@ -2381,7 +2385,7 @@
                       "AzCopy",
                       "azcopy"
                     ],
-                    "explanation": "AzCopy is the Azure Storage copy utility."
+                    "explanation": "AzCopy is the Azure Storage copy utility used from a command line."
                   }
                 ],
                 "wordBank": [
@@ -2533,9 +2537,9 @@
                 },
                 {
                   "key": "C",
-                  "text": "Microsoft Defender for Cloud",
+                  "text": "Azure Monitor metrics explorer",
                   "correct": false,
-                  "explanation": "This is security posture and protection."
+                  "explanation": "Metrics Explorer analyzes monitoring data; it is not the storage browsing tool."
                 },
                 {
                   "key": "D",
@@ -2592,9 +2596,9 @@
           "estimatedMinutes": 11,
           "summary": "Understand Microsoft Entra ID and authentication methods such as SSO, MFA, and passwordless sign-in.",
           "learningObjectives": [
-            "Describe the main Azure concepts in microsoft entra id and authentication methods",
-            "Choose the right service or feature for a beginner-level business scenario",
-            "Avoid common misconceptions about this objective"
+            "Describe how Microsoft Entra ID manages users, groups, apps, and sign-in",
+            "Distinguish SSO, MFA, and passwordless authentication methods",
+            "Recognize when identity protection requires stronger sign-in controls"
           ],
           "explanation": "**Microsoft Entra ID** is Microsoft’s cloud identity and access service. It helps organizations manage users, groups, applications, and sign-in for cloud resources. When employees access Azure, Microsoft 365, or integrated applications, Microsoft Entra ID can authenticate them and provide access tokens.\n\n**Single sign-on** (SSO) lets a user sign in once and access multiple supported applications without repeatedly entering credentials. **Multifactor authentication** (MFA) requires an additional verification factor, such as an approved app prompt, security key, or other method. MFA reduces the risk of password-only compromise.\n\n**Passwordless** authentication reduces or removes dependence on typed passwords. The user still proves identity, but not by entering a traditional password. **Conditional Access** uses signals such as user, device, location, or risk to make access decisions. A policy might require MFA for risky sign-ins. For AZ-900, understand the purpose rather than detailed policy configuration.",
           "terminology": [
@@ -2951,13 +2955,13 @@
                   "key": "TRUE",
                   "text": "True",
                   "correct": true,
-                  "explanation": "The statement is accurate."
+                  "explanation": "Correct. Passwordless methods such as passkeys or authenticator-based sign-in verify identity without requiring a memorized password."
                 },
                 {
                   "key": "FALSE",
                   "text": "False",
                   "correct": false,
-                  "explanation": "The statement is not accurate."
+                  "explanation": "Choosing False misses that passwordless authentication can still verify identity while reducing password dependence."
                 }
               ],
               "lessonSlug": "entra-id-and-authentication",
@@ -2988,9 +2992,9 @@
           "estimatedMinutes": 12,
           "summary": "Learn how Azure RBAC, Zero Trust principles, and Defender for Cloud support access control and security posture.",
           "learningObjectives": [
-            "Describe the main Azure concepts in azure rbac, zero trust, and microsoft defender for cloud",
-            "Choose the right service or feature for a beginner-level business scenario",
-            "Avoid common misconceptions about this objective"
+            "Explain how Azure RBAC assignments combine principal, role, and scope",
+            "Distinguish authorization, least privilege, and Zero Trust principles",
+            "Identify how Microsoft Defender for Cloud recommends security posture improvements"
           ],
           "explanation": "Security in Azure combines identity, authorization, network controls, monitoring, and workload protection. **Azure role-based access control** (Azure RBAC) is an authorization system for Azure resources. A role assignment connects a security principal, a role definition such as Reader or Contributor, and a scope such as a subscription, resource group, or resource.\n\n**Zero Trust** is a security approach that avoids implicit trust. Common principles include verify explicitly, use least privilege access, and assume breach. In practice, this means checking identity and context, limiting permissions, segmenting access, and monitoring for suspicious activity. Zero Trust is not one product; it is a design and operating model.\n\n**Microsoft Defender for Cloud** helps organizations improve security posture and protect workloads across Azure, hybrid, and multicloud environments. It can provide recommendations and workload protection capabilities. Together, RBAC limits who can do what, Zero Trust guides secure design, and Defender for Cloud helps identify and address risks.",
           "terminology": [
@@ -3126,7 +3130,7 @@
               "objectiveCode": "2.4",
               "difficulty": "HARD",
               "scenario": "Woodgrove Bank is improving cloud security. Developers need permission to restart VMs in one resource group, security wants posture recommendations, and leadership wants least privilege.",
-              "stem": "For each statement, select **Yes** if it is accurate. Otherwise, select **No**.",
+              "stem": "For the Tailwind Traders access review, select **Yes** for each statement that correctly applies Azure RBAC, Zero Trust, or Defender for Cloud. Otherwise, select **No**.",
               "explanation": "RBAC grants scoped permissions, Defender for Cloud helps with posture, and Zero Trust emphasizes least privilege.",
               "lessonSlug": "rbac-zero-trust-defender",
               "sources": [

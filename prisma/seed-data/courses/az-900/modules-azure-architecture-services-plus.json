@@ -1,0 +1,1500 @@
+{
+  "domainKey": "azure-architecture-services",
+  "modules": [
+    {
+      "slug": "azure-compute-networking-scenario-depth",
+      "title": "Azure compute and networking scenario depth",
+      "summary": "Deeper compute and networking scenario coverage.",
+      "lessons": [
+        {
+          "slug": "compute-hosting-options-deep-dive",
+          "title": "Compute and hosting options: scale sets, desktops, containers, functions, and web apps",
+          "objectiveCode": "2.2",
+          "estimatedMinutes": 12,
+          "summary": "Expands compute coverage with VM scale sets, availability sets, Azure Virtual Desktop, containers, Functions, and App Service.",
+          "learningObjectives": [
+            "Compare VM scale sets, availability sets, Virtual Desktop, containers, Functions, and App Service",
+            "Choose an Azure compute option from hosting, scaling, and operations clues",
+            "Identify when Container Apps, Container Instances, or Functions fit an app workload"
+          ],
+          "explanation": "Azure compute choices depend on what is hosted and how much operation the team accepts. Virtual machines fit OS control. Virtual Machine Scale Sets fit groups of similar VMs that scale together. Availability sets help place related VMs across fault and update domains. Azure Virtual Desktop delivers hosted desktops or remote apps. For containers, Azure Container Instances is simple, Container Apps is managed and app-centric, and AKS is for Kubernetes orchestration. App Service hosts web apps and APIs with less server work. Azure Functions runs event-driven code.",
+          "terminology": [
+            {
+              "term": "Virtual Machine Scale Sets",
+              "definition": "Groups of VM instances that can scale together."
+            },
+            {
+              "term": "Availability set",
+              "definition": "VM placement across fault and update domains."
+            },
+            {
+              "term": "Azure Virtual Desktop",
+              "definition": "Hosted desktops and remote apps on Azure."
+            },
+            {
+              "term": "Azure Container Instances",
+              "definition": "Simple serverless container execution."
+            },
+            {
+              "term": "Azure Functions",
+              "definition": "Event-driven serverless code."
+            }
+          ],
+          "businessScenario": "Relecloud runs a flash-sale storefront, a contractor desktop pool, a nightly containerized import, and an image-resize workflow triggered by uploads.",
+          "technicalExample": "The storefront uses VM scale sets for a VM-based tier, contractors use Azure Virtual Desktop, the nightly import runs in Azure Container Instances, the API runs in Container Apps, and uploaded images trigger Azure Functions.",
+          "misconception": {
+            "myth": "Any container workload should immediately be placed on AKS.",
+            "reality": "ACI, Container Apps, App Service, and AKS can all run containers; AKS is best when Kubernetes orchestration is truly needed."
+          },
+          "examTakeaway": "Choose compute by the clue: identical VM scaling, VM placement resilience, desktop virtualization, simple container, managed container app, Kubernetes, web app, or event-driven function.",
+          "recap": "Expands compute coverage with VM scale sets, availability sets, Azure Virtual Desktop, containers, Functions, and App Service.",
+          "simplerExplanation": "Compute choices are like delivery options: a rented truck for full control, a fleet for bursts, a courier for one container job, and a vending machine for event-triggered tasks.",
+          "anotherExample": "A university uses App Service for admissions, Azure Virtual Desktop for temporary reviewers, ACI for a nightly transcript container, and Functions for file-arrival notifications.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Relecloud hosting map",
+                "columns": [
+                  {
+                    "title": "VM-based",
+                    "points": [
+                      "Scale sets for many similar VMs",
+                      "Availability sets for VM placement"
+                    ]
+                  },
+                  {
+                    "title": "Containers",
+                    "points": [
+                      "ACI for simple jobs",
+                      "Container Apps for managed APIs",
+                      "AKS for Kubernetes needs"
+                    ]
+                  },
+                  {
+                    "title": "Managed app patterns",
+                    "points": [
+                      "App Service for web apps",
+                      "Functions for events",
+                      "Azure Virtual Desktop for users"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Flash-sale compute flow",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "shop",
+                    "label": "Storefront"
+                  },
+                  {
+                    "id": "api",
+                    "label": "Container API"
+                  },
+                  {
+                    "id": "img",
+                    "label": "Image upload"
+                  },
+                  {
+                    "id": "fn",
+                    "label": "Function resize"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "shop",
+                    "to": "api",
+                    "label": "calls"
+                  },
+                  {
+                    "from": "img",
+                    "to": "fn",
+                    "label": "triggers"
+                  }
+                ],
+                "caption": "The storefront calls a managed container API, while uploaded images trigger a serverless function for resizing."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Scale set clue",
+              "back": "Many similar VMs should scale in or out together."
+            },
+            {
+              "front": "Availability set clue",
+              "back": "A small VM group needs fault and update domain separation."
+            },
+            {
+              "front": "Azure Virtual Desktop clue",
+              "back": "Users need hosted desktops or remote apps."
+            },
+            {
+              "front": "ACI clue",
+              "back": "Run one isolated container quickly without managing servers."
+            },
+            {
+              "front": "Functions clue",
+              "back": "Run code in response to an event such as an upload."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Describe Azure Compute Services",
+              "url": "https://learn.microsoft.com/en-us/training/modules/describe-azure-compute-networking-services/",
+              "kind": "LEARN_MODULE"
+            },
+            {
+              "title": "Azure Virtual Machine Scale Sets overview",
+              "url": "https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Availability sets overview",
+              "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Azure Virtual Desktop?",
+              "url": "https://learn.microsoft.com/en-us/azure/virtual-desktop/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Serverless containers in Azure",
+              "url": "https://learn.microsoft.com/en-us/azure/container-instances/container-instances-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Azure Container Apps overview",
+              "url": "https://learn.microsoft.com/en-us/azure/container-apps/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Azure Kubernetes Service (AKS)?",
+              "url": "https://learn.microsoft.com/en-us/azure/aks/what-is-aks",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-x-011",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Describe Azure Compute Services",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/describe-azure-compute-networking-services/",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "Azure Virtual Machine Scale Sets overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Availability sets overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Virtual Desktop?",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-desktop/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Serverless containers in Azure",
+                  "url": "https://learn.microsoft.com/en-us/azure/container-instances/container-instances-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "compute-hosting-options-deep-dive",
+              "stem": "A media site must run code each time a new image is uploaded to storage. The team wants minimal server administration and expects short executions. Which Azure compute option fits best?",
+              "explanation": "Azure Functions is designed for event-driven code such as reacting to a blob upload while Azure manages the underlying compute platform.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure Functions",
+                  "correct": true,
+                  "explanation": "Functions fits short, event-triggered code with minimal server management."
+                },
+                {
+                  "key": "B",
+                  "text": "Availability set",
+                  "correct": false,
+                  "explanation": "An availability set places VMs across fault and update domains; it does not run event-triggered code by itself."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure Virtual Desktop",
+                  "correct": false,
+                  "explanation": "Azure Virtual Desktop delivers desktops and remote apps to users, not event processing."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure DNS",
+                  "correct": false,
+                  "explanation": "Azure DNS hosts DNS zones and records; it is not a compute service."
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-x-012",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Describe Azure Compute Services",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/describe-azure-compute-networking-services/",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "Azure Virtual Machine Scale Sets overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Availability sets overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Virtual Desktop?",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-desktop/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Serverless containers in Azure",
+                  "url": "https://learn.microsoft.com/en-us/azure/container-instances/container-instances-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "compute-hosting-options-deep-dive",
+              "stem": "Which **two** Azure hosting choices are designed to reduce server management for application code?",
+              "explanation": "App Service and Azure Functions both let teams focus on application code while Azure handles much of the server and platform operation.",
+              "selectCount": 2,
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure App Service for a web API",
+                  "correct": true,
+                  "explanation": "App Service hosts web apps and APIs without requiring customers to manage web servers directly."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Functions for event-driven code",
+                  "correct": true,
+                  "explanation": "Functions runs code in response to events with serverless platform management."
+                },
+                {
+                  "key": "C",
+                  "text": "A single unmanaged on-premises server",
+                  "correct": false,
+                  "explanation": "An on-premises server leaves hardware and OS management with the organization."
+                },
+                {
+                  "key": "D",
+                  "text": "An availability set by itself",
+                  "correct": false,
+                  "explanation": "An availability set improves VM placement but does not reduce server management for code."
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-x-013",
+              "type": "TRUE_FALSE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "EASY",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Describe Azure Compute Services",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/describe-azure-compute-networking-services/",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "Azure Virtual Machine Scale Sets overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Availability sets overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Virtual Desktop?",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-desktop/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Serverless containers in Azure",
+                  "url": "https://learn.microsoft.com/en-us/azure/container-instances/container-instances-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "compute-hosting-options-deep-dive",
+              "stem": "True or false: Azure Functions is intended for event-driven workloads where Azure manages the underlying compute infrastructure.",
+              "explanation": "The statement is true. Functions is a serverless compute option commonly used for triggers such as HTTP requests, queue messages, timers, or storage events.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Azure Functions runs code in response to events while Azure abstracts the servers and scaling infrastructure."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that Functions is specifically an event-driven serverless compute service, not a VM management feature."
+                }
+              ]
+            },
+            {
+              "ref": "az900-x-014",
+              "type": "MATCHING",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Describe Azure Compute Services",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/describe-azure-compute-networking-services/",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "Azure Virtual Machine Scale Sets overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Availability sets overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Virtual Desktop?",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-desktop/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Serverless containers in Azure",
+                  "url": "https://learn.microsoft.com/en-us/azure/container-instances/container-instances-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "compute-hosting-options-deep-dive",
+              "stem": "Match each hosting requirement to the Azure compute option that best satisfies it.",
+              "explanation": "The correct match depends on whether the requirement asks for scaling identical VMs, desktop virtualization, a simple container run, or event-driven code.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Scale a group of identical VMs for a web tier"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Provide hosted desktops to temporary contractors"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Run one containerized import job without managing servers"
+                  },
+                  {
+                    "id": "p4",
+                    "text": "Run a small task when a queue message arrives"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Virtual Machine Scale Sets"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Azure Virtual Desktop"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Azure Container Instances"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Azure Functions"
+                  },
+                  {
+                    "id": "a5",
+                    "text": "Azure DNS"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3",
+                  "p4": "a4"
+                },
+                "explanations": {
+                  "p1": "Scale sets manage and scale groups of similar VM instances.",
+                  "p2": "Azure Virtual Desktop delivers desktops and remote apps from Azure.",
+                  "p3": "Azure Container Instances runs containers quickly without orchestrating a cluster.",
+                  "p4": "Azure Functions fits event-driven code such as queue-triggered processing."
+                }
+              }
+            },
+            {
+              "ref": "az900-x-015",
+              "type": "SCENARIO",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Describe Azure Compute Services",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/describe-azure-compute-networking-services/",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "Azure Virtual Machine Scale Sets overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Availability sets overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Virtual Desktop?",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-desktop/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Serverless containers in Azure",
+                  "url": "https://learn.microsoft.com/en-us/azure/container-instances/container-instances-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "compute-hosting-options-deep-dive",
+              "scenario": "Relecloud has a nightly data import packaged as a container image. It runs for a short time, has no need for Kubernetes orchestration, and the team wants the quickest managed way to start the container.",
+              "stem": "Which Azure service should the team use?",
+              "explanation": "Azure Container Instances is the best fit for a simple, isolated container job when Kubernetes orchestration is unnecessary.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure Container Instances (ACI)",
+                  "correct": true,
+                  "explanation": "ACI runs containers directly with minimal setup and no cluster management."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Kubernetes Service",
+                  "correct": false,
+                  "explanation": "AKS is appropriate when Kubernetes orchestration is needed, which the scenario explicitly does not require."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure Virtual Desktop",
+                  "correct": false,
+                  "explanation": "Virtual Desktop provides desktops and remote apps, not container job execution."
+                },
+                {
+                  "key": "D",
+                  "text": "Availability set",
+                  "correct": false,
+                  "explanation": "Availability sets apply to VM placement and do not run containers by themselves."
+                }
+              ],
+              "shuffleOptions": true
+            }
+          ]
+        },
+        {
+          "slug": "network-connectivity-endpoints-deep-dive",
+          "title": "Azure networking in depth: peering, DNS, hybrid connections, and endpoints",
+          "objectiveCode": "2.2",
+          "estimatedMinutes": 12,
+          "summary": "Deepens networking with VNet peering, Azure DNS, VPN Gateway, ExpressRoute, public endpoints, and private endpoints.",
+          "learningObjectives": [
+            "Identify when to use VNet peering, Azure DNS, VPN Gateway, or ExpressRoute",
+            "Distinguish public endpoints from private endpoints for Azure resources",
+            "Choose hybrid or private connectivity for branch and provider-network needs"
+          ],
+          "explanation": "Networking questions usually ask whether to connect, resolve, or reach. VNet peering connects Azure virtual networks. Azure DNS hosts DNS zones and records so apps can be reached by name. VPN Gateway supports encrypted VPN connectivity such as site-to-site and point-to-site. ExpressRoute provides private connectivity through a provider. A public endpoint is reachable through public addressing; a private endpoint gives a supported service a private IP in a VNet. Private endpoints reduce public exposure but do not replace identity, authorization, or monitoring.",
+          "terminology": [
+            {
+              "term": "Virtual network peering",
+              "definition": "Connects Azure virtual networks."
+            },
+            {
+              "term": "Azure DNS",
+              "definition": "Hosts DNS zones and records."
+            },
+            {
+              "term": "VPN Gateway",
+              "definition": "Provides VPN connectivity to Azure VNets."
+            },
+            {
+              "term": "ExpressRoute",
+              "definition": "Private provider-based connectivity to Azure."
+            },
+            {
+              "term": "Private endpoint",
+              "definition": "Private IP access to a supported Azure service."
+            }
+          ],
+          "businessScenario": "Fabrikam has separate hub, app, and data VNets. Branch offices need Azure access, users need friendly names, and a storage account should be reachable through private addressing only.",
+          "technicalExample": "Engineers peer the hub and app VNets, publish app records in Azure DNS, use VPN Gateway for a branch pilot, evaluate ExpressRoute for provider-based private connectivity, and create a private endpoint for storage.",
+          "misconception": {
+            "myth": "A private endpoint is the same thing as an identity or authorization rule.",
+            "reality": "A private endpoint changes network reachability by using a private IP; identity permissions, DNS, and monitoring still need separate configuration."
+          },
+          "examTakeaway": "Peering connects VNets, Azure DNS resolves names, VPN Gateway supports VPN tunnels, ExpressRoute provides private provider connectivity, and private endpoints reduce public network exposure for supported services.",
+          "recap": "Deepens networking with VNet peering, Azure DNS, VPN Gateway, ExpressRoute, public endpoints, and private endpoints.",
+          "simplerExplanation": "Networking is a campus: peering opens roads between buildings, DNS provides signs, VPN is a secured tunnel, ExpressRoute is a private bus line, and a private endpoint is a staff-only entrance.",
+          "anotherExample": "A hospital peers clinical and reporting VNets, uses Azure DNS for application names, and exposes a storage account to the app through a private endpoint.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Fabrikam networking choices",
+                "columns": [
+                  {
+                    "title": "Inside Azure",
+                    "points": [
+                      "VNet peering connects networks",
+                      "Private endpoints connect to services privately"
+                    ]
+                  },
+                  {
+                    "title": "Name resolution",
+                    "points": [
+                      "Azure DNS hosts zones",
+                      "Records map names to endpoints"
+                    ]
+                  },
+                  {
+                    "title": "Hybrid links",
+                    "points": [
+                      "VPN Gateway for encrypted VPN",
+                      "ExpressRoute for provider-based private connectivity"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Network requirement sorter",
+                "instructions": "Choose the Azure networking feature that best matches each requirement.",
+                "items": [
+                  {
+                    "prompt": "App VNet must talk to data VNet.",
+                    "answer": "Virtual network peering."
+                  },
+                  {
+                    "prompt": "Branch office needs an encrypted tunnel.",
+                    "answer": "VPN Gateway."
+                  },
+                  {
+                    "prompt": "Storage should use a private IP in the VNet.",
+                    "answer": "Private endpoint."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Peering clue",
+              "back": "Two Azure VNets need private communication."
+            },
+            {
+              "front": "Azure DNS clue",
+              "back": "Users or apps need names resolved to endpoints."
+            },
+            {
+              "front": "VPN Gateway clue",
+              "back": "An encrypted VPN connection is required."
+            },
+            {
+              "front": "ExpressRoute clue",
+              "back": "Private connectivity through a provider is required."
+            },
+            {
+              "front": "Private endpoint clue",
+              "back": "A supported service should be reached by private IP."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Azure Virtual Network Peering",
+              "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-peering-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Azure DNS Overview",
+              "url": "https://learn.microsoft.com/en-us/azure/dns/dns-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "About Azure VPN Gateway",
+              "url": "https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Azure ExpressRoute Overview",
+              "url": "https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is a private endpoint?",
+              "url": "https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-x-016",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Azure Virtual Network Peering",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-peering-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure DNS Overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/dns/dns-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About Azure VPN Gateway",
+                  "url": "https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure ExpressRoute Overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is a private endpoint?",
+                  "url": "https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "network-connectivity-endpoints-deep-dive",
+              "stem": "Two Azure virtual networks in the same organization need private IP connectivity over the Microsoft backbone without building a VPN tunnel. Which Azure networking feature should be used?",
+              "explanation": "Virtual network peering connects Azure VNets so resources can communicate privately through Microsoft networking rather than through the public internet or a VPN tunnel.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Virtual network peering",
+                  "correct": true,
+                  "explanation": "VNet peering provides private connectivity between Azure virtual networks."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure DNS",
+                  "correct": false,
+                  "explanation": "Azure DNS hosts and resolves DNS zones; it does not connect VNets."
+                },
+                {
+                  "key": "C",
+                  "text": "Blob archive tier",
+                  "correct": false,
+                  "explanation": "Archive tier is a storage access tier, not a networking feature."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure Advisor",
+                  "correct": false,
+                  "explanation": "Advisor provides recommendations; it does not establish network paths."
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-x-017",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Azure Virtual Network Peering",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-peering-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure DNS Overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/dns/dns-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About Azure VPN Gateway",
+                  "url": "https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure ExpressRoute Overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is a private endpoint?",
+                  "url": "https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "network-connectivity-endpoints-deep-dive",
+              "stem": "Which **two** Azure services are common choices for connecting an on-premises network to Azure?",
+              "explanation": "VPN Gateway and ExpressRoute are both hybrid connectivity options. VPN Gateway uses encrypted tunnels, while ExpressRoute provides private connectivity through a connectivity provider.",
+              "selectCount": 2,
+              "options": [
+                {
+                  "key": "A",
+                  "text": "VPN Gateway",
+                  "correct": true,
+                  "explanation": "VPN Gateway supports site-to-site and point-to-site VPN connectivity."
+                },
+                {
+                  "key": "B",
+                  "text": "ExpressRoute",
+                  "correct": true,
+                  "explanation": "ExpressRoute provides private connectivity between on-premises networks and Microsoft cloud services through a provider."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure DNS",
+                  "correct": false,
+                  "explanation": "Azure DNS hosts DNS zones; it does not create a hybrid network circuit or VPN tunnel."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure App Service",
+                  "correct": false,
+                  "explanation": "App Service hosts web apps and APIs, not hybrid network links."
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-x-018",
+              "type": "TRUE_FALSE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "EASY",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Azure Virtual Network Peering",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-peering-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure DNS Overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/dns/dns-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About Azure VPN Gateway",
+                  "url": "https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure ExpressRoute Overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is a private endpoint?",
+                  "url": "https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "network-connectivity-endpoints-deep-dive",
+              "stem": "True or false: A private endpoint can expose a supported Azure service through a private IP address in a virtual network.",
+              "explanation": "The statement is true. Private endpoints use private IP addresses from a VNet to reach supported Azure services privately.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. A private endpoint gives a supported Azure service a private IP address from your virtual network."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that Private Link uses private endpoints so traffic can reach supported services privately instead of through a public endpoint."
+                }
+              ]
+            },
+            {
+              "ref": "az900-x-019",
+              "type": "MATCHING",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Azure Virtual Network Peering",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-peering-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure DNS Overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/dns/dns-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About Azure VPN Gateway",
+                  "url": "https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure ExpressRoute Overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is a private endpoint?",
+                  "url": "https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "network-connectivity-endpoints-deep-dive",
+              "stem": "Match each networking requirement to the Azure service or endpoint concept that best fits.",
+              "explanation": "The matches distinguish VNet-to-VNet connectivity, DNS hosting, hybrid private connectivity, and private access to supported Azure services.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Connect two Azure VNets privately"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Host DNS records for a public domain"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Use private provider connectivity from a datacenter to Azure"
+                  },
+                  {
+                    "id": "p4",
+                    "text": "Reach a storage account through a private IP in a VNet"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Virtual network peering"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Azure DNS"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "ExpressRoute"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Private endpoint"
+                  },
+                  {
+                    "id": "a5",
+                    "text": "Availability set"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3",
+                  "p4": "a4"
+                },
+                "explanations": {
+                  "p1": "VNet peering connects Azure virtual networks.",
+                  "p2": "Azure DNS hosts DNS zones and records.",
+                  "p3": "ExpressRoute provides private connectivity through a provider.",
+                  "p4": "A private endpoint gives a supported service a private IP address in a VNet."
+                }
+              }
+            },
+            {
+              "ref": "az900-x-020",
+              "type": "SCENARIO",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Azure Virtual Network Peering",
+                  "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-peering-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure DNS Overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/dns/dns-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About Azure VPN Gateway",
+                  "url": "https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure ExpressRoute Overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is a private endpoint?",
+                  "url": "https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "network-connectivity-endpoints-deep-dive",
+              "scenario": "Northwind Traders has two Azure virtual networks that host application tiers. The team wants resources in the VNets to communicate privately using Azure backbone connectivity, and no on-premises network is involved.",
+              "stem": "What should connect the VNets?",
+              "explanation": "Virtual network peering is the appropriate Azure feature for private connectivity between VNets when no hybrid on-premises connection is required.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Virtual network peering",
+                  "correct": true,
+                  "explanation": "Peering connects Azure VNets privately through Microsoft networking."
+                },
+                {
+                  "key": "B",
+                  "text": "VPN Gateway to an on-premises router",
+                  "correct": false,
+                  "explanation": "A VPN Gateway is for VPN connectivity; the scenario only connects Azure VNets."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure DNS zone only",
+                  "correct": false,
+                  "explanation": "DNS can resolve names but does not establish private network connectivity."
+                },
+                {
+                  "key": "D",
+                  "text": "Public endpoint for every VM",
+                  "correct": false,
+                  "explanation": "Public endpoints expose services publicly and are not the private VNet-to-VNet design requested."
+                }
+              ],
+              "shuffleOptions": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "azure-storage-scenario-depth",
+      "title": "Azure storage scenario depth",
+      "summary": "Storage redundancy and access tier scenarios.",
+      "lessons": [
+        {
+          "slug": "storage-resilience-access-scenarios",
+          "title": "Storage redundancy and access tiers through scenarios",
+          "objectiveCode": "2.3",
+          "estimatedMinutes": 12,
+          "summary": "Adds storage scenario practice for redundancy and blob access tiers.",
+          "learningObjectives": [
+            "Distinguish storage redundancy choices from blob access tiers",
+            "Choose hot, cool, cold, or archive tiers from blob access patterns",
+            "Identify resilience clues that point to zonal or geo-redundant storage"
+          ],
+          "explanation": "Storage settings answer different questions. Redundancy is about how Azure stores copies for resilience: locally redundant, zone-redundant, and geo-redundant choices reflect different replication patterns. Access tiers are about expected blob usage: hot for frequent access, cool or cold for less frequent access, and archive for rarely accessed data that can tolerate retrieval steps. If the scenario mentions zones, regions, copies, or disaster recovery, think redundancy. If it mentions frequently read or rarely read data, think access tier.",
+          "terminology": [
+            {
+              "term": "Storage redundancy",
+              "definition": "The replication approach used to keep Azure Storage data durable and available."
+            },
+            {
+              "term": "Locally redundant storage",
+              "definition": "Copies kept within a single datacenter location."
+            },
+            {
+              "term": "Zone-redundant storage",
+              "definition": "Copies stored across availability zones in one region."
+            },
+            {
+              "term": "Geo-redundant storage",
+              "definition": "Replication to a secondary region for broader recovery planning."
+            },
+            {
+              "term": "Blob access tier",
+              "definition": "A setting that reflects expected read frequency and retrieval tolerance."
+            }
+          ],
+          "businessScenario": "Northwind Traders stores active catalog images, quarterly audit exports, and daily order files. Each data set has a different access pattern and resilience requirement.",
+          "technicalExample": "Architects put catalog images in the hot tier, move old audit exports to an archive-friendly lifecycle, and choose zone-redundant or geo-redundant storage based on the order-file recovery requirement.",
+          "misconception": {
+            "myth": "Choosing the archive tier also gives stronger regional resilience.",
+            "reality": "Access tiers describe how often blob data is expected to be read; redundancy options describe how data is replicated."
+          },
+          "examTakeaway": "Zones, regions, copies, and disaster-recovery wording point to redundancy; frequently read, rarely read, or retained wording points to access tiers.",
+          "recap": "Adds storage scenario practice for redundancy and blob access tiers.",
+          "simplerExplanation": "Storage is like a museum: redundancy is how many buildings keep copies, while access tier is whether an item is on display, in the back room, or in deep archive.",
+          "anotherExample": "A clinic stores today’s forms in hot storage, old scans in a cooler tier, and selects redundancy according to whether zone or regional recovery is required.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Northwind storage decisions",
+                "columns": [
+                  {
+                    "title": "Active images",
+                    "points": [
+                      "Read frequently",
+                      "Hot tier fits the usage clue"
+                    ]
+                  },
+                  {
+                    "title": "Audit exports",
+                    "points": [
+                      "Rarely read after review",
+                      "Cooler or archive-friendly lifecycle may fit"
+                    ]
+                  },
+                  {
+                    "title": "Order files",
+                    "points": [
+                      "Resilience requirement drives redundancy",
+                      "Zone or region wording matters"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Tier or redundancy?",
+                "instructions": "Label the requirement before selecting a setting.",
+                "items": [
+                  {
+                    "prompt": "Data must remain available if one zone has an issue.",
+                    "answer": "Redundancy."
+                  },
+                  {
+                    "prompt": "Files are retained for years and rarely opened.",
+                    "answer": "Access tier."
+                  },
+                  {
+                    "prompt": "Images load on every product page.",
+                    "answer": "Access tier, likely hot."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Redundancy clue",
+              "back": "The scenario mentions copies, facilities, zones, regions, or disaster recovery."
+            },
+            {
+              "front": "Access tier clue",
+              "back": "The scenario mentions frequent, occasional, rare, or retained access."
+            },
+            {
+              "front": "Hot tier clue",
+              "back": "Blob data is read often."
+            },
+            {
+              "front": "Archive tier clue",
+              "back": "Data is rarely read and can tolerate retrieval steps."
+            },
+            {
+              "front": "ZRS clue",
+              "back": "The design needs copies across zones in a region."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Data redundancy - Azure Storage",
+              "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Access tiers for blob data",
+              "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-x-021",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Data redundancy - Azure Storage",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Access tiers for blob data",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "storage-resilience-access-scenarios",
+              "stem": "A storage account must retain copies in another Azure region so data can be recovered if the primary region is unavailable. Which redundancy option best matches that requirement?",
+              "explanation": "Geo-redundant storage is the redundancy family intended to copy data to a secondary region for regional disaster recovery scenarios.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Geo-redundant storage (GRS)",
+                  "correct": true,
+                  "explanation": "GRS replicates data to a paired secondary region."
+                },
+                {
+                  "key": "B",
+                  "text": "Locally redundant storage (LRS)",
+                  "correct": false,
+                  "explanation": "LRS keeps copies within a single datacenter in one region."
+                },
+                {
+                  "key": "C",
+                  "text": "Hot access tier",
+                  "correct": false,
+                  "explanation": "Hot is an access tier for frequently used blobs, not a regional redundancy option."
+                },
+                {
+                  "key": "D",
+                  "text": "Archive access tier",
+                  "correct": false,
+                  "explanation": "Archive is for rarely accessed blobs and does not define regional replication."
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-x-022",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Data redundancy - Azure Storage",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Access tiers for blob data",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "storage-resilience-access-scenarios",
+              "stem": "Which **two** statements correctly compare Azure Storage redundancy and blob access tiers?",
+              "explanation": "Redundancy choices are about where copies are stored for resilience. Access tiers are about expected retrieval frequency and cost tradeoffs for blob data.",
+              "selectCount": 2,
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Redundancy options help protect data against hardware, zone, or regional failures.",
+                  "correct": true,
+                  "explanation": "LRS, ZRS, and GRS choices address different resilience scopes."
+                },
+                {
+                  "key": "B",
+                  "text": "Blob access tiers should reflect how often data is expected to be read.",
+                  "correct": true,
+                  "explanation": "Hot, cool, cold, and archive tiers are selected based on access patterns."
+                },
+                {
+                  "key": "C",
+                  "text": "Archive tier is the best choice for data that must be read immediately many times per day.",
+                  "correct": false,
+                  "explanation": "Frequently accessed data belongs in hot tier, not archive."
+                },
+                {
+                  "key": "D",
+                  "text": "Changing from LRS to GRS automatically changes a blob from cool to hot.",
+                  "correct": false,
+                  "explanation": "Redundancy and access tier are separate settings."
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-x-023",
+              "type": "TRUE_FALSE",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.3",
+              "difficulty": "EASY",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Data redundancy - Azure Storage",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Access tiers for blob data",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "storage-resilience-access-scenarios",
+              "stem": "True or false: Azure Storage redundancy choices and blob access tiers answer different design questions.",
+              "explanation": "The statement is true. Redundancy is about resilience and copy placement; access tier is about expected blob usage and retrieval behavior.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Redundancy controls where storage copies are kept for resilience, while access tiers control cost and retrieval behavior based on usage."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that replication scope and blob access frequency are configured as separate storage design choices."
+                }
+              ]
+            },
+            {
+              "ref": "az900-x-024",
+              "type": "MATCHING",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Data redundancy - Azure Storage",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Access tiers for blob data",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "storage-resilience-access-scenarios",
+              "stem": "Match each storage requirement to the redundancy option or blob access tier that best fits.",
+              "explanation": "The matches separate copy placement requirements from expected access patterns.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Keep synchronous copies across availability zones in one region"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Keep copies in a secondary Azure region"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Store blobs that are read frequently"
+                  },
+                  {
+                    "id": "p4",
+                    "text": "Store compliance files rarely read and allowed to require retrieval steps"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Zone-redundant storage (ZRS)"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Geo-redundant storage (GRS)"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Hot tier"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Archive tier"
+                  },
+                  {
+                    "id": "a5",
+                    "text": "Virtual network peering"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3",
+                  "p4": "a4"
+                },
+                "explanations": {
+                  "p1": "ZRS replicates data across availability zones within a region.",
+                  "p2": "GRS copies data to another region.",
+                  "p3": "Hot tier is intended for frequently accessed blob data.",
+                  "p4": "Archive tier fits rarely accessed data that can tolerate rehydration or retrieval steps."
+                }
+              }
+            },
+            {
+              "ref": "az900-x-025",
+              "type": "SCENARIO",
+              "domainKey": "azure-architecture-services",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Data redundancy - Azure Storage",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Access tiers for blob data",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "storage-resilience-access-scenarios",
+              "scenario": "A legal department stores contracts that are active for the first month and then are rarely read for years. The documents must remain available for occasional review, but immediate retrieval is not normally required after the active period.",
+              "stem": "Which blob access tier is the best long-term target after the active period ends?",
+              "explanation": "Archive tier is the best long-term target for rarely accessed data when the organization can tolerate retrieval steps before reading it.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Archive",
+                  "correct": true,
+                  "explanation": "Archive is intended for data that is rarely accessed and can tolerate retrieval latency."
+                },
+                {
+                  "key": "B",
+                  "text": "Hot",
+                  "correct": false,
+                  "explanation": "Hot is for data expected to be accessed frequently."
+                },
+                {
+                  "key": "C",
+                  "text": "Virtual network peering",
+                  "correct": false,
+                  "explanation": "VNet peering is a networking feature, not a blob access tier."
+                },
+                {
+                  "key": "D",
+                  "text": "Availability set",
+                  "correct": false,
+                  "explanation": "Availability sets place VMs across fault and update domains and do not set blob access patterns."
+                }
+              ],
+              "shuffleOptions": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

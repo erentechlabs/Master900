@@ -1,11 +1,70 @@
 {
   "certification": "AZ-900",
   "lab": "rbac-least-privilege-portal",
-  "note": "Open rg-finance-reports, go to Access control (IAM) and give Alex the Reader role at the resource group scope.",
+  "note": "Check access, remove broad Contributor, add Reader at resource group scope, and verify.",
   "events": [
-    { "type": "navigate", "page": "resource-groups" },
-    { "type": "rowClick", "componentId": "rg-table", "rowKey": "rg-finance-reports" },
-    { "type": "click", "componentId": "open-iam" },
-    { "type": "submitForm", "componentId": "add-assignment", "values": { "role": "Reader", "principal": "Alex (Finance analyst)" } }
+    {
+      "type": "navigate",
+      "page": "resource-groups"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "rg-table",
+      "rowKey": "rg-finance-reports"
+    },
+    {
+      "type": "click",
+      "componentId": "open-iam"
+    },
+    {
+      "type": "click",
+      "componentId": "check-access"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "check-access-form",
+      "values": {
+        "principal": "Alex (Finance analyst)"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "rg-finance-iam"
+    },
+    {
+      "type": "rowAction",
+      "componentId": "assignments",
+      "rowKey": "alex-contributor-sub",
+      "actionId": "remove-assignment"
+    },
+    {
+      "type": "click",
+      "componentId": "open-add-role"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "role-wizard",
+      "values": {
+        "role": "Reader",
+        "scope": "rg-finance-reports",
+        "member": "Alex (Finance analyst)",
+        "condition": "None"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "check-access"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "check-access-form",
+      "values": {
+        "principal": "Alex (Finance analyst)"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "rg-finance-iam"
+    }
   ]
 }

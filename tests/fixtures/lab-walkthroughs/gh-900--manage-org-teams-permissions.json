@@ -1,0 +1,90 @@
+{
+  "certification": "GH-900",
+  "lab": "manage-org-teams-permissions",
+  "note": "Set base permissions, create teams, add members, assign roles, require 2FA, review access.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "org-settings"
+    },
+    {
+      "type": "click",
+      "componentId": "settings-sections",
+      "itemId": "member-privileges"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "base-permission-form",
+      "values": {
+        "basePermission": "No permission"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "org-teams"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "new-team-form",
+      "values": {
+        "name": "web-developers",
+        "description": "Developers for web services",
+        "visibility": "Visible",
+        "notifications": "Enabled"
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "new-team-form",
+      "values": {
+        "name": "release-managers",
+        "description": "People who manage releases",
+        "visibility": "Visible",
+        "notifications": "Enabled"
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "team-members-form",
+      "values": {
+        "webMembers": [
+          "priya-contoso",
+          "riley-contoso"
+        ],
+        "releaseMembers": [
+          "maya-contoso"
+        ]
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "repo-role-form",
+      "values": {
+        "repo": "contoso-labs/inventory-api",
+        "webRole": "Write",
+        "releaseRole": "Maintain"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "org-settings"
+    },
+    {
+      "type": "click",
+      "componentId": "settings-sections",
+      "itemId": "security"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "two-factor-form",
+      "values": {
+        "require2fa": true,
+        "confirm": true
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "repo-access"
+    }
+  ]
+}

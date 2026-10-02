@@ -1,0 +1,82 @@
+{
+  "certification": "AI-901",
+  "lab": "analyze-images-vision",
+  "note": "Open Azure Vision, run image analysis and OCR, map features to requests, and disable face identification.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "tools"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "tools-table",
+      "rowKey": "Azure Vision"
+    },
+    {
+      "type": "click",
+      "componentId": "open-image-playground"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "analysis-form",
+      "values": {
+        "image": "store-aisle",
+        "features": [
+          "caption",
+          "denseCaptions",
+          "tags",
+          "objects"
+        ],
+        "notes": "Use descriptions, tags, and detected objects for product-photo search and shelf review."
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "analysis-form",
+      "values": {
+        "image": "shipping-label",
+        "features": [
+          "read"
+        ],
+        "notes": ""
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "request-map",
+      "values": {
+        "catalogSearch": "tags-and-captions",
+        "labelNumber": "read-ocr",
+        "shelfAudit": "objects"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "responsible-settings"
+    },
+    {
+      "type": "setField",
+      "componentId": "responsible-vision-settings",
+      "fieldId": "allow-image-analysis",
+      "value": true
+    },
+    {
+      "type": "setField",
+      "componentId": "responsible-vision-settings",
+      "fieldId": "allow-read",
+      "value": true
+    },
+    {
+      "type": "setField",
+      "componentId": "responsible-vision-settings",
+      "fieldId": "face-identification",
+      "value": false
+    },
+    {
+      "type": "setField",
+      "componentId": "responsible-vision-settings",
+      "fieldId": "review-note",
+      "value": "This retail proof of concept analyzes products and labels only, so face identification is disabled."
+    }
+  ]
+}

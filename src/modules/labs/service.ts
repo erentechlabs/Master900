@@ -3,6 +3,7 @@ import type { LabAttempt, LabMode, LabType, Prisma } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { ActionError } from "@/lib/actions";
+import { localizedField } from "@/i18n/translator";
 import type { CurrentUser } from "@/modules/auth/session";
 import { learnerVisibleWhere } from "@/modules/content/workflow";
 import { XP_RULES } from "@/modules/analytics/gamification";
@@ -14,6 +15,7 @@ import { evaluateRules, type KeyedRule, type RuleOutcome } from "./engine/rules"
 import { labConfigSchema, type LabTypeValue } from "./engine/schemas";
 import { replayUiSim, uiSimConfigSchema, uiSimEventSchema, UI_SIM_EVENT_TYPES, type UiSimEvent, type UiSimMessage } from "./engine/ui-simulation";
 import { localizedLabHint, projectLabContent, type PublicLabContent } from "./projection";
+import { labStars, nextLabInCertification } from "./stars";
 
 const MAX_EVENTS = 800;
 
@@ -28,7 +30,7 @@ export const hintInputSchema = z.object({ attemptId: z.string().min(1), stepKey:
 
 export type LabSystemEvent =
   | { type: "LAB_STARTED"; at: string; mode: LabMode }
-  | { type: "LAB_COMPLETED"; at: string; score: number }
+  | { type: "LAB_COMPLETED"; at: string; score: number; stars?: number; mode?: LabMode; attemptId?: string }
   | { type: "HINT_USED"; at: string; stepKey: string }
   | { type: "SOLUTION_REVEALED"; at: string };
 export type CommandLabEvent = { type: "command"; command: string };
@@ -56,6 +58,11 @@ export type LabRunState = {
   feedback?: LabActionFeedback;
   completed: boolean;
   xpEarned: number;
+  stars: 0 | 1 | 2 | 3;
+  startedAt: string;
+  completedAt: string | null;
+  elapsedSeconds: number;
+  eventCount: number;
 };
 
 type PrivateStepStatus = { key: string; passed: boolean; outcomes: RuleOutcome[] };
@@ -63,6 +70,7 @@ type PrivateStepStatus = { key: string; passed: boolean; outcomes: RuleOutcome[]
 export type LabPlayerData = {
   lab: PublicLabContent;
   run: LabRunState;
+  nextLab?: { id: string; title: string } | null;
 };
 
 const labInclude = {
@@ -177,6 +185,8 @@ function runState(attempt: AttemptWithLab, feedback?: LabActionFeedback): LabRun
   const events = logEvents(attempt.actions);
   const state = replayLabState(attempt.lab, events);
   const evaluation = evaluateAttempt(attempt.lab, state);
+  const completed = attempt.status === "COMPLETED";
+  const completedAt = attempt.completedAt ?? (completed ? new Date() : null);
   return {
     attemptId: attempt.id,
     status: attempt.status,
@@ -187,8 +197,35 @@ function runState(attempt: AttemptWithLab, feedback?: LabActionFeedback): LabRun
     stepStatus: publicStepStatus(evaluation.stepStatus),
     finalOutcomes: publicOutcomes(evaluation.finalOutcomes),
     feedback,
-    completed: attempt.status === "COMPLETED",
-    xpEarned: attempt.status === "COMPLETED" ? xpForAttempt(attempt, evaluation.allPassed) : 0,
+    completed,
+    xpEarned: completed ? xpForAttempt(attempt, evaluation.allPassed) : 0,
+    stars: labStars({ completed, hintsUsed: attempt.hintsUsed, solutionViewed: attempt.solutionViewed }),
+    startedAt: attempt.startedAt.toISOString(),
+    completedAt: attempt.completedAt?.toISOString() ?? null,
+    elapsedSeconds: Math.max(0, Math.round(((completedAt ?? new Date()).getTime() - attempt.startedAt.getTime()) / 1000)),
+    eventCount: events.length,
+  };
+}
+
+async function nextLabForAttempt(userId: string, attempt: AttemptWithLab, locale: string): Promise<{ id: string; title: string } | null> {
+  if (attempt.status !== "COMPLETED") return null;
+  const [labs, completed] = await Promise.all([
+    prisma.lab.findMany({
+      where: { certificationId: attempt.lab.certificationId, AND: [learnerVisibleWhere()] },
+      select: { id: true, certificationId: true, sortOrder: true, title: true, translations: true },
+      orderBy: [{ sortOrder: "asc" }, { title: "asc" }],
+    }),
+    prisma.labAttempt.findMany({ where: { userId, status: "COMPLETED", lab: { certificationId: attempt.lab.certificationId } }, select: { labId: true } }),
+  ]);
+  const next = nextLabInCertification(labs, attempt.labId, new Set(completed.map((item) => item.labId)));
+  return next ? { id: next.id, title: localizedField(next.title, next.translations, locale, "title") } : null;
+}
+
+async function playerData(userId: string, attempt: AttemptWithLab, locale: string, feedback?: LabActionFeedback): Promise<LabPlayerData> {
+  return {
+    lab: projectLabContent(attempt.lab, locale, { includeSolution: attempt.solutionViewed, mode: attempt.mode }),
+    run: runState(attempt, feedback),
+    nextLab: await nextLabForAttempt(userId, attempt, locale),
   };
 }
 
@@ -209,7 +246,8 @@ async function finishIfPassed(user: CurrentUser, attempt: AttemptWithLab, events
   const evaluation = evaluateAttempt(attempt.lab, state);
   if (!evaluation.allPassed) return attempt;
   const now = new Date();
-  const completedEvents: LabLogEvent[] = [...events, { type: "LAB_COMPLETED", at: now.toISOString(), score: evaluation.score }];
+  const stars = labStars({ completed: true, hintsUsed: attempt.hintsUsed, solutionViewed: attempt.solutionViewed });
+  const completedEvents: LabLogEvent[] = [...events, { type: "LAB_COMPLETED", at: now.toISOString(), score: evaluation.score, stars, mode: attempt.mode, attemptId: attempt.id }];
   const xp = xpForAttempt(attempt, true);
   await prisma.$transaction(async (tx) => {
     await tx.labAttempt.update({
@@ -231,7 +269,7 @@ async function finishIfPassed(user: CurrentUser, attempt: AttemptWithLab, events
         labId: attempt.labId,
         xp,
         durationSeconds: Math.round((now.getTime() - attempt.startedAt.getTime()) / 1000),
-        metadata: { mode: attempt.mode, score: evaluation.score, hintsUsed: attempt.hintsUsed, solutionViewed: attempt.solutionViewed },
+        metadata: { stars, mode: attempt.mode, attemptId: attempt.id },
         occurredAt: now,
       },
     });
@@ -249,7 +287,7 @@ export async function startLab(user: CurrentUser, input: z.infer<typeof startLab
     orderBy: { updatedAt: "desc" },
     include: { lab: { include: labInclude } },
   });
-  if (existing) return { lab: projectLabContent(existing.lab, locale, { includeSolution: existing.solutionViewed, mode: existing.mode }), run: runState(existing) };
+  if (existing) return playerData(user.id, existing, locale);
   const now = new Date();
   const attempt = await prisma.labAttempt.create({
     data: {
@@ -262,7 +300,7 @@ export async function startLab(user: CurrentUser, input: z.infer<typeof startLab
     include: { lab: { include: labInclude } },
   });
   await prisma.learningEvent.create({ data: { userId: user.id, type: "LAB_STARTED", certificationId: lab.certificationId, labId: lab.id, occurredAt: now } });
-  return { lab: projectLabContent(attempt.lab, locale, { includeSolution: false, mode: attempt.mode }), run: runState(attempt) };
+  return playerData(user.id, attempt, locale);
 }
 
 export async function getLabPlayer(user: CurrentUser, labId: string, locale: string): Promise<LabPlayerData> {
@@ -270,7 +308,7 @@ export async function getLabPlayer(user: CurrentUser, labId: string, locale: str
   const attempt =
     (await prisma.labAttempt.findFirst({ where: { userId: user.id, labId: lab.id, status: "IN_PROGRESS" }, orderBy: { updatedAt: "desc" }, include: { lab: { include: labInclude } } })) ??
     (await prisma.labAttempt.findFirst({ where: { userId: user.id, labId: lab.id }, orderBy: { updatedAt: "desc" }, include: { lab: { include: labInclude } } }));
-  if (attempt) return { lab: projectLabContent(attempt.lab, locale, { includeSolution: attempt.solutionViewed, mode: attempt.mode }), run: runState(attempt) };
+  if (attempt) return playerData(user.id, attempt, locale);
   return startLab(user, { labId, mode: "GUIDED" }, locale);
 }
 
@@ -314,7 +352,7 @@ export async function applyLabEvent(user: CurrentUser, attemptId: string, eventI
   attempt = await loadOwnedAttempt(user.id, attempt.id);
   state = replayLabState(attempt.lab, logEvents(attempt.actions));
   attempt = await finishIfPassed(user, attempt, logEvents(attempt.actions), state);
-  return { lab: projectLabContent(attempt.lab, locale, { includeSolution: attempt.solutionViewed, mode: attempt.mode }), run: runState(attempt, feedback) };
+  return playerData(user.id, attempt, locale, feedback);
 }
 
 export async function checkLab(user: CurrentUser, attemptId: string, locale: string): Promise<LabPlayerData> {
@@ -327,7 +365,7 @@ export async function checkLab(user: CurrentUser, attemptId: string, locale: str
   });
   attempt = await loadOwnedAttempt(user.id, attempt.id);
   attempt = await finishIfPassed(user, attempt, logEvents(attempt.actions), state);
-  return { lab: projectLabContent(attempt.lab, locale, { includeSolution: attempt.solutionViewed, mode: attempt.mode }), run: runState(attempt) };
+  return playerData(user.id, attempt, locale);
 }
 
 export async function useHint(user: CurrentUser, input: z.infer<typeof hintInputSchema>, locale: string): Promise<LabPlayerData & { hint: string }> {
@@ -342,10 +380,9 @@ export async function useHint(user: CurrentUser, input: z.infer<typeof hintInput
   const updated = alreadyUsed
     ? attempt
     : await prisma.labAttempt.update({ where: { id: attempt.id }, data: { actions: inputJson(nextEvents), hintsUsed: attempt.hintsUsed + 1 }, include: { lab: { include: labInclude } } });
-  const projected = projectLabContent(updated.lab, locale, { includeSolution: updated.solutionViewed, mode: updated.mode });
   const hint = localizedLabHint(step, updated.lab.translations, locale);
   if (!hint) throw new ActionError("not_found");
-  return { lab: projected, run: runState(updated), hint };
+  return { ...(await playerData(user.id, updated, locale)), hint };
 }
 
 export async function revealSolution(user: CurrentUser, attemptId: string, locale: string): Promise<LabPlayerData> {
@@ -355,7 +392,7 @@ export async function revealSolution(user: CurrentUser, attemptId: string, local
   const updated = attempt.solutionViewed
     ? attempt
     : await prisma.labAttempt.update({ where: { id: attempt.id }, data: { solutionViewed: true, actions: inputJson(nextEvents) }, include: { lab: { include: labInclude } } });
-  return { lab: projectLabContent(updated.lab, locale, { includeSolution: true, mode: updated.mode }), run: runState(updated) };
+  return playerData(user.id, updated, locale);
 }
 
 export async function resetLab(user: CurrentUser, attemptId: string, locale: string): Promise<LabPlayerData> {

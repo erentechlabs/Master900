@@ -143,9 +143,9 @@ function ChoiceInput({
               </span>
               {r ? (
                 r.isCorrect ? (
-                  <Check className="h-5 w-5 shrink-0 text-success" aria-label={t("assessment.runner.correctAnswer")} />
+                  <Check className={cn("h-5 w-5 shrink-0 text-success", r.selected && "motion-safe:animate-pop")} aria-label={t("assessment.runner.correctAnswer")} />
                 ) : r.selected ? (
-                  <X className="h-5 w-5 shrink-0 text-destructive" aria-label={t("assessment.runner.incorrect")} />
+                  <X className="h-5 w-5 shrink-0 text-destructive motion-safe:animate-pop" aria-label={t("assessment.runner.incorrect")} />
                 ) : null
               ) : null}
             </label>

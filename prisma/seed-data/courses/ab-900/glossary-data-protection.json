@@ -1,0 +1,419 @@
+{
+  "terms": [
+    {
+      "slug": "oversharing",
+      "term": "Oversharing",
+      "kind": "CONCEPT",
+      "definition": "Access to content that is broader than the business need requires, often caused by broad groups, inherited permissions, or sharing links.",
+      "attributes": {
+        "category": "SharePoint governance",
+        "useCases": [
+          "Prioritize Copilot readiness reviews",
+          "Find content exposed to broad audiences"
+        ],
+        "keyFeatures": [
+          "Can be internal or external",
+          "Detected with reports and access reviews"
+        ]
+      },
+      "source": {
+        "title": "Data access governance reports for SharePoint sites",
+        "url": "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-reports",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "İş gereksiniminden daha geniş içerik erişimi; genellikle geniş gruplar, kalıtılmış izinler veya paylaşım bağlantılarından kaynaklanır.",
+          "status": "DRAFT",
+          "term": "Aşırı paylaşım",
+          "useCases": [
+            "Copilot hazırlık incelemelerini önceliklendirmek",
+            "Geniş kitlelere açık içerikleri bulmak"
+          ],
+          "keyFeatures": [
+            "İç veya dış paylaşım olabilir",
+            "Raporlar ve erişim incelemeleriyle tespit edilir"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "sharing-link",
+      "term": "Sharing link",
+      "kind": "TERM",
+      "definition": "A SharePoint or OneDrive link that grants access according to link type, audience, permission, and expiration settings.",
+      "attributes": {
+        "category": "SharePoint sharing",
+        "useCases": [
+          "Share files with collaborators",
+          "Audit broad links"
+        ],
+        "keyFeatures": [
+          "Can be narrow or broad",
+          "Tracked in sharing links activity reports"
+        ]
+      },
+      "source": {
+        "title": "Data access governance reports for SharePoint sites",
+        "url": "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-reports",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bağlantı türü, hedef kitle, izin ve süre sonu ayarlarına göre erişim veren SharePoint veya OneDrive bağlantısı.",
+          "status": "DRAFT",
+          "term": "Paylaşım bağlantısı",
+          "useCases": [
+            "Dosyaları iş arkadaşlarıyla paylaşmak",
+            "Geniş bağlantıları denetlemek"
+          ],
+          "keyFeatures": [
+            "Dar veya geniş kapsamlı olabilir",
+            "Paylaşım bağlantısı etkinlik raporlarında izlenir"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "data-access-governance-report",
+      "term": "Data access governance report",
+      "kind": "TERM",
+      "definition": "A SharePoint report that helps identify sites with potentially overshared or sensitive content through permission, label, and sharing activity signals.",
+      "attributes": {
+        "category": "SharePoint Advanced Management",
+        "useCases": [
+          "Identify EEEU exposure",
+          "Find high sharing-link activity"
+        ],
+        "keyFeatures": [
+          "Snapshot and activity reports",
+          "Supports remediation workflows"
+        ]
+      },
+      "source": {
+        "title": "Data access governance reports for SharePoint sites",
+        "url": "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-reports",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "İzin, etiket ve paylaşım etkinliği sinyalleriyle aşırı paylaşılmış veya hassas içerikli siteleri bulmaya yardımcı olan SharePoint raporu.",
+          "status": "DRAFT",
+          "term": "Veri erişim yönetişimi raporu",
+          "useCases": [
+            "EEEU görünürlüğünü belirlemek",
+            "Yüksek paylaşım bağlantısı etkinliğini bulmak"
+          ],
+          "keyFeatures": [
+            "Anlık durum ve etkinlik raporları",
+            "Düzeltme iş akışlarını destekler"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "sharepoint-advanced-management",
+      "term": "SharePoint Advanced Management",
+      "kind": "SERVICE",
+      "definition": "SharePoint and OneDrive governance capabilities for managing content sprawl, content lifecycle, and oversharing risks.",
+      "attributes": {
+        "category": "SharePoint governance",
+        "serviceModel": "SaaS",
+        "useCases": [
+          "Prepare content for Copilot",
+          "Manage site lifecycle and access"
+        ],
+        "keyFeatures": [
+          "Data access governance reports",
+          "Site access reviews",
+          "Restricted Access Control",
+          "Restricted Content Discovery"
+        ]
+      },
+      "source": {
+        "title": "SharePoint Advanced Management overview",
+        "url": "https://learn.microsoft.com/en-us/sharepoint/advanced-management",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "İçerik dağınıklığını, içerik yaşam döngüsünü ve aşırı paylaşım risklerini yönetmeye yönelik SharePoint ve OneDrive yönetişim yetenekleri.",
+          "status": "DRAFT",
+          "useCases": [
+            "İçeriği Copilot için hazırlamak",
+            "Site yaşam döngüsünü ve erişimi yönetmek"
+          ],
+          "keyFeatures": [
+            "Data access governance raporları",
+            "Site access review",
+            "Restricted Access Control",
+            "Restricted Content Discovery"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "restricted-content-discovery",
+      "term": "Restricted Content Discovery",
+      "kind": "CONCEPT",
+      "definition": "A SharePoint control that temporarily limits selected site content from organization-wide search and Microsoft Copilot discovery without changing existing permissions.",
+      "attributes": {
+        "category": "SharePoint Advanced Management",
+        "useCases": [
+          "Reduce accidental discovery during review",
+          "Stage Copilot rollout for high-risk sites"
+        ],
+        "keyFeatures": [
+          "Site-level setting",
+          "Does not change permissions",
+          "Selective temporary use"
+        ]
+      },
+      "source": {
+        "title": "Restrict discovery of SharePoint sites and content",
+        "url": "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Seçili site içeriğinin mevcut izinleri değiştirmeden kuruluş genelinde arama ve Microsoft Copilot keşfinde görünmesini geçici olarak sınırlayan SharePoint denetimi.",
+          "status": "DRAFT",
+          "useCases": [
+            "İnceleme sırasında yanlışlıkla keşfi azaltmak",
+            "Yüksek riskli sitelerde Copilot geçişini aşamalı yapmak"
+          ],
+          "keyFeatures": [
+            "Site düzeyinde ayar",
+            "İzinleri değiştirmez",
+            "Seçici geçici kullanım"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "site-access-review",
+      "term": "Site access review",
+      "kind": "CONCEPT",
+      "definition": "A SharePoint workflow that asks site owners to review and remediate oversharing findings from data access governance reports.",
+      "attributes": {
+        "category": "SharePoint Advanced Management",
+        "useCases": [
+          "Delegate cleanup to site owners",
+          "Review sites flagged by reports"
+        ],
+        "keyFeatures": [
+          "Initiated from supported reports",
+          "Tailored owner request",
+          "Tracks review status"
+        ]
+      },
+      "source": {
+        "title": "Initiate site access reviews for Data access governance reports",
+        "url": "https://learn.microsoft.com/en-us/sharepoint/site-access-review",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Data access governance raporlarındaki aşırı paylaşım bulgularını inceleyip düzeltmeleri için site sahiplerinden aksiyon isteyen SharePoint iş akışı.",
+          "status": "DRAFT",
+          "term": "Site erişim incelemesi",
+          "useCases": [
+            "Temizliği site sahiplerine devretmek",
+            "Raporlarda işaretlenen siteleri incelemek"
+          ],
+          "keyFeatures": [
+            "Desteklenen raporlardan başlatılır",
+            "Site sahibine uyarlanmış istek",
+            "İnceleme durumu izlenir"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "dspm-for-ai",
+      "term": "DSPM for AI",
+      "kind": "SERVICE",
+      "definition": "The classic Microsoft Purview Data Security Posture Management experience for discovering, securing, and applying compliance controls to AI usage and interactions.",
+      "attributes": {
+        "category": "Microsoft Purview",
+        "serviceModel": "SaaS",
+        "useCases": [
+          "Discover risky AI interactions",
+          "Create AI data protection policies"
+        ],
+        "keyFeatures": [
+          "AI activity insights",
+          "Data risk assessments",
+          "Recommendations and remediation"
+        ]
+      },
+      "source": {
+        "title": "Microsoft Purview data security and compliance protections for Microsoft 365 Copilot and other generative AI apps",
+        "url": "https://learn.microsoft.com/en-us/purview/ai-microsoft-purview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "AI kullanımı ve etkileşimleri için riskleri keşfetmeye, güvenliği artırmaya ve uyumluluk denetimleri uygulamaya yardımcı olan klasik Microsoft Purview Data Security Posture Management deneyimi.",
+          "status": "DRAFT",
+          "useCases": [
+            "Riskli AI etkileşimlerini keşfetmek",
+            "AI veri koruma ilkeleri oluşturmak"
+          ],
+          "keyFeatures": [
+            "AI etkinliği içgörüleri",
+            "Veri riski değerlendirmeleri",
+            "Öneriler ve düzeltmeler"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "microsoft-graph-grounding",
+      "term": "Microsoft Graph grounding",
+      "kind": "CONCEPT",
+      "definition": "Grounding Copilot responses in Microsoft 365 content and context from Microsoft Graph that the current user is authorized to access.",
+      "attributes": {
+        "category": "Copilot data access",
+        "useCases": [
+          "Explain contextual Copilot answers",
+          "Validate least privilege before rollout"
+        ],
+        "keyFeatures": [
+          "Uses user identity boundary",
+          "Combines content and context",
+          "Depends on Microsoft 365 permissions"
+        ]
+      },
+      "source": {
+        "title": "Data, Privacy, and Security for Microsoft Copilot",
+        "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-privacy",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Copilot yanıtlarının, geçerli kullanıcının erişim yetkisi olan Microsoft Graph içeriği ve bağlamıyla temellendirilmesi.",
+          "status": "DRAFT",
+          "term": "Microsoft Graph ile temellendirme",
+          "useCases": [
+            "Bağlamsal Copilot yanıtlarını açıklamak",
+            "Kullanıma almadan önce en az ayrıcalığı doğrulamak"
+          ],
+          "keyFeatures": [
+            "Kullanıcı kimliği sınırını kullanır",
+            "İçerik ve bağlamı birleştirir",
+            "Microsoft 365 izinlerine bağlıdır"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "sensitivity-label-encryption",
+      "term": "Sensitivity label encryption",
+      "kind": "CONCEPT",
+      "definition": "Encryption applied by a Microsoft Purview sensitivity label that enforces usage rights honored by users and Copilot.",
+      "attributes": {
+        "category": "Information protection",
+        "useCases": [
+          "Protect confidential files referenced by Copilot",
+          "Control view or extract rights"
+        ],
+        "keyFeatures": [
+          "Can require VIEW and EXTRACT rights",
+          "Can apply markings and encryption",
+          "Can be inherited by supported Copilot-created content"
+        ]
+      },
+      "source": {
+        "title": "Microsoft Purview data security and compliance protections for Microsoft 365 Copilot and other generative AI apps",
+        "url": "https://learn.microsoft.com/en-us/purview/ai-microsoft-purview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Microsoft Purview duyarlılık etiketinin uyguladığı ve kullanıcılar ile Copilot tarafından uyulan kullanım haklarını zorunlu kılan şifreleme.",
+          "status": "DRAFT",
+          "term": "Duyarlılık etiketi şifrelemesi",
+          "useCases": [
+            "Copilot tarafından başvurulan gizli dosyaları korumak",
+            "Görüntüleme veya çıkarma haklarını kontrol etmek"
+          ],
+          "keyFeatures": [
+            "VIEW ve EXTRACT hakları gerektirebilir",
+            "İşaretleme ve şifreleme uygulayabilir",
+            "Desteklenen Copilot içeriklerine devredilebilir"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "copilot-interaction-retention",
+      "term": "Copilot interaction retention",
+      "kind": "CONCEPT",
+      "definition": "Governance of stored Copilot prompts, responses, and citations with Microsoft Purview retention and search capabilities where supported.",
+      "attributes": {
+        "category": "Records and retention",
+        "useCases": [
+          "Keep Copilot records for compliance",
+          "Find Copilot activity history for investigations"
+        ],
+        "keyFeatures": [
+          "Covers stored prompts and responses where supported",
+          "Works with Content search and retention policies",
+          "Follows organizational retention requirements"
+        ]
+      },
+      "source": {
+        "title": "Data, Privacy, and Security for Microsoft Copilot",
+        "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-privacy",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AB-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Saklanan Copilot istemleri, yanıtları ve alıntılarının desteklenen yerlerde Microsoft Purview saklama ve arama yetenekleriyle yönetilmesi.",
+          "status": "DRAFT",
+          "term": "Copilot etkileşim saklama",
+          "useCases": [
+            "Uyumluluk için Copilot kayıtlarını tutmak",
+            "İncelemeler için Copilot etkinlik geçmişini bulmak"
+          ],
+          "keyFeatures": [
+            "Desteklenen yerlerde istem ve yanıtları kapsar",
+            "Content search ve saklama ilkeleriyle çalışır",
+            "Kurumsal saklama gereksinimlerini izler"
+          ]
+        }
+      }
+    }
+  ]
+}

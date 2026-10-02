@@ -1,0 +1,78 @@
+{
+  "certification": "GH-900",
+  "lab": "develop-in-codespaces",
+  "note": "Create a codespace, fix failing npm test, commit/push, stop it.",
+  "events": [
+    {
+      "type": "click",
+      "componentId": "code-button"
+    },
+    {
+      "type": "click",
+      "componentId": "code-tabs",
+      "itemId": "codespaces"
+    },
+    {
+      "type": "click",
+      "componentId": "create-codespace-main"
+    },
+    {
+      "type": "command",
+      "command": "npm test"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "explorer",
+      "rowKey": "src/greeting.js"
+    },
+    {
+      "type": "click",
+      "componentId": "edit-greeting"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "edit-greeting-form",
+      "values": {
+        "content": "export const greeting = 'Hello, Codespaces!';\n"
+      }
+    },
+    {
+      "type": "command",
+      "command": "npm test"
+    },
+    {
+      "type": "command",
+      "command": "git status"
+    },
+    {
+      "type": "command",
+      "command": "git diff"
+    },
+    {
+      "type": "command",
+      "command": "git add src/greeting.js"
+    },
+    {
+      "type": "command",
+      "command": "git commit -m \"Fix Codespaces greeting\""
+    },
+    {
+      "type": "command",
+      "command": "git log --oneline -1"
+    },
+    {
+      "type": "command",
+      "command": "git push origin main"
+    },
+    {
+      "type": "navigate",
+      "page": "codespaces-list"
+    },
+    {
+      "type": "rowAction",
+      "componentId": "codespaces-table",
+      "rowKey": "contoso-labs-codespaces-demo-main",
+      "actionId": "stop"
+    }
+  ]
+}

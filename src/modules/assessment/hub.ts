@@ -28,6 +28,7 @@ export type PracticeHub = {
   history: HubAttempt[];
   daily: { status: "none" | "in_progress" | "done"; attemptId: string | null; score: number | null };
   mistakes: { total: number; due: number };
+  lightningBest: number | null;
 };
 
 function toHubAttempt(a: {
@@ -66,7 +67,7 @@ export async function getPracticeHub(user: CurrentUser, locale: string, requeste
   const selected =
     certs.find((c) => c.code === requestedCode) ?? certs.find((c) => c.enrolled && c.questionCount > 0) ?? certs.find((c) => c.questionCount > 0) ?? certs[0] ?? null;
 
-  const [domainRows, domainCounts, template, inProgressRows, historyRows, daily, wrong, due] = await Promise.all([
+  const [domainRows, domainCounts, template, inProgressRows, historyRows, daily, wrong, due, lightningBest] = await Promise.all([
     selected ? prisma.examDomain.findMany({ where: { certificationId: selected.id }, orderBy: { sortOrder: "asc" } }) : [],
     selected ? prisma.question.groupBy({ by: ["domainId"], where: { AND: [{ certificationId: selected.id }, visible] }, _count: { _all: true } }) : [],
     selected ? prisma.practiceExam.findFirst({ where: { certificationId: selected.id, mode: "FULL", isActive: true } }) : null,
@@ -85,6 +86,13 @@ export async function getPracticeHub(user: CurrentUser, locale: string, requeste
     prisma.practiceExamAttempt.findUnique({ where: { userId_challengeDate: { userId: user.id, challengeDate: todayISO(tz, now) } } }),
     prisma.questionAttempt.findMany({ where: { userId: user.id, isCorrect: false }, distinct: ["questionId"], select: { questionId: true } }),
     prisma.reviewQueueItem.count({ where: { userId: user.id, status: "ACTIVE", dueAt: { lte: now }, questionId: { not: null } } }),
+    selected
+      ? prisma.practiceExamAttempt.findFirst({
+          where: { userId: user.id, certificationId: selected.id, mode: "LIGHTNING", status: { in: ["SUBMITTED", "EXPIRED"] }, score: { not: null } },
+          orderBy: { score: "desc" },
+          select: { score: true },
+        })
+      : null,
   ]);
   const domainCountMap = new Map(domainCounts.map((d) => [d.domainId, d._count._all]));
 
@@ -107,5 +115,6 @@ export async function getPracticeHub(user: CurrentUser, locale: string, requeste
     history: historyRows.map(toHubAttempt),
     daily: daily ? { status: daily.status === "IN_PROGRESS" ? "in_progress" : "done", attemptId: daily.id, score: daily.score } : { status: "none", attemptId: null, score: null },
     mistakes: { total: wrong.length, due },
+    lightningBest: lightningBest?.score ?? null,
   };
 }

@@ -29,6 +29,15 @@ export function createFormatters(locale: Locale) {
       if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
       return `${m}:${String(sec).padStart(2, "0")}`;
     },
+    /** Total study time in words ("27 min", "1 hr 5 min"); `duration` is the clock-style format for timers. */
+    studyTime(totalSeconds: number) {
+      const totalMinutes = Math.max(0, Math.round(totalSeconds / 60));
+      const h = Math.floor(totalMinutes / 60);
+      const m = totalMinutes % 60;
+      const unit = (value: number, unit: "hour" | "minute") => new Intl.NumberFormat(tag, { style: "unit", unit, unitDisplay: "short" }).format(value);
+      if (h === 0) return unit(m, "minute");
+      return m ? `${unit(h, "hour")} ${unit(m, "minute")}` : unit(h, "hour");
+    },
     relative(value: Date | string | number, now: Date = new Date()) {
       const diffSec = Math.round((new Date(value).getTime() - now.getTime()) / 1000);
       const rtf = new Intl.RelativeTimeFormat(tag, { numeric: "auto" });

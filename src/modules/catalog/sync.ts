@@ -13,20 +13,41 @@ const date = (v: string | null) => (v ? new Date(`${v}T00:00:00Z`) : null);
 
 export type OutlineDomain = { key: string; title: string; weightMin: number | null; weightMax: number | null; objectives: { code: string; title: string }[] };
 
+/**
+ * Canonical outline form with a fixed key order. Stored outlines come back from a jsonb column, which does not keep
+ * object key order, so both sides must be normalized before they are compared as JSON strings.
+ */
+export function normalizeOutline(outline: unknown): OutlineDomain[] {
+  if (!Array.isArray(outline)) return [];
+  return outline.map((raw) => {
+    const d = (raw ?? {}) as { key?: unknown; title?: unknown; weightMin?: unknown; weightMax?: unknown; objectives?: unknown };
+    const objectives = Array.isArray(d.objectives) ? (d.objectives as { code?: unknown; title?: unknown }[]) : [];
+    return {
+      key: String(d.key ?? ""),
+      title: String(d.title ?? ""),
+      weightMin: typeof d.weightMin === "number" ? d.weightMin : null,
+      weightMax: typeof d.weightMax === "number" ? d.weightMax : null,
+      objectives: objectives.map((o) => ({ code: String(o?.code ?? ""), title: String(o?.title ?? "") })),
+    };
+  });
+}
+
 export function outlineFromConfig(config: Pick<CertificationConfigInput, "domains">): OutlineDomain[] {
-  return config.domains.map((d) => ({
-    key: d.key,
-    title: d.title,
-    weightMin: d.weightMin,
-    weightMax: d.weightMax,
-    objectives: d.objectives.map((o) => ({ code: o.code, title: o.title })),
-  }));
+  return normalizeOutline(
+    config.domains.map((d) => ({
+      key: d.key,
+      title: d.title,
+      weightMin: d.weightMin,
+      weightMax: d.weightMax,
+      objectives: d.objectives.map((o) => ({ code: o.code, title: o.title })),
+    })),
+  );
 }
 
 /** Domain keys whose outline differs (added, removed or changed). */
 export function changedDomainKeys(previous: OutlineDomain[], next: OutlineDomain[]): string[] {
-  const prev = new Map(previous.map((d) => [d.key, JSON.stringify(d)]));
-  const nxt = new Map(next.map((d) => [d.key, JSON.stringify(d)]));
+  const prev = new Map(normalizeOutline(previous).map((d) => [d.key, JSON.stringify(d)]));
+  const nxt = new Map(normalizeOutline(next).map((d) => [d.key, JSON.stringify(d)]));
   const keys = new Set([...prev.keys(), ...nxt.keys()]);
   return [...keys].filter((k) => prev.get(k) !== nxt.get(k));
 }
@@ -85,7 +106,7 @@ export async function syncCertificationConfig(
   let outlineChanged = false;
   let flagged = 0;
   let version = latest?.version ?? 0;
-  const previous = (latest?.skillsOutline as OutlineDomain[] | null) ?? null;
+  const previous = latest ? normalizeOutline(latest.skillsOutline) : null;
   if (!latest || JSON.stringify(previous) !== JSON.stringify(outline)) {
     version = (latest?.version ?? 0) + 1;
     await db.certificationVersion.create({

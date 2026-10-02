@@ -1,0 +1,795 @@
+{
+  "questions": [
+    {
+      "ref": "ab900-cor-101",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "m365-core-features",
+      "objectiveCode": "1.1",
+      "difficulty": "EASY",
+      "stem": "A team needs a shared email address. Which object fits?",
+      "explanation": "A shared mailbox is the object designed for several users to read and send mail from a common address.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Shared mailbox",
+          "correct": true,
+          "explanation": "A shared mailbox gives multiple people access to a common email address such as dispatch@contoso.example."
+        },
+        {
+          "key": "B",
+          "text": "Microsoft 365 group-backed Team",
+          "correct": false,
+          "explanation": "A Team is for collaboration and channels; it is not the simplest object for a shared email inbox."
+        },
+        {
+          "key": "C",
+          "text": "Security group",
+          "correct": false,
+          "explanation": "A security group can target access, but it is not a mailbox users open together."
+        },
+        {
+          "key": "D",
+          "text": "SharePoint document library",
+          "correct": false,
+          "explanation": "A document library stores files; it does not provide a shared email address."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Microsoft 365 admin center overview",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/admin-overview/admin-center-overview?view=o365-worldwide",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "ab900-cor-102",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "m365-core-features",
+      "objectiveCode": "1.2",
+      "difficulty": "MEDIUM",
+      "stem": "Which **two** statements compare authentication and authorization?",
+      "explanation": "Authentication proves identity; authorization evaluates the permitted actions for that identity.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Authentication verifies the identity that is signing in.",
+          "correct": true,
+          "explanation": "Authentication answers who the user or workload is."
+        },
+        {
+          "key": "B",
+          "text": "Authorization determines what the signed-in identity can do.",
+          "correct": true,
+          "explanation": "Authorization answers which apps, files, or actions the identity may access."
+        },
+        {
+          "key": "C",
+          "text": "A distribution list proves a user identity before sign-in.",
+          "correct": false,
+          "explanation": "Distribution lists route messages and are unrelated to proving identity."
+        },
+        {
+          "key": "D",
+          "text": "Global Administrator should be assigned whenever authorization fails.",
+          "correct": false,
+          "explanation": "Authorization failures should be solved with the right narrow permission, not a standing Global Administrator assignment."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Microsoft Entra multifactor authentication overview",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-mfa-howitworks",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true,
+      "selectCount": 2
+    },
+    {
+      "ref": "ab900-cor-103",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "m365-core-features",
+      "objectiveCode": "1.3",
+      "difficulty": "MEDIUM",
+      "stem": "Which configuration snippet best follows least privilege?",
+      "explanation": "A narrow report role fits better than permanent Global Administrator.",
+      "options": [
+        {
+          "key": "A",
+          "text": "`Scope: pilot group; Role/license: minimum required; Monitoring: enabled`",
+          "correct": true,
+          "explanation": "A pilot scope, minimum role or license, and enabled monitoring align with least privilege."
+        },
+        {
+          "key": "B",
+          "text": "`Scope: all users; Role/license: broad; Monitoring: disabled`",
+          "correct": false,
+          "explanation": "All users, broad access, and disabled monitoring expand risk instead of narrowing it."
+        },
+        {
+          "key": "C",
+          "text": "`Scope: unknown; Role/license: Global Administrator; Monitoring: none`",
+          "correct": false,
+          "explanation": "Global Administrator with no scope or monitoring is too broad for a narrow reporting need."
+        },
+        {
+          "key": "D",
+          "text": "`Scope: ignored; Role/license: unassigned; Monitoring: deleted`",
+          "correct": false,
+          "explanation": "Leaving scope, assignment, and monitoring undefined does not implement a governed change."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "About administrator roles in the Microsoft 365 admin center",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/add-users/about-admin-roles?view=o365-worldwide",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "ab900-cor-104",
+      "type": "CATEGORIZATION",
+      "domainKey": "m365-core-features",
+      "objectiveCode": "1.1",
+      "difficulty": "MEDIUM",
+      "stem": "Classify each administration item.",
+      "explanation": "Security groups, shared mailboxes, and SharePoint libraries belong to different administration areas.",
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Compare types of groups in Microsoft 365",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/create-groups/compare-groups?view=o365-worldwide",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "categorization": {
+        "categories": [
+          {
+            "id": "identity",
+            "label": "Identity/access"
+          },
+          {
+            "id": "mail",
+            "label": "Mail"
+          },
+          {
+            "id": "content",
+            "label": "Content"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "text": "Security group",
+            "category": "identity",
+            "explanation": "It targets access."
+          },
+          {
+            "id": "i2",
+            "text": "Shared mailbox",
+            "category": "mail",
+            "explanation": "It handles shared email."
+          },
+          {
+            "id": "i3",
+            "text": "SharePoint library",
+            "category": "content",
+            "explanation": "It stores files."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "ab900-cor-105",
+      "type": "CASE_STUDY",
+      "domainKey": "m365-core-features",
+      "objectiveCode": "1.3",
+      "difficulty": "HARD",
+      "scenario": "Contoso sees phishing and risky sign-ins.",
+      "stem": "For each statement about Contoso phishing and risky sign-ins, select **Yes** if it is correct. Otherwise, select **No**.",
+      "explanation": "The phishing and risky sign-in scenario calls for threat investigation, Conditional Access, and least-privilege administration.",
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Why do I need Microsoft Defender for Office 365?",
+          "url": "https://learn.microsoft.com/en-us/defender-office-365/mdo-about",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Microsoft Entra Conditional Access overview",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Defender for Office 365 is relevant when the incident involves phishing mail.",
+            "answer": true,
+            "explanation": "Defender for Office 365 helps investigate and protect against email threats."
+          },
+          {
+            "id": "s2",
+            "text": "A risky sign-in should be handled by giving the user a broader permanent role.",
+            "answer": false,
+            "explanation": "More privilege increases risk and does not verify identity."
+          },
+          {
+            "id": "s3",
+            "text": "Conditional Access and sign-in logs can help explain why an admin sign-in was blocked.",
+            "answer": true,
+            "explanation": "Those identity signals are appropriate evidence for a blocked sign-in."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "ab900-cor-106",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "m365-core-features",
+      "objectiveCode": "1.2",
+      "difficulty": "EASY",
+      "stem": "Complete the sentence about the security term that decides what an authenticated user may access.",
+      "explanation": "The missing term is authorization.",
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Zero Trust as a security foundation",
+          "url": "https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "fillInBlank": {
+        "template": "After authentication proves identity, {{b1}} decides which apps, files, or actions the user can access.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "authorization"
+            ],
+            "explanation": "Authorization is the access decision made after identity is known."
+          }
+        ],
+        "wordBank": [
+          "authorization",
+          "authentication",
+          "distribution list",
+          "shared mailbox"
+        ]
+      }
+    },
+    {
+      "ref": "ab900-cor-107",
+      "type": "ORDERING",
+      "domainKey": "m365-core-features",
+      "objectiveCode": "1.3",
+      "difficulty": "MEDIUM",
+      "stem": "Place the least-privilege role assignment steps in the best order for a weekly report reviewer.",
+      "explanation": "For least privilege, the admin defines the task, selects the smallest suitable access, verifies it, and keeps reviewing the assignment.",
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "About administrator roles in the Microsoft 365 admin center",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/add-users/about-admin-roles?view=o365-worldwide",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "ordering": {
+        "items": [
+          {
+            "id": "s1",
+            "text": "Confirm the weekly report task and required data"
+          },
+          {
+            "id": "s2",
+            "text": "Select the narrowest role or permission that supports report review"
+          },
+          {
+            "id": "s3",
+            "text": "Assign the role and test that reports open correctly"
+          },
+          {
+            "id": "s4",
+            "text": "Monitor usage and remove access when it is no longer needed"
+          }
+        ],
+        "correctOrder": [
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "explanations": {
+          "s1": "The report task defines the minimum access needed.",
+          "s2": "A narrow role is selected before anything is assigned.",
+          "s3": "Testing confirms the user can perform the report task without extra privilege.",
+          "s4": "Monitoring catches drift or unused privilege after assignment."
+        }
+      }
+    },
+    {
+      "ref": "ab900-cor-108",
+      "type": "UI_SIMULATION",
+      "domainKey": "m365-core-features",
+      "objectiveCode": "1.3",
+      "difficulty": "MEDIUM",
+      "stem": "Configure the simulated risk response settings for a risky Contoso admin sign-in.",
+      "explanation": "The simulated risk response keeps the Conditional Access audience narrow and monitoring enabled.",
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Microsoft Entra Conditional Access overview",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "needsVerification": true,
+      "uiSimulation": {
+        "title": "Risk response (simulated)",
+        "description": "Fictional simplified screen; not a real portal.",
+        "fields": [
+          {
+            "id": "scope",
+            "label": "Audience",
+            "control": "select",
+            "options": [
+              {
+                "value": "pilot",
+                "label": "Approved pilot group"
+              },
+              {
+                "value": "everyone",
+                "label": "Everyone without review"
+              }
+            ],
+            "correct": "pilot",
+            "explanation": "Use the approved pilot group while testing the risk response instead of applying an unreviewed tenant-wide change."
+          },
+          {
+            "id": "monitor",
+            "label": "Enable monitoring",
+            "control": "toggle",
+            "correct": true,
+            "explanation": "Monitoring is needed to see whether the risk response is effective."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "ab900-adm-101",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "copilot-agent-administration",
+      "objectiveCode": "3.1",
+      "difficulty": "EASY",
+      "stem": "Which option fits an HR policy AI helper?",
+      "explanation": "A custom agent fits a focused HR policy helper when its sources, audience, and owner are governed.",
+      "options": [
+        {
+          "key": "A",
+          "text": "A custom agent grounded in approved HR policy content",
+          "correct": true,
+          "explanation": "A focused custom agent is appropriate for answering HR policy questions from approved sources."
+        },
+        {
+          "key": "B",
+          "text": "An Exchange distribution list for HR newsletters",
+          "correct": false,
+          "explanation": "A distribution list sends messages; it does not answer questions from policy content."
+        },
+        {
+          "key": "C",
+          "text": "Permanent Global Administrator access for all employees",
+          "correct": false,
+          "explanation": "Broad administrator access is unrelated to an HR policy helper and would be unsafe."
+        },
+        {
+          "key": "D",
+          "text": "No owner or approval because agents manage themselves",
+          "correct": false,
+          "explanation": "Agents still need ownership, approval, sharing, and lifecycle governance."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Manage agents in the Microsoft 365 admin center",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/manage-copilot-agents-integrated-apps?view=o365-worldwide",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true,
+      "needsVerification": true
+    },
+    {
+      "ref": "ab900-adm-102",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "copilot-agent-administration",
+      "objectiveCode": "3.2",
+      "difficulty": "MEDIUM",
+      "stem": "Which **two** actions belong in a Copilot rollout?",
+      "explanation": "A controlled Copilot rollout includes license assignment and usage monitoring.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Assign Copilot licenses to the approved pilot users or group",
+          "correct": true,
+          "explanation": "License assignment enables eligible users to access licensed Copilot capabilities."
+        },
+        {
+          "key": "B",
+          "text": "Monitor Copilot usage and adoption after rollout",
+          "correct": true,
+          "explanation": "Usage monitoring shows whether the pilot is active and informs expansion decisions."
+        },
+        {
+          "key": "C",
+          "text": "Make every pilot user a permanent Global Administrator",
+          "correct": false,
+          "explanation": "Copilot rollout does not require broad administrator rights for pilot users."
+        },
+        {
+          "key": "D",
+          "text": "Skip settings review because Copilot has no admin controls",
+          "correct": false,
+          "explanation": "Admins still review Copilot settings, reports, prompts, and related governance controls."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Set Up Microsoft Copilot and Assign Licenses",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-setup",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true,
+      "selectCount": 2
+    },
+    {
+      "ref": "ab900-adm-103",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "copilot-agent-administration",
+      "objectiveCode": "3.2",
+      "difficulty": "MEDIUM",
+      "stem": "Which configuration snippet best represents a controlled pilot?",
+      "explanation": "The snippet scopes licenses and enables reporting.",
+      "options": [
+        {
+          "key": "A",
+          "text": "`Scope: pilot group; Role/license: minimum required; Monitoring: enabled`",
+          "correct": true,
+          "explanation": "A pilot scope, required license, and enabled monitoring are appropriate for a controlled Copilot pilot."
+        },
+        {
+          "key": "B",
+          "text": "`Scope: all users; Role/license: broad; Monitoring: disabled`",
+          "correct": false,
+          "explanation": "Tenant-wide scope with broad access and no monitoring is not a controlled pilot."
+        },
+        {
+          "key": "C",
+          "text": "`Scope: unknown; Role/license: Global Administrator; Monitoring: none`",
+          "correct": false,
+          "explanation": "Global Administrator with no monitoring is unnecessary for assigning or reviewing Copilot licenses."
+        },
+        {
+          "key": "D",
+          "text": "`Scope: ignored; Role/license: unassigned; Monitoring: deleted`",
+          "correct": false,
+          "explanation": "Leaving the scope and license unassigned would not enable or govern the pilot."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Assign or unassign licenses to a group in the Microsoft 365 admin center",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/manage-group-licenses?view=o365-worldwide",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true,
+      "needsVerification": true
+    },
+    {
+      "ref": "ab900-adm-104",
+      "type": "MATCHING",
+      "domainKey": "copilot-agent-administration",
+      "objectiveCode": "3.3",
+      "difficulty": "MEDIUM",
+      "stem": "Match each item to the best description.",
+      "explanation": "Each agent finding maps to a lifecycle action: retire, approve with scope, or restrict pending review.",
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Agent Registry in Microsoft 365 admin center",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-registry?view=o365-worldwide",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "matching": {
+        "prompts": [
+          {
+            "id": "p1",
+            "text": "No owner/no use"
+          },
+          {
+            "id": "p2",
+            "text": "Approved owner/Sales audience"
+          },
+          {
+            "id": "p3",
+            "text": "Unreviewed broad third-party"
+          }
+        ],
+        "answers": [
+          {
+            "id": "a1",
+            "text": "Review or retire"
+          },
+          {
+            "id": "a2",
+            "text": "Approve scoped"
+          },
+          {
+            "id": "a3",
+            "text": "Block or restrict"
+          }
+        ],
+        "pairs": {
+          "p1": "a1",
+          "p2": "a2",
+          "p3": "a3"
+        },
+        "explanations": {
+          "p1": "An agent with no owner and no use should be reviewed for retirement or reassignment.",
+          "p2": "An agent with an accountable owner and a Sales-only audience can be approved with that scope.",
+          "p3": "An unreviewed third-party agent with broad availability should be blocked or restricted until reviewed."
+        }
+      }
+    },
+    {
+      "ref": "ab900-adm-105",
+      "type": "CASE_STUDY",
+      "domainKey": "copilot-agent-administration",
+      "objectiveCode": "3.1",
+      "difficulty": "HARD",
+      "scenario": "Relecloud compares Copilot Chat, licensed Copilot, and agents.",
+      "stem": "For each statement about choosing Copilot Chat, Microsoft 365 Copilot, or an agent, select **Yes** if it is correct. Otherwise, select **No**.",
+      "explanation": "The scenario separates general Copilot Chat, licensed work-context Copilot, and governed agents.",
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "What is Microsoft Copilot?",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Copilot Chat can fit general brainstorming that does not require licensed app work context.",
+            "answer": true,
+            "explanation": "General managed chat is a separate experience from licensed Microsoft 365 Copilot app scenarios."
+          },
+          {
+            "id": "s2",
+            "text": "A custom HR or Sales FAQ agent should have no owner once it is published.",
+            "answer": false,
+            "explanation": "Agents need ownership for quality, sharing, and lifecycle decisions."
+          },
+          {
+            "id": "s3",
+            "text": "Microsoft 365 Copilot is the better fit when the task needs licensed work context in Microsoft 365 apps.",
+            "answer": true,
+            "explanation": "Licensed Copilot capabilities are designed for Microsoft 365 work-context experiences."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "ab900-adm-106",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "copilot-agent-administration",
+      "objectiveCode": "3.3",
+      "difficulty": "EASY",
+      "stem": "Complete the sentence about the admin view used to review known agents, owners, sharing, and status.",
+      "explanation": "The missing term is inventory.",
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Agent Registry in Microsoft 365 admin center",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-registry?view=o365-worldwide",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "fillInBlank": {
+        "template": "The agent {{b1}} helps admins review known agents, owners, sharing, usage, and lifecycle status.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "inventory"
+            ],
+            "explanation": "Inventory is the view for reviewing known agents and governance details."
+          }
+        ],
+        "wordBank": [
+          "inventory",
+          "distribution list",
+          "shared mailbox",
+          "theme"
+        ]
+      }
+    },
+    {
+      "ref": "ab900-adm-107",
+      "type": "ORDERING",
+      "domainKey": "copilot-agent-administration",
+      "objectiveCode": "3.3",
+      "difficulty": "MEDIUM",
+      "stem": "Place the agent request review steps in the best order for a pending Sales FAQ agent.",
+      "explanation": "Agent approval starts with purpose and ownership, then audience, decision, and lifecycle monitoring.",
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Agent Requests in Microsoft 365 Admin Center",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-requests?view=o365-worldwide",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "ordering": {
+        "items": [
+          {
+            "id": "s1",
+            "text": "Review purpose and owner"
+          },
+          {
+            "id": "s2",
+            "text": "Choose audience"
+          },
+          {
+            "id": "s3",
+            "text": "Approve/reject/block"
+          },
+          {
+            "id": "s4",
+            "text": "Monitor lifecycle"
+          }
+        ],
+        "correctOrder": [
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "explanations": {
+          "s1": "Purpose and owner establish accountability before approval.",
+          "s2": "Audience scope should be chosen before the decision is published.",
+          "s3": "The admin then approves, rejects, or blocks based on the review.",
+          "s4": "Lifecycle monitoring confirms the agent remains useful and governed."
+        }
+      }
+    },
+    {
+      "ref": "ab900-adm-108",
+      "type": "UI_SIMULATION",
+      "domainKey": "copilot-agent-administration",
+      "objectiveCode": "3.2",
+      "difficulty": "MEDIUM",
+      "stem": "Configure the simulated prompt governance settings for shared Copilot prompts.",
+      "explanation": "The simulated prompt governance settings limit prompt availability and keep ownership review visible.",
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Manage Microsoft Copilot Settings",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-page",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "needsVerification": true,
+      "uiSimulation": {
+        "title": "Prompt governance (simulated)",
+        "description": "Fictional simplified screen; not a real portal.",
+        "fields": [
+          {
+            "id": "scope",
+            "label": "Audience",
+            "control": "select",
+            "options": [
+              {
+                "value": "pilot",
+                "label": "Approved pilot group"
+              },
+              {
+                "value": "everyone",
+                "label": "Everyone without review"
+              }
+            ],
+            "correct": "pilot",
+            "explanation": "Limit shared prompt availability to the approved audience."
+          },
+          {
+            "id": "monitor",
+            "label": "Enable monitoring",
+            "control": "toggle",
+            "correct": true,
+            "explanation": "Monitoring and review help identify prompts that need ownership or retirement."
+          }
+        ]
+      }
+    }
+  ]
+}

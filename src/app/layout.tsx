@@ -3,6 +3,7 @@ import "./globals.css";
 import { Providers } from "@/components/providers";
 import { getI18n } from "@/i18n/server";
 import { getCurrentUser } from "@/modules/auth/session";
+import { parseAccentColor } from "@/components/settings/personalization-options";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getI18n();
@@ -26,8 +27,15 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const [{ locale, messages }, user] = await Promise.all([getI18n(), getCurrentUser()]);
   const reduceMotion = user?.preference?.reducedMotion ?? false;
+  const accent = parseAccentColor(user?.preference?.accentColor);
+  const transparencyEffects = user?.preference?.transparencyEffects ?? true;
   return (
-    <html lang={locale} suppressHydrationWarning className={reduceMotion ? "reduce-motion" : undefined}>
+    <html
+      lang={locale}
+      suppressHydrationWarning
+      data-accent={accent}
+      className={[reduceMotion ? "reduce-motion" : "", transparencyEffects ? "" : "no-transparency"].filter(Boolean).join(" ") || undefined}
+    >
       <body className="min-h-screen font-sans">
         <Providers locale={locale} messages={messages}>
           {children}

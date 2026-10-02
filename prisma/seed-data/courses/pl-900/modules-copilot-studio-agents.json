@@ -1,0 +1,1362 @@
+{
+  "domainKey": "copilot-studio-agents",
+  "modules": [
+    {
+      "slug": "copilot-studio-agent-design-management",
+      "title": "Copilot Studio agent design and management",
+      "summary": "Build, ground, publish, monitor, and govern Copilot Studio agents with topics, knowledge sources, tools, channels, analytics, and evaluations.",
+      "lessons": [
+        {
+          "slug": "copilot-studio-agent-building-blocks",
+          "title": "Build agents with topics, knowledge, and tools",
+          "objectiveCode": "5.1",
+          "estimatedMinutes": 12,
+          "summary": "Understand the core pieces of a Copilot Studio agent: purpose, instructions, topics, trigger phrases, knowledge sources, generative answers, tools, agent flows, connectors, and MCP servers.",
+          "learningObjectives": [
+            "Identify topics, trigger phrases, instructions, and knowledge sources in an agent",
+            "Describe how tools, agent flows, connectors, and MCP servers extend agents",
+            "Explain when generative answers use grounded knowledge",
+            "Choose building blocks for a simple Copilot Studio agent scenario"
+          ],
+          "explanation": "A useful agent is a well-designed teammate with a job description, approved information, and safe ways to act. **Microsoft Copilot Studio** is a low-code studio for building and managing agents and workflows. In the HR Helper lab, Contoso creates an agent that answers HR policy questions, uses internal SharePoint knowledge, asks follow-up questions, and publishes to employee channels.\n\nStart with the use case. Agents are good for repeatable conversations: employee help, customer support, IT triage, policy Q&A, guided service requests, and task automation. Then define instructions: what the agent should help with, tone, boundaries, and escalation rules.\n\nA **topic** defines how a conversation progresses. Trigger phrases such as 'request time off' or 'how many vacation days' help the agent recognize a path. **Knowledge sources** ground answers in enterprise information such as websites, SharePoint, Dataverse, or other approved systems.\n\n**Tools** let an agent do work. A tool can use a connector, an agent flow, or a Model Context Protocol server to interact with external systems. For PL-900, focus on the concept: knowledge helps answer; topics guide conversation; tools act.",
+          "terminology": [
+            {
+              "term": "Copilot Studio",
+              "definition": "A low-code studio for building and managing agents and workflows."
+            },
+            {
+              "term": "Agent",
+              "definition": "An AI-powered experience that can converse, use knowledge, and perform actions."
+            },
+            {
+              "term": "Topic",
+              "definition": "A defined conversation path."
+            },
+            {
+              "term": "Trigger phrase",
+              "definition": "Example wording that can start a topic."
+            },
+            {
+              "term": "Knowledge source",
+              "definition": "Approved data used to ground answers."
+            },
+            {
+              "term": "Tool",
+              "definition": "A callable capability that performs an action."
+            }
+          ],
+          "businessScenario": "Contoso HR needs HR Helper to answer policy questions from SharePoint and guide time-off requests.",
+          "technicalExample": "Agent design: instructions, SharePoint knowledge, Request time off topic, question node, condition, message, and optional case-creation tool.",
+          "misconception": {
+            "myth": "A Copilot Studio agent only needs one large prompt to be useful.",
+            "reality": "Useful agents combine scoped instructions, topics for predictable paths, knowledge sources for grounded answers, and tools or agent flows for actions."
+          },
+          "examTakeaway": "When the scenario says answer from policy, think knowledge source; when it says guide a user through steps, think topic; when it says create, update, send, or retrieve, think tool or agent flow.",
+          "recap": "Understand the core pieces of a Copilot Studio agent: purpose, instructions, topics, trigger phrases, knowledge sources, generative answers, tools, agent flows, connectors, and MCP servers.",
+          "simplerExplanation": "Building an agent is like staffing a reception desk: the receptionist needs a job description, a handbook, a call script, and approved forms—not just a friendly personality.",
+          "anotherExample": "Wide World Importers creates a supplier FAQ agent with a SharePoint knowledge source for policy answers, a topic for onboarding questions, and a connector tool to open a vendor-support case.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Agent building block roles",
+                "columns": [
+                  {
+                    "title": "Instructions",
+                    "points": [
+                      "Define purpose, tone, and boundaries",
+                      "Useful before topics or tools are added"
+                    ]
+                  },
+                  {
+                    "title": "Topics",
+                    "points": [
+                      "Guide predictable conversations",
+                      "Use trigger phrases, questions, variables, and conditions"
+                    ]
+                  },
+                  {
+                    "title": "Knowledge sources",
+                    "points": [
+                      "Ground generative answers",
+                      "Best for policies, FAQs, and approved content"
+                    ]
+                  },
+                  {
+                    "title": "Tools and flows",
+                    "points": [
+                      "Perform actions",
+                      "Best for creating records, sending messages, or calling systems"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Build HR Helper deliberately",
+                "instructions": "Choose the Copilot Studio building block for each requirement.",
+                "items": [
+                  {
+                    "prompt": "Answer from the HR policy site",
+                    "answer": "Knowledge source"
+                  },
+                  {
+                    "prompt": "Ask whether leave is Vacation, Sick leave, or Other",
+                    "answer": "Topic question node"
+                  },
+                  {
+                    "prompt": "Create a case after confirmation",
+                    "answer": "Tool or agent flow"
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Agent purpose statement",
+              "back": "A concise description of what the agent should and should not do."
+            },
+            {
+              "front": "Topic trigger phrase",
+              "back": "A realistic example of how a user might ask to start a guided path."
+            },
+            {
+              "front": "Knowledge source role",
+              "back": "Grounds generative answers in approved business content."
+            },
+            {
+              "front": "Tool role in an agent",
+              "back": "Lets the agent perform an action or retrieve information from another system."
+            },
+            {
+              "front": "Agent flow role",
+              "back": "Runs deterministic multi-step work that the conversation can invoke."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Overview - Microsoft Copilot Studio",
+              "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Create and delete agents",
+              "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-first-bot",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Create and edit topics",
+              "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-create-edit-topics",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Knowledge sources summary",
+              "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Add tools to custom agents",
+              "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-tools-custom-agent",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Agent flows overview",
+              "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/flows-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Extend your agent with Model Context Protocol",
+              "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/agent-extend-action-mcp",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "pl900-cps-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "copilot-studio-agents",
+              "objectiveCode": "5.1",
+              "difficulty": "EASY",
+              "stem": "What is Copilot Studio used for?",
+              "explanation": "Copilot Studio builds and manages AI-powered agents and workflows.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Build and manage agents and workflows",
+                  "correct": true,
+                  "explanation": "Correct: Copilot Studio builds and manages AI-powered agents and workflows."
+                },
+                {
+                  "key": "B",
+                  "text": "Only mine process logs",
+                  "correct": false,
+                  "explanation": "That is process mining."
+                },
+                {
+                  "key": "C",
+                  "text": "Only record desktop tasks",
+                  "correct": false,
+                  "explanation": "That is desktop flows."
+                },
+                {
+                  "key": "D",
+                  "text": "Replace all security roles",
+                  "correct": false,
+                  "explanation": "It does not replace governance."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Overview - Microsoft Copilot Studio",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "copilot-studio-agent-building-blocks"
+            },
+            {
+              "ref": "pl900-cps-002",
+              "type": "MATCHING",
+              "domainKey": "copilot-studio-agents",
+              "objectiveCode": "5.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each Copilot Studio building block to the role it plays in HR Helper.",
+              "explanation": "Topics guide predictable conversation paths, knowledge sources ground answers, and tools let the agent take action.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Guided conversation path"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Grounded information"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "External action"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Topic"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Knowledge source"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Tool"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "Topics define paths.",
+                  "p2": "Knowledge grounds answers.",
+                  "p3": "Tools perform actions."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Create and edit topics",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-create-edit-topics",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Knowledge sources summary",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Add tools to custom agents",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-tools-custom-agent",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "copilot-studio-agent-building-blocks"
+            },
+            {
+              "ref": "pl900-cps-003",
+              "type": "CATEGORIZATION",
+              "domainKey": "copilot-studio-agents",
+              "objectiveCode": "5.1",
+              "difficulty": "MEDIUM",
+              "stem": "Categorize each HR Helper design item as a topic, knowledge source, or tool.",
+              "explanation": "Trigger phrases belong to topics, the SharePoint HR site is grounding knowledge, and a connector action is a tool.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "topic",
+                    "label": "Topic"
+                  },
+                  {
+                    "id": "knowledge",
+                    "label": "Knowledge"
+                  },
+                  {
+                    "id": "tool",
+                    "label": "Tool"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Trigger phrase 'request vacation'",
+                    "category": "topic",
+                    "explanation": "Trigger phrases start topics."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Internal SharePoint HR site",
+                    "category": "knowledge",
+                    "explanation": "This grounds answers."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Create case connector action",
+                    "category": "tool",
+                    "explanation": "This performs work."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Create and edit topics",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-create-edit-topics",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Knowledge sources summary",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Add tools to custom agents",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-tools-custom-agent",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "copilot-studio-agent-building-blocks"
+            },
+            {
+              "ref": "pl900-cps-004",
+              "type": "TRUE_FALSE",
+              "domainKey": "copilot-studio-agents",
+              "objectiveCode": "5.1",
+              "difficulty": "EASY",
+              "stem": "A topic can define how an agent conversation progresses.",
+              "explanation": "Topics define conversation paths.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Topics can include trigger phrases and conversation nodes that define the path an agent follows with a user."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that topics are a Copilot Studio building block for controlling conversation flow."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Create and edit topics",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-create-edit-topics",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "copilot-studio-agent-building-blocks"
+            },
+            {
+              "ref": "pl900-cps-005",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "copilot-studio-agents",
+              "objectiveCode": "5.1",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about grounding Copilot Studio agent answers.",
+              "explanation": "Knowledge sources ground agent answers.",
+              "fillInBlank": {
+                "template": "Approved enterprise content used to ground an agent answer is a {{b1}}.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "knowledge source"
+                    ],
+                    "explanation": "Knowledge sources ground agent answers."
+                  }
+                ],
+                "wordBank": [
+                  "knowledge source",
+                  "trigger",
+                  "desktop flow",
+                  "channel"
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Knowledge sources summary",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "copilot-studio-agent-building-blocks"
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Copilot Studio harness, tools, and MCP terminology changes quickly; verify current labels."
+        },
+        {
+          "slug": "design-grounded-agent-conversations",
+          "title": "Design grounded and helpful agent conversations",
+          "objectiveCode": "5.1",
+          "estimatedMinutes": 12,
+          "summary": "Create better agent conversations by combining clear instructions, realistic trigger phrases, focused questions, grounded answers, confirmations, tools, and escalation paths.",
+          "learningObjectives": [
+            "Write clear agent instructions for a focused business purpose",
+            "Identify trigger phrases and questions that guide useful conversations",
+            "Explain why grounded answers, confirmations, and escalation improve reliability",
+            "Choose a conversation design that avoids unsupported or unsafe answers"
+          ],
+          "explanation": "The fun part of an agent is the conversation; the hard part is making it reliable. A good Copilot Studio agent should feel like a calm coworker: it understands the request, asks only what it needs, uses approved knowledge, confirms actions, and knows when to hand off.\n\nStart with intent. Trigger phrases should sound like real users: 'request time off,' 'book vacation,' or 'how do I take sick leave?' In the topic, keep the path short. Ask one question at a time, store answers in variables, and branch when the next step depends on the answer.\n\nUse knowledge sources for broad policy and FAQ answers. Generative answers can summarize relevant information, but they should be grounded in approved content. Keep instructions specific: answer HR policy questions, cite approved sources when used, and escalate personal disputes or confidential issues.\n\nTools make conversations powerful but also risky. A connector action, agent flow, or MCP tool can create records, send emails, or query systems. Add confirmation before submitting data, especially when a tool changes records or sends messages.",
+          "terminology": [
+            {
+              "term": "Conversation path",
+              "definition": "The sequence of nodes and decisions an agent follows."
+            },
+            {
+              "term": "Generative answer",
+              "definition": "An AI-generated response grounded in configured knowledge."
+            },
+            {
+              "term": "Variable",
+              "definition": "A stored value from the conversation."
+            },
+            {
+              "term": "Escalation",
+              "definition": "A planned handoff to a person or support path."
+            },
+            {
+              "term": "Agent flow",
+              "definition": "A deterministic workflow an agent can invoke."
+            },
+            {
+              "term": "MCP server",
+              "definition": "A server that exposes resources and tools through Model Context Protocol."
+            }
+          ],
+          "businessScenario": "Northwind Traders wants an employee agent that explains travel policy and creates support tickets, but escalates personal exceptions.",
+          "technicalExample": "Trigger phrases: book travel, travel policy; question: policy, approval status, or ticket; knowledge answer from travel site; tool branch after confirmation.",
+          "misconception": {
+            "myth": "Adding more trigger phrases and more tools always makes an agent conversation better.",
+            "reality": "Good conversations use representative phrases, focused questions, grounded answers, confirmations for actions, and escalation when the request is sensitive or unclear."
+          },
+          "examTakeaway": "For conversation-design scenarios, reward the option that narrows intent, asks only needed questions, grounds answers in approved knowledge, confirms tool actions, and escalates risky cases.",
+          "recap": "Create better agent conversations by combining clear instructions, realistic trigger phrases, focused questions, grounded answers, confirmations, tools, and escalation paths.",
+          "simplerExplanation": "A grounded agent is like a careful travel concierge: it checks the official guidebook, asks for the destination only when needed, books only after confirmation, and calls a specialist for exceptions.",
+          "anotherExample": "Alpine Ski House designs a gear-rental agent that answers sizing questions from approved guidance, asks dates before checking inventory, confirms before creating a reservation, and escalates injury-related questions.",
+          "extraBlocks": [
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Safe agent conversation pattern",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "intent",
+                    "label": "Recognize intent",
+                    "detail": "Real trigger phrase"
+                  },
+                  {
+                    "id": "clarify",
+                    "label": "Clarify",
+                    "detail": "Ask one focused question"
+                  },
+                  {
+                    "id": "ground",
+                    "label": "Ground",
+                    "detail": "Use approved knowledge"
+                  },
+                  {
+                    "id": "confirm",
+                    "label": "Confirm",
+                    "detail": "Before tool action"
+                  },
+                  {
+                    "id": "escalate",
+                    "label": "Escalate",
+                    "detail": "Sensitive or unclear"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "intent",
+                    "to": "clarify"
+                  },
+                  {
+                    "from": "clarify",
+                    "to": "ground"
+                  },
+                  {
+                    "from": "ground",
+                    "to": "confirm"
+                  },
+                  {
+                    "from": "confirm",
+                    "to": "escalate",
+                    "label": "if risky"
+                  }
+                ],
+                "caption": "The conversation recognizes a realistic user intent, asks for only missing details, grounds the answer, confirms any action, and escalates sensitive or unclear requests."
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Improve the HR topic",
+                "instructions": "Rewrite each weak design choice into a safer conversation choice.",
+                "items": [
+                  {
+                    "prompt": "Weak: Ask ten questions before any answer",
+                    "answer": "Better: ask the next required question only"
+                  },
+                  {
+                    "prompt": "Weak: submit a ticket immediately when a tool is available",
+                    "answer": "Better: summarize details and ask for confirmation first"
+                  },
+                  {
+                    "prompt": "Weak: answer payroll disputes from generic policy text",
+                    "answer": "Better: explain the boundary and escalate to HR"
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Representative trigger phrase",
+              "back": "A phrase that sounds like a real user, not a maker-only label."
+            },
+            {
+              "front": "Clarifying question",
+              "back": "A focused prompt that collects only the missing detail needed for the next step."
+            },
+            {
+              "front": "Grounded answer boundary",
+              "back": "A response should use approved knowledge and avoid unsupported claims."
+            },
+            {
+              "front": "Confirmation before action",
+              "back": "The agent should show important details before calling a tool that changes data."
+            },
+            {
+              "front": "Escalation trigger",
+              "back": "Use escalation for personal, confidential, harmful, or unresolved requests."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Create and edit topics",
+              "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-create-edit-topics",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Knowledge sources summary",
+              "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Add tools to custom agents",
+              "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-tools-custom-agent",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Agent flows overview",
+              "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/flows-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Extend your agent with Model Context Protocol",
+              "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/agent-extend-action-mcp",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "pl900-cps-006",
+              "type": "SCENARIO",
+              "domainKey": "copilot-studio-agents",
+              "objectiveCode": "5.1",
+              "difficulty": "MEDIUM",
+              "stem": "An HR agent must answer policy questions and escalate payroll disputes. Which design is best?",
+              "explanation": "Instructions plus topic logic provide scope and escalation.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Clear instructions with a topic branch for escalation",
+                  "correct": true,
+                  "explanation": "Correct: Instructions plus topic logic provide scope and escalation."
+                },
+                {
+                  "key": "B",
+                  "text": "Public website only",
+                  "correct": false,
+                  "explanation": "That does not handle internal scope."
+                },
+                {
+                  "key": "C",
+                  "text": "Publish without testing",
+                  "correct": false,
+                  "explanation": "Testing is needed first."
+                },
+                {
+                  "key": "D",
+                  "text": "Process mining",
+                  "correct": false,
+                  "explanation": "Process mining does not design conversations."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Create and delete agents",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-first-bot",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Create and edit topics",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-create-edit-topics",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "design-grounded-agent-conversations",
+              "scenario": "Contoso is designing HR Helper."
+            },
+            {
+              "ref": "pl900-cps-007",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "copilot-studio-agents",
+              "objectiveCode": "5.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** practices improve agent conversations?",
+              "explanation": "Good conversations use realistic phrasing and grounded sources.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Use trigger phrases that match user wording",
+                  "correct": true,
+                  "explanation": "Realistic phrases help recognition."
+                },
+                {
+                  "key": "B",
+                  "text": "Use approved knowledge sources",
+                  "correct": true,
+                  "explanation": "Grounding improves trust."
+                },
+                {
+                  "key": "C",
+                  "text": "Hide escalation paths",
+                  "correct": false,
+                  "explanation": "Escalation is important."
+                },
+                {
+                  "key": "D",
+                  "text": "Ask every possible question first",
+                  "correct": false,
+                  "explanation": "That creates friction."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Create and edit topics",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-create-edit-topics",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Knowledge sources summary",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "design-grounded-agent-conversations",
+              "selectCount": 2
+            },
+            {
+              "ref": "pl900-cps-008",
+              "type": "ORDERING",
+              "domainKey": "copilot-studio-agents",
+              "objectiveCode": "5.1",
+              "difficulty": "MEDIUM",
+              "stem": "Order a simple topic conversation.",
+              "explanation": "A grounded topic asks for needed information, branches on the response, answers from approved knowledge, and escalates when necessary.",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Recognize intent"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Ask for missing information"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Use knowledge or call a tool"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Confirm completion or escalate"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "Intent begins the path.",
+                  "s2": "Questions collect details.",
+                  "s3": "Knowledge and tools respond.",
+                  "s4": "Close or hand off."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Create and edit topics",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-create-edit-topics",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Add tools to custom agents",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-tools-custom-agent",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "design-grounded-agent-conversations"
+            },
+            {
+              "ref": "pl900-cps-009",
+              "type": "CASE_STUDY",
+              "domainKey": "copilot-studio-agents",
+              "objectiveCode": "5.1",
+              "difficulty": "HARD",
+              "scenario": "Northwind adds a ticket tool and a policy knowledge source.",
+              "stem": "For each statement about combining Copilot Studio tools and knowledge sources, select **Yes** if the design is appropriate. Otherwise, select **No**.",
+              "explanation": "The correct choices combine deterministic tools for actions with approved knowledge sources for grounded policy answers.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Use the ticket tool to report broken equipment.",
+                    "answer": true,
+                    "explanation": "The tool performs the action."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Use the ticket tool as the only source for policy answers.",
+                    "answer": false,
+                    "explanation": "Knowledge sources should ground policy answers."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Ask for confirmation before submitting details.",
+                    "answer": true,
+                    "explanation": "Confirmation reduces accidental actions."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Add tools to custom agents",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-tools-custom-agent",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Knowledge sources summary",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "design-grounded-agent-conversations"
+            },
+            {
+              "ref": "pl900-cps-010",
+              "type": "COMMAND_SELECTION",
+              "domainKey": "copilot-studio-agents",
+              "objectiveCode": "5.1",
+              "difficulty": "HARD",
+              "stem": "Which configuration snippet is safest for an internal HR agent?",
+              "explanation": "Safe instructions define scope, source expectations, and escalation.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`Scope: HR policy only; cite approved HR knowledge; escalate personal cases to HR.`",
+                  "correct": true,
+                  "explanation": "Correct: Safe instructions define scope, source expectations, and escalation."
+                },
+                {
+                  "key": "B",
+                  "text": "`Answer every question from memory; never escalate.`",
+                  "correct": false,
+                  "explanation": "This invites ungrounded answers."
+                },
+                {
+                  "key": "C",
+                  "text": "`Ignore knowledge sources when confident.`",
+                  "correct": false,
+                  "explanation": "The agent should use approved sources."
+                },
+                {
+                  "key": "D",
+                  "text": "`Collect medical details in chat for all cases.`",
+                  "correct": false,
+                  "explanation": "Sensitive data needs care."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Create and delete agents",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-first-bot",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Knowledge sources summary",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "design-grounded-agent-conversations"
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Tool and MCP capabilities evolve quickly; verify current labels and authentication options."
+        },
+        {
+          "slug": "manage-publish-monitor-agents",
+          "title": "Manage, publish, monitor, and govern agents",
+          "objectiveCode": "5.2",
+          "estimatedMinutes": 12,
+          "summary": "Manage Copilot Studio agents through testing, publishing, channels, authentication, analytics, evaluations, environments, solutions, Agent 365 visibility, and governance policies.",
+          "learningObjectives": [
+            "Describe how testing and publishing prepare an agent for users",
+            "Identify channels, authentication, and environments used to expose agents",
+            "Explain how analytics and evaluations monitor agent quality",
+            "Choose governance controls for agent visibility and lifecycle management"
+          ],
+          "explanation": "An agent is not finished when the first conversation works. Like a storefront, it needs a front door, access rules, monitoring, and a safe way to make changes. For Copilot Studio agents, management includes testing, publishing to channels, authentication, analytics, evaluations, lifecycle packaging, and governance.\n\nBefore publishing, test the agent with realistic prompts, expected wrong turns, and sensitive requests. Publishing makes the agent available through **channels** such as Teams, websites, Microsoft Copilot experiences, or other supported endpoints. Authentication controls whether users must sign in and whether the agent can access restricted resources.\n\nAfter release, use analytics and monitoring to understand usage, performance, topic behavior, and user outcomes. Agent evaluations add repeatable tests that check quality and safety before and after changes. Current PL-900 skills also mention **Microsoft Agent 365**, which provides registry visibility and observability for Copilot Studio agents in a tenant.\n\nFor lifecycle, keep agents in appropriate environments and package components with solutions when moving between development, test, and production. Governance includes Power Platform data policies, connector controls, ownership, and review.",
+          "terminology": [
+            {
+              "term": "Channel",
+              "definition": "A place where users can access a published agent."
+            },
+            {
+              "term": "Authentication",
+              "definition": "A sign-in configuration that controls identity and access."
+            },
+            {
+              "term": "Analytics",
+              "definition": "Usage and performance information."
+            },
+            {
+              "term": "Agent evaluation",
+              "definition": "Repeatable testing that measures quality and behavior."
+            },
+            {
+              "term": "Solution",
+              "definition": "A Power Platform package for lifecycle management."
+            },
+            {
+              "term": "Data policy",
+              "definition": "A governance rule that controls connector use and data movement risk."
+            }
+          ],
+          "businessScenario": "Contoso HR wants HR Helper in Teams for employees only, with analytics, evaluations, solution-based releases, and tenant visibility.",
+          "technicalExample": "Checklist: test paths, require Microsoft authentication, publish to Teams, monitor adoption, run evaluations, move components through environments with solutions, and apply connector data policies.",
+          "misconception": {
+            "myth": "Publishing an agent to Teams means it is fully governed for the rest of its life.",
+            "reality": "Publishing is only one step; owners still manage authentication, channel access, analytics, evaluations, environments, solutions, policies, and ownership."
+          },
+          "examTakeaway": "Management questions often ask what happens after build: channels decide where users access the agent, authentication decides who signs in, analytics and evaluations measure behavior, and solutions/environments support lifecycle.",
+          "recap": "Manage Copilot Studio agents through testing, publishing, channels, authentication, analytics, evaluations, environments, solutions, Agent 365 visibility, and governance policies.",
+          "simplerExplanation": "Managing an agent is like running a staffed kiosk in a company lobby: you choose where it stands, check employee badges, review service logs, test new scripts, and move updates through a back office before changing the live kiosk.",
+          "anotherExample": "Woodgrove Bank pilots a benefits agent in a test environment, packages it in a solution, publishes it to Teams with Microsoft authentication, monitors unresolved sessions, and uses evaluations before each update.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Agent operations checklist",
+                "columns": [
+                  {
+                    "title": "Access",
+                    "points": [
+                      "Require sign-in for internal content",
+                      "Review who can use restricted tools"
+                    ]
+                  },
+                  {
+                    "title": "Release",
+                    "points": [
+                      "Test before publishing",
+                      "Use channels that match the audience"
+                    ]
+                  },
+                  {
+                    "title": "Quality",
+                    "points": [
+                      "Monitor adoption and outcomes",
+                      "Run evaluations for regression scenarios"
+                    ]
+                  },
+                  {
+                    "title": "Lifecycle",
+                    "points": [
+                      "Use environments and solutions",
+                      "Apply connector and data policies"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Pick the management control",
+                "instructions": "Choose the control that answers each operations question.",
+                "items": [
+                  {
+                    "prompt": "Where should employees use the HR agent?",
+                    "answer": "Publish to an internal channel such as Teams"
+                  },
+                  {
+                    "prompt": "Who can see restricted policy content?",
+                    "answer": "Configure authentication and access"
+                  },
+                  {
+                    "prompt": "Did the latest update improve answers?",
+                    "answer": "Review analytics and run evaluations"
+                  },
+                  {
+                    "prompt": "How do we move the agent to production?",
+                    "answer": "Package and promote with solutions/environments"
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Channel management",
+              "back": "Channels determine where a published agent is available to users."
+            },
+            {
+              "front": "Authentication decision",
+              "back": "Internal or restricted content usually requires signed-in access."
+            },
+            {
+              "front": "Monitor analytics use",
+              "back": "Usage, topic, and performance signals help owners improve the agent."
+            },
+            {
+              "front": "Agent evaluation use",
+              "back": "Repeatable test conversations check quality and safety before or after changes."
+            },
+            {
+              "front": "Solution lifecycle",
+              "back": "Solutions help move agent components through development, test, and production environments."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Key concepts - Publish and deploy your agent",
+              "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-fundamentals-publish-channels",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Configure user authentication",
+              "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/configuration-end-user-authentication",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Monitor overview",
+              "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "About agent evaluation",
+              "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-intro",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Build agents with Copilot Studio and Agent 365",
+              "url": "https://learn.microsoft.com/en-us/microsoft-agent-365/builder/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Solution concepts with Power Platform",
+              "url": "https://learn.microsoft.com/en-us/power-platform/alm/solution-concepts-alm",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Data policies",
+              "url": "https://learn.microsoft.com/en-us/power-platform/admin/wp-data-loss-prevention",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "pl900-cps-011",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "copilot-studio-agents",
+              "objectiveCode": "5.2",
+              "difficulty": "MEDIUM",
+              "stem": "What controls where a published agent is available to users?",
+              "explanation": "Channels expose agents to user experiences.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Channels",
+                  "correct": true,
+                  "explanation": "Correct: Channels expose agents to user experiences."
+                },
+                {
+                  "key": "B",
+                  "text": "Process mining",
+                  "correct": false,
+                  "explanation": "That analyzes processes."
+                },
+                {
+                  "key": "C",
+                  "text": "Desktop flows",
+                  "correct": false,
+                  "explanation": "That automates workstation tasks."
+                },
+                {
+                  "key": "D",
+                  "text": "Dynamic content",
+                  "correct": false,
+                  "explanation": "That is flow data."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Key concepts - Publish and deploy your agent",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-fundamentals-publish-channels",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "manage-publish-monitor-agents"
+            },
+            {
+              "ref": "pl900-cps-012",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "copilot-studio-agents",
+              "objectiveCode": "5.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** activities help manage an agent after build?",
+              "explanation": "Authentication and analytics/evaluations support management.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Configure authentication for restricted data",
+                  "correct": true,
+                  "explanation": "Authentication controls access."
+                },
+                {
+                  "key": "B",
+                  "text": "Review analytics and evaluations",
+                  "correct": true,
+                  "explanation": "These improve quality."
+                },
+                {
+                  "key": "C",
+                  "text": "Remove all knowledge sources",
+                  "correct": false,
+                  "explanation": "That harms grounding."
+                },
+                {
+                  "key": "D",
+                  "text": "Develop directly in production only",
+                  "correct": false,
+                  "explanation": "Lifecycle practices reduce risk."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Configure user authentication",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/configuration-end-user-authentication",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Monitor overview",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About agent evaluation",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-intro",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "manage-publish-monitor-agents",
+              "selectCount": 2
+            },
+            {
+              "ref": "pl900-cps-013",
+              "type": "CATEGORIZATION",
+              "domainKey": "copilot-studio-agents",
+              "objectiveCode": "5.2",
+              "difficulty": "MEDIUM",
+              "stem": "Categorize each Copilot Studio management item by the concern it addresses.",
+              "explanation": "Publishing controls channels, analytics and evaluations monitor quality, and governance settings protect agent use.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "access",
+                    "label": "Access"
+                  },
+                  {
+                    "id": "quality",
+                    "label": "Quality"
+                  },
+                  {
+                    "id": "lifecycle",
+                    "label": "Lifecycle"
+                  },
+                  {
+                    "id": "governance",
+                    "label": "Governance"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Require sign-in",
+                    "category": "access",
+                    "explanation": "Authentication controls access."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Run agent evaluations",
+                    "category": "quality",
+                    "explanation": "Evaluations test quality."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Move components with solutions",
+                    "category": "lifecycle",
+                    "explanation": "Solutions support ALM."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Apply data policies",
+                    "category": "governance",
+                    "explanation": "Policies control connectors."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Configure user authentication",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/configuration-end-user-authentication",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About agent evaluation",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-intro",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Solution concepts with Power Platform",
+                  "url": "https://learn.microsoft.com/en-us/power-platform/alm/solution-concepts-alm",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Data policies",
+                  "url": "https://learn.microsoft.com/en-us/power-platform/admin/wp-data-loss-prevention",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "manage-publish-monitor-agents"
+            },
+            {
+              "ref": "pl900-cps-014",
+              "type": "UI_SIMULATION",
+              "domainKey": "copilot-studio-agents",
+              "objectiveCode": "5.2",
+              "difficulty": "MEDIUM",
+              "stem": "Configure the simulated settings for an internal HR agent.",
+              "explanation": "The internal HR agent should use employee channels, approved knowledge, and monitoring settings that match a managed deployment.",
+              "uiSimulation": {
+                "title": "Configuration screen (simulated)",
+                "description": "A fictional simplified screen, not a real portal.",
+                "fields": [
+                  {
+                    "id": "auth",
+                    "label": "Authentication",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "microsoft",
+                        "label": "Authenticate with Microsoft"
+                      },
+                      {
+                        "value": "anonymous",
+                        "label": "Anonymous"
+                      }
+                    ],
+                    "correct": "microsoft",
+                    "explanation": "Internal HR data should require sign-in."
+                  },
+                  {
+                    "id": "channel",
+                    "label": "Channel",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "teams",
+                        "label": "Microsoft Teams"
+                      },
+                      {
+                        "value": "public",
+                        "label": "Public website"
+                      }
+                    ],
+                    "correct": "teams",
+                    "explanation": "Teams fits internal employees."
+                  },
+                  {
+                    "id": "publish",
+                    "label": "Publish after testing",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "Test before publishing."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Key concepts - Publish and deploy your agent",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-fundamentals-publish-channels",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Configure user authentication",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/configuration-end-user-authentication",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "manage-publish-monitor-agents"
+            },
+            {
+              "ref": "pl900-cps-015",
+              "type": "MATCHING",
+              "domainKey": "copilot-studio-agents",
+              "objectiveCode": "5.2",
+              "difficulty": "HARD",
+              "stem": "Match each Copilot Studio management feature to the operational question it answers.",
+              "explanation": "Channels answer where users access the agent, analytics answer how it performs, and publishing controls release state.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Are users adopting the agent?"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Which agents exist across the tenant?"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Do test conversations meet expectations?"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Monitor analytics"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Agent 365 registry"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Agent evaluation"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "Analytics show usage signals.",
+                  "p2": "Agent 365 registry provides tenant visibility.",
+                  "p3": "Evaluations test behavior."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Monitor overview",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Agent registry integration for Copilot Studio",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-agent-365/builder/agent-registry",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About agent evaluation",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-intro",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "manage-publish-monitor-agents"
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Agent 365, evaluation, and channel terminology is changing rapidly; re-check current Microsoft Learn wording."
+        }
+      ]
+    }
+  ]
+}

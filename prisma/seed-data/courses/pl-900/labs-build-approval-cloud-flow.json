@@ -15,23 +15,71 @@
         "Configure a Dataverse trigger, an approval action and a condition in the flow designer",
         "Explain how triggers, actions, connectors, cloud flows and desktop flows differ"
       ],
-      "prerequisites": ["Know that a trigger starts a cloud flow and actions run after the trigger"],
+      "prerequisites": [
+        "Know that a trigger starts a cloud flow and actions run after the trigger"
+      ],
       "sources": [
-        { "title": "Overview of cloud flows", "url": "https://learn.microsoft.com/en-us/power-automate/overview-cloud" },
-        { "title": "Trigger flows when a row is added, modified, or deleted", "url": "https://learn.microsoft.com/en-us/power-automate/dataverse/create-update-delete-trigger" },
-        { "title": "Create and test an approval workflow with Power Automate", "url": "https://learn.microsoft.com/en-us/power-automate/modern-approvals" },
-        { "title": "Introduction to desktop flows", "url": "https://learn.microsoft.com/en-us/power-automate/desktop-flows/introduction" }
+        {
+          "title": "Overview of cloud flows",
+          "url": "https://learn.microsoft.com/en-us/power-automate/overview-cloud"
+        },
+        {
+          "title": "Trigger flows when a row is added, modified, or deleted",
+          "url": "https://learn.microsoft.com/en-us/power-automate/dataverse/create-update-delete-trigger"
+        },
+        {
+          "title": "Create and test an approval workflow with Power Automate",
+          "url": "https://learn.microsoft.com/en-us/power-automate/modern-approvals"
+        },
+        {
+          "title": "Introduction to desktop flows",
+          "url": "https://learn.microsoft.com/en-us/power-automate/desktop-flows/introduction"
+        }
       ],
       "config": {
-        "portal": { "name": "Power Automate", "theme": "power-automate", "user": "alex@contoso.example", "tenant": "Contoso (default)", "url": "https://make.powerautomate.com", "searchPlaceholder": "Search for helpful resources" },
-        "vm": { "name": "LAB-VM-01", "os": "windows", "apps": ["browser"] },
-        "clock": { "start": "2026-09-30T10:00:00Z" },
+        "portal": {
+          "name": "Power Automate",
+          "theme": "power-automate",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (default)",
+          "url": "https://make.powerautomate.com",
+          "searchPlaceholder": "Search for helpful resources"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T10:00:00Z"
+        },
         "startPage": "home",
         "navigation": [
-          { "page": "home", "label": "Home", "icon": "Home" },
-          { "page": "create", "label": "Create", "icon": "Plus", "section": "Build" },
-          { "page": "my-flows", "label": "My flows", "icon": "Workflow", "section": "Manage" },
-          { "page": "approvals", "label": "Approvals", "icon": "ClipboardCheck", "section": "Action items" }
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "create",
+            "label": "Create",
+            "icon": "Plus",
+            "section": "Build"
+          },
+          {
+            "page": "my-flows",
+            "label": "My flows",
+            "icon": "Workflow",
+            "section": "Manage"
+          },
+          {
+            "page": "approvals",
+            "label": "Approvals",
+            "icon": "ClipboardCheck",
+            "section": "Action items"
+          }
         ],
         "pages": [
           {
@@ -40,16 +88,49 @@
             "subtitle": "Contoso (default)",
             "url": "/",
             "components": [
-              { "kind": "callout", "variant": "info", "title": "Cloud and desktop flows", "text": "Cloud flows run in the Power Automate service and connect to cloud services through connectors. Desktop flows add robotic process automation (RPA) for repetitive desktop or legacy app tasks." },
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Cloud and desktop flows",
+                "text": "Cloud flows run in the Power Automate service and connect to cloud services through connectors. Desktop flows add robotic process automation (RPA) for repetitive desktop or legacy app tasks."
+              },
               {
                 "kind": "tiles",
                 "id": "home-actions",
                 "title": "Build",
                 "size": "md",
                 "items": [
-                  { "id": "create", "label": "Create", "description": "Start a cloud flow from blank or a template.", "icon": "Plus", "action": { "type": "navigate", "page": "create" } },
-                  { "id": "flows", "label": "My flows", "description": "View saved cloud flows and run history.", "icon": "Workflow", "action": { "type": "navigate", "page": "my-flows" } },
-                  { "id": "desktop", "label": "Desktop flows", "description": "Automate rule-based desktop tasks with RPA.", "icon": "MonitorCog", "action": { "type": "message", "tone": "info", "text": "Desktop flows are useful for UI automation on a workstation. This lab uses a cloud flow because a Dataverse event starts the process." } }
+                  {
+                    "id": "create",
+                    "label": "Create",
+                    "description": "Start a cloud flow from blank or a template.",
+                    "icon": "Plus",
+                    "action": {
+                      "type": "navigate",
+                      "page": "create"
+                    }
+                  },
+                  {
+                    "id": "flows",
+                    "label": "My flows",
+                    "description": "View saved cloud flows and run history.",
+                    "icon": "Workflow",
+                    "action": {
+                      "type": "navigate",
+                      "page": "my-flows"
+                    }
+                  },
+                  {
+                    "id": "desktop",
+                    "label": "Desktop flows",
+                    "description": "Automate rule-based desktop tasks with RPA.",
+                    "icon": "MonitorCog",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Desktop flows are useful for UI automation on a workstation. This lab uses a cloud flow because a Dataverse event starts the process."
+                    }
+                  }
                 ]
               }
             ]
@@ -59,7 +140,9 @@
             "title": "Create",
             "icon": "Plus",
             "url": "/environments/contoso-default/flows/create",
-            "breadcrumb": ["Home"],
+            "breadcrumb": [
+              "Home"
+            ],
             "components": [
               {
                 "kind": "tiles",
@@ -67,9 +150,36 @@
                 "title": "Create from blank",
                 "size": "md",
                 "items": [
-                  { "id": "automated", "label": "Automated cloud flow", "description": "Trigger when an event occurs, such as a Dataverse row being added.", "icon": "Zap", "action": { "type": "navigate", "page": "automated-flow" } },
-                  { "id": "instant", "label": "Instant cloud flow", "description": "Run when a user selects a button.", "icon": "Play", "action": { "type": "fail", "message": "Use Automated cloud flow. An instant flow starts from a manual button, but this scenario must start when a Dataverse row is added." } },
-                  { "id": "scheduled", "label": "Scheduled cloud flow", "description": "Run on a time-based schedule.", "icon": "Calendar", "action": { "type": "fail", "message": "Use Automated cloud flow. A scheduled flow runs on a clock, but this scenario is event-driven." } }
+                  {
+                    "id": "automated",
+                    "label": "Automated cloud flow",
+                    "description": "Trigger when an event occurs, such as a Dataverse row being added.",
+                    "icon": "Zap",
+                    "action": {
+                      "type": "navigate",
+                      "page": "automated-flow"
+                    }
+                  },
+                  {
+                    "id": "instant",
+                    "label": "Instant cloud flow",
+                    "description": "Run when a user selects a button.",
+                    "icon": "Play",
+                    "action": {
+                      "type": "fail",
+                      "message": "Use Automated cloud flow. An instant flow starts from a manual button, but this scenario must start when a Dataverse row is added."
+                    }
+                  },
+                  {
+                    "id": "scheduled",
+                    "label": "Scheduled cloud flow",
+                    "description": "Run on a time-based schedule.",
+                    "icon": "Calendar",
+                    "action": {
+                      "type": "fail",
+                      "message": "Use Automated cloud flow. A scheduled flow runs on a clock, but this scenario is event-driven."
+                    }
+                  }
                 ]
               }
             ]
@@ -80,7 +190,10 @@
             "icon": "Zap",
             "url": "/environments/contoso-default/flows/create/automated",
             "navItem": "create",
-            "breadcrumb": ["Home", "Create"],
+            "breadcrumb": [
+              "Home",
+              "Create"
+            ],
             "components": [
               {
                 "kind": "form",
@@ -88,29 +201,81 @@
                 "title": "Build an automated cloud flow",
                 "description": "Choose a flow name and the event trigger that starts the flow.",
                 "fields": [
-                  { "id": "flowName", "label": "Flow name", "control": "text", "required": true, "defaultValue": "Equipment request approval" },
+                  {
+                    "id": "flowName",
+                    "label": "Flow name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Equipment request approval"
+                  },
                   {
                     "id": "trigger",
                     "label": "Choose your flow's trigger",
                     "control": "select",
                     "required": true,
                     "options": [
-                      { "value": "When a row is added, modified or deleted - Microsoft Dataverse", "label": "When a row is added, modified or deleted - Microsoft Dataverse" },
-                      { "value": "When an item is created - SharePoint", "label": "When an item is created - SharePoint" },
-                      { "value": "Manually trigger a flow", "label": "Manually trigger a flow" }
+                      {
+                        "value": "When a row is added, modified or deleted - Microsoft Dataverse",
+                        "label": "When a row is added, modified or deleted - Microsoft Dataverse"
+                      },
+                      {
+                        "value": "When an item is created - SharePoint",
+                        "label": "When an item is created - SharePoint"
+                      },
+                      {
+                        "value": "Manually trigger a flow",
+                        "label": "Manually trigger a flow"
+                      }
                     ]
                   }
                 ],
                 "submit": {
                   "label": "Create",
                   "checks": [
-                    { "rule": { "type": "equals", "path": "$form.trigger", "value": "When a row is added, modified or deleted - Microsoft Dataverse" }, "message": "Choose the Dataverse trigger. Manually triggered flows are instant flows and do not start when a request row is created." }
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.trigger",
+                        "value": "When a row is added, modified or deleted - Microsoft Dataverse"
+                      },
+                      "message": "Choose the Dataverse trigger. Manually triggered flows are instant flows and do not start when a request row is created."
+                    }
                   ],
                   "actions": [
-                    { "type": "set", "path": "flow", "value": { "name": "{{$form.flowName}}", "type": "Automated cloud flow", "triggerName": "When a row is added, modified or deleted", "connector": "Microsoft Dataverse", "saved": false, "checked": false } },
-                    { "type": "set", "path": "flowSteps", "value": [{ "order": 1, "card": "Trigger", "name": "When a row is added, modified or deleted", "connector": "Microsoft Dataverse", "summary": "Configure Change type, Table name and Scope" }] },
-                    { "type": "notify", "title": "Flow created", "message": "The cloud flow opened in the designer." },
-                    { "type": "navigate", "page": "designer" }
+                    {
+                      "type": "set",
+                      "path": "flow",
+                      "value": {
+                        "name": "{{$form.flowName}}",
+                        "type": "Automated cloud flow",
+                        "triggerName": "When a row is added, modified or deleted",
+                        "connector": "Microsoft Dataverse",
+                        "saved": false,
+                        "checked": false
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "flowSteps",
+                      "value": [
+                        {
+                          "order": 1,
+                          "card": "Trigger",
+                          "name": "When a row is added, modified or deleted",
+                          "connector": "Microsoft Dataverse",
+                          "summary": "Configure Change type, Table name and Scope"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Flow created",
+                      "message": "The cloud flow opened in the designer."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "designer"
+                    }
                   ]
                 }
               }
@@ -122,10 +287,47 @@
             "subtitle": "Cloud flows",
             "icon": "Workflow",
             "url": "/environments/contoso-default/flows",
-            "breadcrumb": ["Home"],
+            "breadcrumb": [
+              "Home"
+            ],
             "components": [
-              { "kind": "table", "id": "flows-list", "source": "flowsCatalog", "rowKey": "name", "emptyText": "No saved flows yet.", "columns": [{ "key": "name", "label": "Name", "format": "link" }, { "key": "type", "label": "Type" }, { "key": "status", "label": "Status", "format": "status" }] },
-              { "kind": "button", "id": "open-current-flow", "label": "Open Equipment request approval", "icon": "Workflow", "visibleWhen": { "type": "exists", "path": "flow.name" }, "action": { "type": "navigate", "page": "designer" } }
+              {
+                "kind": "table",
+                "id": "flows-list",
+                "source": "flowsCatalog",
+                "rowKey": "name",
+                "emptyText": "No saved flows yet.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Type"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ]
+              },
+              {
+                "kind": "button",
+                "id": "open-current-flow",
+                "label": "Open Equipment request approval",
+                "icon": "Workflow",
+                "visibleWhen": {
+                  "type": "exists",
+                  "path": "flow.name"
+                },
+                "action": {
+                  "type": "navigate",
+                  "page": "designer"
+                }
+              }
             ]
           },
           {
@@ -135,11 +337,50 @@
             "icon": "Workflow",
             "url": "/environments/contoso-default/flows/equipment-request-approval/details",
             "navItem": "my-flows",
-            "breadcrumb": ["Home", "My flows"],
+            "breadcrumb": [
+              "Home",
+              "My flows"
+            ],
             "commands": [
-              { "id": "add-approval", "label": "+ Add an action", "icon": "Plus", "variant": "primary", "action": { "type": "navigate", "page": "approval-action" } },
-              { "id": "add-condition", "label": "Add a condition", "icon": "Split", "action": { "type": "navigate", "page": "condition-action" } },
-              { "id": "flow-save", "label": "Save", "icon": "Save", "action": { "type": "sequence", "actions": [{ "type": "set", "path": "flow.saved", "value": true }, { "type": "notify", "title": "Flow saved", "message": "The flow was saved." }] } },
+              {
+                "id": "add-approval",
+                "label": "+ Add an action",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "approval-action"
+                }
+              },
+              {
+                "id": "add-condition",
+                "label": "Add a condition",
+                "icon": "Split",
+                "action": {
+                  "type": "navigate",
+                  "page": "condition-action"
+                }
+              },
+              {
+                "id": "flow-save",
+                "label": "Save",
+                "icon": "Save",
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "flow.saved",
+                      "value": true
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Flow saved",
+                      "message": "The flow was saved."
+                    }
+                  ]
+                }
+              },
               {
                 "id": "flow-checker",
                 "label": "Flow checker",
@@ -149,17 +390,66 @@
                   "when": {
                     "type": "allOf",
                     "rules": [
-                      { "type": "equals", "path": "flow.trigger.changeType", "value": "Added" },
-                      { "type": "equals", "path": "flow.trigger.tableName", "value": "Equipment Requests" },
-                      { "type": "equals", "path": "flow.trigger.scope", "value": "Organization" },
-                      { "type": "equals", "path": "flow.approval.approvalType", "value": "Approve/Reject - First to respond" },
-                      { "type": "equals", "path": "flow.condition.outcome", "value": "Approve" },
-                      { "type": "equals", "path": "flow.condition.yesStatus", "value": "Approved" },
-                      { "type": "equals", "path": "flow.condition.noStatus", "value": "Rejected" }
+                      {
+                        "type": "equals",
+                        "path": "flow.trigger.changeType",
+                        "value": "Added"
+                      },
+                      {
+                        "type": "equals",
+                        "path": "flow.trigger.tableName",
+                        "value": "Equipment Requests"
+                      },
+                      {
+                        "type": "equals",
+                        "path": "flow.trigger.scope",
+                        "value": "Organization"
+                      },
+                      {
+                        "type": "equals",
+                        "path": "flow.approval.approvalType",
+                        "value": "Approve/Reject - First to respond"
+                      },
+                      {
+                        "type": "equals",
+                        "path": "flow.condition.outcome",
+                        "value": "Approve"
+                      },
+                      {
+                        "type": "equals",
+                        "path": "flow.condition.yesStatus",
+                        "value": "Approved"
+                      },
+                      {
+                        "type": "equals",
+                        "path": "flow.condition.noStatus",
+                        "value": "Rejected"
+                      }
                     ]
                   },
-                  "then": [{ "type": "set", "path": "flow.checked", "value": true }, { "type": "set", "path": "flow.checker", "value": "No errors" }, { "type": "notify", "title": "Flow checker", "message": "No errors were found." }],
-                  "else": [{ "type": "fail", "message": "Flow checker found missing or incorrect trigger, approval, or condition settings." }]
+                  "then": [
+                    {
+                      "type": "set",
+                      "path": "flow.checked",
+                      "value": true
+                    },
+                    {
+                      "type": "set",
+                      "path": "flow.checker",
+                      "value": "No errors"
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Flow checker",
+                      "message": "No errors were found."
+                    }
+                  ],
+                  "else": [
+                    {
+                      "type": "fail",
+                      "message": "Flow checker found missing or incorrect trigger, approval, or condition settings."
+                    }
+                  ]
                 }
               },
               {
@@ -168,19 +458,68 @@
                 "icon": "Play",
                 "action": {
                   "type": "if",
-                  "when": { "type": "allOf", "rules": [{ "type": "equals", "path": "flow.saved", "value": true }, { "type": "equals", "path": "flow.checked", "value": true }] },
+                  "when": {
+                    "type": "allOf",
+                    "rules": [
+                      {
+                        "type": "equals",
+                        "path": "flow.saved",
+                        "value": true
+                      },
+                      {
+                        "type": "equals",
+                        "path": "flow.checked",
+                        "value": true
+                      }
+                    ]
+                  },
                   "then": [
-                    { "type": "append", "path": "runHistory", "value": { "run": "Manual test - equipment-request-0007", "status": "Succeeded", "trigger": "Dataverse row added", "approval": "Approve", "duration": "Simulated" } },
-                    { "type": "update", "path": "equipmentRequests", "where": { "title": "Laptop dock for lab room" }, "set": { "status": "Approved" } },
-                    { "type": "notify", "title": "Test succeeded", "message": "The approval was simulated as Approve and the run history shows Succeeded." },
-                    { "type": "navigate", "page": "run-history" }
+                    {
+                      "type": "append",
+                      "path": "runHistory",
+                      "value": {
+                        "run": "Manual test - equipment-request-0007",
+                        "status": "Succeeded",
+                        "trigger": "Dataverse row added",
+                        "approval": "Approve",
+                        "duration": "Simulated"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "equipmentRequests",
+                      "where": {
+                        "title": "Laptop dock for lab room"
+                      },
+                      "set": {
+                        "status": "Approved"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Test succeeded",
+                      "message": "The approval was simulated as Approve and the run history shows Succeeded."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "run-history"
+                    }
                   ],
-                  "else": [{ "type": "fail", "message": "Save the flow and run Flow checker with no errors before testing." }]
+                  "else": [
+                    {
+                      "type": "fail",
+                      "message": "Save the flow and run Flow checker with no errors before testing."
+                    }
+                  ]
                 }
               }
             ],
             "components": [
-              { "kind": "callout", "variant": "info", "text": "Triggers start flows. Actions do work after a trigger. Connectors, such as Microsoft Dataverse, Approvals and Office 365 Outlook, let the flow talk to services. Some connectors are standard and some are premium; this lab does not discuss pricing." },
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "Triggers start flows. Actions do work after a trigger. Connectors, such as Microsoft Dataverse, Approvals and Office 365 Outlook, let the flow talk to services. Some connectors are standard and some are premium; this lab does not discuss pricing."
+              },
               {
                 "kind": "table",
                 "id": "flow-designer",
@@ -189,10 +528,23 @@
                 "rowKey": "order",
                 "variant": "flow",
                 "columns": [
-                  { "key": "card", "label": "Card", "format": "badge" },
-                  { "key": "name", "label": "Name" },
-                  { "key": "connector", "label": "Connector" },
-                  { "key": "summary", "label": "Configuration" }
+                  {
+                    "key": "card",
+                    "label": "Card",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "name",
+                    "label": "Name"
+                  },
+                  {
+                    "key": "connector",
+                    "label": "Connector"
+                  },
+                  {
+                    "key": "summary",
+                    "label": "Configuration"
+                  }
                 ]
               },
               {
@@ -201,21 +553,123 @@
                 "title": "When a row is added, modified or deleted",
                 "description": "Configure the Dataverse trigger parameters.",
                 "fields": [
-                  { "id": "changeType", "label": "Change type", "control": "select", "required": true, "options": [{ "value": "Added", "label": "Added" }, { "value": "Modified", "label": "Modified" }, { "value": "Deleted", "label": "Deleted" }] },
-                  { "id": "tableName", "label": "Table name", "control": "select", "required": true, "options": [{ "value": "Equipment Requests", "label": "Equipment Requests" }, { "value": "Accounts", "label": "Accounts" }, { "value": "Contacts", "label": "Contacts" }] },
-                  { "id": "scope", "label": "Scope", "control": "select", "required": true, "options": [{ "value": "User", "label": "User" }, { "value": "Business Unit", "label": "Business Unit" }, { "value": "Organization", "label": "Organization" }] }
+                  {
+                    "id": "changeType",
+                    "label": "Change type",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Added",
+                        "label": "Added"
+                      },
+                      {
+                        "value": "Modified",
+                        "label": "Modified"
+                      },
+                      {
+                        "value": "Deleted",
+                        "label": "Deleted"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tableName",
+                    "label": "Table name",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Equipment Requests",
+                        "label": "Equipment Requests"
+                      },
+                      {
+                        "value": "Accounts",
+                        "label": "Accounts"
+                      },
+                      {
+                        "value": "Contacts",
+                        "label": "Contacts"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "scope",
+                    "label": "Scope",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "User",
+                        "label": "User"
+                      },
+                      {
+                        "value": "Business Unit",
+                        "label": "Business Unit"
+                      },
+                      {
+                        "value": "Organization",
+                        "label": "Organization"
+                      }
+                    ]
+                  }
                 ],
                 "submit": {
                   "label": "Apply",
                   "checks": [
-                    { "rule": { "type": "equals", "path": "$form.changeType", "value": "Added" }, "message": "Use Change type Added so the flow starts when a new request row is created." },
-                    { "rule": { "type": "equals", "path": "$form.tableName", "value": "Equipment Requests" }, "message": "Select the Equipment Requests Dataverse table." },
-                    { "rule": { "type": "equals", "path": "$form.scope", "value": "Organization" }, "message": "Use Organization scope so requests created by anyone in the environment can start the approval." }
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.changeType",
+                        "value": "Added"
+                      },
+                      "message": "Use Change type Added so the flow starts when a new request row is created."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.tableName",
+                        "value": "Equipment Requests"
+                      },
+                      "message": "Select the Equipment Requests Dataverse table."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.scope",
+                        "value": "Organization"
+                      },
+                      "message": "Use Organization scope so requests created by anyone in the environment can start the approval."
+                    }
                   ],
                   "actions": [
-                    { "type": "set", "path": "flow.trigger", "value": { "changeType": "{{$form.changeType}}", "tableName": "{{$form.tableName}}", "scope": "{{$form.scope}}" } },
-                    { "type": "set", "path": "flowSteps", "value": [{ "order": 1, "card": "Trigger", "name": "When a row is added, modified or deleted", "connector": "Microsoft Dataverse", "summary": "Change type: {{$form.changeType}}; Table name: {{$form.tableName}}; Scope: {{$form.scope}}" }] },
-                    { "type": "notify", "title": "Trigger configured", "message": "The Dataverse trigger parameters were saved." }
+                    {
+                      "type": "set",
+                      "path": "flow.trigger",
+                      "value": {
+                        "changeType": "{{$form.changeType}}",
+                        "tableName": "{{$form.tableName}}",
+                        "scope": "{{$form.scope}}"
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "flowSteps",
+                      "value": [
+                        {
+                          "order": 1,
+                          "card": "Trigger",
+                          "name": "When a row is added, modified or deleted",
+                          "connector": "Microsoft Dataverse",
+                          "summary": "Change type: {{$form.changeType}}; Table name: {{$form.tableName}}; Scope: {{$form.scope}}"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Trigger configured",
+                      "message": "The Dataverse trigger parameters were saved."
+                    }
                   ]
                 }
               }
@@ -227,7 +681,11 @@
             "icon": "ClipboardCheck",
             "url": "/environments/contoso-default/flows/equipment-request-approval/approval",
             "navItem": "my-flows",
-            "breadcrumb": ["Home", "My flows", "Equipment request approval"],
+            "breadcrumb": [
+              "Home",
+              "My flows",
+              "Equipment request approval"
+            ],
             "components": [
               {
                 "kind": "form",
@@ -235,30 +693,114 @@
                 "title": "Approvals - Start and wait for an approval",
                 "description": "Create an approval request and pause the flow until an approver responds.",
                 "fields": [
-                  { "id": "approvalType", "label": "Approval type", "control": "select", "required": true, "options": [{ "value": "Approve/Reject - First to respond", "label": "Approve/Reject - First to respond" }, { "value": "Everyone must approve", "label": "Everyone must approve" }] },
-                  { "id": "title", "label": "Title", "control": "text", "required": true, "defaultValue": "Equipment request: Request title" },
-                  { "id": "assignedTo", "label": "Assigned to", "control": "text", "required": true, "defaultValue": "manager@contoso.example", "pattern": "^[^@\\s]+@contoso\\.example$", "patternMessage": "Use a simulated Contoso email address." },
-                  { "id": "details", "label": "Details", "control": "textarea", "required": true, "defaultValue": "Requester: Requested by\nQuantity: Quantity\nRequest date: Request date" }
+                  {
+                    "id": "approvalType",
+                    "label": "Approval type",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Approve/Reject - First to respond",
+                        "label": "Approve/Reject - First to respond"
+                      },
+                      {
+                        "value": "Everyone must approve",
+                        "label": "Everyone must approve"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "title",
+                    "label": "Title",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Equipment request: Request title"
+                  },
+                  {
+                    "id": "assignedTo",
+                    "label": "Assigned to",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "manager@contoso.example",
+                    "pattern": "^[^@\\s]+@contoso\\.example$",
+                    "patternMessage": "Use a simulated Contoso email address."
+                  },
+                  {
+                    "id": "details",
+                    "label": "Details",
+                    "control": "textarea",
+                    "required": true,
+                    "defaultValue": "Requester: Requested by\nQuantity: Quantity\nRequest date: Request date"
+                  }
                 ],
                 "submit": {
                   "label": "Add",
                   "checks": [
-                    { "rule": { "type": "equals", "path": "$form.approvalType", "value": "Approve/Reject - First to respond" }, "message": "Use Approve/Reject - First to respond. Everyone must approve would wait for every approver, which is not the scenario." },
-                    { "rule": { "type": "equals", "path": "$form.assignedTo", "value": "manager@contoso.example" }, "message": "Assign the approval to manager@contoso.example for this simulated lab." },
-                    { "rule": { "type": "matches", "path": "$form.details", "pattern": "Requester[\\s\\S]*Quantity[\\s\\S]*Request date" }, "message": "Use dynamic content in Details for the requester, quantity, and request date." }
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.approvalType",
+                        "value": "Approve/Reject - First to respond"
+                      },
+                      "message": "Use Approve/Reject - First to respond. Everyone must approve would wait for every approver, which is not the scenario."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.assignedTo",
+                        "value": "manager@contoso.example"
+                      },
+                      "message": "Assign the approval to manager@contoso.example for this simulated lab."
+                    },
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.details",
+                        "pattern": "Requester[\\s\\S]*Quantity[\\s\\S]*Request date"
+                      },
+                      "message": "Use dynamic content in Details for the requester, quantity, and request date."
+                    }
                   ],
                   "actions": [
-                    { "type": "set", "path": "flow.approval", "value": { "approvalType": "{{$form.approvalType}}", "title": "{{$form.title}}", "assignedTo": "{{$form.assignedTo}}", "details": "{{$form.details}}" } },
+                    {
+                      "type": "set",
+                      "path": "flow.approval",
+                      "value": {
+                        "approvalType": "{{$form.approvalType}}",
+                        "title": "{{$form.title}}",
+                        "assignedTo": "{{$form.assignedTo}}",
+                        "details": "{{$form.details}}"
+                      }
+                    },
                     {
                       "type": "set",
                       "path": "flowSteps",
                       "value": [
-                        { "order": 1, "card": "Trigger", "name": "When a row is added, modified or deleted", "connector": "Microsoft Dataverse", "summary": "Change type: Added; Table name: Equipment Requests; Scope: Organization" },
-                        { "order": 2, "card": "Action", "name": "Start and wait for an approval", "connector": "Approvals", "summary": "{{$form.approvalType}} assigned to {{$form.assignedTo}}" }
+                        {
+                          "order": 1,
+                          "card": "Trigger",
+                          "name": "When a row is added, modified or deleted",
+                          "connector": "Microsoft Dataverse",
+                          "summary": "Change type: Added; Table name: Equipment Requests; Scope: Organization"
+                        },
+                        {
+                          "order": 2,
+                          "card": "Action",
+                          "name": "Start and wait for an approval",
+                          "connector": "Approvals",
+                          "summary": "{{$form.approvalType}} assigned to {{$form.assignedTo}}"
+                        }
                       ]
                     },
-                    { "type": "notify", "title": "Approval action added", "message": "The approval waits for the first response." },
-                    { "type": "navigate", "page": "designer" }
+                    {
+                      "type": "notify",
+                      "title": "Approval action added",
+                      "message": "The approval waits for the first response."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "designer"
+                    }
                   ]
                 }
               }
@@ -270,7 +812,11 @@
             "icon": "Split",
             "url": "/environments/contoso-default/flows/equipment-request-approval/condition",
             "navItem": "my-flows",
-            "breadcrumb": ["Home", "My flows", "Equipment request approval"],
+            "breadcrumb": [
+              "Home",
+              "My flows",
+              "Equipment request approval"
+            ],
             "components": [
               {
                 "kind": "form",
@@ -278,34 +824,189 @@
                 "title": "Condition: Outcome is equal to Approve",
                 "description": "Branch the flow based on the approval outcome. Configure both Yes and No branches.",
                 "fields": [
-                  { "id": "outcome", "label": "Outcome value", "control": "select", "required": true, "options": [{ "value": "Approve", "label": "Approve" }, { "value": "Reject", "label": "Reject" }] },
-                  { "id": "yesStatus", "label": "If yes - Update a row Status", "control": "select", "required": true, "options": [{ "value": "Approved", "label": "Approved" }, { "value": "Rejected", "label": "Rejected" }, { "value": "New", "label": "New" }] },
-                  { "id": "yesEmail", "label": "If yes - Send an email (V2) to", "control": "select", "required": true, "options": [{ "value": "Requester", "label": "Requester" }, { "value": "Manager", "label": "Manager" }] },
-                  { "id": "noStatus", "label": "If no - Update a row Status", "control": "select", "required": true, "options": [{ "value": "Rejected", "label": "Rejected" }, { "value": "Approved", "label": "Approved" }, { "value": "New", "label": "New" }] },
-                  { "id": "noEmail", "label": "If no - Send an email (V2) to", "control": "select", "required": true, "options": [{ "value": "Requester", "label": "Requester" }, { "value": "Manager", "label": "Manager" }] }
+                  {
+                    "id": "outcome",
+                    "label": "Outcome value",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Approve",
+                        "label": "Approve"
+                      },
+                      {
+                        "value": "Reject",
+                        "label": "Reject"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "yesStatus",
+                    "label": "If yes - Update a row Status",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Approved",
+                        "label": "Approved"
+                      },
+                      {
+                        "value": "Rejected",
+                        "label": "Rejected"
+                      },
+                      {
+                        "value": "New",
+                        "label": "New"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "yesEmail",
+                    "label": "If yes - Send an email (V2) to",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Requester",
+                        "label": "Requester"
+                      },
+                      {
+                        "value": "Manager",
+                        "label": "Manager"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "noStatus",
+                    "label": "If no - Update a row Status",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Rejected",
+                        "label": "Rejected"
+                      },
+                      {
+                        "value": "Approved",
+                        "label": "Approved"
+                      },
+                      {
+                        "value": "New",
+                        "label": "New"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "noEmail",
+                    "label": "If no - Send an email (V2) to",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Requester",
+                        "label": "Requester"
+                      },
+                      {
+                        "value": "Manager",
+                        "label": "Manager"
+                      }
+                    ]
+                  }
                 ],
                 "submit": {
                   "label": "Add condition",
                   "checks": [
-                    { "rule": { "type": "equals", "path": "$form.outcome", "value": "Approve" }, "message": "The condition should compare the approval Outcome to Approve." },
-                    { "rule": { "type": "equals", "path": "$form.yesStatus", "value": "Approved" }, "message": "In the If yes branch, update the Dataverse row Status to Approved." },
-                    { "rule": { "type": "equals", "path": "$form.noStatus", "value": "Rejected" }, "message": "In the If no branch, update the Dataverse row Status to Rejected." },
-                    { "rule": { "type": "equals", "path": "$form.yesEmail", "value": "Requester" }, "message": "Send the approval email to the requester in the If yes branch." },
-                    { "rule": { "type": "equals", "path": "$form.noEmail", "value": "Requester" }, "message": "Send the rejection email to the requester in the If no branch." }
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.outcome",
+                        "value": "Approve"
+                      },
+                      "message": "The condition should compare the approval Outcome to Approve."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.yesStatus",
+                        "value": "Approved"
+                      },
+                      "message": "In the If yes branch, update the Dataverse row Status to Approved."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.noStatus",
+                        "value": "Rejected"
+                      },
+                      "message": "In the If no branch, update the Dataverse row Status to Rejected."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.yesEmail",
+                        "value": "Requester"
+                      },
+                      "message": "Send the approval email to the requester in the If yes branch."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.noEmail",
+                        "value": "Requester"
+                      },
+                      "message": "Send the rejection email to the requester in the If no branch."
+                    }
                   ],
                   "actions": [
-                    { "type": "set", "path": "flow.condition", "value": { "left": "Outcome", "operator": "is equal to", "outcome": "{{$form.outcome}}", "yesStatus": "{{$form.yesStatus}}", "yesEmail": "{{$form.yesEmail}}", "noStatus": "{{$form.noStatus}}", "noEmail": "{{$form.noEmail}}" } },
+                    {
+                      "type": "set",
+                      "path": "flow.condition",
+                      "value": {
+                        "left": "Outcome",
+                        "operator": "is equal to",
+                        "outcome": "{{$form.outcome}}",
+                        "yesStatus": "{{$form.yesStatus}}",
+                        "yesEmail": "{{$form.yesEmail}}",
+                        "noStatus": "{{$form.noStatus}}",
+                        "noEmail": "{{$form.noEmail}}"
+                      }
+                    },
                     {
                       "type": "set",
                       "path": "flowSteps",
                       "value": [
-                        { "order": 1, "card": "Trigger", "name": "When a row is added, modified or deleted", "connector": "Microsoft Dataverse", "summary": "Change type: Added; Table name: Equipment Requests; Scope: Organization" },
-                        { "order": 2, "card": "Action", "name": "Start and wait for an approval", "connector": "Approvals", "summary": "Approve/Reject - First to respond assigned to manager@contoso.example" },
-                        { "order": 3, "card": "Condition", "name": "Outcome is equal to Approve", "connector": "Control", "summary": "If yes: Update a row to Approved and Send an email (V2). If no: Update a row to Rejected and Send an email (V2)." }
+                        {
+                          "order": 1,
+                          "card": "Trigger",
+                          "name": "When a row is added, modified or deleted",
+                          "connector": "Microsoft Dataverse",
+                          "summary": "Change type: Added; Table name: Equipment Requests; Scope: Organization"
+                        },
+                        {
+                          "order": 2,
+                          "card": "Action",
+                          "name": "Start and wait for an approval",
+                          "connector": "Approvals",
+                          "summary": "Approve/Reject - First to respond assigned to manager@contoso.example"
+                        },
+                        {
+                          "order": 3,
+                          "card": "Condition",
+                          "name": "Outcome is equal to Approve",
+                          "connector": "Control",
+                          "summary": "If yes: Update a row to Approved and Send an email (V2). If no: Update a row to Rejected and Send an email (V2)."
+                        }
                       ]
                     },
-                    { "type": "notify", "title": "Condition added", "message": "Both condition branches update the row and email the requester." },
-                    { "type": "navigate", "page": "designer" }
+                    {
+                      "type": "notify",
+                      "title": "Condition added",
+                      "message": "Both condition branches update the row and email the requester."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "designer"
+                    }
                   ]
                 }
               }
@@ -318,10 +1019,60 @@
             "icon": "History",
             "url": "/environments/contoso-default/flows/equipment-request-approval/runs",
             "navItem": "my-flows",
-            "breadcrumb": ["Home", "My flows", "Equipment request approval"],
+            "breadcrumb": [
+              "Home",
+              "My flows",
+              "Equipment request approval"
+            ],
             "components": [
-              { "kind": "table", "id": "run-history-table", "title": "Runs", "source": "runHistory", "rowKey": "run", "columns": [{ "key": "run", "label": "Run" }, { "key": "status", "label": "Status", "format": "status" }, { "key": "trigger", "label": "Trigger" }, { "key": "approval", "label": "Approval response" }] },
-              { "kind": "table", "id": "requests-table", "title": "Equipment Requests", "source": "equipmentRequests", "rowKey": "title", "columns": [{ "key": "title", "label": "Request title" }, { "key": "status", "label": "Status", "format": "status" }, { "key": "requestedBy", "label": "Requested by" }] }
+              {
+                "kind": "table",
+                "id": "run-history-table",
+                "title": "Runs",
+                "source": "runHistory",
+                "rowKey": "run",
+                "columns": [
+                  {
+                    "key": "run",
+                    "label": "Run"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "trigger",
+                    "label": "Trigger"
+                  },
+                  {
+                    "key": "approval",
+                    "label": "Approval response"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "requests-table",
+                "title": "Equipment Requests",
+                "source": "equipmentRequests",
+                "rowKey": "title",
+                "columns": [
+                  {
+                    "key": "title",
+                    "label": "Request title"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "requestedBy",
+                    "label": "Requested by"
+                  }
+                ]
+              }
             ]
           },
           {
@@ -329,18 +1080,55 @@
             "title": "Approvals",
             "icon": "ClipboardCheck",
             "url": "/environments/contoso-default/approvals",
-            "breadcrumb": ["Home"],
+            "breadcrumb": [
+              "Home"
+            ],
             "components": [
-              { "kind": "table", "id": "approval-center", "title": "Approval requests", "source": "approvalCenter", "rowKey": "title", "emptyText": "No pending approvals.", "columns": [{ "key": "title", "label": "Title" }, { "key": "assignedTo", "label": "Assigned to" }, { "key": "status", "label": "Status", "format": "status" }] }
+              {
+                "kind": "table",
+                "id": "approval-center",
+                "title": "Approval requests",
+                "source": "approvalCenter",
+                "rowKey": "title",
+                "emptyText": "No pending approvals.",
+                "columns": [
+                  {
+                    "key": "title",
+                    "label": "Title"
+                  },
+                  {
+                    "key": "assignedTo",
+                    "label": "Assigned to"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ]
+              }
             ]
           }
         ],
         "initialState": {
-          "flowsCatalog": [{ "name": "Notify facilities digest", "type": "Scheduled cloud flow", "status": "On" }],
+          "flowsCatalog": [
+            {
+              "name": "Notify facilities digest",
+              "type": "Scheduled cloud flow",
+              "status": "On"
+            }
+          ],
           "flow": {},
           "flowSteps": [],
           "runHistory": [],
-          "equipmentRequests": [{ "title": "Laptop dock for lab room", "status": "New", "requestedBy": "Aylin", "quantity": 3 }],
+          "equipmentRequests": [
+            {
+              "title": "Laptop dock for lab room",
+              "status": "New",
+              "requestedBy": "Aylin",
+              "quantity": 3
+            }
+          ],
           "approvalCenter": []
         }
       },
@@ -353,7 +1141,16 @@
           "explanation": "Automated cloud flows are event-driven. Instant flows start from a manual action; scheduled flows start from a clock.",
           "targetId": "flow-types",
           "rules": [
-            { "key": "automated-flow", "description": "An automated Dataverse-triggered cloud flow exists", "rule": { "type": "equals", "path": "flow.type", "value": "Automated cloud flow" }, "failureFeedback": "Create an Automated cloud flow, not an instant or scheduled flow." }
+            {
+              "key": "automated-flow",
+              "description": "An automated Dataverse-triggered cloud flow exists",
+              "rule": {
+                "type": "equals",
+                "path": "flow.type",
+                "value": "Automated cloud flow"
+              },
+              "failureFeedback": "Create an Automated cloud flow, not an instant or scheduled flow."
+            }
           ]
         },
         {
@@ -364,7 +1161,31 @@
           "explanation": "A trigger defines what event starts the flow. The Dataverse connector listens for rows in a selected table and scope.",
           "targetId": "trigger-parameters",
           "rules": [
-            { "key": "trigger-configured", "description": "Trigger uses Added, Equipment Requests and Organization", "rule": { "type": "allOf", "rules": [{ "type": "equals", "path": "flow.trigger.changeType", "value": "Added" }, { "type": "equals", "path": "flow.trigger.tableName", "value": "Equipment Requests" }, { "type": "equals", "path": "flow.trigger.scope", "value": "Organization" }] }, "failureFeedback": "Set Change type Added, Table name Equipment Requests, and Scope Organization." }
+            {
+              "key": "trigger-configured",
+              "description": "Trigger uses Added, Equipment Requests and Organization",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "equals",
+                    "path": "flow.trigger.changeType",
+                    "value": "Added"
+                  },
+                  {
+                    "type": "equals",
+                    "path": "flow.trigger.tableName",
+                    "value": "Equipment Requests"
+                  },
+                  {
+                    "type": "equals",
+                    "path": "flow.trigger.scope",
+                    "value": "Organization"
+                  }
+                ]
+              },
+              "failureFeedback": "Set Change type Added, Table name Equipment Requests, and Scope Organization."
+            }
           ]
         },
         {
@@ -375,7 +1196,16 @@
           "explanation": "The Approvals connector creates an approval request and waits until the required response condition is met.",
           "targetId": "add-approval",
           "rules": [
-            { "key": "approval-configured", "description": "Approval action is first responder and assigned to the manager", "rule": { "type": "equals", "path": "flow.approval.approvalType", "value": "Approve/Reject - First to respond" }, "failureFeedback": "Add Start and wait for an approval with Approve/Reject - First to respond." }
+            {
+              "key": "approval-configured",
+              "description": "Approval action is first responder and assigned to the manager",
+              "rule": {
+                "type": "equals",
+                "path": "flow.approval.approvalType",
+                "value": "Approve/Reject - First to respond"
+              },
+              "failureFeedback": "Add Start and wait for an approval with Approve/Reject - First to respond."
+            }
           ]
         },
         {
@@ -386,7 +1216,41 @@
           "explanation": "Conditions split a flow into branches so the automation can do different work for approved and rejected outcomes.",
           "targetId": "add-condition",
           "rules": [
-            { "key": "condition-configured", "description": "Condition branches update status and email the requester", "rule": { "type": "allOf", "rules": [{ "type": "equals", "path": "flow.condition.outcome", "value": "Approve" }, { "type": "equals", "path": "flow.condition.yesStatus", "value": "Approved" }, { "type": "equals", "path": "flow.condition.noStatus", "value": "Rejected" }, { "type": "equals", "path": "flow.condition.yesEmail", "value": "Requester" }, { "type": "equals", "path": "flow.condition.noEmail", "value": "Requester" }] }, "failureFeedback": "Configure Outcome equals Approve, then update Approved/Rejected status and email the requester in both branches." }
+            {
+              "key": "condition-configured",
+              "description": "Condition branches update status and email the requester",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "equals",
+                    "path": "flow.condition.outcome",
+                    "value": "Approve"
+                  },
+                  {
+                    "type": "equals",
+                    "path": "flow.condition.yesStatus",
+                    "value": "Approved"
+                  },
+                  {
+                    "type": "equals",
+                    "path": "flow.condition.noStatus",
+                    "value": "Rejected"
+                  },
+                  {
+                    "type": "equals",
+                    "path": "flow.condition.yesEmail",
+                    "value": "Requester"
+                  },
+                  {
+                    "type": "equals",
+                    "path": "flow.condition.noEmail",
+                    "value": "Requester"
+                  }
+                ]
+              },
+              "failureFeedback": "Configure Outcome equals Approve, then update Approved/Rejected status and email the requester in both branches."
+            }
           ]
         },
         {
@@ -397,8 +1261,29 @@
           "explanation": "Flow checker catches configuration errors before a run. Run history confirms whether each trigger and action succeeded.",
           "targetId": "flow-save",
           "rules": [
-            { "key": "checker-clean", "description": "Flow checker reports no errors", "rule": { "type": "equals", "path": "flow.checker", "value": "No errors" }, "failureFeedback": "Run Flow checker after all required cards are configured." },
-            { "key": "run-succeeded", "description": "Manual test run succeeded", "rule": { "type": "arrayContains", "path": "runHistory", "match": { "status": "Succeeded", "approval": "Approve" } }, "failureFeedback": "Use Test after saving and checking the flow; the run history should show Succeeded." }
+            {
+              "key": "checker-clean",
+              "description": "Flow checker reports no errors",
+              "rule": {
+                "type": "equals",
+                "path": "flow.checker",
+                "value": "No errors"
+              },
+              "failureFeedback": "Run Flow checker after all required cards are configured."
+            },
+            {
+              "key": "run-succeeded",
+              "description": "Manual test run succeeded",
+              "rule": {
+                "type": "arrayContains",
+                "path": "runHistory",
+                "match": {
+                  "status": "Succeeded",
+                  "approval": "Approve"
+                }
+              },
+              "failureFeedback": "Use Test after saving and checking the flow; the run history should show Succeeded."
+            }
           ]
         }
       ],
@@ -406,14 +1291,82 @@
         {
           "key": "correct-trigger",
           "description": "The flow uses the correct Dataverse event trigger",
-          "rule": { "type": "allOf", "rules": [{ "type": "equals", "path": "flow.type", "value": "Automated cloud flow" }, { "type": "equals", "path": "flow.connector", "value": "Microsoft Dataverse" }, { "type": "equals", "path": "flow.trigger.changeType", "value": "Added" }, { "type": "equals", "path": "flow.trigger.tableName", "value": "Equipment Requests" }, { "type": "equals", "path": "flow.trigger.scope", "value": "Organization" }] },
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "equals",
+                "path": "flow.type",
+                "value": "Automated cloud flow"
+              },
+              {
+                "type": "equals",
+                "path": "flow.connector",
+                "value": "Microsoft Dataverse"
+              },
+              {
+                "type": "equals",
+                "path": "flow.trigger.changeType",
+                "value": "Added"
+              },
+              {
+                "type": "equals",
+                "path": "flow.trigger.tableName",
+                "value": "Equipment Requests"
+              },
+              {
+                "type": "equals",
+                "path": "flow.trigger.scope",
+                "value": "Organization"
+              }
+            ]
+          },
           "successFeedback": "The flow starts from the correct Dataverse row-created event.",
           "failureFeedback": "Use an automated Dataverse trigger with Change type Added, Table name Equipment Requests, and Scope Organization."
         },
         {
           "key": "approval-and-branches",
           "description": "The approval and both condition branches match the scenario",
-          "rule": { "type": "allOf", "rules": [{ "type": "equals", "path": "flow.approval.approvalType", "value": "Approve/Reject - First to respond" }, { "type": "equals", "path": "flow.approval.assignedTo", "value": "manager@contoso.example" }, { "type": "equals", "path": "flow.condition.outcome", "value": "Approve" }, { "type": "equals", "path": "flow.condition.yesStatus", "value": "Approved" }, { "type": "equals", "path": "flow.condition.noStatus", "value": "Rejected" }, { "type": "equals", "path": "flow.condition.yesEmail", "value": "Requester" }, { "type": "equals", "path": "flow.condition.noEmail", "value": "Requester" }] },
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "equals",
+                "path": "flow.approval.approvalType",
+                "value": "Approve/Reject - First to respond"
+              },
+              {
+                "type": "equals",
+                "path": "flow.approval.assignedTo",
+                "value": "manager@contoso.example"
+              },
+              {
+                "type": "equals",
+                "path": "flow.condition.outcome",
+                "value": "Approve"
+              },
+              {
+                "type": "equals",
+                "path": "flow.condition.yesStatus",
+                "value": "Approved"
+              },
+              {
+                "type": "equals",
+                "path": "flow.condition.noStatus",
+                "value": "Rejected"
+              },
+              {
+                "type": "equals",
+                "path": "flow.condition.yesEmail",
+                "value": "Requester"
+              },
+              {
+                "type": "equals",
+                "path": "flow.condition.noEmail",
+                "value": "Requester"
+              }
+            ]
+          },
           "successFeedback": "The approval responds to the first decision and both branches notify the requester.",
           "failureFeedback": "Use first responder approval and configure both Approved and Rejected branches."
         }

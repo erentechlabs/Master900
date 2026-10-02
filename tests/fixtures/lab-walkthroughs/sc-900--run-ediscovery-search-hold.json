@@ -1,0 +1,69 @@
+{
+  "certification": "SC-900",
+  "lab": "run-ediscovery-search-hold",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "cases"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "case-form",
+      "values": {
+        "name": "HR-2026-payroll-review",
+        "caseType": "Premium",
+        "members": [
+          "Alex Wilber"
+        ],
+        "description": "Fictional HR investigation into payroll-adjustment communications."
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "add-sources",
+      "values": {
+        "custodians": [
+          "Mira Ileri",
+          "Adele Vance"
+        ],
+        "site": "Payroll Review Team",
+        "includeMailbox": true,
+        "includeOneDrive": true
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "create-search",
+      "values": {
+        "name": "Payroll adjustment communications",
+        "query": "(\"payroll adjustment\" OR bonus OR compensation)",
+        "dateRange": "2026-09-01 to 2026-10-02",
+        "locations": "Case data sources",
+        "reviewed": true
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "create-hold",
+      "values": {
+        "name": "HR payroll preservation hold",
+        "scope": "Selected case data sources",
+        "query": "(\"payroll adjustment\" OR bonus OR compensation)",
+        "preserveTeams": true
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "audit"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "audit-search-form",
+      "values": {
+        "activity": "FileAccessed",
+        "user": "Mira Ileri",
+        "dateRange": "2026-09-01 to 2026-10-02"
+      }
+    }
+  ]
+}

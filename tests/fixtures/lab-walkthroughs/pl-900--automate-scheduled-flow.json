@@ -1,0 +1,19 @@
+{
+  "certification": "PL-900",
+  "lab": "automate-scheduled-flow",
+  "note": "Create and test scheduled Dataverse reminder flow.",
+  "events": [
+    { "type": "navigate", "page": "create" },
+    { "type": "click", "componentId": "flow-types", "itemId": "scheduled" },
+    { "type": "submitForm", "componentId": "scheduled-flow-form", "values": { "name": "Daily overdue follow-up summary", "flowType": "Scheduled cloud flow", "interval": 1, "frequency": "Day", "startTime": "2026-10-03T07:00:00Z" } },
+    { "type": "click", "componentId": "add-dataverse" },
+    { "type": "submitForm", "componentId": "dataverse-action-form", "values": { "connector": "Microsoft Dataverse", "action": "List rows", "table": "Task Follow-ups", "filterRows": "status eq 'Overdue'" } },
+    { "type": "click", "componentId": "add-condition" },
+    { "type": "submitForm", "componentId": "condition-form", "values": { "expression": "length(body('List_rows')?['value']) is greater than 0", "yesBranch": "Send summary", "noBranch": "Do nothing" } },
+    { "type": "click", "componentId": "add-summary" },
+    { "type": "submitForm", "componentId": "summary-action-form", "values": { "connector": "Microsoft Teams", "message": "Overdue follow-ups: @{length(body('List_rows')?['value'])}. Review the Task Follow-ups table." } },
+    { "type": "click", "componentId": "save-flow" },
+    { "type": "click", "componentId": "test-flow" },
+    { "type": "click", "componentId": "run-test" }
+  ]
+}

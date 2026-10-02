@@ -1,0 +1,337 @@
+{
+  "terms": [
+    {
+      "slug": "structured-data",
+      "term": "Structured data",
+      "definition": "Data that follows a fixed schema, commonly rows and columns with consistent fields for each record.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Core data concepts",
+        "useCases": [
+          "DP-900 fundamentals study",
+          "Scenario classification",
+          "Data workload discussions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used in core data scenarios"
+        ]
+      },
+      "source": {
+        "title": "Identify data formats",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/2-data-formats",
+        "kind": "LEARN_MODULE"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Yapılandırılmış veri",
+          "definition": "Her kayıt için tutarlı alanlara sahip, genellikle satır ve sütunlarla gösterilen sabit şemalı veri.",
+          "useCases": [
+            "DP-900 temel çalışma",
+            "Senaryo sınıflandırması",
+            "Veri iş yükü tartışmaları"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Temel veri senaryolarında kullanılır"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "semi-structured-data",
+      "term": "Semi-structured data",
+      "definition": "Data that includes labels or hierarchy, such as JSON or XML, while allowing fields to vary between records.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Core data concepts",
+        "useCases": [
+          "DP-900 fundamentals study",
+          "Scenario classification",
+          "Data workload discussions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used in core data scenarios"
+        ]
+      },
+      "source": {
+        "title": "Identify data formats",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/2-data-formats",
+        "kind": "LEARN_MODULE"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Yarı yapılandırılmış veri",
+          "definition": "JSON veya XML gibi etiketler ya da hiyerarşi içeren, kayıtlar arasında alanların değişmesine izin veren veri.",
+          "useCases": [
+            "DP-900 temel çalışma",
+            "Senaryo sınıflandırması",
+            "Veri iş yükü tartışmaları"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Temel veri senaryolarında kullanılır"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "unstructured-data",
+      "term": "Unstructured data",
+      "definition": "Data such as documents, images, audio, and video that does not expose a consistent row, column, or field schema by itself.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Core data concepts",
+        "useCases": [
+          "DP-900 fundamentals study",
+          "Scenario classification",
+          "Data workload discussions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used in core data scenarios"
+        ]
+      },
+      "source": {
+        "title": "Identify data formats",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/2-data-formats",
+        "kind": "LEARN_MODULE"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Yapılandırılmamış veri",
+          "definition": "Tek başına tutarlı satır, sütun veya alan şeması sunmayan belge, görüntü, ses ve video gibi veri.",
+          "useCases": [
+            "DP-900 temel çalışma",
+            "Senaryo sınıflandırması",
+            "Veri iş yükü tartışmaları"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Temel veri senaryolarında kullanılır"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "parquet",
+      "term": "Parquet",
+      "definition": "An optimized columnar file format commonly used in data lakes and lakehouses for efficient analytical storage and querying.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Core data concepts",
+        "useCases": [
+          "DP-900 fundamentals study",
+          "Scenario classification",
+          "Data workload discussions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used in core data scenarios"
+        ]
+      },
+      "source": {
+        "title": "Explore file storage",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/3-file-storage",
+        "kind": "LEARN_MODULE"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Veri gölleri ve lakehouse ortamlarında verimli analitik depolama ve sorgulama için yaygın kullanılan optimize edilmiş sütun odaklı dosya biçimi.",
+          "useCases": [
+            "DP-900 temel çalışma",
+            "Senaryo sınıflandırması",
+            "Veri iş yükü tartışmaları"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Temel veri senaryolarında kullanılır"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "oltp",
+      "term": "OLTP",
+      "definition": "Online Transactional Processing; a workload pattern optimized for reliable, fast operational transactions such as orders and payments.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Core data concepts",
+        "useCases": [
+          "DP-900 fundamentals study",
+          "Scenario classification",
+          "Data workload discussions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used in core data scenarios"
+        ]
+      },
+      "source": {
+        "title": "Explore transactional data processing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/5-transactional-data-processing",
+        "kind": "LEARN_MODULE"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Sipariş ve ödeme gibi güvenilir, hızlı operasyonel işlemler için optimize edilmiş Online Transactional Processing iş yükü modeli.",
+          "useCases": [
+            "DP-900 temel çalışma",
+            "Senaryo sınıflandırması",
+            "Veri iş yükü tartışmaları"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Temel veri senaryolarında kullanılır"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "olap",
+      "term": "OLAP",
+      "definition": "Online Analytical Processing; a workload pattern optimized for aggregations, summaries, and multidimensional analysis over historical data.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Core data concepts",
+        "useCases": [
+          "DP-900 fundamentals study",
+          "Scenario classification",
+          "Data workload discussions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used in core data scenarios"
+        ]
+      },
+      "source": {
+        "title": "Explore analytical data processing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/6-analytical-processing",
+        "kind": "LEARN_MODULE"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Geçmiş veri üzerinde toplama, özetleme ve çok boyutlu analiz için optimize edilmiş Online Analytical Processing iş yükü modeli.",
+          "useCases": [
+            "DP-900 temel çalışma",
+            "Senaryo sınıflandırması",
+            "Veri iş yükü tartışmaları"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Temel veri senaryolarında kullanılır"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "data-engineer",
+      "term": "Data engineer",
+      "definition": "A data professional who designs, builds, and monitors ingestion, transformation, and storage processes that prepare data for analytics.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Core data concepts",
+        "useCases": [
+          "DP-900 fundamentals study",
+          "Scenario classification",
+          "Data workload discussions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used in core data scenarios"
+        ]
+      },
+      "source": {
+        "title": "Explore job roles in the world of data",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/2-explore-job-roles",
+        "kind": "LEARN_MODULE"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Veri mühendisi",
+          "definition": "Veriyi analiz için hazırlayan alma, dönüştürme ve depolama süreçlerini tasarlayan, oluşturan ve izleyen veri uzmanı.",
+          "useCases": [
+            "DP-900 temel çalışma",
+            "Senaryo sınıflandırması",
+            "Veri iş yükü tartışmaları"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Temel veri senaryolarında kullanılır"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "data-analyst",
+      "term": "Data analyst",
+      "definition": "A data professional who explores data, creates analytical models, builds reports and visualizations, and communicates insights for business decisions.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Core data concepts",
+        "useCases": [
+          "DP-900 fundamentals study",
+          "Scenario classification",
+          "Data workload discussions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used in core data scenarios"
+        ]
+      },
+      "source": {
+        "title": "Explore job roles in the world of data",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/2-explore-job-roles",
+        "kind": "LEARN_MODULE"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Veri analisti",
+          "definition": "Veriyi inceleyen, analitik modeller oluşturan, rapor ve görselleştirmeler hazırlayan ve iş kararları için içgörüleri aktaran veri uzmanı.",
+          "useCases": [
+            "DP-900 temel çalışma",
+            "Senaryo sınıflandırması",
+            "Veri iş yükü tartışmaları"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Temel veri senaryolarında kullanılır"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    }
+  ]
+}

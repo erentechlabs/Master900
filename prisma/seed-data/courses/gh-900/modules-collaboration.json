@@ -1,0 +1,797 @@
+{
+  "domainKey": "collaboration",
+  "modules": [
+    {
+      "slug": "gh900-collaboration-workflows",
+      "title": "Collaboration workflows",
+      "summary": "Use issues, pull requests, discussions, notifications, wikis, gists, and GitHub flow to collaborate effectively.",
+      "lessons": [
+        {
+          "slug": "gh900-collaboration-tools",
+          "title": "Collaborate with issues, pull requests, reviews, and discussions",
+          "objectiveCode": "3.1",
+          "estimatedMinutes": 13,
+          "summary": "Use issues, pull requests, code review, discussions, notifications, wikis, and gists for the right collaboration job.",
+          "learningObjectives": [
+            "Describe how issues, pull requests, and discussions support collaboration",
+            "Explain pull request review and issue linking at a foundational level",
+            "Recognize when notifications, wikis, and gists help workflow management"
+          ],
+          "explanation": "Collaboration on GitHub is a set of lanes, not one giant comment thread. **Issues** track work, bugs, ideas, and decisions that need follow-up. **Pull requests** propose changes from one branch to another, creating a focused place for discussion, review, checks, and merge decisions. **Discussions** are better for open-ended questions, announcements, and community conversation.\n\nA strong pull request tells reviewers what changed and why. Reviewers can comment on specific lines, approve, request changes, or continue the discussion. Pull requests can link to issues so everyone sees that work is in progress, and some keywords can close an issue when the pull request merges.\n\nNotifications keep collaboration manageable. Watching every repository can create noise, so teams choose subscriptions intentionally: participating conversations, releases, issues, pull requests, discussions, or all activity as needed.\n\nDocumentation and sharing tools round out collaboration. A **wiki** supports longer project documentation. A **gist** shares snippets or notes quickly. GitHub Pages is also a documentation and publishing option, but this slice focuses on repositories, issues, pull requests, discussions, notifications, wikis, and gists. The **Plan repository work with Issues, milestones, and Projects** lab covers more issue planning; the **Fork an open-source repository and contribute with a pull request** lab explores community contribution without making forks part of this lesson's core scope.",
+          "terminology": [
+            {
+              "term": "Issue",
+              "definition": "A trackable item for work, bugs, ideas, or discussion."
+            },
+            {
+              "term": "Pull request",
+              "definition": "A proposal to merge changes from one branch into another."
+            },
+            {
+              "term": "Code review",
+              "definition": "Feedback on proposed changes, often inside a pull request."
+            },
+            {
+              "term": "Discussion",
+              "definition": "An open-ended conversation space."
+            },
+            {
+              "term": "Notification",
+              "definition": "An update for activity you are subscribed to."
+            }
+          ],
+          "businessScenario": "Alpine Ski House has a bug report, a proposed README fix, and a broad question about API naming. The team opens an issue for the bug, a pull request for the README change, and a discussion for the naming question.",
+          "technicalExample": "A pull request body can link work clearly:\n\n```markdown\n## Summary\nUpdates checkout error message.\n\nCloses #128\n\n## Review notes\nPlease check the wording in `src/messages.ts`.\n```",
+          "misconception": {
+            "myth": "Every conversation should be an issue.",
+            "reality": "Use issues for trackable work, pull requests for proposed changes, and discussions for open-ended conversation."
+          },
+          "examTakeaway": "Scenario clues matter: bug or task means issue; proposed branch changes mean pull request; broad question means discussion; updates overload means notification settings.",
+          "recap": "GitHub collaboration works best when teams choose the right lane: issues for work, pull requests for changes and review, discussions for open conversation, and notifications for awareness.",
+          "simplerExplanation": "Think of issues as tickets, pull requests as inspected packages waiting at the loading dock, discussions as the town hall, and notifications as your personal inbox.",
+          "anotherExample": "A maintainer creates a wiki page for installation steps, then shares a short troubleshooting command as a secret gist with a teammate.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Collaboration lanes",
+                "columns": [
+                  {
+                    "title": "Issue",
+                    "points": [
+                      "Track a task, bug, or idea",
+                      "Can use labels, assignments, templates, filters"
+                    ]
+                  },
+                  {
+                    "title": "Pull request",
+                    "points": [
+                      "Discuss and review proposed changes",
+                      "Can link to issues and show diffs"
+                    ]
+                  },
+                  {
+                    "title": "Discussion",
+                    "points": [
+                      "Open-ended Q&A or announcements",
+                      "Not necessarily a task to complete"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Pick the collaboration tool",
+                "instructions": "Choose the best tool for each prompt.",
+                "items": [
+                  {
+                    "prompt": "Report a reproducible login bug.",
+                    "answer": "Issue."
+                  },
+                  {
+                    "prompt": "Ask whether the team prefers one API name or another.",
+                    "answer": "Discussion."
+                  },
+                  {
+                    "prompt": "Review changed lines before merging.",
+                    "answer": "Pull request review."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Issue",
+              "back": "Tracks work, ideas, feedback, or bugs."
+            },
+            {
+              "front": "Pull request",
+              "back": "Proposes and discusses changes before merge."
+            },
+            {
+              "front": "Code review",
+              "back": "Reviewers comment, approve, or request changes on a PR."
+            },
+            {
+              "front": "Discussion",
+              "back": "Open-ended conversation for questions and announcements."
+            },
+            {
+              "front": "Gist",
+              "back": "A quick way to share code snippets or notes."
+            }
+          ],
+          "sources": [
+            {
+              "title": "About issues",
+              "url": "https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/about-issues",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "About pull requests",
+              "url": "https://docs.github.com/en/pull-requests/get-started/about-pull-requests",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "About discussions",
+              "url": "https://docs.github.com/en/discussions/collaborating-with-your-community-using-discussions/about-discussions",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "gh900-col-001",
+              "type": "CASE_STUDY",
+              "domainKey": "collaboration",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "scenario": "Alpine Ski House has three collaboration needs: track a bug, review a README change, and ask an open-ended question about naming.",
+              "stem": "For each statement, select **Yes** if the tool is appropriate. Otherwise, select **No**.",
+              "explanation": "Issues, pull requests, and discussions serve different collaboration needs.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Use an issue to track the reproducible bug.",
+                    "answer": true,
+                    "explanation": "Issues are appropriate for bugs and tasks."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Use a pull request to review the README branch before merge.",
+                    "answer": true,
+                    "explanation": "Pull requests are for proposed branch changes and review."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Use a pull request with no file changes as the main place for a broad naming debate.",
+                    "answer": false,
+                    "explanation": "A discussion is a better fit for open-ended conversation."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "About issues",
+                  "url": "https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/about-issues",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About pull requests",
+                  "url": "https://docs.github.com/en/pull-requests/get-started/about-pull-requests",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About discussions",
+                  "url": "https://docs.github.com/en/discussions/collaborating-with-your-community-using-discussions/about-discussions",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-collaboration-tools"
+            },
+            {
+              "ref": "gh900-col-002",
+              "type": "MATCHING",
+              "domainKey": "collaboration",
+              "objectiveCode": "3.1",
+              "difficulty": "EASY",
+              "stem": "Match the collaboration tool to the best use.",
+              "explanation": "Each tool supports a different kind of collaboration.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "issue",
+                    "text": "Track a bug or task"
+                  },
+                  {
+                    "id": "pr",
+                    "text": "Review proposed file changes"
+                  },
+                  {
+                    "id": "discussion",
+                    "text": "Ask an open-ended community question"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Issue"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Pull request"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Discussion"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Release"
+                  }
+                ],
+                "pairs": {
+                  "issue": "a1",
+                  "pr": "a2",
+                  "discussion": "a3"
+                },
+                "explanations": {
+                  "issue": "Issues track bugs and tasks.",
+                  "pr": "Pull requests review proposed changes.",
+                  "discussion": "Discussions support open-ended conversation."
+                }
+              },
+              "sources": [
+                {
+                  "title": "About issues",
+                  "url": "https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/about-issues",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About pull requests",
+                  "url": "https://docs.github.com/en/pull-requests/get-started/about-pull-requests",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About discussions",
+                  "url": "https://docs.github.com/en/discussions/collaborating-with-your-community-using-discussions/about-discussions",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-collaboration-tools"
+            },
+            {
+              "ref": "gh900-col-003",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "collaboration",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** actions help reviewers understand and manage a pull request?",
+              "explanation": "Clear summaries and linked issues give reviewers context and traceability.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Explain what changed and why in the pull request body.",
+                  "correct": true,
+                  "explanation": "Context helps reviewers focus."
+                },
+                {
+                  "key": "B",
+                  "text": "Link the related issue when the PR addresses tracked work.",
+                  "correct": true,
+                  "explanation": "Issue linking shows relationship and status."
+                },
+                {
+                  "key": "C",
+                  "text": "Move all review comments to a private spreadsheet.",
+                  "correct": false,
+                  "explanation": "Review comments belong near the code and PR discussion."
+                },
+                {
+                  "key": "D",
+                  "text": "Disable all notifications for participants.",
+                  "correct": false,
+                  "explanation": "Participants need relevant updates."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "About pull requests",
+                  "url": "https://docs.github.com/en/pull-requests/get-started/about-pull-requests",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Creating a pull request",
+                  "url": "https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-collaboration-tools",
+              "selectCount": 2,
+              "shuffleOptions": true
+            },
+            {
+              "ref": "gh900-col-004",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "collaboration",
+              "objectiveCode": "3.1",
+              "difficulty": "EASY",
+              "stem": "Which GitHub feature is best for long-form repository documentation that can grow beyond a README?",
+              "explanation": "A wiki hosts longer documentation for a repository.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Wiki",
+                  "correct": true,
+                  "explanation": "Wikis are for long-form project documentation."
+                },
+                {
+                  "key": "B",
+                  "text": "Star",
+                  "correct": false,
+                  "explanation": "Stars save repositories."
+                },
+                {
+                  "key": "C",
+                  "text": "Branch protection rule",
+                  "correct": false,
+                  "explanation": "Branch protection controls changes to branches."
+                },
+                {
+                  "key": "D",
+                  "text": "Commit message only",
+                  "correct": false,
+                  "explanation": "Commit messages are history notes, not full documentation."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "About wikis",
+                  "url": "https://docs.github.com/en/communities/documenting-your-project-with-wikis/about-wikis",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-collaboration-tools",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "gh900-col-005",
+              "type": "UI_SIMULATION",
+              "domainKey": "collaboration",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Configure the simulated notification settings for a maintainer who only wants release alerts from this repository.",
+              "explanation": "Custom watch settings can subscribe to selected events such as releases.",
+              "uiSimulation": {
+                "title": "Repository watch settings (simulated)",
+                "description": "This simplified screen represents notification choices conceptually.",
+                "fields": [
+                  {
+                    "id": "watch",
+                    "label": "Watch level",
+                    "control": "radio",
+                    "options": [
+                      {
+                        "value": "all",
+                        "label": "All activity"
+                      },
+                      {
+                        "value": "custom",
+                        "label": "Custom"
+                      },
+                      {
+                        "value": "ignore",
+                        "label": "Ignore"
+                      }
+                    ],
+                    "correct": "custom",
+                    "explanation": "Custom allows selected event types."
+                  },
+                  {
+                    "id": "releases",
+                    "label": "Release notifications",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "The maintainer wants release alerts."
+                  },
+                  {
+                    "id": "issues",
+                    "label": "Issue notifications",
+                    "control": "toggle",
+                    "correct": false,
+                    "explanation": "The scenario asks only for releases."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "About notifications",
+                  "url": "https://docs.github.com/en/subscriptions-and-notifications/concepts/about-notifications",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-collaboration-tools"
+            }
+          ]
+        },
+        {
+          "slug": "gh900-github-flow-end-to-end",
+          "title": "GitHub flow end to end",
+          "objectiveCode": "3.1",
+          "estimatedMinutes": 12,
+          "summary": "Follow the GitHub flow from branch to pull request, review, merge, and branch cleanup.",
+          "learningObjectives": [
+            "Explain the GitHub flow sequence",
+            "Choose commands and GitHub actions that support a branch-based workflow",
+            "Identify where issues, reviews, and notifications fit into the flow"
+          ],
+          "explanation": "The GitHub flow is a lightweight way to collaborate without making `main` chaotic. It works for code, docs, configuration, and many other text-based projects.\n\nStart with an issue or task so the team understands the reason for change. Create a branch from the latest `main`, then make focused commits. Push the branch to GitHub and open a pull request. The pull request explains the change, links related issues, shows the diff, and gathers review. Reviewers comment, approve, or request changes. The author updates the branch until the team is satisfied and required checks or reviews pass. Then the pull request is merged into `main`, and the topic branch can usually be deleted.\n\nThis flow keeps the stable branch understandable while still encouraging frequent collaboration. It also creates a useful record: the issue explains the need, commits show incremental work, the pull request captures review, and the merge records the accepted change.\n\nFor practice, use the **Create a repository, branch, and pull request on GitHub** lab for the web flow and the **Clone, commit, push, and open a pull request with Git CLI** lab for the command-line flow.",
+          "terminology": [
+            {
+              "term": "GitHub flow",
+              "definition": "A branch-based workflow for proposing, reviewing, and merging changes."
+            },
+            {
+              "term": "Topic branch",
+              "definition": "A focused branch for one change."
+            },
+            {
+              "term": "Review",
+              "definition": "Feedback on a pull request."
+            },
+            {
+              "term": "Merge",
+              "definition": "Combining reviewed changes into the base branch."
+            },
+            {
+              "term": "Linked issue",
+              "definition": "An issue connected to a pull request for traceability."
+            }
+          ],
+          "businessScenario": "Northwind Traders updates a checkout message. The support team opens an issue, a writer creates a branch, a reviewer comments on the wording, and the pull request merges after approval.",
+          "technicalExample": "A compact GitHub flow command sequence:\n\n```bash\ngit pull\ngit switch -c docs/checkout-message\ngit add README.md\ngit commit -m \"Clarify checkout message\"\ngit push -u origin docs/checkout-message\n```\nThen open a pull request on GitHub, request review, address feedback, and merge.",
+          "misconception": {
+            "myth": "GitHub flow means everyone commits directly to `main` as quickly as possible.",
+            "reality": "GitHub flow uses branches and pull requests so changes are proposed, reviewed, and merged intentionally."
+          },
+          "examTakeaway": "Watch for sequence questions: branch first, commit focused changes, push, open PR, review, update, merge, then delete the branch when appropriate.",
+          "recap": "GitHub flow creates a safe path from idea to merged work: track the need, branch, commit, push, review in a pull request, merge, and clean up.",
+          "simplerExplanation": "Think of `main` as the published recipe book. A branch is your test kitchen, a pull request is the tasting session, and merge is adding the approved recipe.",
+          "anotherExample": "A legal team updates a policy page: issue for the request, branch for the edits, pull request for review, and merge after approval.",
+          "extraBlocks": [
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "GitHub flow",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "issue",
+                    "label": "Issue/task"
+                  },
+                  {
+                    "id": "branch",
+                    "label": "Branch"
+                  },
+                  {
+                    "id": "commit",
+                    "label": "Commits"
+                  },
+                  {
+                    "id": "pr",
+                    "label": "Pull request"
+                  },
+                  {
+                    "id": "review",
+                    "label": "Review"
+                  },
+                  {
+                    "id": "merge",
+                    "label": "Merge"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "issue",
+                    "to": "branch"
+                  },
+                  {
+                    "from": "branch",
+                    "to": "commit"
+                  },
+                  {
+                    "from": "commit",
+                    "to": "pr"
+                  },
+                  {
+                    "from": "pr",
+                    "to": "review"
+                  },
+                  {
+                    "from": "review",
+                    "to": "merge"
+                  }
+                ],
+                "caption": "The GitHub flow moves from a tracked need to a branch, commits, pull request, review, and merge."
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Lab connection",
+                "body": "Use the repository and Git CLI labs to practise both the browser and command-line versions of this flow."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "GitHub flow sequence",
+              "back": "Branch, commit, open pull request, review, merge."
+            },
+            {
+              "front": "Why use a topic branch?",
+              "back": "It isolates focused work from the base branch."
+            },
+            {
+              "front": "Why link an issue?",
+              "back": "It connects the proposed change to the tracked need."
+            },
+            {
+              "front": "When delete a branch?",
+              "back": "Usually after its pull request is merged and the branch is no longer needed."
+            }
+          ],
+          "sources": [
+            {
+              "title": "GitHub flow",
+              "url": "https://docs.github.com/en/get-started/using-github/github-flow",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "About pull requests",
+              "url": "https://docs.github.com/en/pull-requests/get-started/about-pull-requests",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Creating a pull request",
+              "url": "https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "gh900-col-006",
+              "type": "ORDERING",
+              "domainKey": "collaboration",
+              "objectiveCode": "3.1",
+              "difficulty": "EASY",
+              "stem": "Place the GitHub flow steps in order.",
+              "explanation": "GitHub flow starts with branch isolation, uses commits and a pull request for review, and finishes by merging accepted changes.",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Create a branch"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Commit changes"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Open a pull request"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Review and discuss"
+                  },
+                  {
+                    "id": "s5",
+                    "text": "Merge"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4",
+                  "s5"
+                ],
+                "explanations": {
+                  "s1": "A branch gives the proposed change a separate place from the default branch.",
+                  "s2": "Commits save the actual file updates on that branch.",
+                  "s3": "A pull request opens the branch for discussion, checks, and comparison with the base branch.",
+                  "s4": "Review discussion and follow-up commits happen before the change is accepted.",
+                  "s5": "Merging applies the reviewed branch changes to the target branch."
+                }
+              },
+              "sources": [
+                {
+                  "title": "GitHub flow",
+                  "url": "https://docs.github.com/en/get-started/using-github/github-flow",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-github-flow-end-to-end"
+            },
+            {
+              "ref": "gh900-col-007",
+              "type": "SCENARIO",
+              "domainKey": "collaboration",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "What should the team do next?",
+              "explanation": "After pushing a branch, the next collaboration step is to open a pull request for review.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Open a pull request comparing the branch with main.",
+                  "correct": true,
+                  "explanation": "A PR starts review and discussion."
+                },
+                {
+                  "key": "B",
+                  "text": "Delete the branch before anyone reviews it.",
+                  "correct": false,
+                  "explanation": "Deleting now would remove the proposed work."
+                },
+                {
+                  "key": "C",
+                  "text": "Create a release immediately.",
+                  "correct": false,
+                  "explanation": "The change has not been reviewed or merged."
+                },
+                {
+                  "key": "D",
+                  "text": "Move the conversation to a gist.",
+                  "correct": false,
+                  "explanation": "The PR is the right review location."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "GitHub flow",
+                  "url": "https://docs.github.com/en/get-started/using-github/github-flow",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Creating a pull request",
+                  "url": "https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-github-flow-end-to-end",
+              "scenario": "A writer created `docs/checkout-message`, committed focused changes, and pushed the branch to GitHub.",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "gh900-col-008",
+              "type": "COMMAND_SELECTION",
+              "domainKey": "collaboration",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which command creates and switches to a new branch for the GitHub flow?",
+              "explanation": "The `git switch -c` command creates a branch and switches to it.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`git switch -c docs/checkout-message`",
+                  "correct": true,
+                  "explanation": "This creates and switches to a new branch."
+                },
+                {
+                  "key": "B",
+                  "text": "`git status -c docs/checkout-message`",
+                  "correct": false,
+                  "explanation": "`git status` does not create branches."
+                },
+                {
+                  "key": "C",
+                  "text": "`git push -c docs/checkout-message`",
+                  "correct": false,
+                  "explanation": "`git push` publishes commits; it does not create a local branch with `-c`."
+                },
+                {
+                  "key": "D",
+                  "text": "`git merge -c docs/checkout-message`",
+                  "correct": false,
+                  "explanation": "`git merge` combines another branch into the current branch."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Introduction to Git",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "gh900-github-flow-end-to-end",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "gh900-col-009",
+              "type": "TRUE_FALSE",
+              "domainKey": "collaboration",
+              "objectiveCode": "3.1",
+              "difficulty": "EASY",
+              "stem": "In GitHub flow, a pull request is a place to discuss and review changes before they merge.",
+              "explanation": "Pull requests provide the review and discussion space for proposed changes.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. In GitHub flow, a pull request is the review and discussion space for proposed changes before merge."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that pull requests are where collaborators discuss and review changes before merging."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "About pull requests",
+                  "url": "https://docs.github.com/en/pull-requests/get-started/about-pull-requests",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "GitHub flow",
+                  "url": "https://docs.github.com/en/get-started/using-github/github-flow",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-github-flow-end-to-end"
+            },
+            {
+              "ref": "gh900-col-010",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "collaboration",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Complete the sentence about what you open after pushing a topic branch in GitHub flow.",
+              "explanation": "GitHub flow uses pull requests to propose and review branch changes.",
+              "fillInBlank": {
+                "template": "In GitHub flow, after you push a topic branch, you typically open a {{b1}} for review.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "pull request",
+                      "PR"
+                    ],
+                    "explanation": "A pull request proposes branch changes for discussion and merge."
+                  }
+                ],
+                "wordBank": [
+                  "pull request",
+                  "wiki",
+                  "star",
+                  "license"
+                ]
+              },
+              "sources": [
+                {
+                  "title": "GitHub flow",
+                  "url": "https://docs.github.com/en/get-started/using-github/github-flow",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About pull requests",
+                  "url": "https://docs.github.com/en/pull-requests/get-started/about-pull-requests",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-github-flow-end-to-end"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

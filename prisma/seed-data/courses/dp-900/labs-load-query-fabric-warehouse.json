@@ -1,0 +1,1376 @@
+{
+  "labs": [
+    {
+      "slug": "load-query-fabric-warehouse",
+      "type": "UI_SIMULATION",
+      "title": "Load and query a Microsoft Fabric warehouse",
+      "summary": "Create a Fabric warehouse, load a small sales star schema with a Copy data flow, answer business questions with T-SQL, and save a reusable view.",
+      "scenario": "Fabrikam's sales team wants a curated relational model for recurring business questions. In the **simulated Microsoft Fabric portal** on your lab VM, create a warehouse named **SalesWarehouse** in the **Sales Analytics** workspace, load sample sales data with a **Copy data** activity, query a small star schema with T-SQL joins and aggregates, save a view named **vwRegionalSales**, and verify when a warehouse is a better fit than a lakehouse.",
+      "domainKey": "analytics-workloads",
+      "objectiveCode": "4.1",
+      "complexity": "INTERMEDIATE",
+      "estimatedMinutes": 35,
+      "learningObjectives": [
+        "Create a Warehouse item in a Fabric workspace",
+        "Use a Copy data activity to load a warehouse star schema",
+        "Run T-SQL joins and aggregates over fact and dimension tables",
+        "Explain warehouse versus lakehouse choices for DP-900 analytics scenarios"
+      ],
+      "prerequisites": [
+        "Know that a star schema has fact tables and dimension tables"
+      ],
+      "sources": [
+        {
+          "title": "Create a Warehouse in Microsoft Fabric",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/create-warehouse"
+        },
+        {
+          "title": "Load Sample data to Data Warehouse",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-factory/tutorial-load-sample-data-to-data-warehouse"
+        },
+        {
+          "title": "Ingest Data into the Warehouse",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/ingest-data"
+        },
+        {
+          "title": "Query the Warehouse or SQL analytics endpoint",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/query-warehouse"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Fabric",
+          "theme": "fabric",
+          "user": "alex@fabrikam.example",
+          "tenant": "Fabrikam (fabrikam.example)",
+          "url": "https://app.fabric.microsoft.com",
+          "searchPlaceholder": "Search"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "workspaces",
+            "label": "Workspaces",
+            "icon": "Briefcase"
+          },
+          {
+            "page": "data-warehouse",
+            "label": "Data Warehouse",
+            "icon": "Table2"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/home",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "fabric-home-tiles",
+                "title": "Microsoft Fabric",
+                "size": "md",
+                "items": [
+                  {
+                    "id": "workspaces",
+                    "label": "Workspaces",
+                    "icon": "Briefcase",
+                    "action": {
+                      "type": "navigate",
+                      "page": "workspaces"
+                    }
+                  },
+                  {
+                    "id": "data-warehouse",
+                    "label": "Data Warehouse",
+                    "icon": "Table2",
+                    "action": {
+                      "type": "navigate",
+                      "page": "data-warehouse"
+                    }
+                  },
+                  {
+                    "id": "data-engineering",
+                    "label": "Data Engineering",
+                    "icon": "Database",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Lakehouses are useful when you need file-first storage with Spark and SQL endpoint access."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "data-warehouse",
+            "title": "Data Warehouse",
+            "icon": "Table2",
+            "url": "/data-warehouse",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "Fabric Warehouse is optimized for relational SQL modeling and T-SQL analytics. A lakehouse is file-first and supports Spark plus SQL over Delta tables."
+              },
+              {
+                "kind": "button",
+                "id": "open-sales-workspace",
+                "label": "Open Sales Analytics workspace",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "workspace",
+                  "select": {
+                    "as": "workspace",
+                    "path": "workspaces",
+                    "key": "name",
+                    "value": "Sales Analytics"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "workspaces",
+            "title": "Workspaces",
+            "icon": "Briefcase",
+            "url": "/groups",
+            "breadcrumb": [
+              "Home"
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "workspace-list",
+                "source": "workspaces",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "role",
+                    "label": "Your role"
+                  },
+                  {
+                    "key": "description",
+                    "label": "Description"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "workspace",
+                  "select": {
+                    "as": "workspace",
+                    "path": "workspaces",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "workspace",
+            "title": "{{$sel.workspace.name}}",
+            "subtitle": "Workspace",
+            "icon": "Briefcase",
+            "url": "/groups/{{$sel.workspace.id}}/list",
+            "requires": "workspace",
+            "breadcrumb": [
+              "Home",
+              "Workspaces"
+            ],
+            "commands": [
+              {
+                "id": "new-item",
+                "label": "+ New item",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "new-item"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "workspace-items",
+                "title": "Items",
+                "source": "items",
+                "where": {
+                  "workspace": "{{$sel.workspace.name}}"
+                },
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Type",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "owner",
+                    "label": "Owner"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "warehouse",
+                  "select": {
+                    "as": "warehouse",
+                    "path": "warehouses",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "new-item",
+            "title": "New item",
+            "subtitle": "{{$sel.workspace.name}}",
+            "icon": "Plus",
+            "url": "/groups/sales-analytics/new",
+            "requires": "workspace",
+            "breadcrumb": [
+              "Home",
+              "Workspaces",
+              "{{$sel.workspace.name}}"
+            ],
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "item-gallery",
+                "title": "Create new item",
+                "size": "md",
+                "items": [
+                  {
+                    "id": "warehouse-card",
+                    "label": "Warehouse",
+                    "description": "Relational warehouse with T-SQL tables, views, and SQL query editor",
+                    "icon": "Table2",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Use the Warehouse form below for this relational star-schema lab."
+                    }
+                  },
+                  {
+                    "id": "lakehouse-card",
+                    "label": "Lakehouse",
+                    "description": "Files and Delta tables",
+                    "icon": "Database",
+                    "action": {
+                      "type": "message",
+                      "tone": "warning",
+                      "text": "Lakehouse is file-first. This scenario needs relational tables, views, and T-SQL as the main experience."
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "form",
+                "id": "warehouse-form",
+                "title": "Warehouse",
+                "fields": [
+                  {
+                    "id": "itemType",
+                    "label": "Item type",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Warehouse",
+                    "options": [
+                      {
+                        "value": "Warehouse",
+                        "label": "Warehouse"
+                      },
+                      {
+                        "value": "Lakehouse",
+                        "label": "Lakehouse"
+                      },
+                      {
+                        "value": "Eventhouse",
+                        "label": "Eventhouse"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "name",
+                    "label": "Name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "SalesWarehouse",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_ ]{2,79}$",
+                    "patternMessage": "Start with a letter; use letters, numbers, spaces, or underscores.",
+                    "unique": {
+                      "path": "warehouses",
+                      "key": "name",
+                      "message": "A warehouse with this name already exists."
+                    }
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.itemType",
+                        "value": "Warehouse"
+                      },
+                      "message": "Choose Warehouse. A lakehouse stores files first; this scenario needs relational tables, views, and T-SQL."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "warehouses",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "workspace": "{{$sel.workspace.name}}",
+                        "owner": "Alex",
+                        "status": "Ready",
+                        "tables": 0,
+                        "views": 0
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "items",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "workspace": "{{$sel.workspace.name}}",
+                        "type": "Warehouse",
+                        "owner": "Alex"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Warehouse created",
+                      "message": "{{$form.name}} is ready for loading and querying."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "warehouse",
+                      "select": {
+                        "as": "warehouse",
+                        "path": "warehouses",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "warehouse",
+            "title": "{{$sel.warehouse.name}}",
+            "subtitle": "Warehouse",
+            "icon": "Table2",
+            "url": "/groups/sales-analytics/warehouses/{{$sel.warehouse.name}}",
+            "requires": "warehouse",
+            "breadcrumb": [
+              "Home",
+              "Workspaces",
+              "Sales Analytics"
+            ],
+            "menu": [
+              {
+                "page": "warehouse",
+                "label": "Home",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "get-data",
+                "label": "Get data",
+                "icon": "Upload"
+              },
+              {
+                "page": "sql-query",
+                "label": "New SQL query",
+                "icon": "Code"
+              },
+              {
+                "page": "warehouse-views",
+                "label": "Views",
+                "icon": "Table"
+              }
+            ],
+            "commands": [
+              {
+                "id": "get-data",
+                "label": "Get data",
+                "icon": "Upload",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "get-data"
+                }
+              },
+              {
+                "id": "new-sql-query",
+                "label": "New SQL query",
+                "icon": "Code",
+                "action": {
+                  "type": "navigate",
+                  "page": "sql-query"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Warehouse overview",
+                "items": [
+                  {
+                    "label": "Workspace",
+                    "value": "{{$sel.warehouse.workspace}}"
+                  },
+                  {
+                    "label": "Status",
+                    "value": "{{$sel.warehouse.status}}",
+                    "format": "status"
+                  },
+                  {
+                    "label": "Tables",
+                    "value": "{{$sel.warehouse.tables}}"
+                  },
+                  {
+                    "label": "Views",
+                    "value": "{{$sel.warehouse.views}}"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "warehouse-tables",
+                "title": "Tables",
+                "source": "warehouseTables",
+                "where": {
+                  "warehouse": "{{$sel.warehouse.name}}"
+                },
+                "rowKey": "name",
+                "emptyText": "No tables loaded yet. Select Get data.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "code"
+                  },
+                  {
+                    "key": "kind",
+                    "label": "Kind",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "rows",
+                    "label": "Rows"
+                  },
+                  {
+                    "key": "purpose",
+                    "label": "Purpose"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "get-data",
+            "title": "{{$sel.warehouse.name}} | Get data",
+            "subtitle": "Warehouse",
+            "icon": "Upload",
+            "url": "/groups/sales-analytics/warehouses/{{$sel.warehouse.name}}/getData",
+            "requires": "warehouse",
+            "breadcrumb": [
+              "Home",
+              "Workspaces",
+              "Sales Analytics",
+              "{{$sel.warehouse.name}}"
+            ],
+            "menu": [
+              {
+                "page": "warehouse",
+                "label": "Home",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "get-data",
+                "label": "Get data",
+                "icon": "Upload"
+              },
+              {
+                "page": "sql-query",
+                "label": "New SQL query",
+                "icon": "Code"
+              },
+              {
+                "page": "warehouse-views",
+                "label": "Views",
+                "icon": "Table"
+              }
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "copy-data-form",
+                "title": "Copy data",
+                "description": "Use a Copy data activity to load sample sales tables into the warehouse.",
+                "fields": [
+                  {
+                    "id": "ingestionTool",
+                    "label": "Ingestion tool",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Copy data activity",
+                    "options": [
+                      {
+                        "value": "Copy data activity",
+                        "label": "Copy data activity"
+                      },
+                      {
+                        "value": "T-SQL COPY statement",
+                        "label": "T-SQL COPY statement"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "source",
+                    "label": "Source",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Sample data",
+                    "options": [
+                      {
+                        "value": "Sample data",
+                        "label": "Sample data"
+                      },
+                      {
+                        "value": "Lakehouse table",
+                        "label": "Lakehouse table"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "dataset",
+                    "label": "Sample dataset",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Retail sales star schema",
+                    "options": [
+                      {
+                        "value": "Retail sales star schema",
+                        "label": "Retail sales star schema"
+                      },
+                      {
+                        "value": "Raw sales CSV only",
+                        "label": "Raw sales CSV only"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "destination",
+                    "label": "Destination",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "SalesWarehouse",
+                    "optionsFrom": {
+                      "path": "warehouses",
+                      "value": "name",
+                      "where": {
+                        "workspace": "Sales Analytics"
+                      }
+                    }
+                  },
+                  {
+                    "id": "runNow",
+                    "label": "Save + run",
+                    "control": "toggle",
+                    "defaultValue": true
+                  }
+                ],
+                "submit": {
+                  "label": "Run",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.ingestionTool",
+                        "value": "Copy data activity"
+                      },
+                      "message": "Use Copy data activity for this code-free warehouse loading scenario."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.dataset",
+                        "value": "Retail sales star schema"
+                      },
+                      "message": "Load the star schema so you can join dimensions to the Sales fact table."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.runNow",
+                        "value": true
+                      },
+                      "message": "Turn on Save + run so the sample data is loaded now."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "warehouseTables",
+                      "value": [
+                        {
+                          "warehouse": "SalesWarehouse",
+                          "name": "FactSales",
+                          "kind": "Fact",
+                          "rows": 8,
+                          "purpose": "Sales measures by product, customer, date and region"
+                        },
+                        {
+                          "warehouse": "SalesWarehouse",
+                          "name": "DimProduct",
+                          "kind": "Dimension",
+                          "rows": 4,
+                          "purpose": "Product categories"
+                        },
+                        {
+                          "warehouse": "SalesWarehouse",
+                          "name": "DimCustomer",
+                          "kind": "Dimension",
+                          "rows": 4,
+                          "purpose": "Customer segments"
+                        },
+                        {
+                          "warehouse": "SalesWarehouse",
+                          "name": "DimDate",
+                          "kind": "Dimension",
+                          "rows": 4,
+                          "purpose": "Calendar attributes"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "set",
+                      "path": "sql.warehousedb",
+                      "value": {
+                        "tables": {
+                          "FactSales": {
+                            "columns": [
+                              {
+                                "name": "SalesKey",
+                                "type": "INT",
+                                "primaryKey": true
+                              },
+                              {
+                                "name": "ProductKey",
+                                "type": "INT"
+                              },
+                              {
+                                "name": "CustomerKey",
+                                "type": "INT"
+                              },
+                              {
+                                "name": "Region",
+                                "type": "NVARCHAR(30)"
+                              },
+                              {
+                                "name": "SalesAmount",
+                                "type": "INT"
+                              }
+                            ],
+                            "rows": [
+                              {
+                                "SalesKey": 1,
+                                "ProductKey": 10,
+                                "CustomerKey": 100,
+                                "Region": "North",
+                                "SalesAmount": 12000
+                              },
+                              {
+                                "SalesKey": 2,
+                                "ProductKey": 11,
+                                "CustomerKey": 101,
+                                "Region": "West",
+                                "SalesAmount": 15400
+                              },
+                              {
+                                "SalesKey": 3,
+                                "ProductKey": 12,
+                                "CustomerKey": 102,
+                                "Region": "South",
+                                "SalesAmount": 9800
+                              },
+                              {
+                                "SalesKey": 4,
+                                "ProductKey": 10,
+                                "CustomerKey": 103,
+                                "Region": "North",
+                                "SalesAmount": 8700
+                              },
+                              {
+                                "SalesKey": 5,
+                                "ProductKey": 13,
+                                "CustomerKey": 100,
+                                "Region": "West",
+                                "SalesAmount": 17100
+                              },
+                              {
+                                "SalesKey": 6,
+                                "ProductKey": 11,
+                                "CustomerKey": 101,
+                                "Region": "East",
+                                "SalesAmount": 11200
+                              },
+                              {
+                                "SalesKey": 7,
+                                "ProductKey": 12,
+                                "CustomerKey": 102,
+                                "Region": "South",
+                                "SalesAmount": 10300
+                              },
+                              {
+                                "SalesKey": 8,
+                                "ProductKey": 13,
+                                "CustomerKey": 103,
+                                "Region": "West",
+                                "SalesAmount": 9200
+                              }
+                            ]
+                          },
+                          "DimProduct": {
+                            "columns": [
+                              {
+                                "name": "ProductKey",
+                                "type": "INT",
+                                "primaryKey": true
+                              },
+                              {
+                                "name": "Category",
+                                "type": "NVARCHAR(40)"
+                              },
+                              {
+                                "name": "ProductName",
+                                "type": "NVARCHAR(80)"
+                              }
+                            ],
+                            "rows": [
+                              {
+                                "ProductKey": 10,
+                                "Category": "Accessories",
+                                "ProductName": "Trail Mug"
+                              },
+                              {
+                                "ProductKey": 11,
+                                "Category": "Apparel",
+                                "ProductName": "City Jacket"
+                              },
+                              {
+                                "ProductKey": 12,
+                                "Category": "Bags",
+                                "ProductName": "Commuter Backpack"
+                              },
+                              {
+                                "ProductKey": 13,
+                                "Category": "Accessories",
+                                "ProductName": "Reusable Bottle"
+                              }
+                            ]
+                          },
+                          "DimCustomer": {
+                            "columns": [
+                              {
+                                "name": "CustomerKey",
+                                "type": "INT",
+                                "primaryKey": true
+                              },
+                              {
+                                "name": "CustomerName",
+                                "type": "NVARCHAR(80)"
+                              },
+                              {
+                                "name": "Segment",
+                                "type": "NVARCHAR(30)"
+                              }
+                            ],
+                            "rows": [
+                              {
+                                "CustomerKey": 100,
+                                "CustomerName": "Northwind Traders",
+                                "Segment": "Wholesale"
+                              },
+                              {
+                                "CustomerKey": 101,
+                                "CustomerName": "Fabrikam Market",
+                                "Segment": "Retail"
+                              },
+                              {
+                                "CustomerKey": 102,
+                                "CustomerName": "Alpine Goods",
+                                "Segment": "Online"
+                              },
+                              {
+                                "CustomerKey": 103,
+                                "CustomerName": "Relecloud Outlet",
+                                "Segment": "Wholesale"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "warehouses",
+                      "where": {
+                        "name": "SalesWarehouse"
+                      },
+                      "set": {
+                        "tables": 4
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "pipelines",
+                      "unique": "name",
+                      "value": {
+                        "name": "Copy retail sales sample",
+                        "destination": "SalesWarehouse",
+                        "status": "Succeeded"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Copy data succeeded",
+                      "message": "The Retail sales star schema was loaded into SalesWarehouse."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "sql-query"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "sql-query",
+            "title": "{{$sel.warehouse.name}} | New SQL query",
+            "subtitle": "Warehouse",
+            "icon": "Code",
+            "url": "/groups/sales-analytics/warehouses/{{$sel.warehouse.name}}/sqlQuery",
+            "requires": "warehouse",
+            "breadcrumb": [
+              "Home",
+              "Workspaces",
+              "Sales Analytics",
+              "{{$sel.warehouse.name}}"
+            ],
+            "menu": [
+              {
+                "page": "warehouse",
+                "label": "Home",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "get-data",
+                "label": "Get data",
+                "icon": "Upload"
+              },
+              {
+                "page": "sql-query",
+                "label": "New SQL query",
+                "icon": "Code"
+              },
+              {
+                "page": "warehouse-views",
+                "label": "Views",
+                "icon": "Table"
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Warehouse star schema",
+                "text": "FactSales stores numeric sales events. Dimension tables such as DimProduct and DimCustomer add descriptive context. T-SQL joins answer business questions across the schema."
+              },
+              {
+                "kind": "sqlEditor",
+                "id": "warehouse-sql-editor",
+                "title": "SQL query editor",
+                "database": "sql.warehousedb",
+                "placeholder": "SELECT fs.Region, SUM(fs.SalesAmount) AS TotalSales FROM FactSales fs GROUP BY fs.Region ORDER BY TotalSales DESC;",
+                "maxRows": 100,
+                "sampleQueries": [
+                  {
+                    "label": "Regional sales",
+                    "sql": "SELECT fs.Region, SUM(fs.SalesAmount) AS TotalSales FROM FactSales fs GROUP BY fs.Region ORDER BY TotalSales DESC;"
+                  },
+                  {
+                    "label": "Sales by category",
+                    "sql": "SELECT p.Category, SUM(fs.SalesAmount) AS TotalSales FROM FactSales fs JOIN DimProduct p ON fs.ProductKey = p.ProductKey GROUP BY p.Category ORDER BY TotalSales DESC;"
+                  },
+                  {
+                    "label": "Wholesale regional sales",
+                    "sql": "SELECT fs.Region, c.Segment, SUM(fs.SalesAmount) AS TotalSales FROM FactSales fs JOIN DimCustomer c ON fs.CustomerKey = c.CustomerKey WHERE c.Segment = 'Wholesale' GROUP BY fs.Region, c.Segment ORDER BY TotalSales DESC;"
+                  }
+                ]
+              },
+              {
+                "kind": "form",
+                "id": "save-view-form",
+                "title": "Save as view",
+                "description": "Save the regional sales query as a reusable view object in the warehouse.",
+                "fields": [
+                  {
+                    "id": "viewName",
+                    "label": "View name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "vwRegionalSales"
+                  },
+                  {
+                    "id": "definition",
+                    "label": "Definition",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Regional sales by product category",
+                    "options": [
+                      {
+                        "value": "Regional sales by product category",
+                        "label": "Regional sales by product category"
+                      },
+                      {
+                        "value": "Raw FactSales rows",
+                        "label": "Raw FactSales rows"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "shared",
+                    "label": "Show in Views",
+                    "control": "toggle",
+                    "defaultValue": true
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.viewName",
+                        "value": "vwRegionalSales"
+                      },
+                      "message": "Save the view as vwRegionalSales."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.definition",
+                        "value": "Regional sales by product category"
+                      },
+                      "message": "Save the aggregated business query, not raw fact rows."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "warehouseViews",
+                      "unique": "name",
+                      "value": {
+                        "warehouse": "SalesWarehouse",
+                        "name": "{{$form.viewName}}",
+                        "definition": "{{$form.definition}}",
+                        "shared": "{{$form.shared}}"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "warehouses",
+                      "where": {
+                        "name": "SalesWarehouse"
+                      },
+                      "set": {
+                        "views": 1
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "View saved",
+                      "message": "vwRegionalSales was saved in the warehouse."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "warehouse-views",
+            "title": "{{$sel.warehouse.name}} | Views",
+            "subtitle": "Warehouse",
+            "icon": "Table",
+            "url": "/groups/sales-analytics/warehouses/{{$sel.warehouse.name}}/views",
+            "requires": "warehouse",
+            "breadcrumb": [
+              "Home",
+              "Workspaces",
+              "Sales Analytics",
+              "{{$sel.warehouse.name}}"
+            ],
+            "menu": [
+              {
+                "page": "warehouse",
+                "label": "Home",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "get-data",
+                "label": "Get data",
+                "icon": "Upload"
+              },
+              {
+                "page": "sql-query",
+                "label": "New SQL query",
+                "icon": "Code"
+              },
+              {
+                "page": "warehouse-views",
+                "label": "Views",
+                "icon": "Table"
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "views-list",
+                "title": "Views",
+                "source": "warehouseViews",
+                "where": {
+                  "warehouse": "{{$sel.warehouse.name}}"
+                },
+                "rowKey": "name",
+                "emptyText": "No views saved yet.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "code"
+                  },
+                  {
+                    "key": "definition",
+                    "label": "Definition"
+                  },
+                  {
+                    "key": "shared",
+                    "label": "Shown in model",
+                    "format": "bool"
+                  }
+                ]
+              },
+              {
+                "kind": "callout",
+                "variant": "success",
+                "visibleWhen": {
+                  "type": "arrayContains",
+                  "path": "warehouseViews",
+                  "match": {
+                    "name": "vwRegionalSales"
+                  }
+                },
+                "text": "Verification complete: SalesWarehouse contains loaded fact and dimension tables, T-SQL query history, and a reusable warehouse view."
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "workspaces": [
+            {
+              "id": "sales-analytics",
+              "name": "Sales Analytics",
+              "role": "Contributor",
+              "description": "Shared analytics workspace for Fabrikam"
+            },
+            {
+              "id": "lake-lab",
+              "name": "Lake Lab",
+              "role": "Viewer",
+              "description": "Lakehouse experiments"
+            }
+          ],
+          "items": [
+            {
+              "name": "Regional Margin",
+              "workspace": "Sales Analytics",
+              "type": "Report",
+              "owner": "Priya"
+            },
+            {
+              "name": "SalesLakehouse",
+              "workspace": "Sales Analytics",
+              "type": "Lakehouse",
+              "owner": "Mehmet"
+            },
+            {
+              "name": "Customer Cleanup",
+              "workspace": "Sales Analytics",
+              "type": "Dataflow Gen2",
+              "owner": "Alex"
+            }
+          ],
+          "warehouses": [],
+          "warehouseTables": [],
+          "warehouseViews": [],
+          "pipelines": [],
+          "sql": {
+            "warehousedb": {
+              "tables": {}
+            }
+          }
+        }
+      },
+      "steps": [
+        {
+          "key": "open-workspace",
+          "title": "Open the Sales Analytics workspace",
+          "instruction": "Select **Workspaces**, then open **Sales Analytics**.",
+          "hint": "Workspaces contain Fabric items such as warehouses, lakehouses, semantic models, reports, and pipelines.",
+          "explanation": "Fabric items are organized in workspaces so teams can manage related data, permissions, and reports together.",
+          "targetId": "workspace-list",
+          "rules": [
+            {
+              "key": "visited-workspace",
+              "description": "Sales Analytics workspace opened",
+              "rule": {
+                "type": "visited",
+                "page": "workspace"
+              }
+            }
+          ]
+        },
+        {
+          "key": "create-warehouse",
+          "title": "Create SalesWarehouse",
+          "instruction": "Select **+ New item**, choose **Warehouse**, and create **SalesWarehouse**.",
+          "hint": "Do not choose Lakehouse for this task; the scenario asks for a relational warehouse experience.",
+          "explanation": "A Fabric Warehouse is designed for relational tables, T-SQL querying, views, and downstream semantic models.",
+          "targetId": "warehouse-form",
+          "rules": [
+            {
+              "key": "warehouse-created",
+              "description": "SalesWarehouse exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "warehouses",
+                "match": {
+                  "name": "SalesWarehouse",
+                  "workspace": "Sales Analytics",
+                  "status": "Ready"
+                }
+              },
+              "failureFeedback": "Create a Warehouse named SalesWarehouse."
+            }
+          ]
+        },
+        {
+          "key": "load-data",
+          "title": "Load the retail sales star schema",
+          "instruction": "Select **Get data**. In **Copy data**, use **Copy data activity**, **Sample data**, **Retail sales star schema**, destination **SalesWarehouse**, turn on **Save + run**, and select **Run**.",
+          "hint": "A star schema includes a fact table for measures and dimension tables for descriptive attributes.",
+          "explanation": "Copy data is a code-free ingestion option. Warehouses can also ingest with T-SQL, but this step shows the current guided loading experience.",
+          "targetId": "copy-data-form",
+          "rules": [
+            {
+              "key": "pipeline-succeeded",
+              "description": "Copy data activity succeeded",
+              "rule": {
+                "type": "arrayContains",
+                "path": "pipelines",
+                "match": {
+                  "name": "Copy retail sales sample",
+                  "status": "Succeeded"
+                }
+              },
+              "failureFeedback": "Run the Copy data activity."
+            },
+            {
+              "key": "tables-loaded",
+              "description": "Fact and dimension tables loaded",
+              "rule": {
+                "type": "arrayLength",
+                "path": "warehouseTables",
+                "min": 4
+              },
+              "failureFeedback": "Load the four-table star schema."
+            }
+          ]
+        },
+        {
+          "key": "regional-query",
+          "title": "Answer total sales by region",
+          "instruction": "In **New SQL query**, run `SELECT fs.Region, SUM(fs.SalesAmount) AS TotalSales FROM FactSales fs GROUP BY fs.Region ORDER BY TotalSales DESC;`.",
+          "hint": "This query needs only the fact table because Region is stored with each sale in this sample.",
+          "explanation": "GROUP BY turns transaction rows into business-level totals such as sales by region.",
+          "targetId": "warehouse-sql-editor",
+          "rules": [
+            {
+              "key": "regional-query-used",
+              "description": "Regional aggregate query was run",
+              "rule": {
+                "type": "commandUsed",
+                "pattern": "SELECT fs\\.Region, SUM\\(fs\\.SalesAmount\\) AS TotalSales FROM FactSales fs GROUP BY fs\\.Region ORDER BY TotalSales DESC;?"
+              },
+              "failureFeedback": "Run the regional sales query exactly as shown."
+            }
+          ]
+        },
+        {
+          "key": "category-query",
+          "title": "Join dimensions to answer category sales",
+          "instruction": "Run `SELECT p.Category, SUM(fs.SalesAmount) AS TotalSales FROM FactSales fs JOIN DimProduct p ON fs.ProductKey = p.ProductKey GROUP BY p.Category ORDER BY TotalSales DESC;`.",
+          "hint": "FactSales has ProductKey; DimProduct has the readable Category.",
+          "explanation": "Warehouse schemas commonly join a fact table to dimensions so reports can slice measures by descriptive attributes.",
+          "targetId": "warehouse-sql-editor",
+          "rules": [
+            {
+              "key": "category-query-used",
+              "description": "Category JOIN aggregate query was run",
+              "rule": {
+                "type": "commandUsed",
+                "pattern": "JOIN DimProduct p ON fs\\.ProductKey = p\\.ProductKey GROUP BY p\\.Category"
+              },
+              "failureFeedback": "Run the sales by category query."
+            }
+          ]
+        },
+        {
+          "key": "segment-query",
+          "title": "Filter a business segment",
+          "instruction": "Run `SELECT fs.Region, c.Segment, SUM(fs.SalesAmount) AS TotalSales FROM FactSales fs JOIN DimCustomer c ON fs.CustomerKey = c.CustomerKey WHERE c.Segment = 'Wholesale' GROUP BY fs.Region, c.Segment ORDER BY TotalSales DESC;`.",
+          "hint": "The customer dimension stores Segment. WHERE filters rows before grouping.",
+          "explanation": "Analysts often filter dimension attributes, then group facts to answer narrower business questions.",
+          "targetId": "warehouse-sql-editor",
+          "rules": [
+            {
+              "key": "segment-query-used",
+              "description": "Wholesale segment query was run",
+              "rule": {
+                "type": "commandUsed",
+                "pattern": "WHERE c\\.Segment = 'Wholesale' GROUP BY fs\\.Region, c\\.Segment"
+              },
+              "failureFeedback": "Run the Wholesale segment query."
+            }
+          ]
+        },
+        {
+          "key": "save-view",
+          "title": "Save a reusable view",
+          "instruction": "In **Save as view**, save **vwRegionalSales** with definition **Regional sales by product category**, then open **Views** to verify it appears.",
+          "hint": "Views package reusable SQL logic so report builders do not rewrite the same joins and aggregates.",
+          "explanation": "A warehouse view is a relational object that exposes a saved query shape for downstream analytics and semantic models.",
+          "targetId": "save-view-form",
+          "rules": [
+            {
+              "key": "view-saved",
+              "description": "vwRegionalSales view saved",
+              "rule": {
+                "type": "arrayContains",
+                "path": "warehouseViews",
+                "match": {
+                  "warehouse": "SalesWarehouse",
+                  "name": "vwRegionalSales",
+                  "definition": "Regional sales by product category",
+                  "shared": true
+                }
+              },
+              "failureFeedback": "Save vwRegionalSales and show it in Views."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "final-star-schema",
+          "description": "Warehouse has fact and dimension tables",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayContains",
+                "path": "warehouseTables",
+                "match": {
+                  "name": "FactSales",
+                  "kind": "Fact"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "warehouseTables",
+                "match": {
+                  "name": "DimProduct",
+                  "kind": "Dimension"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "warehouseTables",
+                "match": {
+                  "name": "DimCustomer",
+                  "kind": "Dimension"
+                }
+              }
+            ]
+          },
+          "successFeedback": "The warehouse contains a star schema.",
+          "failureFeedback": "Load the retail sales star schema."
+        },
+        {
+          "key": "final-view",
+          "description": "Reusable view saved",
+          "rule": {
+            "type": "arrayContains",
+            "path": "warehouseViews",
+            "match": {
+              "name": "vwRegionalSales"
+            }
+          },
+          "successFeedback": "The reusable view is saved.",
+          "failureFeedback": "Save vwRegionalSales."
+        }
+      ],
+      "solution": "1. Select **Workspaces** and open **Sales Analytics**.\n2. Select **+ New item**. Choose **Warehouse** and create `SalesWarehouse`.\n3. Select **Get data**. In **Copy data**, choose **Copy data activity**, **Sample data**, **Retail sales star schema**, destination **SalesWarehouse**, turn on **Save + run**, and select **Run**.\n4. In **New SQL query**, run `SELECT fs.Region, SUM(fs.SalesAmount) AS TotalSales FROM FactSales fs GROUP BY fs.Region ORDER BY TotalSales DESC;`.\n5. Run `SELECT p.Category, SUM(fs.SalesAmount) AS TotalSales FROM FactSales fs JOIN DimProduct p ON fs.ProductKey = p.ProductKey GROUP BY p.Category ORDER BY TotalSales DESC;`.\n6. Run `SELECT fs.Region, c.Segment, SUM(fs.SalesAmount) AS TotalSales FROM FactSales fs JOIN DimCustomer c ON fs.CustomerKey = c.CustomerKey WHERE c.Segment = 'Wholesale' GROUP BY fs.Region, c.Segment ORDER BY TotalSales DESC;`.\n7. In **Save as view**, save `vwRegionalSales` with **Regional sales by product category**, then open **Views** to verify it."
+    }
+  ]
+}

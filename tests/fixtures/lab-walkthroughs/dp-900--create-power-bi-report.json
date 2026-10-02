@@ -3,16 +3,104 @@
   "lab": "create-power-bi-report",
   "note": "Build and share a Power BI report from the Sales semantic model.",
   "events": [
-    { "type": "navigate", "page": "workspaces" },
-    { "type": "rowClick", "componentId": "workspace-list", "rowKey": "Sales Analytics" },
-    { "type": "rowClick", "componentId": "workspace-items", "rowKey": "Sales" },
-    { "type": "click", "componentId": "create-report" },
-    { "type": "submitForm", "componentId": "visual-form", "values": { "slot": "kpi", "visualType": "Card", "field1": "Total Sales", "field2": "None" } },
-    { "type": "submitForm", "componentId": "visual-form", "values": { "slot": "region", "visualType": "Clustered column chart", "field1": "Region", "field2": "Total Sales" } },
-    { "type": "submitForm", "componentId": "visual-form", "values": { "slot": "month", "visualType": "Line chart", "field1": "Month", "field2": "Total Sales" } },
-    { "type": "submitForm", "componentId": "visual-form", "values": { "slot": "year", "visualType": "Slicer", "field1": "Year", "field2": "None" } },
-    { "type": "click", "componentId": "save-report" },
-    { "type": "submitForm", "componentId": "save-report-form", "values": { "name": "Regional sales", "workspace": "Sales Analytics" } },
-    { "type": "submitForm", "componentId": "share-form", "values": { "recipient": "Sales managers", "permission": "Read", "allowBuild": false, "allowReshare": false } }
+    {
+      "type": "navigate",
+      "page": "workspaces"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "workspace-list",
+      "rowKey": "Sales Analytics"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "workspace-items",
+      "rowKey": "Sales"
+    },
+    {
+      "type": "click",
+      "componentId": "create-report"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "visual-form",
+      "values": {
+        "slot": "kpi",
+        "visualType": "Card",
+        "field1": "Total Sales",
+        "field2": "None"
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "visual-form",
+      "values": {
+        "slot": "region",
+        "visualType": "Clustered column chart",
+        "field1": "Region",
+        "field2": "Total Sales"
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "visual-form",
+      "values": {
+        "slot": "month",
+        "visualType": "Line chart",
+        "field1": "Month",
+        "field2": "Total Sales"
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "visual-form",
+      "values": {
+        "slot": "year",
+        "visualType": "Slicer",
+        "field1": "Year",
+        "field2": "None"
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "visual-form",
+      "values": {
+        "slot": "product-detail",
+        "visualType": "Table",
+        "field1": "Category",
+        "field2": "Total Sales"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "save-report"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "save-report-form",
+      "values": {
+        "name": "Regional sales",
+        "workspace": "Sales Analytics"
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "verify-report-form",
+      "values": {
+        "pages": "Overview and Product detail",
+        "model": "Sales semantic model",
+        "interactions": true
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "share-form",
+      "values": {
+        "recipient": "Sales managers",
+        "permission": "Read",
+        "allowBuild": false,
+        "allowReshare": false
+      }
+    }
   ]
 }

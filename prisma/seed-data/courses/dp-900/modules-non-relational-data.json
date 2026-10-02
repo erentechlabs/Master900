@@ -1,0 +1,1177 @@
+{
+  "domainKey": "non-relational-data",
+  "modules": [
+    {
+      "slug": "non-relational-storage-and-cosmos-db",
+      "title": "Non-relational storage and Cosmos DB",
+      "summary": "Azure Storage and Cosmos DB concepts, APIs, and partitioning.",
+      "lessons": [
+        {
+          "slug": "azure-storage-non-relational-services",
+          "title": "Azure Storage for non-relational data",
+          "objectiveCode": "3.1",
+          "estimatedMinutes": 12,
+          "summary": "Azure Storage covers blobs, files, Table storage, Data Lake Storage Gen2, and access tiers for non-relational needs.",
+          "learningObjectives": [
+            "Choose Blob Storage, Azure Files, Table storage, or Data Lake Storage Gen2 by data need",
+            "Distinguish object storage, file shares, key-value entities, and analytics folders",
+            "Identify access tier clues for hot, cool, cold, or archive blob data"
+          ],
+          "explanation": "At fictional Northwind Traders and Alpine Goods, learners compare realistic data needs. Azure Storage covers blobs, files, Table storage, Data Lake Storage Gen2, and access tiers for non-relational needs. Read the scenario: structured rows and keys suggest relational design; SQL statements suggest database objects; SQL Server compatibility suggests Azure SQL choices; PostgreSQL or MySQL names point to their managed services; object files, shares, key-value entities, and analytics folders point to Azure Storage; globally distributed JSON documents and API clues point to Azure Cosmos DB. Where natural, practise these ideas in the Azure SQL query editor, Cosmos DB Data Explorer, and Data Lake Storage labs.",
+          "terminology": [
+            {
+              "term": "Blob Storage",
+              "definition": "Object storage for images, logs, backups, and raw files."
+            },
+            {
+              "term": "Azure Files",
+              "definition": "Managed cloud file shares for applications or users."
+            },
+            {
+              "term": "Table storage",
+              "definition": "NoSQL key-attribute storage with PartitionKey and RowKey."
+            },
+            {
+              "term": "Data Lake Storage Gen2",
+              "definition": "Blob-based analytics storage with hierarchical namespace."
+            },
+            {
+              "term": "Access tier",
+              "definition": "Blob tier chosen by read frequency and retrieval needs."
+            }
+          ],
+          "businessScenario": "Alpine Goods stores product photos, shared finance files, device status entities, and raw sales extracts for analytics.",
+          "technicalExample": "Product images -> Blob Storage; shared drive -> Azure Files; device entities by PartitionKey/RowKey -> Table storage; curated analytics folders -> Data Lake Storage Gen2.",
+          "misconception": {
+            "myth": "Azure Table storage is a relational database because it contains the word table.",
+            "reality": "Azure Table storage is a NoSQL key-attribute store and does not provide relational joins."
+          },
+          "examTakeaway": "Object files point to Blob Storage, shared folders to Azure Files, PartitionKey/RowKey entities to Table storage, and analytics folders to Data Lake Storage Gen2.",
+          "recap": "Azure Storage covers blobs, files, Table storage, Data Lake Storage Gen2, and access tiers for non-relational needs.",
+          "simplerExplanation": "Imagine a warehouse: blobs are boxed items, Azure Files is a shared filing cabinet, Table storage is an address book, and Data Lake Storage is an analytics aisle with labeled folders.",
+          "anotherExample": "A media team can store campaign images in Blob Storage while analysts land monthly CSV extracts in a Gen2-enabled data lake.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Azure Storage workload map",
+                "columns": [
+                  {
+                    "title": "Strong clue",
+                    "points": [
+                      "Object files point to Blob Storage, shared folders to Azure Files, PartitionKey/RowKey entities to Table storage, and analytics folders to Data Lake Storage Gen2."
+                    ]
+                  },
+                  {
+                    "title": "Common trap",
+                    "points": [
+                      "Azure Table storage is a relational database because it contains the word table."
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Choose storage for Alpine Goods",
+                "instructions": "Use the lesson-specific clue, then reveal the answer.",
+                "items": [
+                  {
+                    "prompt": "Alpine Goods stores product photos, shared finance files, device status entities, and raw sales extracts for analytics.",
+                    "answer": "Product images -> Blob Storage; shared drive -> Azure Files; device entities by PartitionKey/RowKey -> Table storage; curated analytics folders -> Data Lake Storage Gen2."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Blob Storage clue",
+              "back": "Unstructured object data such as images, logs, or raw files."
+            },
+            {
+              "front": "Azure Files clue",
+              "back": "A managed shared file system for apps or users."
+            },
+            {
+              "front": "Table storage clue",
+              "back": "Simple entities retrieved by PartitionKey and RowKey."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Blob Storage introduction",
+              "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Azure Files introduction",
+              "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-introduction",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Table storage overview",
+              "url": "https://learn.microsoft.com/en-us/azure/storage/tables/table-storage-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Data Lake Storage overview",
+              "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Access tiers for blob data",
+              "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "dp900-nrl-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "non-relational-data",
+              "objectiveCode": "3.1",
+              "difficulty": "EASY",
+              "stem": "Which Azure Storage service stores product images and raw log objects?",
+              "explanation": "Azure Blob Storage is the Azure Storage option for unstructured object data, so images and raw log files belong in blob containers rather than file shares, tables, or relational databases.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure Blob Storage",
+                  "correct": true,
+                  "explanation": "Blob Storage is built for unstructured objects such as image files, raw logs, backups, and similar file-like payloads."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Files",
+                  "correct": false,
+                  "explanation": "Azure Files is for managed file shares, not object containers for photos and logs."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure Table storage",
+                  "correct": false,
+                  "explanation": "Azure Table storage stores key-attribute entities; it is not the object-container service for photos or log files."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure SQL Database",
+                  "correct": false,
+                  "explanation": "Azure SQL Database stores relational rows and is not the natural landing place for raw image or log objects."
+                }
+              ],
+              "lessonSlug": "azure-storage-non-relational-services",
+              "sources": [
+                {
+                  "title": "Blob Storage introduction",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Files introduction",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Table storage overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/tables/table-storage-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Data Lake Storage overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Access tiers for blob data",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-nrl-002",
+              "type": "TRUE_FALSE",
+              "domainKey": "non-relational-data",
+              "objectiveCode": "3.1",
+              "difficulty": "EASY",
+              "stem": "Azure Table storage is a NoSQL key-attribute store rather than a relational join engine.",
+              "explanation": "Azure Table storage stores NoSQL entities with PartitionKey and RowKey; it is not a relational join service.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Azure Table storage stores schemaless entities identified by PartitionKey and RowKey, not relational tables joined with SQL."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that Table storage is a NoSQL key-attribute service rather than a relational database engine."
+                }
+              ],
+              "lessonSlug": "azure-storage-non-relational-services",
+              "sources": [
+                {
+                  "title": "Blob Storage introduction",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Files introduction",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Table storage overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/tables/table-storage-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Data Lake Storage overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Access tiers for blob data",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-nrl-003",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "non-relational-data",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which two Azure Storage choices match Alpine Goods file and key-attribute requirements?",
+              "selectCount": 2,
+              "explanation": "Blob Storage, Azure Files, and Table storage serve different non-relational storage needs; object files, mounted shares, and key-attribute entities should not be treated as one service.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Blob Storage is appropriate for product images, backups, and raw log objects.",
+                  "correct": true,
+                  "explanation": "Blob Storage is object storage for unstructured files and raw data."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Files provides managed file shares for applications or users.",
+                  "correct": true,
+                  "explanation": "Azure Files exposes shared file systems rather than document databases."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure SQL Database is the best storage service for every image and file-share requirement.",
+                  "correct": false,
+                  "explanation": "SQL Database is relational and does not replace object storage or managed shares."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure Table storage is chosen when relational joins and foreign keys are required.",
+                  "correct": false,
+                  "explanation": "Table storage is NoSQL key-attribute storage, not a relational join engine."
+                }
+              ],
+              "lessonSlug": "azure-storage-non-relational-services",
+              "sources": [
+                {
+                  "title": "Blob Storage introduction",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Files introduction",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Table storage overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/tables/table-storage-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Data Lake Storage overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Access tiers for blob data",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-nrl-004",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "non-relational-data",
+              "objectiveCode": "3.1",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about the Azure Storage service for object data such as images and logs.",
+              "explanation": "Azure Blob Storage is the correct object store because it keeps unstructured data as blobs inside containers instead of as relational rows or file shares.",
+              "fillInBlank": {
+                "template": "Product images, raw logs, backups, and exported files are typical object workloads for {{b1}}.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "azure blob storage",
+                      "blob storage"
+                    ],
+                    "explanation": "Azure Blob Storage is correct because it is designed for object data such as images, logs, backups, and raw exported files."
+                  }
+                ],
+                "wordBank": [
+                  "azure blob storage",
+                  "azure files",
+                  "azure table storage",
+                  "azure sql database"
+                ]
+              },
+              "lessonSlug": "azure-storage-non-relational-services",
+              "sources": [
+                {
+                  "title": "Blob Storage introduction",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Files introduction",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Table storage overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/tables/table-storage-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Data Lake Storage overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Access tiers for blob data",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-nrl-005",
+              "type": "MATCHING",
+              "domainKey": "non-relational-data",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each Alpine Goods storage need to the correct Azure Storage service.",
+              "explanation": "The storage choices map object files to blobs, shared folders to Azure Files, and key-attribute entities to Table storage.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "photos",
+                    "text": "Product photos and raw log objects"
+                  },
+                  {
+                    "id": "share",
+                    "text": "Lift-and-shift app needs an SMB file share"
+                  },
+                  {
+                    "id": "entity",
+                    "text": "Device status stored by PartitionKey and RowKey"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "blob",
+                    "text": "Azure Blob Storage"
+                  },
+                  {
+                    "id": "files",
+                    "text": "Azure Files"
+                  },
+                  {
+                    "id": "table",
+                    "text": "Azure Table storage"
+                  },
+                  {
+                    "id": "sql",
+                    "text": "Azure SQL Database"
+                  }
+                ],
+                "pairs": {
+                  "photos": "blob",
+                  "share": "files",
+                  "entity": "table"
+                },
+                "explanations": {
+                  "photos": "This clue maps to Azure Blob Storage.",
+                  "share": "This clue maps to Azure Files.",
+                  "entity": "This clue maps to Azure Table storage."
+                }
+              },
+              "lessonSlug": "azure-storage-non-relational-services",
+              "sources": [
+                {
+                  "title": "Blob Storage introduction",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Files introduction",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Table storage overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/tables/table-storage-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Data Lake Storage overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Access tiers for blob data",
+                  "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "cosmos-db-distribution-consistency-partitioning",
+          "title": "Cosmos DB distribution, consistency, and partitioning",
+          "objectiveCode": "3.2",
+          "estimatedMinutes": 12,
+          "summary": "Cosmos DB supports distributed operational app data with global distribution, consistency choices, and partition keys.",
+          "learningObjectives": [
+            "Explain how Cosmos DB supports global distribution for operational app data",
+            "Distinguish consistency choices and partition keys in Cosmos DB scenarios",
+            "Choose a partition key from query and scale patterns such as customerId"
+          ],
+          "explanation": "At fictional Northwind Traders and Alpine Goods, learners compare realistic data needs. Cosmos DB supports distributed operational app data with global distribution, consistency choices, and partition keys. Read the scenario: structured rows and keys suggest relational design; SQL statements suggest database objects; SQL Server compatibility suggests Azure SQL choices; PostgreSQL or MySQL names point to their managed services; object files, shares, key-value entities, and analytics folders point to Azure Storage; globally distributed JSON documents and API clues point to Azure Cosmos DB. Where natural, practise these ideas in the Azure SQL query editor, Cosmos DB Data Explorer, and Data Lake Storage labs.",
+          "terminology": [
+            {
+              "term": "Azure Cosmos DB",
+              "definition": "Distributed database service for operational application data."
+            },
+            {
+              "term": "Partition key",
+              "definition": "Item property used to distribute data into logical partitions."
+            },
+            {
+              "term": "Consistency level",
+              "definition": "Choice that controls how reads observe writes across replicas."
+            },
+            {
+              "term": "Global distribution",
+              "definition": "Replicating data to regions for app access patterns."
+            },
+            {
+              "term": "Container",
+              "definition": "Cosmos DB resource that stores items and partitioning settings."
+            }
+          ],
+          "businessScenario": "Alpine Goods builds a mobile ordering app that stores JSON orders and usually retrieves all orders for one customer.",
+          "technicalExample": "An order item includes { \"id\": \"ord-1001\", \"customerId\": \"cust-42\", \"status\": \"Shipped\" }. The Orders container uses /customerId as the partition key.",
+          "misconception": {
+            "myth": "Any JSON property works equally well as a Cosmos DB partition key.",
+            "reality": "A good partition key has many distinct values and matches frequent reads or writes; low-cardinality keys can create hot partitions."
+          },
+          "examTakeaway": "Global JSON operational app points to Cosmos DB; customer-order lookups point to /customerId rather than a low-cardinality key like /status.",
+          "recap": "Cosmos DB supports distributed operational app data with global distribution, consistency choices, and partition keys.",
+          "simplerExplanation": "Think of sorting delivery parcels by customer route instead of by the word “shipped”; routes spread the work, while one status pile gets crowded.",
+          "anotherExample": "A game profile container might partition by playerId because the app frequently reads and updates one player profile at a time.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Cosmos DB design choices",
+                "columns": [
+                  {
+                    "title": "Strong clue",
+                    "points": [
+                      "Global JSON operational app points to Cosmos DB; customer-order lookups point to /customerId rather than a low-cardinality key like /status."
+                    ]
+                  },
+                  {
+                    "title": "Common trap",
+                    "points": [
+                      "Any JSON property works equally well as a Cosmos DB partition key."
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Pick a partition key for orders",
+                "instructions": "Use the lesson-specific clue, then reveal the answer.",
+                "items": [
+                  {
+                    "prompt": "Alpine Goods builds a mobile ordering app that stores JSON orders and usually retrieves all orders for one customer.",
+                    "answer": "An order item includes { \"id\": \"ord-1001\", \"customerId\": \"cust-42\", \"status\": \"Shipped\" }. The Orders container uses /customerId as the partition key."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Good partition key quality",
+              "back": "Many distinct values and alignment with common access patterns."
+            },
+            {
+              "front": "Consistency level purpose",
+              "back": "Controls how reads observe writes in a distributed database."
+            },
+            {
+              "front": "Global distribution clue",
+              "back": "Operational app users are spread across geographies."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Azure Cosmos DB overview",
+              "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Cosmos DB partitioning",
+              "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/partitioning",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Cosmos DB consistency levels",
+              "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/consistency-levels",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "dp900-nrl-006",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "non-relational-data",
+              "objectiveCode": "3.2",
+              "difficulty": "EASY",
+              "stem": "Which service fits globally distributed JSON order documents?",
+              "explanation": "Azure Cosmos DB is built for globally distributed NoSQL data, including JSON documents with tunable consistency.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure Cosmos DB",
+                  "correct": true,
+                  "explanation": "Cosmos DB supports globally distributed JSON document workloads."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Files",
+                  "correct": false,
+                  "explanation": "Azure Files provides shared folders and does not provide a distributed document database model."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure Blob Storage",
+                  "correct": false,
+                  "explanation": "Blob Storage stores objects but does not provide document queries and consistency levels for JSON items."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure SQL Database",
+                  "correct": false,
+                  "explanation": "Azure SQL Database is relational and is not the native globally distributed NoSQL document choice."
+                }
+              ],
+              "lessonSlug": "cosmos-db-distribution-consistency-partitioning",
+              "sources": [
+                {
+                  "title": "Azure Cosmos DB overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Cosmos DB partitioning",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/partitioning",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Cosmos DB consistency levels",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/consistency-levels",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-nrl-007",
+              "type": "TRUE_FALSE",
+              "domainKey": "non-relational-data",
+              "objectiveCode": "3.2",
+              "difficulty": "EASY",
+              "stem": "Cosmos DB consistency levels describe read/write visibility tradeoffs.",
+              "explanation": "Cosmos DB consistency levels control how quickly reads reflect writes across replicas and regions.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Cosmos DB consistency levels define how quickly reads observe writes across replicas, balancing latency, availability, and consistency."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that consistency levels are specifically about read visibility after writes in distributed Cosmos DB replicas."
+                }
+              ],
+              "lessonSlug": "cosmos-db-distribution-consistency-partitioning",
+              "sources": [
+                {
+                  "title": "Azure Cosmos DB overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Cosmos DB partitioning",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/partitioning",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Cosmos DB consistency levels",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/consistency-levels",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-nrl-008",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "non-relational-data",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which two partition-key design statements help a Cosmos DB container scale?",
+              "selectCount": 2,
+              "explanation": "A useful partition key spreads items across many logical partition values and matches common query patterns so reads and writes are not concentrated in one hot value.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "The partition key helps Cosmos DB distribute items across logical partitions.",
+                  "correct": true,
+                  "explanation": "Partition-key values determine how items are grouped for distribution."
+                },
+                {
+                  "key": "B",
+                  "text": "A good partition key usually has many values and aligns with frequent queries.",
+                  "correct": true,
+                  "explanation": "High-cardinality values that match access patterns help spread workload and avoid hot partitions."
+                },
+                {
+                  "key": "C",
+                  "text": "The item id alone always determines the physical partition for every container.",
+                  "correct": false,
+                  "explanation": "Cosmos DB uses the configured partition key path with the item id to identify items."
+                },
+                {
+                  "key": "D",
+                  "text": "Every Cosmos DB workload should use the same partition key, such as /type.",
+                  "correct": false,
+                  "explanation": "Partition-key choice depends on the application data and query patterns."
+                }
+              ],
+              "lessonSlug": "cosmos-db-distribution-consistency-partitioning",
+              "sources": [
+                {
+                  "title": "Azure Cosmos DB overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Cosmos DB partitioning",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/partitioning",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Cosmos DB consistency levels",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/consistency-levels",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-nrl-009",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "non-relational-data",
+              "objectiveCode": "3.2",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about the Cosmos DB setting that distributes items in a container.",
+              "explanation": "The partition key is the container design choice that determines how Azure Cosmos DB groups items for logical partitioning and scale-out distribution.",
+              "fillInBlank": {
+                "template": "In Azure Cosmos DB for NoSQL, the {{b1}} path helps distribute items and should align with common access patterns.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "partition key",
+                      "partition-key"
+                    ],
+                    "explanation": "Partition key is correct because Cosmos DB uses the configured partition-key value, with the item id, to place and address items in a container."
+                  }
+                ],
+                "wordBank": [
+                  "partition key",
+                  "consistency level",
+                  "api",
+                  "graph traversal"
+                ]
+              },
+              "lessonSlug": "cosmos-db-distribution-consistency-partitioning",
+              "sources": [
+                {
+                  "title": "Azure Cosmos DB overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Cosmos DB partitioning",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/partitioning",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Cosmos DB consistency levels",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/consistency-levels",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-nrl-010",
+              "type": "MATCHING",
+              "domainKey": "non-relational-data",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Match each Cosmos DB design concept to its purpose.",
+              "explanation": "Cosmos DB design choices connect distribution, consistency, and partitioning to application behavior.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "region",
+                    "text": "Serve users from multiple Azure regions"
+                  },
+                  {
+                    "id": "visibility",
+                    "text": "Choose how quickly reads reflect writes"
+                  },
+                  {
+                    "id": "partition",
+                    "text": "Distribute items by tenantId for scale"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "global",
+                    "text": "Global distribution"
+                  },
+                  {
+                    "id": "consistency",
+                    "text": "Consistency level"
+                  },
+                  {
+                    "id": "pk",
+                    "text": "Partition key"
+                  },
+                  {
+                    "id": "share",
+                    "text": "Azure file share"
+                  }
+                ],
+                "pairs": {
+                  "region": "global",
+                  "visibility": "consistency",
+                  "partition": "pk"
+                },
+                "explanations": {
+                  "region": "This clue maps to Global distribution.",
+                  "visibility": "This clue maps to Consistency level.",
+                  "partition": "This clue maps to Partition key."
+                }
+              },
+              "lessonSlug": "cosmos-db-distribution-consistency-partitioning",
+              "sources": [
+                {
+                  "title": "Azure Cosmos DB overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Cosmos DB partitioning",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/partitioning",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Cosmos DB consistency levels",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/consistency-levels",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "cosmos-db-apis-workload-fit",
+          "title": "Cosmos DB APIs and workload fit",
+          "objectiveCode": "3.2",
+          "estimatedMinutes": 12,
+          "summary": "Cosmos DB APIs include NoSQL, MongoDB, PostgreSQL, Cassandra, Gremlin, and Table for different app models.",
+          "learningObjectives": [
+            "Match Cosmos DB APIs to NoSQL, MongoDB, PostgreSQL, Cassandra, Gremlin, or Table workloads",
+            "Choose Gremlin for graph relationships and MongoDB API for existing drivers",
+            "Identify when native JSON documents fit the Cosmos DB for NoSQL API"
+          ],
+          "explanation": "At fictional Northwind Traders and Alpine Goods, learners compare realistic data needs. Cosmos DB APIs include NoSQL, MongoDB, PostgreSQL, Cassandra, Gremlin, and Table for different app models. Read the scenario: structured rows and keys suggest relational design; SQL statements suggest database objects; SQL Server compatibility suggests Azure SQL choices; PostgreSQL or MySQL names point to their managed services; object files, shares, key-value entities, and analytics folders point to Azure Storage; globally distributed JSON documents and API clues point to Azure Cosmos DB. Where natural, practise these ideas in the Azure SQL query editor, Cosmos DB Data Explorer, and Data Lake Storage labs.",
+          "terminology": [
+            {
+              "term": "Azure Cosmos DB for NoSQL",
+              "definition": "Native API for JSON document workloads."
+            },
+            {
+              "term": "Azure Cosmos DB for MongoDB",
+              "definition": "API for MongoDB-compatible applications."
+            },
+            {
+              "term": "Azure Cosmos DB for Apache Gremlin",
+              "definition": "API for graph workloads with vertices and edges."
+            },
+            {
+              "term": "Azure Cosmos DB for Apache Cassandra",
+              "definition": "API for Cassandra-style wide-column workloads."
+            },
+            {
+              "term": "Azure Cosmos DB for Table",
+              "definition": "API for key-value Table patterns."
+            }
+          ],
+          "businessScenario": "Alpine Goods evaluates one database family for a JSON order app, a MongoDB-compatible catalog, a recommendation graph, and Cassandra-style telemetry.",
+          "technicalExample": "Native JSON orders -> NoSQL; existing MongoDB drivers -> MongoDB; product recommendation relationships -> Gremlin; Cassandra telemetry -> Cassandra; key-value table entities -> Table.",
+          "misconception": {
+            "myth": "All Cosmos DB APIs expose the same data model, so the API choice is cosmetic.",
+            "reality": "Each API targets a different app model or compatibility surface, such as NoSQL documents, MongoDB, Gremlin graph, or Cassandra."
+          },
+          "examTakeaway": "Choose the Cosmos DB API from the model clue: JSON documents = NoSQL, MongoDB app = MongoDB, graph traversal = Gremlin, Cassandra app = Cassandra, Table pattern = Table.",
+          "recap": "Cosmos DB APIs include NoSQL, MongoDB, PostgreSQL, Cassandra, Gremlin, and Table for different app models.",
+          "simplerExplanation": "Cosmos DB is like an airport with several gates: document apps, graph apps, and MongoDB-compatible apps board through different gates.",
+          "anotherExample": "A fraud app following account-device relationships can use Gremlin, while a shopping cart stored as JSON documents can use the NoSQL API.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Cosmos DB API chooser",
+                "columns": [
+                  {
+                    "title": "Strong clue",
+                    "points": [
+                      "Choose the Cosmos DB API from the model clue: JSON documents = NoSQL, MongoDB app = MongoDB, graph traversal = Gremlin, Cassandra app = Cassandra, Table pattern = Table."
+                    ]
+                  },
+                  {
+                    "title": "Common trap",
+                    "points": [
+                      "All Cosmos DB APIs expose the same data model, so the API choice is cosmetic."
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "API matching exercise",
+                "instructions": "Use the lesson-specific clue, then reveal the answer.",
+                "items": [
+                  {
+                    "prompt": "Alpine Goods evaluates one database family for a JSON order app, a MongoDB-compatible catalog, a recommendation graph, and Cassandra-style telemetry.",
+                    "answer": "Native JSON orders -> NoSQL; existing MongoDB drivers -> MongoDB; product recommendation relationships -> Gremlin; Cassandra telemetry -> Cassandra; key-value table entities -> Table."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "NoSQL API clue",
+              "back": "Native JSON documents and Cosmos DB SQL-style document queries."
+            },
+            {
+              "front": "Gremlin API clue",
+              "back": "Vertices, edges, and graph traversal."
+            },
+            {
+              "front": "MongoDB API clue",
+              "back": "Existing application code or drivers expect MongoDB compatibility."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Azure Cosmos DB documentation",
+              "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Azure Cosmos DB overview",
+              "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "dp900-nrl-011",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "non-relational-data",
+              "objectiveCode": "3.2",
+              "difficulty": "EASY",
+              "stem": "Which Cosmos DB API fits native JSON order documents?",
+              "explanation": "The Azure Cosmos DB for NoSQL API is the native document API for JSON items and SQL-style queries over those items.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure Cosmos DB for NoSQL API for JSON documents",
+                  "correct": true,
+                  "explanation": "The NoSQL API is the native Cosmos DB document API for JSON items stored in containers and queried with SQL-style syntax."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Cosmos DB API for MongoDB for existing apps",
+                  "correct": false,
+                  "explanation": "The MongoDB API is best when the app already depends on MongoDB drivers or wire protocol."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure Blob Storage object containers",
+                  "correct": false,
+                  "explanation": "Blob containers store objects but do not provide the Cosmos DB JSON document API."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure SQL Database relational tables",
+                  "correct": false,
+                  "explanation": "Relational tables are not the native Cosmos DB document API."
+                }
+              ],
+              "lessonSlug": "cosmos-db-apis-workload-fit",
+              "sources": [
+                {
+                  "title": "Azure Cosmos DB documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Cosmos DB overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-nrl-012",
+              "type": "TRUE_FALSE",
+              "domainKey": "non-relational-data",
+              "objectiveCode": "3.2",
+              "difficulty": "EASY",
+              "stem": "Azure Cosmos DB for NoSQL stores JSON items in containers and lets applications query them with SQL-like queries.",
+              "explanation": "The statement describes the native Azure Cosmos DB for NoSQL model: JSON items are stored in containers and queried with the NoSQL API.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Azure Cosmos DB for NoSQL stores JSON documents as items in containers and supports SQL-like querying over those items."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that JSON items and SQL-like queries are core features of Azure Cosmos DB for NoSQL."
+                }
+              ],
+              "lessonSlug": "cosmos-db-apis-workload-fit",
+              "sources": [
+                {
+                  "title": "Azure Cosmos DB documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Cosmos DB overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-nrl-013",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "non-relational-data",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which two API selections correctly match Cosmos DB application models?",
+              "selectCount": 2,
+              "explanation": "Cosmos DB exposes multiple APIs so an application can use the native NoSQL document model, MongoDB compatibility, Gremlin graphs, Cassandra-style wide columns, or Table workloads as appropriate.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Use the NoSQL API for native Cosmos DB JSON document containers.",
+                  "correct": true,
+                  "explanation": "Choose the NoSQL API for new native Cosmos DB document apps that store JSON items in containers."
+                },
+                {
+                  "key": "B",
+                  "text": "Use the MongoDB API when an application needs MongoDB protocol or drivers.",
+                  "correct": true,
+                  "explanation": "The MongoDB API supports apps written for MongoDB-compatible access."
+                },
+                {
+                  "key": "C",
+                  "text": "Use the Gremlin API for relational SQL joins between normalized tables.",
+                  "correct": false,
+                  "explanation": "Gremlin is for graph workloads, not relational joins."
+                },
+                {
+                  "key": "D",
+                  "text": "Use the Table API for graph traversals between vertices and edges.",
+                  "correct": false,
+                  "explanation": "Graph traversals belong with the Gremlin API; Table API is for key-value table workloads."
+                }
+              ],
+              "lessonSlug": "cosmos-db-apis-workload-fit",
+              "sources": [
+                {
+                  "title": "Azure Cosmos DB documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Cosmos DB overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-nrl-014",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "non-relational-data",
+              "objectiveCode": "3.2",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about the native Cosmos DB API for JSON document containers.",
+              "explanation": "For a new Cosmos DB document application, the NoSQL API is the native choice because it stores JSON items in containers and supports SQL-style queries without requiring MongoDB, Gremlin, or file-share compatibility.",
+              "fillInBlank": {
+                "template": "For a new native Cosmos DB application that stores JSON documents in containers, choose {{b1}}.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "azure cosmos db for nosql",
+                      "cosmos db for nosql",
+                      "nosql api"
+                    ],
+                    "explanation": "Azure Cosmos DB for NoSQL is correct because it is the native API for JSON items in Cosmos DB containers."
+                  }
+                ],
+                "wordBank": [
+                  "azure cosmos db for nosql",
+                  "api for mongodb",
+                  "api for apache gremlin",
+                  "azure files"
+                ]
+              },
+              "lessonSlug": "cosmos-db-apis-workload-fit",
+              "sources": [
+                {
+                  "title": "Azure Cosmos DB documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Cosmos DB overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-nrl-015",
+              "type": "MATCHING",
+              "domainKey": "non-relational-data",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Match each application model to the correct Cosmos DB API.",
+              "explanation": "Each Cosmos DB API aligns with a different application programming model or existing client ecosystem.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "json",
+                    "text": "Native JSON documents with SQL-style queries"
+                  },
+                  {
+                    "id": "mongo",
+                    "text": "Existing app uses MongoDB drivers"
+                  },
+                  {
+                    "id": "graph",
+                    "text": "App traverses relationships between vertices and edges"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "nosql",
+                    "text": "Azure Cosmos DB NoSQL API"
+                  },
+                  {
+                    "id": "mongodb",
+                    "text": "Azure Cosmos DB API for MongoDB"
+                  },
+                  {
+                    "id": "gremlin",
+                    "text": "Azure Cosmos DB for Apache Gremlin"
+                  },
+                  {
+                    "id": "files",
+                    "text": "Azure Files"
+                  }
+                ],
+                "pairs": {
+                  "json": "nosql",
+                  "mongo": "mongodb",
+                  "graph": "gremlin"
+                },
+                "explanations": {
+                  "json": "This clue maps to Azure Cosmos DB NoSQL API.",
+                  "mongo": "This clue maps to Azure Cosmos DB API for MongoDB.",
+                  "graph": "This clue maps to Azure Cosmos DB for Apache Gremlin."
+                }
+              },
+              "lessonSlug": "cosmos-db-apis-workload-fit",
+              "sources": [
+                {
+                  "title": "Azure Cosmos DB documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Cosmos DB overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

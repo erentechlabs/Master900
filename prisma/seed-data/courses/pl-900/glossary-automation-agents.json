@@ -1,0 +1,349 @@
+{
+  "terms": [
+    {
+      "slug": "cloud-flow",
+      "term": "Cloud flow",
+      "kind": "TERM",
+      "definition": "An automated workflow that runs in the Power Automate cloud service and uses triggers and actions to connect apps and services.",
+      "attributes": {
+        "category": "Power Automate",
+        "useCases": [
+          "Automate approvals",
+          "Send notifications"
+        ],
+        "keyFeatures": [
+          "Automated, instant, and scheduled patterns",
+          "Connectors and run history"
+        ],
+        "comparesWith": [
+          "desktop-flow"
+        ]
+      },
+      "source": {
+        "title": "Overview of cloud flows",
+        "url": "https://learn.microsoft.com/en-us/power-automate/overview-cloud",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Power Automate bulut hizmetinde çalışan; uygulama ve hizmetleri bağlamak için tetikleyiciler ve eylemler kullanan otomatik iş akışı.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "desktop-flow",
+      "term": "Desktop flow",
+      "kind": "TERM",
+      "definition": "A Power Automate automation for repetitive desktop or legacy-application tasks on a workstation.",
+      "attributes": {
+        "category": "Power Automate",
+        "useCases": [
+          "Automate desktop UI tasks",
+          "Work with legacy apps"
+        ],
+        "keyFeatures": [
+          "Robotic process automation",
+          "Recorded or designed desktop steps"
+        ],
+        "comparesWith": [
+          "cloud-flow"
+        ]
+      },
+      "source": {
+        "title": "Introduction to desktop flows",
+        "url": "https://learn.microsoft.com/en-us/power-automate/desktop-flows/introduction",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir iş istasyonunda tekrarlayan masaüstü veya eski uygulama görevlerini otomatikleştiren Power Automate otomasyonu.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "robotic-process-automation",
+      "term": "Robotic process automation",
+      "kind": "CONCEPT",
+      "definition": "A style of automation that performs repetitive, rule-based user-interface tasks, often by using desktop flows.",
+      "attributes": {
+        "category": "Automation",
+        "useCases": [
+          "Reduce repetitive data entry",
+          "Bridge legacy applications"
+        ],
+        "keyFeatures": [
+          "Rule-based execution",
+          "Useful where APIs are unavailable"
+        ],
+        "comparesWith": [
+          "desktop-flow"
+        ]
+      },
+      "source": {
+        "title": "Introduction to desktop flows",
+        "url": "https://learn.microsoft.com/en-us/power-automate/desktop-flows/introduction",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Çoğunlukla desktop flows kullanarak tekrarlayan, kural tabanlı kullanıcı arabirimi görevlerini yerine getiren otomasyon yaklaşımı.",
+          "status": "DRAFT",
+          "term": "Robotik süreç otomasyonu"
+        }
+      }
+    },
+    {
+      "slug": "trigger",
+      "term": "Trigger",
+      "kind": "TERM",
+      "definition": "The event, button, or schedule that starts a Power Automate cloud flow.",
+      "attributes": {
+        "category": "Power Automate",
+        "useCases": [
+          "Start from Dataverse rows",
+          "Run from a button",
+          "Run on a schedule"
+        ],
+        "keyFeatures": [
+          "Provided by connectors",
+          "Determines when a flow begins"
+        ],
+        "comparesWith": [
+          "action"
+        ]
+      },
+      "source": {
+        "title": "Overview of cloud flows",
+        "url": "https://learn.microsoft.com/en-us/power-automate/overview-cloud",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir Power Automate cloud flow'u başlatan olay, düğme veya zamanlama.",
+          "status": "DRAFT",
+          "term": "Tetikleyici"
+        }
+      }
+    },
+    {
+      "slug": "action",
+      "term": "Action",
+      "kind": "TERM",
+      "definition": "A step in a flow or agent design that performs work after a trigger or conversation decision.",
+      "attributes": {
+        "category": "Automation",
+        "useCases": [
+          "Send email",
+          "Start approval",
+          "Call external systems"
+        ],
+        "keyFeatures": [
+          "Runs after a trigger or node",
+          "Uses inputs and outputs"
+        ],
+        "comparesWith": [
+          "trigger"
+        ]
+      },
+      "source": {
+        "title": "Overview of cloud flows",
+        "url": "https://learn.microsoft.com/en-us/power-automate/overview-cloud",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir tetikleyici veya konuşma kararından sonra iş yapan akış ya da agent tasarımı adımı.",
+          "status": "DRAFT",
+          "term": "Eylem"
+        }
+      }
+    },
+    {
+      "slug": "approval-flow",
+      "term": "Approval flow",
+      "kind": "CONCEPT",
+      "definition": "A cloud-flow pattern that pauses for one or more people to approve or reject a request before continuing.",
+      "attributes": {
+        "category": "Power Automate",
+        "useCases": [
+          "Approve equipment requests",
+          "Review documents"
+        ],
+        "keyFeatures": [
+          "Approval actions",
+          "Branches on outcome"
+        ],
+        "comparesWith": [
+          "cloud-flow"
+        ]
+      },
+      "source": {
+        "title": "Create and test an approval workflow with Power Automate",
+        "url": "https://learn.microsoft.com/en-us/power-automate/modern-approvals",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Devam etmeden önce bir veya daha fazla kişinin isteği onaylamasını ya da reddetmesini bekleyen cloud-flow deseni.",
+          "status": "DRAFT",
+          "term": "Onay akışı"
+        }
+      }
+    },
+    {
+      "slug": "process-mining",
+      "term": "Process mining",
+      "kind": "CONCEPT",
+      "definition": "Analysis of event-log data to discover how a business process really runs, including variations, bottlenecks, and improvement opportunities.",
+      "attributes": {
+        "category": "Power Automate",
+        "useCases": [
+          "Analyze order-to-cash processes",
+          "Find approval bottlenecks"
+        ],
+        "keyFeatures": [
+          "Uses event data",
+          "Shows process maps and metrics"
+        ]
+      },
+      "source": {
+        "title": "Overview of process mining and task mining in Power Automate",
+        "url": "https://learn.microsoft.com/en-us/power-automate/process-advisor-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir iş sürecinin gerçekte nasıl işlediğini; varyasyonları, darboğazları ve iyileştirme fırsatlarını görmek için olay günlüğü verilerinin analiz edilmesi.",
+          "status": "DRAFT",
+          "term": "Süreç madenciliği"
+        }
+      }
+    },
+    {
+      "slug": "copilot-studio",
+      "term": "Microsoft Copilot Studio",
+      "kind": "SERVICE",
+      "definition": "A low-code studio for building and managing AI-powered agents and workflows that can use knowledge, topics, tools, and channels.",
+      "attributes": {
+        "category": "Power Platform",
+        "serviceModel": "SaaS",
+        "useCases": [
+          "Create employee help agents",
+          "Build customer support agents"
+        ],
+        "keyFeatures": [
+          "Agent authoring",
+          "Knowledge sources",
+          "Tools and channels"
+        ]
+      },
+      "source": {
+        "title": "Overview - Microsoft Copilot Studio",
+        "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bilgi kaynakları, konular, araçlar ve kanallar kullanabilen yapay zeka destekli agent'lar ve iş akışları oluşturup yönetmeye yarayan low-code stüdyo.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "topic",
+      "term": "Topic",
+      "kind": "TERM",
+      "definition": "A Copilot Studio conversation path that defines how an agent responds to a recognized user intent.",
+      "attributes": {
+        "category": "Copilot Studio",
+        "useCases": [
+          "Guide a time-off request",
+          "Collect support details"
+        ],
+        "keyFeatures": [
+          "Trigger phrases",
+          "Questions, variables, and conditions"
+        ],
+        "comparesWith": [
+          "knowledge-source"
+        ]
+      },
+      "source": {
+        "title": "Create and edit topics",
+        "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-create-edit-topics",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir agent'ın tanınan kullanıcı amacına nasıl yanıt vereceğini tanımlayan Copilot Studio konuşma yolu.",
+          "status": "DRAFT",
+          "term": "Konu"
+        }
+      }
+    },
+    {
+      "slug": "knowledge-source",
+      "term": "Knowledge source",
+      "kind": "TERM",
+      "definition": "Approved content or data connected to a Copilot Studio agent to ground generative answers in relevant information.",
+      "attributes": {
+        "category": "Copilot Studio",
+        "useCases": [
+          "Answer policy questions",
+          "Use internal SharePoint content"
+        ],
+        "keyFeatures": [
+          "Grounded generative answers",
+          "Audience-appropriate sources"
+        ],
+        "comparesWith": [
+          "topic"
+        ]
+      },
+      "source": {
+        "title": "Knowledge sources summary",
+        "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Üretken yanıtları ilgili bilgiye dayandırmak için Copilot Studio agent'ına bağlanan onaylı içerik veya veri.",
+          "status": "DRAFT",
+          "term": "Bilgi kaynağı"
+        }
+      }
+    }
+  ]
+}

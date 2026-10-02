@@ -1,0 +1,712 @@
+{
+  "questions": [
+    {
+      "ref": "pl900-aut-101",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "power-automate",
+      "objectiveCode": "4.1",
+      "difficulty": "EASY",
+      "stem": "Which cloud flow type starts when a user selects a button?",
+      "explanation": "Instant cloud flows start manually.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Instant cloud flow",
+          "correct": true,
+          "explanation": "Correct: Instant cloud flows start manually."
+        },
+        {
+          "key": "B",
+          "text": "Scheduled cloud flow",
+          "correct": false,
+          "explanation": "This starts on time."
+        },
+        {
+          "key": "C",
+          "text": "Automated cloud flow",
+          "correct": false,
+          "explanation": "This starts from an event."
+        },
+        {
+          "key": "D",
+          "text": "Process mining",
+          "correct": false,
+          "explanation": "This analyzes processes."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Overview of cloud flows",
+          "url": "https://learn.microsoft.com/en-us/power-automate/overview-cloud",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "pl900-aut-102",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "power-automate",
+      "objectiveCode": "4.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which **two** services commonly appear in cloud-flow scenarios for forms and notifications?",
+      "explanation": "Forms can trigger and Teams can notify.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Microsoft Forms",
+          "correct": true,
+          "explanation": "Forms can provide the submitted response."
+        },
+        {
+          "key": "B",
+          "text": "Microsoft Teams",
+          "correct": true,
+          "explanation": "Teams can receive a notification."
+        },
+        {
+          "key": "C",
+          "text": "Desktop recorder",
+          "correct": false,
+          "explanation": "That is not the cloud notification service."
+        },
+        {
+          "key": "D",
+          "text": "Process mining",
+          "correct": false,
+          "explanation": "That is analysis."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Overview of cloud flows",
+          "url": "https://learn.microsoft.com/en-us/power-automate/overview-cloud",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true,
+      "selectCount": 2
+    },
+    {
+      "ref": "pl900-aut-103",
+      "type": "CATEGORIZATION",
+      "domainKey": "power-automate",
+      "objectiveCode": "4.1",
+      "difficulty": "MEDIUM",
+      "stem": "Classify each Power Automate scenario as cloud flow, desktop flow, or process mining.",
+      "explanation": "Connector events are cloud-flow scenarios, desktop-only clicking is RPA, and bottleneck discovery belongs to process mining.",
+      "categorization": {
+        "categories": [
+          {
+            "id": "cloud",
+            "label": "Cloud flow"
+          },
+          {
+            "id": "desktop",
+            "label": "Desktop flow"
+          },
+          {
+            "id": "mining",
+            "label": "Process mining"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "text": "Run when a SharePoint item is created",
+            "category": "cloud",
+            "explanation": "A connector event starts a cloud flow."
+          },
+          {
+            "id": "i2",
+            "text": "Click through a desktop-only app",
+            "category": "desktop",
+            "explanation": "This is RPA."
+          },
+          {
+            "id": "i3",
+            "text": "Find rework in approvals",
+            "category": "mining",
+            "explanation": "Process mining finds bottlenecks."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Overview of cloud flows",
+          "url": "https://learn.microsoft.com/en-us/power-automate/overview-cloud",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Introduction to desktop flows",
+          "url": "https://learn.microsoft.com/en-us/power-automate/desktop-flows/introduction",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Overview of process mining and task mining in Power Automate",
+          "url": "https://learn.microsoft.com/en-us/power-automate/process-advisor-overview",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-aut-104",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "power-automate",
+      "objectiveCode": "4.2",
+      "difficulty": "HARD",
+      "stem": "Which configuration snippet best describes an approval cloud flow?",
+      "explanation": "The correct snippet starts from data, waits for approval, branches, and updates status.",
+      "options": [
+        {
+          "key": "A",
+          "text": "`Trigger: Dataverse row added; Action: Start and wait for approval; Condition: Outcome; Update: Status`",
+          "correct": true,
+          "explanation": "Correct: The correct snippet starts from data, waits for approval, branches, and updates status."
+        },
+        {
+          "key": "B",
+          "text": "`Trigger: Recurrence; Action: Process mining`",
+          "correct": false,
+          "explanation": "The scenario is event-driven approval."
+        },
+        {
+          "key": "C",
+          "text": "`Trigger: Manual button; Desktop click only`",
+          "correct": false,
+          "explanation": "The row event should start it."
+        },
+        {
+          "key": "D",
+          "text": "`Trigger: Agent channel; Publish to Teams`",
+          "correct": false,
+          "explanation": "That is agent publishing."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Create and test an approval workflow with Power Automate",
+          "url": "https://learn.microsoft.com/en-us/power-automate/modern-approvals",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "pl900-aut-105",
+      "type": "CASE_STUDY",
+      "domainKey": "power-automate",
+      "objectiveCode": "4.2",
+      "difficulty": "MEDIUM",
+      "scenario": "A final notification has a blank requester email.",
+      "stem": "For each statement about troubleshooting a blank requester email in a cloud-flow notification, select **Yes** if the statement is appropriate. Otherwise, select **No**.",
+      "explanation": "Run history and dynamic content checks are appropriate first steps for a single failed cloud-flow run; process mining is not.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Inspect run history for the email action input.",
+            "answer": true,
+            "explanation": "Run history shows inputs and outputs."
+          },
+          {
+            "id": "s2",
+            "text": "Check that requester email dynamic content came from the correct step.",
+            "answer": true,
+            "explanation": "Wrong dynamic content can be blank."
+          },
+          {
+            "id": "s3",
+            "text": "Use process mining before checking the failed run.",
+            "answer": false,
+            "explanation": "Process mining is not a single-run debugger."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Troubleshoot a cloud flow",
+          "url": "https://learn.microsoft.com/en-us/power-automate/fix-flow-failures",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-aut-106",
+      "type": "UI_SIMULATION",
+      "domainKey": "power-automate",
+      "objectiveCode": "4.2",
+      "difficulty": "MEDIUM",
+      "stem": "Set up a simulated approval-flow test.",
+      "explanation": "The simulated test should use realistic request data and inspect run outputs so the approval path can be verified.",
+      "uiSimulation": {
+        "title": "Configuration screen (simulated)",
+        "description": "A fictional simplified screen, not a real portal.",
+        "fields": [
+          {
+            "id": "data",
+            "label": "Test data",
+            "control": "select",
+            "options": [
+              {
+                "value": "realistic",
+                "label": "Request with requester email"
+              },
+              {
+                "value": "blank",
+                "label": "Blank row"
+              }
+            ],
+            "correct": "realistic",
+            "explanation": "Realistic data tests dynamic content."
+          },
+          {
+            "id": "history",
+            "label": "Inspect run history",
+            "control": "toggle",
+            "correct": true,
+            "explanation": "Run history confirms behavior."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Troubleshoot a cloud flow",
+          "url": "https://learn.microsoft.com/en-us/power-automate/fix-flow-failures",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-aut-107",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "power-automate",
+      "objectiveCode": "4.2",
+      "difficulty": "EASY",
+      "stem": "Complete the sentence about branching after an approval outcome in a cloud flow.",
+      "explanation": "A condition is the control that evaluates an approval outcome and sends the flow down different branches.",
+      "fillInBlank": {
+        "template": "A step that branches a flow based on an approval outcome is a {{b1}}.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "condition"
+            ],
+            "explanation": "A condition branches the flow."
+          }
+        ],
+        "wordBank": [
+          "condition",
+          "connector",
+          "channel",
+          "knowledge source"
+        ]
+      },
+      "sources": [
+        {
+          "title": "Create and test an approval workflow with Power Automate",
+          "url": "https://learn.microsoft.com/en-us/power-automate/modern-approvals",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-cps-101",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "copilot-studio-agents",
+      "objectiveCode": "5.1",
+      "difficulty": "EASY",
+      "stem": "What grounds an agent's answer in an internal SharePoint policy site?",
+      "explanation": "A knowledge source provides approved content.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Knowledge source",
+          "correct": true,
+          "explanation": "Correct: A knowledge source provides approved content."
+        },
+        {
+          "key": "B",
+          "text": "Desktop flow",
+          "correct": false,
+          "explanation": "That automates UI tasks."
+        },
+        {
+          "key": "C",
+          "text": "Run history",
+          "correct": false,
+          "explanation": "That troubleshoots flows."
+        },
+        {
+          "key": "D",
+          "text": "Scheduled flow",
+          "correct": false,
+          "explanation": "That runs on time."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Knowledge sources summary",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "pl900-cps-102",
+      "type": "ORDERING",
+      "domainKey": "copilot-studio-agents",
+      "objectiveCode": "5.1",
+      "difficulty": "MEDIUM",
+      "stem": "Order a safe agent design workflow.",
+      "explanation": "A safe design workflow defines the agent purpose, adds grounding and topics, tests the behavior, and then publishes to approved channels.",
+      "ordering": {
+        "items": [
+          {
+            "id": "s1",
+            "text": "Define purpose and boundaries"
+          },
+          {
+            "id": "s2",
+            "text": "Add topics, knowledge, and tools"
+          },
+          {
+            "id": "s3",
+            "text": "Test expected and sensitive prompts"
+          },
+          {
+            "id": "s4",
+            "text": "Publish to the appropriate channel"
+          }
+        ],
+        "correctOrder": [
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "explanations": {
+          "s1": "Scope comes first.",
+          "s2": "Capabilities follow scope.",
+          "s3": "Testing precedes release.",
+          "s4": "Publishing is last."
+        }
+      },
+      "sources": [
+        {
+          "title": "Create and delete agents",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-first-bot",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Key concepts - Publish and deploy your agent",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-fundamentals-publish-channels",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-cps-103",
+      "type": "MATCHING",
+      "domainKey": "copilot-studio-agents",
+      "objectiveCode": "5.1",
+      "difficulty": "MEDIUM",
+      "stem": "Match the request to the agent design element.",
+      "explanation": "Agent design elements are chosen by whether the request needs grounded content, a guided path, or an action through a tool.",
+      "matching": {
+        "prompts": [
+          {
+            "id": "p1",
+            "text": "What is the travel policy?"
+          },
+          {
+            "id": "p2",
+            "text": "I need to request vacation"
+          },
+          {
+            "id": "p3",
+            "text": "Create a ticket"
+          }
+        ],
+        "answers": [
+          {
+            "id": "a1",
+            "text": "Knowledge source"
+          },
+          {
+            "id": "a2",
+            "text": "Topic"
+          },
+          {
+            "id": "a3",
+            "text": "Tool"
+          }
+        ],
+        "pairs": {
+          "p1": "a1",
+          "p2": "a2",
+          "p3": "a3"
+        },
+        "explanations": {
+          "p1": "Policy answers need knowledge.",
+          "p2": "A guided path fits a topic.",
+          "p3": "Creating a ticket needs a tool."
+        }
+      },
+      "sources": [
+        {
+          "title": "Create and edit topics",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-create-edit-topics",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Knowledge sources summary",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Add tools to custom agents",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-tools-custom-agent",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-cps-104",
+      "type": "TRUE_FALSE",
+      "domainKey": "copilot-studio-agents",
+      "objectiveCode": "5.1",
+      "difficulty": "EASY",
+      "stem": "Tools can let a Copilot Studio agent perform actions.",
+      "explanation": "Tools extend agents with actions.",
+      "options": [
+        {
+          "key": "TRUE",
+          "text": "True",
+          "correct": true,
+          "explanation": "Correct. Tools extend a Copilot Studio agent so it can call services or create records instead of only responding with text."
+        },
+        {
+          "key": "FALSE",
+          "text": "False",
+          "correct": false,
+          "explanation": "Choosing False misses that tools are specifically how agents perform external actions."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Add tools to custom agents",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-tools-custom-agent",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "pl900-cps-105",
+      "type": "CASE_STUDY",
+      "domainKey": "copilot-studio-agents",
+      "objectiveCode": "5.2",
+      "difficulty": "HARD",
+      "scenario": "An internal Teams agent has low adoption and mixed response quality.",
+      "stem": "For each statement about publishing and monitoring an internal Copilot Studio agent, select **Yes** if the statement is true. Otherwise, select **No**.",
+      "explanation": "The correct choices reflect safe agent management: publish deliberately, monitor performance, and keep governance in place.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Review Monitor analytics for usage patterns.",
+            "answer": true,
+            "explanation": "Analytics show adoption signals."
+          },
+          {
+            "id": "s2",
+            "text": "Run evaluations for representative conversations.",
+            "answer": true,
+            "explanation": "Evaluations check quality."
+          },
+          {
+            "id": "s3",
+            "text": "Disable authentication for internal HR content.",
+            "answer": false,
+            "explanation": "Internal content should remain protected."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Monitor overview",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "About agent evaluation",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-intro",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Configure user authentication",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/configuration-end-user-authentication",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-cps-106",
+      "type": "CATEGORIZATION",
+      "domainKey": "copilot-studio-agents",
+      "objectiveCode": "5.2",
+      "difficulty": "MEDIUM",
+      "stem": "Classify each management concern.",
+      "explanation": "Agent management concerns map to release controls, analytics or evaluations, and governance boundaries.",
+      "categorization": {
+        "categories": [
+          {
+            "id": "publish",
+            "label": "Publish"
+          },
+          {
+            "id": "access",
+            "label": "Access"
+          },
+          {
+            "id": "monitor",
+            "label": "Monitor"
+          },
+          {
+            "id": "alm",
+            "label": "Lifecycle"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "text": "Add Teams as a channel",
+            "category": "publish",
+            "explanation": "Channels are publish targets."
+          },
+          {
+            "id": "i2",
+            "text": "Require sign-in",
+            "category": "access",
+            "explanation": "Authentication manages access."
+          },
+          {
+            "id": "i3",
+            "text": "Review topic usage metrics",
+            "category": "monitor",
+            "explanation": "Analytics support monitoring."
+          },
+          {
+            "id": "i4",
+            "text": "Move updates through solutions",
+            "category": "alm",
+            "explanation": "Solutions support ALM."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Key concepts - Publish and deploy your agent",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-fundamentals-publish-channels",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Configure user authentication",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/configuration-end-user-authentication",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Monitor overview",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Solution concepts with Power Platform",
+          "url": "https://learn.microsoft.com/en-us/power-platform/alm/solution-concepts-alm",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-cps-107",
+      "type": "UI_SIMULATION",
+      "domainKey": "copilot-studio-agents",
+      "objectiveCode": "5.2",
+      "difficulty": "MEDIUM",
+      "stem": "Choose safe simulated settings before publishing an internal finance policy agent.",
+      "explanation": "Safe publishing settings keep a finance policy agent on approved channels with monitored, grounded behavior.",
+      "uiSimulation": {
+        "title": "Configuration screen (simulated)",
+        "description": "A fictional simplified screen, not a real portal.",
+        "fields": [
+          {
+            "id": "auth",
+            "label": "Authentication",
+            "control": "select",
+            "options": [
+              {
+                "value": "required",
+                "label": "Require organizational sign-in"
+              },
+              {
+                "value": "none",
+                "label": "Anonymous"
+              }
+            ],
+            "correct": "required",
+            "explanation": "Finance policy is internal."
+          },
+          {
+            "id": "eval",
+            "label": "Run evaluation before publishing",
+            "control": "toggle",
+            "correct": true,
+            "explanation": "Evaluations reduce quality risk."
+          },
+          {
+            "id": "channel",
+            "label": "Channel",
+            "control": "select",
+            "options": [
+              {
+                "value": "teams",
+                "label": "Teams"
+              },
+              {
+                "value": "public",
+                "label": "Public anonymous site"
+              }
+            ],
+            "correct": "teams",
+            "explanation": "Teams fits internal users."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Key concepts - Publish and deploy your agent",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-fundamentals-publish-channels",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Configure user authentication",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/configuration-end-user-authentication",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "About agent evaluation",
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-intro",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    }
+  ]
+}

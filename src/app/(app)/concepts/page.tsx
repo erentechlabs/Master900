@@ -28,15 +28,15 @@ export default async function ConceptsPage({ searchParams }: { searchParams: Pro
             <CardContent className="space-y-3">
               <div>
                 <p className="mb-2 text-sm font-medium">{t("learner.concepts.appearsIn")}</p>
-                <div className="flex flex-wrap gap-2">{concept.links.map((link, index) => <Badge key={`${link.certification.code}-${index}`} variant="secondary">{link.certification.code}</Badge>)}</div>
+                <div className="flex flex-wrap gap-2">{[...new Set(concept.links.map((link) => link.certification.code))].map((code) => <Badge key={code} variant="secondary">{code}</Badge>)}</div>
               </div>
               <div>
                 <p className="mb-2 text-sm font-medium">{t("learner.concepts.relatedLessons")}</p>
                 <ul className="space-y-1 text-sm">
-                  {concept.links.flatMap((link, index) => link.lesson ? [<li key={`${link.lesson.href}-${index}`}><Link href={link.lesson.href} className="text-primary hover:underline">{link.lesson.title}</Link>{link.note ? <span className="text-muted-foreground"> — {link.note}</span> : null}</li>] : [])}
+                  {concept.links.flatMap((link, index) => link.lesson ? [<li key={`${link.lesson.href}-${index}`}><Link href={link.lesson.href} className="text-primary underline decoration-primary/40 underline-offset-4 hover:decoration-primary">{link.lesson.title}</Link>{link.note ? <span className="text-muted-foreground"> — {link.note}</span> : null}</li>] : [])}
                 </ul>
               </div>
-              <Link href={`/concepts?concept=${concept.slug}`} className="text-sm font-medium text-primary hover:underline">{concept.title}</Link>
+              <Link href={`/concepts?concept=${concept.slug}`} className="text-sm font-medium text-primary hover:underline">{t("learner.concepts.permalink")}<span className="sr-only">: {concept.title}</span></Link>
             </CardContent>
           </Card>
         ))}

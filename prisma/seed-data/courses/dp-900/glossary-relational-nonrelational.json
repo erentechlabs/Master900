@@ -1,0 +1,430 @@
+{
+  "terms": [
+    {
+      "slug": "relational-primary-key",
+      "term": "Primary key",
+      "kind": "TERM",
+      "definition": "Primary key is a DP-900 data concept used to choose or describe Azure data workloads.",
+      "attributes": {
+        "category": "DP-900 data",
+        "useCases": [
+          "Recognize scenario clues"
+        ],
+        "keyFeatures": [
+          "Beginner DP-900 concept"
+        ]
+      },
+      "source": {
+        "title": "Explore relational data concepts",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/",
+        "kind": "LEARN_MODULE"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Primary key DP-900 kapsamındaki Azure veri iş yüklerini anlamaya yardımcı olan bir kavramdır.",
+          "useCases": [
+            "Senaryo ipuçlarını tanımak"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi DP-900 kavramı"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "relational-foreign-key",
+      "term": "Foreign key",
+      "kind": "TERM",
+      "definition": "Foreign key is a DP-900 data concept used to choose or describe Azure data workloads.",
+      "attributes": {
+        "category": "DP-900 data",
+        "useCases": [
+          "Recognize scenario clues"
+        ],
+        "keyFeatures": [
+          "Beginner DP-900 concept"
+        ]
+      },
+      "source": {
+        "title": "Explore relational data concepts",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/",
+        "kind": "LEARN_MODULE"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Foreign key DP-900 kapsamındaki Azure veri iş yüklerini anlamaya yardımcı olan bir kavramdır.",
+          "useCases": [
+            "Senaryo ipuçlarını tanımak"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi DP-900 kavramı"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "relational-normalization",
+      "term": "Normalization",
+      "kind": "CONCEPT",
+      "definition": "Normalization is a DP-900 data concept used to choose or describe Azure data workloads.",
+      "attributes": {
+        "category": "DP-900 data",
+        "useCases": [
+          "Recognize scenario clues"
+        ],
+        "keyFeatures": [
+          "Beginner DP-900 concept"
+        ]
+      },
+      "source": {
+        "title": "Explore relational data concepts",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/",
+        "kind": "LEARN_MODULE"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Normalization DP-900 kapsamındaki Azure veri iş yüklerini anlamaya yardımcı olan bir kavramdır.",
+          "useCases": [
+            "Senaryo ipuçlarını tanımak"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi DP-900 kavramı"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "relational-sql-view",
+      "term": "View",
+      "kind": "TERM",
+      "definition": "View is a DP-900 data concept used to choose or describe Azure data workloads.",
+      "attributes": {
+        "category": "DP-900 data",
+        "useCases": [
+          "Recognize scenario clues"
+        ],
+        "keyFeatures": [
+          "Beginner DP-900 concept"
+        ]
+      },
+      "source": {
+        "title": "Views - SQL Server",
+        "url": "https://learn.microsoft.com/en-us/sql/relational-databases/views/views?view=sql-server-ver17",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "View DP-900 kapsamındaki Azure veri iş yüklerini anlamaya yardımcı olan bir kavramdır.",
+          "useCases": [
+            "Senaryo ipuçlarını tanımak"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi DP-900 kavramı"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "relational-stored-procedure",
+      "term": "Stored procedure",
+      "kind": "TERM",
+      "definition": "Stored procedure is a DP-900 data concept used to choose or describe Azure data workloads.",
+      "attributes": {
+        "category": "DP-900 data",
+        "useCases": [
+          "Recognize scenario clues"
+        ],
+        "keyFeatures": [
+          "Beginner DP-900 concept"
+        ]
+      },
+      "source": {
+        "title": "Explore relational data concepts",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/",
+        "kind": "LEARN_MODULE"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Stored procedure DP-900 kapsamındaki Azure veri iş yüklerini anlamaya yardımcı olan bir kavramdır.",
+          "useCases": [
+            "Senaryo ipuçlarını tanımak"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi DP-900 kavramı"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "relational-sql-index",
+      "term": "Index",
+      "kind": "TERM",
+      "definition": "Index is a DP-900 data concept used to choose or describe Azure data workloads.",
+      "attributes": {
+        "category": "DP-900 data",
+        "useCases": [
+          "Recognize scenario clues"
+        ],
+        "keyFeatures": [
+          "Beginner DP-900 concept"
+        ]
+      },
+      "source": {
+        "title": "Explore relational data concepts",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/",
+        "kind": "LEARN_MODULE"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Index DP-900 kapsamındaki Azure veri iş yüklerini anlamaya yardımcı olan bir kavramdır.",
+          "useCases": [
+            "Senaryo ipuçlarını tanımak"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi DP-900 kavramı"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "dp900-azure-sql-database",
+      "term": "Azure SQL Database",
+      "kind": "SERVICE",
+      "definition": "Azure SQL Database is a DP-900 data concept used to choose or describe Azure data workloads.",
+      "attributes": {
+        "category": "DP-900 data",
+        "useCases": [
+          "Recognize scenario clues"
+        ],
+        "keyFeatures": [
+          "Beginner DP-900 concept"
+        ],
+        "serviceModel": "PaaS"
+      },
+      "source": {
+        "title": "Azure SQL documentation",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/?view=azuresql",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Azure SQL Database DP-900 kapsamındaki Azure veri iş yüklerini anlamaya yardımcı olan bir kavramdır.",
+          "useCases": [
+            "Senaryo ipuçlarını tanımak"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi DP-900 kavramı"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "dp900-azure-sql-managed-instance",
+      "term": "Azure SQL Managed Instance",
+      "kind": "SERVICE",
+      "definition": "Azure SQL Managed Instance is a DP-900 data concept used to choose or describe Azure data workloads.",
+      "attributes": {
+        "category": "DP-900 data",
+        "useCases": [
+          "Recognize scenario clues"
+        ],
+        "keyFeatures": [
+          "Beginner DP-900 concept"
+        ],
+        "serviceModel": "PaaS"
+      },
+      "source": {
+        "title": "Azure SQL documentation",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/?view=azuresql",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Azure SQL Managed Instance DP-900 kapsamındaki Azure veri iş yüklerini anlamaya yardımcı olan bir kavramdır.",
+          "useCases": [
+            "Senaryo ipuçlarını tanımak"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi DP-900 kavramı"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "dp900-azure-database-for-postgresql",
+      "term": "Azure Database for PostgreSQL",
+      "kind": "SERVICE",
+      "definition": "Azure Database for PostgreSQL is a DP-900 data concept used to choose or describe Azure data workloads.",
+      "attributes": {
+        "category": "DP-900 data",
+        "useCases": [
+          "Recognize scenario clues"
+        ],
+        "keyFeatures": [
+          "Beginner DP-900 concept"
+        ],
+        "serviceModel": "PaaS"
+      },
+      "source": {
+        "title": "Azure Database for PostgreSQL documentation",
+        "url": "https://learn.microsoft.com/en-us/azure/postgresql/",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Azure Database for PostgreSQL DP-900 kapsamındaki Azure veri iş yüklerini anlamaya yardımcı olan bir kavramdır.",
+          "useCases": [
+            "Senaryo ipuçlarını tanımak"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi DP-900 kavramı"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "dp900-azure-cosmos-db",
+      "term": "Azure Cosmos DB",
+      "kind": "SERVICE",
+      "definition": "Azure Cosmos DB is a DP-900 data concept used to choose or describe Azure data workloads.",
+      "attributes": {
+        "category": "DP-900 data",
+        "useCases": [
+          "Recognize scenario clues"
+        ],
+        "keyFeatures": [
+          "Beginner DP-900 concept"
+        ],
+        "serviceModel": "PaaS"
+      },
+      "source": {
+        "title": "Azure Cosmos DB overview",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Azure Cosmos DB DP-900 kapsamındaki Azure veri iş yüklerini anlamaya yardımcı olan bir kavramdır.",
+          "useCases": [
+            "Senaryo ipuçlarını tanımak"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi DP-900 kavramı"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "dp900-data-lake-storage-gen2",
+      "term": "Azure Data Lake Storage Gen2",
+      "kind": "SERVICE",
+      "definition": "Azure Data Lake Storage Gen2 is a DP-900 data concept used to choose or describe Azure data workloads.",
+      "attributes": {
+        "category": "DP-900 data",
+        "useCases": [
+          "Recognize scenario clues"
+        ],
+        "keyFeatures": [
+          "Beginner DP-900 concept"
+        ],
+        "serviceModel": "PaaS"
+      },
+      "source": {
+        "title": "Data Lake Storage overview",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Azure Data Lake Storage Gen2 DP-900 kapsamındaki Azure veri iş yüklerini anlamaya yardımcı olan bir kavramdır.",
+          "useCases": [
+            "Senaryo ipuçlarını tanımak"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi DP-900 kavramı"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "dp900-table-storage",
+      "term": "Azure Table storage",
+      "kind": "SERVICE",
+      "definition": "Azure Table storage is a DP-900 data concept used to choose or describe Azure data workloads.",
+      "attributes": {
+        "category": "DP-900 data",
+        "useCases": [
+          "Recognize scenario clues"
+        ],
+        "keyFeatures": [
+          "Beginner DP-900 concept"
+        ],
+        "serviceModel": "PaaS"
+      },
+      "source": {
+        "title": "Table storage overview",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/tables/table-storage-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Azure Table storage DP-900 kapsamındaki Azure veri iş yüklerini anlamaya yardımcı olan bir kavramdır.",
+          "useCases": [
+            "Senaryo ipuçlarını tanımak"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi DP-900 kavramı"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    }
+  ]
+}

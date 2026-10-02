@@ -3,9 +3,19 @@
   "lab": "build-model-driven-app",
   "note": "Create model-driven app from Equipment Request table, add view/form/navigation, save and publish.",
   "events": [
-    { "type": "navigate", "page": "apps" },
-    { "type": "click", "componentId": "new-app" },
-    { "type": "click", "componentId": "app-types", "itemId": "model-driven" },
+    {
+      "type": "navigate",
+      "page": "apps"
+    },
+    {
+      "type": "click",
+      "componentId": "new-app"
+    },
+    {
+      "type": "click",
+      "componentId": "app-types",
+      "itemId": "model-driven"
+    },
     {
       "type": "submitForm",
       "componentId": "model-app-form",
@@ -14,7 +24,10 @@
         "description": "Manage equipment requests with Dataverse views and forms."
       }
     },
-    { "type": "click", "componentId": "add-page" },
+    {
+      "type": "click",
+      "componentId": "add-page"
+    },
     {
       "type": "submitForm",
       "componentId": "add-page-form",
@@ -23,7 +36,10 @@
         "table": "Equipment Request"
       }
     },
-    { "type": "click", "componentId": "edit-data-experience" },
+    {
+      "type": "click",
+      "componentId": "edit-data-experience"
+    },
     {
       "type": "submitForm",
       "componentId": "data-experience-form",
@@ -32,7 +48,24 @@
         "form": "Main information"
       }
     },
-    { "type": "click", "componentId": "edit-navigation" },
+    {
+      "type": "click",
+      "componentId": "business-rule"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "business-rule-form",
+      "values": {
+        "name": "Require estimated cost for high priority",
+        "condition": "Priority equals High",
+        "action": "Set Estimated cost as Business Required",
+        "scope": "Main information"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "edit-navigation"
+    },
     {
       "type": "submitForm",
       "componentId": "navigation-form",
@@ -41,7 +74,31 @@
         "page": "Equipment Requests"
       }
     },
-    { "type": "click", "componentId": "model-save" },
-    { "type": "click", "componentId": "model-publish" }
+    {
+      "type": "click",
+      "componentId": "model-save"
+    },
+    {
+      "type": "click",
+      "componentId": "model-publish"
+    },
+    {
+      "type": "click",
+      "componentId": "play-app"
+    },
+    {
+      "type": "click",
+      "componentId": "new-request"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "runtime-request-form",
+      "values": {
+        "title": "Loaner projector for board room",
+        "priority": "High",
+        "estimatedCost": 450,
+        "status": "New"
+      }
+    }
   ]
 }

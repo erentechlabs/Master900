@@ -18,7 +18,7 @@ export type NavKey =
   | "settings";
 
 /** `footer` items are pinned to the bottom of the navigation pane (WinUI FooterMenuItems, Settings last). */
-export type NavItem = { key: NavKey; href: string; group: "main" | "knowledge" | "footer"; permission?: Permission };
+export type NavItem = { key: NavKey; href: string; group: "main" | "knowledge" | "footer"; permission?: Permission; badge?: number };
 
 export const NAV_ITEMS: NavItem[] = [
   { key: "dashboard", href: "/dashboard", group: "main" },

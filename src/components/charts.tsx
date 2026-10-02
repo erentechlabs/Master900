@@ -20,8 +20,8 @@ function DataTable({ caption, rows, valueLabel, toggleLabel }: { caption: string
           </tr>
         </thead>
         <tbody>
-          {rows.map((r) => (
-            <tr key={r.label} className="border-t">
+          {rows.map((r, index) => (
+            <tr key={`${r.label}:${index}`} className="border-t">
               <td className="py-1 pr-2">{r.label}</td>
               <td className="py-1 tabular-nums">
                 {r.value}
@@ -57,10 +57,10 @@ export function BarList({
     <figure className={cn("space-y-3", className)}>
       <figcaption className="sr-only">{caption}</figcaption>
       <ul className="space-y-3" aria-hidden="true">
-        {data.map((d) => {
+        {data.map((d, index) => {
           const pct = Math.max(0, Math.min(100, max ? (d.value / max) * 100 : 0));
           return (
-            <li key={d.label}>
+            <li key={`${d.label}:${index}`}>
               <div className="mb-1 flex items-baseline justify-between gap-2 text-sm">
                 <span className="min-w-0 truncate">{d.label}</span>
                 <span className="shrink-0 tabular-nums text-muted-foreground">
@@ -102,7 +102,7 @@ export function LineChart({
   const points = data.map((d, i) => {
     const x = data.length === 1 ? width / 2 : pad + (i * (width - pad * 2)) / (data.length - 1);
     const y = height - pad - (Math.max(0, Math.min(max, d.value)) / max) * (height - pad * 2);
-    return { x, y, d };
+    return { x, y, d, index: i };
   });
   return (
     <figure>
@@ -123,7 +123,7 @@ export function LineChart({
           <polyline fill="none" stroke="hsl(var(--primary))" strokeWidth="2.5" points={points.map((p) => `${p.x},${p.y}`).join(" ")} />
         ) : null}
         {points.map((p) => (
-          <circle key={p.d.label} cx={p.x} cy={p.y} r="4" fill="hsl(var(--primary))" stroke="hsl(var(--card))" strokeWidth="2" />
+          <circle key={`${p.d.label}:${p.index}`} cx={p.x} cy={p.y} r="4" fill="hsl(var(--primary))" stroke="hsl(var(--card))" strokeWidth="2" />
         ))}
       </svg>
       <DataTable caption={caption} rows={data} valueLabel={valueLabel} toggleLabel={toggleLabel} />
@@ -131,31 +131,37 @@ export function LineChart({
   );
 }
 
-/** Circular progress ring (e.g. readiness score). */
-export function RingProgress({ value, label, size = 112, color }: { value: number; label: string; size?: number; color?: string }) {
-  const stroke = 10;
+/** Circular progress ring (e.g. readiness score). `display` overrides the centre text (for example "75%"). */
+export function RingProgress({ value, label, size = 112, color, display }: { value: number; label: string; size?: number; color?: string; display?: string }) {
+  const stroke = Math.max(6, Math.round(size * 0.09));
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
   const pct = Math.max(0, Math.min(100, value));
+  const text = display ?? String(Math.round(pct));
   return (
-    <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }} role="img" aria-label={label}>
-      <svg width={size} height={size} className="-rotate-90" aria-hidden="true">
-        <circle cx={size / 2} cy={size / 2} r={r} stroke="hsl(var(--muted))" strokeWidth={stroke} fill="none" />
+    <div className="relative inline-flex items-center justify-center rounded-full bg-control/50 p-1 shadow-inner" style={{ width: size, height: size }} role="img" aria-label={`${label}: ${text}`}>
+      <svg width={size} height={size} className="-rotate-90 drop-shadow-sm" aria-hidden="true">
+        <defs>
+          <linearGradient id={`ring-${size}`} x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stopColor={color ?? "hsl(var(--primary))"} />
+            <stop offset="100%" stopColor="hsl(var(--primary))" />
+          </linearGradient>
+        </defs>
+        <circle cx={size / 2} cy={size / 2} r={r} stroke="hsl(var(--border))" strokeWidth={stroke} fill="none" />
         <circle
           cx={size / 2}
           cy={size / 2}
           r={r}
-          stroke={color ?? "hsl(var(--primary))"}
+          stroke={color ?? `url(#ring-${size})`}
           strokeWidth={stroke}
           fill="none"
           strokeLinecap="round"
           strokeDasharray={c}
           strokeDashoffset={c - (pct / 100) * c}
+          className="transition-[stroke-dashoffset] duration-500 ease-fluent"
         />
       </svg>
-      <span className="absolute text-2xl font-semibold tabular-nums" aria-hidden="true">
-        {Math.round(pct)}
-      </span>
+      <span className={cn("absolute font-semibold tabular-nums", text.length > 3 ? "text-lg" : "text-2xl")} aria-hidden="true">{text}</span>
     </div>
   );
 }
@@ -165,16 +171,20 @@ export function ActivityStrip({ days, caption }: { days: { date: string; active:
   return (
     <figure>
       <figcaption className="sr-only">{caption}</figcaption>
-      <ul className="flex flex-wrap gap-1" aria-label={caption}>
+      <ul className="grid grid-flow-col grid-rows-7 gap-1.5 overflow-x-auto pb-1" aria-label={caption}>
         {days.map((d) => (
           <li
             key={d.date}
             title={d.label}
             aria-label={d.label}
-            className={cn("h-4 w-4 rounded-sm border", d.active ? "border-transparent bg-success" : "bg-muted")}
+            className={cn(
+              "h-3.5 w-3.5 rounded-[3px] border transition-colors",
+              d.active ? "border-success/70 bg-success shadow-[0_0_0_2px_hsl(var(--success)/0.12)]" : "border-stroke-card bg-control hover:bg-muted",
+            )}
           />
         ))}
       </ul>
     </figure>
   );
 }
+

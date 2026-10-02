@@ -1,0 +1,816 @@
+{
+  "domainKey": "security-compliance-identity-concepts",
+  "modules": [
+    {
+      "slug": "security-identity-foundations",
+      "title": "Security, compliance, and identity foundations",
+      "summary": "Builds the core mental model for shared responsibility, layered security, Zero Trust, GRC, and identity as the control plane for modern access.",
+      "lessons": [
+        {
+          "slug": "shared-security-compliance-concepts",
+          "title": "Security and compliance concepts",
+          "objectiveCode": "1.1",
+          "estimatedMinutes": 12,
+          "summary": "Learn the foundational security and compliance concepts behind shared responsibility, defense in depth, Zero Trust, encryption, hashing, and GRC.",
+          "learningObjectives": [
+            "Describe shared responsibility across cloud service models",
+            "Explain how defense in depth and Zero Trust reduce risk",
+            "Distinguish encryption from hashing for protecting data",
+            "Identify GRC concepts used in security and compliance programs"
+          ],
+          "explanation": "Imagine Tailwind Traders moving its event-booking app to the cloud. The first surprise is that security is not handed to one party like a parcel. **Shared responsibility** means the provider operates parts of the platform, while Tailwind still owns its data, identities, configurations, and business risk decisions. The exact split changes by service model, but customer accountability for information and access never disappears.\n\nA strong design also avoids betting everything on one control. **Defense in depth** stacks protections across identity, endpoints, applications, networks, and data. If a password is stolen, MFA, Conditional Access, monitoring, and data permissions can still reduce damage. **Zero Trust** turns that idea into a mindset: assume breach, verify explicitly, and grant least privilege instead of trusting a user just because they are on a familiar network.\n\nData protection has two common words that are easy to mix up. **Encryption** makes data unreadable without a key and can protect data at rest or in transit. **Hashing** produces a one-way value used for comparison, such as checking a password without storing the password itself. **Governance, Risk, and Compliance (GRC)** connects these technical choices to policy: who approves exceptions, how risks are tracked, and how controls map to obligations.",
+          "terminology": [
+            {
+              "term": "Shared responsibility",
+              "definition": "A model that splits security and operational tasks between the provider and customer."
+            },
+            {
+              "term": "Defense in depth",
+              "definition": "Using multiple layers of control so a single failure does not expose everything."
+            },
+            {
+              "term": "Zero Trust",
+              "definition": "A security model that verifies explicitly, uses least privilege, and assumes breach."
+            },
+            {
+              "term": "Encryption",
+              "definition": "Transforming data so it is unreadable without the correct key."
+            },
+            {
+              "term": "Hashing",
+              "definition": "Creating a one-way value used to verify data without revealing the original."
+            },
+            {
+              "term": "GRC",
+              "definition": "Governance, risk, and compliance processes that guide security decisions and accountability."
+            }
+          ],
+          "businessScenario": "Tailwind Traders is launching a volunteer portal. Alex proposes encryption for stored sign-up data, hashed passwords, MFA for admins, and a risk register for exceptions.",
+          "technicalExample": "A design review table might list: `Customer data classification = Tailwind`, `Physical datacenter = provider`, `Admin MFA = Tailwind`, `Disk encryption capability = provider and customer configuration`.",
+          "misconception": {
+            "myth": "If data is encrypted, the organization is fully secure.",
+            "reality": "Encryption is important, but attackers may still misuse identities, permissions, misconfigurations, or unmonitored applications."
+          },
+          "examTakeaway": "Watch for scenarios where a provider manages infrastructure but the customer still manages data, identities, access, configuration, and risk acceptance.",
+          "recap": "Security and compliance fundamentals are about ownership, layers, verification, data protection, and accountable decisions.",
+          "simplerExplanation": "Think of a museum. The building owner maintains walls and alarms, but the exhibit team still decides which artifacts are sensitive, who gets keys, and how often access is reviewed.",
+          "anotherExample": "Fabrikam encrypts laptop drives, hashes app passwords, requires MFA for admins, and records a risk exception when a legacy app cannot support modern authentication.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Security concept quick compare",
+                "columns": [
+                  {
+                    "title": "Defense in depth",
+                    "points": [
+                      "Many layers of controls",
+                      "Reduces impact if one layer fails"
+                    ]
+                  },
+                  {
+                    "title": "Zero Trust",
+                    "points": [
+                      "Verify every access request",
+                      "Use least privilege and assume breach"
+                    ]
+                  },
+                  {
+                    "title": "GRC",
+                    "points": [
+                      "Tracks policy, risk, and compliance",
+                      "Connects controls to accountability"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Mini design review",
+                "instructions": "Decide before revealing the answer.",
+                "items": [
+                  {
+                    "prompt": "A team stores passwords as one-way values.",
+                    "answer": "Hashing."
+                  },
+                  {
+                    "prompt": "A sign-in is checked using user, device, location, and risk.",
+                    "answer": "Zero Trust-style verification."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What remains a customer responsibility in the cloud?",
+              "back": "Data, identities, access decisions, configuration, and governance choices."
+            },
+            {
+              "front": "Defense in depth",
+              "back": "Multiple layers of controls that reduce reliance on any single protection."
+            },
+            {
+              "front": "Zero Trust",
+              "back": "Verify explicitly, use least privilege, and assume breach."
+            },
+            {
+              "front": "Encryption vs hashing",
+              "back": "Encryption is reversible with a key; hashing is one-way for verification."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Shared responsibility in the cloud",
+              "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Zero Trust Guidance Center",
+              "url": "https://learn.microsoft.com/en-us/security/zero-trust/",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Azure encryption overview",
+              "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/encryption-overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "sc900-con-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "security-compliance-identity-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "EASY",
+              "stem": "Tailwind Traders moves email to a cloud service. Which responsibility normally stays with Tailwind?",
+              "explanation": "Customers keep responsibility for their data and access decisions even when a provider runs cloud infrastructure.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Classifying company data and deciding who may access it",
+                  "correct": true,
+                  "explanation": "Data classification and access decisions remain customer responsibilities."
+                },
+                {
+                  "key": "B",
+                  "text": "Maintaining the provider's physical datacenter",
+                  "correct": false,
+                  "explanation": "The provider operates the physical datacenter."
+                },
+                {
+                  "key": "C",
+                  "text": "Replacing all security policies with provider defaults",
+                  "correct": false,
+                  "explanation": "Customers still define policy and governance requirements."
+                },
+                {
+                  "key": "D",
+                  "text": "Approving every disk replacement in the provider facility",
+                  "correct": false,
+                  "explanation": "Physical hardware maintenance is the provider's role."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Shared responsibility in the cloud",
+                  "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "shared-security-compliance-concepts",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "sc900-con-002",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "security-compliance-identity-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** statements describe defense in depth?",
+              "explanation": "Defense in depth uses multiple coordinated layers so one failed control does not expose everything.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Use layered controls such as identity, network, device, app, and data protections",
+                  "correct": true,
+                  "explanation": "Multiple layers are the core idea."
+                },
+                {
+                  "key": "B",
+                  "text": "Rely on one strong perimeter firewall for every risk",
+                  "correct": false,
+                  "explanation": "A single perimeter control is not layered defense."
+                },
+                {
+                  "key": "C",
+                  "text": "Assume one control may fail and keep compensating controls in place",
+                  "correct": true,
+                  "explanation": "Layering reduces the impact of a single failure."
+                },
+                {
+                  "key": "D",
+                  "text": "Remove monitoring after encryption is enabled",
+                  "correct": false,
+                  "explanation": "Encryption is one layer, not a replacement for monitoring."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Zero Trust Guidance Center",
+                  "url": "https://learn.microsoft.com/en-us/security/zero-trust/",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "shared-security-compliance-concepts",
+              "selectCount": 2,
+              "shuffleOptions": true
+            },
+            {
+              "ref": "sc900-con-003",
+              "type": "CATEGORIZATION",
+              "domainKey": "security-compliance-identity-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each concept as protection or governance.",
+              "explanation": "Encryption and hashing protect information; GRC organizes decisions and accountability.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "protect",
+                    "label": "Protection concept"
+                  },
+                  {
+                    "id": "grc",
+                    "label": "GRC concept"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Encrypting a database backup",
+                    "category": "protect",
+                    "explanation": "Encryption protects readable data by transforming it with keys."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Maintaining a risk register",
+                    "category": "grc",
+                    "explanation": "Risk tracking is part of governance, risk, and compliance."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Hashing a password before storing it",
+                    "category": "protect",
+                    "explanation": "Hashing creates a one-way value used to verify without storing the password."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Mapping policies to regulatory obligations",
+                    "category": "grc",
+                    "explanation": "Compliance mapping is a GRC activity."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Azure encryption overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/encryption-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "shared-security-compliance-concepts"
+            },
+            {
+              "ref": "sc900-con-004",
+              "type": "MATCHING",
+              "domainKey": "security-compliance-identity-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each security idea to its description.",
+              "explanation": "The descriptions distinguish protection patterns often used together.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Zero Trust"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Encryption"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Hashing"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Verify explicitly and use least privilege"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Protect data by making it unreadable without a key"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Create a one-way value for comparison"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "Zero Trust verifies each access request instead of automatically trusting a network location.",
+                  "p2": "Encryption is reversible only with the right key.",
+                  "p3": "Hashing is designed for verification, not decryption."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Zero Trust Guidance Center",
+                  "url": "https://learn.microsoft.com/en-us/security/zero-trust/",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure encryption overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/encryption-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "shared-security-compliance-concepts"
+            },
+            {
+              "ref": "sc900-con-005",
+              "type": "CASE_STUDY",
+              "domainKey": "security-compliance-identity-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "HARD",
+              "scenario": "Woodgrove Bank will encrypt data, hash passwords, record risks, and require device health checks before access.",
+              "stem": "For each statement about Woodgrove Bank's Zero Trust, hashing, and GRC design, select **Yes** if it is true. Otherwise, select **No**.",
+              "explanation": "The design combines data protection, GRC, and Zero Trust ideas.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Hashing is appropriate for verifying stored passwords without decrypting them.",
+                    "answer": true,
+                    "explanation": "A password hash can be compared to a new hash during sign-in."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Zero Trust means trusted office devices can skip verification permanently.",
+                    "answer": false,
+                    "explanation": "Zero Trust continuously verifies conditions and uses least privilege."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "A risk register supports governance, risk, and compliance activities.",
+                    "answer": true,
+                    "explanation": "Documenting and treating risk is a GRC activity."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Zero Trust Guidance Center",
+                  "url": "https://learn.microsoft.com/en-us/security/zero-trust/",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure encryption overview",
+                  "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/encryption-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "shared-security-compliance-concepts"
+            }
+          ]
+        },
+        {
+          "slug": "identity-perimeter-and-providers",
+          "title": "Identity concepts and federation",
+          "objectiveCode": "1.2",
+          "estimatedMinutes": 11,
+          "summary": "Define authentication, authorization, identity providers, directory services, federation, and why identity is the modern security perimeter.",
+          "learningObjectives": [
+            "Distinguish authentication from authorization in access decisions",
+            "Describe the role of identity providers and directory services",
+            "Explain how federation lets users access apps across organizations",
+            "Recognize why identity is treated as the modern security perimeter"
+          ],
+          "explanation": "At Woodgrove Bank, employees open apps from offices, homes, phones, and partner sites. The old idea that the corporate network is the main perimeter no longer fits. In cloud-first environments, **identity** often becomes the primary security perimeter because access decisions start with who or what is requesting access.\n\n**Authentication** answers, 'Are you really Priya?' It can use a password, a Microsoft Authenticator prompt, a passkey, or another method. **Authorization** answers, 'What may Priya do after sign-in?' A user might authenticate successfully but still be blocked from payroll because they lack the right role or group membership.\n\nAn **identity provider** performs authentication and issues tokens or assertions that applications trust. **Directory services** store identities and attributes such as users, groups, devices, and sometimes organizational structure. Active Directory is a directory service many organizations use on-premises; Microsoft Entra ID is Microsoft's cloud identity and access service. **Federation** lets one identity system trust another, so an application can rely on a trusted provider rather than keeping separate passwords for every app.",
+          "terminology": [
+            {
+              "term": "Identity",
+              "definition": "A digital representation of a person, device, application, or service."
+            },
+            {
+              "term": "Authentication",
+              "definition": "The process of verifying that an identity is genuine."
+            },
+            {
+              "term": "Authorization",
+              "definition": "The process of deciding what an authenticated identity is allowed to access."
+            },
+            {
+              "term": "Identity provider",
+              "definition": "A trusted system that authenticates identities and issues tokens or assertions."
+            },
+            {
+              "term": "Directory service",
+              "definition": "A store for identity objects and attributes such as users and groups."
+            },
+            {
+              "term": "Federation",
+              "definition": "A trust relationship that lets one identity system rely on another for authentication."
+            }
+          ],
+          "businessScenario": "Woodgrove Bank wants partners to access a claims portal without creating local passwords for every partner.",
+          "technicalExample": "Simplified flow: `User requests app -> app redirects to identity provider -> provider authenticates -> app receives token -> app checks claims and permissions`.",
+          "misconception": {
+            "myth": "If a user can sign in, they should automatically have access to every app.",
+            "reality": "Sign-in proves identity. Authorization still limits what the identity can do based on roles, groups, policies, and permissions."
+          },
+          "examTakeaway": "When a question contrasts proving identity with deciding permissions, choose authentication for proof and authorization for allowed actions.",
+          "recap": "Identity concepts explain who requests access, how that identity is verified, and how trust can span apps and organizations.",
+          "simplerExplanation": "A concert ticket analogy helps: authentication checks your ID at the door; authorization checks whether your ticket lets you enter the VIP area.",
+          "anotherExample": "A school uses Microsoft Entra ID as an identity provider for a learning app. Students authenticate once, and the app authorizes course access from group membership.",
+          "extraBlocks": [
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Federated sign-in flow",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "user",
+                    "label": "User"
+                  },
+                  {
+                    "id": "app",
+                    "label": "Application"
+                  },
+                  {
+                    "id": "idp",
+                    "label": "Identity provider"
+                  },
+                  {
+                    "id": "token",
+                    "label": "Token or assertion"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "user",
+                    "to": "app",
+                    "label": "Requests access"
+                  },
+                  {
+                    "from": "app",
+                    "to": "idp",
+                    "label": "Redirects"
+                  },
+                  {
+                    "from": "idp",
+                    "to": "token",
+                    "label": "Issues"
+                  },
+                  {
+                    "from": "token",
+                    "to": "app",
+                    "label": "Validated"
+                  }
+                ],
+                "caption": "A user requests an application, the application redirects to a trusted identity provider, and the application validates the returned token or assertion."
+              }
+            },
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Authentication vs authorization",
+                "columns": [
+                  {
+                    "title": "Authentication",
+                    "points": [
+                      "Verifies who or what is signing in",
+                      "Examples: password, MFA, passkey"
+                    ]
+                  },
+                  {
+                    "title": "Authorization",
+                    "points": [
+                      "Decides what access is allowed",
+                      "Examples: role, group, app permission"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Authentication",
+              "back": "Verifies the identity making a request."
+            },
+            {
+              "front": "Authorization",
+              "back": "Determines what the verified identity may access."
+            },
+            {
+              "front": "Identity provider",
+              "back": "A trusted system that authenticates identities for applications."
+            },
+            {
+              "front": "Federation",
+              "back": "A trust relationship between identity systems."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Microsoft Entra?",
+              "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "OpenID Connect on the Microsoft identity platform",
+              "url": "https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "sc900-con-006",
+              "type": "SCENARIO",
+              "domainKey": "security-compliance-identity-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "EASY",
+              "stem": "Which concept is demonstrated when the app checks Priya's password and MFA prompt?",
+              "explanation": "Authentication verifies that a user or workload is who it claims to be.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Authentication",
+                  "correct": true,
+                  "explanation": "The app is verifying Priya's identity."
+                },
+                {
+                  "key": "B",
+                  "text": "Authorization",
+                  "correct": false,
+                  "explanation": "Authorization decides what Priya can access after authentication."
+                },
+                {
+                  "key": "C",
+                  "text": "Hashing",
+                  "correct": false,
+                  "explanation": "Hashing might help store a password, but the scenario asks about the sign-in check."
+                },
+                {
+                  "key": "D",
+                  "text": "Federation",
+                  "correct": false,
+                  "explanation": "Federation is trust between identity systems."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Microsoft Entra?",
+                  "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "identity-perimeter-and-providers",
+              "scenario": "At Alpine Ski House, Priya enters her username, password, and a second verification prompt before opening the sales app.",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "sc900-con-007",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "security-compliance-identity-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about identity systems.",
+              "explanation": "An identity provider authenticates identities and issues tokens or assertions that applications can trust.",
+              "fillInBlank": {
+                "template": "An organization can use an {{b1}} to authenticate users for many applications.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "identity provider"
+                    ],
+                    "explanation": "An identity provider authenticates identities and issues tokens or assertions that applications can trust."
+                  }
+                ],
+                "wordBank": [
+                  "identity provider",
+                  "risk register",
+                  "hash function",
+                  "network segment"
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Microsoft Entra?",
+                  "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "identity-perimeter-and-providers"
+            },
+            {
+              "ref": "sc900-con-008",
+              "type": "TRUE_FALSE",
+              "domainKey": "security-compliance-identity-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "MEDIUM",
+              "stem": "Authorization decides what an authenticated user is allowed to do.",
+              "explanation": "Authentication proves identity; authorization evaluates permissions and roles.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Authorization evaluates permissions and roles after authentication establishes who the user is."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False confuses authorization with authentication; authorization decides what the authenticated identity may do."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Microsoft Entra?",
+                  "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "identity-perimeter-and-providers"
+            },
+            {
+              "ref": "sc900-con-009",
+              "type": "ORDERING",
+              "domainKey": "security-compliance-identity-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "MEDIUM",
+              "stem": "Place the high-level federated sign-in flow in order.",
+              "explanation": "Federation starts with an app redirecting to a trusted provider, then uses a returned token or assertion.",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "The user requests an application"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "The application redirects the user to the trusted identity provider"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "The identity provider authenticates the user"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "The application receives and validates a token or assertion"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "Access begins at the application.",
+                  "s2": "The app relies on the trusted provider.",
+                  "s3": "The provider verifies the user.",
+                  "s4": "The app uses the returned token or assertion."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "OpenID Connect on the Microsoft identity platform",
+                  "url": "https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "identity-perimeter-and-providers"
+            },
+            {
+              "ref": "sc900-con-010",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "security-compliance-identity-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "MEDIUM",
+              "stem": "Why is identity often called the primary security perimeter in cloud environments?",
+              "explanation": "Cloud users and apps can access resources from many networks and devices, so identity controls become central.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Access decisions increasingly start with who or what is requesting access",
+                  "correct": true,
+                  "explanation": "Identity is central when users, apps, and devices connect from many locations."
+                },
+                {
+                  "key": "B",
+                  "text": "Network firewalls are no longer useful",
+                  "correct": false,
+                  "explanation": "Network controls still matter, but identity is central."
+                },
+                {
+                  "key": "C",
+                  "text": "Passwords replace all authorization rules",
+                  "correct": false,
+                  "explanation": "Passwords authenticate; they do not replace authorization."
+                },
+                {
+                  "key": "D",
+                  "text": "Directory services store only device serial numbers",
+                  "correct": false,
+                  "explanation": "Directories store identities and attributes, not only serial numbers."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Microsoft Entra?",
+                  "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "identity-perimeter-and-providers",
+              "shuffleOptions": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

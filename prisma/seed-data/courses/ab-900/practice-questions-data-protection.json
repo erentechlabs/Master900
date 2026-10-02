@@ -1,0 +1,641 @@
+{
+  "questions": [
+    {
+      "ref": "ab900-dpg-026",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "data-protection-governance",
+      "objectiveCode": "2.1",
+      "difficulty": "EASY",
+      "stem": "A project file must be labeled Confidential and protected so only permitted users can open it. Which capability should the admin use?",
+      "explanation": "Sensitivity labels in Microsoft Purview Information Protection classify content and can enforce protection such as encryption.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sensitivity labels in Microsoft Purview Information Protection",
+          "correct": true,
+          "explanation": "This is correct because sensitivity labels can both classify the file and apply protection settings."
+        },
+        {
+          "key": "B",
+          "text": "SharePoint navigation",
+          "correct": false,
+          "explanation": "SharePoint navigation changes how users browse a site; it does not classify or encrypt files."
+        },
+        {
+          "key": "C",
+          "text": "Teams reactions",
+          "correct": false,
+          "explanation": "Teams reactions are conversation features, not data-protection controls."
+        },
+        {
+          "key": "D",
+          "text": "Bookings",
+          "correct": false,
+          "explanation": "Bookings schedules appointments and is not used for file protection."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Learn about sensitivity labels",
+          "url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "ab900-dpg-027",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "data-protection-governance",
+      "objectiveCode": "2.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which **two** are Purview solutions named in the AB-900 Microsoft Purview objective?",
+      "selectCount": 2,
+      "explanation": "Both are in the Purview objective.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Insider Risk Management",
+          "correct": true,
+          "explanation": "Listed in the study guide."
+        },
+        {
+          "key": "B",
+          "text": "Communication Compliance",
+          "correct": true,
+          "explanation": "Listed in the study guide."
+        },
+        {
+          "key": "C",
+          "text": "Azure Kubernetes Service",
+          "correct": false,
+          "explanation": "Not a Purview solution."
+        },
+        {
+          "key": "D",
+          "text": "Planner buckets",
+          "correct": false,
+          "explanation": "Not a Purview solution."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "ab900-dpg-028",
+      "type": "TRUE_FALSE",
+      "domainKey": "data-protection-governance",
+      "objectiveCode": "2.2",
+      "difficulty": "EASY",
+      "stem": "A Copilot license automatically grants access to every SharePoint file.",
+      "explanation": "Copilot uses existing permissions.",
+      "options": [
+        {
+          "key": "TRUE",
+          "text": "True",
+          "correct": false,
+          "explanation": "Choosing True ignores permission trimming; a Copilot license does not grant access to SharePoint files the user cannot already access."
+        },
+        {
+          "key": "FALSE",
+          "text": "False",
+          "correct": true,
+          "explanation": "Correct. Copilot uses existing permissions, so licensing alone does not expose every SharePoint file."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Data, Privacy, and Security for Microsoft Copilot",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-privacy",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "ab900-dpg-029",
+      "type": "CASE_STUDY",
+      "domainKey": "data-protection-governance",
+      "objectiveCode": "2.2",
+      "difficulty": "HARD",
+      "scenario": "A manager can access sales files but not the HR investigation site. They ask Copilot about employee issues.",
+      "stem": "For each statement about how Copilot handles the manager's accessible sales files and restricted HR files, select **Yes** if true. Otherwise, select **No**.",
+      "explanation": "Copilot honors access boundaries, but boundaries need governance.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Copilot can use relevant sales files the manager can access.",
+            "answer": true,
+            "explanation": "Accessible content can ground responses."
+          },
+          {
+            "id": "s2",
+            "text": "Copilot should return HR investigation files.",
+            "answer": false,
+            "explanation": "The manager lacks access."
+          },
+          {
+            "id": "s3",
+            "text": "Admins should review sensitive sales content for oversharing.",
+            "answer": true,
+            "explanation": "Accessible does not always mean appropriate."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Data, Privacy, and Security for Microsoft Copilot",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-privacy",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "ab900-dpg-030",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "data-protection-governance",
+      "objectiveCode": "2.2",
+      "difficulty": "MEDIUM",
+      "stem": "Complete the grounding sentence.",
+      "explanation": "Copilot uses authorized content.",
+      "fillInBlank": {
+        "template": "Copilot grounds responses in Microsoft 365 content the user is {{b1}} to access.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "authorized",
+              "permitted"
+            ],
+            "explanation": "Copilot uses authorized content."
+          }
+        ],
+        "wordBank": [
+          "authorized",
+          "unauthorized",
+          "deleted"
+        ]
+      },
+      "sources": [
+        {
+          "title": "Data, Privacy, and Security for Microsoft Copilot",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-privacy",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "ab900-dpg-031",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "data-protection-governance",
+      "objectiveCode": "2.3",
+      "difficulty": "MEDIUM",
+      "stem": "Which tool helps authorized compliance staff search supported Copilot prompts and responses for a legal matter?",
+      "explanation": "Content search supports compliance discovery.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Microsoft Purview eDiscovery Content search",
+          "correct": true,
+          "explanation": "Purview eDiscovery Content search is the compliance search tool for supported Copilot prompts, responses, and related records."
+        },
+        {
+          "key": "B",
+          "text": "SharePoint theme",
+          "correct": false,
+          "explanation": "Themes do not search records."
+        },
+        {
+          "key": "C",
+          "text": "Windows Calculator",
+          "correct": false,
+          "explanation": "Unrelated."
+        },
+        {
+          "key": "D",
+          "text": "Ask users from memory",
+          "correct": false,
+          "explanation": "Not a compliance search."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Data, Privacy, and Security for Microsoft Copilot",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-privacy",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "ab900-dpg-032",
+      "type": "CATEGORIZATION",
+      "domainKey": "data-protection-governance",
+      "objectiveCode": "2.3",
+      "difficulty": "MEDIUM",
+      "stem": "Categorize each task.",
+      "explanation": "Tasks map to discovery, response, or records governance.",
+      "categorization": {
+        "categories": [
+          {
+            "id": "discover",
+            "label": "Discover risk"
+          },
+          {
+            "id": "respond",
+            "label": "Respond or remediate"
+          },
+          {
+            "id": "retain",
+            "label": "Retain or search records"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "text": "Use Data Explorer for sensitive data",
+            "category": "discover",
+            "explanation": "It finds sensitive data."
+          },
+          {
+            "id": "i2",
+            "text": "Review a DLP alert",
+            "category": "respond",
+            "explanation": "Alerts trigger response."
+          },
+          {
+            "id": "i3",
+            "text": "Apply retention to Copilot records",
+            "category": "retain",
+            "explanation": "Retention governs records."
+          },
+          {
+            "id": "i4",
+            "text": "Use DSPM to prioritize exposure",
+            "category": "discover",
+            "explanation": "DSPM surfaces posture risk."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Use Microsoft Purview to manage data security and compliance for Microsoft 365 Copilot",
+          "url": "https://learn.microsoft.com/en-us/purview/ai-m365-copilot",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "ab900-dpg-033",
+      "type": "ORDERING",
+      "domainKey": "data-protection-governance",
+      "objectiveCode": "2.4",
+      "difficulty": "MEDIUM",
+      "stem": "Place these SharePoint cleanup actions in the best order after reports reveal broad proposal-sharing links.",
+      "explanation": "Report-driven cleanup starts with findings, prioritizes the broadest exposure, remediates access, and then monitors for recurrence.",
+      "ordering": {
+        "items": [
+          {
+            "id": "s1",
+            "text": "Review Data access governance report findings for the affected sites"
+          },
+          {
+            "id": "s2",
+            "text": "Prioritize sites with broad links or Everyone except external users exposure"
+          },
+          {
+            "id": "s3",
+            "text": "Have owners remove unnecessary links or permissions"
+          },
+          {
+            "id": "s4",
+            "text": "Watch sharing activity reports for new broad links"
+          }
+        ],
+        "correctOrder": [
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "explanations": {
+          "s1": "The report findings provide the evidence for which sites need attention.",
+          "s2": "Sites with the broadest exposure or sensitive content should be handled first.",
+          "s3": "Owners or admins then reduce access to match the business need.",
+          "s4": "Monitoring catches new broad links after the initial cleanup."
+        }
+      },
+      "sources": [
+        {
+          "title": "Data access governance reports for SharePoint sites",
+          "url": "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-reports",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Initiate site access reviews for Data access governance reports",
+          "url": "https://learn.microsoft.com/en-us/sharepoint/site-access-review",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "ab900-dpg-034",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "data-protection-governance",
+      "objectiveCode": "2.4",
+      "difficulty": "HARD",
+      "stem": "After enabling Restricted Content Discovery, which command reads the current site setting?",
+      "explanation": "Get-SPOSite piped to Select reads the RestrictContentOrgWideSearch value so the admin can confirm the site setting.",
+      "options": [
+        {
+          "key": "A",
+          "text": "`Get-SPOSite -Identity <site-url> | Select RestrictContentOrgWideSearch`",
+          "correct": true,
+          "explanation": "This command returns the current RestrictContentOrgWideSearch value for the specified site."
+        },
+        {
+          "key": "B",
+          "text": "`Set-SPOSite -Identity <site-url> -RestrictContentOrgWideSearch $true`",
+          "correct": false,
+          "explanation": "This command enables the setting instead of checking whether it is already enabled."
+        },
+        {
+          "key": "C",
+          "text": "`Set-SPOTenant -DelegateRestrictedContentDiscoverabilityManagement $true`",
+          "correct": false,
+          "explanation": "This tenant setting delegates management; it does not read an individual site property."
+        },
+        {
+          "key": "D",
+          "text": "`Get-SPORestrictedContentDiscoverabilityReport -Action Download -ReportId <ReportGUID>`",
+          "correct": false,
+          "explanation": "This downloads a report and does not show the selected site property directly."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Restrict discovery of SharePoint sites and content",
+          "url": "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "ab900-dpg-035",
+      "type": "UI_SIMULATION",
+      "domainKey": "data-protection-governance",
+      "objectiveCode": "2.4",
+      "difficulty": "MEDIUM",
+      "stem": "Configure the simulated high-risk site to reduce broad Copilot discovery while owners review permissions.",
+      "explanation": "RCD limits discovery without changing permissions.",
+      "uiSimulation": {
+        "title": "Copilot readiness settings (simulated)",
+        "description": "A fictional simplified settings screen; it is not a real portal.",
+        "fields": [
+          {
+            "id": "control",
+            "label": "Temporary control",
+            "control": "select",
+            "options": [
+              {
+                "value": "rcd",
+                "label": "Restricted Content Discovery"
+              },
+              {
+                "value": "theme",
+                "label": "Change theme"
+              },
+              {
+                "value": "emoji",
+                "label": "Add emoji"
+              }
+            ],
+            "correct": "rcd",
+            "explanation": "Restricted Content Discovery is the temporary discovery control."
+          },
+          {
+            "id": "direct",
+            "label": "Explain that direct access permissions are unchanged",
+            "control": "toggle",
+            "correct": true,
+            "explanation": "Existing permissions remain unchanged."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Restrict discovery of SharePoint sites and content",
+          "url": "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "ab900-dpg-036",
+      "type": "MATCHING",
+      "domainKey": "data-protection-governance",
+      "objectiveCode": "2.4",
+      "difficulty": "MEDIUM",
+      "stem": "Match the scenario to the best control.",
+      "explanation": "Each control has a distinct purpose.",
+      "matching": {
+        "prompts": [
+          {
+            "id": "p1",
+            "text": "Owners review findings"
+          },
+          {
+            "id": "p2",
+            "text": "Only HR group can access"
+          },
+          {
+            "id": "p3",
+            "text": "Temporarily reduce Copilot discovery"
+          }
+        ],
+        "answers": [
+          {
+            "id": "a1",
+            "text": "Site access review"
+          },
+          {
+            "id": "a2",
+            "text": "Restricted Access Control"
+          },
+          {
+            "id": "a3",
+            "text": "Restricted Content Discovery"
+          },
+          {
+            "id": "a4",
+            "text": "Sensitivity inheritance"
+          }
+        ],
+        "pairs": {
+          "p1": "a1",
+          "p2": "a2",
+          "p3": "a3"
+        },
+        "explanations": {
+          "p1": "Site access reviews ask owners to validate broad access findings.",
+          "p2": "Restricted Access Control limits site access to the specified group.",
+          "p3": "Restricted Content Discovery reduces discovery in Copilot and tenant-wide search while permissions are reviewed."
+        }
+      },
+      "sources": [
+        {
+          "title": "Get ready for Microsoft Copilot with SharePoint Advanced Management",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/get-ready-copilot-sharepoint-advanced-management",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Restrict discovery of SharePoint sites and content",
+          "url": "https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Initiate site access reviews for Data access governance reports",
+          "url": "https://learn.microsoft.com/en-us/sharepoint/site-access-review",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "ab900-dpg-037",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "data-protection-governance",
+      "objectiveCode": "2.4",
+      "difficulty": "EASY",
+      "stem": "Which activity report identifies sites where users recently created the most sharing links?",
+      "explanation": "The sharing links report tracks recent link activity.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sharing links report",
+          "correct": true,
+          "explanation": "The sharing links report identifies sites with recent sharing-link activity for review."
+        },
+        {
+          "key": "B",
+          "text": "Sensitivity label report",
+          "correct": false,
+          "explanation": "It identifies labeled files."
+        },
+        {
+          "key": "C",
+          "text": "Mailbox usage report",
+          "correct": false,
+          "explanation": "Not SharePoint links."
+        },
+        {
+          "key": "D",
+          "text": "Endpoint health report",
+          "correct": false,
+          "explanation": "Not SharePoint sharing."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Data access governance reports for SharePoint sites",
+          "url": "https://learn.microsoft.com/en-us/sharepoint/data-access-governance-reports",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "ab900-dpg-038",
+      "type": "CASE_STUDY",
+      "domainKey": "data-protection-governance",
+      "objectiveCode": "2.3",
+      "difficulty": "HARD",
+      "scenario": "DLP detects health identifiers in Copilot prompts and similar data pasted to a third-party AI site from managed devices.",
+      "stem": "For each statement about using Purview DLP for sensitive AI prompts and third-party AI site activity, select **Yes** if true. Otherwise, select **No**.",
+      "explanation": "DLP can help address sensitive data in supported Copilot and web/device scenarios.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Purview DLP can be relevant for supported Copilot policy locations.",
+            "answer": true,
+            "explanation": "Copilot policy locations are supported."
+          },
+          {
+            "id": "s2",
+            "text": "Endpoint or browser DLP may be relevant for third-party AI sites.",
+            "answer": true,
+            "explanation": "DLP can cover device and web scenarios."
+          },
+          {
+            "id": "s3",
+            "text": "Ignore it because Copilot honors permissions.",
+            "answer": false,
+            "explanation": "Sensitive prompt handling is still a risk."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Learn about data loss prevention",
+          "url": "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Use Microsoft Purview to manage data security and compliance for Microsoft 365 Copilot",
+          "url": "https://learn.microsoft.com/en-us/purview/ai-m365-copilot",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "ab900-dpg-039",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "data-protection-governance",
+      "objectiveCode": "2.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which Purview solution answers what sensitive data exists, who can access it, and how protected it is?",
+      "explanation": "DSPM focuses on data posture and remediation.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Microsoft Purview Data Security Posture Management",
+          "correct": true,
+          "explanation": "DSPM focuses on sensitive data posture, access exposure, protection status, and remediation priorities."
+        },
+        {
+          "key": "B",
+          "text": "Whiteboard templates",
+          "correct": false,
+          "explanation": "Not data posture."
+        },
+        {
+          "key": "C",
+          "text": "Exchange message trace",
+          "correct": false,
+          "explanation": "Mail flow, not posture."
+        },
+        {
+          "key": "D",
+          "text": "SharePoint news",
+          "correct": false,
+          "explanation": "Not a posture tool."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Learn about Microsoft Purview Data Security Posture Management",
+          "url": "https://learn.microsoft.com/en-us/purview/data-security-posture-management-learn-about",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    }
+  ]
+}

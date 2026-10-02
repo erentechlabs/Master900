@@ -1,0 +1,724 @@
+{
+  "domainKey": "modern-development",
+  "modules": [
+    {
+      "slug": "modern-development-with-github",
+      "title": "Modern development with GitHub",
+      "summary": "Automate checks and use AI and cloud development tools to move from idea to reviewed change.",
+      "lessons": [
+        {
+          "slug": "gh-actions-workflow-basics",
+          "title": "GitHub Actions workflow basics",
+          "objectiveCode": "4.1",
+          "estimatedMinutes": 12,
+          "summary": "Learn how workflows, events, jobs, steps, and runners fit together in GitHub Actions automation.",
+          "learningObjectives": [
+            "Describe workflows and events",
+            "Identify jobs, steps, and runners",
+            "Read a simple workflow YAML example",
+            "Connect the Actions lab to troubleshooting"
+          ],
+          "explanation": "When a team says, 'Can we stop forgetting to run tests?', **GitHub Actions** is the helpful teammate that never gets bored. A workflow is an automated process stored as YAML in `.github/workflows`. It starts when an **event** happens, such as `push`, `pull_request`, a schedule, or a manual dispatch. A workflow contains **jobs**. Each job runs on a **runner**, the machine that executes the job, and contains **steps** that run commands or reusable actions.\n\nRead workflow YAML like a map: `on` means when, `jobs` means what work, `runs-on` means where, and `steps` means how. A real Node.js workflow might run on pull requests, use `actions/checkout`, set up Node.js, run `npm ci`, and then run `npm test`. GitHub-hosted runners provide ready machines; self-hosted runners are managed by your organization.\n\nThe `Create and troubleshoot a GitHub Actions workflow` lab lets you configure a Node.js workflow, inspect a failed run, fix the test failure, and verify success.",
+          "terminology": [
+            {
+              "term": "Workflow",
+              "definition": "YAML-defined automated process in a repository."
+            },
+            {
+              "term": "Event",
+              "definition": "Trigger that starts a workflow."
+            },
+            {
+              "term": "Job",
+              "definition": "Group of steps that runs on a runner."
+            },
+            {
+              "term": "Step",
+              "definition": "Command or reusable action inside a job."
+            },
+            {
+              "term": "Runner",
+              "definition": "Machine that executes a job."
+            }
+          ],
+          "businessScenario": "Contoso wants every pull request to install dependencies and run tests before review.",
+          "technicalExample": "```yaml\nname: Node CI\non: [pull_request]\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - run: npm ci\n      - run: npm test\n```",
+          "misconception": {
+            "myth": "Actions is only for deployments.",
+            "reality": "Actions can test, build, label, scan, publish, deploy, and automate many repository tasks."
+          },
+          "examTakeaway": "Map scenario words: pull request = event, hosted machine = runner, commands = steps, grouped work = job.",
+          "recap": "Learn how workflows, events, jobs, steps, and runners fit together in GitHub Actions automation.",
+          "simplerExplanation": "Picture GitHub Actions as an automatic quality gate at a workshop door. When someone brings in a pull request, the gate checks the checklist: get the code, install parts, run tests, and show a log before a reviewer spends time on it.",
+          "anotherExample": "A docs site can use one workflow for pull requests that checks Markdown links, and a second workflow on release tags that publishes the site. Same building blocks, different event and job purpose.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Workflow building blocks",
+                "columns": [
+                  {
+                    "title": "Trigger",
+                    "points": [
+                      "Defined under `on`",
+                      "Starts a run"
+                    ]
+                  },
+                  {
+                    "title": "Job",
+                    "points": [
+                      "Runs on a runner",
+                      "Contains steps"
+                    ]
+                  },
+                  {
+                    "title": "Step",
+                    "points": [
+                      "Runs a command or action",
+                      "Produces logs"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Read the YAML",
+                "instructions": "Decide before checking the answer.",
+                "items": [
+                  {
+                    "prompt": "`on: pull_request`",
+                    "answer": "Event trigger."
+                  },
+                  {
+                    "prompt": "`runs-on: ubuntu-latest`",
+                    "answer": "Runner selection."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Where do workflow files live?",
+              "back": "In `.github/workflows`."
+            },
+            {
+              "front": "What starts a workflow?",
+              "back": "An event."
+            },
+            {
+              "front": "What is a runner?",
+              "back": "The machine that executes a job."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Workflows",
+              "url": "https://docs.github.com/actions/writing-workflows/about-workflows",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Events that trigger workflows",
+              "url": "https://docs.github.com/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "GitHub-hosted runners",
+              "url": "https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "gh900-dev-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "modern-development",
+              "objectiveCode": "4.1",
+              "difficulty": "EASY",
+              "stem": "Where does GitHub look for workflow files in a repository?",
+              "explanation": "Workflows are YAML files in `.github/workflows`.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`.github/workflows`",
+                  "correct": true,
+                  "explanation": "Correct workflow directory."
+                },
+                {
+                  "key": "B",
+                  "text": "`docs/workflows`",
+                  "correct": false,
+                  "explanation": "This is only documentation."
+                },
+                {
+                  "key": "C",
+                  "text": "`src/actions`",
+                  "correct": false,
+                  "explanation": "Source folders do not automatically define workflows."
+                },
+                {
+                  "key": "D",
+                  "text": "`README.md`",
+                  "correct": false,
+                  "explanation": "README can describe automation but cannot run it."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Workflows",
+                  "url": "https://docs.github.com/actions/writing-workflows/about-workflows",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "gh-actions-workflow-basics"
+            },
+            {
+              "ref": "gh900-dev-002",
+              "type": "COMMAND_SELECTION",
+              "domainKey": "modern-development",
+              "objectiveCode": "4.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which YAML snippet triggers a workflow for pull requests?",
+              "explanation": "The `pull_request` event starts a workflow when pull request activity occurs.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`on:\n  pull_request:`",
+                  "correct": true,
+                  "explanation": "Valid workflow trigger syntax."
+                },
+                {
+                  "key": "B",
+                  "text": "`trigger:\n  pull-request: true`",
+                  "correct": false,
+                  "explanation": "GitHub Actions uses `on`, not `trigger`."
+                },
+                {
+                  "key": "C",
+                  "text": "`jobs:\n  pull_request:`",
+                  "correct": false,
+                  "explanation": "Jobs define work after a trigger."
+                },
+                {
+                  "key": "D",
+                  "text": "`runs-on: pull_request`",
+                  "correct": false,
+                  "explanation": "`runs-on` selects a runner, not an event."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Events that trigger workflows",
+                  "url": "https://docs.github.com/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Workflows",
+                  "url": "https://docs.github.com/actions/writing-workflows/about-workflows",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": false,
+              "lessonSlug": "gh-actions-workflow-basics"
+            },
+            {
+              "ref": "gh900-dev-003",
+              "type": "MATCHING",
+              "domainKey": "modern-development",
+              "objectiveCode": "4.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each Actions concept to its role.",
+              "explanation": "In GitHub Actions, the event starts a workflow run, jobs group the work, steps perform the individual commands or actions, and runners provide the compute.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "event",
+                    "text": "Event"
+                  },
+                  {
+                    "id": "job",
+                    "text": "Job"
+                  },
+                  {
+                    "id": "step",
+                    "text": "Step"
+                  },
+                  {
+                    "id": "runner",
+                    "text": "Runner"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a",
+                    "text": "Trigger such as push"
+                  },
+                  {
+                    "id": "b",
+                    "text": "Group of steps"
+                  },
+                  {
+                    "id": "c",
+                    "text": "Command or reusable action"
+                  },
+                  {
+                    "id": "d",
+                    "text": "Machine that executes jobs"
+                  }
+                ],
+                "pairs": {
+                  "event": "a",
+                  "job": "b",
+                  "step": "c",
+                  "runner": "d"
+                },
+                "explanations": {
+                  "event": "Events start workflow runs.",
+                  "job": "Jobs organize work.",
+                  "step": "Steps run commands or actions.",
+                  "runner": "Runners execute jobs."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Workflows",
+                  "url": "https://docs.github.com/actions/writing-workflows/about-workflows",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "GitHub-hosted runners",
+                  "url": "https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh-actions-workflow-basics"
+            },
+            {
+              "ref": "gh900-dev-004",
+              "type": "TRUE_FALSE",
+              "domainKey": "modern-development",
+              "objectiveCode": "4.1",
+              "difficulty": "EASY",
+              "stem": "A repository can contain multiple workflows for different automation tasks.",
+              "explanation": "Multiple workflow files can automate different tasks.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. A repository can store multiple workflow files so different events or automation tasks run separately."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that GitHub Actions supports separate workflow files for jobs such as tests, releases, or triage."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Workflows",
+                  "url": "https://docs.github.com/actions/writing-workflows/about-workflows",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": false,
+              "lessonSlug": "gh-actions-workflow-basics"
+            },
+            {
+              "ref": "gh900-dev-005",
+              "type": "CASE_STUDY",
+              "domainKey": "modern-development",
+              "objectiveCode": "4.1",
+              "difficulty": "HARD",
+              "scenario": "Contoso wants pull requests to install dependencies, run tests, and give reviewers logs by using GitHub Actions.",
+              "stem": "For each statement about Contoso's pull request workflow in GitHub Actions, select Yes if it fits. Otherwise, select No.",
+              "explanation": "A pull request workflow with jobs, steps, and a runner fits the scenario.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Use a pull_request event.",
+                    "answer": true,
+                    "explanation": "That event is for pull request activity."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Put test commands in steps.",
+                    "answer": true,
+                    "explanation": "Steps run commands or actions."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Treat the runner as the YAML file.",
+                    "answer": false,
+                    "explanation": "The runner is the execution machine."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Events that trigger workflows",
+                  "url": "https://docs.github.com/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "GitHub-hosted runners",
+                  "url": "https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh-actions-workflow-basics"
+            }
+          ]
+        },
+        {
+          "slug": "ai-cloud-development-environments",
+          "title": "Copilot, Codespaces, and github.dev",
+          "objectiveCode": "4.1",
+          "estimatedMinutes": 12,
+          "summary": "Choose between GitHub Copilot, GitHub Codespaces, and github.dev for common modern development needs.",
+          "learningObjectives": [
+            "Explain Copilot assistance",
+            "Describe Codespaces and dev containers",
+            "Differentiate github.dev from Codespaces",
+            "Select the right tool for a scenario"
+          ],
+          "explanation": "Modern development is about removing friction between an idea and a reviewed change. **GitHub Copilot** can suggest code, explain unfamiliar files, draft tests, and support AI-assisted development workflows. **GitHub Codespaces** gives developers a cloud-hosted environment connected to a repository. A **dev container** can define tools, runtimes, extensions, and settings so everyone starts consistently.\n\n**github.dev** is different: it opens a repository in VS Code for the Web. It is great for reading code, editing Markdown, and making small browser-only changes. When a scenario needs a terminal, dependencies, or a repeatable environment, choose Codespaces. When it needs a quick browser edit, choose github.dev.\n\nFor GH-900, focus on capability clues: AI assistance points to Copilot, cloud development environments point to Codespaces, and lightweight browser editing points to github.dev.",
+          "terminology": [
+            {
+              "term": "GitHub Copilot",
+              "definition": "AI assistant for code suggestions and development help."
+            },
+            {
+              "term": "Codespace",
+              "definition": "Cloud-hosted development environment."
+            },
+            {
+              "term": "Dev container",
+              "definition": "Configuration for tools and runtime in a development container."
+            },
+            {
+              "term": "github.dev",
+              "definition": "VS Code for the Web opened from GitHub."
+            }
+          ],
+          "businessScenario": "Fabrikam onboards interns with a codespace and encourages Copilot to explain tests.",
+          "technicalExample": "A maintainer uses github.dev for a README typo, Codespaces for a failing integration test, and Copilot to explain a function.",
+          "misconception": {
+            "myth": "github.dev and Codespaces are the same.",
+            "reality": "Both are browser friendly, but Codespaces provisions compute and an environment; github.dev is lightweight web editing."
+          },
+          "examTakeaway": "AI assistance = Copilot; cloud environment = Codespaces; quick browser edit = github.dev.",
+          "recap": "Choose between GitHub Copilot, GitHub Codespaces, and github.dev for common modern development needs.",
+          "simplerExplanation": "Copilot is like a teammate who can explain the map, Codespaces is the fully stocked remote workbench, and github.dev is the small notebook you open in the browser for quick edits.",
+          "anotherExample": "A contributor fixes a typo in github.dev, opens Codespaces to run the full test suite for a feature, and asks Copilot to explain why a test expects a specific error message.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Pick the tool",
+                "columns": [
+                  {
+                    "title": "Copilot",
+                    "points": [
+                      "AI suggestions",
+                      "Explains code"
+                    ]
+                  },
+                  {
+                    "title": "Codespaces",
+                    "points": [
+                      "Cloud environment",
+                      "Dev containers"
+                    ]
+                  },
+                  {
+                    "title": "github.dev",
+                    "points": [
+                      "Browser editor",
+                      "Quick edits"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Scenario clue",
+                "body": "No local setup plus terminal means Codespaces; quick documentation edit means github.dev."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What does Copilot help with?",
+              "back": "AI-assisted code suggestions and explanations."
+            },
+            {
+              "front": "What is Codespaces?",
+              "back": "A cloud development environment."
+            },
+            {
+              "front": "When use github.dev?",
+              "back": "For lightweight browser edits."
+            }
+          ],
+          "sources": [
+            {
+              "title": "GitHub Copilot documentation",
+              "url": "https://docs.github.com/copilot",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Codespaces documentation",
+              "url": "https://docs.github.com/codespaces",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Using VS Code for the Web from GitHub",
+              "url": "https://docs.github.com/codespaces/the-githubdev-web-based-editor",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "gh900-dev-006",
+              "type": "SCENARIO",
+              "domainKey": "modern-development",
+              "objectiveCode": "4.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which tool best fits this need?",
+              "explanation": "Codespaces provides a cloud-hosted development environment.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "GitHub Codespaces",
+                  "correct": true,
+                  "explanation": "It provides a ready cloud development environment."
+                },
+                {
+                  "key": "B",
+                  "text": "Milestones",
+                  "correct": false,
+                  "explanation": "Milestones track groups of work."
+                },
+                {
+                  "key": "C",
+                  "text": "Secret scanning",
+                  "correct": false,
+                  "explanation": "Secret scanning detects leaked secrets."
+                },
+                {
+                  "key": "D",
+                  "text": "GitHub Sponsors",
+                  "correct": false,
+                  "explanation": "Sponsors supports maintainers financially."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Codespaces documentation",
+                  "url": "https://docs.github.com/codespaces",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "ai-cloud-development-environments",
+              "scenario": "Fabrikam wants new contributors to code without installing local SDKs."
+            },
+            {
+              "ref": "gh900-dev-007",
+              "type": "CATEGORIZATION",
+              "domainKey": "modern-development",
+              "objectiveCode": "4.1",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each capability.",
+              "explanation": "Copilot assists, Codespaces provides an environment, and github.dev is the lightweight browser editor.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "cop",
+                    "label": "Copilot"
+                  },
+                  {
+                    "id": "codespace",
+                    "label": "Codespaces"
+                  },
+                  {
+                    "id": "dev",
+                    "label": "github.dev"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "AI code suggestions and explanations",
+                    "category": "cop",
+                    "explanation": "Copilot provides AI assistance."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Dev container-backed cloud environment",
+                    "category": "codespace",
+                    "explanation": "Codespaces uses development containers."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "VS Code for the Web for quick edits",
+                    "category": "dev",
+                    "explanation": "github.dev is the web editor."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "GitHub Copilot documentation",
+                  "url": "https://docs.github.com/copilot",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Codespaces documentation",
+                  "url": "https://docs.github.com/codespaces",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Using VS Code for the Web from GitHub",
+                  "url": "https://docs.github.com/codespaces/the-githubdev-web-based-editor",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "ai-cloud-development-environments"
+            },
+            {
+              "ref": "gh900-dev-008",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "modern-development",
+              "objectiveCode": "4.1",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about configuring GitHub Codespaces environments.",
+              "explanation": "A dev container configures a codespace environment.",
+              "fillInBlank": {
+                "template": "A repository can include a {{b1}} to define tools for Codespaces.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "dev container",
+                      "development container"
+                    ],
+                    "explanation": "Dev containers define the development environment."
+                  }
+                ],
+                "wordBank": [
+                  "dev container",
+                  "label",
+                  "milestone"
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Introduction to dev containers",
+                  "url": "https://docs.github.com/codespaces/setting-up-your-project-for-codespaces/introduction-to-dev-containers",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "ai-cloud-development-environments"
+            },
+            {
+              "ref": "gh900-dev-009",
+              "type": "TRUE_FALSE",
+              "domainKey": "modern-development",
+              "objectiveCode": "4.1",
+              "difficulty": "EASY",
+              "stem": "github.dev is a browser-based VS Code for the Web experience for GitHub repositories.",
+              "explanation": "GitHub Docs describes github.dev as VS Code for the Web.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. github.dev opens a repository in a browser-based VS Code for the Web editing experience."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that github.dev is the lightweight web editor for GitHub repositories."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Using VS Code for the Web from GitHub",
+                  "url": "https://docs.github.com/codespaces/the-githubdev-web-based-editor",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": false,
+              "lessonSlug": "ai-cloud-development-environments"
+            },
+            {
+              "ref": "gh900-dev-010",
+              "type": "UI_SIMULATION",
+              "domainKey": "modern-development",
+              "objectiveCode": "4.1",
+              "difficulty": "HARD",
+              "stem": "Choose settings for a quick browser-only documentation edit.",
+              "explanation": "github.dev is the lightweight choice and does not require provisioning a codespace.",
+              "uiSimulation": {
+                "title": "Development environment chooser (simulated)",
+                "description": "This is a fictional simplified screen, not the real GitHub UI.",
+                "fields": [
+                  {
+                    "id": "editor",
+                    "label": "Editor",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "githubdev",
+                        "label": "Open github.dev"
+                      },
+                      {
+                        "value": "codespace",
+                        "label": "Create a codespace"
+                      }
+                    ],
+                    "correct": "githubdev",
+                    "explanation": "github.dev fits a quick browser edit."
+                  },
+                  {
+                    "id": "compute",
+                    "label": "Provision cloud compute",
+                    "control": "toggle",
+                    "correct": false,
+                    "explanation": "A browser-only edit does not need a codespace VM."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Using VS Code for the Web from GitHub",
+                  "url": "https://docs.github.com/codespaces/the-githubdev-web-based-editor",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Codespaces documentation",
+                  "url": "https://docs.github.com/codespaces",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "ai-cloud-development-environments"
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Re-check current GitHub UI labels, plan names, and feature availability before publishing."
+        }
+      ]
+    }
+  ]
+}

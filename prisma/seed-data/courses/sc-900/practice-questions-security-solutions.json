@@ -1,0 +1,773 @@
+{
+  "questions": [
+    {
+      "ref": "sc900-sec-026",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "security-solutions",
+      "objectiveCode": "3.1",
+      "difficulty": "EASY",
+      "stem": "A public web app needs protection against common web exploits in HTTP/S traffic. What should be configured?",
+      "explanation": "The HTTP/S web attack clue maps to WAF.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Web Application Firewall",
+          "correct": true,
+          "explanation": "WAF inspects web traffic for common attack patterns."
+        },
+        {
+          "key": "B",
+          "text": "Azure Bastion",
+          "correct": false,
+          "explanation": "Bastion is VM administration."
+        },
+        {
+          "key": "C",
+          "text": "Azure Key Vault",
+          "correct": false,
+          "explanation": "Key Vault protects keys and secrets; it does not inspect HTTP/S requests for web attacks."
+        },
+        {
+          "key": "D",
+          "text": "Sentinel hunting",
+          "correct": false,
+          "explanation": "Hunting searches security data."
+        }
+      ],
+      "shuffleOptions": true,
+      "sources": [
+        {
+          "title": "Introduction to Azure Web Application Firewall",
+          "url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "lessonSlug": "azure-infrastructure-security-services"
+    },
+    {
+      "ref": "sc900-sec-027",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "security-solutions",
+      "objectiveCode": "3.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which **two** requirements are best addressed by Azure Bastion and Azure Key Vault respectively?",
+      "selectCount": 2,
+      "explanation": "Bastion is for access; Key Vault is for secrets.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Connect to VMs without public RDP/SSH ports",
+          "explanation": "Bastion provides private VM connectivity.",
+          "correct": true
+        },
+        {
+          "key": "B",
+          "text": "Store secrets, keys, and certificates centrally",
+          "explanation": "Key Vault stores secrets, keys, and certificates.",
+          "correct": true
+        },
+        {
+          "key": "C",
+          "text": "Correlate Defender alerts",
+          "explanation": "That is Defender XDR.",
+          "correct": false
+        },
+        {
+          "key": "D",
+          "text": "Create SIEM analytics rules",
+          "explanation": "That is Sentinel.",
+          "correct": false
+        }
+      ],
+      "shuffleOptions": true,
+      "sources": [
+        {
+          "title": "What is Azure Bastion?",
+          "url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Azure Key Vault overview",
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/overview",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-sec-028",
+      "type": "TRUE_FALSE",
+      "domainKey": "security-solutions",
+      "objectiveCode": "3.1",
+      "difficulty": "EASY",
+      "stem": "Network security groups can filter inbound and outbound Azure network traffic based on rules.",
+      "explanation": "NSGs use rules to filter traffic.",
+      "options": [
+        {
+          "key": "TRUE",
+          "text": "True",
+          "correct": true,
+          "explanation": "Correct. Network security groups use rules to allow or deny inbound and outbound traffic for Azure network resources."
+        },
+        {
+          "key": "FALSE",
+          "text": "False",
+          "correct": false,
+          "explanation": "Choosing False misses that NSGs are rule-based filters for both inbound and outbound Azure network traffic."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Azure network security groups overview",
+          "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-sec-029",
+      "type": "CATEGORIZATION",
+      "domainKey": "security-solutions",
+      "objectiveCode": "3.2",
+      "difficulty": "MEDIUM",
+      "stem": "Classify each capability as posture management or threat operations.",
+      "explanation": "Defender for Cloud posture differs from Sentinel operations.",
+      "categorization": {
+        "categories": [
+          {
+            "id": "posture",
+            "label": "Posture management"
+          },
+          {
+            "id": "ops",
+            "label": "Threat operations"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "text": "Defender for Cloud secure score",
+            "category": "posture",
+            "explanation": "Secure score measures posture."
+          },
+          {
+            "id": "i2",
+            "text": "Defender for Cloud recommendations",
+            "category": "posture",
+            "explanation": "Recommendations guide posture."
+          },
+          {
+            "id": "i3",
+            "text": "Sentinel incident investigation",
+            "category": "ops",
+            "explanation": "Incident investigation is operations."
+          },
+          {
+            "id": "i4",
+            "text": "Sentinel playbook automation",
+            "category": "ops",
+            "explanation": "Playbooks automate response."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Cloud Secure Score in Microsoft Defender for Cloud",
+          "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/secure-score-security-controls",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "What is Microsoft Sentinel SIEM?",
+          "url": "https://learn.microsoft.com/en-us/azure/sentinel/overview",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-sec-030",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "security-solutions",
+      "objectiveCode": "3.2",
+      "difficulty": "EASY",
+      "stem": "Complete the sentence about Defender for Cloud.",
+      "explanation": "CSPM is cloud security posture management.",
+      "fillInBlank": {
+        "template": "Cloud security {{b1}} management helps find risky cloud configurations.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "posture",
+              "Posture"
+            ],
+            "explanation": "CSPM is cloud security posture management."
+          }
+        ],
+        "wordBank": [
+          "posture",
+          "mailbox",
+          "bastion",
+          "workbook"
+        ]
+      },
+      "sources": [
+        {
+          "title": "What is Cloud Security Posture Management (CSPM)?",
+          "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/concept-cloud-security-posture-management",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-sec-031",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "security-solutions",
+      "objectiveCode": "3.2",
+      "difficulty": "MEDIUM",
+      "stem": "A risk team wants to map cloud resources against regulatory standards and controls from within Defender for Cloud. What should it review?",
+      "explanation": "Regulatory compliance views are in Defender for Cloud.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Regulatory compliance dashboard",
+          "correct": true,
+          "explanation": "It maps resources and recommendations to standards and controls."
+        },
+        {
+          "key": "B",
+          "text": "Azure Bastion sessions",
+          "correct": false,
+          "explanation": "Bastion is VM access."
+        },
+        {
+          "key": "C",
+          "text": "Safe Links only",
+          "correct": false,
+          "explanation": "That is email protection."
+        },
+        {
+          "key": "D",
+          "text": "Key Vault secret versions",
+          "correct": false,
+          "explanation": "Secret versions are not compliance control mapping."
+        }
+      ],
+      "shuffleOptions": true,
+      "sources": [
+        {
+          "title": "Improve regulatory compliance in Microsoft Defender for Cloud",
+          "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/regulatory-compliance-dashboard",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-sec-032",
+      "type": "ORDERING",
+      "domainKey": "security-solutions",
+      "objectiveCode": "3.3",
+      "difficulty": "MEDIUM",
+      "stem": "A security team is onboarding Microsoft Sentinel. Put its security operations steps in the correct order.",
+      "explanation": "Microsoft describes Sentinel's flow as collect, detect, investigate and respond: data connectors bring the data in, analytics rules turn it into incidents, analysts investigate those incidents, and a playbook or other action responds to what the investigation confirmed.",
+      "ordering": {
+        "items": [
+          {
+            "id": "s1",
+            "text": "Connect data sources so security logs flow into the workspace"
+          },
+          {
+            "id": "s2",
+            "text": "Run analytics rules that turn suspicious activity in the logs into incidents"
+          },
+          {
+            "id": "s3",
+            "text": "Examine the incidents, their entities and the timeline of related alerts"
+          },
+          {
+            "id": "s4",
+            "text": "Run a playbook to contain the confirmed threat"
+          }
+        ],
+        "correctOrder": [
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "explanations": {
+          "s1": "Collection comes first: analytics rules and investigations need data from connected sources.",
+          "s2": "Detection runs on the ingested logs and creates the incidents that analysts work on.",
+          "s3": "Investigation uses the incident's entities and related alerts to confirm what happened.",
+          "s4": "The response acts on the threat the investigation confirmed, for example by running a playbook that isolates a device or disables an account."
+        }
+      },
+      "sources": [
+        {
+          "title": "Microsoft Sentinel data connectors",
+          "url": "https://learn.microsoft.com/en-us/azure/sentinel/connect-data-sources",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Automation in Microsoft Sentinel",
+          "url": "https://learn.microsoft.com/en-us/azure/sentinel/automation/automation",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-sec-033",
+      "type": "SCENARIO",
+      "domainKey": "security-solutions",
+      "objectiveCode": "3.3",
+      "difficulty": "EASY",
+      "stem": "Which Sentinel object should the team use for this dashboard?",
+      "explanation": "Workbooks are for visualization.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Workbook",
+          "correct": true,
+          "explanation": "Workbooks visualize Sentinel data."
+        },
+        {
+          "key": "B",
+          "text": "Playbook",
+          "correct": false,
+          "explanation": "Playbooks automate response."
+        },
+        {
+          "key": "C",
+          "text": "NSG",
+          "correct": false,
+          "explanation": "NSGs filter Azure traffic."
+        },
+        {
+          "key": "D",
+          "text": "Key Vault key",
+          "correct": false,
+          "explanation": "Keys are cryptographic assets."
+        }
+      ],
+      "shuffleOptions": true,
+      "sources": [
+        {
+          "title": "What is Microsoft Sentinel SIEM?",
+          "url": "https://learn.microsoft.com/en-us/azure/sentinel/overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "scenario": "Fabrikam uses Microsoft Sentinel. The SOC manager asks for an interactive visual dashboard of failed sign-ins, incident counts, and trends that analysts can review during a daily stand-up."
+    },
+    {
+      "ref": "sc900-sec-034",
+      "type": "CASE_STUDY",
+      "domainKey": "security-solutions",
+      "objectiveCode": "3.3",
+      "difficulty": "HARD",
+      "scenario": "A SOC connects identity and firewall logs to Microsoft Sentinel and creates a rule for repeated failed sign-ins.",
+      "stem": "For each statement about Microsoft Sentinel analytics, hunting, and playbooks, select **Yes** if it is true. Otherwise, select **No**.",
+      "explanation": "Sentinel supports analytics, hunting, and automation.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Connected logs can be used by analytics rules.",
+            "answer": true,
+            "explanation": "Rules evaluate collected data."
+          },
+          {
+            "id": "s2",
+            "text": "Hunting is only possible after an incident is resolved.",
+            "answer": false,
+            "explanation": "Hunting can be proactive before an incident exists."
+          },
+          {
+            "id": "s3",
+            "text": "A playbook can automate a repeatable response step.",
+            "answer": true,
+            "explanation": "Playbooks automate workflows."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "What is Microsoft Sentinel SIEM?",
+          "url": "https://learn.microsoft.com/en-us/azure/sentinel/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Hunting capabilities in Microsoft Sentinel",
+          "url": "https://learn.microsoft.com/en-us/azure/sentinel/hunting",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Automation in Microsoft Sentinel",
+          "url": "https://learn.microsoft.com/en-us/azure/sentinel/automation/automation",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-sec-035",
+      "type": "UI_SIMULATION",
+      "domainKey": "security-solutions",
+      "objectiveCode": "3.3",
+      "difficulty": "MEDIUM",
+      "stem": "Choose the simulated Sentinel configuration for a high-severity detection that should open a ticket.",
+      "explanation": "A high-severity incident can trigger a ticket playbook.",
+      "uiSimulation": {
+        "title": "Sentinel automation rule (simulated)",
+        "description": "A simplified fictional screen; it is not the real portal.",
+        "fields": [
+          {
+            "id": "trigger",
+            "label": "Trigger",
+            "control": "select",
+            "options": [
+              {
+                "value": "incident",
+                "label": "When high-severity incident is created"
+              },
+              {
+                "value": "manual",
+                "label": "Never run automatically"
+              }
+            ],
+            "correct": "incident",
+            "explanation": "The requirement is automatic ticket creation."
+          },
+          {
+            "id": "action",
+            "label": "Action",
+            "control": "select",
+            "options": [
+              {
+                "value": "ticket",
+                "label": "Run ticket-creation playbook"
+              },
+              {
+                "value": "vault",
+                "label": "Rotate Key Vault key only"
+              }
+            ],
+            "correct": "ticket",
+            "explanation": "A playbook can create a ticket."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Automation in Microsoft Sentinel",
+          "url": "https://learn.microsoft.com/en-us/azure/sentinel/automation/automation",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-sec-036",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "security-solutions",
+      "objectiveCode": "3.4",
+      "difficulty": "MEDIUM",
+      "stem": "A Defender XDR incident contains alerts from email and endpoint products. What is the main benefit of the incident view?",
+      "explanation": "The incident view tells one correlated story.",
+      "options": [
+        {
+          "key": "A",
+          "text": "It correlates related signals so analysts can investigate one attack story",
+          "correct": true,
+          "explanation": "Incidents group related alerts, evidence, and assets."
+        },
+        {
+          "key": "B",
+          "text": "It replaces all security controls",
+          "correct": false,
+          "explanation": "Controls are still needed."
+        },
+        {
+          "key": "C",
+          "text": "It stores app secrets",
+          "correct": false,
+          "explanation": "Key Vault protects application secrets, not cross-product Defender XDR incident correlation."
+        },
+        {
+          "key": "D",
+          "text": "It proves every alert is false",
+          "correct": false,
+          "explanation": "Analysts must investigate."
+        }
+      ],
+      "shuffleOptions": true,
+      "sources": [
+        {
+          "title": "What is Microsoft Defender XDR?",
+          "url": "https://learn.microsoft.com/en-us/defender-xdr/microsoft-365-defender",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Investigate incidents in the Microsoft Defender portal",
+          "url": "https://learn.microsoft.com/en-us/defender-xdr/investigate-incidents",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "lessonSlug": "defender-xdr-portal-incidents"
+    },
+    {
+      "ref": "sc900-sec-037",
+      "type": "MATCHING",
+      "domainKey": "security-solutions",
+      "objectiveCode": "3.4",
+      "difficulty": "MEDIUM",
+      "stem": "Match each clue to the Defender capability.",
+      "explanation": "Defender service names follow workload clues.",
+      "matching": {
+        "prompts": [
+          {
+            "id": "email",
+            "text": "Phishing email campaign"
+          },
+          {
+            "id": "device",
+            "text": "Suspicious process on a laptop"
+          },
+          {
+            "id": "saas",
+            "text": "Risky cloud app session"
+          },
+          {
+            "id": "vuln",
+            "text": "Prioritize endpoint software weaknesses"
+          }
+        ],
+        "answers": [
+          {
+            "id": "a1",
+            "text": "Defender for Office 365"
+          },
+          {
+            "id": "a2",
+            "text": "Defender for Endpoint"
+          },
+          {
+            "id": "a3",
+            "text": "Defender for Cloud Apps"
+          },
+          {
+            "id": "a4",
+            "text": "Defender Vulnerability Management"
+          },
+          {
+            "id": "a5",
+            "text": "Azure Firewall"
+          }
+        ],
+        "pairs": {
+          "email": "a1",
+          "device": "a2",
+          "saas": "a3",
+          "vuln": "a4"
+        },
+        "explanations": {
+          "email": "Email maps to Office 365.",
+          "device": "Device behavior maps to Endpoint.",
+          "saas": "SaaS maps to Cloud Apps.",
+          "vuln": "Weaknesses map to Vulnerability Management."
+        }
+      },
+      "sources": [
+        {
+          "title": "Why do I need Microsoft Defender for Office 365?",
+          "url": "https://learn.microsoft.com/en-us/defender-office-365/mdo-about",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Microsoft Defender for Endpoint",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/microsoft-defender-endpoint",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Overview - Microsoft Defender for Cloud Apps",
+          "url": "https://learn.microsoft.com/en-us/defender-cloud-apps/what-is-defender-for-cloud-apps",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Microsoft Defender Vulnerability Management",
+          "url": "https://learn.microsoft.com/en-us/defender-vulnerability-management/defender-vulnerability-management",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "lessonSlug": "defender-xdr-services-threat-protection"
+    },
+    {
+      "ref": "sc900-sec-038",
+      "type": "TRUE_FALSE",
+      "domainKey": "security-solutions",
+      "objectiveCode": "3.4",
+      "difficulty": "EASY",
+      "stem": "Defender for Identity focuses on detecting identity-based attacks rather than filtering web application requests.",
+      "explanation": "Defender for Identity is about identity threats; WAF filters web traffic.",
+      "options": [
+        {
+          "key": "TRUE",
+          "text": "True",
+          "correct": true,
+          "explanation": "Correct. Microsoft Defender for Identity detects identity-based threats, while a web application firewall filters web requests."
+        },
+        {
+          "key": "FALSE",
+          "text": "False",
+          "correct": false,
+          "explanation": "Choosing False confuses Defender for Identity with WAF; Defender for Identity focuses on identity attack signals."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Microsoft Defender for Identity overview",
+          "url": "https://learn.microsoft.com/en-us/defender-for-identity/what-is",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Introduction to Azure Web Application Firewall",
+          "url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/overview",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-sec-039",
+      "type": "CASE_STUDY",
+      "domainKey": "security-solutions",
+      "objectiveCode": "3.4",
+      "difficulty": "HARD",
+      "scenario": "Fabrikam uses Defender XDR and Sentinel. An incident includes a malicious email, endpoint activity, and identity evidence.",
+      "stem": "For each statement about how Defender XDR and Sentinel work together during incident response, select **Yes** if it is true. Otherwise, select **No**.",
+      "explanation": "Defender XDR and Sentinel are complementary; Bastion is unrelated.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Defender XDR can correlate related Defender service signals.",
+            "answer": true,
+            "explanation": "Correlation is a core XDR benefit."
+          },
+          {
+            "id": "s2",
+            "text": "Microsoft Sentinel is the cloud-native SIEM/SOAR service.",
+            "answer": true,
+            "explanation": "Sentinel provides SIEM/SOAR."
+          },
+          {
+            "id": "s3",
+            "text": "Azure Bastion is the correct tool to classify Defender XDR incidents.",
+            "answer": false,
+            "explanation": "Bastion is VM access, not incident classification."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "What is Microsoft Defender XDR?",
+          "url": "https://learn.microsoft.com/en-us/defender-xdr/microsoft-365-defender",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "What is Microsoft Sentinel SIEM?",
+          "url": "https://learn.microsoft.com/en-us/azure/sentinel/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "What is Azure Bastion?",
+          "url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-sec-040",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "security-solutions",
+      "objectiveCode": "3.3",
+      "difficulty": "MEDIUM",
+      "stem": "Which KQL snippet best filters Microsoft Sentinel security alerts to high-severity alerts?",
+      "explanation": "The `where` operator filters rows, and `AlertSeverity == \"High\"` keeps only high-severity alerts.",
+      "options": [
+        {
+          "key": "A",
+          "text": "`SecurityAlert | where AlertSeverity == \"High\"`",
+          "correct": true,
+          "explanation": "This valid KQL pattern filters the SecurityAlert table to high-severity rows."
+        },
+        {
+          "key": "B",
+          "text": "`SecurityAlert | summarize AlertSeverity == \"High\"`",
+          "correct": false,
+          "explanation": "`summarize` aggregates data; it is not the right operator for row filtering."
+        },
+        {
+          "key": "C",
+          "text": "`SecurityAlert | project AlertSeverity == \"High\"`",
+          "correct": false,
+          "explanation": "`project` selects or calculates columns; it does not filter rows by itself."
+        },
+        {
+          "key": "D",
+          "text": "`SecurityAlert | order by AlertSeverity == \"High\"`",
+          "correct": false,
+          "explanation": "`order by` sorts results; it does not keep only high-severity alerts."
+        }
+      ],
+      "shuffleOptions": true,
+      "sources": [
+        {
+          "title": "Hunting capabilities in Microsoft Sentinel",
+          "url": "https://learn.microsoft.com/en-us/azure/sentinel/hunting",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "lessonSlug": "sentinel-siem-soar-operations"
+    },
+    {
+      "ref": "sc900-sec-041",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "security-solutions",
+      "objectiveCode": "3.1",
+      "difficulty": "EASY",
+      "stem": "A company wants to administer private Azure VMs from a browser without public IP addresses on those VMs. Which service should it choose?",
+      "explanation": "Azure Bastion is for secure VM administration.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure Bastion",
+          "correct": true,
+          "explanation": "Bastion provides secure RDP/SSH connectivity without public RDP/SSH exposure."
+        },
+        {
+          "key": "B",
+          "text": "Microsoft Sentinel",
+          "correct": false,
+          "explanation": "Sentinel is SIEM/SOAR."
+        },
+        {
+          "key": "C",
+          "text": "Defender Vulnerability Management",
+          "correct": false,
+          "explanation": "It manages endpoint vulnerabilities."
+        },
+        {
+          "key": "D",
+          "text": "Web Application Firewall",
+          "correct": false,
+          "explanation": "WAF protects web apps."
+        }
+      ],
+      "shuffleOptions": true,
+      "sources": [
+        {
+          "title": "What is Azure Bastion?",
+          "url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "lessonSlug": "azure-infrastructure-security-services"
+    }
+  ]
+}

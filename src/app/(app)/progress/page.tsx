@@ -4,12 +4,13 @@ import { Award, Clock, Target } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { addDays, toISODate } from "@/lib/dates";
 import { getI18n } from "@/i18n/server";
-import type { MessageKey } from "@/i18n/translator";
+import { localizedField, type MessageKey, type TFunction } from "@/i18n/translator";
 import { requirePermission } from "@/modules/auth/session";
-import { domainMastery, streakInfo, totalXp } from "@/modules/analytics/data";
-import { levelForXp } from "@/modules/analytics/gamification";
+import { badgeStats, domainMastery, streakInfo, totalXp } from "@/modules/analytics/data";
+import { levelForXp, type BadgeCriteria, type BadgeStats } from "@/modules/analytics/gamification";
 import { evaluateCertificateCriteria } from "@/modules/learning/certificates";
 import { BarList, LineChart } from "@/components/charts";
+import { DynamicIcon } from "@/components/icon";
 import { PageHeader, SectionTitle, StatCard } from "@/components/page";
 import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
@@ -30,11 +31,11 @@ function weekKey(date: Date, timeZone: string): string {
 }
 
 export default async function ProgressPage() {
-  const [{ t, fmt }, user] = await Promise.all([getI18n(), requirePermission("learn:use", "/progress")]);
+  const [{ t, fmt, locale }, user] = await Promise.all([getI18n(), requirePermission("learn:use", "/progress")]);
   const timeZone = user.preference?.timezone ?? "UTC";
   const gamification = user.preference?.gamificationEnabled !== false;
   const now = new Date();
-  const [enrollments, xp, streak, events, badges, allBadges, practiceAttempts] = await Promise.all([
+  const [enrollments, xp, streak, events, badges, allBadges, practiceAttempts, stats] = await Promise.all([
     prisma.enrollment.findMany({
       where: { userId: user.id, status: "ACTIVE" },
       orderBy: [{ isPrimary: "desc" }, { createdAt: "asc" }],
@@ -50,9 +51,10 @@ export default async function ProgressPage() {
       orderBy: { submittedAt: "asc" },
       include: { certification: { select: { code: true } } },
     }),
+    badgeStats(prisma, user.id, timeZone, now),
   ]);
   const level = levelForXp(xp);
-  const earnedBadgeIds = new Set(badges.map((b) => b.badgeId));
+  const earnedByBadgeId = new Map(badges.map((b) => [b.badgeId, b]));
   const weekly = new Map<string, number>();
   for (const event of events) {
     const key = weekKey(event.occurredAt, timeZone);
@@ -68,10 +70,11 @@ export default async function ProgressPage() {
 
   const certSections = await Promise.all(
     enrollments.map(async (enrollment) => {
-      const [snapshots, mastery, domains, visibleLessons, completedLessons, fullPracticeSubmitted] = await Promise.all([
+      const [latestSnapshots, mastery, domains, visibleLessons, completedLessons, fullPracticeSubmitted] = await Promise.all([
+        // The 30 most recent snapshots (newest first), shown oldest to newest below.
         prisma.readinessSnapshot.findMany({
           where: { userId: user.id, certificationId: enrollment.certificationId },
-          orderBy: { createdAt: "asc" },
+          orderBy: { createdAt: "desc" },
           take: 30,
         }),
         domainMastery(prisma, user.id, enrollment.certificationId, addDays(now, -90)),
@@ -82,7 +85,7 @@ export default async function ProgressPage() {
       ]);
       return {
         enrollment,
-        snapshots,
+        snapshots: latestSnapshots.reverse(),
         mastery: domains.map((d) => ({ label: d.title, value: mastery.get(d.id)?.accuracy ?? 0, secondary: String(mastery.get(d.id)?.answers ?? 0) })),
         certificate: evaluateCertificateCriteria({ visibleLessons, completedLessons, fullPracticeSubmitted }),
       };
@@ -95,7 +98,7 @@ export default async function ProgressPage() {
       <Alert>{t("progress.readinessDisclaimer")}</Alert>
       <div className="grid gap-4 md:grid-cols-3">
         <StatCard label={t("progress.streak")} value={t("learner.dashboard.streakDays", { count: streak.current })} hint={t("progress.longestStreak", { count: streak.longest })} icon={Target} />
-        <StatCard label={t("progress.timeSpent")} value={fmt.duration(events.reduce((sum, event) => sum + (event.durationSeconds ?? 0), 0))} icon={Clock} />
+        <StatCard label={t("progress.timeSpent")} value={fmt.studyTime(events.reduce((sum, event) => sum + (event.durationSeconds ?? 0), 0))} icon={Clock} />
         {gamification ? <StatCard label={t("progress.xpTotal")} value={xp} hint={t("learner.dashboard.level", { level: level.level })} icon={Award} /> : <StatCard label={t("progress.badges")} value={t("progress.gamificationOff")} icon={Award} />}
       </div>
 
@@ -175,15 +178,30 @@ export default async function ProgressPage() {
           </CardHeader>
           <CardContent>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {allBadges.map((badge) => (
-                <div key={badge.id} className="rounded-lg border p-3">
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="font-medium">{badge.name}</p>
-                    <Badge variant={earnedBadgeIds.has(badge.id) ? "success" : "secondary"}>{earnedBadgeIds.has(badge.id) ? t("progress.badges") : t("progress.locked")}</Badge>
+              {allBadges.map((badge) => {
+                const earned = earnedByBadgeId.get(badge.id);
+                const title = localizedField(badge.name, badge.translations, locale, "name");
+                const description = localizedField(badge.description, badge.translations, locale, "description");
+                const progress = badgeProgress(badge.criteria as unknown as BadgeCriteria, stats, t);
+                return (
+                  <div key={badge.id} className={`rounded-lg border p-3 ${earned ? "bg-card" : "bg-muted/30"}`}>
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex min-w-0 items-start gap-3">
+                        <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full ${earned ? "bg-tint-brand text-primary" : "bg-muted text-muted-foreground"}`}>
+                          <DynamicIcon name={badge.icon} className="h-5 w-5" />
+                        </span>
+                        <div className="min-w-0">
+                          <p className="font-medium">{title}</p>
+                          {earned ? <p className="text-xs text-muted-foreground">{earned.scopeKey === "global" ? t("progress.earnedOnDate", { date: fmt.calendarDate(earned.earnedAt) }) : t("progress.earnedOn", { date: fmt.calendarDate(earned.earnedAt), scope: earned.scopeKey.split(":")[0] ?? earned.scopeKey })}</p> : null}
+                        </div>
+                      </div>
+                      <Badge variant={earned ? "success" : "secondary"}>{earned ? t("progress.earned") : t("progress.locked")}</Badge>
+                    </div>
+                    <p className="mt-2 text-sm text-muted-foreground">{earned ? description : t("progress.howToEarn", { description })}</p>
+                    {!earned && progress ? <p className="mt-2 text-xs font-medium text-muted-foreground">{progress}</p> : null}
                   </div>
-                  <p className="mt-1 text-sm text-muted-foreground">{badge.description}</p>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </CardContent>
         </Card>
@@ -209,3 +227,32 @@ export default async function ProgressPage() {
     </div>
   );
 }
+
+
+function badgeProgress(criteria: BadgeCriteria, stats: BadgeStats, t: TFunction): string | null {
+  switch (criteria.type) {
+    case "labs_completed":
+      return t("progress.badgeProgress", { done: Math.min(stats.labsCompleted, criteria.count), target: criteria.count });
+    case "lessons_completed":
+      return t("progress.badgeProgress", { done: Math.min(stats.lessonsCompleted, criteria.count), target: criteria.count });
+    case "streak":
+      return t("progress.badgeProgress", { done: Math.min(stats.currentStreak, criteria.days), target: criteria.days });
+    case "xp":
+      return t("progress.badgeProgress", { done: Math.min(stats.totalXp, criteria.amount), target: criteria.amount });
+    case "quest_days":
+      return t("progress.badgeProgress", { done: Math.min(stats.questDaysAllCompleted ?? 0, criteria.count), target: criteria.count });
+    case "focus_sessions":
+      return t("progress.badgeProgress", { done: Math.min(stats.focusSessions ?? 0, criteria.count), target: criteria.count });
+    case "three_star_labs":
+      return t("progress.badgeProgress", { done: Math.min(stats.threeStarLabs ?? 0, criteria.count), target: criteria.count });
+    case "lightning_combo":
+      return t("progress.badgeProgress", { done: Math.min(stats.bestLightningCombo ?? 0, criteria.combo), target: criteria.combo });
+    case "lightning_correct":
+      return t("progress.badgeProgress", { done: Math.min(stats.bestLightningCorrect ?? ((stats.lightningRoundsAtLeast8 ?? 0) > 0 ? criteria.minCorrect : 0), criteria.minCorrect), target: criteria.minCorrect });
+    case "lab_cert_explorer":
+      return t("progress.badgeProgress", { done: Math.min(stats.labCertificationsCompleted ?? 0, criteria.count), target: criteria.count });
+    default:
+      return null;
+  }
+}
+

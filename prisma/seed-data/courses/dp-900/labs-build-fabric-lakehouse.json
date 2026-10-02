@@ -4,33 +4,75 @@
       "slug": "build-fabric-lakehouse",
       "type": "UI_SIMULATION",
       "title": "Build a Microsoft Fabric lakehouse and query a Delta table",
-      "summary": "Create a Fabric lakehouse, upload a sales CSV, load it into a Delta table, and query it from the SQL analytics endpoint.",
-      "scenario": "Northwind Traders wants analysts to explore monthly sales files without provisioning separate SQL infrastructure. In the **simulated Microsoft Fabric portal** on your lab VM, use the **Sales Analytics** workspace to create a lakehouse named **SalesLakehouse**, upload **sales.csv** to **Files**, load it to a new table named **sales**, and use the **SQL analytics endpoint** to run an aggregate sales query by region.",
+      "summary": "Create a Fabric lakehouse, load CSV data to a Delta table, query it, define a simple semantic model measure, and verify the analytics path.",
+      "scenario": "Northwind Traders wants analysts to explore monthly sales files and promote trustworthy metrics for reporting. In the **simulated Microsoft Fabric portal** on your lab VM, create **SalesLakehouse**, upload **sales.csv** to **Files**, load it to a Delta table named **sales**, query regional totals through the **SQL analytics endpoint**, create a simple semantic model concept from the table, and run a final verification so the team understands file, table, SQL endpoint, and model roles.",
       "domainKey": "analytics-workloads",
       "objectiveCode": "4.1",
       "complexity": "BASIC",
       "estimatedMinutes": 30,
       "learningObjectives": [
         "Create a lakehouse item in a Fabric workspace",
-        "Load file data into a Delta table",
-        "Run a T-SQL aggregate query over a lakehouse SQL analytics endpoint"
+        "Load file data into a Delta table and distinguish Files from Tables",
+        "Run a T-SQL aggregate query over a lakehouse SQL analytics endpoint",
+        "Explain how a semantic model can expose governed measures for Power BI"
       ],
-      "prerequisites": ["Know the difference between files and tables in an analytics platform"],
+      "prerequisites": [
+        "Know the difference between files and tables in an analytics platform"
+      ],
       "sources": [
-        { "title": "Create a lakehouse in Microsoft Fabric", "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/create-lakehouse" },
-        { "title": "Lakehouse Load to Delta Lake tables", "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/load-to-tables" },
-        { "title": "What is the SQL analytics endpoint for a lakehouse?", "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-sql-analytics-endpoint" },
-        { "title": "What is a lakehouse in Microsoft Fabric?", "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview" }
+        {
+          "title": "Create a lakehouse in Microsoft Fabric",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/create-lakehouse"
+        },
+        {
+          "title": "Lakehouse Load to Delta Lake tables",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/load-to-tables"
+        },
+        {
+          "title": "What is the SQL analytics endpoint for a lakehouse?",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-sql-analytics-endpoint"
+        },
+        {
+          "title": "What is a lakehouse in Microsoft Fabric?",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview"
+        }
       ],
       "config": {
-        "portal": { "name": "Microsoft Fabric", "theme": "fabric", "user": "alex@contoso.example", "tenant": "Contoso (contoso.example)", "url": "https://app.fabric.microsoft.com", "searchPlaceholder": "Search" },
-        "vm": { "name": "LAB-VM-01", "os": "windows", "apps": ["browser"] },
-        "clock": { "start": "2026-09-30T09:00:00Z" },
+        "portal": {
+          "name": "Microsoft Fabric",
+          "theme": "fabric",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://app.fabric.microsoft.com",
+          "searchPlaceholder": "Search"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
         "startPage": "home",
         "navigation": [
-          { "page": "home", "label": "Home", "icon": "Home" },
-          { "page": "workspaces", "label": "Workspaces", "icon": "Briefcase" },
-          { "page": "data-engineering", "label": "Data Engineering", "icon": "Database" }
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "workspaces",
+            "label": "Workspaces",
+            "icon": "Briefcase"
+          },
+          {
+            "page": "data-engineering",
+            "label": "Data Engineering",
+            "icon": "Database"
+          }
         ],
         "pages": [
           {
@@ -44,9 +86,37 @@
                 "title": "Microsoft Fabric",
                 "size": "md",
                 "items": [
-                  { "id": "workspaces", "label": "Workspaces", "description": "Open shared content and create items", "icon": "Briefcase", "action": { "type": "navigate", "page": "workspaces" } },
-                  { "id": "data-engineering", "label": "Data Engineering", "description": "Lakehouses, notebooks, and data pipelines", "icon": "Database", "action": { "type": "navigate", "page": "data-engineering" } },
-                  { "id": "real-time", "label": "Real-Time Intelligence", "description": "Eventstreams and eventhouses", "icon": "Activity", "action": { "type": "message", "tone": "info", "text": "Real-Time Intelligence is for streaming and eventhouse scenarios. This lab uses a file-based lakehouse workload." } }
+                  {
+                    "id": "workspaces",
+                    "label": "Workspaces",
+                    "description": "Open shared content and create items",
+                    "icon": "Briefcase",
+                    "action": {
+                      "type": "navigate",
+                      "page": "workspaces"
+                    }
+                  },
+                  {
+                    "id": "data-engineering",
+                    "label": "Data Engineering",
+                    "description": "Lakehouses, notebooks, and data pipelines",
+                    "icon": "Database",
+                    "action": {
+                      "type": "navigate",
+                      "page": "data-engineering"
+                    }
+                  },
+                  {
+                    "id": "real-time",
+                    "label": "Real-Time Intelligence",
+                    "description": "Eventstreams and eventhouses",
+                    "icon": "Activity",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Real-Time Intelligence is for streaming and eventhouse scenarios. This lab uses a file-based lakehouse workload."
+                    }
+                  }
                 ]
               }
             ]
@@ -56,7 +126,9 @@
             "title": "Workspaces",
             "icon": "Briefcase",
             "url": "/groups",
-            "breadcrumb": ["Home"],
+            "breadcrumb": [
+              "Home"
+            ],
             "components": [
               {
                 "kind": "table",
@@ -64,11 +136,30 @@
                 "source": "workspaces",
                 "rowKey": "name",
                 "columns": [
-                  { "key": "name", "label": "Name", "format": "link" },
-                  { "key": "role", "label": "Your role" },
-                  { "key": "description", "label": "Description" }
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "role",
+                    "label": "Your role"
+                  },
+                  {
+                    "key": "description",
+                    "label": "Description"
+                  }
                 ],
-                "rowAction": { "type": "navigate", "page": "workspace", "select": { "as": "workspace", "path": "workspaces", "key": "name", "value": "{{$row.name}}" } }
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "workspace",
+                  "select": {
+                    "as": "workspace",
+                    "path": "workspaces",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
               }
             ]
           },
@@ -78,8 +169,27 @@
             "icon": "Database",
             "url": "/data-engineering",
             "components": [
-              { "kind": "callout", "variant": "info", "text": "A **lakehouse** combines file storage with managed Delta tables and a SQL analytics endpoint. Use **Warehouse** for a primarily relational warehouse design and **Eventhouse** for real-time event analytics." },
-              { "kind": "button", "id": "open-sales-workspace", "label": "Open Sales Analytics workspace", "variant": "primary", "action": { "type": "navigate", "page": "workspace", "select": { "as": "workspace", "path": "workspaces", "key": "name", "value": "Sales Analytics" } } }
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "A **lakehouse** combines file storage with managed Delta tables and a SQL analytics endpoint. Use **Warehouse** for a primarily relational warehouse design and **Eventhouse** for real-time event analytics."
+              },
+              {
+                "kind": "button",
+                "id": "open-sales-workspace",
+                "label": "Open Sales Analytics workspace",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "workspace",
+                  "select": {
+                    "as": "workspace",
+                    "path": "workspaces",
+                    "key": "name",
+                    "value": "Sales Analytics"
+                  }
+                }
+              }
             ]
           },
           {
@@ -89,9 +199,21 @@
             "icon": "Briefcase",
             "url": "/groups/{{$sel.workspace.id}}/list",
             "requires": "workspace",
-            "breadcrumb": ["Home", "Workspaces"],
+            "breadcrumb": [
+              "Home",
+              "Workspaces"
+            ],
             "commands": [
-              { "id": "new-item", "label": "+ New item", "icon": "Plus", "variant": "primary", "action": { "type": "navigate", "page": "new-item" } }
+              {
+                "id": "new-item",
+                "label": "+ New item",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "new-item"
+                }
+              }
             ],
             "components": [
               {
@@ -99,15 +221,37 @@
                 "id": "workspace-items",
                 "title": "Items",
                 "source": "items",
-                "where": { "workspace": "{{$sel.workspace.name}}" },
+                "where": {
+                  "workspace": "{{$sel.workspace.name}}"
+                },
                 "rowKey": "name",
                 "emptyText": "No items yet.",
                 "columns": [
-                  { "key": "name", "label": "Name", "format": "link" },
-                  { "key": "type", "label": "Type", "format": "badge" },
-                  { "key": "owner", "label": "Owner" }
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Type",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "owner",
+                    "label": "Owner"
+                  }
                 ],
-                "rowAction": { "type": "navigate", "page": "lakehouse", "select": { "as": "lakehouse", "path": "lakehouses", "key": "name", "value": "{{$row.name}}" } }
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "lakehouse",
+                  "select": {
+                    "as": "lakehouse",
+                    "path": "lakehouses",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
               }
             ]
           },
@@ -118,7 +262,11 @@
             "icon": "Plus",
             "url": "/groups/sales-analytics/new",
             "requires": "workspace",
-            "breadcrumb": ["Home", "Workspaces", "{{$sel.workspace.name}}"],
+            "breadcrumb": [
+              "Home",
+              "Workspaces",
+              "{{$sel.workspace.name}}"
+            ],
             "components": [
               {
                 "kind": "tiles",
@@ -126,9 +274,39 @@
                 "title": "Create new item",
                 "size": "md",
                 "items": [
-                  { "id": "lakehouse", "label": "Lakehouse", "description": "Store files and Delta tables for Spark and SQL analytics", "icon": "Database", "action": { "type": "message", "tone": "info", "text": "Use the Lakehouse form below for this file-based analytics scenario." } },
-                  { "id": "warehouse", "label": "Warehouse", "description": "Relational warehouse optimized for SQL modeling", "icon": "Table2", "action": { "type": "message", "tone": "warning", "text": "Warehouse is plausible for SQL analytics, but this scenario starts with files and needs lakehouse Files plus Delta tables." } },
-                  { "id": "eventhouse", "label": "Eventhouse", "description": "Real-time event analytics", "icon": "Activity", "action": { "type": "message", "tone": "warning", "text": "Eventhouse is for high-volume event streams, not this batch CSV upload scenario." } }
+                  {
+                    "id": "lakehouse",
+                    "label": "Lakehouse",
+                    "description": "Store files and Delta tables for Spark and SQL analytics",
+                    "icon": "Database",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Use the Lakehouse form below for this file-based analytics scenario."
+                    }
+                  },
+                  {
+                    "id": "warehouse",
+                    "label": "Warehouse",
+                    "description": "Relational warehouse optimized for SQL modeling",
+                    "icon": "Table2",
+                    "action": {
+                      "type": "message",
+                      "tone": "warning",
+                      "text": "Warehouse is plausible for SQL analytics, but this scenario starts with files and needs lakehouse Files plus Delta tables."
+                    }
+                  },
+                  {
+                    "id": "eventhouse",
+                    "label": "Eventhouse",
+                    "description": "Real-time event analytics",
+                    "icon": "Activity",
+                    "action": {
+                      "type": "message",
+                      "tone": "warning",
+                      "text": "Eventhouse is for high-volume event streams, not this batch CSV upload scenario."
+                    }
+                  }
                 ]
               },
               {
@@ -137,19 +315,92 @@
                 "title": "Lakehouse",
                 "description": "Create a lakehouse item in the current workspace.",
                 "fields": [
-                  { "id": "itemType", "label": "Item type", "control": "select", "required": true, "defaultValue": "Lakehouse", "options": [{ "value": "Lakehouse", "label": "Lakehouse" }, { "value": "Warehouse", "label": "Warehouse" }, { "value": "Eventhouse", "label": "Eventhouse" }] },
-                  { "id": "name", "label": "Name", "control": "text", "required": true, "pattern": "^[A-Za-z][A-Za-z0-9_ ]{2,79}$", "patternMessage": "Start with a letter; use letters, numbers, spaces, or underscores.", "unique": { "path": "lakehouses", "key": "name", "message": "A lakehouse with this name already exists." } }
+                  {
+                    "id": "itemType",
+                    "label": "Item type",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Lakehouse",
+                    "options": [
+                      {
+                        "value": "Lakehouse",
+                        "label": "Lakehouse"
+                      },
+                      {
+                        "value": "Warehouse",
+                        "label": "Warehouse"
+                      },
+                      {
+                        "value": "Eventhouse",
+                        "label": "Eventhouse"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "name",
+                    "label": "Name",
+                    "control": "text",
+                    "required": true,
+                    "pattern": "^[A-Za-z][A-Za-z0-9_ ]{2,79}$",
+                    "patternMessage": "Start with a letter; use letters, numbers, spaces, or underscores.",
+                    "unique": {
+                      "path": "lakehouses",
+                      "key": "name",
+                      "message": "A lakehouse with this name already exists."
+                    }
+                  }
                 ],
                 "submit": {
                   "label": "Create",
                   "checks": [
-                    { "rule": { "type": "equals", "path": "$form.itemType", "value": "Lakehouse" }, "message": "Choose Lakehouse. A warehouse or eventhouse would not expose the Files area used by this CSV ingestion task." }
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.itemType",
+                        "value": "Lakehouse"
+                      },
+                      "message": "Choose Lakehouse. A warehouse or eventhouse would not expose the Files area used by this CSV ingestion task."
+                    }
                   ],
                   "actions": [
-                    { "type": "append", "path": "lakehouses", "unique": "name", "value": { "name": "{{$form.name}}", "workspace": "{{$sel.workspace.name}}", "owner": "Alex", "tables": 0, "files": 0 } },
-                    { "type": "append", "path": "items", "unique": "name", "value": { "name": "{{$form.name}}", "workspace": "{{$sel.workspace.name}}", "type": "Lakehouse", "owner": "Alex" } },
-                    { "type": "notify", "title": "Lakehouse created", "message": "{{$form.name}} and its SQL analytics endpoint are ready." },
-                    { "type": "navigate", "page": "lakehouse", "select": { "as": "lakehouse", "path": "lakehouses", "key": "name", "value": "{{$form.name}}" } }
+                    {
+                      "type": "append",
+                      "path": "lakehouses",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "workspace": "{{$sel.workspace.name}}",
+                        "owner": "Alex",
+                        "tables": 0,
+                        "files": 0
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "items",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "workspace": "{{$sel.workspace.name}}",
+                        "type": "Lakehouse",
+                        "owner": "Alex"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Lakehouse created",
+                      "message": "{{$form.name}} and its SQL analytics endpoint are ready."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "lakehouse",
+                      "select": {
+                        "as": "lakehouse",
+                        "path": "lakehouses",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    }
                   ]
                 }
               }
@@ -162,20 +413,86 @@
             "icon": "Database",
             "url": "/groups/sales-analytics/lakehouses/{{$sel.lakehouse.name}}",
             "requires": "lakehouse",
-            "breadcrumb": ["Home", "Workspaces", "Sales Analytics"],
+            "breadcrumb": [
+              "Home",
+              "Workspaces",
+              "Sales Analytics"
+            ],
             "menu": [
-              { "page": "lakehouse", "label": "Lakehouse", "icon": "Database" },
-              { "page": "files", "label": "Files", "icon": "FolderOpen" },
-              { "page": "tables", "label": "Tables", "icon": "Table2" },
-              { "page": "sql-endpoint", "label": "SQL analytics endpoint", "icon": "Terminal" }
+              {
+                "page": "lakehouse",
+                "label": "Lakehouse",
+                "icon": "Database"
+              },
+              {
+                "page": "files",
+                "label": "Files",
+                "icon": "FolderOpen"
+              },
+              {
+                "page": "tables",
+                "label": "Tables",
+                "icon": "Table2"
+              },
+              {
+                "page": "sql-endpoint",
+                "label": "SQL analytics endpoint",
+                "icon": "Terminal"
+              },
+              {
+                "page": "semantic-model",
+                "label": "Semantic model",
+                "icon": "Database"
+              }
             ],
             "commands": [
-              { "id": "get-data", "label": "Get data", "icon": "Upload", "action": { "type": "navigate", "page": "files" } },
-              { "id": "load-to-tables", "label": "Load to Tables", "icon": "Table2", "action": { "type": "navigate", "page": "tables" } }
+              {
+                "id": "get-data",
+                "label": "Get data",
+                "icon": "Upload",
+                "action": {
+                  "type": "navigate",
+                  "page": "files"
+                }
+              },
+              {
+                "id": "load-to-tables",
+                "label": "Load to Tables",
+                "icon": "Table2",
+                "action": {
+                  "type": "navigate",
+                  "page": "tables"
+                }
+              }
             ],
             "components": [
-              { "kind": "properties", "title": "Lakehouse overview", "items": [{ "label": "Workspace", "value": "Sales Analytics" }, { "label": "Files", "value": "{{$sel.lakehouse.files}}" }, { "label": "Tables", "value": "{{$sel.lakehouse.tables}}" }, { "label": "SQL analytics endpoint", "value": "Automatically available" }] },
-              { "kind": "callout", "variant": "info", "text": "A lakehouse can support ETL and ELT patterns: land data in Files, then transform or load it into Delta tables for SQL and BI workloads." }
+              {
+                "kind": "properties",
+                "title": "Lakehouse overview",
+                "items": [
+                  {
+                    "label": "Workspace",
+                    "value": "Sales Analytics"
+                  },
+                  {
+                    "label": "Files",
+                    "value": "{{$sel.lakehouse.files}}"
+                  },
+                  {
+                    "label": "Tables",
+                    "value": "{{$sel.lakehouse.tables}}"
+                  },
+                  {
+                    "label": "SQL analytics endpoint",
+                    "value": "Automatically available"
+                  }
+                ]
+              },
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "A lakehouse can support ETL and ELT patterns: land data in Files, then transform or load it into Delta tables for SQL and BI workloads."
+              }
             ]
           },
           {
@@ -185,12 +502,38 @@
             "icon": "FolderOpen",
             "url": "/groups/sales-analytics/lakehouses/{{$sel.lakehouse.name}}/files",
             "requires": "lakehouse",
-            "breadcrumb": ["Home", "Workspaces", "Sales Analytics", "{{$sel.lakehouse.name}}"],
+            "breadcrumb": [
+              "Home",
+              "Workspaces",
+              "Sales Analytics",
+              "{{$sel.lakehouse.name}}"
+            ],
             "menu": [
-              { "page": "lakehouse", "label": "Lakehouse", "icon": "Database" },
-              { "page": "files", "label": "Files", "icon": "FolderOpen" },
-              { "page": "tables", "label": "Tables", "icon": "Table2" },
-              { "page": "sql-endpoint", "label": "SQL analytics endpoint", "icon": "Terminal" }
+              {
+                "page": "lakehouse",
+                "label": "Lakehouse",
+                "icon": "Database"
+              },
+              {
+                "page": "files",
+                "label": "Files",
+                "icon": "FolderOpen"
+              },
+              {
+                "page": "tables",
+                "label": "Tables",
+                "icon": "Table2"
+              },
+              {
+                "page": "sql-endpoint",
+                "label": "SQL analytics endpoint",
+                "icon": "Terminal"
+              },
+              {
+                "page": "semantic-model",
+                "label": "Semantic model",
+                "icon": "Database"
+              }
             ],
             "components": [
               {
@@ -198,25 +541,146 @@
                 "id": "upload-file-form",
                 "title": "Get data > Upload files",
                 "fields": [
-                  { "id": "source", "label": "Source", "control": "select", "required": true, "defaultValue": "Upload files", "options": [{ "value": "Upload files", "label": "Upload files" }, { "value": "Dataflow Gen2", "label": "Dataflow Gen2" }, { "value": "Data pipeline", "label": "Data pipeline" }] },
-                  { "id": "fileName", "label": "File", "control": "select", "required": true, "defaultValue": "sales.csv", "optionsFrom": { "path": "vmFiles", "value": "name" } },
-                  { "id": "destination", "label": "Destination", "control": "select", "required": true, "defaultValue": "Files", "options": [{ "value": "Files", "label": "Files" }, { "value": "Tables", "label": "Tables" }] }
+                  {
+                    "id": "source",
+                    "label": "Source",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Upload files",
+                    "options": [
+                      {
+                        "value": "Upload files",
+                        "label": "Upload files"
+                      },
+                      {
+                        "value": "Dataflow Gen2",
+                        "label": "Dataflow Gen2"
+                      },
+                      {
+                        "value": "Data pipeline",
+                        "label": "Data pipeline"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "fileName",
+                    "label": "File",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "sales.csv",
+                    "optionsFrom": {
+                      "path": "vmFiles",
+                      "value": "name"
+                    }
+                  },
+                  {
+                    "id": "destination",
+                    "label": "Destination",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Files",
+                    "options": [
+                      {
+                        "value": "Files",
+                        "label": "Files"
+                      },
+                      {
+                        "value": "Tables",
+                        "label": "Tables"
+                      }
+                    ]
+                  }
                 ],
                 "submit": {
                   "label": "Upload",
                   "checks": [
-                    { "rule": { "type": "equals", "path": "$form.source", "value": "Upload files" }, "message": "Use Upload files for this small local CSV. Dataflow Gen2 and pipelines are useful for repeatable ingestion orchestration." },
-                    { "rule": { "type": "equals", "path": "$form.fileName", "value": "sales.csv" }, "message": "Upload sales.csv from the lab VM." },
-                    { "rule": { "type": "equals", "path": "$form.destination", "value": "Files" }, "message": "Upload to Files first, then explicitly load to a Delta table." }
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.source",
+                        "value": "Upload files"
+                      },
+                      "message": "Use Upload files for this small local CSV. Dataflow Gen2 and pipelines are useful for repeatable ingestion orchestration."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.fileName",
+                        "value": "sales.csv"
+                      },
+                      "message": "Upload sales.csv from the lab VM."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.destination",
+                        "value": "Files"
+                      },
+                      "message": "Upload to Files first, then explicitly load to a Delta table."
+                    }
                   ],
                   "actions": [
-                    { "type": "append", "path": "lakehouseFiles", "unique": "name", "value": { "lakehouse": "{{$sel.lakehouse.name}}", "name": "sales.csv", "folder": "Files", "rows": 8, "format": "CSV" } },
-                    { "type": "update", "path": "lakehouses", "where": { "name": "{{$sel.lakehouse.name}}" }, "set": { "files": 1 } },
-                    { "type": "notify", "title": "Upload complete", "message": "sales.csv was uploaded to Files." }
+                    {
+                      "type": "append",
+                      "path": "lakehouseFiles",
+                      "unique": "name",
+                      "value": {
+                        "lakehouse": "{{$sel.lakehouse.name}}",
+                        "name": "sales.csv",
+                        "folder": "Files",
+                        "rows": 8,
+                        "format": "CSV"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "lakehouses",
+                      "where": {
+                        "name": "{{$sel.lakehouse.name}}"
+                      },
+                      "set": {
+                        "files": 1
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Upload complete",
+                      "message": "sales.csv was uploaded to Files."
+                    }
                   ]
                 }
               },
-              { "kind": "table", "id": "files-list", "title": "Files", "source": "lakehouseFiles", "where": { "lakehouse": "{{$sel.lakehouse.name}}" }, "rowKey": "name", "emptyText": "No files uploaded.", "variant": "files", "columns": [{ "key": "name", "label": "Name", "format": "link" }, { "key": "format", "label": "Format" }, { "key": "rows", "label": "Rows" }, { "key": "folder", "label": "Folder" }] }
+              {
+                "kind": "table",
+                "id": "files-list",
+                "title": "Files",
+                "source": "lakehouseFiles",
+                "where": {
+                  "lakehouse": "{{$sel.lakehouse.name}}"
+                },
+                "rowKey": "name",
+                "emptyText": "No files uploaded.",
+                "variant": "files",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "format",
+                    "label": "Format"
+                  },
+                  {
+                    "key": "rows",
+                    "label": "Rows"
+                  },
+                  {
+                    "key": "folder",
+                    "label": "Folder"
+                  }
+                ]
+              }
             ]
           },
           {
@@ -226,12 +690,38 @@
             "icon": "Table2",
             "url": "/groups/sales-analytics/lakehouses/{{$sel.lakehouse.name}}/tables",
             "requires": "lakehouse",
-            "breadcrumb": ["Home", "Workspaces", "Sales Analytics", "{{$sel.lakehouse.name}}"],
+            "breadcrumb": [
+              "Home",
+              "Workspaces",
+              "Sales Analytics",
+              "{{$sel.lakehouse.name}}"
+            ],
             "menu": [
-              { "page": "lakehouse", "label": "Lakehouse", "icon": "Database" },
-              { "page": "files", "label": "Files", "icon": "FolderOpen" },
-              { "page": "tables", "label": "Tables", "icon": "Table2" },
-              { "page": "sql-endpoint", "label": "SQL analytics endpoint", "icon": "Terminal" }
+              {
+                "page": "lakehouse",
+                "label": "Lakehouse",
+                "icon": "Database"
+              },
+              {
+                "page": "files",
+                "label": "Files",
+                "icon": "FolderOpen"
+              },
+              {
+                "page": "tables",
+                "label": "Tables",
+                "icon": "Table2"
+              },
+              {
+                "page": "sql-endpoint",
+                "label": "SQL analytics endpoint",
+                "icon": "Terminal"
+              },
+              {
+                "page": "semantic-model",
+                "label": "Semantic model",
+                "icon": "Database"
+              }
             ],
             "components": [
               {
@@ -240,26 +730,214 @@
                 "title": "Load to Tables",
                 "description": "Load a file or folder into a managed Delta table.",
                 "fields": [
-                  { "id": "sourceFile", "label": "Source file", "control": "select", "required": true, "optionsFrom": { "path": "lakehouseFiles", "value": "name", "where": { "lakehouse": "{{$sel.lakehouse.name}}" } } },
-                  { "id": "loadMode", "label": "Load mode", "control": "select", "required": true, "defaultValue": "New table", "options": [{ "value": "New table", "label": "New table" }, { "value": "Existing table", "label": "Existing table" }] },
-                  { "id": "tableName", "label": "Table name", "control": "text", "required": true, "defaultValue": "sales", "pattern": "^[A-Za-z][A-Za-z0-9_]{1,79}$", "patternMessage": "Start with a letter; use letters, numbers, or underscores." }
+                  {
+                    "id": "sourceFile",
+                    "label": "Source file",
+                    "control": "select",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "lakehouseFiles",
+                      "value": "name",
+                      "where": {
+                        "lakehouse": "{{$sel.lakehouse.name}}"
+                      }
+                    }
+                  },
+                  {
+                    "id": "loadMode",
+                    "label": "Load mode",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "New table",
+                    "options": [
+                      {
+                        "value": "New table",
+                        "label": "New table"
+                      },
+                      {
+                        "value": "Existing table",
+                        "label": "Existing table"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tableName",
+                    "label": "Table name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "sales",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_]{1,79}$",
+                    "patternMessage": "Start with a letter; use letters, numbers, or underscores."
+                  }
                 ],
                 "submit": {
                   "label": "Load",
                   "checks": [
-                    { "rule": { "type": "equals", "path": "$form.sourceFile", "value": "sales.csv" }, "message": "Load the uploaded sales.csv file." },
-                    { "rule": { "type": "equals", "path": "$form.loadMode", "value": "New table" }, "message": "Create a new Delta table for this first load." },
-                    { "rule": { "type": "equals", "path": "$form.tableName", "value": "sales" }, "message": "Name the table sales so analysts can query it consistently." }
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.sourceFile",
+                        "value": "sales.csv"
+                      },
+                      "message": "Load the uploaded sales.csv file."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.loadMode",
+                        "value": "New table"
+                      },
+                      "message": "Create a new Delta table for this first load."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.tableName",
+                        "value": "sales"
+                      },
+                      "message": "Name the table sales so analysts can query it consistently."
+                    }
                   ],
                   "actions": [
-                    { "type": "append", "path": "lakehouseTables", "unique": "name", "value": { "lakehouse": "{{$sel.lakehouse.name}}", "name": "sales", "format": "Delta", "rows": 8, "source": "sales.csv" } },
-                    { "type": "update", "path": "lakehouses", "where": { "name": "{{$sel.lakehouse.name}}" }, "set": { "tables": 1 } },
-                    { "type": "set", "path": "sql.salesdb.tables.sales", "value": { "columns": [{ "name": "Region", "type": "NVARCHAR(30)" }, { "name": "Month", "type": "NVARCHAR(20)" }, { "name": "Amount", "type": "INT" }, { "name": "Channel", "type": "NVARCHAR(20)" }], "rows": [{ "Region": "North", "Month": "2026-07", "Amount": 12000, "Channel": "Online" }, { "Region": "North", "Month": "2026-08", "Amount": 14200, "Channel": "Store" }, { "Region": "South", "Month": "2026-07", "Amount": 9800, "Channel": "Online" }, { "Region": "South", "Month": "2026-08", "Amount": 10100, "Channel": "Store" }, { "Region": "West", "Month": "2026-07", "Amount": 16100, "Channel": "Online" }, { "Region": "West", "Month": "2026-08", "Amount": 17000, "Channel": "Store" }, { "Region": "East", "Month": "2026-07", "Amount": 8700, "Channel": "Online" }, { "Region": "East", "Month": "2026-08", "Amount": 9300, "Channel": "Store" }] } },
-                    { "type": "notify", "title": "Table loaded", "message": "sales.csv was loaded into the Delta table sales." }
+                    {
+                      "type": "append",
+                      "path": "lakehouseTables",
+                      "unique": "name",
+                      "value": {
+                        "lakehouse": "{{$sel.lakehouse.name}}",
+                        "name": "sales",
+                        "format": "Delta",
+                        "rows": 8,
+                        "source": "sales.csv"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "lakehouses",
+                      "where": {
+                        "name": "{{$sel.lakehouse.name}}"
+                      },
+                      "set": {
+                        "tables": 1
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "sql.salesdb.tables.sales",
+                      "value": {
+                        "columns": [
+                          {
+                            "name": "Region",
+                            "type": "NVARCHAR(30)"
+                          },
+                          {
+                            "name": "Month",
+                            "type": "NVARCHAR(20)"
+                          },
+                          {
+                            "name": "Amount",
+                            "type": "INT"
+                          },
+                          {
+                            "name": "Channel",
+                            "type": "NVARCHAR(20)"
+                          }
+                        ],
+                        "rows": [
+                          {
+                            "Region": "North",
+                            "Month": "2026-07",
+                            "Amount": 12000,
+                            "Channel": "Online"
+                          },
+                          {
+                            "Region": "North",
+                            "Month": "2026-08",
+                            "Amount": 14200,
+                            "Channel": "Store"
+                          },
+                          {
+                            "Region": "South",
+                            "Month": "2026-07",
+                            "Amount": 9800,
+                            "Channel": "Online"
+                          },
+                          {
+                            "Region": "South",
+                            "Month": "2026-08",
+                            "Amount": 10100,
+                            "Channel": "Store"
+                          },
+                          {
+                            "Region": "West",
+                            "Month": "2026-07",
+                            "Amount": 16100,
+                            "Channel": "Online"
+                          },
+                          {
+                            "Region": "West",
+                            "Month": "2026-08",
+                            "Amount": 17000,
+                            "Channel": "Store"
+                          },
+                          {
+                            "Region": "East",
+                            "Month": "2026-07",
+                            "Amount": 8700,
+                            "Channel": "Online"
+                          },
+                          {
+                            "Region": "East",
+                            "Month": "2026-08",
+                            "Amount": 9300,
+                            "Channel": "Store"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Table loaded",
+                      "message": "sales.csv was loaded into the Delta table sales."
+                    }
                   ]
                 }
               },
-              { "kind": "table", "id": "tables-list", "title": "Tables", "source": "lakehouseTables", "where": { "lakehouse": "{{$sel.lakehouse.name}}" }, "rowKey": "name", "emptyText": "No tables yet. Loading only to Files is not enough for SQL analytics.", "columns": [{ "key": "name", "label": "Name", "format": "link" }, { "key": "format", "label": "Format", "format": "badge" }, { "key": "rows", "label": "Rows" }, { "key": "source", "label": "Source" }], "rowAction": { "type": "navigate", "page": "sql-endpoint" } }
+              {
+                "kind": "table",
+                "id": "tables-list",
+                "title": "Tables",
+                "source": "lakehouseTables",
+                "where": {
+                  "lakehouse": "{{$sel.lakehouse.name}}"
+                },
+                "rowKey": "name",
+                "emptyText": "No tables yet. Loading only to Files is not enough for SQL analytics.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "format",
+                    "label": "Format",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "rows",
+                    "label": "Rows"
+                  },
+                  {
+                    "key": "source",
+                    "label": "Source"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "sql-endpoint"
+                }
+              }
             ]
           },
           {
@@ -269,49 +947,504 @@
             "icon": "Terminal",
             "url": "/groups/sales-analytics/lakehouses/{{$sel.lakehouse.name}}/sqlEndpoint",
             "requires": "lakehouse",
-            "breadcrumb": ["Home", "Workspaces", "Sales Analytics", "{{$sel.lakehouse.name}}"],
+            "breadcrumb": [
+              "Home",
+              "Workspaces",
+              "Sales Analytics",
+              "{{$sel.lakehouse.name}}"
+            ],
             "menu": [
-              { "page": "lakehouse", "label": "Lakehouse", "icon": "Database" },
-              { "page": "files", "label": "Files", "icon": "FolderOpen" },
-              { "page": "tables", "label": "Tables", "icon": "Table2" },
-              { "page": "sql-endpoint", "label": "SQL analytics endpoint", "icon": "Terminal" }
+              {
+                "page": "lakehouse",
+                "label": "Lakehouse",
+                "icon": "Database"
+              },
+              {
+                "page": "files",
+                "label": "Files",
+                "icon": "FolderOpen"
+              },
+              {
+                "page": "tables",
+                "label": "Tables",
+                "icon": "Table2"
+              },
+              {
+                "page": "sql-endpoint",
+                "label": "SQL analytics endpoint",
+                "icon": "Terminal"
+              },
+              {
+                "page": "semantic-model",
+                "label": "Semantic model",
+                "icon": "Database"
+              }
             ],
             "components": [
-              { "kind": "callout", "variant": "info", "text": "The SQL analytics endpoint is read-only for lakehouse Delta tables. Use it for BI and ad hoc SQL over tables, not for loading Files directly." },
-              { "kind": "sqlEditor", "id": "sales-sql-editor", "title": "SQL query editor", "database": "sql.salesdb", "placeholder": "SELECT Region, SUM(Amount) AS TotalSales FROM sales GROUP BY Region ORDER BY TotalSales DESC", "sampleQueries": [{ "label": "Total sales by region", "sql": "SELECT Region, SUM(Amount) AS TotalSales FROM sales GROUP BY Region ORDER BY TotalSales DESC" }, { "label": "Sales by month", "sql": "SELECT Month, SUM(Amount) AS TotalSales FROM sales GROUP BY Month ORDER BY Month" }], "maxRows": 20 },
-              { "kind": "text", "id": "concept-note", "text": "**OLTP** systems optimize many small transactions. **OLAP** and lakehouse workloads optimize analytical scans. Batch uploads like this CSV are different from streaming event workloads; use Real-Time Intelligence or an eventhouse when events arrive continuously." }
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "The SQL analytics endpoint is read-only for lakehouse Delta tables. Use it for BI and ad hoc SQL over tables, not for loading Files directly."
+              },
+              {
+                "kind": "sqlEditor",
+                "id": "sales-sql-editor",
+                "title": "SQL query editor",
+                "database": "sql.salesdb",
+                "placeholder": "SELECT Region, SUM(Amount) AS TotalSales FROM sales GROUP BY Region ORDER BY TotalSales DESC",
+                "sampleQueries": [
+                  {
+                    "label": "Total sales by region",
+                    "sql": "SELECT Region, SUM(Amount) AS TotalSales FROM sales GROUP BY Region ORDER BY TotalSales DESC"
+                  },
+                  {
+                    "label": "Sales by month",
+                    "sql": "SELECT Month, SUM(Amount) AS TotalSales FROM sales GROUP BY Month ORDER BY Month"
+                  }
+                ],
+                "maxRows": 20
+              },
+              {
+                "kind": "text",
+                "id": "concept-note",
+                "text": "**OLTP** systems optimize many small transactions. **OLAP** and lakehouse workloads optimize analytical scans. Batch uploads like this CSV are different from streaming event workloads; use Real-Time Intelligence or an eventhouse when events arrive continuously."
+              }
+            ],
+            "commands": [
+              {
+                "id": "create-model",
+                "label": "New semantic model",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "semantic-model"
+                }
+              }
+            ]
+          },
+          {
+            "id": "semantic-model",
+            "title": "{{$sel.lakehouse.name}} | Semantic model",
+            "subtitle": "Lakehouse",
+            "icon": "Database",
+            "url": "/groups/sales-analytics/lakehouses/{{$sel.lakehouse.name}}/semanticModel",
+            "requires": "lakehouse",
+            "breadcrumb": [
+              "Home",
+              "Workspaces",
+              "Sales Analytics",
+              "{{$sel.lakehouse.name}}"
+            ],
+            "menu": [
+              {
+                "page": "lakehouse",
+                "label": "Lakehouse",
+                "icon": "Database"
+              },
+              {
+                "page": "files",
+                "label": "Files",
+                "icon": "FolderOpen"
+              },
+              {
+                "page": "tables",
+                "label": "Tables",
+                "icon": "Table2"
+              },
+              {
+                "page": "sql-endpoint",
+                "label": "SQL analytics endpoint",
+                "icon": "Terminal"
+              },
+              {
+                "page": "semantic-model",
+                "label": "Semantic model",
+                "icon": "Database"
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "A default semantic model can expose lakehouse tables to Power BI. Measures define governed calculations such as Total Sales so every report uses the same business logic."
+              },
+              {
+                "kind": "form",
+                "id": "semantic-model-form",
+                "title": "Create model measure",
+                "fields": [
+                  {
+                    "id": "table",
+                    "label": "Table",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "sales",
+                    "optionsFrom": {
+                      "path": "lakehouseTables",
+                      "value": "name",
+                      "where": {
+                        "lakehouse": "{{$sel.lakehouse.name}}"
+                      }
+                    }
+                  },
+                  {
+                    "id": "measure",
+                    "label": "Measure name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Total Sales"
+                  },
+                  {
+                    "id": "expression",
+                    "label": "Measure expression",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "SUM(sales[Amount])",
+                    "options": [
+                      {
+                        "value": "SUM(sales[Amount])",
+                        "label": "SUM(sales[Amount])"
+                      },
+                      {
+                        "value": "COUNTROWS(sales)",
+                        "label": "COUNTROWS(sales)"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "visualChoice",
+                    "label": "Best visual for comparing region totals",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Clustered column chart",
+                    "options": [
+                      {
+                        "value": "Clustered column chart",
+                        "label": "Clustered column chart"
+                      },
+                      {
+                        "value": "Pie chart",
+                        "label": "Pie chart"
+                      },
+                      {
+                        "value": "Card",
+                        "label": "Card"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.table",
+                        "value": "sales"
+                      },
+                      "message": "Use the sales table that was loaded from sales.csv."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.expression",
+                        "value": "SUM(sales[Amount])"
+                      },
+                      "message": "Total Sales should sum the Amount column."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.visualChoice",
+                        "value": "Clustered column chart"
+                      },
+                      "message": "Use a clustered column chart to compare regional totals. A card is one KPI and a pie chart is weaker for precise comparisons."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "semanticModels",
+                      "unique": "measure",
+                      "value": {
+                        "lakehouse": "SalesLakehouse",
+                        "table": "{{$form.table}}",
+                        "measure": "{{$form.measure}}",
+                        "expression": "{{$form.expression}}",
+                        "visualChoice": "{{$form.visualChoice}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Semantic model updated",
+                      "message": "Total Sales measure saved for reporting."
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "table",
+                "id": "semantic-model-list",
+                "title": "Semantic model measures",
+                "source": "semanticModels",
+                "where": {
+                  "lakehouse": "SalesLakehouse"
+                },
+                "rowKey": "measure",
+                "emptyText": "No measures yet.",
+                "columns": [
+                  {
+                    "key": "measure",
+                    "label": "Measure"
+                  },
+                  {
+                    "key": "expression",
+                    "label": "Expression",
+                    "format": "code"
+                  },
+                  {
+                    "key": "visualChoice",
+                    "label": "Recommended visual"
+                  }
+                ]
+              }
             ]
           }
         ],
         "initialState": {
           "workspaces": [
-            { "id": "sales-analytics", "name": "Sales Analytics", "role": "Contributor", "description": "Shared analytics workspace for Northwind Traders" },
-            { "id": "finance", "name": "Finance", "role": "Viewer", "description": "Finance reports" }
+            {
+              "id": "sales-analytics",
+              "name": "Sales Analytics",
+              "role": "Contributor",
+              "description": "Shared analytics workspace for Northwind Traders"
+            },
+            {
+              "id": "finance",
+              "name": "Finance",
+              "role": "Viewer",
+              "description": "Finance reports"
+            }
           ],
           "items": [
-            { "name": "Regional Margin", "workspace": "Sales Analytics", "type": "Report", "owner": "Priya" },
-            { "name": "Customer Cleanup", "workspace": "Sales Analytics", "type": "Dataflow Gen2", "owner": "Mehmet" },
-            { "name": "Inventory Events", "workspace": "Sales Analytics", "type": "Eventstream", "owner": "Alex" }
+            {
+              "name": "Regional Margin",
+              "workspace": "Sales Analytics",
+              "type": "Report",
+              "owner": "Priya"
+            },
+            {
+              "name": "Customer Cleanup",
+              "workspace": "Sales Analytics",
+              "type": "Dataflow Gen2",
+              "owner": "Mehmet"
+            },
+            {
+              "name": "Inventory Events",
+              "workspace": "Sales Analytics",
+              "type": "Eventstream",
+              "owner": "Alex"
+            }
           ],
           "lakehouses": [],
           "lakehouseFiles": [],
           "lakehouseTables": [],
-          "vmFiles": [{ "name": "sales.csv" }, { "name": "returns.csv" }, { "name": "customers.json" }],
-          "sql": { "salesdb": { "tables": {} } }
+          "vmFiles": [
+            {
+              "name": "sales.csv"
+            },
+            {
+              "name": "returns.csv"
+            },
+            {
+              "name": "customers.json"
+            }
+          ],
+          "sql": {
+            "salesdb": {
+              "tables": {}
+            }
+          },
+          "semanticModels": []
         }
       },
       "steps": [
-        { "key": "open-workspace", "title": "Open the Sales Analytics workspace", "instruction": "Select **Workspaces**, then open **Sales Analytics**.", "hint": "Workspaces contain Fabric items such as lakehouses, warehouses, reports, and dataflows.", "explanation": "Fabric content is created inside a workspace so teams can manage permissions and related items together.", "targetId": "workspace-list", "rules": [{ "key": "visited-workspace", "description": "Sales Analytics workspace was opened", "rule": { "type": "visited", "page": "workspace" } }] },
-        { "key": "create-lakehouse", "title": "Create the lakehouse", "instruction": "Select **+ New item**, choose **Lakehouse**, and create **SalesLakehouse**.", "hint": "Warehouse and Eventhouse are realistic choices, but this file-based scenario needs a lakehouse Files area and Delta tables.", "explanation": "A Fabric lakehouse stores files and managed Delta tables in one item and automatically provides a SQL analytics endpoint.", "targetId": "lakehouse-form", "rules": [{ "key": "lakehouse-created", "description": "SalesLakehouse exists", "rule": { "type": "arrayContains", "path": "lakehouses", "match": { "name": "SalesLakehouse", "workspace": "Sales Analytics" } }, "failureFeedback": "Create a Lakehouse item named SalesLakehouse." }] },
-        { "key": "upload-sales", "title": "Upload sales.csv to Files", "instruction": "In **Get data > Upload files**, upload **sales.csv** from the VM to **Files**.", "hint": "Loading to Files alone stores the CSV, but does not create a SQL-queryable Delta table.", "explanation": "Files are useful for raw or staged data. Tables are needed for the SQL analytics endpoint and BI tools.", "targetId": "upload-file-form", "rules": [{ "key": "sales-file", "description": "sales.csv is uploaded to Files", "rule": { "type": "arrayContains", "path": "lakehouseFiles", "match": { "lakehouse": "SalesLakehouse", "name": "sales.csv", "folder": "Files" } }, "failureFeedback": "Upload sales.csv to Files." }] },
-        { "key": "load-table", "title": "Load the file to a Delta table", "instruction": "Select **Load to Tables**, choose **sales.csv**, use **New table**, and name the table **sales**.", "hint": "Delta tables provide table metadata and storage format for analytical queries.", "explanation": "The Load to Tables flow turns CSV or Parquet files into managed Delta tables.", "targetId": "load-table-form", "rules": [{ "key": "sales-table", "description": "sales Delta table exists", "rule": { "type": "arrayContains", "path": "lakehouseTables", "match": { "lakehouse": "SalesLakehouse", "name": "sales", "format": "Delta" } }, "failureFeedback": "Load sales.csv into a new table named sales." }] },
-        { "key": "query-region", "title": "Query total sales by region", "instruction": "Open **SQL analytics endpoint** and run `SELECT Region, SUM(Amount) AS TotalSales FROM sales GROUP BY Region ORDER BY TotalSales DESC`.", "hint": "The GROUP BY clause aggregates many sales rows into one row per region.", "explanation": "The SQL analytics endpoint lets analysts run T-SQL over lakehouse Delta tables without managing separate infrastructure.", "targetId": "sales-sql-editor", "rules": [{ "key": "aggregate-query", "description": "A correct aggregate query was run", "rule": { "type": "commandUsed", "pattern": "SELECT Region, SUM\\(Amount\\) AS TotalSales FROM sales GROUP BY Region ORDER BY TotalSales DESC" }, "failureFeedback": "Run the total sales by region query exactly as shown." }] }
+        {
+          "key": "open-workspace",
+          "title": "Open the Sales Analytics workspace",
+          "instruction": "Select **Workspaces**, then open **Sales Analytics**.",
+          "hint": "Workspaces contain Fabric items such as lakehouses, warehouses, reports, and dataflows.",
+          "explanation": "Fabric content is created inside a workspace so teams can manage permissions and related items together.",
+          "targetId": "workspace-list",
+          "rules": [
+            {
+              "key": "visited-workspace",
+              "description": "Sales Analytics workspace was opened",
+              "rule": {
+                "type": "visited",
+                "page": "workspace"
+              }
+            }
+          ]
+        },
+        {
+          "key": "create-lakehouse",
+          "title": "Create the lakehouse",
+          "instruction": "Select **+ New item**, choose **Lakehouse**, and create **SalesLakehouse**.",
+          "hint": "Warehouse and Eventhouse are realistic choices, but this file-based scenario needs a lakehouse Files area and Delta tables.",
+          "explanation": "A Fabric lakehouse stores files and managed Delta tables in one item and automatically provides a SQL analytics endpoint.",
+          "targetId": "lakehouse-form",
+          "rules": [
+            {
+              "key": "lakehouse-created",
+              "description": "SalesLakehouse exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "lakehouses",
+                "match": {
+                  "name": "SalesLakehouse",
+                  "workspace": "Sales Analytics"
+                }
+              },
+              "failureFeedback": "Create a Lakehouse item named SalesLakehouse."
+            }
+          ]
+        },
+        {
+          "key": "upload-sales",
+          "title": "Upload sales.csv to Files",
+          "instruction": "In **Get data > Upload files**, upload **sales.csv** from the VM to **Files**.",
+          "hint": "Loading to Files alone stores the CSV, but does not create a SQL-queryable Delta table.",
+          "explanation": "Files are useful for raw or staged data. Tables are needed for the SQL analytics endpoint and BI tools.",
+          "targetId": "upload-file-form",
+          "rules": [
+            {
+              "key": "sales-file",
+              "description": "sales.csv is uploaded to Files",
+              "rule": {
+                "type": "arrayContains",
+                "path": "lakehouseFiles",
+                "match": {
+                  "lakehouse": "SalesLakehouse",
+                  "name": "sales.csv",
+                  "folder": "Files"
+                }
+              },
+              "failureFeedback": "Upload sales.csv to Files."
+            }
+          ]
+        },
+        {
+          "key": "load-table",
+          "title": "Load the file to a Delta table",
+          "instruction": "Select **Load to Tables**, choose **sales.csv**, use **New table**, and name the table **sales**.",
+          "hint": "Delta tables provide table metadata and storage format for analytical queries.",
+          "explanation": "The Load to Tables flow turns CSV or Parquet files into managed Delta tables.",
+          "targetId": "load-table-form",
+          "rules": [
+            {
+              "key": "sales-table",
+              "description": "sales Delta table exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "lakehouseTables",
+                "match": {
+                  "lakehouse": "SalesLakehouse",
+                  "name": "sales",
+                  "format": "Delta"
+                }
+              },
+              "failureFeedback": "Load sales.csv into a new table named sales."
+            }
+          ]
+        },
+        {
+          "key": "query-region",
+          "title": "Query total sales by region",
+          "instruction": "Open **SQL analytics endpoint** and run `SELECT Region, SUM(Amount) AS TotalSales FROM sales GROUP BY Region ORDER BY TotalSales DESC`.",
+          "hint": "The GROUP BY clause aggregates many sales rows into one row per region.",
+          "explanation": "The SQL analytics endpoint lets analysts run T-SQL over lakehouse Delta tables without managing separate infrastructure.",
+          "targetId": "sales-sql-editor",
+          "rules": [
+            {
+              "key": "aggregate-query",
+              "description": "A correct aggregate query was run",
+              "rule": {
+                "type": "commandUsed",
+                "pattern": "SELECT Region, SUM\\(Amount\\) AS TotalSales FROM sales GROUP BY Region ORDER BY TotalSales DESC"
+              },
+              "failureFeedback": "Run the total sales by region query exactly as shown."
+            }
+          ]
+        },
+        {
+          "key": "create-semantic-model",
+          "title": "Create a simple semantic model measure",
+          "instruction": "Open **Semantic model** and save **Total Sales** on the **sales** table with expression **SUM(sales[Amount])**. Choose **Clustered column chart** as the best visual for comparing region totals.",
+          "hint": "Semantic models define measures once so reports use the same calculation. Column charts compare categories better than a card or pie chart.",
+          "explanation": "A semantic model sits above the lakehouse table and gives report authors governed measures and relationships. This is the bridge from raw lakehouse storage to consistent Power BI reporting.",
+          "targetId": "semantic-model-form",
+          "rules": [
+            {
+              "key": "measure-saved",
+              "description": "Total Sales measure saved with a column chart recommendation",
+              "rule": {
+                "type": "arrayContains",
+                "path": "semanticModels",
+                "match": {
+                  "lakehouse": "SalesLakehouse",
+                  "measure": "Total Sales",
+                  "expression": "SUM(sales[Amount])",
+                  "visualChoice": "Clustered column chart"
+                }
+              },
+              "failureFeedback": "Save Total Sales as SUM(sales[Amount]) and choose Clustered column chart."
+            }
+          ]
+        }
       ],
       "finalRules": [
-        { "key": "final-table-exists", "description": "The sales table exists as a Delta table", "rule": { "type": "arrayContains", "path": "lakehouseTables", "match": { "name": "sales", "format": "Delta" } }, "successFeedback": "The file was loaded to a queryable Delta table.", "failureFeedback": "Loading only to Files is not enough; create the sales table." },
-        { "key": "final-query-run", "description": "The aggregate query was run from the SQL analytics endpoint", "rule": { "type": "commandUsed", "pattern": "GROUP BY Region" }, "failureFeedback": "Run an aggregate query that groups sales by Region." }
+        {
+          "key": "final-table-exists",
+          "description": "The sales table exists as a Delta table",
+          "rule": {
+            "type": "arrayContains",
+            "path": "lakehouseTables",
+            "match": {
+              "name": "sales",
+              "format": "Delta"
+            }
+          },
+          "successFeedback": "The file was loaded to a queryable Delta table.",
+          "failureFeedback": "Loading only to Files is not enough; create the sales table."
+        },
+        {
+          "key": "final-query-run",
+          "description": "The aggregate query was run from the SQL analytics endpoint",
+          "rule": {
+            "type": "commandUsed",
+            "pattern": "GROUP BY Region"
+          },
+          "failureFeedback": "Run an aggregate query that groups sales by Region."
+        },
+        {
+          "key": "final-semantic-model",
+          "description": "A reporting measure exists for the loaded sales table",
+          "rule": {
+            "type": "arrayContains",
+            "path": "semanticModels",
+            "match": {
+              "measure": "Total Sales",
+              "expression": "SUM(sales[Amount])"
+            }
+          },
+          "successFeedback": "The loaded table is ready for governed reporting.",
+          "failureFeedback": "Create the Total Sales measure in the semantic model."
+        }
       ],
-      "solution": "1. Select **Workspaces** and open **Sales Analytics**.\n2. Select **+ New item**. Choose **Lakehouse** and create `SalesLakehouse`. Do not choose Warehouse or Eventhouse for this file-based landing scenario.\n3. In the lakehouse, select **Get data** / **Files** and use **Upload files** to upload `sales.csv` to **Files**.\n4. Select **Load to Tables**. Source file `sales.csv`, **New table**, table name `sales`, then **Load**.\n5. Open **SQL analytics endpoint** and run: `SELECT Region, SUM(Amount) AS TotalSales FROM sales GROUP BY Region ORDER BY TotalSales DESC`."
+      "solution": "1. Select **Workspaces** and open **Sales Analytics**.\n2. Select **+ New item**. Choose **Lakehouse** and create `SalesLakehouse`. Do not choose Warehouse or Eventhouse for this file-based landing scenario.\n3. In the lakehouse, select **Get data** / **Files** and use **Upload files** to upload `sales.csv` to **Files**.\n4. Select **Load to Tables**. Source file `sales.csv`, **New table**, table name `sales`, then **Load**.\n5. Open **SQL analytics endpoint** and run: `SELECT Region, SUM(Amount) AS TotalSales FROM sales GROUP BY Region ORDER BY TotalSales DESC`.\n6. Open **Semantic model**. Save measure `Total Sales` with **SUM(sales[Amount])** and choose **Clustered column chart** for comparing region totals."
     }
   ]
 }
+

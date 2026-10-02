@@ -1,0 +1,1182 @@
+{
+  "domainKey": "foundry-solutions",
+  "modules": [
+    {
+      "slug": "foundry-vision-analysis-plus",
+      "title": "Vision analysis in Foundry",
+      "summary": "Deepens computer vision coverage with OCR, tags, captions, image-analysis design, and responsible review patterns.",
+      "lessons": [
+        {
+          "slug": "analyzing-images-with-foundry-vision",
+          "title": "Analyze images with Foundry vision capabilities",
+          "objectiveCode": "2.3",
+          "estimatedMinutes": 12,
+          "summary": "Go deeper on computer vision scenarios in Foundry: image analysis, OCR, tags, captions, and responsible-use boundaries.",
+          "learningObjectives": [
+            "Choose OCR, tags, captions, or object detection based on an image question",
+            "Explain how confidence scores and blur affect review decisions",
+            "Identify privacy limits when extracting metadata from uploaded images"
+          ],
+          "explanation": "Imagine Relecloud receives thousands of luggage photos after a storm. Some show damaged handles, some show readable tags, and some are too blurry to trust. **Computer vision** helps an app interpret those images, but the feature depends on the question.\n\nUse **OCR** when the app must read text such as a baggage tag, serial number, sign, or printed form. Use **image tags** for broad labels such as suitcase, airport, or queue. Use **captions** when a human-readable sentence is useful, such as an accessibility description. Use **object detection** when the app must locate items in an image.\n\nFoundry Tools documentation describes Azure Vision image analysis and OCR capabilities, while AI-901 expects candidates to recognize vision and image-generation workloads. The design habit is to avoid asking vision to do more than needed. A catalog app might need OCR and captions, not identity recognition. A claims workflow might use confidence signals and route unclear cases to human review.\n\nVision is sensitive to blur, lighting, angle, handwriting, languages, and occlusion. Responsible use means testing with representative images, explaining uncertainty, and limiting sensitive decisions unless the workflow includes oversight.",
+          "terminology": [
+            {
+              "term": "Optical character recognition",
+              "definition": "A vision capability that extracts printed or handwritten text from images or documents."
+            },
+            {
+              "term": "Image tagging",
+              "definition": "Assigning labels to objects, actions, or scenes detected in an image."
+            },
+            {
+              "term": "Image captioning",
+              "definition": "Generating a sentence that describes visual content."
+            },
+            {
+              "term": "Object detection",
+              "definition": "Finding and locating objects in an image."
+            },
+            {
+              "term": "Confidence score",
+              "definition": "A value that estimates how reliable a detected or extracted result is."
+            }
+          ],
+          "businessScenario": "Relecloud builds a baggage-claim assistant. Travelers upload a damaged bag and tag photo. The assistant reads the tag, adds visual tags, creates an accessible caption, and sends unclear images to an agent.",
+          "technicalExample": "A lightweight flow accepts a JPEG, calls OCR for `BagTagNumber`, calls image analysis for tags and a caption, stores only required metadata, and displays `OCR confidence low; ask for review`.",
+          "misconception": {
+            "myth": "If a model returns a caption, the caption is a verified fact.",
+            "reality": "Captions and tags are model outputs. Treat them as useful signals that may need confidence checks, user confirmation, or human review."
+          },
+          "examTakeaway": "If the requirement says read text, choose OCR. If it says describe an image, choose captions. If it says identify visual concepts, choose tags or object detection.",
+          "recap": "Vision workloads turn images into text, tags, captions, locations, or extracted fields. Choose the smallest capability that meets the scenario.",
+          "simplerExplanation": "Vision services are like different pairs of glasses: one reads words, one notices objects, and one describes the scene.",
+          "anotherExample": "Wide World Importers photographs warehouse shelves. OCR reads bin labels, tags identify product types, and captions help workers search photos.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Vision feature selection",
+                "columns": [
+                  {
+                    "title": "OCR",
+                    "points": [
+                      "Reads text in images",
+                      "Useful for labels and signs"
+                    ]
+                  },
+                  {
+                    "title": "Tags / objects",
+                    "points": [
+                      "Identifies visual concepts",
+                      "Useful for categorizing and locating items"
+                    ]
+                  },
+                  {
+                    "title": "Captions",
+                    "points": [
+                      "Creates a sentence description",
+                      "Useful for accessibility and summaries"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "warning",
+                "title": "Verify current guidance",
+                "body": "Vision feature names and recommended production paths can change. Re-check current Foundry Tools guidance before publishing production instructions."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "When do you use OCR?",
+              "back": "When the app must extract text from an image or document."
+            },
+            {
+              "front": "Why review low-confidence vision results?",
+              "back": "Blur, lighting, handwriting, and occlusion can make output unreliable."
+            },
+            {
+              "front": "What does image captioning produce?",
+              "back": "A natural-language description of visible content."
+            },
+            {
+              "front": "Why avoid unnecessary identity features?",
+              "back": "Responsible design limits sensitive processing to what the scenario requires."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Image Analysis? - Foundry Tools",
+              "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-image-analysis",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "OCR - Optical Character Recognition - Foundry Tools",
+              "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-ocr",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ai901-x-006",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.3",
+              "difficulty": "EASY",
+              "stem": "Which capability should produce a short natural-language description of a product photo?",
+              "explanation": "Image captioning describes visual content in text.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Image captioning",
+                  "correct": true,
+                  "explanation": "Captioning summarizes visible content."
+                },
+                {
+                  "key": "B",
+                  "text": "Text to speech",
+                  "correct": false,
+                  "explanation": "This creates audio."
+                },
+                {
+                  "key": "C",
+                  "text": "Batch transcription",
+                  "correct": false,
+                  "explanation": "This processes audio."
+                },
+                {
+                  "key": "D",
+                  "text": "Anomaly detection",
+                  "correct": false,
+                  "explanation": "This finds unusual patterns."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Image Analysis? - Foundry Tools",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-image-analysis",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "analyzing-images-with-foundry-vision",
+              "needsVerification": true
+            },
+            {
+              "ref": "ai901-x-007",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** outputs are typical results of OCR or image analysis for a retail shelf image?",
+              "explanation": "OCR can return text, while image analysis can return tags or captions.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Extracted words from labels",
+                  "correct": true,
+                  "explanation": "OCR reads visible text."
+                },
+                {
+                  "key": "B",
+                  "text": "Visual tags such as shelf or bottle",
+                  "correct": true,
+                  "explanation": "Image analysis can tag concepts."
+                },
+                {
+                  "key": "C",
+                  "text": "A synthesized voice greeting",
+                  "correct": false,
+                  "explanation": "That is text to speech."
+                },
+                {
+                  "key": "D",
+                  "text": "A trained tabular forecasting model",
+                  "correct": false,
+                  "explanation": "That is another ML scenario."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Image Analysis? - Foundry Tools",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-image-analysis",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "OCR - Optical Character Recognition - Foundry Tools",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-ocr",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "analyzing-images-with-foundry-vision",
+              "selectCount": 2,
+              "needsVerification": true
+            },
+            {
+              "ref": "ai901-x-008",
+              "type": "ORDERING",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "stem": "Place the steps in order for adding a vision feature to a lightweight application.",
+              "explanation": "A responsible flow starts with purpose, then feature choice, testing, and review.",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Define the image input and user benefit"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Choose OCR, tags, captions, or object detection"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Test with representative images"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Route low-confidence or sensitive results to review"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "Purpose limits unnecessary processing.",
+                  "s2": "Choose the feature that matches output.",
+                  "s3": "Testing reveals lighting and angle problems.",
+                  "s4": "Review reduces risk."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Image Analysis? - Foundry Tools",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-image-analysis",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "analyzing-images-with-foundry-vision"
+            },
+            {
+              "ref": "ai901-x-009",
+              "type": "UI_SIMULATION",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "stem": "Configure the simulated vision settings for a product catalog app that needs visible text and short descriptions, but should not identify individual people.",
+              "explanation": "OCR and captions meet the catalog need; identifying people should remain off.",
+              "uiSimulation": {
+                "title": "Vision feature settings (simulated)",
+                "description": "This is a simplified learning simulation, not the real portal.",
+                "fields": [
+                  {
+                    "id": "ocr",
+                    "label": "Read visible text with OCR",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "Product labels and signs require OCR."
+                  },
+                  {
+                    "id": "caption",
+                    "label": "Generate short image captions",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "Captions help produce accessible descriptions."
+                  },
+                  {
+                    "id": "people",
+                    "label": "Identify individual people",
+                    "control": "toggle",
+                    "correct": false,
+                    "explanation": "The requirement does not need person identification."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Image Analysis? - Foundry Tools",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-image-analysis",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "OCR - Optical Character Recognition - Foundry Tools",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-ocr",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "analyzing-images-with-foundry-vision"
+            },
+            {
+              "ref": "ai901-x-010",
+              "type": "TRUE_FALSE",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.3",
+              "difficulty": "EASY",
+              "stem": "A responsible vision app should treat captions, tags, and OCR output as model results that may need validation.",
+              "explanation": "Vision outputs are useful but probabilistic, so uncertainty matters.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Captions, tags, and OCR text are model outputs and can be imperfect, so important results should be validated."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that vision outputs are probabilistic results rather than guaranteed facts."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Image Analysis? - Foundry Tools",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-image-analysis",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "analyzing-images-with-foundry-vision"
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Image Analysis guidance includes changing recommendations and deprecation notes; verify current Foundry Tools guidance before release."
+        }
+      ]
+    },
+    {
+      "slug": "foundry-image-generation-plus",
+      "title": "Image generation in Foundry",
+      "summary": "Explains prompt-driven image generation, fast-changing model choices, parameters, content filters, and review workflows.",
+      "lessons": [
+        {
+          "slug": "generating-images-with-foundry-models",
+          "title": "Generate images with Foundry models safely",
+          "objectiveCode": "2.3",
+          "estimatedMinutes": 12,
+          "summary": "Learn how image-generation models create visual outputs from prompts, how parameters affect outputs, and why safety review matters.",
+          "learningObjectives": [
+            "Explain when a prompt-to-image model fits a visual creation scenario",
+            "Describe how prompt details, model, size, quality, and count affect generated images",
+            "Apply content filters and review before using generated visuals"
+          ],
+          "explanation": "Relecloud's design team wants quick concept art for a fictional travel campaign. They are not trying to read or classify an existing image; they want to **create** new visuals. That is the image-generation workload.\n\nIn Microsoft Foundry, image-generation models create images from text prompts and, depending on the model, optional image inputs. The prompt should describe subject, composition, style, context, and constraints. Parameters such as output size, quality, and number of images depend on the selected model and API. Model names and availability change quickly, so production guidance should be verified against current Microsoft Learn documentation.\n\nSafety is part of the design. Content filtering works alongside models and image generation, but filters do not replace human judgment. Teams should avoid prompts that request real people, protected brands, sensitive attributes, misleading evidence, or unsafe scenarios. They should review outputs before publishing, especially for brand, public, or regulated uses.\n\nFor exam scenarios, separate **visual understanding** from **visual creation**. OCR, tags, and captions interpret an existing image. Image generation creates a new image. A responsible solution combines clear prompts, appropriate model selection, safe configuration, content filtering, and approval.",
+          "terminology": [
+            {
+              "term": "Image generation",
+              "definition": "Creating new visual content from text prompts and optional image inputs."
+            },
+            {
+              "term": "Prompt",
+              "definition": "Instructions that describe what the model should produce."
+            },
+            {
+              "term": "Generation parameter",
+              "definition": "A setting such as output size, quality, or number of images when supported."
+            },
+            {
+              "term": "Content filter",
+              "definition": "A safety system that classifies prompts or outputs for harmful content categories."
+            },
+            {
+              "term": "Human review",
+              "definition": "A process where a person checks generated content before it is trusted or published."
+            }
+          ],
+          "businessScenario": "Relecloud wants campaign mockups for an internal pitch. The team uses fictional scenes only, avoids real customers and competitor logos, generates variations, and requires approval before any image leaves the design workspace.",
+          "technicalExample": "A safe request object might include `prompt`, `modelDeployment`, `size`, `quality`, `n`, `safetyReviewRequired: true`, and `blockedTerms`. The app stores prompt history for review.",
+          "misconception": {
+            "myth": "Content filters mean generated images are automatically safe to publish.",
+            "reality": "Filters reduce risk but do not understand every brand, legal, accessibility, or context issue. Human review is still needed."
+          },
+          "examTakeaway": "If the scenario says create a new picture, choose image generation. If it says read, describe, tag, or locate things in an existing image, choose computer vision.",
+          "recap": "Image generation turns prompts into new visuals. Good solutions use clear prompts, supported parameters, content filtering, and human review.",
+          "simplerExplanation": "Image generation is like briefing a designer who works fast. The clearer and safer the brief, the better the drafts; you still check them before printing posters.",
+          "anotherExample": "Northwind Traders generates fictional product-background ideas, forbids real celebrity likenesses, logs prompts, and routes each image to brand review.",
+          "extraBlocks": [
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Prompt safety rewrite",
+                "instructions": "Rewrite each risky request as a safer prompt.",
+                "items": [
+                  {
+                    "prompt": "Use a real athlete holding our product.",
+                    "answer": "Use a fictional adult athlete-like character with no real-person likeness or endorsement claim."
+                  },
+                  {
+                    "prompt": "Make our hotel look disaster-proof.",
+                    "answer": "Show a fictional hotel with visible safety signage; avoid unverifiable safety claims."
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "warning",
+                "title": "Fast-changing model names",
+                "body": "Microsoft Learn currently points new image-generation work toward gpt-image series models and notes some older names are retired or preview. Re-check model names, availability, and parameters."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Image generation vs image analysis",
+              "back": "Generation creates new images; analysis interprets existing images."
+            },
+            {
+              "front": "Why include human review?",
+              "back": "Review catches brand, privacy, safety, and misleading-content risks."
+            },
+            {
+              "front": "What should a prompt include?",
+              "back": "Subject, context, style, constraints, and safety requirements."
+            },
+            {
+              "front": "Why set needsVerification?",
+              "back": "Model names, availability, parameters, and preview status can change quickly."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "How to use image generation models from OpenAI",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Content filtering for Microsoft Foundry Models",
+              "url": "https://learn.microsoft.com/en-us/azure/foundry-classic/foundry-models/concepts/content-filter",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ai901-x-011",
+              "type": "SCENARIO",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which Foundry capability is the best fit?",
+              "explanation": "Image generation models create new visuals from prompts.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Deploy and test an image-generation model",
+                  "correct": true,
+                  "explanation": "The requirement is new visual output."
+                },
+                {
+                  "key": "B",
+                  "text": "Use OCR only",
+                  "correct": false,
+                  "explanation": "OCR reads existing text."
+                },
+                {
+                  "key": "C",
+                  "text": "Use speech synthesis",
+                  "correct": false,
+                  "explanation": "Speech synthesis creates audio."
+                },
+                {
+                  "key": "D",
+                  "text": "Use anomaly detection",
+                  "correct": false,
+                  "explanation": "No unusual pattern is described."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "How to use image generation models from OpenAI",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "generating-images-with-foundry-models",
+              "scenario": "Relecloud marketing needs fictional concept art in the same style, not analysis of existing photos.",
+              "needsVerification": true
+            },
+            {
+              "ref": "ai901-x-012",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.3",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about safe image generation.",
+              "explanation": "A prompt describes what the model should create.",
+              "fillInBlank": {
+                "template": "A text instruction that describes the desired visual output is a {{b1}}.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "prompt"
+                    ],
+                    "explanation": "A prompt describes what the model should create."
+                  }
+                ],
+                "wordBank": [
+                  "prompt",
+                  "caption",
+                  "transcript",
+                  "schema"
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "How to use image generation models from OpenAI",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "generating-images-with-foundry-models",
+              "needsVerification": true
+            },
+            {
+              "ref": "ai901-x-013",
+              "type": "CATEGORIZATION",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each image-generation setting or practice.",
+              "explanation": "Generation quality improves when prompts, parameters, and safety controls are separated conceptually.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "prompting",
+                    "label": "Prompt design"
+                  },
+                  {
+                    "id": "parameters",
+                    "label": "Generation parameters"
+                  },
+                  {
+                    "id": "safety",
+                    "label": "Safety and review"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Describe subject, style, background, and excluded content",
+                    "category": "prompting",
+                    "explanation": "These details guide the output."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Choose output size, quality, or number of images when supported",
+                    "category": "parameters",
+                    "explanation": "These are configuration choices."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Review for brand, privacy, harmful content, and misleading realism",
+                    "category": "safety",
+                    "explanation": "Generated images can create trust risks."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "How to use image generation models from OpenAI",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Content filtering for Microsoft Foundry Models",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry-classic/foundry-models/concepts/content-filter",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "generating-images-with-foundry-models"
+            },
+            {
+              "ref": "ai901-x-014",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which model family should be checked for new image-generation deployments when DALL-E 3 is unavailable for new deployments?",
+              "explanation": "Microsoft Learn points to gpt-image series models for current image generation guidance.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "A gpt-image series model",
+                  "correct": true,
+                  "explanation": "Current guidance points to gpt-image series models."
+                },
+                {
+                  "key": "B",
+                  "text": "A speech-to-text model",
+                  "correct": false,
+                  "explanation": "This transcribes audio."
+                },
+                {
+                  "key": "C",
+                  "text": "A text embedding model",
+                  "correct": false,
+                  "explanation": "This represents text numerically."
+                },
+                {
+                  "key": "D",
+                  "text": "A document read model",
+                  "correct": false,
+                  "explanation": "This extracts document text."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "How to use image generation models from OpenAI",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "generating-images-with-foundry-models",
+              "needsVerification": true
+            },
+            {
+              "ref": "ai901-x-015",
+              "type": "COMMAND_SELECTION",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.3",
+              "difficulty": "HARD",
+              "stem": "Which configuration snippet best expresses a responsible image-generation request for an internal campaign concept?",
+              "explanation": "The best snippet includes a clear prompt, safe constraints, and review.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`{\"model\":\"gpt-image-series\",\"prompt\":\"fictional ski resort poster, no real people, no safety claims\",\"quality\":\"medium\",\"review\":\"human-before-publish\"}`",
+                  "correct": true,
+                  "explanation": "This constrains risk and includes review."
+                },
+                {
+                  "key": "B",
+                  "text": "`{\"model\":\"speech-to-text\",\"prompt\":\"make a poster\",\"review\":\"none\"}`",
+                  "correct": false,
+                  "explanation": "Wrong capability and no review."
+                },
+                {
+                  "key": "C",
+                  "text": "`{\"model\":\"gpt-image-series\",\"prompt\":\"copy a competitor poster exactly\",\"review\":\"none\"}`",
+                  "correct": false,
+                  "explanation": "Copying and skipping review is not responsible."
+                },
+                {
+                  "key": "D",
+                  "text": "`{\"model\":\"ocr\",\"prompt\":\"invent a poster\",\"quality\":\"max\"}`",
+                  "correct": false,
+                  "explanation": "OCR does not generate images."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "How to use image generation models from OpenAI",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Content filtering for Microsoft Foundry Models",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry-classic/foundry-models/concepts/content-filter",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "generating-images-with-foundry-models",
+              "needsVerification": true
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Image-generation model names, availability, parameters, and preview/GA status change quickly; re-check current Microsoft Learn before release."
+        }
+      ]
+    },
+    {
+      "slug": "foundry-content-understanding-plus",
+      "title": "Information extraction in Foundry",
+      "summary": "Explores Content Understanding and Document Intelligence for extracting fields from documents, images, audio, and video.",
+      "lessons": [
+        {
+          "slug": "extracting-multimodal-information-with-content-understanding",
+          "title": "Extract multimodal information with Content Understanding",
+          "objectiveCode": "2.4",
+          "estimatedMinutes": 12,
+          "summary": "Explore how Content Understanding and Document Intelligence turn documents, forms, images, audio, and video into structured fields with confidence signals.",
+          "learningObjectives": [
+            "Explain how analyzers and schemas extract structured fields from multimodal content",
+            "Choose Content Understanding or Document Intelligence from content type and layout",
+            "Use confidence scores to route low-certainty fields for human review"
+          ],
+          "explanation": "Fabrikam's claims team does not need another pile of files; it needs reliable fields such as policy number, incident date, repair estimate, call reason, and visible damage notes. **Information extraction** turns messy content into structured data that an app can validate, route, or analyze.\n\nAzure Content Understanding in Foundry Tools processes multiple content types, including documents, images, audio, and video, into a user-defined output format. The core idea is an **analyzer**: a configuration that defines how content is processed, which fields are extracted, and which model deployments are used. A **schema** describes fields such as `invoiceTotal`, `customerName`, or `sceneSummary`.\n\nFor structured documents, Azure Document Intelligence remains important. It provides document analysis, prebuilt models, custom models, and typed fields for forms and documents. Content Understanding extends the pattern to multimodal and generative scenarios, including audio and video, while providing structured output, confidence scores, and grounding.\n\nDo not design extraction as blind automation. Confidence scores estimate reliability, and grounding points reviewers back to source evidence. High-confidence routine fields can flow straight through if policy allows; low-confidence or high-impact fields should be reviewed.",
+          "terminology": [
+            {
+              "term": "Content Understanding",
+              "definition": "A Foundry Tools capability for extracting structured information from documents, images, audio, and video."
+            },
+            {
+              "term": "Analyzer",
+              "definition": "A configuration that controls how content is processed and fields are extracted."
+            },
+            {
+              "term": "Schema",
+              "definition": "The target field structure for extracted output."
+            },
+            {
+              "term": "Grounding",
+              "definition": "Links from extracted values back to source evidence in the content."
+            },
+            {
+              "term": "Document Intelligence",
+              "definition": "A Foundry Tools service for OCR and intelligent document processing with prebuilt and custom models."
+            }
+          ],
+          "businessScenario": "Fabrikam receives claim packets with forms, photos, calls, and inspection clips. The team creates analyzers, exports JSON for the claims app, and requires approval for low-confidence estimates.",
+          "technicalExample": "An extraction result might include `{ \"policyNumber\": { \"value\": \"PX-1049\", \"confidence\": 0.96 }, \"repairEstimate\": { \"value\": 1240.50, \"confidence\": 0.62, \"reviewRequired\": true } }`.",
+          "misconception": {
+            "myth": "Information extraction is just OCR with a different name.",
+            "reality": "OCR reads text. Information extraction can use OCR plus layout, schemas, analyzers, classification, confidence, grounding, and multimodal reasoning."
+          },
+          "examTakeaway": "When the scenario says extract fields from forms, documents, images, audio, or video into JSON-like output, think Content Understanding or Document Intelligence.",
+          "recap": "Information extraction converts unstructured or semistructured content into structured fields. Confidence and grounding guide automation and review.",
+          "simplerExplanation": "Imagine a clerk reading a claim packet and filling a spreadsheet. OCR reads words; extraction decides which words belong in which cells and marks cells that need a second look.",
+          "anotherExample": "Adventure Works uses Document Intelligence for tax forms, while Content Understanding summarizes an uploaded product video and extracts safety certifications.",
+          "extraBlocks": [
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Extraction flow",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "input",
+                    "label": "Content inputs",
+                    "detail": "Forms, images, audio, video"
+                  },
+                  {
+                    "id": "analyzer",
+                    "label": "Analyzer",
+                    "detail": "Schema and extraction settings"
+                  },
+                  {
+                    "id": "output",
+                    "label": "Structured output",
+                    "detail": "Fields, confidence, grounding"
+                  },
+                  {
+                    "id": "review",
+                    "label": "Review or automate",
+                    "detail": "Policy-based action"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "input",
+                    "to": "analyzer",
+                    "label": "analyze"
+                  },
+                  {
+                    "from": "analyzer",
+                    "to": "output",
+                    "label": "extract"
+                  },
+                  {
+                    "from": "output",
+                    "to": "review",
+                    "label": "triage"
+                  }
+                ],
+                "caption": "Documents, images, audio, and video are processed by an analyzer into structured output with confidence and grounding, then routed to review or automation."
+              }
+            },
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Document Intelligence and Content Understanding",
+                "columns": [
+                  {
+                    "title": "Document Intelligence",
+                    "points": [
+                      "Document-centric OCR and field extraction",
+                      "Prebuilt and custom document models",
+                      "Good for structured forms"
+                    ]
+                  },
+                  {
+                    "title": "Content Understanding",
+                    "points": [
+                      "Multimodal extraction across documents, images, audio, and video",
+                      "Analyzer plus schema-driven output",
+                      "Confidence and grounding for review"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What is an analyzer?",
+              "back": "A configuration that defines how content is processed and fields are extracted."
+            },
+            {
+              "front": "Why use a schema?",
+              "back": "It defines the target fields and output shape."
+            },
+            {
+              "front": "What do confidence scores support?",
+              "back": "They help decide whether a value can be automated or needs review."
+            },
+            {
+              "front": "Content Understanding vs OCR",
+              "back": "OCR reads text; Content Understanding extracts structured information across modalities."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Azure Content Understanding in Foundry Tools?",
+              "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Azure Document Intelligence in Foundry Tools?",
+              "url": "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ai901-x-016",
+              "type": "ORDERING",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.4",
+              "difficulty": "MEDIUM",
+              "stem": "Place the information-extraction workflow in order.",
+              "explanation": "The workflow defines fields, configures an analyzer, runs content, then reviews output.",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Define the fields and output schema"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Choose or configure an analyzer"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Analyze documents, images, audio, or video"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Review confidence, grounding, and JSON output"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "Fields guide structured output.",
+                  "s2": "The analyzer controls processing.",
+                  "s3": "Content is processed after setup.",
+                  "s4": "Confidence and grounding guide review."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Content Understanding in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "extracting-multimodal-information-with-content-understanding"
+            },
+            {
+              "ref": "ai901-x-017",
+              "type": "MATCHING",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.4",
+              "difficulty": "MEDIUM",
+              "stem": "Match each Content Understanding concept to its purpose.",
+              "explanation": "Each concept helps turn unstructured content into structured output.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Analyzer"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Schema"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Confidence score"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Defines how content is processed and fields are extracted"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Describes the desired structured output fields"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Estimates reliability of an extracted value"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Creates synthetic speech from text"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "An analyzer applies extraction settings.",
+                  "p2": "A schema defines target fields.",
+                  "p3": "Confidence helps decide review."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Content Understanding in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "extracting-multimodal-information-with-content-understanding"
+            },
+            {
+              "ref": "ai901-x-018",
+              "type": "CASE_STUDY",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.4",
+              "difficulty": "HARD",
+              "scenario": "Fabrikam processes claim packages containing a PDF, a damage photo, a recorded call, and an inspection video.",
+              "stem": "For each statement, select **Yes** if it fits the requirement. Otherwise, select **No**.",
+              "explanation": "Content Understanding supports multimodal extraction into structured output.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Use Content Understanding to define fields and process multiple content types.",
+                    "answer": true,
+                    "explanation": "It supports documents, images, audio, and video workflows."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Ignore confidence scores because fields are always correct.",
+                    "answer": false,
+                    "explanation": "Confidence guides review."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Consider Document Intelligence for deterministic structured-document extraction.",
+                    "answer": true,
+                    "explanation": "Document Intelligence remains relevant for document-centric scenarios."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Content Understanding in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Document Intelligence in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "extracting-multimodal-information-with-content-understanding"
+            },
+            {
+              "ref": "ai901-x-019",
+              "type": "SCENARIO",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.4",
+              "difficulty": "MEDIUM",
+              "stem": "What should the app rely on to decide which fields need review?",
+              "explanation": "Confidence scores and grounding help reviewers focus on uncertain values and their evidence.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Field-level confidence scores and grounding",
+                  "correct": true,
+                  "explanation": "These signals support validation."
+                },
+                {
+                  "key": "B",
+                  "text": "The number of files only",
+                  "correct": false,
+                  "explanation": "File count does not indicate reliability."
+                },
+                {
+                  "key": "C",
+                  "text": "A text-to-speech voice setting",
+                  "correct": false,
+                  "explanation": "Voice settings are unrelated."
+                },
+                {
+                  "key": "D",
+                  "text": "A random sample with no metadata",
+                  "correct": false,
+                  "explanation": "This misses confidence-guided triage."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Content Understanding in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "extracting-multimodal-information-with-content-understanding",
+              "scenario": "A claims app extracts policyNumber, incidentDate, and repairEstimate from uploaded forms. Low-confidence fields must be highlighted."
+            },
+            {
+              "ref": "ai901-x-020",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "foundry-solutions",
+              "objectiveCode": "2.4",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about structured extraction.",
+              "explanation": "A schema describes target fields and output shape.",
+              "fillInBlank": {
+                "template": "A user-defined output format for extracted fields is commonly described by a {{b1}}.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "schema"
+                    ],
+                    "explanation": "A schema describes target fields and output shape."
+                  }
+                ],
+                "wordBank": [
+                  "schema",
+                  "caption",
+                  "voice",
+                  "temperature"
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Content Understanding in Foundry Tools?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "extracting-multimodal-information-with-content-understanding",
+              "needsVerification": true
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Content Understanding versions, analyzer settings, and preview features change quickly; re-check current Microsoft Learn before release."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,771 @@
+{
+  "domainKey": "privacy-security-administration",
+  "modules": [
+    {
+      "slug": "github-security-and-administration",
+      "title": "Security and administration foundations",
+      "summary": "Protect accounts, organize access, and enable repository security features.",
+      "lessons": [
+        {
+          "slug": "secure-accounts-and-access",
+          "title": "Secure accounts, organizations, and access",
+          "objectiveCode": "6.1",
+          "estimatedMinutes": 12,
+          "summary": "Understand 2FA, repository roles, organizations, teams, enterprise accounts, and high-level access administration.",
+          "learningObjectives": [
+            "Explain 2FA and passkeys",
+            "Identify roles and permissions",
+            "Describe organizations and teams",
+            "Recognize enterprise managed identity scenarios"
+          ],
+          "explanation": "Security starts before code is opened. If an attacker can sign in as a trusted user, other controls are weaker. GitHub account protection includes **two-factor authentication (2FA)** and passkeys. After sign-in, authorization is controlled by **roles** and **permissions**. Repository roles determine what a person or team can do in a repository; organization roles control broader administration.\n\nAn **organization** groups repositories, people, teams, and settings. **Teams** reflect working groups and can receive repository access or review requests, which is easier to manage than one-person-at-a-time grants. At the enterprise level, GitHub supports broader administration. **Enterprise Managed Users** are a high-level option where account lifecycle and authentication are managed through an identity provider.\n\nFor GH-900, stay practical: protect accounts, grant least privilege, use teams for group access, and know that enterprise accounts centralize higher-level management.",
+          "terminology": [
+            {
+              "term": "Two-factor authentication",
+              "definition": "Sign-in method requiring another factor besides a password."
+            },
+            {
+              "term": "Role",
+              "definition": "Set of permissions assigned to a user or team."
+            },
+            {
+              "term": "Organization",
+              "definition": "Shared GitHub account for repositories, members, teams, and settings."
+            },
+            {
+              "term": "Team",
+              "definition": "Group of organization members used for access and notifications."
+            },
+            {
+              "term": "Enterprise Managed Users",
+              "definition": "Enterprise model where accounts are managed through an identity provider."
+            }
+          ],
+          "businessScenario": "Woodgrove Bank creates a GitHub organization, requires strong sign-in, and grants access through teams.",
+          "technicalExample": "Priya creates a `docs-maintainers` team with Write access. A contractor who only needs to view source gets Read access. Owners keep Admin access limited.",
+          "misconception": {
+            "myth": "Private repositories are secure automatically.",
+            "reality": "Private visibility helps, but account security, roles, teams, rules, and reviews still matter."
+          },
+          "examTakeaway": "2FA/passkey = account security; role = permission level; team = group access; EMU = IdP-managed enterprise accounts.",
+          "recap": "Understand 2FA, repository roles, organizations, teams, enterprise accounts, and high-level access administration.",
+          "simplerExplanation": "Account and access security is like a museum: 2FA checks visitors at the entrance, repository roles decide which rooms they can enter, teams issue group badges, and enterprise identity manages the master guest list.",
+          "anotherExample": "A nonprofit can place volunteers in a `website-reviewers` team with Write access, keep finance staff out of code repositories, and reserve organization owner permissions for two trusted administrators.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Access decisions",
+                "columns": [
+                  {
+                    "title": "Account security",
+                    "points": [
+                      "2FA and passkeys",
+                      "Protect sign-in"
+                    ]
+                  },
+                  {
+                    "title": "Roles",
+                    "points": [
+                      "Control actions",
+                      "Use least privilege"
+                    ]
+                  },
+                  {
+                    "title": "Teams",
+                    "points": [
+                      "Group members",
+                      "Simplify access"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Least privilege",
+                "instructions": "Decide before checking the answer.",
+                "items": [
+                  {
+                    "prompt": "Contractor only reads code.",
+                    "answer": "Read access."
+                  },
+                  {
+                    "prompt": "No need for repository work.",
+                    "answer": "No repository access."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What does 2FA add?",
+              "back": "Another sign-in factor."
+            },
+            {
+              "front": "What is a role?",
+              "back": "A set of permissions."
+            },
+            {
+              "front": "Why use teams?",
+              "back": "To manage group access."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Securing your account with two-factor authentication",
+              "url": "https://docs.github.com/authentication/securing-your-account-with-two-factor-authentication-2fa",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Roles in an organization",
+              "url": "https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/roles-in-an-organization",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "About organization teams",
+              "url": "https://docs.github.com/organizations/organizing-members-into-teams/about-teams",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "gh900-sec-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "privacy-security-administration",
+              "objectiveCode": "6.1",
+              "difficulty": "EASY",
+              "stem": "A maintainer wants sign-ins to require a password plus a second verification step. Which account protection feature fits?",
+              "explanation": "Two-factor authentication adds another verification factor to the normal sign-in process.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Two-factor authentication",
+                  "correct": true,
+                  "explanation": "2FA requires a second factor in addition to the password."
+                },
+                {
+                  "key": "B",
+                  "text": "Review source code",
+                  "correct": false,
+                  "explanation": "That is code scanning."
+                },
+                {
+                  "key": "C",
+                  "text": "Group issues for a release",
+                  "correct": false,
+                  "explanation": "That is a milestone."
+                },
+                {
+                  "key": "D",
+                  "text": "Open a codespace",
+                  "correct": false,
+                  "explanation": "Codespaces is a dev environment."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Securing your account with two-factor authentication",
+                  "url": "https://docs.github.com/authentication/securing-your-account-with-two-factor-authentication-2fa",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "secure-accounts-and-access"
+            },
+            {
+              "ref": "gh900-sec-002",
+              "type": "MATCHING",
+              "domainKey": "privacy-security-administration",
+              "objectiveCode": "6.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each access concept to its purpose.",
+              "explanation": "Roles grant permissions, teams group members, and EMUs are IdP-managed.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "role",
+                    "text": "Repository role"
+                  },
+                  {
+                    "id": "team",
+                    "text": "Team"
+                  },
+                  {
+                    "id": "owner",
+                    "text": "Organization owner"
+                  },
+                  {
+                    "id": "emu",
+                    "text": "Enterprise Managed Users"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a",
+                    "text": "Controls repository actions"
+                  },
+                  {
+                    "id": "b",
+                    "text": "Groups organization members"
+                  },
+                  {
+                    "id": "c",
+                    "text": "Administers organization settings"
+                  },
+                  {
+                    "id": "d",
+                    "text": "Accounts managed through an identity provider"
+                  }
+                ],
+                "pairs": {
+                  "role": "a",
+                  "team": "b",
+                  "owner": "c",
+                  "emu": "d"
+                },
+                "explanations": {
+                  "role": "Roles are sets of permissions.",
+                  "team": "Teams simplify group access.",
+                  "owner": "Owners administer the organization.",
+                  "emu": "EMUs are provisioned and authenticated through an IdP."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Roles in an organization",
+                  "url": "https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/roles-in-an-organization",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About organization teams",
+                  "url": "https://docs.github.com/organizations/organizing-members-into-teams/about-teams",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About Enterprise Managed Users",
+                  "url": "https://docs.github.com/admin/managing-iam/understanding-iam-for-enterprises/about-enterprise-managed-users",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "secure-accounts-and-access"
+            },
+            {
+              "ref": "gh900-sec-003",
+              "type": "TRUE_FALSE",
+              "domainKey": "privacy-security-administration",
+              "objectiveCode": "6.1",
+              "difficulty": "EASY",
+              "stem": "Teams help grant repository access to groups of organization members.",
+              "explanation": "Teams can receive repository access and review requests.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. GitHub organization teams group members so repository permissions can be assigned and reviewed for the group."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that teams are a standard way to manage repository access for groups of organization members."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "About organization teams",
+                  "url": "https://docs.github.com/organizations/organizing-members-into-teams/about-teams",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": false,
+              "lessonSlug": "secure-accounts-and-access"
+            },
+            {
+              "ref": "gh900-sec-004",
+              "type": "UI_SIMULATION",
+              "domainKey": "privacy-security-administration",
+              "objectiveCode": "6.1",
+              "difficulty": "MEDIUM",
+              "stem": "Configure least-privilege access for a contractor who only needs to view code.",
+              "explanation": "Read is the lowest role that meets the need.",
+              "uiSimulation": {
+                "title": "Repository access settings (simulated)",
+                "description": "This is a fictional simplified screen, not the real GitHub UI.",
+                "fields": [
+                  {
+                    "id": "role",
+                    "label": "Contractor role",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "read",
+                        "label": "Read"
+                      },
+                      {
+                        "value": "write",
+                        "label": "Write"
+                      },
+                      {
+                        "value": "admin",
+                        "label": "Admin"
+                      }
+                    ],
+                    "correct": "read",
+                    "explanation": "Read is enough to view code."
+                  },
+                  {
+                    "id": "team",
+                    "label": "Grant through a team when practical",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "Teams simplify access review."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Roles in an organization",
+                  "url": "https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/roles-in-an-organization",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About organization teams",
+                  "url": "https://docs.github.com/organizations/organizing-members-into-teams/about-teams",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "secure-accounts-and-access"
+            },
+            {
+              "ref": "gh900-sec-005",
+              "type": "CASE_STUDY",
+              "domainKey": "privacy-security-administration",
+              "objectiveCode": "6.1",
+              "difficulty": "HARD",
+              "scenario": "Woodgrove Bank is moving repositories into an organization and wants stronger identity and access controls.",
+              "stem": "For each statement about GitHub account, organization, and enterprise access management, select Yes if it is appropriate.",
+              "explanation": "Strong sign-in, least privilege, teams, and enterprise identity options reduce risk.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Require strong account protection such as 2FA.",
+                    "answer": true,
+                    "explanation": "2FA improves sign-in security."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Give everyone admin access.",
+                    "answer": false,
+                    "explanation": "That violates least privilege."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Use teams to map groups to access.",
+                    "answer": true,
+                    "explanation": "Teams simplify group permissions."
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Consider EMUs when the enterprise wants IdP-managed accounts.",
+                    "answer": true,
+                    "explanation": "EMUs support IdP-managed lifecycle and authentication."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Securing your account with two-factor authentication",
+                  "url": "https://docs.github.com/authentication/securing-your-account-with-two-factor-authentication-2fa",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About organization teams",
+                  "url": "https://docs.github.com/organizations/organizing-members-into-teams/about-teams",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About Enterprise Managed Users",
+                  "url": "https://docs.github.com/admin/managing-iam/understanding-iam-for-enterprises/about-enterprise-managed-users",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "secure-accounts-and-access"
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Re-check current GitHub UI labels, plan names, and feature availability before publishing."
+        },
+        {
+          "slug": "protect-code-and-dependencies",
+          "title": "Repository security features",
+          "objectiveCode": "6.1",
+          "estimatedMinutes": 12,
+          "summary": "Use Dependabot, code scanning, secret scanning, and security policies to reduce repository risk.",
+          "learningObjectives": [
+            "Describe Dependabot alerts and updates",
+            "Explain code scanning and secret scanning",
+            "Identify the purpose of a security policy",
+            "Connect features to the security lab"
+          ],
+          "explanation": "A secure repository is more like a workshop with inspections at several doors than a vault locked once. **Dependabot** helps identify vulnerable dependencies and can help keep dependency versions updated. **Code scanning** analyzes source code for vulnerability patterns and coding errors. **Secret scanning** helps detect tokens, keys, and credentials that should not be committed.\n\nA **security policy**, often `SECURITY.md`, tells people how to report vulnerabilities. It does not scan code by itself, but it makes responsible disclosure clearer. These features work best alongside access controls and reviews. Dependabot might open an update pull request, code scanning might flag a risky pattern, secret scanning might detect a leaked token, and maintainers use SECURITY.md to guide reports.\n\nThe `Secure a repository with access, rulesets, and code security settings` lab provides a safe simulation for configuring protections, reviewing a Dependabot-style remediation, and adding a security policy.",
+          "terminology": [
+            {
+              "term": "Dependabot",
+              "definition": "Tooling that helps identify and update vulnerable dependencies."
+            },
+            {
+              "term": "Code scanning",
+              "definition": "Analysis that finds code vulnerabilities and errors."
+            },
+            {
+              "term": "Secret scanning",
+              "definition": "Detection for accidentally exposed tokens or credentials."
+            },
+            {
+              "term": "Security policy",
+              "definition": "Repository guidance for reporting vulnerabilities."
+            }
+          ],
+          "businessScenario": "Proseware wants dependency alerts, code scanning, secret scanning, and a clear vulnerability reporting process.",
+          "technicalExample": "The repository enables dependency alerts, configures code scanning, uses secret scanning, and adds `SECURITY.md` with reporting instructions.",
+          "misconception": {
+            "myth": "Dependabot, code scanning, and secret scanning do the same job.",
+            "reality": "They reduce different risks: dependencies, code patterns, and leaked secrets."
+          },
+          "examTakeaway": "Vulnerable package = Dependabot; risky code = code scanning; token = secret scanning; reporting process = SECURITY.md.",
+          "recap": "Use Dependabot, code scanning, secret scanning, and security policies to reduce repository risk.",
+          "simplerExplanation": "Repository security features are like different smoke detectors: Dependabot listens for risky ingredients, code scanning watches the recipe, secret scanning catches keys left on the counter, and SECURITY.md tells people who to call.",
+          "anotherExample": "An API project can receive a Dependabot alert for a vulnerable package, a code scanning alert for unsafe input handling, and a secret scanning alert when a test token is accidentally pushed.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Security features by risk",
+                "columns": [
+                  {
+                    "title": "Dependencies",
+                    "points": [
+                      "Dependabot alerts",
+                      "Update PRs"
+                    ]
+                  },
+                  {
+                    "title": "Code",
+                    "points": [
+                      "Code scanning alerts",
+                      "Vulnerability patterns"
+                    ]
+                  },
+                  {
+                    "title": "Secrets",
+                    "points": [
+                      "Secret scanning",
+                      "Leaked credentials"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Never commit secrets",
+                "body": "Do not put real tokens, passwords, or keys in examples, issues, pull requests, or README files."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What does Dependabot help with?",
+              "back": "Dependency alerts and updates."
+            },
+            {
+              "front": "What does code scanning find?",
+              "back": "Code vulnerabilities and errors."
+            },
+            {
+              "front": "What does secret scanning detect?",
+              "back": "Leaked tokens and credentials."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Securing your supply chain",
+              "url": "https://docs.github.com/code-security/dependabot",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Find and fix code vulnerabilities",
+              "url": "https://docs.github.com/code-security/code-scanning",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "How-tos for securing secrets",
+              "url": "https://docs.github.com/code-security/secret-scanning",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "gh900-sec-006",
+              "type": "CATEGORIZATION",
+              "domainKey": "privacy-security-administration",
+              "objectiveCode": "6.1",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each repository security feature.",
+              "explanation": "Dependabot handles dependencies, code scanning analyzes code, secret scanning detects secret leaks, and SECURITY.md gives reporting guidance.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "dep",
+                    "label": "Dependabot"
+                  },
+                  {
+                    "id": "code",
+                    "label": "Code scanning"
+                  },
+                  {
+                    "id": "secret",
+                    "label": "Secret scanning"
+                  },
+                  {
+                    "id": "policy",
+                    "label": "Security policy"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Vulnerable dependency alert",
+                    "category": "dep",
+                    "explanation": "Dependabot focuses on dependency risk."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Risky code pattern alert",
+                    "category": "code",
+                    "explanation": "Code scanning analyzes source code."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Committed token detection",
+                    "category": "secret",
+                    "explanation": "Secret scanning detects leaked secrets."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Instructions for reporting vulnerabilities",
+                    "category": "policy",
+                    "explanation": "SECURITY.md guides reports."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Securing your supply chain",
+                  "url": "https://docs.github.com/code-security/dependabot",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Find and fix code vulnerabilities",
+                  "url": "https://docs.github.com/code-security/code-scanning",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "How-tos for securing secrets",
+                  "url": "https://docs.github.com/code-security/secret-scanning",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Adding a security policy to your repository",
+                  "url": "https://docs.github.com/code-security/getting-started/adding-a-security-policy-to-your-repository",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "protect-code-and-dependencies"
+            },
+            {
+              "ref": "gh900-sec-007",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "privacy-security-administration",
+              "objectiveCode": "6.1",
+              "difficulty": "EASY",
+              "stem": "Which feature is most associated with vulnerable dependency alerts and update pull requests?",
+              "explanation": "Dependabot helps identify and update vulnerable dependencies.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Dependabot",
+                  "correct": true,
+                  "explanation": "Dependabot focuses on dependency security."
+                },
+                {
+                  "key": "B",
+                  "text": "GitHub Sponsors",
+                  "correct": false,
+                  "explanation": "Sponsors supports maintainers."
+                },
+                {
+                  "key": "C",
+                  "text": "github.dev",
+                  "correct": false,
+                  "explanation": "github.dev is a web editor."
+                },
+                {
+                  "key": "D",
+                  "text": "Milestones",
+                  "correct": false,
+                  "explanation": "Milestones track grouped work."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Securing your supply chain",
+                  "url": "https://docs.github.com/code-security/dependabot",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "protect-code-and-dependencies"
+            },
+            {
+              "ref": "gh900-sec-008",
+              "type": "TRUE_FALSE",
+              "domainKey": "privacy-security-administration",
+              "objectiveCode": "6.1",
+              "difficulty": "EASY",
+              "stem": "A security policy can explain how to report vulnerabilities for a repository.",
+              "explanation": "A SECURITY.md file provides vulnerability reporting instructions.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. A SECURITY.md policy tells people how to report vulnerabilities responsibly for the repository."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that a repository security policy documents vulnerability reporting guidance."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Adding a security policy to your repository",
+                  "url": "https://docs.github.com/code-security/getting-started/adding-a-security-policy-to-your-repository",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": false,
+              "lessonSlug": "protect-code-and-dependencies"
+            },
+            {
+              "ref": "gh900-sec-009",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "privacy-security-administration",
+              "objectiveCode": "6.1",
+              "difficulty": "MEDIUM",
+              "stem": "Complete the sentence about detecting accidentally committed credentials.",
+              "explanation": "Secret scanning detects exposed tokens and credentials.",
+              "fillInBlank": {
+                "template": "A committed API token is the kind of leak {{b1}} helps detect.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "secret scanning"
+                    ],
+                    "explanation": "Secret scanning detects leaked secrets."
+                  }
+                ],
+                "wordBank": [
+                  "secret scanning",
+                  "milestone",
+                  "github.dev"
+                ]
+              },
+              "sources": [
+                {
+                  "title": "How-tos for securing secrets",
+                  "url": "https://docs.github.com/code-security/secret-scanning",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "protect-code-and-dependencies"
+            },
+            {
+              "ref": "gh900-sec-010",
+              "type": "CASE_STUDY",
+              "domainKey": "privacy-security-administration",
+              "objectiveCode": "6.1",
+              "difficulty": "HARD",
+              "scenario": "Proseware maintains a private repository and wants to reduce dependency, code, secret, and vulnerability-reporting risks.",
+              "stem": "For each statement, select Yes if it supports the goal.",
+              "explanation": "Repository security combines dependency, code, secret, and reporting controls.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Review Dependabot alerts and update pull requests.",
+                    "answer": true,
+                    "explanation": "That addresses dependency risk."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Use code scanning for source-code alerts.",
+                    "answer": true,
+                    "explanation": "Code scanning finds code vulnerabilities."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Put production tokens in README.md.",
+                    "answer": false,
+                    "explanation": "Secrets should not be committed."
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Add SECURITY.md with reporting guidance.",
+                    "answer": true,
+                    "explanation": "A policy guides vulnerability reports."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Securing your supply chain",
+                  "url": "https://docs.github.com/code-security/dependabot",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Find and fix code vulnerabilities",
+                  "url": "https://docs.github.com/code-security/code-scanning",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "How-tos for securing secrets",
+                  "url": "https://docs.github.com/code-security/secret-scanning",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Adding a security policy to your repository",
+                  "url": "https://docs.github.com/code-security/getting-started/adding-a-security-policy-to-your-repository",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "protect-code-and-dependencies"
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Re-check current GitHub UI labels, plan names, and feature availability before publishing."
+        }
+      ]
+    }
+  ]
+}

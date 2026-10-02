@@ -9,6 +9,7 @@ import { labs } from "./tr/labs";
 import { planner, progress } from "./tr/progress";
 import { tutor, settings } from "./tr/tutor";
 import { admin } from "./tr/admin";
+import { shell } from "./tr/shell";
 
 /**
  * Turkish dictionary, one file per namespace in ./tr (mirrors ./en).
@@ -30,4 +31,5 @@ export const tr: DeepPartial<Messages> = {
   tutor,
   settings,
   admin,
+  shell,
 };

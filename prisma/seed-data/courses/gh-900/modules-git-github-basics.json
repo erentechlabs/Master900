@@ -1,0 +1,1132 @@
+{
+  "domainKey": "git-github-basics",
+  "modules": [
+    {
+      "slug": "gh900-git-and-github-basics",
+      "title": "Git and GitHub basics",
+      "summary": "Build a beginner foundation in version control, everyday Git commands, and the GitHub platform.",
+      "lessons": [
+        {
+          "slug": "gh900-version-control-foundations",
+          "title": "Version control: the team time machine",
+          "objectiveCode": "1.1",
+          "estimatedMinutes": 12,
+          "summary": "Learn why version control matters and how Git concepts such as repositories, commits, branches, and merges fit together.",
+          "learningObjectives": [
+            "Describe the purpose and benefits of version control",
+            "Explain distributed version control in beginner-friendly terms",
+            "Identify repositories, commits, branches, merges, and merge conflicts"
+          ],
+          "explanation": "Imagine Tailwind Traders updates a product page minutes before a launch. A typo slips in, a designer has a better image, and a teammate is still changing prices. Without **version control**, the team is emailing files named `final-v7-really-final.md`. With Git, every meaningful change becomes part of a tracked history.\n\nA **version control system** records what changed, who changed it, and why. Git is distributed: each contributor can have a full local copy of the repository and its history, so people can work independently and synchronize later. The shared copy on GitHub is often called the **remote** repository, while the copy on your computer is local.\n\nA **repository** is the project container. A **commit** is a snapshot with a message. A **branch** is a line of work, often used for a feature or fix. A **merge** combines one branch into another. If Git cannot safely combine edits to the same part of a file, it reports a **merge conflict** so a person can choose the final content.\n\nGitHub adds collaboration around this Git history: hosted repositories, web-based discussion, pull requests, review, permissions, and notifications. In the **Clone, commit, push, and open a pull request with Git CLI** lab, you practise moving from a local change to a reviewed pull request.",
+          "terminology": [
+            {
+              "term": "Version control",
+              "definition": "A system that tracks file changes over time."
+            },
+            {
+              "term": "Repository",
+              "definition": "A project and its revision history."
+            },
+            {
+              "term": "Commit",
+              "definition": "A saved snapshot with a message."
+            },
+            {
+              "term": "Branch",
+              "definition": "A separate line of work."
+            },
+            {
+              "term": "Merge",
+              "definition": "Combining changes from one branch into another."
+            }
+          ],
+          "businessScenario": "Tailwind Traders keeps website copy, product images, and deployment notes in one repository. Marketing can update wording on a branch while engineering fixes a bug on another branch.",
+          "technicalExample": "A simple history might be: `main` has commit `A`; Priya creates `feature/banner`; she commits `B`; after review, the team merges `feature/banner` into `main` so the launch branch includes the banner change.",
+          "misconception": {
+            "myth": "Git is only for professional developers.",
+            "reality": "Git tracks text files well, but the idea is useful for documentation, configuration, lesson content, scripts, and many other collaborative files."
+          },
+          "examTakeaway": "Watch for scenarios that ask why teams use Git: audit history, safe parallel work, recovery of earlier versions, and collaboration without overwriting each other.",
+          "recap": "Version control gives teams a reliable history. Git is distributed, repositories hold projects, commits record snapshots, branches isolate work, and merges bring work together.",
+          "simplerExplanation": "Think of Git as a shared notebook with a rewind button. Everyone can write in their own copy, label their changes, then agree which pages go into the official notebook.",
+          "anotherExample": "A finance team stores policy documents in Git. Each policy update uses a branch, a commit message explains the change, and a pull request records the approval conversation.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Git concepts at a glance",
+                "columns": [
+                  {
+                    "title": "Repository",
+                    "points": [
+                      "Project container",
+                      "Includes files and history"
+                    ]
+                  },
+                  {
+                    "title": "Commit",
+                    "points": [
+                      "Point-in-time snapshot",
+                      "Includes author and message"
+                    ]
+                  },
+                  {
+                    "title": "Branch",
+                    "points": [
+                      "Independent line of work",
+                      "Merged when ready"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Branch and merge flow",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "main",
+                    "label": "main"
+                  },
+                  {
+                    "id": "branch",
+                    "label": "feature branch"
+                  },
+                  {
+                    "id": "commit",
+                    "label": "commit"
+                  },
+                  {
+                    "id": "merge",
+                    "label": "merge"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "main",
+                    "to": "branch",
+                    "label": "create"
+                  },
+                  {
+                    "from": "branch",
+                    "to": "commit",
+                    "label": "save"
+                  },
+                  {
+                    "from": "commit",
+                    "to": "merge",
+                    "label": "review"
+                  },
+                  {
+                    "from": "merge",
+                    "to": "main",
+                    "label": "combine"
+                  }
+                ],
+                "caption": "A feature branch starts from main, receives a commit, and is merged back into main after review."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Why use version control?",
+              "back": "To track history, collaborate safely, compare changes, and recover earlier versions."
+            },
+            {
+              "front": "What is distributed version control?",
+              "back": "Each contributor can have a full copy of the repository and history."
+            },
+            {
+              "front": "What is a commit?",
+              "back": "A saved snapshot of changes with metadata and a message."
+            },
+            {
+              "front": "What is a branch?",
+              "back": "A separate line of development used to isolate work."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam GH-900: GitHub Foundations",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/gh-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "About Git",
+              "url": "https://docs.github.com/en/get-started/using-git/about-git",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Introduction to Git",
+              "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/",
+              "kind": "LEARN_MODULE"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "gh900-git-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "git-github-basics",
+              "objectiveCode": "1.1",
+              "difficulty": "EASY",
+              "stem": "Which statement best describes the purpose of version control?",
+              "explanation": "Version control records changes and supports collaboration over time.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "It tracks file history and helps teams collaborate safely.",
+                  "correct": true,
+                  "explanation": "This captures the main purpose of version control."
+                },
+                {
+                  "key": "B",
+                  "text": "It replaces all project communication with chat.",
+                  "correct": false,
+                  "explanation": "Communication still happens; version control tracks changes."
+                },
+                {
+                  "key": "C",
+                  "text": "It automatically writes correct code.",
+                  "correct": false,
+                  "explanation": "Git stores changes; it does not guarantee correctness."
+                },
+                {
+                  "key": "D",
+                  "text": "It only stores finished releases.",
+                  "correct": false,
+                  "explanation": "It can track everyday work, experiments, and releases."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "About Git",
+                  "url": "https://docs.github.com/en/get-started/using-git/about-git",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-version-control-foundations",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "gh900-git-002",
+              "type": "TRUE_FALSE",
+              "domainKey": "git-github-basics",
+              "objectiveCode": "1.1",
+              "difficulty": "EASY",
+              "stem": "In distributed version control, contributors can work with a local copy of the repository history.",
+              "explanation": "Git is distributed, so local work can happen before synchronizing with a remote.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Distributed version control gives contributors a local repository copy, including history, for offline or independent work."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False overlooks that Git users normally work with local copies before synchronizing with remotes."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "About Git",
+                  "url": "https://docs.github.com/en/get-started/using-git/about-git",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-version-control-foundations"
+            },
+            {
+              "ref": "gh900-git-003",
+              "type": "MATCHING",
+              "domainKey": "git-github-basics",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each Git concept to its role.",
+              "explanation": "Repositories, commits, branches, and merges each answer a different collaboration need.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "repo",
+                    "text": "Project container with history"
+                  },
+                  {
+                    "id": "commit",
+                    "text": "Saved snapshot"
+                  },
+                  {
+                    "id": "branch",
+                    "text": "Separate line of work"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Repository"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Commit"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Branch"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Notification"
+                  }
+                ],
+                "pairs": {
+                  "repo": "a1",
+                  "commit": "a2",
+                  "branch": "a3"
+                },
+                "explanations": {
+                  "repo": "A repository stores files and history.",
+                  "commit": "A commit records a snapshot.",
+                  "branch": "A branch isolates work."
+                }
+              },
+              "sources": [
+                {
+                  "title": "About Git",
+                  "url": "https://docs.github.com/en/get-started/using-git/about-git",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-version-control-foundations"
+            },
+            {
+              "ref": "gh900-git-004",
+              "type": "ORDERING",
+              "domainKey": "git-github-basics",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Order the local Git branch steps for preparing a focused change before it is reviewed.",
+              "explanation": "A contributor checks the worktree, creates an isolated branch, commits the focused update, and only then is the branch ready for review and merge.",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Confirm the working tree is ready"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Create and switch to a topic branch"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Commit the related changes on the branch"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Merge the reviewed branch back into main"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "Checking the working tree first helps the contributor understand the starting state before branching.",
+                  "s2": "A topic branch isolates the new work from main.",
+                  "s3": "The focused change is saved as a commit on that branch.",
+                  "s4": "Merging into main happens after the branch has been reviewed or otherwise accepted."
+                }
+              },
+              "sources": [
+                {
+                  "title": "About Git",
+                  "url": "https://docs.github.com/en/get-started/using-git/about-git",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-version-control-foundations"
+            },
+            {
+              "ref": "gh900-git-005",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "git-github-basics",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Complete the sentence about what Git reports when edits cannot be merged automatically.",
+              "explanation": "A merge conflict means Git needs human help to combine changes.",
+              "fillInBlank": {
+                "template": "When Git cannot automatically combine edits to the same lines, it reports a {{b1}}.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "merge conflict",
+                      "conflict"
+                    ],
+                    "explanation": "A merge conflict requires someone to resolve competing edits."
+                  }
+                ],
+                "wordBank": [
+                  "merge conflict",
+                  "release",
+                  "repository",
+                  "commit"
+                ]
+              },
+              "sources": [
+                {
+                  "title": "About Git",
+                  "url": "https://docs.github.com/en/get-started/using-git/about-git",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-version-control-foundations"
+            }
+          ]
+        },
+        {
+          "slug": "gh900-everyday-git-commands",
+          "title": "Everyday Git commands with real examples",
+          "objectiveCode": "1.1",
+          "estimatedMinutes": 13,
+          "summary": "Practise the Git commands beginners see most often: clone, status, add, commit, push, pull, branch, switch, checkout, and merge.",
+          "learningObjectives": [
+            "Choose the correct Git command for common tasks",
+            "Explain working tree, staging area, local repository, and remote repository",
+            "Recognize a safe beginner workflow from clone to push"
+          ],
+          "explanation": "The command line can feel like a secret language until you connect each command to a job. In Git, most daily work follows a loop: get a copy, inspect it, make changes, stage the right files, commit, synchronize, and repeat.\n\nUse `git clone https://github.com/contoso-labs/inventory-api.git` to create a local copy of a remote repository. Use `git status` often; it tells you the current branch, changed files, and whether changes are staged. `git add docs/health.md` moves a file into the staging area for the next commit. `git commit -m \"Add health endpoint notes\"` records the staged changes locally. `git push -u origin feature/health-endpoint` publishes a local branch to the remote. `git pull` fetches remote changes and integrates them into your current branch.\n\nFor branches, `git branch` lists branches, `git switch -c feature/name` creates and switches to a new branch, and older examples may use `git checkout -b feature/name`. `git merge feature/name` combines another branch into your current branch. The safest habit is to check `git status` before and after important steps.\n\nThe **Clone, commit, push, and open a pull request with Git CLI** lab turns these commands into muscle memory without touching a real repository.",
+          "terminology": [
+            {
+              "term": "Working tree",
+              "definition": "The files you are editing."
+            },
+            {
+              "term": "Staging area",
+              "definition": "The set of changes selected for the next commit."
+            },
+            {
+              "term": "Remote",
+              "definition": "A hosted repository location such as GitHub."
+            },
+            {
+              "term": "Push",
+              "definition": "Send local commits to a remote."
+            },
+            {
+              "term": "Pull",
+              "definition": "Bring remote changes into your current branch."
+            }
+          ],
+          "businessScenario": "Contoso Labs asks Alex to add health endpoint notes. Alex clones the repository, creates a branch, writes the file, stages it, commits it, pushes the branch, and opens a pull request.",
+          "technicalExample": "```bash\ngit clone https://github.com/contoso-labs/inventory-api.git\ncd inventory-api\ngit switch -c feature/health-endpoint\ngit status\ngit add docs/health.md\ngit commit -m \"Add health endpoint notes\"\ngit push -u origin feature/health-endpoint\n```",
+          "misconception": {
+            "myth": "A commit automatically sends my work to GitHub.",
+            "reality": "A commit saves work in the local repository. You use `git push` to publish commits to the remote repository."
+          },
+          "examTakeaway": "Command-selection questions usually test the verb: clone copies, status inspects, add stages, commit records locally, push publishes, pull integrates remote work.",
+          "recap": "Git commands are less mysterious when you map them to the workflow: copy, inspect, stage, save, publish, update, branch, and merge.",
+          "simplerExplanation": "Picture packing a suitcase. `git add` chooses what goes in the suitcase, `git commit` closes and labels it, and `git push` sends it to the shared destination.",
+          "anotherExample": "A documentation writer uses `git pull` before editing so their branch starts from the latest shared updates, then commits only the changed Markdown file.",
+          "extraBlocks": [
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Command detective",
+                "instructions": "Read each prompt and choose the command you would run.",
+                "items": [
+                  {
+                    "prompt": "You want to see which files changed.",
+                    "answer": "Run `git status`."
+                  },
+                  {
+                    "prompt": "You saved a commit locally and need it on GitHub.",
+                    "answer": "Run `git push`."
+                  },
+                  {
+                    "prompt": "You need a local copy of a repository.",
+                    "answer": "Run `git clone <url>`."
+                  }
+                ]
+              }
+            },
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Local vs remote actions",
+                "columns": [
+                  {
+                    "title": "Local",
+                    "points": [
+                      "`git status` inspects local state",
+                      "`git add` and `git commit` prepare local history"
+                    ]
+                  },
+                  {
+                    "title": "Remote synchronization",
+                    "points": [
+                      "`git push` publishes commits",
+                      "`git pull` brings remote changes in"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What does `git clone` do?",
+              "back": "Creates a local copy of a remote repository."
+            },
+            {
+              "front": "What does `git status` show?",
+              "back": "Current branch, changed files, and staging state."
+            },
+            {
+              "front": "What does `git add` do?",
+              "back": "Stages changes for the next commit."
+            },
+            {
+              "front": "Commit vs push",
+              "back": "Commit records locally; push publishes to a remote."
+            },
+            {
+              "front": "`git switch -c`",
+              "back": "Creates and switches to a new branch."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Set up Git",
+              "url": "https://docs.github.com/en/get-started/git-basics/set-up-git",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Cloning a repository",
+              "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Introduction to Git",
+              "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/",
+              "kind": "LEARN_MODULE"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "gh900-git-006",
+              "type": "COMMAND_SELECTION",
+              "domainKey": "git-github-basics",
+              "objectiveCode": "1.1",
+              "difficulty": "EASY",
+              "stem": "Which command creates a local copy of the remote repository?",
+              "explanation": "The `git clone` command copies a remote repository to your local environment.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`git clone https://github.com/contoso-labs/inventory-api.git`",
+                  "correct": true,
+                  "explanation": "This is valid clone syntax."
+                },
+                {
+                  "key": "B",
+                  "text": "`git status https://github.com/contoso-labs/inventory-api.git`",
+                  "correct": false,
+                  "explanation": "`git status` inspects a local repository."
+                },
+                {
+                  "key": "C",
+                  "text": "`git add https://github.com/contoso-labs/inventory-api.git`",
+                  "correct": false,
+                  "explanation": "`git add` stages local file changes."
+                },
+                {
+                  "key": "D",
+                  "text": "`git commit https://github.com/contoso-labs/inventory-api.git`",
+                  "correct": false,
+                  "explanation": "`git commit` records staged local changes."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Cloning a repository",
+                  "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-everyday-git-commands",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "gh900-git-007",
+              "type": "ORDERING",
+              "domainKey": "git-github-basics",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Order the commands for making and publishing a small change after a file is edited.",
+              "explanation": "You inspect, stage, commit, and then push.",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "git status"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "git add docs/health.md"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "git commit -m \"Add health endpoint notes\""
+                  },
+                  {
+                    "id": "s4",
+                    "text": "git push -u origin feature/health-endpoint"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "git status shows which files changed and whether anything is already staged.",
+                  "s2": "git add stages the edited documentation file for the next commit.",
+                  "s3": "git commit records the staged change with a message.",
+                  "s4": "git push publishes the branch and sets the upstream remote branch."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Introduction to Git",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "Cloning a repository",
+                  "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-everyday-git-commands"
+            },
+            {
+              "ref": "gh900-git-008",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "git-github-basics",
+              "objectiveCode": "1.1",
+              "difficulty": "EASY",
+              "stem": "What does `git status` help you decide?",
+              "explanation": "Status shows changed and staged files so you know what to add or commit next.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Which files are changed or staged in the current repository",
+                  "correct": true,
+                  "explanation": "That is the purpose of status."
+                },
+                {
+                  "key": "B",
+                  "text": "Which GitHub plan the account uses",
+                  "correct": false,
+                  "explanation": "Git commands do not report account plans."
+                },
+                {
+                  "key": "C",
+                  "text": "Which users starred a repository",
+                  "correct": false,
+                  "explanation": "Stars are a GitHub platform feature, not `git status` output."
+                },
+                {
+                  "key": "D",
+                  "text": "Which release notes are published",
+                  "correct": false,
+                  "explanation": "Release notes are managed on GitHub, not by `git status`."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Introduction to Git",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "gh900-everyday-git-commands",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "gh900-git-009",
+              "type": "SCENARIO",
+              "domainKey": "git-github-basics",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which command should Alex run next?",
+              "explanation": "After a local commit, `git push` publishes the branch and commits to GitHub.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`git push -u origin feature/health-endpoint`",
+                  "correct": true,
+                  "explanation": "This publishes the branch to the remote and sets upstream tracking."
+                },
+                {
+                  "key": "B",
+                  "text": "`git add docs/health.md`",
+                  "correct": false,
+                  "explanation": "The file was already committed, so staging is not the next publishing step."
+                },
+                {
+                  "key": "C",
+                  "text": "`git branch`",
+                  "correct": false,
+                  "explanation": "Listing branches does not publish the commit."
+                },
+                {
+                  "key": "D",
+                  "text": "`git clone`",
+                  "correct": false,
+                  "explanation": "Cloning would create another local copy, not publish work."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Cloning a repository",
+                  "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Introduction to Git",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "gh900-everyday-git-commands",
+              "scenario": "Alex has cloned the repository, created `feature/health-endpoint`, staged `docs/health.md`, and committed the change locally.",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "gh900-git-010",
+              "type": "TRUE_FALSE",
+              "domainKey": "git-github-basics",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "`git checkout -b feature/docs` and `git switch -c feature/docs` are both commonly used to create and move to a new branch.",
+              "explanation": "Modern examples often prefer `git switch -c`, while many repositories still document `git checkout -b`.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Both git checkout -b and git switch -c create a new branch and switch the working tree to it."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that checkout -b and switch -c are both common ways to create and move to a branch."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Introduction to Git",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "gh900-everyday-git-commands"
+            }
+          ]
+        },
+        {
+          "slug": "gh900-working-with-github-platform",
+          "title": "Working with GitHub: platform, clients, and Markdown",
+          "objectiveCode": "1.2",
+          "estimatedMinutes": 12,
+          "summary": "Understand what GitHub adds on top of Git, account and plan concepts, GitHub Desktop, GitHub Mobile, and GitHub Flavored Markdown.",
+          "learningObjectives": [
+            "Explain the difference between Git and GitHub",
+            "Describe GitHub account and plan concepts without memorizing prices",
+            "Recognize when to use GitHub Desktop, GitHub Mobile, and Markdown"
+          ],
+          "explanation": "Git is the version control engine; GitHub is the collaboration platform around it. Git can run locally on your computer. GitHub hosts repositories and adds identity, organizations, enterprise management, pull requests, issues, discussions, notifications, documentation, and web-based review.\n\nAt a feature level, GitHub accounts organize access. A **user account** represents a person. An **organization account** groups people and repositories for a team. An **enterprise account** centrally manages multiple organizations. GitHub plans affect which features are available, but fundamentals questions should focus on capabilities, not prices.\n\nYou can work with GitHub in several clients. Use the web UI for repository settings, issues, pull requests, and quick edits. Use **GitHub Desktop** when you want a visual local Git workflow without memorizing commands. Use **GitHub Mobile** for quick triage: reviewing notifications, commenting on issues and pull requests, and staying responsive away from a desk.\n\nGitHub communication relies heavily on **GitHub Flavored Markdown**. Markdown turns plain text into headings, lists, links, tables, code blocks, task lists, and references. Clear Markdown makes issues and pull requests easier to scan. The GitHub flow appears here as the common collaboration rhythm: branch, commit, open a pull request, review, and merge. You practise the repository side of that flow in the **Create a repository, branch, and pull request on GitHub** lab.",
+          "terminology": [
+            {
+              "term": "GitHub",
+              "definition": "A platform for hosting Git repositories and collaborating around them."
+            },
+            {
+              "term": "User account",
+              "definition": "A person's identity on GitHub."
+            },
+            {
+              "term": "Organization",
+              "definition": "An account for teams and shared repositories."
+            },
+            {
+              "term": "GitHub Desktop",
+              "definition": "A desktop client for a visual local Git workflow."
+            },
+            {
+              "term": "Markdown",
+              "definition": "Plain-text formatting syntax used across GitHub."
+            }
+          ],
+          "businessScenario": "Wide World Importers has writers, developers, and release managers. Developers may prefer Git commands, writers may prefer GitHub Desktop, and managers may use GitHub Mobile to review notifications during travel.",
+          "technicalExample": "A pull request description might use Markdown:\n\n```markdown\n## Summary\n- Adds health endpoint notes\n- Updates README task list\n\nCloses #42\n```",
+          "misconception": {
+            "myth": "GitHub and Git are the same product.",
+            "reality": "Git is the version control system. GitHub uses Git and adds hosted repositories plus collaboration, review, and management features."
+          },
+          "examTakeaway": "Watch for wording that separates local version control from hosted collaboration. Git tracks changes; GitHub hosts and coordinates work around those changes.",
+          "recap": "GitHub is the shared workspace around Git. Accounts control identity and ownership, clients support different ways of working, and Markdown keeps collaboration readable.",
+          "simplerExplanation": "If Git is the engine in a delivery van, GitHub is the warehouse, dispatch board, checklist, and conversation log that help the whole team deliver safely.",
+          "anotherExample": "A support engineer writes an issue with headings, a task list, and a code block so the developer can reproduce the problem without a meeting.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Git vs GitHub",
+                "columns": [
+                  {
+                    "title": "Git",
+                    "points": [
+                      "Runs locally",
+                      "Tracks commits, branches, and merges",
+                      "Works without GitHub"
+                    ]
+                  },
+                  {
+                    "title": "GitHub",
+                    "points": [
+                      "Hosts repositories",
+                      "Adds issues, pull requests, reviews, notifications",
+                      "Manages people and organizations"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Choose a client",
+                "instructions": "Pick the best GitHub experience for each need.",
+                "items": [
+                  {
+                    "prompt": "Review a notification on the train.",
+                    "answer": "GitHub Mobile."
+                  },
+                  {
+                    "prompt": "Stage and commit files visually on a laptop.",
+                    "answer": "GitHub Desktop."
+                  },
+                  {
+                    "prompt": "Create a repository setting or branch protection rule.",
+                    "answer": "GitHub web UI."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Git vs GitHub",
+              "back": "Git tracks changes; GitHub hosts repositories and collaboration features."
+            },
+            {
+              "front": "Organization account",
+              "back": "A shared account for teams and repositories."
+            },
+            {
+              "front": "GitHub Desktop",
+              "back": "A visual client for local Git and GitHub workflows."
+            },
+            {
+              "front": "GitHub Mobile",
+              "back": "A mobile app for triage, review, and notifications."
+            },
+            {
+              "front": "GitHub Flavored Markdown",
+              "back": "Markdown plus GitHub-specific writing features for issues, PRs, and docs."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam GH-900: GitHub Foundations",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/gh-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is GitHub?",
+              "url": "https://docs.github.com/en/get-started/start-your-journey/what-is-github",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "About writing and formatting on GitHub",
+              "url": "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/about-writing-and-formatting-on-github",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "gh900-git-011",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "git-github-basics",
+              "objectiveCode": "1.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** statements correctly distinguish Git from GitHub?",
+              "explanation": "Git is the VCS; GitHub hosts Git repositories and collaboration workflows.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Git tracks file history and supports branches and commits.",
+                  "correct": true,
+                  "explanation": "This describes Git."
+                },
+                {
+                  "key": "B",
+                  "text": "GitHub hosts repositories and adds pull requests, issues, and reviews.",
+                  "correct": true,
+                  "explanation": "This describes what GitHub adds."
+                },
+                {
+                  "key": "C",
+                  "text": "Git can be used only after a repository is uploaded to GitHub.",
+                  "correct": false,
+                  "explanation": "Git can be used locally without GitHub."
+                },
+                {
+                  "key": "D",
+                  "text": "GitHub replaces the need for commits.",
+                  "correct": false,
+                  "explanation": "GitHub builds on Git commits rather than replacing them."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "About Git",
+                  "url": "https://docs.github.com/en/get-started/using-git/about-git",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is GitHub?",
+                  "url": "https://docs.github.com/en/get-started/start-your-journey/what-is-github",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-working-with-github-platform",
+              "selectCount": 2,
+              "shuffleOptions": true
+            },
+            {
+              "ref": "gh900-git-012",
+              "type": "CATEGORIZATION",
+              "domainKey": "git-github-basics",
+              "objectiveCode": "1.2",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each task by the best GitHub client.",
+              "explanation": "Desktop, Mobile, and the web UI suit different situations.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "desktop",
+                    "label": "GitHub Desktop"
+                  },
+                  {
+                    "id": "mobile",
+                    "label": "GitHub Mobile"
+                  },
+                  {
+                    "id": "web",
+                    "label": "GitHub web UI"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Visually commit local file changes on a laptop",
+                    "category": "desktop",
+                    "explanation": "GitHub Desktop is designed for local visual Git work."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Triage notifications from a phone",
+                    "category": "mobile",
+                    "explanation": "GitHub Mobile supports notification and review workflows on mobile devices."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Create a new repository with starter files",
+                    "category": "web",
+                    "explanation": "The web UI supports repository creation and settings."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "About GitHub Desktop",
+                  "url": "https://docs.github.com/en/desktop/overview/about-github-desktop",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "GitHub Mobile",
+                  "url": "https://docs.github.com/en/get-started/using-github/github-mobile",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Creating a new repository",
+                  "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-working-with-github-platform"
+            },
+            {
+              "ref": "gh900-git-013",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "git-github-basics",
+              "objectiveCode": "1.2",
+              "difficulty": "EASY",
+              "stem": "Which account type is intended to group multiple users and shared repositories for a team?",
+              "explanation": "Organization accounts are for team collaboration around shared resources.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Organization account",
+                  "correct": true,
+                  "explanation": "Organizations group users and repositories."
+                },
+                {
+                  "key": "B",
+                  "text": "Commit account",
+                  "correct": false,
+                  "explanation": "A commit is a Git snapshot, not an account type."
+                },
+                {
+                  "key": "C",
+                  "text": "Markdown account",
+                  "correct": false,
+                  "explanation": "Markdown is formatting syntax."
+                },
+                {
+                  "key": "D",
+                  "text": "Local branch account",
+                  "correct": false,
+                  "explanation": "A branch is part of a repository, not an account type."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Types of GitHub accounts",
+                  "url": "https://docs.github.com/en/get-started/learning-about-github/types-of-github-accounts",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-working-with-github-platform",
+              "shuffleOptions": true
+            },
+            {
+              "ref": "gh900-git-014",
+              "type": "UI_SIMULATION",
+              "domainKey": "git-github-basics",
+              "objectiveCode": "1.2",
+              "difficulty": "HARD",
+              "stem": "Configure the simulated issue comment to be readable for reviewers.",
+              "explanation": "Headings, task lists, and code blocks are common Markdown choices for clear GitHub communication.",
+              "uiSimulation": {
+                "title": "GitHub comment composer (simulated)",
+                "description": "This is a simplified writing screen, not the real GitHub UI.",
+                "fields": [
+                  {
+                    "id": "heading",
+                    "label": "Use a Summary heading",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "A heading makes the comment easier to scan."
+                  },
+                  {
+                    "id": "format",
+                    "label": "Format reproduction steps as",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "paragraph",
+                        "label": "One long paragraph"
+                      },
+                      {
+                        "value": "tasklist",
+                        "label": "Task list"
+                      },
+                      {
+                        "value": "imageonly",
+                        "label": "Image only"
+                      }
+                    ],
+                    "correct": "tasklist",
+                    "explanation": "A task list or list is easier to follow than one long paragraph."
+                  },
+                  {
+                    "id": "code",
+                    "label": "Put command output in a code block",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "Code blocks preserve formatting for commands and logs."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "About writing and formatting on GitHub",
+                  "url": "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/about-writing-and-formatting-on-github",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-working-with-github-platform"
+            },
+            {
+              "ref": "gh900-git-015",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "git-github-basics",
+              "objectiveCode": "1.2",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about how GitHub formats issue, pull request, README, and comment text.",
+              "explanation": "GitHub Flavored Markdown is used across GitHub for readable plain-text communication.",
+              "fillInBlank": {
+                "template": "GitHub uses {{b1}} to format plain text in issues, pull requests, README files, and comments.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "Markdown",
+                      "GitHub Flavored Markdown"
+                    ],
+                    "explanation": "Markdown formats plain text into structured content."
+                  }
+                ],
+                "wordBank": [
+                  "Markdown",
+                  "spreadsheet formulas",
+                  "binary packages",
+                  "virtual machines"
+                ]
+              },
+              "sources": [
+                {
+                  "title": "About writing and formatting on GitHub",
+                  "url": "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/about-writing-and-formatting-on-github",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "gh900-working-with-github-platform"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

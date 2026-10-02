@@ -1,3 +1,1430 @@
-{"labs":[{"slug":"create-repo-branch-pull-request","type":"UI_SIMULATION","title":"Create a repository, branch, and pull request on GitHub","summary":"Create a private repository, make a README change on a branch, open and merge a pull request, and delete the branch in a simulated GitHub UI.","scenario":"Contoso Labs needs a private documentation repository. Create **contoso-labs/inventory-api-docs** with a README, Node .gitignore and MIT license. Update README.md on **docs/update-readme**, open a pull request, review **Files changed**, merge it after approval, and delete the branch.","domainKey":"repositories","objectiveCode":"2.1","complexity":"BASIC","estimatedMinutes":25,"learningObjectives":["Create a repository with owner, visibility and starter files","Use a branch and pull request for review","Compare merge methods and delete a merged branch"],"prerequisites":["Basic GitHub navigation"],"sources":[{"title":"Creating a new repository","url":"https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository"},{"title":"Quickstart for repositories","url":"https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories"},{"title":"Creating a pull request","url":"https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request"},{"title":"Merging a pull request","url":"https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/merging-a-pull-request"}],"config":{"portal":{"name":"GitHub","theme":"github","user":"alex-contoso","tenant":"contoso-labs","url":"https://github.com","searchPlaceholder":"Type / to search"},"vm":{"name":"LAB-VM-01","os":"linux","apps":["browser"]},"clock":{"start":"2026-09-30T09:00:00Z"},"startPage":"dashboard","navigation":[{"page":"dashboard","label":"Dashboard","icon":"LayoutDashboard"},{"page":"new-repository","label":"New repository","icon":"Plus"},{"page":"repo-code","label":"Code","icon":"Code"}],"pages":[{"id":"dashboard","title":"Dashboard","url":"/","components":[{"kind":"tiles","id":"global-create","title":"Create something new","items":[{"id":"new-repository","label":"New repository","icon":"FolderGit2","action":{"type":"navigate","page":"new-repository"}},{"id":"other","label":"New project","icon":"SquareKanban","action":{"type":"message","tone":"info","text":"Use **New repository** for this lab."}}]},{"kind":"table","id":"recent-repos","title":"Recent repositories","source":"repositories","rowKey":"fullName","columns":[{"key":"fullName","label":"Repository","format":"link"},{"key":"visibility","label":"Visibility","format":"badge"}],"rowAction":{"type":"navigate","page":"repo-code","select":{"as":"repo","path":"repositories","key":"fullName","value":"{{$row.fullName}}"}}}]},{"id":"new-repository","title":"Create a new repository","url":"/new","components":[{"kind":"form","id":"create-repo-form","title":"Repository details","fields":[{"id":"owner","label":"Owner","control":"select","required":true,"defaultValue":"alex-contoso","options":[{"value":"alex-contoso","label":"alex-contoso"},{"value":"contoso-labs","label":"contoso-labs"}]},{"id":"name","label":"Repository name","control":"text","required":true,"pattern":"^[A-Za-z0-9._-]{1,100}$","patternMessage":"Use ASCII letters, digits, '.', '-' or '_'.","unique":{"path":"repositories","key":"name","message":"A repository with this name already exists."}},{"id":"description","label":"Description","control":"textarea"},{"id":"visibility","label":"Visibility","control":"radio","required":true,"defaultValue":"public","options":[{"value":"public","label":"Public"},{"value":"private","label":"Private"}]},{"id":"readme","label":"Add a README file","control":"toggle","defaultValue":false},{"id":"gitignore","label":"Add .gitignore","control":"select","defaultValue":"None","options":[{"value":"None","label":"None"},{"value":"Node","label":"Node"}]},{"id":"license","label":"Choose a license","control":"select","defaultValue":"None","options":[{"value":"None","label":"None"},{"value":"MIT License","label":"MIT License"}]}],"submit":{"label":"Create repository","checks":[{"rule":{"type":"equals","path":"$form.owner","value":"contoso-labs"},"message":"Choose **contoso-labs** as Owner."},{"rule":{"type":"equals","path":"$form.visibility","value":"private"},"message":"Choose **Private** for the internal scenario."},{"rule":{"type":"equals","path":"$form.readme","value":true},"message":"Turn on **Add a README file**."},{"rule":{"type":"equals","path":"$form.gitignore","value":"Node"},"message":"Choose **Node** for **Add .gitignore**."},{"rule":{"type":"equals","path":"$form.license","value":"MIT License"},"message":"Choose **MIT License**."}],"actions":[{"type":"append","path":"repositories","unique":"name","value":{"owner":"{{$form.owner}}","name":"{{$form.name}}","fullName":"{{$form.owner}}/{{$form.name}}","description":"{{$form.description}}","visibility":"{{$form.visibility}}","defaultBranch":"main","currentBranch":"main","readme":"# {{$form.name}}\n\nInternal documentation.\n","files":[{"path":"README.md","type":"file","content":"# {{$form.name}}\n\nInternal documentation.\n"},{"path":".gitignore","type":"file","content":"node_modules/\n.env\n"},{"path":"LICENSE","type":"file","content":"MIT License\n"}],"branches":["main"],"pullRequests":[],"mainContainsChange":false,"branchDeleted":false}},{"type":"navigate","page":"repo-code","select":{"as":"repo","path":"repositories","key":"fullName","value":"{{$form.owner}}/{{$form.name}}"}},{"type":"notify","title":"Repository created","message":"Repository created."}]}}]},{"id":"repo-code","title":"{{$sel.repo.fullName}}","subtitle":"{{$sel.repo.visibility}} repository","url":"/{{$sel.repo.fullName}}","requires":"repo","menuStyle":"tabs","menu":[{"page":"repo-code","label":"Code","icon":"Code"},{"page":"pulls","label":"Pull requests","icon":"GitPullRequest"}],"commands":[{"id":"branch-selector","label":"{{$sel.repo.currentBranch}}","icon":"GitBranch","action":{"type":"navigate","page":"branch-create"}},{"id":"compare-pr-banner","label":"Compare & pull request","icon":"GitPullRequest","variant":"primary","visibleWhen":{"type":"allOf","rules":[{"type":"equals","path":"$sel.repo.currentBranch","value":"docs/update-readme"},{"type":"truthy","path":"$sel.repo.readmeChanged"},{"type":"arrayNotContains","path":"$sel.repo.pullRequests","match":{"head":"docs/update-readme"}}]},"action":{"type":"navigate","page":"open-pr"}}],"components":[{"kind":"callout","variant":"success","title":"docs/update-readme had recent pushes","text":"Select **Compare & pull request**.","visibleWhen":{"type":"truthy","path":"$sel.repo.readmeChanged"}},{"kind":"properties","title":"About","items":[{"label":"Visibility","value":"{{$sel.repo.visibility}}","format":"badge"},{"label":"Default branch","value":"main","format":"code"},{"label":"Current branch","value":"{{$sel.repo.currentBranch}}","format":"code"}]},{"kind":"table","id":"file-list","title":"Files","source":"$sel.repo.files","rowKey":"path","variant":"files","columns":[{"key":"path","label":"Name","format":"link"}],"rowAction":{"type":"navigate","page":"file-view","select":{"as":"file","path":"$sel.repo.files","key":"path","value":"{{$row.path}}"}}},{"kind":"code","id":"readme-preview","title":"README","language":"markdown","content":"{{$sel.repo.readme}}"}]},{"id":"branch-create","title":"Switch branches/tags","url":"/{{$sel.repo.fullName}}/branches","requires":"repo","components":[{"kind":"form","id":"new-branch-form","title":"Find or create a branch","fields":[{"id":"source","label":"Branch source","control":"select","required":true,"defaultValue":"main","options":[{"value":"main","label":"main"}]},{"id":"branch","label":"Find or create a branch...","control":"text","required":true,"defaultValue":"docs/update-readme"}],"submit":{"label":"Create branch: docs/update-readme from main","checks":[{"rule":{"type":"equals","path":"$form.source","value":"main"},"message":"Create from **main**."},{"rule":{"type":"equals","path":"$form.branch","value":"docs/update-readme"},"message":"Use branch **docs/update-readme**."}],"actions":[{"type":"append","path":"repositories.1.branches","unique":"$value","value":"{{$form.branch}}"},{"type":"update","path":"repositories","where":{"fullName":"{{$sel.repo.fullName}}"},"set":{"currentBranch":"{{$form.branch}}"}},{"type":"navigate","page":"repo-code"}]}}]},{"id":"file-view","title":"{{$sel.file.path}}","url":"/{{$sel.repo.fullName}}/blob/{{$sel.repo.currentBranch}}/{{$sel.file.path}}","requires":"file","commands":[{"id":"edit-file","label":"Edit file","icon":"Pencil","variant":"primary","action":{"type":"navigate","page":"edit-readme"}}],"components":[{"kind":"code","id":"file-code","title":"{{$sel.file.path}}","language":"markdown","content":"{{$sel.file.content}}"}]},{"id":"edit-readme","title":"Edit README.md","url":"/{{$sel.repo.fullName}}/edit/{{$sel.repo.currentBranch}}/README.md","requires":"repo","components":[{"kind":"form","id":"edit-readme-form","title":"Edit file","fields":[{"id":"content","label":"README.md","control":"code","language":"markdown","required":true,"defaultValue":"{{$sel.repo.readme}}\n## Review workflow\n\nChanges are reviewed with pull requests before they reach main.\n"},{"id":"message","label":"Commit message","control":"text","required":true,"defaultValue":"Document review workflow"},{"id":"target","label":"Commit changes","control":"radio","required":true,"defaultValue":"main","options":[{"value":"main","label":"Commit directly to the main branch"},{"value":"current","label":"Commit directly to the docs/update-readme branch"}]}],"submit":{"label":"Commit changes...","checks":[{"rule":{"type":"equals","path":"$form.target","value":"current"},"message":"Do not choose **Commit directly to the main branch**. Use **docs/update-readme** for review."},{"rule":{"type":"matches","path":"$form.content","pattern":"pull requests"},"message":"Mention pull requests in README.md."}],"actions":[{"type":"update","path":"repositories","where":{"fullName":"{{$sel.repo.fullName}}"},"set":{"readme":"{{$form.content}}","readmeChanged":true}},{"type":"update","path":"repositories.1.files","where":{"path":"README.md"},"set":{"content":"{{$form.content}}"}},{"type":"navigate","page":"repo-code"},{"type":"notify","title":"Commit created","message":"Committed to docs/update-readme."}]}}]},{"id":"open-pr","title":"Open a pull request","url":"/{{$sel.repo.fullName}}/compare/main...docs/update-readme","requires":"repo","components":[{"kind":"properties","title":"Comparing changes","items":[{"label":"base","value":"main","format":"code"},{"label":"compare","value":"docs/update-readme","format":"code"}]},{"kind":"form","id":"open-pr-form","title":"Open a pull request","fields":[{"id":"title","label":"Title","control":"text","required":true,"defaultValue":"Update README review workflow"},{"id":"body","label":"Description","control":"textarea","required":true,"defaultValue":"Documents that README updates are reviewed with a pull request."},{"id":"reviewers","label":"Reviewers","control":"checkboxes","defaultValue":["maya"],"options":[{"value":"maya","label":"maya"},{"value":"sam","label":"sam"}]}],"submit":{"label":"Create Pull Request","actions":[{"type":"append","path":"repositories.1.pullRequests","unique":"head","value":{"number":"1","title":"{{$form.title}}","base":"main","head":"docs/update-readme","state":"open","approved":false,"merged":false,"reviewers":"{{$form.reviewers | list}}"}},{"type":"navigate","page":"pr-conversation","select":{"as":"pr","path":"repositories.1.pullRequests","key":"number","value":"1"}},{"type":"notify","title":"Pull request opened"}]}}]},{"id":"pulls","title":"Pull requests","url":"/{{$sel.repo.fullName}}/pulls","requires":"repo","components":[{"kind":"table","id":"pull-list","source":"$sel.repo.pullRequests","rowKey":"number","columns":[{"key":"number","label":"#"},{"key":"title","label":"Title","format":"link"},{"key":"state","label":"State","format":"badge"}],"rowAction":{"type":"navigate","page":"pr-conversation","select":{"as":"pr","path":"repositories.1.pullRequests","key":"number","value":"{{$row.number}}"}}}]},{"id":"pr-conversation","title":"{{$sel.pr.title}}","url":"/{{$sel.repo.fullName}}/pull/1","requires":"pr","menuStyle":"tabs","menu":[{"page":"pr-conversation","label":"Conversation","icon":"MessagesSquare"},{"page":"pr-files","label":"Files changed","icon":"FileCode"}],"commands":[{"id":"approve-pr","label":"Simulate teammate approval","icon":"UserCheck","variant":"primary","visibleWhen":{"type":"equals","path":"$sel.pr.approved","value":false},"action":{"type":"sequence","actions":[{"type":"update","path":"repositories.1.pullRequests","where":{"number":"1"},"set":{"approved":true}},{"type":"notify","title":"Review approved"}]}},{"id":"merge-pull-request","label":"Merge pull request","icon":"GitMerge","variant":"primary","visibleWhen":{"type":"equals","path":"$sel.pr.approved","value":true},"action":{"type":"navigate","page":"merge-pr"}}],"components":[{"kind":"text","text":"Merge methods: **Create a merge commit** preserves commits; **Squash and merge** combines them; **Rebase and merge** replays commits onto main."}]},{"id":"pr-files","title":"Files changed","url":"/{{$sel.repo.fullName}}/pull/1/files","requires":"pr","menuStyle":"tabs","menu":[{"page":"pr-conversation","label":"Conversation","icon":"MessagesSquare"},{"page":"pr-files","label":"Files changed","icon":"FileCode"}],"components":[{"kind":"code","id":"readme-diff","title":"README.md diff","language":"diff","content":"@@ README.md @@\n+## Review workflow\n+Changes are reviewed with pull requests before they reach main.\n"}]},{"id":"merge-pr","title":"Merge pull request","url":"/{{$sel.repo.fullName}}/pull/1/merge","requires":"pr","components":[{"kind":"form","id":"merge-form","title":"Choose a merge method","fields":[{"id":"method","label":"Merge method","control":"radio","required":true,"defaultValue":"merge","options":[{"value":"merge","label":"Create a merge commit"},{"value":"squash","label":"Squash and merge"},{"value":"rebase","label":"Rebase and merge"}]},{"id":"message","label":"Commit message","control":"text","required":true,"defaultValue":"Merge pull request #1 from docs/update-readme"}],"submit":{"label":"Confirm merge","actions":[{"type":"update","path":"repositories.1.pullRequests","where":{"number":"1"},"set":{"state":"merged","merged":true,"mergeMethod":"{{$form.method}}"}},{"type":"update","path":"repositories","where":{"fullName":"{{$sel.repo.fullName}}"},"set":{"currentBranch":"main","mainContainsChange":true}},{"type":"navigate","page":"delete-branch"}]}}]},{"id":"delete-branch","title":"Pull request merged","url":"/{{$sel.repo.fullName}}/pull/1","requires":"repo","components":[{"kind":"callout","variant":"success","title":"Pull request successfully merged and closed","text":"The change is now in **main**."},{"kind":"button","id":"delete-branch-button","label":"Delete branch","icon":"Trash2","variant":"danger","action":{"type":"sequence","actions":[{"type":"remove","path":"repositories.1.branches","value":"docs/update-readme"},{"type":"update","path":"repositories","where":{"fullName":"{{$sel.repo.fullName}}"},"set":{"branchDeleted":true}},{"type":"navigate","page":"repo-code"}]}}]}],"initialState":{"repositories":[{"owner":"contoso-labs","name":"onboarding-kit","fullName":"contoso-labs/onboarding-kit","description":"Starter materials","visibility":"private","defaultBranch":"main","currentBranch":"main","readme":"# onboarding-kit\n","files":[{"path":"README.md","type":"file","content":"# onboarding-kit\n"}],"branches":["main"],"pullRequests":[],"mainContainsChange":false,"branchDeleted":false}]}},"steps":[{"key":"open-create","title":"Open New repository","instruction":"Select **New repository**.","explanation":"Repositories can be owned by a user or organization.","targetId":"global-create","rules":[{"key":"visited-new","description":"New repository page opened","rule":{"type":"visited","page":"new-repository"}}]},{"key":"create-repo","title":"Create the private repository","instruction":"Set **Owner** to **contoso-labs**, **Repository name** to `inventory-api-docs`, add **Description**, choose **Private**, enable **Add a README file**, choose **Node** for **Add .gitignore**, choose **MIT License**, and select **Create repository**.","explanation":"Visibility and starter files define the initial repository state.","targetId":"create-repo-form","rules":[{"key":"repo-created","description":"Private repository exists","rule":{"type":"arrayContains","path":"repositories","match":{"fullName":"contoso-labs/inventory-api-docs","visibility":"private"}}},{"key":"files-created","description":"Starter files exist","rule":{"type":"allOf","rules":[{"type":"arrayContains","path":"repositories.1.files","match":{"path":"README.md"}},{"type":"arrayContains","path":"repositories.1.files","match":{"path":".gitignore"}},{"type":"arrayContains","path":"repositories.1.files","match":{"path":"LICENSE"}}]}}]},{"key":"branch-edit","title":"Create a branch and commit README.md","instruction":"Use the branch selector to create **docs/update-readme** from **main**. Open **README.md**, select **Edit file**, add the review workflow text, choose **Commit directly to the docs/update-readme branch**, and select **Commit changes...**.","explanation":"A branch keeps review work separate from main.","targetId":"branch-selector","rules":[{"key":"branch-exists","description":"Branch was created","rule":{"type":"anyOf","rules":[{"type":"includes","path":"repositories.1.branches","value":"docs/update-readme"},{"type":"arrayContains","path":"repositories","match":{"fullName":"contoso-labs/inventory-api-docs","branchDeleted":true}}]}},{"key":"readme-updated","description":"README mentions pull requests","rule":{"type":"matches","path":"repositories.1.readme","pattern":"pull requests"}}]},{"key":"open-pr","title":"Open the pull request","instruction":"Select **Compare & pull request**, complete the pull request, add reviewer **maya**, and select **Create Pull Request**.","explanation":"A pull request compares the branch to main.","targetId":"compare-pr-banner","rules":[{"key":"pr-open","description":"PR was opened","rule":{"type":"arrayContains","path":"repositories.1.pullRequests","match":{"head":"docs/update-readme","base":"main"}}}]},{"key":"review-merge","title":"Review and merge","instruction":"Open **Files changed**, return to **Conversation**, select **Simulate teammate approval**, select **Merge pull request**, choose a method, and select **Confirm merge**.","explanation":"Files changed shows the exact diff; merge methods control history.","targetId":"approve-pr","rules":[{"key":"files-viewed","description":"Files changed opened","rule":{"type":"visited","page":"pr-files"}},{"key":"merged","description":"PR merged","rule":{"type":"arrayContains","path":"repositories.1.pullRequests","match":{"merged":true,"approved":true}}}]},{"key":"delete-branch","title":"Delete the branch","instruction":"Select **Delete branch**.","explanation":"A merged topic branch can be deleted.","targetId":"delete-branch-button","rules":[{"key":"branch-deleted","description":"Branch deleted","rule":{"type":"arrayContains","path":"repositories","match":{"fullName":"contoso-labs/inventory-api-docs","branchDeleted":true}}}]}],"finalRules":[{"key":"private-final","description":"Repository is private","rule":{"type":"arrayContains","path":"repositories","match":{"fullName":"contoso-labs/inventory-api-docs","visibility":"private"}}},{"key":"merged-final","description":"main contains the change","rule":{"type":"arrayContains","path":"repositories","match":{"fullName":"contoso-labs/inventory-api-docs","mainContainsChange":true}}},{"key":"branch-deleted-final","description":"Branch deleted","rule":{"type":"not","rule":{"type":"includes","path":"repositories.1.branches","value":"docs/update-readme"}}}],"solution":"1. Select **New repository**.\n2. Set **Owner** to **contoso-labs**, name `inventory-api-docs`, choose **Private**, enable **Add a README file**, set **Add .gitignore** to **Node**, set **Choose a license** to **MIT License**, and select **Create repository**.\n3. Create **docs/update-readme** from **main**.\n4. Open **README.md**, select **Edit file**, add the review workflow text, choose **Commit directly to the docs/update-readme branch**, and select **Commit changes...**.\n5. Select **Compare & pull request**, complete the PR, and select **Create Pull Request**.\n6. Open **Files changed**, return to **Conversation**, approve, select **Merge pull request**, choose a merge method, and select **Confirm merge**.\n7. Select **Delete branch**."}]}
-
-
+{
+  "labs": [
+    {
+      "slug": "create-repo-branch-pull-request",
+      "type": "UI_SIMULATION",
+      "title": "Create a repository, branch, and pull request on GitHub",
+      "summary": "Create a private repository, make a README change on a branch, open a pull request, inspect the diff, resolve a simulated merge conflict, merge after approval, and delete the branch.",
+      "scenario": "Contoso Labs needs a private documentation repository protected from direct edits to **main**. Create **contoso-labs/inventory-api-docs** with a README, Node .gitignore and MIT license, update README.md on **docs/update-readme**, open a pull request, inspect **Files changed**, resolve a simulated README merge conflict from a newer main change, merge after approval, and delete the branch.",
+      "domainKey": "repositories",
+      "objectiveCode": "2.1",
+      "complexity": "BASIC",
+      "estimatedMinutes": 25,
+      "learningObjectives": [
+        "Create a repository with owner, visibility and starter files",
+        "Use a branch and pull request for review instead of direct commits to main",
+        "Inspect changed files, handle a simple conflict, choose a merge method, and delete a merged branch"
+      ],
+      "prerequisites": [
+        "Basic GitHub navigation"
+      ],
+      "sources": [
+        {
+          "title": "Creating a new repository",
+          "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository"
+        },
+        {
+          "title": "Quickstart for repositories",
+          "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories"
+        },
+        {
+          "title": "Creating a pull request",
+          "url": "https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request"
+        },
+        {
+          "title": "Merging a pull request",
+          "url": "https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/merging-a-pull-request"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "GitHub",
+          "theme": "github",
+          "user": "alex-contoso",
+          "tenant": "contoso-labs",
+          "url": "https://github.com",
+          "searchPlaceholder": "Type / to search"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "linux",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
+        "startPage": "dashboard",
+        "navigation": [
+          {
+            "page": "dashboard",
+            "label": "Dashboard",
+            "icon": "LayoutDashboard"
+          },
+          {
+            "page": "new-repository",
+            "label": "New repository",
+            "icon": "Plus"
+          },
+          {
+            "page": "repo-code",
+            "label": "Code",
+            "icon": "Code"
+          }
+        ],
+        "pages": [
+          {
+            "id": "dashboard",
+            "title": "Dashboard",
+            "url": "/",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "global-create",
+                "title": "Create something new",
+                "items": [
+                  {
+                    "id": "new-repository",
+                    "label": "New repository",
+                    "icon": "FolderGit2",
+                    "action": {
+                      "type": "navigate",
+                      "page": "new-repository"
+                    }
+                  },
+                  {
+                    "id": "other",
+                    "label": "New project",
+                    "icon": "SquareKanban",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Use **New repository** for this lab."
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "recent-repos",
+                "title": "Recent repositories",
+                "source": "repositories",
+                "rowKey": "fullName",
+                "columns": [
+                  {
+                    "key": "fullName",
+                    "label": "Repository",
+                    "format": "link"
+                  },
+                  {
+                    "key": "visibility",
+                    "label": "Visibility",
+                    "format": "badge"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "repo-code",
+                  "select": {
+                    "as": "repo",
+                    "path": "repositories",
+                    "key": "fullName",
+                    "value": "{{$row.fullName}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "new-repository",
+            "title": "Create a new repository",
+            "url": "/new",
+            "components": [
+              {
+                "kind": "form",
+                "id": "create-repo-form",
+                "title": "Repository details",
+                "fields": [
+                  {
+                    "id": "owner",
+                    "label": "Owner",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "alex-contoso",
+                    "options": [
+                      {
+                        "value": "alex-contoso",
+                        "label": "alex-contoso"
+                      },
+                      {
+                        "value": "contoso-labs",
+                        "label": "contoso-labs"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "name",
+                    "label": "Repository name",
+                    "control": "text",
+                    "required": true,
+                    "pattern": "^[A-Za-z0-9._-]{1,100}$",
+                    "patternMessage": "Use ASCII letters, digits, '.', '-' or '_'.",
+                    "unique": {
+                      "path": "repositories",
+                      "key": "name",
+                      "message": "A repository with this name already exists."
+                    }
+                  },
+                  {
+                    "id": "description",
+                    "label": "Description",
+                    "control": "textarea"
+                  },
+                  {
+                    "id": "visibility",
+                    "label": "Visibility",
+                    "control": "radio",
+                    "required": true,
+                    "defaultValue": "public",
+                    "options": [
+                      {
+                        "value": "public",
+                        "label": "Public"
+                      },
+                      {
+                        "value": "private",
+                        "label": "Private"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "readme",
+                    "label": "Add a README file",
+                    "control": "toggle",
+                    "defaultValue": false
+                  },
+                  {
+                    "id": "gitignore",
+                    "label": "Add .gitignore",
+                    "control": "select",
+                    "defaultValue": "None",
+                    "options": [
+                      {
+                        "value": "None",
+                        "label": "None"
+                      },
+                      {
+                        "value": "Node",
+                        "label": "Node"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "license",
+                    "label": "Choose a license",
+                    "control": "select",
+                    "defaultValue": "None",
+                    "options": [
+                      {
+                        "value": "None",
+                        "label": "None"
+                      },
+                      {
+                        "value": "MIT License",
+                        "label": "MIT License"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create repository",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.owner",
+                        "value": "contoso-labs"
+                      },
+                      "message": "Choose **contoso-labs** as Owner."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.visibility",
+                        "value": "private"
+                      },
+                      "message": "Choose **Private** for the internal scenario."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.readme",
+                        "value": true
+                      },
+                      "message": "Turn on **Add a README file**."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.gitignore",
+                        "value": "Node"
+                      },
+                      "message": "Choose **Node** for **Add .gitignore**."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.license",
+                        "value": "MIT License"
+                      },
+                      "message": "Choose **MIT License**."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "repositories",
+                      "unique": "name",
+                      "value": {
+                        "owner": "{{$form.owner}}",
+                        "name": "{{$form.name}}",
+                        "fullName": "{{$form.owner}}/{{$form.name}}",
+                        "description": "{{$form.description}}",
+                        "visibility": "{{$form.visibility}}",
+                        "defaultBranch": "main",
+                        "currentBranch": "main",
+                        "readme": "# {{$form.name}}\n\nInternal documentation.\n",
+                        "files": [
+                          {
+                            "path": "README.md",
+                            "type": "file",
+                            "content": "# {{$form.name}}\n\nInternal documentation.\n"
+                          },
+                          {
+                            "path": ".gitignore",
+                            "type": "file",
+                            "content": "node_modules/\n.env\n"
+                          },
+                          {
+                            "path": "LICENSE",
+                            "type": "file",
+                            "content": "MIT License\n"
+                          }
+                        ],
+                        "branches": [
+                          "main"
+                        ],
+                        "pullRequests": [],
+                        "mainContainsChange": false,
+                        "branchDeleted": false
+                      }
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "repo-code",
+                      "select": {
+                        "as": "repo",
+                        "path": "repositories",
+                        "key": "fullName",
+                        "value": "{{$form.owner}}/{{$form.name}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Repository created",
+                      "message": "Repository created."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "repo-code",
+            "title": "{{$sel.repo.fullName}}",
+            "subtitle": "{{$sel.repo.visibility}} repository",
+            "url": "/{{$sel.repo.fullName}}",
+            "requires": "repo",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "repo-code",
+                "label": "Code",
+                "icon": "Code"
+              },
+              {
+                "page": "pulls",
+                "label": "Pull requests",
+                "icon": "GitPullRequest"
+              }
+            ],
+            "commands": [
+              {
+                "id": "branch-selector",
+                "label": "{{$sel.repo.currentBranch}}",
+                "icon": "GitBranch",
+                "action": {
+                  "type": "navigate",
+                  "page": "branch-create"
+                }
+              },
+              {
+                "id": "compare-pr-banner",
+                "label": "Compare & pull request",
+                "icon": "GitPullRequest",
+                "variant": "primary",
+                "visibleWhen": {
+                  "type": "allOf",
+                  "rules": [
+                    {
+                      "type": "equals",
+                      "path": "$sel.repo.currentBranch",
+                      "value": "docs/update-readme"
+                    },
+                    {
+                      "type": "truthy",
+                      "path": "$sel.repo.readmeChanged"
+                    },
+                    {
+                      "type": "arrayNotContains",
+                      "path": "$sel.repo.pullRequests",
+                      "match": {
+                        "head": "docs/update-readme"
+                      }
+                    }
+                  ]
+                },
+                "action": {
+                  "type": "navigate",
+                  "page": "open-pr"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "success",
+                "title": "docs/update-readme had recent pushes",
+                "text": "Select **Compare & pull request**.",
+                "visibleWhen": {
+                  "type": "truthy",
+                  "path": "$sel.repo.readmeChanged"
+                }
+              },
+              {
+                "kind": "properties",
+                "title": "About",
+                "items": [
+                  {
+                    "label": "Visibility",
+                    "value": "{{$sel.repo.visibility}}",
+                    "format": "badge"
+                  },
+                  {
+                    "label": "Default branch",
+                    "value": "main",
+                    "format": "code"
+                  },
+                  {
+                    "label": "Current branch",
+                    "value": "{{$sel.repo.currentBranch}}",
+                    "format": "code"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "file-list",
+                "title": "Files",
+                "source": "$sel.repo.files",
+                "rowKey": "path",
+                "variant": "files",
+                "columns": [
+                  {
+                    "key": "path",
+                    "label": "Name",
+                    "format": "link"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "file-view",
+                  "select": {
+                    "as": "file",
+                    "path": "$sel.repo.files",
+                    "key": "path",
+                    "value": "{{$row.path}}"
+                  }
+                }
+              },
+              {
+                "kind": "code",
+                "id": "readme-preview",
+                "title": "README",
+                "language": "markdown",
+                "content": "{{$sel.repo.readme}}"
+              }
+            ]
+          },
+          {
+            "id": "branch-create",
+            "title": "Switch branches/tags",
+            "url": "/{{$sel.repo.fullName}}/branches",
+            "requires": "repo",
+            "components": [
+              {
+                "kind": "form",
+                "id": "new-branch-form",
+                "title": "Find or create a branch",
+                "fields": [
+                  {
+                    "id": "source",
+                    "label": "Branch source",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "main",
+                    "options": [
+                      {
+                        "value": "main",
+                        "label": "main"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "branch",
+                    "label": "Find or create a branch...",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "docs/update-readme"
+                  }
+                ],
+                "submit": {
+                  "label": "Create branch: docs/update-readme from main",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.source",
+                        "value": "main"
+                      },
+                      "message": "Create from **main**."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.branch",
+                        "value": "docs/update-readme"
+                      },
+                      "message": "Use branch **docs/update-readme**."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "repositories.1.branches",
+                      "unique": "$value",
+                      "value": "{{$form.branch}}"
+                    },
+                    {
+                      "type": "update",
+                      "path": "repositories",
+                      "where": {
+                        "fullName": "{{$sel.repo.fullName}}"
+                      },
+                      "set": {
+                        "currentBranch": "{{$form.branch}}"
+                      }
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "repo-code"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "file-view",
+            "title": "{{$sel.file.path}}",
+            "url": "/{{$sel.repo.fullName}}/blob/{{$sel.repo.currentBranch}}/{{$sel.file.path}}",
+            "requires": "file",
+            "commands": [
+              {
+                "id": "edit-file",
+                "label": "Edit file",
+                "icon": "Pencil",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "edit-readme"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "code",
+                "id": "file-code",
+                "title": "{{$sel.file.path}}",
+                "language": "markdown",
+                "content": "{{$sel.file.content}}"
+              }
+            ]
+          },
+          {
+            "id": "edit-readme",
+            "title": "Edit README.md",
+            "url": "/{{$sel.repo.fullName}}/edit/{{$sel.repo.currentBranch}}/README.md",
+            "requires": "repo",
+            "components": [
+              {
+                "kind": "form",
+                "id": "edit-readme-form",
+                "title": "Edit file",
+                "fields": [
+                  {
+                    "id": "content",
+                    "label": "README.md",
+                    "control": "code",
+                    "language": "markdown",
+                    "required": true,
+                    "defaultValue": "{{$sel.repo.readme}}\n## Review workflow\n\nChanges are reviewed with pull requests before they reach main.\n"
+                  },
+                  {
+                    "id": "message",
+                    "label": "Commit message",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Document review workflow"
+                  },
+                  {
+                    "id": "target",
+                    "label": "Commit changes",
+                    "control": "radio",
+                    "required": true,
+                    "defaultValue": "main",
+                    "options": [
+                      {
+                        "value": "main",
+                        "label": "Commit directly to the main branch"
+                      },
+                      {
+                        "value": "current",
+                        "label": "Commit directly to the docs/update-readme branch"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Commit changes...",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.target",
+                        "value": "current"
+                      },
+                      "message": "Do not choose **Commit directly to the main branch**. Use **docs/update-readme** for review."
+                    },
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.content",
+                        "pattern": "pull requests"
+                      },
+                      "message": "Mention pull requests in README.md."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "repositories",
+                      "where": {
+                        "fullName": "{{$sel.repo.fullName}}"
+                      },
+                      "set": {
+                        "readme": "{{$form.content}}",
+                        "readmeChanged": true
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "repositories.1.files",
+                      "where": {
+                        "path": "README.md"
+                      },
+                      "set": {
+                        "content": "{{$form.content}}"
+                      }
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "repo-code"
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Commit created",
+                      "message": "Committed to docs/update-readme."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "open-pr",
+            "title": "Open a pull request",
+            "url": "/{{$sel.repo.fullName}}/compare/main...docs/update-readme",
+            "requires": "repo",
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Comparing changes",
+                "items": [
+                  {
+                    "label": "base",
+                    "value": "main",
+                    "format": "code"
+                  },
+                  {
+                    "label": "compare",
+                    "value": "docs/update-readme",
+                    "format": "code"
+                  }
+                ]
+              },
+              {
+                "kind": "form",
+                "id": "open-pr-form",
+                "title": "Open a pull request",
+                "fields": [
+                  {
+                    "id": "title",
+                    "label": "Title",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Update README review workflow"
+                  },
+                  {
+                    "id": "body",
+                    "label": "Description",
+                    "control": "textarea",
+                    "required": true,
+                    "defaultValue": "Documents that README updates are reviewed with a pull request."
+                  },
+                  {
+                    "id": "reviewers",
+                    "label": "Reviewers",
+                    "control": "checkboxes",
+                    "defaultValue": [
+                      "maya"
+                    ],
+                    "options": [
+                      {
+                        "value": "maya",
+                        "label": "maya"
+                      },
+                      {
+                        "value": "sam",
+                        "label": "sam"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create Pull Request",
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "repositories.1.pullRequests",
+                      "unique": "head",
+                      "value": {
+                        "number": "1",
+                        "title": "{{$form.title}}",
+                        "base": "main",
+                        "head": "docs/update-readme",
+                        "state": "open",
+                        "approved": false,
+                        "merged": false,
+                        "reviewers": "{{$form.reviewers | list}}"
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "repositories.1.mainAdvanced",
+                      "value": true
+                    },
+                    {
+                      "type": "set",
+                      "path": "repositories.1.conflict",
+                      "value": true
+                    },
+                    {
+                      "type": "set",
+                      "path": "repositories.1.conflictResolved",
+                      "value": false
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "pr-conversation",
+                      "select": {
+                        "as": "pr",
+                        "path": "repositories.1.pullRequests",
+                        "key": "number",
+                        "value": "1"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Pull request opened"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "pulls",
+            "title": "Pull requests",
+            "url": "/{{$sel.repo.fullName}}/pulls",
+            "requires": "repo",
+            "components": [
+              {
+                "kind": "table",
+                "id": "pull-list",
+                "source": "$sel.repo.pullRequests",
+                "rowKey": "number",
+                "columns": [
+                  {
+                    "key": "number",
+                    "label": "#"
+                  },
+                  {
+                    "key": "title",
+                    "label": "Title",
+                    "format": "link"
+                  },
+                  {
+                    "key": "state",
+                    "label": "State",
+                    "format": "badge"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "pr-conversation",
+                  "select": {
+                    "as": "pr",
+                    "path": "repositories.1.pullRequests",
+                    "key": "number",
+                    "value": "{{$row.number}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "pr-conversation",
+            "title": "{{$sel.pr.title}}",
+            "url": "/{{$sel.repo.fullName}}/pull/1",
+            "requires": "pr",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "pr-conversation",
+                "label": "Conversation",
+                "icon": "MessagesSquare"
+              },
+              {
+                "page": "pr-files",
+                "label": "Files changed",
+                "icon": "FileCode"
+              }
+            ],
+            "commands": [
+              {
+                "id": "approve-pr",
+                "label": "Simulate teammate approval",
+                "icon": "UserCheck",
+                "variant": "primary",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "$sel.pr.approved",
+                  "value": false
+                },
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "repositories.1.pullRequests",
+                      "where": {
+                        "number": "1"
+                      },
+                      "set": {
+                        "approved": true
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Review approved"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "merge-pull-request",
+                "label": "Merge pull request",
+                "icon": "GitMerge",
+                "variant": "primary",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "$sel.pr.approved",
+                  "value": true
+                },
+                "action": {
+                  "type": "if",
+                  "when": {
+                    "type": "equals",
+                    "path": "$sel.repo.conflict",
+                    "value": true
+                  },
+                  "then": [
+                    {
+                      "type": "navigate",
+                      "page": "resolve-conflict"
+                    }
+                  ],
+                  "else": [
+                    {
+                      "type": "navigate",
+                      "page": "merge-pr"
+                    }
+                  ]
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "text",
+                "text": "Merge methods: **Create a merge commit** preserves commits; **Squash and merge** combines them; **Rebase and merge** replays commits onto main."
+              }
+            ]
+          },
+          {
+            "id": "pr-files",
+            "title": "Files changed",
+            "url": "/{{$sel.repo.fullName}}/pull/1/files",
+            "requires": "pr",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "pr-conversation",
+                "label": "Conversation",
+                "icon": "MessagesSquare"
+              },
+              {
+                "page": "pr-files",
+                "label": "Files changed",
+                "icon": "FileCode"
+              }
+            ],
+            "components": [
+              {
+                "kind": "code",
+                "id": "readme-diff",
+                "title": "README.md diff",
+                "language": "diff",
+                "content": "@@ README.md @@\n+## Review workflow\n+Changes are reviewed with pull requests before they reach main.\n"
+              }
+            ]
+          },
+          {
+            "id": "merge-pr",
+            "title": "Merge pull request",
+            "url": "/{{$sel.repo.fullName}}/pull/1/merge",
+            "requires": "pr",
+            "components": [
+              {
+                "kind": "form",
+                "id": "merge-form",
+                "title": "Choose a merge method",
+                "fields": [
+                  {
+                    "id": "method",
+                    "label": "Merge method",
+                    "control": "radio",
+                    "required": true,
+                    "defaultValue": "merge",
+                    "options": [
+                      {
+                        "value": "merge",
+                        "label": "Create a merge commit"
+                      },
+                      {
+                        "value": "squash",
+                        "label": "Squash and merge"
+                      },
+                      {
+                        "value": "rebase",
+                        "label": "Rebase and merge"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "message",
+                    "label": "Commit message",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Merge pull request #1 from docs/update-readme"
+                  }
+                ],
+                "submit": {
+                  "label": "Confirm merge",
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "repositories.1.pullRequests",
+                      "where": {
+                        "number": "1"
+                      },
+                      "set": {
+                        "state": "merged",
+                        "merged": true,
+                        "mergeMethod": "{{$form.method}}"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "repositories",
+                      "where": {
+                        "fullName": "{{$sel.repo.fullName}}"
+                      },
+                      "set": {
+                        "currentBranch": "main",
+                        "mainContainsChange": true
+                      }
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "delete-branch"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "delete-branch",
+            "title": "Pull request merged",
+            "url": "/{{$sel.repo.fullName}}/pull/1",
+            "requires": "repo",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "success",
+                "title": "Pull request successfully merged and closed",
+                "text": "The change is now in **main**."
+              },
+              {
+                "kind": "button",
+                "id": "delete-branch-button",
+                "label": "Delete branch",
+                "icon": "Trash2",
+                "variant": "danger",
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "remove",
+                      "path": "repositories.1.branches",
+                      "value": "docs/update-readme"
+                    },
+                    {
+                      "type": "update",
+                      "path": "repositories",
+                      "where": {
+                        "fullName": "{{$sel.repo.fullName}}"
+                      },
+                      "set": {
+                        "branchDeleted": true
+                      }
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "repo-code"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "resolve-conflict",
+            "title": "Resolve conflicts",
+            "subtitle": "README.md",
+            "icon": "GitMerge",
+            "url": "/{{$sel.repo.fullName}}/pull/1/conflicts",
+            "requires": "pr",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "title": "This branch has conflicts that must be resolved",
+                "text": "main added a Support section while your branch added the Review workflow section. Keep both sections before merging."
+              },
+              {
+                "kind": "form",
+                "id": "conflict-form",
+                "title": "README.md",
+                "fields": [
+                  {
+                    "id": "content",
+                    "label": "Resolved README.md",
+                    "control": "code",
+                    "language": "markdown",
+                    "required": true,
+                    "defaultValue": "# inventory-api-docs\n\nInternal documentation.\n\n## Support\n\nOpen an issue for documentation problems.\n\n## Review workflow\n\nChanges are reviewed with pull requests before they reach main.\n"
+                  },
+                  {
+                    "id": "message",
+                    "label": "Commit message",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Resolve README conflict"
+                  }
+                ],
+                "submit": {
+                  "label": "Mark as resolved",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.content",
+                        "pattern": "Support"
+                      },
+                      "message": "Keep the Support section from main."
+                    },
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.content",
+                        "pattern": "Review workflow"
+                      },
+                      "message": "Keep the Review workflow section from your branch."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "repositories",
+                      "where": {
+                        "fullName": "{{$sel.repo.fullName}}"
+                      },
+                      "set": {
+                        "readme": "{{$form.content}}",
+                        "conflict": false,
+                        "conflictResolved": true
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "repositories.1.files",
+                      "where": {
+                        "path": "README.md"
+                      },
+                      "set": {
+                        "content": "{{$form.content}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Conflict resolved"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "pr-conversation"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "repositories": [
+            {
+              "owner": "contoso-labs",
+              "name": "onboarding-kit",
+              "fullName": "contoso-labs/onboarding-kit",
+              "description": "Starter materials",
+              "visibility": "private",
+              "defaultBranch": "main",
+              "currentBranch": "main",
+              "readme": "# onboarding-kit\n",
+              "files": [
+                {
+                  "path": "README.md",
+                  "type": "file",
+                  "content": "# onboarding-kit\n"
+                }
+              ],
+              "branches": [
+                "main"
+              ],
+              "pullRequests": [],
+              "mainContainsChange": false,
+              "branchDeleted": false
+            }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "key": "open-create",
+          "title": "Open New repository",
+          "instruction": "Select **New repository**.",
+          "explanation": "Repositories can be owned by a user or organization.",
+          "targetId": "global-create",
+          "rules": [
+            {
+              "key": "visited-new",
+              "description": "New repository page opened",
+              "rule": {
+                "type": "visited",
+                "page": "new-repository"
+              }
+            }
+          ]
+        },
+        {
+          "key": "create-repo",
+          "title": "Create the private repository",
+          "instruction": "Set **Owner** to **contoso-labs**, **Repository name** to `inventory-api-docs`, add **Description**, choose **Private**, enable **Add a README file**, choose **Node** for **Add .gitignore**, choose **MIT License**, and select **Create repository**.",
+          "explanation": "Visibility and starter files define the initial repository state.",
+          "targetId": "create-repo-form",
+          "rules": [
+            {
+              "key": "repo-created",
+              "description": "Private repository exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "repositories",
+                "match": {
+                  "fullName": "contoso-labs/inventory-api-docs",
+                  "visibility": "private"
+                }
+              }
+            },
+            {
+              "key": "files-created",
+              "description": "Starter files exist",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "arrayContains",
+                    "path": "repositories.1.files",
+                    "match": {
+                      "path": "README.md"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "repositories.1.files",
+                    "match": {
+                      "path": ".gitignore"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "repositories.1.files",
+                    "match": {
+                      "path": "LICENSE"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "key": "branch-edit",
+          "title": "Create a branch and commit README.md",
+          "instruction": "Use the branch selector to create **docs/update-readme** from **main**. Open **README.md**, select **Edit file**, add the review workflow text, choose **Commit directly to the docs/update-readme branch**, and select **Commit changes...**.",
+          "explanation": "A branch keeps review work separate from main; branch protection commonly blocks direct commits so changes are reviewed first.",
+          "targetId": "branch-selector",
+          "rules": [
+            {
+              "key": "branch-exists",
+              "description": "Branch was created",
+              "rule": {
+                "type": "anyOf",
+                "rules": [
+                  {
+                    "type": "includes",
+                    "path": "repositories.1.branches",
+                    "value": "docs/update-readme"
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "repositories",
+                    "match": {
+                      "fullName": "contoso-labs/inventory-api-docs",
+                      "branchDeleted": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "key": "readme-updated",
+              "description": "README mentions pull requests",
+              "rule": {
+                "type": "matches",
+                "path": "repositories.1.readme",
+                "pattern": "pull requests"
+              }
+            }
+          ]
+        },
+        {
+          "key": "open-pr",
+          "title": "Open the pull request",
+          "instruction": "Select **Compare & pull request**, complete the pull request, add reviewer **maya**, and select **Create Pull Request**.",
+          "explanation": "A pull request compares the branch to main.",
+          "targetId": "compare-pr-banner",
+          "rules": [
+            {
+              "key": "pr-open",
+              "description": "PR was opened",
+              "rule": {
+                "type": "arrayContains",
+                "path": "repositories.1.pullRequests",
+                "match": {
+                  "head": "docs/update-readme",
+                  "base": "main"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "review-merge",
+          "title": "Review and merge",
+          "instruction": "Open **Files changed**, return to **Conversation**, select **Simulate teammate approval**, select **Merge pull request**, resolve the README conflict by keeping **Support** and **Review workflow**, select **Mark as resolved**, then select **Merge pull request** again, choose a method, and select **Confirm merge**.",
+          "explanation": "Files changed shows the exact diff; merge conflicts happen when main and the branch edit the same area and must be resolved before merge.",
+          "targetId": "approve-pr",
+          "rules": [
+            {
+              "key": "files-viewed",
+              "description": "Files changed opened",
+              "rule": {
+                "type": "visited",
+                "page": "pr-files"
+              }
+            },
+            {
+              "key": "conflict-resolved",
+              "description": "README conflict resolved",
+              "rule": {
+                "type": "arrayContains",
+                "path": "repositories",
+                "match": {
+                  "fullName": "contoso-labs/inventory-api-docs",
+                  "conflictResolved": true
+                }
+              },
+              "failureFeedback": "Resolve the simulated README conflict before merging."
+            },
+            {
+              "key": "merged",
+              "description": "PR merged",
+              "rule": {
+                "type": "arrayContains",
+                "path": "repositories.1.pullRequests",
+                "match": {
+                  "merged": true,
+                  "approved": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "delete-branch",
+          "title": "Delete the branch",
+          "instruction": "Select **Delete branch**.",
+          "explanation": "A merged topic branch can be deleted.",
+          "targetId": "delete-branch-button",
+          "rules": [
+            {
+              "key": "branch-deleted",
+              "description": "Branch deleted",
+              "rule": {
+                "type": "arrayContains",
+                "path": "repositories",
+                "match": {
+                  "fullName": "contoso-labs/inventory-api-docs",
+                  "branchDeleted": true
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "private-final",
+          "description": "Repository is private",
+          "rule": {
+            "type": "arrayContains",
+            "path": "repositories",
+            "match": {
+              "fullName": "contoso-labs/inventory-api-docs",
+              "visibility": "private"
+            }
+          }
+        },
+        {
+          "key": "merged-final",
+          "description": "main contains the change",
+          "rule": {
+            "type": "arrayContains",
+            "path": "repositories",
+            "match": {
+              "fullName": "contoso-labs/inventory-api-docs",
+              "mainContainsChange": true
+            }
+          }
+        },
+        {
+          "key": "branch-deleted-final",
+          "description": "Branch deleted",
+          "rule": {
+            "type": "not",
+            "rule": {
+              "type": "includes",
+              "path": "repositories.1.branches",
+              "value": "docs/update-readme"
+            }
+          }
+        },
+        {
+          "key": "conflict-final",
+          "description": "Merge conflict resolved",
+          "rule": {
+            "type": "arrayContains",
+            "path": "repositories",
+            "match": {
+              "fullName": "contoso-labs/inventory-api-docs",
+              "conflictResolved": true
+            }
+          }
+        }
+      ],
+      "solution": "1. Select **New repository**.\n2. Set **Owner** to **contoso-labs**, name `inventory-api-docs`, choose **Private**, enable **Add a README file**, set **Add .gitignore** to **Node**, set **Choose a license** to **MIT License**, and select **Create repository**.\n3. Create **docs/update-readme** from **main**.\n4. Open **README.md**, select **Edit file**, add the review workflow text, choose **Commit directly to the docs/update-readme branch**, and select **Commit changes...**. Do not commit directly to main.\n5. Select **Compare & pull request**, complete the PR, and select **Create Pull Request**.\n6. Open **Files changed**, return to **Conversation**, approve, select **Merge pull request**, resolve the README conflict by keeping both **Support** and **Review workflow**, and select **Mark as resolved**.\n7. Select **Merge pull request** again, choose a merge method, and select **Confirm merge**.\n8. Select **Delete branch**."
+    }
+  ]
+}

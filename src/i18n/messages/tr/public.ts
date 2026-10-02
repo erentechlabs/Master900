@@ -119,6 +119,7 @@ export const enums: Messages["enums"] = {
   },
   labComplexity: { INTRO: "Giriş", BASIC: "Temel", INTERMEDIATE: "Orta" },
   practiceMode: {
+    LIGHTNING: "Lightning round",
     QUICK: "Hızlı alıştırma",
     DOMAIN: "Alan sınavı",
     FULL: "Tam deneme sınavı",

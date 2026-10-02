@@ -3,15 +3,75 @@
   "lab": "build-fabric-lakehouse",
   "note": "Create a Fabric lakehouse, upload CSV, load a Delta table, and run a SQL aggregate.",
   "events": [
-    { "type": "navigate", "page": "workspaces" },
-    { "type": "rowClick", "componentId": "workspace-list", "rowKey": "Sales Analytics" },
-    { "type": "click", "componentId": "new-item" },
-    { "type": "submitForm", "componentId": "lakehouse-form", "values": { "itemType": "Lakehouse", "name": "SalesLakehouse" } },
-    { "type": "navigate", "page": "files" },
-    { "type": "submitForm", "componentId": "upload-file-form", "values": { "source": "Upload files", "fileName": "sales.csv", "destination": "Files" } },
-    { "type": "navigate", "page": "tables" },
-    { "type": "submitForm", "componentId": "load-table-form", "values": { "sourceFile": "sales.csv", "loadMode": "New table", "tableName": "sales" } },
-    { "type": "navigate", "page": "sql-endpoint" },
-    { "type": "query", "componentId": "sales-sql-editor", "sql": "SELECT Region, SUM(Amount) AS TotalSales FROM sales GROUP BY Region ORDER BY TotalSales DESC" }
+    {
+      "type": "navigate",
+      "page": "workspaces"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "workspace-list",
+      "rowKey": "Sales Analytics"
+    },
+    {
+      "type": "click",
+      "componentId": "new-item"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "lakehouse-form",
+      "values": {
+        "itemType": "Lakehouse",
+        "name": "SalesLakehouse"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "files"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "upload-file-form",
+      "values": {
+        "source": "Upload files",
+        "fileName": "sales.csv",
+        "destination": "Files"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "tables"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "load-table-form",
+      "values": {
+        "sourceFile": "sales.csv",
+        "loadMode": "New table",
+        "tableName": "sales"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "sql-endpoint"
+    },
+    {
+      "type": "query",
+      "componentId": "sales-sql-editor",
+      "sql": "SELECT Region, SUM(Amount) AS TotalSales FROM sales GROUP BY Region ORDER BY TotalSales DESC"
+    },
+    {
+      "type": "click",
+      "componentId": "create-model"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "semantic-model-form",
+      "values": {
+        "table": "sales",
+        "measure": "Total Sales",
+        "expression": "SUM(sales[Amount])",
+        "visualChoice": "Clustered column chart"
+      }
+    }
   ]
 }

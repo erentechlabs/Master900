@@ -1,0 +1,661 @@
+{
+  "questions": [
+    {
+      "ref": "pl900-biz-101",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "business-value",
+      "objectiveCode": "1.1",
+      "difficulty": "EASY",
+      "stem": "A team wants to replace email-based equipment requests with a simple internal app, shared request records, and approval notifications. Which Power Platform approach best fits the scenario?",
+      "explanation": "Power Apps, Dataverse, and Power Automate map directly to an internal app, shared business data, and approval automation.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Build a Power Apps app that stores requests in Dataverse and starts a Power Automate approval",
+          "correct": true,
+          "explanation": "This combines the app, governed data, and workflow services described in the scenario."
+        },
+        {
+          "key": "B",
+          "text": "Keep a personal Excel file and email each request manually",
+          "correct": false,
+          "explanation": "A personal file and email thread do not provide shared governed records or automated approvals."
+        },
+        {
+          "key": "C",
+          "text": "Use only Power Pages for an anonymous public website",
+          "correct": false,
+          "explanation": "The requirement is an internal app and approval process, not an external website."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-biz-102",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "business-value",
+      "objectiveCode": "1.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which **two** practices support business value when makers use AI-assisted Power Platform creation?",
+      "selectCount": 2,
+      "explanation": "AI assistance accelerates drafting, but business value still depends on human validation and least-privilege governance.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Review generated apps, tables, flows, or topics before publishing them",
+          "correct": true,
+          "explanation": "AI output is a draft and should be checked for business fit, security, and accessibility."
+        },
+        {
+          "key": "B",
+          "text": "Assign users only the permissions they need for the solution",
+          "correct": true,
+          "explanation": "Least privilege protects data while still allowing users to complete their work."
+        },
+        {
+          "key": "C",
+          "text": "Skip governance because low-code assets are automatically safe",
+          "correct": false,
+          "explanation": "Low-code solutions still require environments, roles, policies, and lifecycle controls."
+        },
+        {
+          "key": "D",
+          "text": "Use one shared admin account for every maker and tester",
+          "correct": false,
+          "explanation": "Shared elevated accounts remove accountability and violate least-privilege governance."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-biz-103",
+      "type": "MATCHING",
+      "domainKey": "business-value",
+      "objectiveCode": "1.1",
+      "difficulty": "MEDIUM",
+      "stem": "Match each Power Platform concept to the role it plays in a governed low-code solution.",
+      "explanation": "Dataverse secures shared records, canvas apps provide tailored screens, and data policies govern connector use.",
+      "matching": {
+        "prompts": [
+          {
+            "id": "p1",
+            "text": "Dataverse"
+          },
+          {
+            "id": "p2",
+            "text": "Canvas app"
+          },
+          {
+            "id": "p3",
+            "text": "Data policy"
+          }
+        ],
+        "answers": [
+          {
+            "id": "a1",
+            "text": "Stores secure business rows and relationships"
+          },
+          {
+            "id": "a2",
+            "text": "Provides a custom screen layout for a task"
+          },
+          {
+            "id": "a3",
+            "text": "Controls how connectors can be combined"
+          }
+        ],
+        "pairs": {
+          "p1": "a1",
+          "p2": "a2",
+          "p3": "a3"
+        },
+        "explanations": {
+          "p1": "Dataverse is the governed business data platform for Power Platform solutions.",
+          "p2": "A canvas app lets makers design task-focused screens and controls.",
+          "p3": "A data policy helps reduce unintended movement between connectors."
+        }
+      },
+      "sources": [
+        {
+          "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-env-101",
+      "type": "TRUE_FALSE",
+      "domainKey": "manage-environment",
+      "objectiveCode": "2.1",
+      "difficulty": "EASY",
+      "stem": "Power Platform solutions should still be governed even when Copilot helps create them.",
+      "explanation": "Copilot accelerates work, but people validate security, data, and business fit.",
+      "options": [
+        {
+          "key": "TRUE",
+          "text": "True",
+          "correct": true,
+          "explanation": "Correct. Copilot can accelerate solution creation, but governance is still needed for security, data access, environments, and business fit."
+        },
+        {
+          "key": "FALSE",
+          "text": "False",
+          "correct": false,
+          "explanation": "Choosing False misses that AI assistance does not remove the need to govern Power Platform solutions."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-env-102",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "manage-environment",
+      "objectiveCode": "2.1",
+      "difficulty": "EASY",
+      "stem": "Complete the sentence about the app type driven by Dataverse tables, forms, and views.",
+      "explanation": "A model-driven app gets its structure and navigation from Dataverse metadata such as tables, forms, and views.",
+      "fillInBlank": {
+        "template": "A {{b1}} app is driven by Dataverse tables, forms, and views.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "model-driven",
+              "model driven"
+            ],
+            "explanation": "Model-driven apps use Dataverse components."
+          }
+        ],
+        "wordBank": [
+          "model-driven",
+          "canvas",
+          "desktop"
+        ]
+      },
+      "sources": [
+        {
+          "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-env-103",
+      "type": "CASE_STUDY",
+      "domainKey": "manage-environment",
+      "objectiveCode": "2.2",
+      "difficulty": "HARD",
+      "scenario": "Contoso is replacing a spreadsheet with a governed Power Platform app.",
+      "stem": "For each statement, select **Yes** if it is accurate. Otherwise, select **No**.",
+      "explanation": "The statements test data, app, and governance choices.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Dataverse can store related request rows.",
+            "answer": true,
+            "explanation": "Dataverse stores related business data."
+          },
+          {
+            "id": "s2",
+            "text": "A data policy can govern connector combinations.",
+            "answer": true,
+            "explanation": "Data policies govern connectors."
+          },
+          {
+            "id": "s3",
+            "text": "All users should become System Administrator.",
+            "answer": false,
+            "explanation": "Use least privilege."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-env-104",
+      "type": "CATEGORIZATION",
+      "domainKey": "manage-environment",
+      "objectiveCode": "2.2",
+      "difficulty": "MEDIUM",
+      "stem": "Classify each item.",
+      "explanation": "The items fall into app, data, and governance concepts.",
+      "categorization": {
+        "categories": [
+          {
+            "id": "app",
+            "label": "App"
+          },
+          {
+            "id": "data",
+            "label": "Data"
+          },
+          {
+            "id": "gov",
+            "label": "Governance"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "text": "Canvas app",
+            "category": "app",
+            "explanation": "It is an app type."
+          },
+          {
+            "id": "i2",
+            "text": "Dataverse table",
+            "category": "data",
+            "explanation": "It stores rows."
+          },
+          {
+            "id": "i3",
+            "text": "Data policy",
+            "category": "gov",
+            "explanation": "It governs connectors."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-env-105",
+      "type": "ORDERING",
+      "domainKey": "manage-environment",
+      "objectiveCode": "2.1",
+      "difficulty": "MEDIUM",
+      "stem": "Order the dependent steps for releasing a model-driven app to users.",
+      "explanation": "The data model defines the app structure, the completed app is published, and only then can users be shared into that published app experience with the right role.",
+      "ordering": {
+        "items": [
+          {
+            "id": "s1",
+            "text": "Model the Dataverse tables, columns, and relationships"
+          },
+          {
+            "id": "s2",
+            "text": "Build or generate the model-driven app from that model"
+          },
+          {
+            "id": "s3",
+            "text": "Publish the completed app version"
+          },
+          {
+            "id": "s4",
+            "text": "Share the published app with users by assigning the appropriate security role"
+          }
+        ],
+        "correctOrder": [
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "explanations": {
+          "s1": "The Dataverse model must exist before the model-driven app can use its tables, forms, and relationships.",
+          "s2": "The app can be built only after the underlying model is available.",
+          "s3": "Users need a published app version before there is a released experience to share.",
+          "s4": "Sharing with the right security role comes last so users receive access to the published app and governed data."
+        }
+      },
+      "sources": [
+        {
+          "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-env-106",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "manage-environment",
+      "objectiveCode": "2.2",
+      "difficulty": "EASY",
+      "stem": "Fabrikam wants a separate place for makers to build and test a Dataverse app before it moves to production. Which governance choice best matches the scenario?",
+      "explanation": "A sandbox environment separates development and testing resources from production while still supporting Dataverse.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Create a sandbox environment with Dataverse for the maker group",
+          "correct": true,
+          "explanation": "A sandbox gives the team an isolated place to build and test Dataverse assets."
+        },
+        {
+          "key": "B",
+          "text": "Store test data in a disconnected personal file",
+          "correct": false,
+          "explanation": "A personal file does not provide an environment boundary or Dataverse governance."
+        },
+        {
+          "key": "C",
+          "text": "Give every user System Administrator in production",
+          "correct": false,
+          "explanation": "Broad production administrator access violates least privilege and skips the test boundary."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-app-101",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "power-apps",
+      "objectiveCode": "3.1",
+      "difficulty": "EASY",
+      "stem": "Warehouse technicians need a phone app with a barcode button, photo capture, and a custom checklist screen. Which Power Apps type best fits?",
+      "explanation": "A canvas app is best when the maker needs precise control over screens, controls, and task flow.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Canvas app",
+          "correct": true,
+          "explanation": "Canvas apps support custom layouts and controls for task-specific mobile experiences."
+        },
+        {
+          "key": "B",
+          "text": "Model-driven app",
+          "correct": false,
+          "explanation": "Model-driven apps are better when Dataverse forms, views, and navigation define the experience."
+        },
+        {
+          "key": "C",
+          "text": "Power Pages site",
+          "correct": false,
+          "explanation": "Power Pages is for external websites, not a tailored internal technician phone app."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-app-102",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "power-apps",
+      "objectiveCode": "3.2",
+      "difficulty": "MEDIUM",
+      "stem": "Which Power Fx formula filters open requests?",
+      "explanation": "Filter returns rows matching a condition.",
+      "options": [
+        {
+          "key": "A",
+          "text": "`Filter(EquipmentRequests, Status = \"Open\")`",
+          "correct": true,
+          "explanation": "Valid Power Fx formula."
+        },
+        {
+          "key": "B",
+          "text": "`SELECT * FROM EquipmentRequests`",
+          "correct": false,
+          "explanation": "SQL, not Power Fx."
+        },
+        {
+          "key": "C",
+          "text": "`Navigate(EquipmentRequests)`",
+          "correct": false,
+          "explanation": "Navigate changes screens."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-app-103",
+      "type": "UI_SIMULATION",
+      "domainKey": "power-apps",
+      "objectiveCode": "3.1",
+      "difficulty": "MEDIUM",
+      "stem": "Configure the simulated app picker for a custom mobile checklist.",
+      "explanation": "Canvas apps fit custom mobile screen layouts.",
+      "uiSimulation": {
+        "title": "Power Apps picker (simulated)",
+        "description": "Fictional simplified screen.",
+        "fields": [
+          {
+            "id": "type",
+            "label": "App type",
+            "control": "radio",
+            "options": [
+              {
+                "value": "canvas",
+                "label": "Canvas app"
+              },
+              {
+                "value": "model",
+                "label": "Model-driven app"
+              }
+            ],
+            "correct": "canvas",
+            "explanation": "Canvas apps offer layout control."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-app-104",
+      "type": "SCENARIO",
+      "domainKey": "power-apps",
+      "objectiveCode": "3.2",
+      "difficulty": "EASY",
+      "stem": "A maker is building a canvas app and needs a Save button to write the current edit form back to Dataverse. Which formula should the button use?",
+      "explanation": "SubmitForm submits the current values from an edit form to its data source, which matches the Save button requirement.",
+      "options": [
+        {
+          "key": "A",
+          "text": "`SubmitForm(EditForm1)`",
+          "correct": true,
+          "explanation": "This submits the form values to the connected data source."
+        },
+        {
+          "key": "B",
+          "text": "`ResetForm(EditForm1)`",
+          "correct": false,
+          "explanation": "ResetForm discards edits and returns the form to its initial state; it does not save the row."
+        },
+        {
+          "key": "C",
+          "text": "`Navigate(EditForm1)`",
+          "correct": false,
+          "explanation": "Navigate changes screens and does not submit an edit form."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "scenario": "The app contains an edit form named EditForm1 connected to the Equipment Request table."
+    },
+    {
+      "ref": "pl900-app-105",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "power-apps",
+      "objectiveCode": "3.2",
+      "difficulty": "MEDIUM",
+      "stem": "Which **two** statements are accurate for building and sharing a basic model-driven app?",
+      "selectCount": 2,
+      "explanation": "Model-driven apps depend on Dataverse structure and require appropriate access when shared.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tables, forms, and views shape the app experience",
+          "correct": true,
+          "explanation": "Model-driven apps are generated from Dataverse metadata and configured components."
+        },
+        {
+          "key": "B",
+          "text": "Users need app access and suitable Dataverse security roles",
+          "correct": true,
+          "explanation": "Sharing the app alone is not enough if users lack data privileges."
+        },
+        {
+          "key": "C",
+          "text": "Makers mainly arrange every pixel on a blank screen",
+          "correct": false,
+          "explanation": "That description fits canvas apps more than model-driven apps."
+        },
+        {
+          "key": "D",
+          "text": "Connectors and rows are the same design component",
+          "correct": false,
+          "explanation": "Connectors integrate services; rows are records stored in a table."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-app-106",
+      "type": "MATCHING",
+      "domainKey": "power-apps",
+      "objectiveCode": "3.2",
+      "difficulty": "MEDIUM",
+      "stem": "Match each model-driven app concept to its role in an equipment request workspace.",
+      "explanation": "Forms, views, and security roles each solve a different model-driven app design need.",
+      "matching": {
+        "prompts": [
+          {
+            "id": "p1",
+            "text": "Form"
+          },
+          {
+            "id": "p2",
+            "text": "View"
+          },
+          {
+            "id": "p3",
+            "text": "Security role"
+          }
+        ],
+        "answers": [
+          {
+            "id": "a1",
+            "text": "Edit one equipment request row"
+          },
+          {
+            "id": "a2",
+            "text": "List filtered open or high-priority requests"
+          },
+          {
+            "id": "a3",
+            "text": "Grant the data privileges users need"
+          }
+        ],
+        "pairs": {
+          "p1": "a1",
+          "p2": "a2",
+          "p3": "a3"
+        },
+        "explanations": {
+          "p1": "A form controls how users view or edit a single Dataverse row.",
+          "p2": "A view presents a filtered and sorted list of rows for a task.",
+          "p3": "A security role grants table privileges needed to use the app data."
+        }
+      },
+      "sources": [
+        {
+          "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "pl900-app-107",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "power-apps",
+      "objectiveCode": "3.1",
+      "difficulty": "EASY",
+      "stem": "Complete the sentence about the formula language used to customize a canvas app control.",
+      "explanation": "Power Fx is the formula language makers use to customize canvas app controls and behavior.",
+      "fillInBlank": {
+        "template": "A canvas app control uses {{b1}} formulas to calculate values and respond to user input.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "Power Fx",
+              "power fx",
+              "PowerFx"
+            ],
+            "explanation": "Power Fx formulas drive canvas app control properties and behavior."
+          }
+        ],
+        "wordBank": [
+          "Power Fx",
+          "model-driven",
+          "Dataverse role",
+          "desktop flow"
+        ]
+      },
+      "sources": [
+        {
+          "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    }
+  ]
+}

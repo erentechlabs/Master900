@@ -3,22 +3,23 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AlertTriangle, ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Clock, Eye, EyeOff, Flag, ListChecks, LogOut, Repeat, ShieldAlert } from "lucide-react";
+import { AlertTriangle, ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Clock, Eye, EyeOff, Flag, Flame, ListChecks, LogOut, Repeat, ShieldAlert, XCircle } from "lucide-react";
 import { useI18n } from "@/i18n/client";
 import { errorText } from "@/i18n/errors";
 import type { MessageKey } from "@/i18n/translator";
 import { cn } from "@/lib/utils";
 import type { AnswerOutcome, RunnerData, RunnerQuestion } from "@/modules/assessment/service";
 import type { QuestionResponse, QuestionReview } from "@/modules/assessment/engine/types";
-import { crossedWarnings, hasContent, remainingTime } from "@/modules/assessment/engine/response";
+import { crossedSecondWarnings, crossedWarnings, hasContent, remainingTime } from "@/modules/assessment/engine/response";
 import { answerAction, markAction, startSimilarAction, submitAction } from "@/app/(app)/practice/actions";
 import { QuestionView, defaultResponse } from "@/components/assessment/question-view";
+import { Markdown } from "@/components/markdown";
 import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label, Textarea } from "@/components/ui/form";
-import { Progress } from "@/components/ui/misc";
+import { Kbd, Progress } from "@/components/ui/misc";
 import { SubmitButton } from "@/components/ui/submit-button";
 
 type Phase = "question" | "review";
@@ -32,6 +33,7 @@ export function AssessmentRunner({ data }: { data: RunnerData }) {
   const { t, fmt } = useI18n();
   const router = useRouter();
   const feedbackMode = data.immediateFeedback;
+  const isLightning = data.mode === "LIGHTNING";
 
   const [questions, setQuestions] = React.useState<RunnerQuestion[]>(data.questions);
   const [index, setIndex] = React.useState(() => {
@@ -58,6 +60,8 @@ export function AssessmentRunner({ data }: { data: RunnerData }) {
   const headingRef = React.useRef<HTMLHeadingElement>(null);
   const reviewHeadingRef = React.useRef<HTMLHeadingElement>(null);
   const nextButtonRef = React.useRef<HTMLButtonElement>(null);
+  const feedbackRef = React.useRef<HTMLDivElement>(null);
+  const [feedbackPaused, setFeedbackPaused] = React.useState(false);
   const shownAt = React.useRef<number>(0);
   const spent = React.useRef<Record<string, number>>({});
   const submitting = React.useRef(false);
@@ -85,8 +89,13 @@ export function AssessmentRunner({ data }: { data: RunnerData }) {
     const tick = () => {
       const remaining = remainingTime(expiresAt, data.serverNow, loadedAt, Date.now());
       setRemainingMs(remaining);
-      const crossed = crossedWarnings(previous, remaining);
-      if (crossed.length) setUrgent(t("assessment.runner.timeWarning", { minutes: Math.min(...crossed) }));
+      if (data.mode === "LIGHTNING") {
+        const crossed = crossedSecondWarnings(previous, remaining);
+        if (crossed.length) setUrgent(t("assessment.runner.timeWarningSeconds", { seconds: Math.min(...crossed) }));
+      } else {
+        const crossed = crossedWarnings(previous, remaining);
+        if (crossed.length) setUrgent(t("assessment.runner.timeWarning", { minutes: Math.min(...crossed) }));
+      }
       previous = remaining;
       if (remaining <= 0 && !expiredHandled) {
         expiredHandled = true;
@@ -100,7 +109,7 @@ export function AssessmentRunner({ data }: { data: RunnerData }) {
       window.clearTimeout(first);
       window.clearInterval(id);
     };
-  }, [data.expiresAt, data.serverNow, t]);
+  }, [data.expiresAt, data.mode, data.serverNow, t]);
 
   // ------------------------------------------------------------ leave protection
   React.useEffect(() => {
@@ -186,9 +195,9 @@ export function AssessmentRunner({ data }: { data: RunnerData }) {
     requestAnimationFrame(() => reviewHeadingRef.current?.focus());
   }
 
-  async function check() {
+  async function check(responseOverride?: QuestionResponse) {
     if (!current || busy) return;
-    const response = drafts[currentId];
+    const response = responseOverride ?? drafts[currentId];
     if (!hasContent(response)) {
       setError(t("errors.invalid_input"));
       return;
@@ -216,7 +225,14 @@ export function AssessmentRunner({ data }: { data: RunnerData }) {
       setMarked((m) => ({ ...m, [next.question.id]: false }));
     }
     if (outcome.done) setAdaptiveDone(true);
-    requestAnimationFrame(() => nextButtonRef.current?.focus());
+    if (!isLightning) requestAnimationFrame(() => nextButtonRef.current?.focus());
+  }
+
+  async function lightningAdvance() {
+    if (busy) return;
+    setFeedbackPaused(false);
+    if (index < questions.length - 1) await goTo(index + 1);
+    else await finish(false);
   }
 
   async function toggleMarked() {
@@ -257,6 +273,55 @@ export function AssessmentRunner({ data }: { data: RunnerData }) {
     finishRef.current = finish;
   });
 
+  const review = feedbackMode ? reviews[currentId] ?? null : null;
+  const locked = busy === "submit" || (feedbackMode && !!review) || (data.adaptive && !!saved[currentId]);
+
+  React.useEffect(() => {
+    if (!isLightning || !review) return;
+    const id = window.setTimeout(() => {
+      const active = document.activeElement;
+      const feedbackFocused = active instanceof Node && !!feedbackRef.current?.contains(active);
+      if (!feedbackPaused && !feedbackFocused) void lightningAdvance();
+    }, 1600);
+    return () => window.clearTimeout(id);
+    // lightningAdvance intentionally reads the latest render state at timeout fire time.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [feedbackPaused, isLightning, review, index]);
+
+  React.useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.defaultPrevented || event.repeat || event.altKey || event.ctrlKey || event.metaKey) return;
+      const target = event.target as HTMLElement | null;
+      if (target?.closest("input, textarea, select, button, [contenteditable='true']")) return;
+      if (!current || busy) return;
+
+      const key = event.key.toUpperCase();
+      const optionIndex = /^[1-9]$/.test(key) ? Number(key) - 1 : key >= "A" && key <= "F" ? key.charCodeAt(0) - 65 : -1;
+      const option = current.question.options?.[optionIndex];
+      if (option && !locked && current.question.options) {
+        event.preventDefault();
+        const previous = drafts[currentId]?.kind === "choice" ? drafts[currentId].selected : [];
+        const selected = current.question.type === "MULTIPLE_RESPONSE" ? (previous.includes(option.key) ? previous.filter((v) => v !== option.key) : [...previous, option.key]) : [option.key];
+        const response: QuestionResponse = { kind: "choice", selected };
+        setDrafts((d) => ({ ...d, [currentId]: response }));
+        setDirty((d) => ({ ...d, [currentId]: true }));
+        setStatus(t("assessment.runner.optionSelected", { option: String.fromCharCode(65 + optionIndex) }));
+        if (isLightning && current.question.type !== "MULTIPLE_RESPONSE") void check(response);
+        return;
+      }
+      if (event.key === "Enter") {
+        event.preventDefault();
+        if (isLightning && review) void lightningAdvance();
+        else if (phase === "review") void finish(false);
+        else if (feedbackMode && !review) void check();
+        else if (index < questions.length - 1) void goTo(index + 1);
+        else void openReview();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
+
   // ------------------------------------------------------------ derived UI state
   if (!current) {
     return (
@@ -266,17 +331,29 @@ export function AssessmentRunner({ data }: { data: RunnerData }) {
     );
   }
 
-  const review = feedbackMode ? reviews[currentId] ?? null : null;
-  const locked = busy === "submit" || (feedbackMode && !!review) || (data.adaptive && !!saved[currentId]);
   const isLastLoaded = index === questions.length - 1;
   const canFinishAdaptive = data.adaptive && isLastLoaded && !!saved[currentId] && (adaptiveDone || answeredCount >= data.total);
-  const warn = remainingMs !== null && remainingMs <= 5 * 60_000;
+  const warn = remainingMs !== null && remainingMs <= (isLightning ? 30_000 : 5 * 60_000);
+  const critical = isLightning && remainingMs !== null && remainingMs <= 10_000;
   const timeText = remainingMs === null ? "--:--" : fmt.duration(Math.max(0, remainingMs) / 1000);
+  const timerMaxMs = (data.lightningDurationSeconds ?? 0) * 1000 || (data.expiresAt ? Math.max(1, new Date(data.expiresAt).getTime() - new Date(data.serverNow).getTime()) : 1);
+  const combo = questions.reduce(
+    (state, q) => {
+      const r = reviews[q.question.id];
+      if (!r) return state;
+      const currentStreak = r.isCorrect ? state.current + 1 : 0;
+      return { current: currentStreak, best: Math.max(state.best, currentStreak) };
+    },
+    { current: 0, best: 0 },
+  );
+  const comboMultiplier = combo.current >= 6 ? 3 : combo.current >= 3 ? 2 : 1;
+  const comboBase = combo.current < 3 ? 0 : combo.current < 6 ? 3 : 6;
+  const comboDots = Array.from({ length: 3 }, (_, i) => combo.current >= comboBase + i + 1 || combo.current >= 6);
 
   const primaryAction = (() => {
     if (feedbackMode && !review) {
       return (
-        <Button onClick={check} disabled={busy !== null || !hasContent(drafts[currentId])}>
+        <Button onClick={() => void check()} disabled={busy !== null || !hasContent(drafts[currentId])}>
           <CheckCircle2 aria-hidden="true" />
           {busy === "answer" ? t("common.saving") : t("assessment.runner.submitAnswer")}
         </Button>
@@ -344,6 +421,17 @@ export function AssessmentRunner({ data }: { data: RunnerData }) {
                 {t("assessment.practice.restrictions")}
               </Badge>
             ) : null}
+            {data.mode === "LIGHTNING" ? (
+              <Badge key={`${combo.current}-${comboMultiplier}`} variant={comboMultiplier > 1 ? "purple" : "outline"} className={cn("gap-2", comboMultiplier > 1 && "motion-safe:animate-pop")}>
+                <Flame className={cn("h-3.5 w-3.5", comboMultiplier > 1 && "animate-flicker")} aria-hidden="true" />
+                {t("assessment.runner.combo", { count: combo.current, multiplier: comboMultiplier })}
+                <span className="flex gap-0.5" aria-hidden="true">
+                  {comboDots.map((filled, i) => (
+                    <span key={i} className={cn("h-1.5 w-1.5 rounded-full", filled ? "bg-current" : "bg-current/25")} />
+                  ))}
+                </span>
+              </Badge>
+            ) : null}
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -354,10 +442,10 @@ export function AssessmentRunner({ data }: { data: RunnerData }) {
                 aria-label={t("assessment.runner.timeRemaining")}
                 className={cn(
                   "flex min-w-[7.5rem] items-center gap-1.5 rounded-md border px-3 py-1.5 text-sm font-semibold tabular-nums",
-                  warn ? "border-warning/60 bg-warning/10 text-warning" : "bg-muted/50",
+                  critical ? "border-destructive/60 bg-destructive/10 text-destructive" : warn ? "border-warning/60 bg-warning/10 text-warning" : "bg-muted/50",
                 )}
               >
-                {warn ? <AlertTriangle className="h-4 w-4" aria-hidden="true" /> : <Clock className="h-4 w-4" aria-hidden="true" />}
+                {warn || critical ? <AlertTriangle className="h-4 w-4" aria-hidden="true" /> : <Clock className="h-4 w-4" aria-hidden="true" />}
                 {showTimer ? t("assessment.runner.timeRemainingValue", { time: timeText }) : t("assessment.runner.timerHidden")}
               </div>
               <Button variant="ghost" size="iconSm" onClick={() => setShowTimer((v) => !v)} aria-pressed={!showTimer} aria-label={showTimer ? t("assessment.runner.hideTimer") : t("assessment.runner.showTimer")}>
@@ -373,7 +461,19 @@ export function AssessmentRunner({ data }: { data: RunnerData }) {
           </Button>
         </div>
       </header>
+      {isLightning && timed ? (
+        <Progress
+          value={Math.max(0, remainingMs ?? timerMaxMs)}
+          max={timerMaxMs}
+          label={t("assessment.runner.timeRemainingValue", { time: timeText })}
+          indicatorClassName={critical ? "bg-destructive" : warn ? "bg-warning" : undefined}
+          className="h-2"
+        />
+      ) : null}
       <Progress value={answeredCount} max={displayTotal} label={t("common.of", { current: answeredCount, total: displayTotal })} />
+      <p className="text-xs text-muted-foreground">
+        {t("assessment.runner.keyboardHint")} <Kbd>1-9</Kbd> <Kbd>A-F</Kbd> <Kbd>Enter</Kbd>
+      </p>
 
       {error ? (
         <Alert variant="destructive" role="alert">
@@ -381,6 +481,102 @@ export function AssessmentRunner({ data }: { data: RunnerData }) {
         </Alert>
       ) : null}
 
+      {isLightning ? (
+        <Card className="mx-auto max-w-3xl">
+          <CardContent className="space-y-6 p-4 sm:p-8">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h2 ref={headingRef} tabIndex={-1} className="text-lg font-semibold focus:outline-none">
+                {t("assessment.runner.question", { current: index + 1, total: displayTotal })}
+              </h2>
+              <div className="flex flex-wrap gap-1.5">
+                <Badge variant="outline">{t(`enums.questionType.${current.question.type}` as MessageKey)}</Badge>
+                <Badge variant="secondary">{t(`enums.difficulty.${current.question.difficulty}` as MessageKey)}</Badge>
+              </div>
+            </div>
+
+            {current.question.scenario ? (
+              <section aria-label={t("assessment.runner.scenario")} className="rounded-lg border bg-muted/40 p-4">
+                <p className="mb-1 text-xs font-semibold text-muted-foreground">{t("assessment.runner.scenario")}</p>
+                <Markdown>{current.question.scenario}</Markdown>
+              </section>
+            ) : null}
+            <div className="text-xl font-semibold leading-relaxed">
+              <Markdown>{current.question.stem}</Markdown>
+            </div>
+
+            <div className="grid gap-3" role="group" aria-label={t("assessment.runner.selectOne")}>
+              {(current.question.options ?? []).map((option, optionIndex) => {
+                const selected = drafts[currentId]?.kind === "choice" && drafts[currentId].selected.includes(option.key);
+                const optionReview = review?.options?.find((item) => item.key === option.key);
+                const response: QuestionResponse = {
+                  kind: "choice",
+                  selected:
+                    current.question.type === "MULTIPLE_RESPONSE"
+                      ? selected
+                        ? (drafts[currentId]?.kind === "choice" ? drafts[currentId].selected.filter((key) => key !== option.key) : [])
+                        : [...(drafts[currentId]?.kind === "choice" ? drafts[currentId].selected : []), option.key]
+                      : [option.key],
+                };
+                return (
+                  <button
+                    key={option.key}
+                    type="button"
+                    disabled={locked || busy !== null}
+                    onClick={() => {
+                      setDrafts((draft) => ({ ...draft, [currentId]: response }));
+                      setDirty((dirtyState) => ({ ...dirtyState, [currentId]: true }));
+                      if (error) setError(null);
+                      if (current.question.type !== "MULTIPLE_RESPONSE") void check(response);
+                    }}
+                    className={cn(
+                      "flex min-h-14 items-start gap-3 rounded-xl border bg-card p-4 text-left text-base shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      !locked && "hover:border-primary/60 hover:bg-primary/5",
+                      selected && !optionReview && "border-primary bg-primary/5",
+                      optionReview?.isCorrect && "border-success/70 bg-success/10",
+                      optionReview && !optionReview.isCorrect && optionReview.selected && "border-destructive/70 bg-destructive/10",
+                    )}
+                  >
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border bg-muted text-sm font-semibold">{String.fromCharCode(65 + optionIndex)}</span>
+                    <span className="flex-1">
+                      <Markdown inline>{option.text}</Markdown>
+                    </span>
+                    {optionReview?.isCorrect ? <CheckCircle2 className="h-5 w-5 shrink-0 text-success motion-safe:animate-pop" aria-hidden="true" /> : null}
+                    {optionReview && !optionReview.isCorrect && optionReview.selected ? <XCircle className="h-5 w-5 shrink-0 text-destructive motion-safe:animate-pop" aria-hidden="true" /> : null}
+                  </button>
+                );
+              })}
+            </div>
+
+            {review ? (
+              <div
+                ref={feedbackRef}
+                tabIndex={-1}
+                onMouseEnter={() => setFeedbackPaused(true)}
+                onFocusCapture={() => setFeedbackPaused(true)}
+                className="space-y-3"
+                aria-live="polite"
+              >
+                <Alert variant={review.isCorrect ? "success" : "destructive"} title={review.isCorrect ? t("assessment.runner.correct") : t("assessment.runner.incorrect")}>
+                  <Markdown>{review.explanation}</Markdown>
+                </Alert>
+                <div className="flex justify-end">
+                  <Button ref={nextButtonRef} onClick={() => void lightningAdvance()} disabled={busy !== null}>
+                    {index < questions.length - 1 ? t("assessment.runner.next") : t("assessment.runner.finish")}
+                    <ArrowRight aria-hidden="true" />
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex justify-end border-t pt-4">
+                <Button onClick={() => void check()} disabled={busy !== null || !hasContent(drafts[currentId])}>
+                  <CheckCircle2 aria-hidden="true" />
+                  {busy === "answer" ? t("common.saving") : t("assessment.runner.submitAnswer")}
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      ) : (
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_17rem]">
         {phase === "question" ? (
           <Card>
@@ -624,6 +820,7 @@ export function AssessmentRunner({ data }: { data: RunnerData }) {
           <p className="text-xs text-muted-foreground">{t("assessment.runner.originalNotice")}</p>
         </aside>
       </div>
+      )}
     </div>
   );
 }

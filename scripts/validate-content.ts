@@ -12,6 +12,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { listCourseDirectories, loadCourseDirectory } from "../src/modules/content/package-loader";
 import { iterateQuestions, validateCoursePackage } from "../src/modules/content/package-schema";
+import { findNearDuplicateTexts, findRepeatedLessonContent, findRepeatedQuestionContent, nearDuplicateEntries } from "../src/modules/content/quality";
 import { validateLabConfig, type LabTypeValue } from "../src/modules/labs/engine/schemas";
 import { labRuleSchema } from "../src/modules/labs/engine/rules";
 
@@ -80,9 +81,15 @@ for (const input of inputs) {
     byDomain.set(q.domainKey, (byDomain.get(q.domainKey) ?? 0) + 1);
   }
   const translatedLessons = lessons.filter((l) => l.translations?.tr).length;
+  const quality = [
+    ...findRepeatedLessonContent(lessons),
+    ...findRepeatedQuestionContent([...iterateQuestions(pkg)].map(({ q }) => q)),
+    ...findNearDuplicateTexts(nearDuplicateEntries(lessons, [...iterateQuestions(pkg)].map(({ q }) => q))),
+  ];
   console.log(`\u2714 ${label} (${pkg.certificationCode})`);
+  for (const issue of quality) console.log(`  warn  quality.${issue.field}: repeated in ${issue.lessons.join(", ")} - "${issue.sample}"`);
   console.log(
-    `  lessons=${lessons.length} (tr=${translatedLessons}) questions=${total} glossary=${pkg.glossary.length} labs=${pkg.labs.length}`,
+    `  lessons=${lessons.length} (tr=${translatedLessons}) questions=${total} glossary=${pkg.glossary.length} labs=${pkg.labs.length}${quality.length ? ` quality-warnings=${quality.length}` : ""}`,
   );
   console.log(`  by domain: ${[...byDomain].map(([k, v]) => `${k}=${v}`).join(", ") || "-"}`);
   console.log(`  by type:   ${[...byType].map(([k, v]) => `${k}=${v}`).join(", ") || "-"}`);

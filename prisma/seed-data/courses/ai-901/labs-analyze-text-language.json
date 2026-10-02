@@ -1,0 +1,1058 @@
+{
+  "labs": [
+    {
+      "slug": "analyze-text-language",
+      "type": "UI_SIMULATION",
+      "title": "Analyze text with Azure Language in Foundry Tools",
+      "summary": "Use Microsoft Foundry to run sentiment, opinion mining, key phrase, named entity, and PII redaction capabilities for support text.",
+      "scenario": "**Fabrikam Support** wants to store cleaner customer feedback without exposing sensitive data. In the simulated Microsoft Foundry portal, open **Azure Language** in **Foundry Tools**, use the **Language playground** to analyze customer reviews for sentiment and opinions, extract key phrases and named entities from feedback, and detect plus redact PII in a support transcript before storage. Done means each request is matched to the right language capability and the transcript is stored only in redacted form.",
+      "domainKey": "foundry-solutions",
+      "moduleSlug": "foundry-text-and-speech",
+      "objectiveCode": "2.2",
+      "complexity": "BASIC",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Open Azure Language in Foundry Tools and use the Language playground",
+        "Run sentiment analysis with opinion mining on customer reviews",
+        "Extract key phrases and named entities from support text",
+        "Detect and redact PII before storing a transcript",
+        "Choose the correct language capability for a business request"
+      ],
+      "prerequisites": [
+        "Know that natural language processing analyzes text"
+      ],
+      "sources": [
+        {
+          "title": "What is Azure Language in Foundry Tools",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Sentiment analysis and opinion mining",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/sentiment-opinion-mining/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Named entity recognition in Azure Language",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/named-entity-recognition/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "PII detection in Azure Language",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Foundry",
+          "theme": "foundry",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://ai.azure.com",
+          "searchPlaceholder": "Search Foundry"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-10-02T09:15:00Z"
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "tools",
+            "label": "Tools",
+            "icon": "Wrench",
+            "section": "Build"
+          },
+          {
+            "page": "azure-language",
+            "label": "Azure Language",
+            "icon": "Languages",
+            "section": "Foundry Tools"
+          },
+          {
+            "page": "language-playground",
+            "label": "Language playground",
+            "icon": "MessagesSquare",
+            "section": "Foundry Tools"
+          },
+          {
+            "page": "stored-transcripts",
+            "label": "Stored transcripts",
+            "icon": "FileText",
+            "section": "Review"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Microsoft Foundry",
+            "subtitle": "proj-support-insights",
+            "url": "/build/projects/proj-support-insights",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "home-tiles",
+                "title": "Text analysis mission",
+                "items": [
+                  {
+                    "id": "open-tools",
+                    "label": "Tools",
+                    "description": "Find Azure Language in Foundry Tools.",
+                    "icon": "Wrench",
+                    "action": {
+                      "type": "navigate",
+                      "page": "tools"
+                    }
+                  },
+                  {
+                    "id": "open-language",
+                    "label": "Azure Language",
+                    "description": "Analyze text for sentiment, entities, key phrases, and PII.",
+                    "icon": "Languages",
+                    "action": {
+                      "type": "navigate",
+                      "page": "azure-language"
+                    }
+                  },
+                  {
+                    "id": "open-store",
+                    "label": "Stored transcripts",
+                    "description": "Confirm only redacted text is stored.",
+                    "icon": "FileText",
+                    "action": {
+                      "type": "navigate",
+                      "page": "stored-transcripts"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "tools",
+            "title": "Tools",
+            "subtitle": "Build",
+            "icon": "Wrench",
+            "url": "/build/tools",
+            "breadcrumb": [
+              "Home"
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "tools-table",
+                "title": "Foundry Tools",
+                "source": "tools",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Tool",
+                    "format": "link"
+                  },
+                  {
+                    "key": "workload",
+                    "label": "Workload"
+                  },
+                  {
+                    "key": "bestFor",
+                    "label": "Best for"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "azure-language",
+                  "select": {
+                    "as": "tool",
+                    "path": "tools",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "azure-language",
+            "title": "Azure Language",
+            "subtitle": "Foundry Tools",
+            "icon": "Languages",
+            "url": "/explore/language",
+            "breadcrumb": [
+              "Home",
+              "Tools"
+            ],
+            "commands": [
+              {
+                "id": "open-language-playground",
+                "label": "Open Language playground",
+                "icon": "Play",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "language-playground"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "id": "language-guidance",
+                "variant": "info",
+                "title": "Language capabilities",
+                "text": "Azure Language in Foundry Tools includes sentiment analysis and opinion mining, named entity recognition, key phrase extraction, language detection, and PII detection/redaction."
+              },
+              {
+                "kind": "table",
+                "id": "capability-table",
+                "title": "Capability guide",
+                "source": "capabilities",
+                "rowKey": "id",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Capability"
+                  },
+                  {
+                    "key": "output",
+                    "label": "Typical output"
+                  },
+                  {
+                    "key": "wrongWhen",
+                    "label": "Wrong when"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "language-playground",
+            "title": "Language playground",
+            "subtitle": "Azure Language",
+            "icon": "MessagesSquare",
+            "url": "/explore/language/playground",
+            "breadcrumb": [
+              "Home",
+              "Tools",
+              "Azure Language"
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "text-samples",
+                "title": "Samples",
+                "source": "samples",
+                "rowKey": "id",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Sample",
+                    "format": "link"
+                  },
+                  {
+                    "key": "text",
+                    "label": "Text"
+                  },
+                  {
+                    "key": "recommended",
+                    "label": "Recommended capability"
+                  }
+                ],
+                "rowAction": {
+                  "type": "select",
+                  "as": "sample",
+                  "path": "samples",
+                  "key": "id",
+                  "value": "{{$row.id}}"
+                }
+              },
+              {
+                "kind": "form",
+                "id": "language-analysis-form",
+                "title": "Analyze text",
+                "fields": [
+                  {
+                    "id": "sample",
+                    "label": "Text sample",
+                    "control": "select",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "samples",
+                      "value": "id",
+                      "label": "name"
+                    }
+                  },
+                  {
+                    "id": "capabilities",
+                    "label": "Capabilities",
+                    "control": "checkboxes",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "sentiment-opinion",
+                        "label": "Sentiment analysis and opinion mining"
+                      },
+                      {
+                        "value": "key-phrases",
+                        "label": "Key phrase extraction"
+                      },
+                      {
+                        "value": "ner",
+                        "label": "Named entity recognition"
+                      },
+                      {
+                        "value": "pii",
+                        "label": "PII detection and redaction"
+                      },
+                      {
+                        "value": "translation",
+                        "label": "Translation"
+                      },
+                      {
+                        "value": "speech",
+                        "label": "Speech to text"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "storeRedacted",
+                    "label": "Store only redacted text",
+                    "control": "toggle",
+                    "defaultValue": false,
+                    "visibleWhen": {
+                      "type": "includes",
+                      "path": "$form.capabilities",
+                      "value": "pii"
+                    }
+                  }
+                ],
+                "submit": {
+                  "label": "Run",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "not",
+                        "rule": {
+                          "type": "includes",
+                          "path": "$form.capabilities",
+                          "value": "speech"
+                        }
+                      },
+                      "message": "Speech to text is for audio. These samples are already text."
+                    },
+                    {
+                      "rule": {
+                        "type": "not",
+                        "rule": {
+                          "type": "includes",
+                          "path": "$form.capabilities",
+                          "value": "translation"
+                        }
+                      },
+                      "message": "Translation changes languages; it does not find sentiment, entities, key phrases, or PII in this lab."
+                    },
+                    {
+                      "rule": {
+                        "type": "anyOf",
+                        "rules": [
+                          {
+                            "type": "not",
+                            "rule": {
+                              "type": "includes",
+                              "path": "$form.capabilities",
+                              "value": "pii"
+                            }
+                          },
+                          {
+                            "type": "equals",
+                            "path": "$form.storeRedacted",
+                            "value": true
+                          }
+                        ]
+                      },
+                      "message": "PII results must be stored in redacted form before the transcript is saved."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "analysisRuns",
+                      "value": {
+                        "sample": "{{$form.sample}}",
+                        "capabilities": "{{$form.capabilities}}",
+                        "storeRedacted": "{{$form.storeRedacted}}"
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "analysis.lastSample",
+                      "value": "{{$form.sample}}"
+                    },
+                    {
+                      "type": "if",
+                      "when": {
+                        "type": "allOf",
+                        "rules": [
+                          {
+                            "type": "equals",
+                            "path": "$form.sample",
+                            "value": "reviews"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.capabilities",
+                            "value": "sentiment-opinion"
+                          }
+                        ]
+                      },
+                      "then": [
+                        {
+                          "type": "set",
+                          "path": "outcomes.sentiment",
+                          "value": true
+                        }
+                      ]
+                    },
+                    {
+                      "type": "if",
+                      "when": {
+                        "type": "allOf",
+                        "rules": [
+                          {
+                            "type": "equals",
+                            "path": "$form.sample",
+                            "value": "product-feedback"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.capabilities",
+                            "value": "key-phrases"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.capabilities",
+                            "value": "ner"
+                          }
+                        ]
+                      },
+                      "then": [
+                        {
+                          "type": "set",
+                          "path": "outcomes.extraction",
+                          "value": true
+                        }
+                      ]
+                    },
+                    {
+                      "type": "if",
+                      "when": {
+                        "type": "allOf",
+                        "rules": [
+                          {
+                            "type": "equals",
+                            "path": "$form.sample",
+                            "value": "support-transcript"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.capabilities",
+                            "value": "pii"
+                          },
+                          {
+                            "type": "equals",
+                            "path": "$form.storeRedacted",
+                            "value": true
+                          }
+                        ]
+                      },
+                      "then": [
+                        {
+                          "type": "set",
+                          "path": "outcomes.pii",
+                          "value": true
+                        },
+                        {
+                          "type": "append",
+                          "path": "storedTranscripts",
+                          "unique": "id",
+                          "value": {
+                            "id": "case-4472-redacted",
+                            "status": "Redacted",
+                            "text": "Customer [PERSON] at [EMAIL] asked to update order [ORDER_NUMBER]. Phone [PHONE_NUMBER] was removed before storage."
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Language analysis complete",
+                      "tone": "success"
+                    }
+                  ],
+                  "successMessage": "Language results are ready."
+                }
+              },
+              {
+                "kind": "table",
+                "id": "sentiment-results",
+                "title": "Sentiment and opinions",
+                "source": "sentimentRows",
+                "rowKey": "aspect",
+                "columns": [
+                  {
+                    "key": "aspect",
+                    "label": "Aspect"
+                  },
+                  {
+                    "key": "sentiment",
+                    "label": "Sentiment",
+                    "format": "status"
+                  },
+                  {
+                    "key": "opinion",
+                    "label": "Opinion"
+                  }
+                ],
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "analysis.lastSample",
+                  "value": "reviews"
+                }
+              },
+              {
+                "kind": "table",
+                "id": "entity-results",
+                "title": "Key phrases and named entities",
+                "source": "entityRows",
+                "rowKey": "item",
+                "columns": [
+                  {
+                    "key": "item",
+                    "label": "Detected item"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Type"
+                  },
+                  {
+                    "key": "whyUseful",
+                    "label": "Why useful"
+                  }
+                ],
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "analysis.lastSample",
+                  "value": "product-feedback"
+                }
+              },
+              {
+                "kind": "table",
+                "id": "pii-results",
+                "title": "PII redaction result",
+                "source": "piiRows",
+                "rowKey": "entity",
+                "columns": [
+                  {
+                    "key": "entity",
+                    "label": "Entity"
+                  },
+                  {
+                    "key": "category",
+                    "label": "Category"
+                  },
+                  {
+                    "key": "redacted",
+                    "label": "Redacted as"
+                  }
+                ],
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "analysis.lastSample",
+                  "value": "support-transcript"
+                }
+              },
+              {
+                "kind": "form",
+                "id": "request-choice-form",
+                "title": "Pick the right language capability",
+                "fields": [
+                  {
+                    "id": "angryReviews",
+                    "label": "Request A: Find negative product opinions in reviews",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "sentiment-opinion",
+                        "label": "Sentiment and opinion mining"
+                      },
+                      {
+                        "value": "key-phrases",
+                        "label": "Key phrase extraction"
+                      },
+                      {
+                        "value": "ner",
+                        "label": "Named entity recognition"
+                      },
+                      {
+                        "value": "pii",
+                        "label": "PII detection and redaction"
+                      },
+                      {
+                        "value": "translation",
+                        "label": "Translation"
+                      },
+                      {
+                        "value": "speech",
+                        "label": "Speech to text"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "topicSummary",
+                    "label": "Request B: Summarize recurring topics in free-text feedback",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "sentiment-opinion",
+                        "label": "Sentiment and opinion mining"
+                      },
+                      {
+                        "value": "key-phrases",
+                        "label": "Key phrase extraction"
+                      },
+                      {
+                        "value": "ner",
+                        "label": "Named entity recognition"
+                      },
+                      {
+                        "value": "pii",
+                        "label": "PII detection and redaction"
+                      },
+                      {
+                        "value": "translation",
+                        "label": "Translation"
+                      },
+                      {
+                        "value": "speech",
+                        "label": "Speech to text"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "privacyStore",
+                    "label": "Request C: Remove names, email addresses, and phone numbers before storage",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "sentiment-opinion",
+                        "label": "Sentiment and opinion mining"
+                      },
+                      {
+                        "value": "key-phrases",
+                        "label": "Key phrase extraction"
+                      },
+                      {
+                        "value": "ner",
+                        "label": "Named entity recognition"
+                      },
+                      {
+                        "value": "pii",
+                        "label": "PII detection and redaction"
+                      },
+                      {
+                        "value": "translation",
+                        "label": "Translation"
+                      },
+                      {
+                        "value": "speech",
+                        "label": "Speech to text"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Save capability choices",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.angryReviews",
+                        "value": "sentiment-opinion"
+                      },
+                      "message": "Use sentiment analysis and opinion mining to find negative opinions."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.topicSummary",
+                        "value": "key-phrases"
+                      },
+                      "message": "Use key phrase extraction for recurring topics."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.privacyStore",
+                        "value": "pii"
+                      },
+                      "message": "Use PII detection and redaction before storing sensitive transcript text."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "capabilityChoices",
+                      "value": {
+                        "angryReviews": "{{$form.angryReviews}}",
+                        "topicSummary": "{{$form.topicSummary}}",
+                        "privacyStore": "{{$form.privacyStore}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Capability choices saved",
+                      "tone": "success"
+                    }
+                  ],
+                  "successMessage": "Capability choices saved."
+                }
+              }
+            ]
+          },
+          {
+            "id": "stored-transcripts",
+            "title": "Stored transcripts",
+            "subtitle": "Review",
+            "icon": "FileText",
+            "url": "/build/projects/proj-support-insights/transcripts",
+            "components": [
+              {
+                "kind": "table",
+                "id": "stored-transcript-table",
+                "title": "Stored transcript records",
+                "source": "storedTranscripts",
+                "rowKey": "id",
+                "emptyText": "No transcript has been stored yet.",
+                "columns": [
+                  {
+                    "key": "id",
+                    "label": "Record"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "text",
+                    "label": "Stored text"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "tools": [
+            {
+              "name": "Azure Language",
+              "workload": "Text",
+              "bestFor": "Sentiment, key phrases, entities, PII, language detection"
+            },
+            {
+              "name": "Azure Vision",
+              "workload": "Vision",
+              "bestFor": "Image analysis and OCR"
+            },
+            {
+              "name": "Azure Speech",
+              "workload": "Speech",
+              "bestFor": "Speech to text and text to speech"
+            },
+            {
+              "name": "Translator",
+              "workload": "Language",
+              "bestFor": "Translate text between languages"
+            }
+          ],
+          "capabilities": [
+            {
+              "id": "sentiment-opinion",
+              "name": "Sentiment analysis and opinion mining",
+              "output": "Positive, neutral, negative sentiment and aspect opinions",
+              "wrongWhen": "You need to remove sensitive data"
+            },
+            {
+              "id": "key-phrases",
+              "name": "Key phrase extraction",
+              "output": "Important words and phrases",
+              "wrongWhen": "You need entity categories such as person or organization"
+            },
+            {
+              "id": "ner",
+              "name": "Named entity recognition",
+              "output": "Entity text and categories",
+              "wrongWhen": "You need emotional tone"
+            },
+            {
+              "id": "pii",
+              "name": "PII detection and redaction",
+              "output": "Sensitive entities and redacted text",
+              "wrongWhen": "You only need product topics"
+            }
+          ],
+          "samples": [
+            {
+              "id": "reviews",
+              "name": "Customer reviews",
+              "text": "The pickup was quick, but the battery door broke and support was slow.",
+              "recommended": "Sentiment analysis and opinion mining"
+            },
+            {
+              "id": "product-feedback",
+              "name": "Product feedback",
+              "text": "Northwind Kiosk battery cover cracks near the hinge in Berlin stores.",
+              "recommended": "Key phrases and named entities"
+            },
+            {
+              "id": "support-transcript",
+              "name": "Support transcript",
+              "text": "Jordan asked us to call 555-0104 and email jordan@fabrikam.example about order TT-1048.",
+              "recommended": "PII detection and redaction"
+            }
+          ],
+          "sentimentRows": [
+            {
+              "aspect": "pickup",
+              "sentiment": "Positive",
+              "opinion": "quick"
+            },
+            {
+              "aspect": "battery door",
+              "sentiment": "Negative",
+              "opinion": "broke"
+            },
+            {
+              "aspect": "support",
+              "sentiment": "Negative",
+              "opinion": "slow"
+            }
+          ],
+          "entityRows": [
+            {
+              "item": "Northwind Kiosk",
+              "type": "Product",
+              "whyUseful": "Groups feedback by affected product"
+            },
+            {
+              "item": "battery cover",
+              "type": "Key phrase",
+              "whyUseful": "Identifies recurring part issue"
+            },
+            {
+              "item": "Berlin",
+              "type": "Location",
+              "whyUseful": "Shows where reports appear"
+            }
+          ],
+          "piiRows": [
+            {
+              "entity": "Jordan",
+              "category": "Person",
+              "redacted": "[PERSON]"
+            },
+            {
+              "entity": "555-0104",
+              "category": "PhoneNumber",
+              "redacted": "[PHONE_NUMBER]"
+            },
+            {
+              "entity": "jordan@fabrikam.example",
+              "category": "Email",
+              "redacted": "[EMAIL]"
+            },
+            {
+              "entity": "TT-1048",
+              "category": "Customer identifier",
+              "redacted": "[ORDER_NUMBER]"
+            }
+          ],
+          "analysisRuns": [],
+          "analysis": {
+            "lastSample": ""
+          },
+          "outcomes": {
+            "sentiment": false,
+            "extraction": false,
+            "pii": false
+          },
+          "storedTranscripts": [],
+          "capabilityChoices": {}
+        }
+      },
+      "steps": [
+        {
+          "key": "open-language",
+          "title": "Open Azure Language",
+          "instruction": "Open **Tools**, select **Azure Language**, and then select **Open Language playground**.",
+          "hint": "Azure Language is listed under Foundry Tools for text workloads.",
+          "explanation": "Azure Language in Foundry Tools provides natural language processing features for understanding and analyzing text.",
+          "targetId": "tools-table",
+          "rules": [
+            {
+              "key": "language-playground-opened",
+              "description": "The Language playground was opened",
+              "rule": {
+                "type": "visited",
+                "page": "language-playground"
+              }
+            }
+          ]
+        },
+        {
+          "key": "run-sentiment",
+          "title": "Analyze sentiment and opinions",
+          "instruction": "In **Analyze text**, choose **Customer reviews**, select **Sentiment analysis and opinion mining**, and select **Run**. Review **Sentiment and opinions**.",
+          "hint": "Use sentiment analysis when the business asks whether text is positive, neutral, or negative.",
+          "explanation": "Sentiment analysis classifies tone, while opinion mining connects a sentiment to a target such as a product part or support experience.",
+          "targetId": "language-analysis-form",
+          "rules": [
+            {
+              "key": "sentiment-complete",
+              "description": "Customer reviews were analyzed with sentiment and opinion mining",
+              "rule": {
+                "type": "equals",
+                "path": "outcomes.sentiment",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "key": "extract-phrases-entities",
+          "title": "Extract phrases and entities",
+          "instruction": "Run **Analyze text** for **Product feedback** with **Key phrase extraction** and **Named entity recognition**. Review **Key phrases and named entities**.",
+          "hint": "Key phrases find main topics; named entity recognition categorizes names such as products, organizations, and locations.",
+          "explanation": "Key phrases help summarize recurring topics. Named entities add structure by categorizing text spans such as products and locations.",
+          "targetId": "entity-results",
+          "rules": [
+            {
+              "key": "extraction-complete",
+              "description": "Product feedback was analyzed for phrases and entities",
+              "rule": {
+                "type": "equals",
+                "path": "outcomes.extraction",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "key": "redact-pii",
+          "title": "Detect and redact PII",
+          "instruction": "Run **Analyze text** for **Support transcript** with **PII detection and redaction**, turn on **Store only redacted text**, and review **PII redaction result**.",
+          "hint": "PII detection is the capability that identifies names, email addresses, phone numbers, and similar sensitive values.",
+          "explanation": "PII redaction supports privacy by replacing sensitive values before text is stored or shared downstream.",
+          "targetId": "pii-results",
+          "rules": [
+            {
+              "key": "pii-complete",
+              "description": "The transcript was redacted before storage",
+              "rule": {
+                "type": "equals",
+                "path": "outcomes.pii",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "key": "choose-capabilities",
+          "title": "Choose language capabilities",
+          "instruction": "In **Pick the right language capability**, choose **Sentiment and opinion mining**, **Key phrase extraction**, and **PII detection and redaction** for the three requests.",
+          "hint": "Match the output to the request: emotion, topics, or privacy redaction.",
+          "explanation": "Choosing the right language feature prevents overbuilding. Each capability returns a different kind of structure from text.",
+          "targetId": "request-choice-form",
+          "rules": [
+            {
+              "key": "capability-map-correct",
+              "description": "All capability choices are correct",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "equals",
+                    "path": "capabilityChoices.angryReviews",
+                    "value": "sentiment-opinion"
+                  },
+                  {
+                    "type": "equals",
+                    "path": "capabilityChoices.topicSummary",
+                    "value": "key-phrases"
+                  },
+                  {
+                    "type": "equals",
+                    "path": "capabilityChoices.privacyStore",
+                    "value": "pii"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "key": "verify-storage",
+          "title": "Verify redacted storage",
+          "instruction": "Open **Stored transcripts** and confirm the transcript status is **Redacted** with placeholders instead of names, email addresses, and phone numbers.",
+          "hint": "Only the redacted record should be present after the PII run.",
+          "explanation": "A privacy control is only useful if the downstream store receives the redacted version, not just a report that PII exists.",
+          "targetId": "stored-transcript-table",
+          "rules": [
+            {
+              "key": "redacted-stored",
+              "description": "A redacted transcript was stored",
+              "rule": {
+                "type": "arrayContains",
+                "path": "storedTranscripts",
+                "match": {
+                  "id": "case-4472-redacted",
+                  "status": "Redacted"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "redacted-storage",
+          "description": "Only redacted transcript text is stored",
+          "rule": {
+            "type": "arrayContains",
+            "path": "storedTranscripts",
+            "match": {
+              "id": "case-4472-redacted",
+              "status": "Redacted"
+            }
+          }
+        }
+      ],
+      "solution": "1. Open **Tools** > **Azure Language**, then select **Open Language playground**.\n2. Choose **Customer reviews**, select **Sentiment analysis and opinion mining**, and select **Run**.\n3. Choose **Product feedback**, select **Key phrase extraction** and **Named entity recognition**, and select **Run**.\n4. Choose **Support transcript**, select **PII detection and redaction**, turn on **Store only redacted text**, and select **Run**.\n5. In **Pick the right language capability**, choose **Sentiment and opinion mining**, **Key phrase extraction**, and **PII detection and redaction**.\n6. Open **Stored transcripts** and confirm only a **Redacted** transcript with placeholders is stored."
+    }
+  ]
+}

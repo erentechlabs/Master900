@@ -1,0 +1,1467 @@
+{
+  "domainKey": "relational-data",
+  "modules": [
+    {
+      "slug": "relational-design-and-sql",
+      "title": "Relational design and SQL fundamentals",
+      "summary": "Tables, keys, normalization, SQL statements, and database objects.",
+      "lessons": [
+        {
+          "slug": "relational-tables-keys-normalization",
+          "title": "Relational tables, keys, relationships, and normalization",
+          "objectiveCode": "2.1",
+          "estimatedMinutes": 12,
+          "summary": "Relational data uses tables, rows, primary keys, foreign keys, relationships, and normalization to reduce duplicate facts.",
+          "learningObjectives": [
+            "Describe tables, rows, primary keys, foreign keys, and relationships",
+            "Explain how normalization reduces duplicate facts in relational design",
+            "Identify keys that connect orders, customers, and other structured entities"
+          ],
+          "explanation": "At fictional Northwind Traders and Alpine Goods, learners compare realistic data needs. Relational data uses tables, rows, primary keys, foreign keys, relationships, and normalization to reduce duplicate facts. Read the scenario: structured rows and keys suggest relational design; SQL statements suggest database objects; SQL Server compatibility suggests Azure SQL choices; PostgreSQL or MySQL names point to their managed services; object files, shares, key-value entities, and analytics folders point to Azure Storage; globally distributed JSON documents and API clues point to Azure Cosmos DB. Where natural, practise these ideas in the Azure SQL query editor, Cosmos DB Data Explorer, and Data Lake Storage labs.",
+          "terminology": [
+            {
+              "term": "Table",
+              "definition": "A named structure for rows about one entity, such as Customers."
+            },
+            {
+              "term": "Row",
+              "definition": "One record in a table."
+            },
+            {
+              "term": "Primary key",
+              "definition": "A value that uniquely identifies a row."
+            },
+            {
+              "term": "Foreign key",
+              "definition": "A value that points to a related row in another table."
+            },
+            {
+              "term": "Normalization",
+              "definition": "Splitting facts into related tables to reduce duplicated updates."
+            }
+          ],
+          "businessScenario": "Northwind Traders keeps customer, order, product, and order-line facts in separate tables so a city change does not require editing every historical order.",
+          "technicalExample": "CREATE TABLE Orders (OrderID int PRIMARY KEY, CustomerID int REFERENCES Customers(CustomerID)); The primary key identifies the order; CustomerID links it to Customers.",
+          "misconception": {
+            "myth": "A primary key is just a nice-to-have label for a row.",
+            "reality": "A primary key is the stable identifier that lets other tables reference the row reliably."
+          },
+          "examTakeaway": "If the scenario mentions structured entities, unique row identifiers, and joins between tables, think relational tables with primary and foreign keys.",
+          "recap": "Relational data uses tables, rows, primary keys, foreign keys, relationships, and normalization to reduce duplicate facts.",
+          "simplerExplanation": "Picture a set of library cards: one card identifies a book, another identifies a borrower, and a checkout card connects the two without rewriting the full book record.",
+          "anotherExample": "A training company can store Students, Courses, and Enrollments. Enrollments is the bridge table that says which student joined which course.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Tables, rows, and keys decision table",
+                "columns": [
+                  {
+                    "title": "Strong clue",
+                    "points": [
+                      "If the scenario mentions structured entities, unique row identifiers, and joins between tables, think relational tables with primary and foreign keys."
+                    ]
+                  },
+                  {
+                    "title": "Common trap",
+                    "points": [
+                      "A primary key is just a nice-to-have label for a row."
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Classify a retail relationship",
+                "instructions": "Use the lesson-specific clue, then reveal the answer.",
+                "items": [
+                  {
+                    "prompt": "Northwind Traders keeps customer, order, product, and order-line facts in separate tables so a city change does not require editing every historical order.",
+                    "answer": "CREATE TABLE Orders (OrderID int PRIMARY KEY, CustomerID int REFERENCES Customers(CustomerID)); The primary key identifies the order; CustomerID links it to Customers."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Primary key in a customer table",
+              "back": "The value that uniquely identifies one customer row."
+            },
+            {
+              "front": "Foreign key in an order table",
+              "back": "The customer identifier stored with an order to show who placed it."
+            },
+            {
+              "front": "Why normalize order data?",
+              "back": "To avoid repeating customer and product details in every order row."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam DP-900",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Explore relational data concepts",
+              "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/",
+              "kind": "LEARN_MODULE"
+            },
+            {
+              "title": "CREATE TABLE (Transact-SQL)",
+              "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql?view=sql-server-ver17",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "dp900-rel-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.1",
+              "difficulty": "EASY",
+              "stem": "Which relational feature uniquely identifies a customer row?",
+              "explanation": "A primary key gives every customer row a stable identifier that other tables can reference.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Primary key",
+                  "correct": true,
+                  "explanation": "A primary key uniquely identifies each row in the customer table."
+                },
+                {
+                  "key": "B",
+                  "text": "Foreign key",
+                  "correct": false,
+                  "explanation": "A foreign key points to a row in another table; it does not define the customer row identifier itself."
+                },
+                {
+                  "key": "C",
+                  "text": "Index",
+                  "correct": false,
+                  "explanation": "An index may make CustomerID lookups faster, but the primary key is the constraint that identifies each customer row."
+                },
+                {
+                  "key": "D",
+                  "text": "View",
+                  "correct": false,
+                  "explanation": "A view is a saved query over data, not the key that identifies table rows."
+                }
+              ],
+              "lessonSlug": "relational-tables-keys-normalization",
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Explore relational data concepts",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "CREATE TABLE (Transact-SQL)",
+                  "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-rel-002",
+              "type": "TRUE_FALSE",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.1",
+              "difficulty": "EASY",
+              "stem": "A primary key uniquely identifies each row in its table, and a foreign key stores values that reference a key in another table.",
+              "explanation": "Primary keys identify rows; foreign keys hold matching key values to relate rows across tables.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. A primary key provides a unique row identifier, and a foreign key uses matching values to represent the relationship to another table."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses the distinct roles of primary keys for uniqueness and foreign keys for relationships."
+                }
+              ],
+              "lessonSlug": "relational-tables-keys-normalization",
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Explore relational data concepts",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "CREATE TABLE (Transact-SQL)",
+                  "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-rel-003",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which two statements about normalized retail tables are accurate?",
+              "selectCount": 2,
+              "explanation": "Normalization stores each business fact in the right table and uses keys to connect related rows.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Store customer details once in a Customers table instead of repeating them on every order.",
+                  "correct": true,
+                  "explanation": "Keeping customer attributes in one table reduces duplicated updates."
+                },
+                {
+                  "key": "B",
+                  "text": "Use a CustomerID foreign key in Orders to relate each order to its customer.",
+                  "correct": true,
+                  "explanation": "A foreign key captures the relationship between order rows and customer rows."
+                },
+                {
+                  "key": "C",
+                  "text": "Copy the full customer address into every historical order line for easier updates.",
+                  "correct": false,
+                  "explanation": "Repeating the address in many rows makes updates inconsistent and is what normalization avoids."
+                },
+                {
+                  "key": "D",
+                  "text": "Put customers, products, and payments into one unstructured text column.",
+                  "correct": false,
+                  "explanation": "A single unstructured column loses relational structure and queryable keys."
+                }
+              ],
+              "lessonSlug": "relational-tables-keys-normalization",
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Explore relational data concepts",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "CREATE TABLE (Transact-SQL)",
+                  "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-rel-004",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.1",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about how rows are identified in normalized order tables.",
+              "explanation": "A primary key is the identifier on the parent table that lets normalized tables avoid repeating the same customer details in many order rows.",
+              "fillInBlank": {
+                "template": "In normalized Customers and Orders tables, the {{b1}} on Customers uniquely identifies each customer row so Orders can reference it.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "primary key"
+                    ],
+                    "explanation": "Primary key is correct because it uniquely identifies a row; a foreign key in Orders would store that value to create the relationship."
+                  }
+                ],
+                "wordBank": [
+                  "primary key",
+                  "foreign key",
+                  "index",
+                  "view"
+                ]
+              },
+              "lessonSlug": "relational-tables-keys-normalization",
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Explore relational data concepts",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "CREATE TABLE (Transact-SQL)",
+                  "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-rel-005",
+              "type": "MATCHING",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each relational design clue to the correct table concept.",
+              "explanation": "Matching each design clue checks whether you can distinguish identifiers, relationships, and normalization in relational tables.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "unique",
+                    "text": "Column that uniquely identifies each customer row"
+                  },
+                  {
+                    "id": "link",
+                    "text": "Order row stores CustomerID to identify who placed it"
+                  },
+                  {
+                    "id": "split",
+                    "text": "Move product details out of order lines to avoid repeated updates"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "pk",
+                    "text": "Primary key"
+                  },
+                  {
+                    "id": "fk",
+                    "text": "Foreign key"
+                  },
+                  {
+                    "id": "norm",
+                    "text": "Normalization"
+                  },
+                  {
+                    "id": "view",
+                    "text": "View"
+                  }
+                ],
+                "pairs": {
+                  "unique": "pk",
+                  "link": "fk",
+                  "split": "norm"
+                },
+                "explanations": {
+                  "unique": "This clue maps to Primary key.",
+                  "link": "This clue maps to Foreign key.",
+                  "split": "This clue maps to Normalization."
+                }
+              },
+              "lessonSlug": "relational-tables-keys-normalization",
+              "sources": [
+                {
+                  "title": "Study guide for Exam DP-900",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Explore relational data concepts",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "CREATE TABLE (Transact-SQL)",
+                  "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "sql-statements-views-procedures-indexes",
+          "title": "SQL statements, views, stored procedures, and indexes",
+          "objectiveCode": "2.1",
+          "estimatedMinutes": 12,
+          "summary": "SQL includes DDL for objects, DML for row changes, DQL with SELECT, plus views, stored procedures, and indexes.",
+          "learningObjectives": [
+            "Distinguish DDL, DML, and DQL statements in SQL scenarios",
+            "Identify views, stored procedures, and indexes by their database purpose",
+            "Recognize SELECT queries and reusable views in beginner SQL examples"
+          ],
+          "explanation": "At fictional Northwind Traders and Alpine Goods, learners compare realistic data needs. SQL includes DDL for objects, DML for row changes, DQL with SELECT, plus views, stored procedures, and indexes. Read the scenario: structured rows and keys suggest relational design; SQL statements suggest database objects; SQL Server compatibility suggests Azure SQL choices; PostgreSQL or MySQL names point to their managed services; object files, shares, key-value entities, and analytics folders point to Azure Storage; globally distributed JSON documents and API clues point to Azure Cosmos DB. Where natural, practise these ideas in the Azure SQL query editor, Cosmos DB Data Explorer, and Data Lake Storage labs.",
+          "terminology": [
+            {
+              "term": "DDL",
+              "definition": "SQL statements such as CREATE TABLE that define database objects."
+            },
+            {
+              "term": "DML",
+              "definition": "SQL statements such as INSERT or UPDATE that change rows."
+            },
+            {
+              "term": "DQL",
+              "definition": "SELECT statements that retrieve rows."
+            },
+            {
+              "term": "View",
+              "definition": "A saved query exposed like a virtual table."
+            },
+            {
+              "term": "Index",
+              "definition": "A structure that helps find rows for common filters or joins."
+            }
+          ],
+          "businessScenario": "Priya creates a view for shipped orders so Northwind analysts can query one friendly object instead of rewriting the same JOIN and WHERE clause.",
+          "technicalExample": "SELECT CustomerName FROM Sales.Customers; retrieves rows. CREATE VIEW Sales.OpenOrders AS SELECT * FROM Sales.Orders WHERE Status = N'Open'; defines a reusable query.",
+          "misconception": {
+            "myth": "A view stores a second physical copy of every row returned by its query.",
+            "reality": "A normal view stores the query definition; it presents query results when used."
+          },
+          "examTakeaway": "Create/alter/drop points to DDL, insert/update/delete to DML, SELECT to DQL, view to reusable query shape, and index to lookup performance.",
+          "recap": "SQL includes DDL for objects, DML for row changes, DQL with SELECT, plus views, stored procedures, and indexes.",
+          "simplerExplanation": "Think of SQL objects like a café: SELECT reads the order list, INSERT adds a new order, a view is the daily specials board, and an index is the alphabetized tab book.",
+          "anotherExample": "A support desk can create an OpenTickets view and an index on TicketStatus so agents can find active tickets quickly.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "SQL statement categories",
+                "columns": [
+                  {
+                    "title": "Strong clue",
+                    "points": [
+                      "Create/alter/drop points to DDL, insert/update/delete to DML, SELECT to DQL, view to reusable query shape, and index to lookup performance."
+                    ]
+                  },
+                  {
+                    "title": "Common trap",
+                    "points": [
+                      "A view stores a second physical copy of every row returned by its query."
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Choose the right database object",
+                "instructions": "Use the lesson-specific clue, then reveal the answer.",
+                "items": [
+                  {
+                    "prompt": "Priya creates a view for shipped orders so Northwind analysts can query one friendly object instead of rewriting the same JOIN and WHERE clause.",
+                    "answer": "SELECT CustomerName FROM Sales.Customers; retrieves rows. CREATE VIEW Sales.OpenOrders AS SELECT * FROM Sales.Orders WHERE Status = N'Open'; defines a reusable query."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "SELECT statement job",
+              "back": "Retrieve rows and columns from tables or views."
+            },
+            {
+              "front": "View versus stored procedure",
+              "back": "A view presents a saved query; a stored procedure executes reusable logic."
+            },
+            {
+              "front": "Index tradeoff",
+              "back": "Can speed reads for matching queries but adds maintenance when data changes."
+            }
+          ],
+          "sources": [
+            {
+              "title": "SELECT (Transact-SQL)",
+              "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-transact-sql?view=sql-server-ver17",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "CREATE TABLE (Transact-SQL)",
+              "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql?view=sql-server-ver17",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Views - SQL Server",
+              "url": "https://learn.microsoft.com/en-us/sql/relational-databases/views/views?view=sql-server-ver17",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "dp900-rel-006",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.1",
+              "difficulty": "EASY",
+              "stem": "Which SQL statement retrieves rows from the Customers table?",
+              "explanation": "SELECT returns rows for analysis and does not insert, update, or define table structures.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "SELECT",
+                  "correct": true,
+                  "explanation": "SELECT is the data manipulation statement used to query rows."
+                },
+                {
+                  "key": "B",
+                  "text": "INSERT",
+                  "correct": false,
+                  "explanation": "INSERT adds new rows instead of reading existing rows."
+                },
+                {
+                  "key": "C",
+                  "text": "UPDATE",
+                  "correct": false,
+                  "explanation": "UPDATE changes existing values, which is not requested here."
+                },
+                {
+                  "key": "D",
+                  "text": "CREATE TABLE",
+                  "correct": false,
+                  "explanation": "CREATE TABLE defines a schema object rather than returning data."
+                }
+              ],
+              "lessonSlug": "sql-statements-views-procedures-indexes",
+              "sources": [
+                {
+                  "title": "SELECT (Transact-SQL)",
+                  "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-transact-sql?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "CREATE TABLE (Transact-SQL)",
+                  "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Views - SQL Server",
+                  "url": "https://learn.microsoft.com/en-us/sql/relational-databases/views/views?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-rel-007",
+              "type": "TRUE_FALSE",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.1",
+              "difficulty": "EASY",
+              "stem": "A view can present a saved query as a virtual table for analysts.",
+              "explanation": "A view encapsulates a SELECT statement and can be queried like a virtual table by reporting users.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. A view stores a SELECT definition and exposes its result shape as a virtual table for queries."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that analysts can query a view without the view storing a separate physical copy of every row."
+                }
+              ],
+              "lessonSlug": "sql-statements-views-procedures-indexes",
+              "sources": [
+                {
+                  "title": "SELECT (Transact-SQL)",
+                  "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-transact-sql?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "CREATE TABLE (Transact-SQL)",
+                  "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Views - SQL Server",
+                  "url": "https://learn.microsoft.com/en-us/sql/relational-databases/views/views?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-rel-008",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which two SQL object statements are accurate for Northwind reports?",
+              "selectCount": 2,
+              "explanation": "Views and indexes are common SQL objects: views shape reusable queries, while indexes help query performance.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "A view can expose a saved SELECT query for analysts.",
+                  "correct": true,
+                  "explanation": "A view presents query results through a reusable database object."
+                },
+                {
+                  "key": "B",
+                  "text": "An index can help the database find rows used by filters or joins.",
+                  "correct": true,
+                  "explanation": "Indexes provide lookup structures that can improve query performance."
+                },
+                {
+                  "key": "C",
+                  "text": "A stored procedure is the Azure Storage container that holds report files.",
+                  "correct": false,
+                  "explanation": "Stored procedures are database code modules, not storage containers."
+                },
+                {
+                  "key": "D",
+                  "text": "DELETE is the statement analysts use when they only need to read report rows.",
+                  "correct": false,
+                  "explanation": "DELETE removes rows; SELECT is used to read them."
+                }
+              ],
+              "lessonSlug": "sql-statements-views-procedures-indexes",
+              "sources": [
+                {
+                  "title": "SELECT (Transact-SQL)",
+                  "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-transact-sql?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "CREATE TABLE (Transact-SQL)",
+                  "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Views - SQL Server",
+                  "url": "https://learn.microsoft.com/en-us/sql/relational-databases/views/views?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-rel-009",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.1",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about the T-SQL statement that reads rows.",
+              "explanation": "SELECT is the query statement used to retrieve rows from a table or view; INSERT, UPDATE, and CREATE TABLE perform different actions.",
+              "fillInBlank": {
+                "template": "A T-SQL {{b1}} statement retrieves rows from a table or view for analysis.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "select"
+                    ],
+                    "explanation": "SELECT is correct because it reads data without adding rows, changing values, or defining a new table."
+                  }
+                ],
+                "wordBank": [
+                  "select",
+                  "insert",
+                  "update",
+                  "create table"
+                ]
+              },
+              "lessonSlug": "sql-statements-views-procedures-indexes",
+              "sources": [
+                {
+                  "title": "SELECT (Transact-SQL)",
+                  "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-transact-sql?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "CREATE TABLE (Transact-SQL)",
+                  "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Views - SQL Server",
+                  "url": "https://learn.microsoft.com/en-us/sql/relational-databases/views/views?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-rel-010",
+              "type": "MATCHING",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each SQL object to its database purpose.",
+              "explanation": "The matches separate SQL statements that read data from database objects that encapsulate logic or improve retrieval.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "read",
+                    "text": "Return rows for a report without changing them"
+                  },
+                  {
+                    "id": "saved",
+                    "text": "Expose a reusable saved query as a virtual table"
+                  },
+                  {
+                    "id": "lookup",
+                    "text": "Improve searches on frequently filtered columns"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "select",
+                    "text": "SELECT statement"
+                  },
+                  {
+                    "id": "view",
+                    "text": "View"
+                  },
+                  {
+                    "id": "index",
+                    "text": "Index"
+                  },
+                  {
+                    "id": "delete",
+                    "text": "DELETE statement"
+                  }
+                ],
+                "pairs": {
+                  "read": "select",
+                  "saved": "view",
+                  "lookup": "index"
+                },
+                "explanations": {
+                  "read": "This clue maps to SELECT statement.",
+                  "saved": "This clue maps to View.",
+                  "lookup": "This clue maps to Index."
+                }
+              },
+              "lessonSlug": "sql-statements-views-procedures-indexes",
+              "sources": [
+                {
+                  "title": "SELECT (Transact-SQL)",
+                  "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-transact-sql?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "CREATE TABLE (Transact-SQL)",
+                  "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Views - SQL Server",
+                  "url": "https://learn.microsoft.com/en-us/sql/relational-databases/views/views?view=sql-server-ver17",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "relational-services-on-azure",
+      "title": "Relational services on Azure",
+      "summary": "Azure SQL family, PostgreSQL, and MySQL service choices.",
+      "lessons": [
+        {
+          "slug": "azure-sql-family-choices",
+          "title": "Choosing within the Azure SQL family",
+          "objectiveCode": "2.2",
+          "estimatedMinutes": 12,
+          "summary": "Azure SQL Database, Azure SQL Managed Instance, and SQL Server on Azure VMs differ by management, compatibility, and control.",
+          "learningObjectives": [
+            "Compare Azure SQL Database, Managed Instance, and SQL Server on Azure VMs",
+            "Choose Azure SQL Database for managed single database workloads",
+            "Identify when instance features or OS control point to Managed Instance or VMs"
+          ],
+          "explanation": "At fictional Northwind Traders and Alpine Goods, learners compare realistic data needs. Azure SQL Database, Azure SQL Managed Instance, and SQL Server on Azure VMs differ by management, compatibility, and control. Read the scenario: structured rows and keys suggest relational design; SQL statements suggest database objects; SQL Server compatibility suggests Azure SQL choices; PostgreSQL or MySQL names point to their managed services; object files, shares, key-value entities, and analytics folders point to Azure Storage; globally distributed JSON documents and API clues point to Azure Cosmos DB. Where natural, practise these ideas in the Azure SQL query editor, Cosmos DB Data Explorer, and Data Lake Storage labs.",
+          "terminology": [
+            {
+              "term": "Azure SQL Database",
+              "definition": "Managed database-level SQL Server engine service."
+            },
+            {
+              "term": "Azure SQL Managed Instance",
+              "definition": "Managed SQL Server instance option for broader migration compatibility."
+            },
+            {
+              "term": "SQL Server on Azure VMs",
+              "definition": "IaaS option with SQL Server installed on Azure virtual machines."
+            },
+            {
+              "term": "Database-level PaaS",
+              "definition": "A managed service where the database is the main deployment unit."
+            },
+            {
+              "term": "OS-level control",
+              "definition": "Ability to manage the virtual machine operating system and installed agents."
+            }
+          ],
+          "businessScenario": "Northwind has three SQL Server projects: a new order app, a legacy migration with instance features, and a vendor database that needs a Windows monitoring agent.",
+          "technicalExample": "New order database -> Azure SQL Database. Legacy app with instance features -> Azure SQL Managed Instance. Vendor server with OS agent -> SQL Server on Azure VMs.",
+          "misconception": {
+            "myth": "Azure SQL Database, Managed Instance, and SQL Server on Azure VMs differ only by name.",
+            "reality": "They trade off database-level management, instance compatibility, and virtual-machine control."
+          },
+          "examTakeaway": "Minimize infrastructure for one database points to Azure SQL Database; instance compatibility points to Managed Instance; OS access points to SQL Server on Azure VMs.",
+          "recap": "Azure SQL Database, Azure SQL Managed Instance, and SQL Server on Azure VMs differ by management, compatibility, and control.",
+          "simplerExplanation": "It is like choosing housing: a serviced apartment, a managed townhouse, or a house where you control the utilities and repairs.",
+          "anotherExample": "A SaaS team may put each tenant in Azure SQL Database, while an ERP migration first evaluates Managed Instance for compatibility.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Azure SQL control versus management",
+                "columns": [
+                  {
+                    "title": "Strong clue",
+                    "points": [
+                      "Minimize infrastructure for one database points to Azure SQL Database; instance compatibility points to Managed Instance; OS access points to SQL Server on Azure VMs."
+                    ]
+                  },
+                  {
+                    "title": "Common trap",
+                    "points": [
+                      "Azure SQL Database, Managed Instance, and SQL Server on Azure VMs differ only by name."
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Pick the SQL deployment model",
+                "instructions": "Use the lesson-specific clue, then reveal the answer.",
+                "items": [
+                  {
+                    "prompt": "Northwind has three SQL Server projects: a new order app, a legacy migration with instance features, and a vendor database that needs a Windows monitoring agent.",
+                    "answer": "New order database -> Azure SQL Database. Legacy app with instance features -> Azure SQL Managed Instance. Vendor server with OS agent -> SQL Server on Azure VMs."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Azure SQL Database clue",
+              "back": "New or modernized SQL Server database with minimal infrastructure management."
+            },
+            {
+              "front": "Managed Instance clue",
+              "back": "Existing SQL Server workload needing broader instance compatibility."
+            },
+            {
+              "front": "SQL Server on Azure VMs clue",
+              "back": "Need to install agents or control the operating system."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Azure SQL documentation",
+              "url": "https://learn.microsoft.com/en-us/azure/azure-sql/?view=azuresql",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "dp900-rel-011",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.2",
+              "difficulty": "EASY",
+              "stem": "Which Azure SQL option best fits a new managed app database?",
+              "explanation": "For a new app that only needs a managed SQL Server-compatible database, Azure SQL Database removes VM and instance administration while preserving relational T-SQL database capabilities.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure SQL Database",
+                  "correct": true,
+                  "explanation": "Azure SQL Database is the database-level PaaS member of the Azure SQL family for new cloud apps that do not need instance scope."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure SQL Managed Instance",
+                  "correct": false,
+                  "explanation": "Azure SQL Managed Instance is a better fit for migrations that require broader SQL Server instance-level compatibility, which this new app does not need."
+                },
+                {
+                  "key": "C",
+                  "text": "SQL Server on Azure VMs",
+                  "correct": false,
+                  "explanation": "A SQL Server VM is chosen when the team must manage the operating system or server installation."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure Files",
+                  "correct": false,
+                  "explanation": "Azure Files offers managed file shares for SMB or NFS access; it does not host relational tables or T-SQL queries."
+                }
+              ],
+              "lessonSlug": "azure-sql-family-choices",
+              "sources": [
+                {
+                  "title": "Azure SQL documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-sql/?view=azuresql",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-rel-012",
+              "type": "TRUE_FALSE",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.2",
+              "difficulty": "EASY",
+              "stem": "SQL Server on Azure VMs provides more operating-system control than Azure SQL Database.",
+              "explanation": "SQL Server on Azure VMs leaves the operating system and SQL Server instance under customer control, unlike Azure SQL Database.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. SQL Server on Azure VMs gives customers control over the virtual machine operating system and SQL Server instance configuration."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that Azure SQL Database is a managed database service, while SQL Server on Azure VMs leaves more OS-level control to the customer."
+                }
+              ],
+              "lessonSlug": "azure-sql-family-choices",
+              "sources": [
+                {
+                  "title": "Azure SQL documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-sql/?view=azuresql",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-rel-013",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which two migration clues point toward Azure SQL Managed Instance?",
+              "selectCount": 2,
+              "explanation": "Managed Instance is aimed at SQL Server migrations that need broad instance-level compatibility without managing a VM.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "The app depends on SQL Server instance-level features during migration.",
+                  "correct": true,
+                  "explanation": "Managed Instance provides more instance-level SQL Server compatibility than a single Azure SQL database."
+                },
+                {
+                  "key": "B",
+                  "text": "The team wants a managed service for a lift-and-shift SQL Server database estate.",
+                  "correct": true,
+                  "explanation": "Managed Instance reduces platform administration while supporting many migration scenarios."
+                },
+                {
+                  "key": "C",
+                  "text": "The app is a brand-new single database with no instance-level dependencies.",
+                  "correct": false,
+                  "explanation": "Azure SQL Database is usually the simpler managed choice for that case."
+                },
+                {
+                  "key": "D",
+                  "text": "The workload requires the PostgreSQL engine and PostgreSQL client behavior.",
+                  "correct": false,
+                  "explanation": "Use Azure Database for PostgreSQL for PostgreSQL engine compatibility."
+                }
+              ],
+              "lessonSlug": "azure-sql-family-choices",
+              "sources": [
+                {
+                  "title": "Azure SQL documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-sql/?view=azuresql",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-rel-014",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.2",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about the Azure SQL option for a new database-level PaaS workload.",
+              "explanation": "Azure SQL Database is the database-level PaaS option for a new SQL Server-compatible app when the team does not need instance-level control or a VM.",
+              "fillInBlank": {
+                "template": "For a new cloud app that needs SQL Server-compatible database-level PaaS, choose {{b1}} rather than a managed instance or virtual machine.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "azure sql database"
+                    ],
+                    "explanation": "Azure SQL Database is correct because it provides a managed SQL database without exposing operating-system or full instance administration."
+                  }
+                ],
+                "wordBank": [
+                  "azure sql database",
+                  "azure sql managed instance",
+                  "sql server on azure vms",
+                  "azure files"
+                ]
+              },
+              "lessonSlug": "azure-sql-family-choices",
+              "sources": [
+                {
+                  "title": "Azure SQL documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-sql/?view=azuresql",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-rel-015",
+              "type": "MATCHING",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Match each Azure SQL family option to its control level.",
+              "explanation": "Azure SQL Database, Managed Instance, and SQL Server on Azure VMs differ mainly by how much database and operating-system control they provide.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "single",
+                    "text": "New single database with built-in platform management"
+                  },
+                  {
+                    "id": "instance",
+                    "text": "Managed service with broader SQL Server instance compatibility"
+                  },
+                  {
+                    "id": "os",
+                    "text": "Need to control the Windows Server and SQL Server installation"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "sqldb",
+                    "text": "Azure SQL Database"
+                  },
+                  {
+                    "id": "mi",
+                    "text": "Azure SQL Managed Instance"
+                  },
+                  {
+                    "id": "vm",
+                    "text": "SQL Server on Azure VMs"
+                  },
+                  {
+                    "id": "files",
+                    "text": "Azure Files"
+                  }
+                ],
+                "pairs": {
+                  "single": "sqldb",
+                  "instance": "mi",
+                  "os": "vm"
+                },
+                "explanations": {
+                  "single": "This clue maps to Azure SQL Database.",
+                  "instance": "This clue maps to Azure SQL Managed Instance.",
+                  "os": "This clue maps to SQL Server on Azure VMs."
+                }
+              },
+              "lessonSlug": "azure-sql-family-choices",
+              "sources": [
+                {
+                  "title": "Azure SQL documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/azure-sql/?view=azuresql",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "azure-open-source-relational-services",
+          "title": "Azure Database for PostgreSQL and MySQL",
+          "objectiveCode": "2.2",
+          "estimatedMinutes": 12,
+          "summary": "Managed PostgreSQL and MySQL services fit open-source relational engine compatibility requirements.",
+          "learningObjectives": [
+            "Choose Azure Database for PostgreSQL or MySQL for engine compatibility",
+            "Identify scenario clues such as PostgreSQL extensions or MySQL drivers",
+            "Explain how managed open-source databases reduce server administration"
+          ],
+          "explanation": "At fictional Northwind Traders and Alpine Goods, learners compare realistic data needs. Managed PostgreSQL and MySQL services fit open-source relational engine compatibility requirements. Read the scenario: structured rows and keys suggest relational design; SQL statements suggest database objects; SQL Server compatibility suggests Azure SQL choices; PostgreSQL or MySQL names point to their managed services; object files, shares, key-value entities, and analytics folders point to Azure Storage; globally distributed JSON documents and API clues point to Azure Cosmos DB. Where natural, practise these ideas in the Azure SQL query editor, Cosmos DB Data Explorer, and Data Lake Storage labs.",
+          "terminology": [
+            {
+              "term": "PostgreSQL compatibility",
+              "definition": "Application, driver, and SQL behavior expecting PostgreSQL."
+            },
+            {
+              "term": "MySQL compatibility",
+              "definition": "Application, driver, and SQL behavior expecting MySQL."
+            },
+            {
+              "term": "Managed open-source database",
+              "definition": "Azure-operated service for an open-source relational engine."
+            },
+            {
+              "term": "Engine choice",
+              "definition": "Selecting a service based on the database engine the app requires."
+            },
+            {
+              "term": "Relational open source",
+              "definition": "PostgreSQL and MySQL are relational even though they are open source."
+            }
+          ],
+          "businessScenario": "Northwind moves an inventory app written for PostgreSQL and a storefront package built for MySQL while avoiding self-managed database VMs.",
+          "technicalExample": "Inventory app with PostgreSQL extensions -> Azure Database for PostgreSQL. Storefront requiring MySQL drivers -> Azure Database for MySQL.",
+          "misconception": {
+            "myth": "Open-source database engines are automatically non-relational.",
+            "reality": "PostgreSQL and MySQL are relational engines with tables, keys, schemas, and SQL concepts."
+          },
+          "examTakeaway": "When a scenario names PostgreSQL or MySQL compatibility, choose the matching Azure Database service instead of forcing the workload into Azure SQL.",
+          "recap": "Managed PostgreSQL and MySQL services fit open-source relational engine compatibility requirements.",
+          "simplerExplanation": "Database engines are like spoken languages: if the app already speaks PostgreSQL, choose the Azure service that speaks PostgreSQL.",
+          "anotherExample": "A WordPress-style application expecting MySQL points to Azure Database for MySQL, while a geospatial app using PostgreSQL extensions points to PostgreSQL.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "PostgreSQL versus MySQL clues",
+                "columns": [
+                  {
+                    "title": "Strong clue",
+                    "points": [
+                      "When a scenario names PostgreSQL or MySQL compatibility, choose the matching Azure Database service instead of forcing the workload into Azure SQL."
+                    ]
+                  },
+                  {
+                    "title": "Common trap",
+                    "points": [
+                      "Open-source database engines are automatically non-relational."
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Engine compatibility check",
+                "instructions": "Use the lesson-specific clue, then reveal the answer.",
+                "items": [
+                  {
+                    "prompt": "Northwind moves an inventory app written for PostgreSQL and a storefront package built for MySQL while avoiding self-managed database VMs.",
+                    "answer": "Inventory app with PostgreSQL extensions -> Azure Database for PostgreSQL. Storefront requiring MySQL drivers -> Azure Database for MySQL."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Azure Database for PostgreSQL clue",
+              "back": "A managed relational workload that requires PostgreSQL compatibility."
+            },
+            {
+              "front": "Azure Database for MySQL clue",
+              "back": "A managed relational workload that requires MySQL compatibility."
+            },
+            {
+              "front": "Open-source relational reminder",
+              "back": "PostgreSQL and MySQL still use relational concepts such as tables and SQL."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Explore relational database services in Azure",
+              "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-relational-database-offerings-azure/",
+              "kind": "LEARN_MODULE"
+            },
+            {
+              "title": "Azure Database for PostgreSQL documentation",
+              "url": "https://learn.microsoft.com/en-us/azure/postgresql/",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Azure Database for MySQL documentation",
+              "url": "https://learn.microsoft.com/en-us/azure/mysql/",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "dp900-rel-016",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.2",
+              "difficulty": "EASY",
+              "stem": "Which Azure service fits a managed PostgreSQL workload?",
+              "explanation": "Azure Database for PostgreSQL keeps the PostgreSQL engine while Azure manages the database service platform.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure Database for PostgreSQL",
+                  "correct": true,
+                  "explanation": "Azure Database for PostgreSQL runs the PostgreSQL engine as a managed Azure service, so PostgreSQL clients and behavior can be retained."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Database for MySQL",
+                  "correct": false,
+                  "explanation": "MySQL is a different open-source relational engine."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure SQL Database",
+                  "correct": false,
+                  "explanation": "Azure SQL Database is SQL Server-compatible PaaS; it does not switch to the PostgreSQL engine for PostgreSQL clients."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure Blob Storage",
+                  "correct": false,
+                  "explanation": "Blob Storage stores objects and files rather than running PostgreSQL databases."
+                }
+              ],
+              "lessonSlug": "azure-open-source-relational-services",
+              "sources": [
+                {
+                  "title": "Explore relational database services in Azure",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-relational-database-offerings-azure/",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "Azure Database for PostgreSQL documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/postgresql/",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Database for MySQL documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/mysql/",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-rel-017",
+              "type": "TRUE_FALSE",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.2",
+              "difficulty": "EASY",
+              "stem": "PostgreSQL and MySQL remain relational database engines.",
+              "explanation": "PostgreSQL and MySQL use relational tables and SQL concepts even though they are open-source engines.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. PostgreSQL and MySQL use relational tables and SQL concepts even though they are open-source database engines."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that open-source licensing does not make PostgreSQL or MySQL non-relational."
+                }
+              ],
+              "lessonSlug": "azure-open-source-relational-services",
+              "sources": [
+                {
+                  "title": "Explore relational database services in Azure",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-relational-database-offerings-azure/",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "Azure Database for PostgreSQL documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/postgresql/",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Database for MySQL documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/mysql/",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-rel-018",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which two Azure services preserve PostgreSQL or MySQL engine compatibility while reducing server administration?",
+              "selectCount": 2,
+              "explanation": "The managed open-source relational services let teams keep PostgreSQL or MySQL application compatibility while Azure handles platform management tasks.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Azure Database for PostgreSQL supports PostgreSQL relational workloads as a managed service.",
+                  "correct": true,
+                  "explanation": "Azure Database for PostgreSQL is the managed Azure service for applications that must keep PostgreSQL engine behavior."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Database for MySQL supports MySQL relational workloads as a managed service.",
+                  "correct": true,
+                  "explanation": "Azure Database for MySQL is the corresponding managed Azure service for MySQL-compatible relational workloads."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure SQL Database runs the PostgreSQL engine when a connection string says postgres.",
+                  "correct": false,
+                  "explanation": "Azure SQL Database is based on SQL Server compatibility, so it is not selected just because a client string names PostgreSQL."
+                },
+                {
+                  "key": "D",
+                  "text": "Azure Files is the managed relational engine for open-source SQL databases.",
+                  "correct": false,
+                  "explanation": "Azure Files provides shares; it does not run PostgreSQL or MySQL engines."
+                }
+              ],
+              "lessonSlug": "azure-open-source-relational-services",
+              "sources": [
+                {
+                  "title": "Explore relational database services in Azure",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-relational-database-offerings-azure/",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "Azure Database for PostgreSQL documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/postgresql/",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Database for MySQL documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/mysql/",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-rel-019",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.2",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about matching an app to its required PostgreSQL engine.",
+              "explanation": "Azure Database for PostgreSQL is the managed Azure relational service to choose when an application requires PostgreSQL syntax, drivers, and engine behavior.",
+              "fillInBlank": {
+                "template": "If the application requires the PostgreSQL engine and wants Azure to manage the database service, choose {{b1}}.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "azure database for postgresql"
+                    ],
+                    "explanation": "Azure Database for PostgreSQL is correct because it preserves PostgreSQL compatibility while Azure manages the service platform."
+                  }
+                ],
+                "wordBank": [
+                  "azure database for postgresql",
+                  "azure database for mysql",
+                  "azure sql database",
+                  "azure blob storage"
+                ]
+              },
+              "lessonSlug": "azure-open-source-relational-services",
+              "sources": [
+                {
+                  "title": "Explore relational database services in Azure",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-relational-database-offerings-azure/",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "Azure Database for PostgreSQL documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/postgresql/",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Database for MySQL documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/mysql/",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            },
+            {
+              "ref": "dp900-rel-020",
+              "type": "MATCHING",
+              "domainKey": "relational-data",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Match each relational workload clue to the Azure service.",
+              "explanation": "The matches pair each workload need with the Azure relational service that best supports its engine or instance-level requirements.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "pg",
+                    "text": "Application uses PostgreSQL extensions and clients"
+                  },
+                  {
+                    "id": "mysql",
+                    "text": "Application was written for the MySQL engine"
+                  },
+                  {
+                    "id": "mi",
+                    "text": "SQL Server lift-and-shift needs SQL Server Agent and instance-level features"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "pgsvc",
+                    "text": "Azure Database for PostgreSQL"
+                  },
+                  {
+                    "id": "mysqlsvc",
+                    "text": "Azure Database for MySQL"
+                  },
+                  {
+                    "id": "misvc",
+                    "text": "Azure SQL Managed Instance"
+                  },
+                  {
+                    "id": "blob",
+                    "text": "Azure Blob Storage"
+                  }
+                ],
+                "pairs": {
+                  "pg": "pgsvc",
+                  "mysql": "mysqlsvc",
+                  "mi": "misvc"
+                },
+                "explanations": {
+                  "pg": "PostgreSQL-specific extensions and client compatibility point to Azure Database for PostgreSQL rather than a SQL Server service.",
+                  "mysql": "A workload written for the MySQL engine is best matched to Azure Database for MySQL, which preserves MySQL compatibility as a managed service.",
+                  "mi": "SQL Server Agent and instance-level features are supported by Azure SQL Managed Instance, making it the managed lift-and-shift choice for many SQL Server workloads."
+                }
+              },
+              "lessonSlug": "azure-open-source-relational-services",
+              "sources": [
+                {
+                  "title": "Explore relational database services in Azure",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-relational-database-offerings-azure/",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "Azure Database for PostgreSQL documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/postgresql/",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Azure Database for MySQL documentation",
+                  "url": "https://learn.microsoft.com/en-us/azure/mysql/",
+                  "kind": "DOCUMENTATION"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "certification": "DP-900",
+  "lab": "load-query-fabric-warehouse",
+  "note": "Create Fabric warehouse, load sample star schema, query and save view.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "workspaces"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "workspace-list",
+      "rowKey": "Sales Analytics"
+    },
+    {
+      "type": "click",
+      "componentId": "new-item"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "warehouse-form",
+      "values": {
+        "itemType": "Warehouse",
+        "name": "SalesWarehouse"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "get-data"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "copy-data-form",
+      "values": {
+        "ingestionTool": "Copy data activity",
+        "source": "Sample data",
+        "dataset": "Retail sales star schema",
+        "destination": "SalesWarehouse",
+        "runNow": true
+      }
+    },
+    {
+      "type": "query",
+      "componentId": "warehouse-sql-editor",
+      "sql": "SELECT fs.Region, SUM(fs.SalesAmount) AS TotalSales FROM FactSales fs GROUP BY fs.Region ORDER BY TotalSales DESC;"
+    },
+    {
+      "type": "query",
+      "componentId": "warehouse-sql-editor",
+      "sql": "SELECT p.Category, SUM(fs.SalesAmount) AS TotalSales FROM FactSales fs JOIN DimProduct p ON fs.ProductKey = p.ProductKey GROUP BY p.Category ORDER BY TotalSales DESC;"
+    },
+    {
+      "type": "query",
+      "componentId": "warehouse-sql-editor",
+      "sql": "SELECT fs.Region, c.Segment, SUM(fs.SalesAmount) AS TotalSales FROM FactSales fs JOIN DimCustomer c ON fs.CustomerKey = c.CustomerKey WHERE c.Segment = 'Wholesale' GROUP BY fs.Region, c.Segment ORDER BY TotalSales DESC;"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "save-view-form",
+      "values": {
+        "viewName": "vwRegionalSales",
+        "definition": "Regional sales by product category",
+        "shared": true
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "warehouse-views"
+    }
+  ]
+}

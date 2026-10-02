@@ -1,0 +1,1383 @@
+{
+  "labs": [
+    {
+      "slug": "manage-groups-teams-mailboxes",
+      "type": "UI_SIMULATION",
+      "title": "Manage Microsoft 365 groups, Teams, and shared mailboxes",
+      "summary": "Create a private Microsoft 365 group with a connected team, choose the right group object types, and delegate a shared mailbox by least privilege.",
+      "scenario": "Contoso is starting Project Phoenix. In the **simulated Microsoft 365 admin center**, create a private Microsoft 365 group, connect it to Microsoft Teams, review guest and external sender settings, and create a shared mailbox for contract questions. Done means the workspace is not public and only the two project leads can open and send as the shared mailbox.",
+      "domainKey": "m365-core-features",
+      "objectiveCode": "1.1",
+      "complexity": "BASIC",
+      "estimatedMinutes": 25,
+      "learningObjectives": [
+        "Choose between Microsoft 365 groups, security groups, distribution lists, and shared mailboxes",
+        "Create a private Microsoft 365 group with owners, members, and a connected team",
+        "Grant shared mailbox Read and manage and Send as permissions by least privilege",
+        "Review guest and external sender settings for a collaboration group"
+      ],
+      "prerequisites": [
+        "Basic familiarity with Microsoft 365 admin center navigation"
+      ],
+      "sources": [
+        {
+          "title": "Create a group in the admin center",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/create-groups/create-groups?view=o365-worldwide"
+        },
+        {
+          "title": "Compare types of groups in Microsoft 365",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/create-groups/compare-groups?view=o365-worldwide"
+        },
+        {
+          "title": "Create a shared mailbox",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/email/create-a-shared-mailbox?view=o365-worldwide"
+        },
+        {
+          "title": "Microsoft 365 Groups and Microsoft Teams",
+          "url": "https://learn.microsoft.com/en-us/microsoftteams/office-365-groups"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft 365 admin center",
+          "theme": "m365",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://admin.cloud.microsoft",
+          "searchPlaceholder": "Search users, groups, settings, or help"
+        },
+        "vm": {
+          "name": "LAB-VM01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "groups",
+            "label": "Active teams & groups",
+            "icon": "Users",
+            "section": "Teams & groups"
+          },
+          {
+            "page": "mailboxes",
+            "label": "Shared mailboxes",
+            "icon": "Inbox",
+            "section": "Teams & groups"
+          },
+          {
+            "page": "compare",
+            "label": "Compare group types",
+            "icon": "Scale",
+            "section": "Teams & groups"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/adminportal/home#/homepage",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Mission",
+                "text": "Create a private Teams-connected group and a least-privilege shared mailbox for Project Phoenix."
+              },
+              {
+                "kind": "tiles",
+                "id": "home-tiles",
+                "title": "Admin center",
+                "items": [
+                  {
+                    "id": "groups",
+                    "label": "Active teams & groups",
+                    "icon": "Users",
+                    "action": {
+                      "type": "navigate",
+                      "page": "groups"
+                    }
+                  },
+                  {
+                    "id": "mailboxes",
+                    "label": "Shared mailboxes",
+                    "icon": "Inbox",
+                    "action": {
+                      "type": "navigate",
+                      "page": "mailboxes"
+                    }
+                  },
+                  {
+                    "id": "compare",
+                    "label": "Compare group types",
+                    "icon": "Scale",
+                    "action": {
+                      "type": "navigate",
+                      "page": "compare"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "checklist",
+                "title": "Checklist",
+                "source": "checklist",
+                "rowKey": "name",
+                "variant": "list",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Task"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "groups",
+            "title": "Active teams & groups",
+            "subtitle": "Teams & groups",
+            "url": "/adminportal/home#/groups",
+            "breadcrumb": [
+              "Home",
+              "Teams & groups"
+            ],
+            "commands": [
+              {
+                "id": "add-group",
+                "label": "Add Microsoft 365 group",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "create-group"
+                }
+              },
+              {
+                "id": "compare-cmd",
+                "label": "Compare group types",
+                "icon": "Scale",
+                "action": {
+                  "type": "navigate",
+                  "page": "compare"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "groups-table",
+                "source": "groups",
+                "rowKey": "name",
+                "searchable": true,
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Group type"
+                  },
+                  {
+                    "key": "email",
+                    "label": "Email"
+                  },
+                  {
+                    "key": "privacy",
+                    "label": "Privacy",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "hasTeam",
+                    "label": "Team",
+                    "format": "bool"
+                  },
+                  {
+                    "key": "guestAccess",
+                    "label": "Guest access"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "group-settings",
+                  "select": {
+                    "as": "group",
+                    "path": "groups",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "create-group",
+            "title": "Add Microsoft 365 group",
+            "subtitle": "Active teams & groups",
+            "url": "/adminportal/home#/groups/add/microsoft365",
+            "navItem": "groups",
+            "breadcrumb": [
+              "Home",
+              "Teams & groups",
+              "Active teams & groups"
+            ],
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "group-wizard",
+                "description": "Create a group for collaboration across Outlook, SharePoint, Planner, and Teams.",
+                "reviewLabel": "Review and finish adding group",
+                "tabs": [
+                  {
+                    "id": "basics",
+                    "label": "Basics",
+                    "fields": [
+                      {
+                        "id": "name",
+                        "label": "Name",
+                        "control": "text",
+                        "required": true,
+                        "defaultValue": "Project Phoenix",
+                        "unique": {
+                          "path": "groups",
+                          "key": "name"
+                        }
+                      },
+                      {
+                        "id": "description",
+                        "label": "Description",
+                        "control": "textarea",
+                        "defaultValue": "Private collaboration workspace for Project Phoenix."
+                      }
+                    ]
+                  },
+                  {
+                    "id": "owners",
+                    "label": "Owners",
+                    "fields": [
+                      {
+                        "id": "owners",
+                        "label": "Owners",
+                        "control": "checkboxes",
+                        "required": true,
+                        "optionsFrom": {
+                          "path": "users",
+                          "value": "upn",
+                          "label": "displayName"
+                        },
+                        "defaultValue": [
+                          "alex@contoso.example",
+                          "miriam@contoso.example"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "members",
+                    "label": "Members",
+                    "fields": [
+                      {
+                        "id": "members",
+                        "label": "Members",
+                        "control": "checkboxes",
+                        "required": true,
+                        "optionsFrom": {
+                          "path": "users",
+                          "value": "upn",
+                          "label": "displayName"
+                        },
+                        "defaultValue": [
+                          "jordan@contoso.example",
+                          "nina@contoso.example"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "settings",
+                    "label": "Settings",
+                    "fields": [
+                      {
+                        "id": "email",
+                        "label": "Group email address",
+                        "control": "text",
+                        "required": true,
+                        "defaultValue": "project-phoenix",
+                        "pattern": "^[a-z0-9][a-z0-9-]{2,40}$",
+                        "patternMessage": "Use a mail alias such as project-phoenix."
+                      },
+                      {
+                        "id": "privacy",
+                        "label": "Privacy",
+                        "control": "radio",
+                        "required": true,
+                        "defaultValue": "Private",
+                        "options": [
+                          {
+                            "value": "Public",
+                            "label": "Public - Anyone in your organization can join"
+                          },
+                          {
+                            "value": "Private",
+                            "label": "Private - Membership requires approval"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "createTeam",
+                        "label": "Add Microsoft Teams to your group",
+                        "control": "toggle",
+                        "defaultValue": true
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create group",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.privacy",
+                        "value": "Private"
+                      },
+                      "message": "Use Private so membership requires approval."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.createTeam",
+                        "value": true
+                      },
+                      "message": "Turn on Add Microsoft Teams to your group."
+                    },
+                    {
+                      "rule": {
+                        "type": "allOf",
+                        "rules": [
+                          {
+                            "type": "includes",
+                            "path": "$form.owners",
+                            "value": "alex@contoso.example"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.owners",
+                            "value": "miriam@contoso.example"
+                          }
+                        ]
+                      },
+                      "message": "Alex and Miriam must be owners."
+                    },
+                    {
+                      "rule": {
+                        "type": "not",
+                        "rule": {
+                          "type": "includes",
+                          "path": "$form.members",
+                          "value": "mei@contoso.example"
+                        }
+                      },
+                      "message": "Do not add Finance to the project group."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "groups",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "type": "Microsoft 365",
+                        "email": "{{$form.email}}@contoso.example",
+                        "description": "{{$form.description}}",
+                        "privacy": "{{$form.privacy}}",
+                        "owners": "{{$form.owners | list}}",
+                        "members": "{{$form.members | list}}",
+                        "hasTeam": "{{$form.createTeam}}",
+                        "guestAccess": "Guests must be approved",
+                        "externalSenders": false,
+                        "createdAt": "{{$now}}"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "checklist",
+                      "where": {
+                        "name": "Create private group"
+                      },
+                      "set": {
+                        "status": "Complete"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Group created",
+                      "message": "Project Phoenix was created with a connected Team."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "group-settings",
+                      "select": {
+                        "as": "group",
+                        "path": "groups",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "group-settings",
+            "title": "{{$sel.group.name}} | Settings",
+            "subtitle": "Microsoft 365 group",
+            "requires": "group",
+            "navItem": "groups",
+            "url": "/adminportal/home#/groups/{{$sel.group.name}}/settings",
+            "breadcrumb": [
+              "Home",
+              "Teams & groups",
+              "Active teams & groups"
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Overview",
+                "items": [
+                  {
+                    "label": "Email",
+                    "value": "{{$sel.group.email}}"
+                  },
+                  {
+                    "label": "Privacy",
+                    "value": "{{$sel.group.privacy}}"
+                  },
+                  {
+                    "label": "Team created",
+                    "value": "{{$sel.group.hasTeam}}",
+                    "format": "bool"
+                  },
+                  {
+                    "label": "Owners",
+                    "value": "{{$sel.group.owners | join:, }}"
+                  },
+                  {
+                    "label": "Members",
+                    "value": "{{$sel.group.members | join:, }}"
+                  }
+                ]
+              },
+              {
+                "kind": "form",
+                "id": "group-settings-form",
+                "title": "External collaboration",
+                "fields": [
+                  {
+                    "id": "guestAccess",
+                    "label": "Guest access",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "{{$sel.group.guestAccess}}",
+                    "options": [
+                      {
+                        "value": "Guests must be approved",
+                        "label": "Guests must be approved"
+                      },
+                      {
+                        "value": "Guests can join without approval",
+                        "label": "Guests can join without approval"
+                      },
+                      {
+                        "value": "No guests allowed",
+                        "label": "No guests allowed"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "externalSenders",
+                    "label": "Let people outside the organization email this group",
+                    "control": "toggle",
+                    "defaultValue": "{{$sel.group.externalSenders}}"
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.guestAccess",
+                        "value": "Guests must be approved"
+                      },
+                      "message": "Guests must require approval for this project."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.externalSenders",
+                        "value": false
+                      },
+                      "message": "Do not allow external senders yet."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "groups",
+                      "where": {
+                        "name": "{{$sel.group.name}}"
+                      },
+                      "set": {
+                        "guestAccess": "{{$form.guestAccess}}",
+                        "externalSenders": "{{$form.externalSenders}}",
+                        "settingsReviewed": true
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "checklist",
+                      "where": {
+                        "name": "Review guest settings"
+                      },
+                      "set": {
+                        "status": "Complete"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Settings saved"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "compare",
+            "title": "Compare group types",
+            "subtitle": "Teams & groups",
+            "url": "/adminportal/home#/groups/compare",
+            "components": [
+              {
+                "kind": "table",
+                "id": "group-type-table",
+                "title": "Object choices",
+                "source": "groupTypes",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Object"
+                  },
+                  {
+                    "key": "bestFor",
+                    "label": "Best for"
+                  },
+                  {
+                    "key": "mail",
+                    "label": "Mail enabled",
+                    "format": "bool"
+                  },
+                  {
+                    "key": "access",
+                    "label": "Resource access",
+                    "format": "bool"
+                  }
+                ]
+              },
+              {
+                "kind": "form",
+                "id": "object-choice-form",
+                "title": "Choose the right object",
+                "fields": [
+                  {
+                    "id": "collaboration",
+                    "label": "Project workspace with files, calendar, and Teams membership",
+                    "control": "select",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "groupTypes",
+                      "value": "name"
+                    }
+                  },
+                  {
+                    "id": "resourceAccess",
+                    "label": "Grant access to a SharePoint resource without a mailbox",
+                    "control": "select",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "groupTypes",
+                      "value": "name"
+                    }
+                  },
+                  {
+                    "id": "announcements",
+                    "label": "Send announcements to a stable email list",
+                    "control": "select",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "groupTypes",
+                      "value": "name"
+                    }
+                  }
+                ],
+                "submit": {
+                  "label": "Check choices",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.collaboration",
+                        "value": "Microsoft 365 group"
+                      },
+                      "message": "Use a Microsoft 365 group for collaboration."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.resourceAccess",
+                        "value": "Security group"
+                      },
+                      "message": "Use a security group for resource access."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.announcements",
+                        "value": "Distribution list"
+                      },
+                      "message": "Use a distribution list for broadcast email."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "objectComparison.completed",
+                      "value": true
+                    },
+                    {
+                      "type": "update",
+                      "path": "checklist",
+                      "where": {
+                        "name": "Compare object types"
+                      },
+                      "set": {
+                        "status": "Complete"
+                      }
+                    },
+                    {
+                      "type": "message",
+                      "tone": "success",
+                      "text": "Correct object choices."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "mailboxes",
+            "title": "Shared mailboxes",
+            "subtitle": "Teams & groups",
+            "url": "/adminportal/home#/groups/sharedmailboxes",
+            "breadcrumb": [
+              "Home",
+              "Teams & groups"
+            ],
+            "commands": [
+              {
+                "id": "add-mailbox",
+                "label": "Add a shared mailbox",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "create-mailbox"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "mailboxes-table",
+                "source": "sharedMailboxes",
+                "rowKey": "name",
+                "searchable": true,
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Display name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "email",
+                    "label": "Email"
+                  },
+                  {
+                    "key": "readManage",
+                    "label": "Read and manage",
+                    "format": "count"
+                  },
+                  {
+                    "key": "sendAs",
+                    "label": "Send as",
+                    "format": "count"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "mailbox-detail",
+                  "select": {
+                    "as": "mailbox",
+                    "path": "sharedMailboxes",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "create-mailbox",
+            "title": "Add a shared mailbox",
+            "subtitle": "Shared mailboxes",
+            "url": "/adminportal/home#/groups/sharedmailboxes/add",
+            "navItem": "mailboxes",
+            "breadcrumb": [
+              "Home",
+              "Teams & groups",
+              "Shared mailboxes"
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "mailbox-form",
+                "title": "Mailbox basics",
+                "fields": [
+                  {
+                    "id": "name",
+                    "label": "Name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Project Phoenix Contracts",
+                    "unique": {
+                      "path": "sharedMailboxes",
+                      "key": "name"
+                    }
+                  },
+                  {
+                    "id": "email",
+                    "label": "Email address",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "project-phoenix-contracts",
+                    "pattern": "^[a-z0-9][a-z0-9-]{2,50}$",
+                    "patternMessage": "Use a mail alias such as project-phoenix-contracts."
+                  }
+                ],
+                "submit": {
+                  "label": "Save changes",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.email",
+                        "pattern": "project-phoenix-contracts"
+                      },
+                      "message": "Use project-phoenix-contracts for the alias."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "sharedMailboxes",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "email": "{{$form.email}}@contoso.example",
+                        "readManage": [],
+                        "sendAs": [],
+                        "signInBlocked": true,
+                        "createdAt": "{{$now}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Shared mailbox created"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "mailbox-detail",
+                      "select": {
+                        "as": "mailbox",
+                        "path": "sharedMailboxes",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "mailbox-detail",
+            "title": "{{$sel.mailbox.name}}",
+            "subtitle": "Shared mailbox",
+            "requires": "mailbox",
+            "navItem": "mailboxes",
+            "url": "/adminportal/home#/groups/sharedmailboxes/{{$sel.mailbox.name}}",
+            "breadcrumb": [
+              "Home",
+              "Teams & groups",
+              "Shared mailboxes"
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Mailbox",
+                "items": [
+                  {
+                    "label": "Email",
+                    "value": "{{$sel.mailbox.email}}"
+                  },
+                  {
+                    "label": "Sign-in blocked",
+                    "value": "{{$sel.mailbox.signInBlocked}}",
+                    "format": "bool"
+                  },
+                  {
+                    "label": "Read and manage",
+                    "value": "{{$sel.mailbox.readManage | join:, }}"
+                  },
+                  {
+                    "label": "Send as",
+                    "value": "{{$sel.mailbox.sendAs | join:, }}"
+                  }
+                ]
+              },
+              {
+                "kind": "form",
+                "id": "delegation-form",
+                "title": "Mailbox delegation",
+                "description": "Read and manage opens the mailbox; Send as lets messages appear from the mailbox.",
+                "fields": [
+                  {
+                    "id": "readManage",
+                    "label": "Read and manage",
+                    "control": "checkboxes",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "users",
+                      "value": "upn",
+                      "label": "displayName"
+                    },
+                    "defaultValue": [
+                      "alex@contoso.example",
+                      "miriam@contoso.example"
+                    ]
+                  },
+                  {
+                    "id": "sendAs",
+                    "label": "Send as",
+                    "control": "checkboxes",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "users",
+                      "value": "upn",
+                      "label": "displayName"
+                    },
+                    "defaultValue": [
+                      "alex@contoso.example",
+                      "miriam@contoso.example"
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "allOf",
+                        "rules": [
+                          {
+                            "type": "includes",
+                            "path": "$form.readManage",
+                            "value": "alex@contoso.example"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.readManage",
+                            "value": "miriam@contoso.example"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.sendAs",
+                            "value": "alex@contoso.example"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.sendAs",
+                            "value": "miriam@contoso.example"
+                          }
+                        ]
+                      },
+                      "message": "Alex and Miriam need both permissions."
+                    },
+                    {
+                      "rule": {
+                        "type": "allOf",
+                        "rules": [
+                          {
+                            "type": "not",
+                            "rule": {
+                              "type": "includes",
+                              "path": "$form.readManage",
+                              "value": "jordan@contoso.example"
+                            }
+                          },
+                          {
+                            "type": "not",
+                            "rule": {
+                              "type": "includes",
+                              "path": "$form.sendAs",
+                              "value": "jordan@contoso.example"
+                            }
+                          },
+                          {
+                            "type": "not",
+                            "rule": {
+                              "type": "includes",
+                              "path": "$form.readManage",
+                              "value": "nina@contoso.example"
+                            }
+                          },
+                          {
+                            "type": "not",
+                            "rule": {
+                              "type": "includes",
+                              "path": "$form.sendAs",
+                              "value": "nina@contoso.example"
+                            }
+                          }
+                        ]
+                      },
+                      "message": "Do not delegate the mailbox to all project members."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "sharedMailboxes",
+                      "where": {
+                        "name": "{{$sel.mailbox.name}}"
+                      },
+                      "set": {
+                        "readManage": "{{$form.readManage | list}}",
+                        "sendAs": "{{$form.sendAs | list}}",
+                        "delegationReviewed": true
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "checklist",
+                      "where": {
+                        "name": "Delegate shared mailbox"
+                      },
+                      "set": {
+                        "status": "Complete"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Delegation saved"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "users": [
+            {
+              "displayName": "Alex",
+              "upn": "alex@contoso.example",
+              "department": "IT"
+            },
+            {
+              "displayName": "Miriam",
+              "upn": "miriam@contoso.example",
+              "department": "Legal"
+            },
+            {
+              "displayName": "Jordan",
+              "upn": "jordan@contoso.example",
+              "department": "Sales"
+            },
+            {
+              "displayName": "Nina",
+              "upn": "nina@contoso.example",
+              "department": "Ops"
+            },
+            {
+              "displayName": "Mei",
+              "upn": "mei@contoso.example",
+              "department": "Finance"
+            }
+          ],
+          "groups": [
+            {
+              "name": "Sales Announcements",
+              "type": "Distribution list",
+              "email": "sales-announcements@contoso.example",
+              "privacy": "n/a",
+              "hasTeam": false,
+              "guestAccess": "n/a",
+              "externalSenders": false,
+              "owners": [
+                "alex@contoso.example"
+              ],
+              "members": [
+                "jordan@contoso.example"
+              ]
+            },
+            {
+              "name": "HR Security",
+              "type": "Security",
+              "email": "",
+              "privacy": "n/a",
+              "hasTeam": false,
+              "guestAccess": "n/a",
+              "externalSenders": false,
+              "owners": [
+                "alex@contoso.example"
+              ],
+              "members": [
+                "miriam@contoso.example"
+              ]
+            }
+          ],
+          "sharedMailboxes": [
+            {
+              "name": "Contoso Support",
+              "email": "support@contoso.example",
+              "readManage": [
+                "alex@contoso.example"
+              ],
+              "sendAs": [
+                "alex@contoso.example"
+              ],
+              "signInBlocked": true
+            }
+          ],
+          "groupTypes": [
+            {
+              "name": "Microsoft 365 group",
+              "bestFor": "Collaboration with Outlook, SharePoint, Planner, and Teams",
+              "mail": true,
+              "access": true
+            },
+            {
+              "name": "Security group",
+              "bestFor": "Granting access to resources",
+              "mail": false,
+              "access": true
+            },
+            {
+              "name": "Distribution list",
+              "bestFor": "Broadcast email to recipients",
+              "mail": true,
+              "access": false
+            },
+            {
+              "name": "Shared mailbox",
+              "bestFor": "Multiple people monitor and send from one mailbox",
+              "mail": true,
+              "access": false
+            }
+          ],
+          "checklist": [
+            {
+              "name": "Create private group",
+              "status": "Not started"
+            },
+            {
+              "name": "Review guest settings",
+              "status": "Not started"
+            },
+            {
+              "name": "Compare object types",
+              "status": "Not started"
+            },
+            {
+              "name": "Delegate shared mailbox",
+              "status": "Not started"
+            }
+          ],
+          "objectComparison": {
+            "completed": false
+          }
+        }
+      },
+      "steps": [
+        {
+          "key": "create-private-group",
+          "title": "Create the private Microsoft 365 group",
+          "instruction": "Open **Teams & groups > Active teams & groups**, select **Add Microsoft 365 group**, and create **Project Phoenix** with owners **Alex** and **Miriam**, members **Jordan** and **Nina**, **Private** privacy, and **Add Microsoft Teams to your group** turned on.",
+          "hint": "Use the Microsoft 365 group wizard. Do not add Finance or all users.",
+          "explanation": "A Microsoft 365 group is the collaboration object behind Teams, a group mailbox, calendar, and connected SharePoint workspace. Private membership avoids accidental tenant-wide access.",
+          "targetId": "add-group",
+          "rules": [
+            {
+              "key": "group-created",
+              "description": "Project Phoenix is private and Teams-connected",
+              "rule": {
+                "type": "arrayContains",
+                "path": "groups",
+                "match": {
+                  "name": "Project Phoenix",
+                  "type": "Microsoft 365",
+                  "privacy": "Private",
+                  "hasTeam": true
+                }
+              },
+              "failureFeedback": "Create Project Phoenix as a private Microsoft 365 group and add Teams."
+            },
+            {
+              "key": "owners-members",
+              "description": "Owners and members are scoped correctly",
+              "rule": {
+                "type": "arrayContains",
+                "path": "groups",
+                "match": {
+                  "name": "Project Phoenix",
+                  "owners": [
+                    "alex@contoso.example",
+                    "miriam@contoso.example"
+                  ],
+                  "members": [
+                    "jordan@contoso.example",
+                    "nina@contoso.example"
+                  ]
+                }
+              },
+              "failureFeedback": "Use Alex and Miriam as owners and Jordan and Nina as members."
+            }
+          ]
+        },
+        {
+          "key": "review-group-settings",
+          "title": "Review guest and external sender settings",
+          "instruction": "Open **Project Phoenix > Settings**. Keep **Guest access** as **Guests must be approved** and keep **Let people outside the organization email this group** turned off. Select **Save**.",
+          "hint": "External participation should be approved and intentional.",
+          "explanation": "Guest and external sender settings define collaboration boundaries. Review them before people start using the group.",
+          "targetId": "group-settings-form",
+          "rules": [
+            {
+              "key": "guest-reviewed",
+              "description": "Project Phoenix external settings are reviewed",
+              "rule": {
+                "type": "arrayContains",
+                "path": "groups",
+                "match": {
+                  "name": "Project Phoenix",
+                  "guestAccess": "Guests must be approved",
+                  "externalSenders": false,
+                  "settingsReviewed": true
+                }
+              },
+              "failureFeedback": "Keep guests approval-gated and external senders off."
+            }
+          ]
+        },
+        {
+          "key": "compare-object-types",
+          "title": "Compare Microsoft 365 object types",
+          "instruction": "Open **Compare group types**. Choose **Microsoft 365 group** for a project workspace, **Security group** for resource access, and **Distribution list** for announcements.",
+          "hint": "A shared mailbox is for a common mailbox; a distribution list is only broadcast mail.",
+          "explanation": "Choosing the wrong object creates governance gaps: distribution lists do not secure resources, and security groups do not provide Teams collaboration workloads.",
+          "targetId": "object-choice-form",
+          "rules": [
+            {
+              "key": "object-comparison",
+              "description": "Object type comparison completed",
+              "rule": {
+                "type": "equals",
+                "path": "objectComparison.completed",
+                "value": true
+              },
+              "failureFeedback": "Map collaboration, access, and broadcast mail to the right objects."
+            }
+          ]
+        },
+        {
+          "key": "create-shared-mailbox",
+          "title": "Create the shared mailbox",
+          "instruction": "Open **Teams & groups > Shared mailboxes**, select **Add a shared mailbox**, and create **Project Phoenix Contracts** with email alias **project-phoenix-contracts**.",
+          "hint": "A shared mailbox is a functional address monitored by multiple people.",
+          "explanation": "The mailbox is separate from the group because it represents a contract address with mailbox-specific delegation.",
+          "targetId": "add-mailbox",
+          "rules": [
+            {
+              "key": "mailbox-created",
+              "description": "Project Phoenix Contracts shared mailbox exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "sharedMailboxes",
+                "match": {
+                  "name": "Project Phoenix Contracts",
+                  "email": "project-phoenix-contracts@contoso.example",
+                  "signInBlocked": true
+                }
+              },
+              "failureFeedback": "Create the shared mailbox with the requested name and alias."
+            }
+          ]
+        },
+        {
+          "key": "delegate-mailbox",
+          "title": "Delegate mailbox access by least privilege",
+          "instruction": "On **Project Phoenix Contracts**, grant **Read and manage** and **Send as** only to **Alex** and **Miriam**. Select **Save**.",
+          "hint": "Read and manage does not include Send as; configure both permission types.",
+          "explanation": "Shared mailbox delegation should be explicit. Granting all project members Send as would let too many people impersonate the mailbox address.",
+          "targetId": "delegation-form",
+          "rules": [
+            {
+              "key": "mailbox-delegated",
+              "description": "Mailbox delegation is limited to project leads",
+              "rule": {
+                "type": "arrayContains",
+                "path": "sharedMailboxes",
+                "match": {
+                  "name": "Project Phoenix Contracts",
+                  "readManage": [
+                    "alex@contoso.example",
+                    "miriam@contoso.example"
+                  ],
+                  "sendAs": [
+                    "alex@contoso.example",
+                    "miriam@contoso.example"
+                  ],
+                  "delegationReviewed": true
+                }
+              },
+              "failureFeedback": "Grant both permissions only to Alex and Miriam."
+            }
+          ]
+        },
+        {
+          "key": "verify-final-state",
+          "title": "Verify the collaboration design",
+          "instruction": "Return to **Active teams & groups** and **Shared mailboxes** to verify the group, team, privacy, guest settings, and mailbox delegation.",
+          "hint": "The final state should show a private Teams-connected group and a delegated shared mailbox.",
+          "explanation": "Final verification catches over-permissioning before users collaborate or Copilot can surface overshared data.",
+          "rules": [
+            {
+              "key": "checklist-complete",
+              "description": "All tasks complete",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "arrayContains",
+                    "path": "checklist",
+                    "match": {
+                      "name": "Create private group",
+                      "status": "Complete"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "checklist",
+                    "match": {
+                      "name": "Review guest settings",
+                      "status": "Complete"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "checklist",
+                    "match": {
+                      "name": "Compare object types",
+                      "status": "Complete"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "checklist",
+                    "match": {
+                      "name": "Delegate shared mailbox",
+                      "status": "Complete"
+                    }
+                  }
+                ]
+              },
+              "successFeedback": "The group and mailbox design is ready.",
+              "failureFeedback": "Complete the group, settings, comparison, and delegation tasks."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "least-privilege-mailbox",
+          "description": "Only project leads have mailbox delegation",
+          "rule": {
+            "type": "arrayContains",
+            "path": "sharedMailboxes",
+            "match": {
+              "name": "Project Phoenix Contracts",
+              "readManage": [
+                "alex@contoso.example",
+                "miriam@contoso.example"
+              ],
+              "sendAs": [
+                "alex@contoso.example",
+                "miriam@contoso.example"
+              ]
+            }
+          },
+          "successFeedback": "Mailbox delegation follows least privilege.",
+          "failureFeedback": "Remove extra users from Read and manage and Send as."
+        },
+        {
+          "key": "correct-group-choice",
+          "description": "Project uses a private Teams-connected Microsoft 365 group",
+          "rule": {
+            "type": "arrayContains",
+            "path": "groups",
+            "match": {
+              "name": "Project Phoenix",
+              "type": "Microsoft 365",
+              "privacy": "Private",
+              "hasTeam": true,
+              "externalSenders": false
+            }
+          },
+          "successFeedback": "The collaboration object is correct.",
+          "failureFeedback": "Use a private Microsoft 365 group with Teams and external senders off."
+        }
+      ],
+      "solution": "1. Open **Teams & groups > Active teams & groups** and select **Add Microsoft 365 group**.\n2. Create **Project Phoenix** with owners **Alex** and **Miriam**, members **Jordan** and **Nina**, alias `project-phoenix`, **Private** privacy, and **Add Microsoft Teams to your group** turned on.\n3. In **Project Phoenix > Settings**, keep **Guest access** as **Guests must be approved**, keep **Let people outside the organization email this group** off, and select **Save**.\n4. Open **Compare group types** and choose **Microsoft 365 group**, **Security group**, and **Distribution list** for the three scenarios.\n5. Open **Shared mailboxes**, create **Project Phoenix Contracts** with alias `project-phoenix-contracts`.\n6. Set **Read and manage** and **Send as** to **Alex** and **Miriam** only.\n7. Verify the private Teams-connected group and least-privilege mailbox delegation."
+    }
+  ]
+}

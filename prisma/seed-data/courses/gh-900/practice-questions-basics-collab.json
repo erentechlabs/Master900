@@ -1,0 +1,830 @@
+{
+  "questions": [
+    {
+      "ref": "gh900-git-101",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "git-github-basics",
+      "objectiveCode": "1.1",
+      "difficulty": "EASY",
+      "stem": "A teammate asks why the team should use version control for documentation. What is the best answer?",
+      "explanation": "Version control tracks history and supports safe collaboration, even for documentation.",
+      "options": [
+        {
+          "key": "A",
+          "text": "It records changes and helps people collaborate without overwriting each other.",
+          "correct": true,
+          "explanation": "Version control keeps a history of documentation edits and supports coordinated work across contributors."
+        },
+        {
+          "key": "B",
+          "text": "It makes every document public.",
+          "correct": false,
+          "explanation": "Visibility is controlled separately."
+        },
+        {
+          "key": "C",
+          "text": "It removes the need to review content.",
+          "correct": false,
+          "explanation": "Review is still important."
+        },
+        {
+          "key": "D",
+          "text": "It prevents anyone from editing files locally.",
+          "correct": false,
+          "explanation": "Git supports local editing."
+        }
+      ],
+      "sources": [
+        {
+          "title": "About Git",
+          "url": "https://docs.github.com/en/get-started/using-git/about-git",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "gh900-git-102",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "git-github-basics",
+      "objectiveCode": "1.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which command stages all currently changed files in the repository?",
+      "explanation": "`git add .` stages changed files under the current directory.",
+      "options": [
+        {
+          "key": "A",
+          "text": "`git add .`",
+          "correct": true,
+          "explanation": "This stages changed files in the current directory tree."
+        },
+        {
+          "key": "B",
+          "text": "`git status .`",
+          "correct": false,
+          "explanation": "This inspects state; it does not stage files."
+        },
+        {
+          "key": "C",
+          "text": "`git commit .`",
+          "correct": false,
+          "explanation": "Commit records staged changes; it does not stage with this syntax."
+        },
+        {
+          "key": "D",
+          "text": "`git pull .`",
+          "correct": false,
+          "explanation": "Pull synchronizes from a remote."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Introduction to Git",
+          "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "gh900-git-103",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "git-github-basics",
+      "objectiveCode": "1.2",
+      "difficulty": "EASY",
+      "stem": "Complete the sentence about the plain-text formatting syntax used in issues, pull requests, and README files.",
+      "explanation": "Markdown is the plain-text formatting syntax used broadly on GitHub.",
+      "fillInBlank": {
+        "template": "GitHub Flavored {{b1}} helps format issues, pull request descriptions, and README files.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "Markdown"
+            ],
+            "explanation": "GitHub Flavored Markdown formats plain text across GitHub."
+          }
+        ],
+        "wordBank": [
+          "Markdown",
+          "branch",
+          "clone",
+          "release"
+        ]
+      },
+      "sources": [
+        {
+          "title": "About writing and formatting on GitHub",
+          "url": "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/about-writing-and-formatting-on-github",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "gh900-git-104",
+      "type": "CASE_STUDY",
+      "domainKey": "git-github-basics",
+      "objectiveCode": "1.2",
+      "difficulty": "HARD",
+      "scenario": "Contoso has one human contributor, one team that owns several repositories, and central management across multiple organizations.",
+      "stem": "For each statement, select **Yes** if it maps to the correct account concept. Otherwise, select **No**.",
+      "explanation": "GitHub account types include user, organization, and enterprise accounts.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "The human contributor signs in with a user account.",
+            "answer": true,
+            "explanation": "A user account represents a person."
+          },
+          {
+            "id": "s2",
+            "text": "The team should use a commit account to own shared repositories.",
+            "answer": false,
+            "explanation": "Organization accounts are used for team-owned repositories."
+          },
+          {
+            "id": "s3",
+            "text": "Central management across organizations is associated with an enterprise account.",
+            "answer": true,
+            "explanation": "Enterprise accounts centrally manage multiple organizations."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Types of GitHub accounts",
+          "url": "https://docs.github.com/en/get-started/learning-about-github/types-of-github-accounts",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "gh900-git-105",
+      "type": "MATCHING",
+      "domainKey": "git-github-basics",
+      "objectiveCode": "1.1",
+      "difficulty": "MEDIUM",
+      "stem": "Match the command to the task.",
+      "explanation": "Each common Git command has a specific purpose.",
+      "matching": {
+        "prompts": [
+          {
+            "id": "clone",
+            "text": "Copy a remote repository locally"
+          },
+          {
+            "id": "push",
+            "text": "Publish local commits to a remote"
+          },
+          {
+            "id": "pull",
+            "text": "Bring remote changes into the current branch"
+          }
+        ],
+        "answers": [
+          {
+            "id": "a1",
+            "text": "git clone"
+          },
+          {
+            "id": "a2",
+            "text": "git push"
+          },
+          {
+            "id": "a3",
+            "text": "git pull"
+          },
+          {
+            "id": "a4",
+            "text": "git branch"
+          }
+        ],
+        "pairs": {
+          "clone": "a1",
+          "push": "a2",
+          "pull": "a3"
+        },
+        "explanations": {
+          "clone": "`git clone` copies a remote repository.",
+          "push": "`git push` publishes commits.",
+          "pull": "`git pull` integrates remote work."
+        }
+      },
+      "sources": [
+        {
+          "title": "Cloning a repository",
+          "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Introduction to Git",
+          "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/",
+          "kind": "LEARN_MODULE"
+        }
+      ]
+    },
+    {
+      "ref": "gh900-git-106",
+      "type": "TRUE_FALSE",
+      "domainKey": "git-github-basics",
+      "objectiveCode": "1.2",
+      "difficulty": "MEDIUM",
+      "stem": "GitHub Mobile can be used to read, review, and collaborate on issues and pull requests from a mobile device.",
+      "explanation": "GitHub Mobile supports mobile collaboration and triage workflows.",
+      "options": [
+        {
+          "key": "TRUE",
+          "text": "True",
+          "correct": true,
+          "explanation": "Correct. GitHub Mobile supports reading, reviewing, and collaborating on issues and pull requests from a mobile device."
+        },
+        {
+          "key": "FALSE",
+          "text": "False",
+          "correct": false,
+          "explanation": "Choosing False misses that GitHub Mobile is intended for mobile triage and collaboration on issues and pull requests."
+        }
+      ],
+      "sources": [
+        {
+          "title": "GitHub Mobile",
+          "url": "https://docs.github.com/en/get-started/using-github/github-mobile",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "gh900-rep-101",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "repositories",
+      "objectiveCode": "2.1",
+      "difficulty": "EASY",
+      "stem": "Which starter file tells Git not to track generated files such as `node_modules/`?",
+      "explanation": "A .gitignore file contains patterns Git should ignore.",
+      "options": [
+        {
+          "key": "A",
+          "text": ".gitignore",
+          "correct": true,
+          "explanation": "This file defines ignored patterns."
+        },
+        {
+          "key": "B",
+          "text": "README.md",
+          "correct": false,
+          "explanation": "README explains the project."
+        },
+        {
+          "key": "C",
+          "text": "LICENSE",
+          "correct": false,
+          "explanation": "LICENSE describes reuse rights."
+        },
+        {
+          "key": "D",
+          "text": "CODEOWNERS",
+          "correct": false,
+          "explanation": "CODEOWNERS routes review requests."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Ignoring files",
+          "url": "https://docs.github.com/en/get-started/git-basics/ignoring-files",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "gh900-rep-102",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "repositories",
+      "objectiveCode": "2.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which **two** repository features help users understand project health or activity?",
+      "explanation": "Stars show how many people follow or bookmark a repository, and repository graphs chart contributors, commits, traffic and other activity. The staging area and the commit email setting are local Git and identity configuration and say nothing about project health.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Stars",
+          "correct": true,
+          "explanation": "Stars can save and signal interest in repositories."
+        },
+        {
+          "key": "B",
+          "text": "Repository graphs",
+          "correct": true,
+          "explanation": "Graphs show activity and usage information."
+        },
+        {
+          "key": "C",
+          "text": "Local staging area",
+          "correct": false,
+          "explanation": "The staging area is local Git state."
+        },
+        {
+          "key": "D",
+          "text": "Commit email setting",
+          "correct": false,
+          "explanation": "Commit email is identity configuration."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Saving repositories with stars",
+          "url": "https://docs.github.com/en/get-started/exploring-projects-on-github/saving-repositories-with-stars",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "About repository graphs",
+          "url": "https://docs.github.com/en/repositories/viewing-activity-and-data-for-your-repository/about-repository-graphs",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "selectCount": 2,
+      "shuffleOptions": true
+    },
+    {
+      "ref": "gh900-rep-103",
+      "type": "SCENARIO",
+      "domainKey": "repositories",
+      "objectiveCode": "2.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which feature best supports the team's requirement?",
+      "explanation": "Branch protection can require review or checks before changes reach main.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Branch protection rule for `main`",
+          "correct": true,
+          "explanation": "This adds requirements before main changes."
+        },
+        {
+          "key": "B",
+          "text": "Public gist",
+          "correct": false,
+          "explanation": "A gist shares snippets; it does not guard main."
+        },
+        {
+          "key": "C",
+          "text": "Repository star",
+          "correct": false,
+          "explanation": "A star saves a repository; it does not enforce review."
+        },
+        {
+          "key": "D",
+          "text": "Markdown table",
+          "correct": false,
+          "explanation": "Markdown formatting does not control merges."
+        }
+      ],
+      "sources": [
+        {
+          "title": "About protected branches",
+          "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "scenario": "A team wants to prevent direct unreviewed changes to `main`.",
+      "shuffleOptions": true
+    },
+    {
+      "ref": "gh900-rep-104",
+      "type": "ORDERING",
+      "domainKey": "repositories",
+      "objectiveCode": "2.1",
+      "difficulty": "MEDIUM",
+      "stem": "Order the steps to create a reviewed README update in a repository.",
+      "explanation": "A branch isolates the change, a PR reviews it, and merge updates main.",
+      "ordering": {
+        "items": [
+          {
+            "id": "s1",
+            "text": "Create a branch from main"
+          },
+          {
+            "id": "s2",
+            "text": "Edit README.md on the branch"
+          },
+          {
+            "id": "s3",
+            "text": "Open a pull request"
+          },
+          {
+            "id": "s4",
+            "text": "Merge after review"
+          }
+        ],
+        "correctOrder": [
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "explanations": {
+          "s1": "Starting from main on a new branch keeps the README update isolated.",
+          "s2": "The README is edited on that branch so main remains unchanged during review.",
+          "s3": "A pull request presents the README diff for comments and checks.",
+          "s4": "After review, merging brings the accepted README update into the target branch."
+        }
+      },
+      "sources": [
+        {
+          "title": "Quickstart for repositories",
+          "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Creating a pull request",
+          "url": "https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "gh900-rep-105",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "repositories",
+      "objectiveCode": "2.1",
+      "difficulty": "EASY",
+      "stem": "Complete the sentence about the Git object a GitHub release is based on.",
+      "explanation": "Releases are based on Git tags.",
+      "fillInBlank": {
+        "template": "A GitHub release is based on a Git {{b1}} that marks a point in repository history.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "tag"
+            ],
+            "explanation": "GitHub releases are based on Git tags."
+          }
+        ],
+        "wordBank": [
+          "tag",
+          "issue",
+          "gist",
+          "wiki"
+        ]
+      },
+      "sources": [
+        {
+          "title": "About releases",
+          "url": "https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "gh900-rep-106",
+      "type": "UI_SIMULATION",
+      "domainKey": "repositories",
+      "objectiveCode": "2.1",
+      "difficulty": "HARD",
+      "stem": "Choose starter files for a new repository used by a mixed team.",
+      "explanation": "The scenario needs project explanation, ignored generated files, and contribution guidance.",
+      "uiSimulation": {
+        "title": "Repository starter files (simulated)",
+        "description": "This simplified screen is not the real GitHub UI.",
+        "fields": [
+          {
+            "id": "readme",
+            "label": "README",
+            "control": "toggle",
+            "correct": true,
+            "explanation": "The team needs a project overview."
+          },
+          {
+            "id": "gitignore",
+            "label": ".gitignore",
+            "control": "toggle",
+            "correct": true,
+            "explanation": "Generated files should be ignored."
+          },
+          {
+            "id": "contributing",
+            "label": "CONTRIBUTING",
+            "control": "toggle",
+            "correct": true,
+            "explanation": "Contribution guidance helps the mixed team."
+          },
+          {
+            "id": "release",
+            "label": "Publish release immediately",
+            "control": "toggle",
+            "correct": false,
+            "explanation": "A brand-new starter repository does not need a release before content exists."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "About READMEs",
+          "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Ignoring files",
+          "url": "https://docs.github.com/en/get-started/git-basics/ignoring-files",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "About repositories",
+          "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "gh900-col-101",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "collaboration",
+      "objectiveCode": "3.1",
+      "difficulty": "EASY",
+      "stem": "Which tool is best for tracking a bug that needs investigation?",
+      "explanation": "Issues are designed to track bugs, tasks, ideas, and feedback.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Issue",
+          "correct": true,
+          "explanation": "Issues track bugs and work."
+        },
+        {
+          "key": "B",
+          "text": "Release",
+          "correct": false,
+          "explanation": "Releases package versions."
+        },
+        {
+          "key": "C",
+          "text": "Star",
+          "correct": false,
+          "explanation": "Stars save repositories."
+        },
+        {
+          "key": "D",
+          "text": "License",
+          "correct": false,
+          "explanation": "A license states reuse rights."
+        }
+      ],
+      "sources": [
+        {
+          "title": "About issues",
+          "url": "https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/about-issues",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "gh900-col-102",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "collaboration",
+      "objectiveCode": "3.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which **two** actions are part of a healthy pull request review workflow?",
+      "explanation": "PR review uses focused descriptions and line-specific feedback.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Describe the change and why it is needed.",
+          "correct": true,
+          "explanation": "This gives reviewers context."
+        },
+        {
+          "key": "B",
+          "text": "Comment on specific changed lines when feedback is needed.",
+          "correct": true,
+          "explanation": "Line comments keep feedback tied to the diff."
+        },
+        {
+          "key": "C",
+          "text": "Merge before anyone can inspect the diff.",
+          "correct": false,
+          "explanation": "That bypasses review."
+        },
+        {
+          "key": "D",
+          "text": "Use a wiki page instead of a pull request for file changes.",
+          "correct": false,
+          "explanation": "The PR is the review space for changes."
+        }
+      ],
+      "sources": [
+        {
+          "title": "About pull requests",
+          "url": "https://docs.github.com/en/pull-requests/get-started/about-pull-requests",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "selectCount": 2,
+      "shuffleOptions": true
+    },
+    {
+      "ref": "gh900-col-103",
+      "type": "CATEGORIZATION",
+      "domainKey": "collaboration",
+      "objectiveCode": "3.1",
+      "difficulty": "MEDIUM",
+      "stem": "Classify each collaboration need.",
+      "explanation": "Issues, discussions, and wikis serve different collaboration purposes.",
+      "categorization": {
+        "categories": [
+          {
+            "id": "issue",
+            "label": "Issue"
+          },
+          {
+            "id": "discussion",
+            "label": "Discussion"
+          },
+          {
+            "id": "wiki",
+            "label": "Wiki"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "text": "Track a task with labels and assignee",
+            "category": "issue",
+            "explanation": "Issues track work."
+          },
+          {
+            "id": "i2",
+            "text": "Ask an open-ended product direction question",
+            "category": "discussion",
+            "explanation": "Discussions fit open-ended conversation."
+          },
+          {
+            "id": "i3",
+            "text": "Maintain long-form install documentation",
+            "category": "wiki",
+            "explanation": "Wikis host long-form repository documentation."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "About issues",
+          "url": "https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/about-issues",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "About discussions",
+          "url": "https://docs.github.com/en/discussions/collaborating-with-your-community-using-discussions/about-discussions",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "About wikis",
+          "url": "https://docs.github.com/en/communities/documenting-your-project-with-wikis/about-wikis",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "gh900-col-104",
+      "type": "ORDERING",
+      "domainKey": "collaboration",
+      "objectiveCode": "3.1",
+      "difficulty": "EASY",
+      "stem": "Order the pull request feedback loop before a GitHub flow change is merged.",
+      "explanation": "After reviewers request changes, the author updates the same branch, requests another look, waits for approval or passing requirements, and then merges.",
+      "ordering": {
+        "items": [
+          {
+            "id": "s1",
+            "text": "Push review fixes to the same branch"
+          },
+          {
+            "id": "s2",
+            "text": "Ask reviewers to re-check the pull request"
+          },
+          {
+            "id": "s3",
+            "text": "Wait for approval or required checks to pass"
+          },
+          {
+            "id": "s4",
+            "text": "Merge the pull request"
+          }
+        ],
+        "correctOrder": [
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "explanations": {
+          "s1": "Follow-up commits on the same branch update the open pull request automatically.",
+          "s2": "Requesting another review signals that the feedback has been addressed.",
+          "s3": "Approval or required checks should be satisfied before the change is accepted.",
+          "s4": "The merge happens after the reviewed pull request is ready."
+        }
+      },
+      "sources": [
+        {
+          "title": "GitHub flow",
+          "url": "https://docs.github.com/en/get-started/using-github/github-flow",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "gh900-col-105",
+      "type": "SCENARIO",
+      "domainKey": "collaboration",
+      "objectiveCode": "3.1",
+      "difficulty": "HARD",
+      "stem": "Which notification choice best meets the need?",
+      "explanation": "A custom watch setting for releases avoids unrelated notification noise.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Use a custom watch setting for releases only.",
+          "correct": true,
+          "explanation": "This matches the requested update type."
+        },
+        {
+          "key": "B",
+          "text": "Watch all activity in the repository.",
+          "correct": false,
+          "explanation": "That is noisier than needed."
+        },
+        {
+          "key": "C",
+          "text": "Ignore the repository.",
+          "correct": false,
+          "explanation": "Ignoring would miss releases."
+        },
+        {
+          "key": "D",
+          "text": "Open a pull request for every release notification.",
+          "correct": false,
+          "explanation": "PRs propose changes; they are not notification settings."
+        }
+      ],
+      "sources": [
+        {
+          "title": "About notifications",
+          "url": "https://docs.github.com/en/subscriptions-and-notifications/concepts/about-notifications",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "scenario": "A release manager only wants updates when new releases are published in a repository.",
+      "shuffleOptions": true
+    },
+    {
+      "ref": "gh900-col-106",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "collaboration",
+      "objectiveCode": "3.1",
+      "difficulty": "MEDIUM",
+      "stem": "During GitHub flow, which command publishes the local topic branch `docs/checkout-message` to the `origin` remote?",
+      "explanation": "`git push -u origin docs/checkout-message` publishes the branch and sets upstream tracking.",
+      "options": [
+        {
+          "key": "A",
+          "text": "`git push -u origin docs/checkout-message`",
+          "correct": true,
+          "explanation": "This is valid syntax to publish the branch."
+        },
+        {
+          "key": "B",
+          "text": "`git pull -u origin docs/checkout-message`",
+          "correct": false,
+          "explanation": "Pull brings changes in; it does not publish the branch."
+        },
+        {
+          "key": "C",
+          "text": "`git branch -u origin docs/checkout-message`",
+          "correct": false,
+          "explanation": "This does not push commits to the remote."
+        },
+        {
+          "key": "D",
+          "text": "`git merge -u origin docs/checkout-message`",
+          "correct": false,
+          "explanation": "Merge combines branches locally."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Introduction to Git",
+          "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/",
+          "kind": "LEARN_MODULE"
+        },
+        {
+          "title": "GitHub flow",
+          "url": "https://docs.github.com/en/get-started/using-github/github-flow",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true
+    }
+  ]
+}

@@ -1,0 +1,1369 @@
+{
+  "labs": [
+    {
+      "slug": "investigate-sentinel-incident",
+      "type": "UI_SIMULATION",
+      "title": "Investigate a Microsoft Sentinel incident in the Defender portal",
+      "summary": "Connect Sentinel content, enable a scheduled analytics rule, investigate an incident, attach automation, and close it correctly in a simulated unified security operations experience.",
+      "scenario": "Contoso security operations is moving Microsoft Sentinel work into the **Microsoft Defender portal** unified security operations experience. A spike in failed sign-ins needs a safe end-to-end drill: connect sign-in data, enable a scheduled analytics rule from a template, investigate the incident evidence, assign ownership, attach an automation response, and close the incident with an accurate classification. Everything is simulated; the terminal shows fixed KQL-like output and is not a real KQL engine.",
+      "domainKey": "security-solutions",
+      "objectiveCode": "3.3",
+      "complexity": "INTERMEDIATE",
+      "estimatedMinutes": 35,
+      "learningObjectives": [
+        "Explain how Microsoft Sentinel combines SIEM detection with SOAR response automation",
+        "Deploy Sentinel content and data connectors from Content hub/Data connectors",
+        "Create a scheduled analytics rule from a template and understand how alerts become incidents",
+        "Investigate incident entities, timeline evidence, severity, ownership, automation, and closure classification"
+      ],
+      "prerequisites": [
+        "Know that Microsoft Sentinel is a cloud-native SIEM and SOAR solution for security operations"
+      ],
+      "sources": [
+        {
+          "title": "Microsoft Sentinel in the Microsoft Defender portal",
+          "url": "https://learn.microsoft.com/en-us/azure/sentinel/microsoft-sentinel-defender-portal"
+        },
+        {
+          "title": "Discover and deploy Microsoft Sentinel content from Content hub",
+          "url": "https://learn.microsoft.com/en-us/azure/sentinel/sentinel-solutions-deploy"
+        },
+        {
+          "title": "Threat detection in Microsoft Sentinel",
+          "url": "https://learn.microsoft.com/en-us/azure/sentinel/threat-detection"
+        },
+        {
+          "title": "Investigate Microsoft Sentinel incidents",
+          "url": "https://learn.microsoft.com/en-us/azure/sentinel/investigate-incidents"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Defender portal",
+          "theme": "defender",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://security.microsoft.com",
+          "searchPlaceholder": "Search security, incidents, devices, users, and settings"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser",
+            "terminal"
+          ]
+        },
+        "terminal": {
+          "title": "Investigation terminal",
+          "prompt": "analyst@LAB-VM-01 PS>",
+          "surface": "app",
+          "welcome": "Investigation terminal (simulation). Commands return fixed training data; this is not a real KQL engine.",
+          "commands": [
+            {
+              "id": "signin",
+              "pattern": "^kql signin-failures --incident INC-2026-0042$",
+              "help": "kql signin-failures --incident INC-2026-0042",
+              "output": "TimeGenerated              UserPrincipalName        IPAddress       ResultType  AppDisplayName\n2026-10-02T07:44:13Z   priya@contoso.example   203.0.113.41    50053       Exchange Online\n2026-10-02T07:47:02Z   priya@contoso.example   203.0.113.41    50053       SharePoint Online\n2026-10-02T07:51:28Z   priya@contoso.example   198.51.100.77   50074       Microsoft Teams\nSummary: 18 failed sign-ins, 2 source IPs, unfamiliar travel pattern. Fixed output for lab training only."
+            }
+          ],
+          "fallback": "Unknown simulated command. Try: kql signin-failures --incident INC-2026-0042"
+        },
+        "clock": {
+          "start": "2026-10-02T08:15:00Z"
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "incidents",
+            "label": "Incidents",
+            "icon": "Siren",
+            "section": "Microsoft Sentinel"
+          },
+          {
+            "page": "content-hub",
+            "label": "Content hub",
+            "icon": "Package",
+            "section": "Microsoft Sentinel > Content management"
+          },
+          {
+            "page": "data-connectors",
+            "label": "Data connectors",
+            "icon": "Plug",
+            "section": "Microsoft Sentinel > Configuration"
+          },
+          {
+            "page": "analytics",
+            "label": "Analytics",
+            "icon": "Radar",
+            "section": "Microsoft Sentinel > Configuration"
+          },
+          {
+            "page": "automation",
+            "label": "Automation",
+            "icon": "Workflow",
+            "section": "Microsoft Sentinel > Configuration"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/home",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Unified security operations",
+                "text": "This simulated Defender portal hosts Microsoft Sentinel experiences for SIEM detection and SOAR response."
+              },
+              {
+                "kind": "tiles",
+                "id": "home-tiles",
+                "title": "Microsoft Sentinel",
+                "size": "md",
+                "items": [
+                  {
+                    "id": "tile-incidents",
+                    "label": "Incidents",
+                    "icon": "Siren",
+                    "action": {
+                      "type": "navigate",
+                      "page": "incidents"
+                    }
+                  },
+                  {
+                    "id": "tile-content",
+                    "label": "Content hub",
+                    "icon": "Package",
+                    "action": {
+                      "type": "navigate",
+                      "page": "content-hub"
+                    }
+                  },
+                  {
+                    "id": "tile-connectors",
+                    "label": "Data connectors",
+                    "icon": "Plug",
+                    "action": {
+                      "type": "navigate",
+                      "page": "data-connectors"
+                    }
+                  },
+                  {
+                    "id": "tile-analytics",
+                    "label": "Analytics",
+                    "icon": "Radar",
+                    "action": {
+                      "type": "navigate",
+                      "page": "analytics"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "text",
+                "id": "siem-soar-note",
+                "text": "**SIEM** collects and correlates security data to detect threats. **SOAR** automates response tasks such as notifications, enrichment, or containment."
+              }
+            ]
+          },
+          {
+            "id": "content-hub",
+            "title": "Content hub",
+            "subtitle": "Microsoft Sentinel > Content management",
+            "icon": "Package",
+            "url": "/sentinel/contenthub",
+            "breadcrumb": [
+              "Home",
+              "Microsoft Sentinel",
+              "Content management"
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "content-table",
+                "title": "Solutions and standalone content",
+                "source": "contentItems",
+                "rowKey": "name",
+                "searchable": true,
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "provider",
+                    "label": "Provider"
+                  },
+                  {
+                    "key": "contentTypes",
+                    "label": "Content types"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ],
+                "rowActions": [
+                  {
+                    "id": "install",
+                    "label": "Install",
+                    "icon": "Download",
+                    "action": {
+                      "type": "update",
+                      "path": "contentItems",
+                      "where": {
+                        "name": "{{$row.name}}"
+                      },
+                      "set": {
+                        "status": "Installed"
+                      }
+                    },
+                    "visibleWhen": {
+                      "type": "notEquals",
+                      "path": "$row.status",
+                      "value": "Installed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "data-connectors",
+            "title": "Data connectors",
+            "subtitle": "Microsoft Sentinel > Configuration",
+            "icon": "Plug",
+            "url": "/sentinel/data-connectors",
+            "breadcrumb": [
+              "Home",
+              "Microsoft Sentinel",
+              "Configuration"
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "Connectors define which product logs are ingested into Sentinel. This lab uses Microsoft Entra ID sign-in logs."
+              },
+              {
+                "kind": "table",
+                "id": "connectors-table",
+                "title": "Data connectors",
+                "source": "connectors",
+                "rowKey": "name",
+                "searchable": true,
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Connector name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "dataTypes",
+                    "label": "Data types"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "connector-detail",
+                  "select": {
+                    "as": "connector",
+                    "path": "connectors",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "connector-detail",
+            "title": "{{$sel.connector.name}}",
+            "subtitle": "Data connector",
+            "icon": "Plug",
+            "requires": "connector",
+            "navItem": "data-connectors",
+            "breadcrumb": [
+              "Home",
+              "Microsoft Sentinel",
+              "Data connectors"
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Connector details",
+                "items": [
+                  {
+                    "label": "Connector",
+                    "value": "{{$sel.connector.name}}"
+                  },
+                  {
+                    "label": "Data types",
+                    "value": "{{$sel.connector.dataTypes}}"
+                  },
+                  {
+                    "label": "Status",
+                    "value": "{{$sel.connector.status}}",
+                    "format": "status"
+                  }
+                ]
+              },
+              {
+                "kind": "form",
+                "id": "connect-data",
+                "title": "Configuration",
+                "description": "Choose the workspace and data type to connect.",
+                "fields": [
+                  {
+                    "id": "workspace",
+                    "label": "Workspace",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "soc-law",
+                    "options": [
+                      {
+                        "value": "soc-law",
+                        "label": "soc-law"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "dataType",
+                    "label": "Data type",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "SignInLogs",
+                    "options": [
+                      {
+                        "value": "SignInLogs",
+                        "label": "SignInLogs"
+                      },
+                      {
+                        "value": "AuditLogs",
+                        "label": "AuditLogs"
+                      },
+                      {
+                        "value": "DeviceEvents",
+                        "label": "DeviceEvents"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Connect",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$sel.connector.name",
+                        "value": "Microsoft Entra ID"
+                      },
+                      "message": "Use the Microsoft Entra ID connector for sign-in logs."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.dataType",
+                        "value": "SignInLogs"
+                      },
+                      "message": "The incident drill uses sign-in log data, not audit or device events."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "connectors",
+                      "where": {
+                        "name": "{{$sel.connector.name}}"
+                      },
+                      "set": {
+                        "status": "Connected",
+                        "workspace": "{{$form.workspace}}",
+                        "connectedDataType": "{{$form.dataType}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Connector connected",
+                      "message": "Microsoft Entra ID SignInLogs are available to scheduled analytics rules."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "analytics",
+            "title": "Analytics",
+            "subtitle": "Microsoft Sentinel > Configuration",
+            "icon": "Radar",
+            "url": "/sentinel/analytics",
+            "breadcrumb": [
+              "Home",
+              "Microsoft Sentinel",
+              "Configuration"
+            ],
+            "commands": [
+              {
+                "id": "create-rule",
+                "label": "Create",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "analytics-template"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "rules-table",
+                "title": "Active rules",
+                "source": "analyticsRules",
+                "rowKey": "name",
+                "emptyText": "No active analytics rules yet.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "severity",
+                    "label": "Severity",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "queryFrequency",
+                    "label": "Query frequency"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "templates-table",
+                "title": "Rule templates",
+                "source": "analyticsTemplates",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Template name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "tactic",
+                    "label": "Tactic"
+                  },
+                  {
+                    "key": "severity",
+                    "label": "Severity",
+                    "format": "badge"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "analytics-template",
+            "title": "Create rule from template",
+            "subtitle": "Analytics rule wizard",
+            "icon": "Radar",
+            "navItem": "analytics",
+            "breadcrumb": [
+              "Home",
+              "Microsoft Sentinel",
+              "Analytics"
+            ],
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "rule-wizard",
+                "reviewLabel": "Create",
+                "tabs": [
+                  {
+                    "id": "general",
+                    "label": "General",
+                    "fields": [
+                      {
+                        "id": "template",
+                        "label": "Rule template",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Multiple failed sign-ins followed by success",
+                        "optionsFrom": {
+                          "path": "analyticsTemplates",
+                          "value": "name",
+                          "label": "name"
+                        }
+                      },
+                      {
+                        "id": "ruleName",
+                        "label": "Rule name",
+                        "control": "text",
+                        "required": true,
+                        "defaultValue": "Multiple failed sign-ins followed by success"
+                      },
+                      {
+                        "id": "severity",
+                        "label": "Severity",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "High",
+                        "options": [
+                          {
+                            "value": "High",
+                            "label": "High"
+                          },
+                          {
+                            "value": "Medium",
+                            "label": "Medium"
+                          },
+                          {
+                            "value": "Low",
+                            "label": "Low"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "status",
+                        "label": "Status",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Enabled",
+                        "options": [
+                          {
+                            "value": "Enabled",
+                            "label": "Enabled"
+                          },
+                          {
+                            "value": "Disabled",
+                            "label": "Disabled"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "logic",
+                    "label": "Set rule logic",
+                    "fields": [
+                      {
+                        "id": "queryFrequency",
+                        "label": "Run query every",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "5 minutes",
+                        "options": [
+                          {
+                            "value": "5 minutes",
+                            "label": "5 minutes"
+                          },
+                          {
+                            "value": "1 hour",
+                            "label": "1 hour"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "incidentCreation",
+                        "label": "Incident settings",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Create incidents from alerts triggered by this analytics rule",
+                        "options": [
+                          {
+                            "value": "Create incidents from alerts triggered by this analytics rule",
+                            "label": "Create incidents from alerts triggered by this analytics rule"
+                          },
+                          {
+                            "value": "Do not create incidents",
+                            "label": "Do not create incidents"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "automated",
+                    "label": "Automated response",
+                    "fields": [
+                      {
+                        "id": "automationRule",
+                        "label": "Automation rule",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Notify SOC channel",
+                        "options": [
+                          {
+                            "value": "Notify SOC channel",
+                            "label": "Notify SOC channel"
+                          },
+                          {
+                            "value": "None",
+                            "label": "None"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.status",
+                        "value": "Enabled"
+                      },
+                      "message": "Enable the scheduled rule so it can create alerts."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.incidentCreation",
+                        "value": "Create incidents from alerts triggered by this analytics rule"
+                      },
+                      "message": "This drill needs an incident created from the analytics alert."
+                    },
+                    {
+                      "rule": {
+                        "type": "arrayContains",
+                        "path": "connectors",
+                        "match": {
+                          "name": "Microsoft Entra ID",
+                          "status": "Connected"
+                        }
+                      },
+                      "message": "Connect Microsoft Entra ID SignInLogs before enabling the rule."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "analyticsRules",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.ruleName}}",
+                        "template": "{{$form.template}}",
+                        "severity": "{{$form.severity}}",
+                        "status": "Enabled",
+                        "queryFrequency": "{{$form.queryFrequency}}",
+                        "automationRule": "{{$form.automationRule}}"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "incidents",
+                      "where": {
+                        "id": "INC-2026-0042"
+                      },
+                      "set": {
+                        "visible": true,
+                        "sourceRule": "{{$form.ruleName}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Analytics rule created",
+                      "message": "The scheduled rule generated incident INC-2026-0042 in this simulation."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "incidents"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "incidents",
+            "title": "Incidents",
+            "subtitle": "Microsoft Sentinel",
+            "icon": "Siren",
+            "url": "/sentinel/incidents",
+            "breadcrumb": [
+              "Home",
+              "Microsoft Sentinel"
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "text": "Prioritize incidents by severity, status, owner, entities, and evidence. Close only after the classification matches the investigation."
+              },
+              {
+                "kind": "table",
+                "id": "incidents-table",
+                "title": "Incidents",
+                "source": "incidents",
+                "where": {
+                  "visible": true
+                },
+                "rowKey": "id",
+                "searchable": true,
+                "columns": [
+                  {
+                    "key": "id",
+                    "label": "Incident ID",
+                    "format": "link"
+                  },
+                  {
+                    "key": "title",
+                    "label": "Title"
+                  },
+                  {
+                    "key": "severity",
+                    "label": "Severity",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "owner",
+                    "label": "Owner"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "incident-detail",
+                  "select": {
+                    "as": "incident",
+                    "path": "incidents",
+                    "key": "id",
+                    "value": "{{$row.id}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "incident-detail",
+            "title": "{{$sel.incident.id}} | {{$sel.incident.title}}",
+            "subtitle": "Incident details",
+            "icon": "Siren",
+            "requires": "incident",
+            "navItem": "incidents",
+            "breadcrumb": [
+              "Home",
+              "Microsoft Sentinel",
+              "Incidents"
+            ],
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "incident-detail",
+                "label": "Overview",
+                "icon": "Eye"
+              },
+              {
+                "page": "incident-evidence",
+                "label": "Evidence and timeline",
+                "icon": "History"
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Overview",
+                "items": [
+                  {
+                    "label": "Severity",
+                    "value": "{{$sel.incident.severity}}",
+                    "format": "badge"
+                  },
+                  {
+                    "label": "Status",
+                    "value": "{{$sel.incident.status}}",
+                    "format": "status"
+                  },
+                  {
+                    "label": "Owner",
+                    "value": "{{$sel.incident.owner}}"
+                  },
+                  {
+                    "label": "Source rule",
+                    "value": "{{$sel.incident.sourceRule}}"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "entities-table",
+                "title": "Entities",
+                "source": "$sel.incident.entities",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "type",
+                    "label": "Entity type",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "name",
+                    "label": "Name"
+                  },
+                  {
+                    "key": "risk",
+                    "label": "Risk"
+                  }
+                ]
+              },
+              {
+                "kind": "form",
+                "id": "incident-actions",
+                "title": "Manage incident",
+                "fields": [
+                  {
+                    "id": "owner",
+                    "label": "Assign to",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Alex Wilber",
+                    "options": [
+                      {
+                        "value": "Alex Wilber",
+                        "label": "Alex Wilber"
+                      },
+                      {
+                        "value": "Unassigned",
+                        "label": "Unassigned"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "status",
+                    "label": "Status",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Active",
+                    "options": [
+                      {
+                        "value": "Active",
+                        "label": "Active"
+                      },
+                      {
+                        "value": "Closed",
+                        "label": "Closed"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "classification",
+                    "label": "Classification",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "True positive - Suspicious activity",
+                    "options": [
+                      {
+                        "value": "True positive - Suspicious activity",
+                        "label": "True positive - Suspicious activity"
+                      },
+                      {
+                        "value": "False positive - Incorrect alert logic",
+                        "label": "False positive - Incorrect alert logic"
+                      },
+                      {
+                        "value": "Benign positive - Expected activity",
+                        "label": "Benign positive - Expected activity"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "automation",
+                    "label": "Automation rule / playbook",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Notify SOC channel",
+                    "options": [
+                      {
+                        "value": "Notify SOC channel",
+                        "label": "Notify SOC channel"
+                      },
+                      {
+                        "value": "Disable account immediately",
+                        "label": "Disable account immediately"
+                      },
+                      {
+                        "value": "None",
+                        "label": "None"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "comment",
+                    "label": "Comment",
+                    "control": "textarea",
+                    "required": true,
+                    "defaultValue": "Evidence reviewed: repeated failed sign-ins from unfamiliar IP addresses followed by a successful sign-in. Password reset and user verification requested."
+                  }
+                ],
+                "submit": {
+                  "label": "Save incident",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.owner",
+                        "value": "Alex Wilber"
+                      },
+                      "message": "Assign the incident to yourself for accountability."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.automation",
+                        "value": "Notify SOC channel"
+                      },
+                      "message": "Attach the notification automation for this drill; immediate disablement needs separate approval."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.classification",
+                        "value": "True positive - Suspicious activity"
+                      },
+                      "message": "The evidence shows suspicious sign-in behavior, not an expected or incorrect alert."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "incidents",
+                      "where": {
+                        "id": "{{$sel.incident.id}}"
+                      },
+                      "set": {
+                        "owner": "{{$form.owner}}",
+                        "status": "{{$form.status}}",
+                        "classification": "{{$form.classification}}",
+                        "automation": "{{$form.automation}}",
+                        "comment": "{{$form.comment}}",
+                        "closedAt": "{{$now}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Incident saved",
+                      "message": "Incident {{$sel.incident.id}} was updated."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "incident-evidence",
+            "title": "{{$sel.incident.id}} | Evidence and timeline",
+            "subtitle": "Incident details",
+            "icon": "History",
+            "requires": "incident",
+            "navItem": "incidents",
+            "breadcrumb": [
+              "Home",
+              "Microsoft Sentinel",
+              "Incidents"
+            ],
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "incident-detail",
+                "label": "Overview",
+                "icon": "Eye"
+              },
+              {
+                "page": "incident-evidence",
+                "label": "Evidence and timeline",
+                "icon": "History"
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "timeline-table",
+                "title": "Timeline",
+                "source": "$sel.incident.timeline",
+                "rowKey": "time",
+                "columns": [
+                  {
+                    "key": "time",
+                    "label": "Time",
+                    "format": "datetime"
+                  },
+                  {
+                    "key": "activity",
+                    "label": "Activity"
+                  },
+                  {
+                    "key": "entity",
+                    "label": "Entity"
+                  }
+                ]
+              },
+              {
+                "kind": "terminal",
+                "id": "kql-terminal",
+                "title": "KQL-like evidence check"
+              }
+            ]
+          },
+          {
+            "id": "automation",
+            "title": "Automation",
+            "subtitle": "Microsoft Sentinel > Configuration",
+            "icon": "Workflow",
+            "url": "/sentinel/automation",
+            "breadcrumb": [
+              "Home",
+              "Microsoft Sentinel",
+              "Configuration"
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "automation-table",
+                "title": "Automation rules and playbooks",
+                "source": "automationRules",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name"
+                  },
+                  {
+                    "key": "trigger",
+                    "label": "Trigger"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "contentItems": [
+            {
+              "name": "Microsoft Entra ID",
+              "provider": "Microsoft",
+              "contentTypes": "Connector, analytics rules, workbook",
+              "status": "Not installed"
+            },
+            {
+              "name": "Microsoft Defender XDR",
+              "provider": "Microsoft",
+              "contentTypes": "Connector, incidents",
+              "status": "Installed"
+            },
+            {
+              "name": "Windows Security Events",
+              "provider": "Microsoft",
+              "contentTypes": "Connector, hunting queries",
+              "status": "Not installed"
+            }
+          ],
+          "connectors": [
+            {
+              "name": "Microsoft Entra ID",
+              "dataTypes": "SignInLogs, AuditLogs",
+              "status": "Not connected"
+            },
+            {
+              "name": "Microsoft Defender XDR",
+              "dataTypes": "Incidents, alerts, device events",
+              "status": "Connected"
+            },
+            {
+              "name": "Microsoft 365 Defender legacy",
+              "dataTypes": "Alerts",
+              "status": "Deprecated"
+            }
+          ],
+          "analyticsTemplates": [
+            {
+              "name": "Multiple failed sign-ins followed by success",
+              "tactic": "Credential Access",
+              "severity": "High"
+            },
+            {
+              "name": "Impossible travel activity",
+              "tactic": "Initial Access",
+              "severity": "Medium"
+            }
+          ],
+          "analyticsRules": [],
+          "automationRules": [
+            {
+              "name": "Notify SOC channel",
+              "trigger": "When incident is created or updated",
+              "status": "Enabled"
+            },
+            {
+              "name": "Disable account immediately",
+              "trigger": "Manual approval required",
+              "status": "Disabled"
+            }
+          ],
+          "incidents": [
+            {
+              "id": "INC-2026-0042",
+              "title": "Multiple failed sign-ins followed by success for Priya",
+              "severity": "High",
+              "status": "New",
+              "owner": "Unassigned",
+              "classification": "Not set",
+              "automation": "None",
+              "visible": false,
+              "sourceRule": "Not created yet",
+              "entities": [
+                {
+                  "type": "Account",
+                  "name": "priya@contoso.example",
+                  "risk": "High"
+                },
+                {
+                  "type": "IP",
+                  "name": "203.0.113.41",
+                  "risk": "Unfamiliar location"
+                },
+                {
+                  "type": "IP",
+                  "name": "198.51.100.77",
+                  "risk": "New ASN"
+                }
+              ],
+              "timeline": [
+                {
+                  "time": "2026-10-02T07:44:13Z",
+                  "activity": "Failed sign-in burst detected",
+                  "entity": "priya@contoso.example"
+                },
+                {
+                  "time": "2026-10-02T07:51:28Z",
+                  "activity": "Successful sign-in after failures",
+                  "entity": "198.51.100.77"
+                },
+                {
+                  "time": "2026-10-02T07:53:00Z",
+                  "activity": "Analytics rule created incident",
+                  "entity": "Multiple failed sign-ins followed by success"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "key": "install-content",
+          "title": "Install Sentinel content",
+          "instruction": "Open **Content hub** and install the **Microsoft Entra ID** solution so the connector and analytics templates are available.",
+          "hint": "Use the row action on **Microsoft Entra ID**. Microsoft Defender XDR is already installed but does not provide the sign-in log connector for this task.",
+          "explanation": "Content hub packages connectors, analytics templates, workbooks, and hunting content so a workspace can deploy consistent detection building blocks.",
+          "targetId": "content-table",
+          "rules": [
+            {
+              "key": "entra-content-installed",
+              "description": "Microsoft Entra ID content is installed",
+              "rule": {
+                "type": "arrayContains",
+                "path": "contentItems",
+                "match": {
+                  "name": "Microsoft Entra ID",
+                  "status": "Installed"
+                }
+              },
+              "failureFeedback": "Install the Microsoft Entra ID content item."
+            }
+          ]
+        },
+        {
+          "key": "connect-data",
+          "title": "Connect Microsoft Entra sign-in logs",
+          "instruction": "Open **Data connectors**, select **Microsoft Entra ID**, and choose **Connect** for workspace **soc-law** with data type **SignInLogs**.",
+          "hint": "The scheduled rule needs SignInLogs. AuditLogs and device events would not satisfy this incident scenario.",
+          "explanation": "A SIEM needs relevant log ingestion before detection rules can query events. Here, Microsoft Entra sign-in logs are the evidence source.",
+          "targetId": "connectors-table",
+          "rules": [
+            {
+              "key": "signinlogs-connected",
+              "description": "Microsoft Entra ID SignInLogs are connected",
+              "rule": {
+                "type": "arrayContains",
+                "path": "connectors",
+                "match": {
+                  "name": "Microsoft Entra ID",
+                  "status": "Connected",
+                  "connectedDataType": "SignInLogs"
+                }
+              },
+              "failureFeedback": "Connect Microsoft Entra ID with the SignInLogs data type."
+            }
+          ]
+        },
+        {
+          "key": "enable-rule",
+          "title": "Enable a scheduled analytics rule",
+          "instruction": "Open **Analytics**, select **Create**, and create an enabled rule from **Multiple failed sign-ins followed by success**. Keep **Create incidents from alerts triggered by this analytics rule** and attach **Notify SOC channel**.",
+          "hint": "Scheduled analytics rules run queries at an interval and can create incidents from alerts. Do not leave the rule disabled.",
+          "explanation": "Analytics rules are the SIEM detection logic. SOAR begins when the rule links to an automation response such as a notification rule or playbook.",
+          "targetId": "create-rule",
+          "rules": [
+            {
+              "key": "rule-enabled",
+              "description": "The scheduled analytics rule is enabled",
+              "rule": {
+                "type": "arrayContains",
+                "path": "analyticsRules",
+                "match": {
+                  "name": "Multiple failed sign-ins followed by success",
+                  "status": "Enabled",
+                  "automationRule": "Notify SOC channel"
+                }
+              },
+              "failureFeedback": "Create the analytics rule from the failed sign-in template and enable it."
+            }
+          ]
+        },
+        {
+          "key": "investigate-evidence",
+          "title": "Investigate the incident evidence",
+          "instruction": "Open **Incidents**, select **INC-2026-0042**, review **Entities**, then open **Evidence and timeline** and run `kql signin-failures --incident INC-2026-0042` in the terminal.",
+          "hint": "The command returns fixed training output that resembles a KQL result. Use it to connect the entities and timeline; it is not a real KQL engine.",
+          "explanation": "Incident investigation connects entities, alerts, and timeline evidence so the analyst can decide whether the activity is malicious, benign, or a false positive.",
+          "targetId": "incidents-table",
+          "rules": [
+            {
+              "key": "incident-opened-and-query-run",
+              "description": "The incident was opened and the KQL-like evidence command ran",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "visited",
+                    "page": "incident-detail"
+                  },
+                  {
+                    "type": "commandUsed",
+                    "pattern": "^kql signin-failures --incident INC-2026-0042$"
+                  }
+                ]
+              },
+              "failureFeedback": "Open INC-2026-0042 and run the fixed KQL-like command in the evidence terminal."
+            }
+          ]
+        },
+        {
+          "key": "assign-automate",
+          "title": "Assign ownership and attach automation",
+          "instruction": "On the incident **Overview**, use **Manage incident** to assign it to **Alex Wilber**, keep **Automation rule / playbook** as **Notify SOC channel**, and write the investigation comment.",
+          "hint": "Ownership drives accountability. Choose the notification automation for this drill; disabling the user would require a separate approval step.",
+          "explanation": "SOAR automation should match the response decision. Attaching a low-risk notification keeps stakeholders informed without over-remediating.",
+          "targetId": "incident-actions",
+          "rules": [
+            {
+              "key": "assigned-and-automated",
+              "description": "The incident is assigned to Alex with Notify SOC channel automation",
+              "rule": {
+                "type": "arrayContains",
+                "path": "incidents",
+                "match": {
+                  "id": "INC-2026-0042",
+                  "owner": "Alex Wilber",
+                  "automation": "Notify SOC channel"
+                }
+              },
+              "failureFeedback": "Assign the incident to Alex Wilber and attach Notify SOC channel automation."
+            }
+          ]
+        },
+        {
+          "key": "close-classify",
+          "title": "Close with the correct classification",
+          "instruction": "In **Manage incident**, set **Status** to **Closed** and **Classification** to **True positive - Suspicious activity**, then save.",
+          "hint": "The timeline shows suspicious failed sign-ins followed by success. That is not a false positive or expected benign activity.",
+          "explanation": "Closure classification trains metrics and tuning. Accurate classifications help security teams measure detection quality and response outcomes.",
+          "targetId": "incident-actions",
+          "rules": [
+            {
+              "key": "closed-true-positive",
+              "description": "The incident is closed as true positive suspicious activity",
+              "rule": {
+                "type": "arrayContains",
+                "path": "incidents",
+                "match": {
+                  "id": "INC-2026-0042",
+                  "status": "Closed",
+                  "classification": "True positive - Suspicious activity"
+                }
+              },
+              "failureFeedback": "Close INC-2026-0042 as True positive - Suspicious activity."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "no-wrong-connector",
+          "description": "The deprecated connector was not used",
+          "rule": {
+            "type": "arrayNotContains",
+            "path": "connectors",
+            "match": {
+              "name": "Microsoft 365 Defender legacy",
+              "status": "Connected"
+            }
+          },
+          "successFeedback": "Only the current connector path was used.",
+          "failureFeedback": "Do not connect deprecated or unrelated connectors for this Sentinel drill."
+        },
+        {
+          "key": "incident-fully-handled",
+          "description": "The Sentinel incident has owner, automation, status, and classification",
+          "rule": {
+            "type": "arrayContains",
+            "path": "incidents",
+            "match": {
+              "id": "INC-2026-0042",
+              "owner": "Alex Wilber",
+              "automation": "Notify SOC channel",
+              "status": "Closed",
+              "classification": "True positive - Suspicious activity"
+            }
+          },
+          "successFeedback": "The incident is investigated, automated, owned, and closed correctly.",
+          "failureFeedback": "Finish assigning, automating, and closing the incident with the correct classification."
+        }
+      ],
+      "solution": "1. Open **Content hub** and install **Microsoft Entra ID**.\n2. Open **Data connectors**, select **Microsoft Entra ID**, choose workspace **soc-law**, data type **SignInLogs**, and select **Connect**.\n3. Open **Analytics**, select **Create**, choose **Multiple failed sign-ins followed by success**, keep **Enabled**, keep **Create incidents from alerts triggered by this analytics rule**, attach **Notify SOC channel**, and select **Create**.\n4. Open **Incidents**, select **INC-2026-0042**, review **Entities**, open **Evidence and timeline**, and run `kql signin-failures --incident INC-2026-0042`. This terminal output is fixed simulation data, not a real KQL engine.\n5. Return to **Overview**. In **Manage incident**, assign **Alex Wilber**, keep **Notify SOC channel**, add the evidence comment, set **Status** to **Closed**, set **Classification** to **True positive - Suspicious activity**, and select **Save incident**."
+    }
+  ]
+}

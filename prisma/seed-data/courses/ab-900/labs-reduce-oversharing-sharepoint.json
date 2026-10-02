@@ -1490,6 +1490,46 @@
               "failureFeedback": "Set Default link type to Specific people in Policies > Sharing."
             }
           ]
+        },
+        {
+          "key": "verify-cleanup",
+          "title": "Verify the oversharing cleanup",
+          "instruction": "Return to **Active sites** and **Policies > Sharing** to verify **HR-Internal** no longer exposes EEEU broadly, external file sharing is internal-only, and default links are **Specific people**.",
+          "hint": "The final rules check the site and organization sharing defaults together.",
+          "explanation": "A final verification step connects the report findings to actual access-control changes, which is the core Copilot readiness lesson.",
+          "rules": [
+            {
+              "key": "cleanup-verified",
+              "description": "HR-Internal and organization sharing defaults are cleaned up",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "arrayContains",
+                    "path": "sites",
+                    "match": {
+                      "title": "HR-Internal",
+                      "eeeuAccessible": false
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "sites",
+                    "match": {
+                      "title": "HR-Internal",
+                      "externalSharing": "Only people in your organization"
+                    }
+                  },
+                  {
+                    "type": "equals",
+                    "path": "tenantSharing.defaultLinkType",
+                    "value": "Specific people"
+                  }
+                ]
+              },
+              "failureFeedback": "Finish the HR site sharing change and organization default link settings."
+            }
+          ]
         }
       ],
       "finalRules": [
@@ -1532,7 +1572,7 @@
           "failureFeedback": "Set Policies > Sharing > Default link type to Specific people."
         }
       ],
-      "solution": "1. Open **Reports** > **Data access governance** > **Shared with 'Everyone except external users'** and select **Run**.\n2. Return to **Data access governance**, open **Sharing links**, and select **Run**.\n3. In the EEEU report, on **HR-Internal**, choose **Initiate site access review**. Do not delete the site or remove its owner.\n4. Open **Sites** > **Active sites** > **HR-Internal** > **Settings**. Turn on **Restrict SharePoint site access to only users in specified groups**, choose **HR Security Group**, turn on **Restrict content from Microsoft Copilot**, enter a justification, and select **Save**. Restricted site access changes effective access; Restricted Content Discovery limits organization-wide search and Copilot discovery but does not change permissions.\n5. Open **Sharing** for **HR-Internal**, set **External file sharing** to **Only people in your organization**, and select **Save**.\n6. Open **Policies** > **Sharing**, set **Default link type** to **Specific people**, and select **Save**."
+      "solution": "1. Open **Reports** > **Data access governance** > **Shared with 'Everyone except external users'** and select **Run**.\n2. Return to **Data access governance**, open **Sharing links**, and select **Run**.\n3. In the EEEU report, on **HR-Internal**, choose **Initiate site access review**. Do not delete the site or remove its owner.\n4. Open **Sites** > **Active sites** > **HR-Internal** > **Settings**. Turn on **Restrict SharePoint site access to only users in specified groups**, choose **HR Security Group**, turn on **Restrict content from Microsoft Copilot**, enter a justification, and select **Save**. Restricted site access changes effective access; Restricted Content Discovery limits organization-wide search and Copilot discovery but does not change permissions.\n5. Open **Sharing** for **HR-Internal**, set **External file sharing** to **Only people in your organization**, and select **Save**.\n6. Open **Policies** > **Sharing**, set **Default link type** to **Specific people**, and select **Save**.\n7. Final verification: confirm **HR-Internal** is no longer broadly exposed and organization sharing defaults use **Specific people** links."
     }
   ]
 }

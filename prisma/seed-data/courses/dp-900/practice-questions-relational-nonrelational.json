@@ -1,0 +1,783 @@
+{
+  "questions": [
+    {
+      "ref": "dp900-rel-021",
+      "type": "SCENARIO",
+      "domainKey": "relational-data",
+      "objectiveCode": "2.1",
+      "difficulty": "MEDIUM",
+      "stem": "A customer table in Northwind needs a stable CustomerID value so every customer row can be referenced by orders. Which relational feature provides that identifier?",
+      "explanation": "A primary key uniquely identifies each row, allowing related tables to reference the customer reliably.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Primary key",
+          "correct": true,
+          "explanation": "A primary key is the unique identifier for a row in the customer table."
+        },
+        {
+          "key": "B",
+          "text": "Foreign key",
+          "correct": false,
+          "explanation": "A foreign key would store the CustomerID in another table, such as Orders."
+        },
+        {
+          "key": "C",
+          "text": "Index",
+          "correct": false,
+          "explanation": "An index can speed searches but is not the logical identifier required by the scenario."
+        },
+        {
+          "key": "D",
+          "text": "Stored procedure",
+          "correct": false,
+          "explanation": "A stored procedure contains executable database logic, not a row identifier."
+        }
+      ],
+      "lessonSlug": "relational-tables-keys-normalization",
+      "sources": [
+        {
+          "title": "Explore relational data concepts",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "scenario": "Northwind is designing Customers and Orders tables. The Customers table needs one value that uniquely identifies each customer."
+    },
+    {
+      "ref": "dp900-rel-022",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "relational-data",
+      "objectiveCode": "2.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which T-SQL command retrieves customer rows without changing the table?",
+      "explanation": "SELECT is the only listed T-SQL statement that reads rows from the Customers table; DELETE removes rows and CREATE TABLE defines a new object.",
+      "options": [
+        {
+          "key": "A",
+          "text": "`SELECT * FROM Sales.Customers;`",
+          "correct": true,
+          "explanation": "SELECT reads rows from Sales.Customers and does not modify the table."
+        },
+        {
+          "key": "B",
+          "text": "`DELETE FROM Sales.Customers;`",
+          "correct": false,
+          "explanation": "DELETE would remove rows from Sales.Customers, so it is not a safe read-only query."
+        },
+        {
+          "key": "C",
+          "text": "`CREATE TABLE X;`",
+          "correct": false,
+          "explanation": "CREATE TABLE defines a table structure; it does not retrieve existing customer rows."
+        }
+      ],
+      "lessonSlug": "sql-statements-views-procedures-indexes",
+      "sources": [
+        {
+          "title": "SELECT (Transact-SQL)",
+          "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-transact-sql?view=sql-server-ver17",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-rel-023",
+      "type": "ORDERING",
+      "domainKey": "relational-data",
+      "objectiveCode": "2.1",
+      "difficulty": "MEDIUM",
+      "stem": "Order the steps for designing Northwind Customers and Orders tables.",
+      "explanation": "A concrete relational design starts by naming the business entities, assigning primary keys, adding the foreign key that represents the relationship, and then writing queries that use that relationship.",
+      "ordering": {
+        "items": [
+          {
+            "id": "s1",
+            "text": "List Customers and Orders as separate entities"
+          },
+          {
+            "id": "s2",
+            "text": "Choose CustomerID and OrderID as primary keys"
+          },
+          {
+            "id": "s3",
+            "text": "Add CustomerID to Orders as a foreign key"
+          },
+          {
+            "id": "s4",
+            "text": "Write a query that joins Orders to Customers"
+          }
+        ],
+        "correctOrder": [
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "explanations": {
+          "s1": "Entities come first because the design must identify the tables that represent customers and orders.",
+          "s2": "Primary keys are chosen after the tables are known so each row has a stable identifier.",
+          "s3": "The foreign key is added after the parent key exists, allowing each order to reference a customer.",
+          "s4": "Join queries are written last because they depend on the tables, keys, and relationship being defined."
+        }
+      },
+      "lessonSlug": "relational-tables-keys-normalization",
+      "sources": [
+        {
+          "title": "Explore relational data concepts",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/",
+          "kind": "LEARN_MODULE"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-rel-024",
+      "type": "CATEGORIZATION",
+      "domainKey": "relational-data",
+      "objectiveCode": "2.1",
+      "difficulty": "MEDIUM",
+      "stem": "Categorize each SQL database object or statement by its main purpose.",
+      "explanation": "Views and SELECT statements shape query results for readers, while indexes are performance structures that help the engine find rows efficiently.",
+      "categorization": {
+        "categories": [
+          {
+            "id": "q",
+            "label": "Query shape"
+          },
+          {
+            "id": "p",
+            "label": "Performance"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "text": "View",
+            "category": "q",
+            "explanation": "A view stores a reusable SELECT definition, so it belongs with objects that shape query output."
+          },
+          {
+            "id": "i2",
+            "text": "Index",
+            "category": "p",
+            "explanation": "An index is maintained to speed lookups, filters, and joins, so its main purpose is performance."
+          },
+          {
+            "id": "i3",
+            "text": "SELECT",
+            "category": "q",
+            "explanation": "SELECT is the statement that returns query results, so it belongs with query-shaping choices rather than performance structures."
+          }
+        ]
+      },
+      "lessonSlug": "sql-statements-views-procedures-indexes",
+      "sources": [
+        {
+          "title": "Views - SQL Server",
+          "url": "https://learn.microsoft.com/en-us/sql/relational-databases/views/views?view=sql-server-ver17",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-rel-025",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "relational-data",
+      "objectiveCode": "2.1",
+      "difficulty": "MEDIUM",
+      "stem": "Northwind stores orders in an Orders table and customers in a Customers table. Which column in Orders should create the relationship to Customers?",
+      "explanation": "A foreign key in Orders stores the matching customer identifier so each order can be related to a Customers row.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Foreign key",
+          "correct": true,
+          "explanation": "A foreign key links the order row to a primary key value in Customers."
+        },
+        {
+          "key": "B",
+          "text": "View",
+          "correct": false,
+          "explanation": "A view can present joined data, but it is not the column constraint that stores the relationship."
+        },
+        {
+          "key": "C",
+          "text": "Index only",
+          "correct": false,
+          "explanation": "An index may help query speed but does not by itself define the table relationship."
+        },
+        {
+          "key": "D",
+          "text": "Blob container",
+          "correct": false,
+          "explanation": "A blob container stores objects and is not a relational table feature."
+        }
+      ],
+      "lessonSlug": "relational-tables-keys-normalization",
+      "sources": [
+        {
+          "title": "Explore relational data concepts",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/",
+          "kind": "LEARN_MODULE"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-rel-026",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "relational-data",
+      "objectiveCode": "2.2",
+      "difficulty": "MEDIUM",
+      "stem": "A new inventory application needs a managed SQL Server-compatible database for transactional tables and T-SQL queries. The team does not need instance-level features. What should it choose?",
+      "explanation": "Azure SQL Database fits this new transactional application because the team wants a managed SQL Server-compatible database but has no requirement for instance-level features or operating-system control.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure SQL Database",
+          "correct": true,
+          "explanation": "Azure SQL Database gives the inventory app managed T-SQL database capabilities without requiring a managed instance or SQL Server VM."
+        },
+        {
+          "key": "B",
+          "text": "Azure SQL Managed Instance for instance-level migrations",
+          "correct": false,
+          "explanation": "Azure SQL Managed Instance is aimed at scenarios that need broader instance-level compatibility, which the stem explicitly rules out."
+        },
+        {
+          "key": "C",
+          "text": "SQL Server on Azure VMs",
+          "correct": false,
+          "explanation": "A VM is unnecessary when the team does not need operating-system control."
+        },
+        {
+          "key": "D",
+          "text": "Azure Table storage",
+          "correct": false,
+          "explanation": "Azure Table storage is a NoSQL key-attribute service; it cannot host T-SQL relational tables for this inventory app."
+        }
+      ],
+      "lessonSlug": "sql-statements-views-procedures-indexes",
+      "sources": [
+        {
+          "title": "Azure SQL documentation",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-sql/?view=azuresql",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-rel-027",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "relational-data",
+      "objectiveCode": "2.2",
+      "difficulty": "MEDIUM",
+      "stem": "A company is migrating several SQL Server databases that depend on instance-level features such as SQL Agent jobs. Which Azure SQL family option is usually the closest managed fit?",
+      "explanation": "Azure SQL Managed Instance provides managed platform benefits while supporting broader SQL Server instance compatibility than Azure SQL Database.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure SQL Managed Instance with SQL Server instance compatibility",
+          "correct": true,
+          "explanation": "Managed Instance is designed for migrations that need instance-level SQL Server compatibility."
+        },
+        {
+          "key": "B",
+          "text": "Azure SQL Database single database",
+          "correct": false,
+          "explanation": "A single database has less instance-level surface area for migration dependencies."
+        },
+        {
+          "key": "C",
+          "text": "Azure Database for MySQL",
+          "correct": false,
+          "explanation": "MySQL is a different relational engine and does not host SQL Server instance features."
+        },
+        {
+          "key": "D",
+          "text": "Azure Blob Storage",
+          "correct": false,
+          "explanation": "Blob Storage is object storage, not a SQL Server migration target."
+        }
+      ],
+      "lessonSlug": "azure-sql-family-choices",
+      "sources": [
+        {
+          "title": "Azure SQL documentation",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-sql/?view=azuresql",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-rel-028",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "relational-data",
+      "objectiveCode": "2.2",
+      "difficulty": "MEDIUM",
+      "stem": "An application already uses PostgreSQL syntax and drivers. The team wants Azure to manage the database service. Which relational service should it select?",
+      "explanation": "Because the application already depends on PostgreSQL syntax and drivers, Azure Database for PostgreSQL is the managed relational service that preserves that engine compatibility.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure Database for PostgreSQL flexible server",
+          "correct": true,
+          "explanation": "This service preserves PostgreSQL engine compatibility in a managed Azure database."
+        },
+        {
+          "key": "B",
+          "text": "Azure SQL Database",
+          "correct": false,
+          "explanation": "Azure SQL Database is SQL Server-compatible PaaS; PostgreSQL client behavior requires the PostgreSQL service instead."
+        },
+        {
+          "key": "C",
+          "text": "Azure Database for MySQL",
+          "correct": false,
+          "explanation": "MySQL is a different open-source relational engine."
+        },
+        {
+          "key": "D",
+          "text": "Azure Cosmos DB for NoSQL",
+          "correct": false,
+          "explanation": "Cosmos DB for NoSQL is a document database API, not PostgreSQL."
+        }
+      ],
+      "lessonSlug": "azure-open-source-relational-services",
+      "sources": [
+        {
+          "title": "Azure SQL documentation",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-sql/?view=azuresql",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-rel-029",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "relational-data",
+      "objectiveCode": "2.2",
+      "difficulty": "MEDIUM",
+      "stem": "Northwind wants a cloud relational database for structured order tables, primary keys, and joins, with Microsoft managing backups and patching. Which option is best?",
+      "explanation": "Azure SQL Database supports relational tables and joins as a managed database service for cloud applications.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure SQL Database",
+          "correct": true,
+          "explanation": "Azure SQL Database provides managed relational SQL capabilities for structured order data."
+        },
+        {
+          "key": "B",
+          "text": "Azure Files",
+          "correct": false,
+          "explanation": "Azure Files provides file shares and does not process relational joins."
+        },
+        {
+          "key": "C",
+          "text": "Azure Blob Storage",
+          "correct": false,
+          "explanation": "Blob Storage holds objects, not normalized tables with primary keys."
+        },
+        {
+          "key": "D",
+          "text": "Azure Cosmos DB for Apache Gremlin",
+          "correct": false,
+          "explanation": "The Gremlin API is for graph traversals, not SQL relational order tables."
+        }
+      ],
+      "lessonSlug": "relational-tables-keys-normalization",
+      "sources": [
+        {
+          "title": "Azure SQL documentation",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-sql/?view=azuresql",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-rel-030",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "relational-data",
+      "objectiveCode": "2.2",
+      "difficulty": "MEDIUM",
+      "stem": "A reporting team wants to create views and stored procedures over relational sales tables using T-SQL, without managing a virtual machine. Which service should host the database?",
+      "explanation": "Azure SQL Database can host T-SQL relational objects such as views and stored procedures while Azure manages the platform.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure SQL Database",
+          "correct": true,
+          "explanation": "It supports T-SQL database objects for managed relational workloads."
+        },
+        {
+          "key": "B",
+          "text": "Azure Files",
+          "correct": false,
+          "explanation": "File shares do not execute T-SQL views or stored procedures."
+        },
+        {
+          "key": "C",
+          "text": "Azure Blob Storage",
+          "correct": false,
+          "explanation": "Object storage cannot host relational database code."
+        },
+        {
+          "key": "D",
+          "text": "Azure Table storage",
+          "correct": false,
+          "explanation": "Table storage is NoSQL key-attribute storage and does not support T-SQL stored procedures."
+        }
+      ],
+      "lessonSlug": "sql-statements-views-procedures-indexes",
+      "sources": [
+        {
+          "title": "Azure SQL documentation",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-sql/?view=azuresql",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-nrl-016",
+      "type": "CASE_STUDY",
+      "domainKey": "non-relational-data",
+      "objectiveCode": "3.1",
+      "difficulty": "HARD",
+      "scenario": "Alpine needs object files, shared folders, and analytics lake folders.",
+      "stem": "For each statement about Alpine storage choices, select **Yes** if it is true. Otherwise, select **No**.",
+      "explanation": "Blob Storage fits object files, Azure Files fits mounted shared folders, and Azure SQL Database is not the best object store for raw media or log files.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Blob Storage fits product images and raw log files stored as objects.",
+            "answer": true,
+            "explanation": "Yes. Blob Storage is the Azure Storage service for unstructured object data such as images, logs, and exports."
+          },
+          {
+            "id": "s2",
+            "text": "Azure Files fits a shared folder that applications mount by using file protocols.",
+            "answer": true,
+            "explanation": "Yes. Azure Files provides managed file shares for workloads that need file-system semantics."
+          },
+          {
+            "id": "s3",
+            "text": "Azure SQL Database is the best Azure Storage service for raw object files.",
+            "answer": false,
+            "explanation": "No. Azure SQL Database is relational database PaaS; Blob Storage is the object storage choice."
+          }
+        ]
+      },
+      "lessonSlug": "azure-storage-non-relational-services",
+      "sources": [
+        {
+          "title": "Blob Storage introduction",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Azure Files introduction",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-introduction",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-nrl-017",
+      "type": "UI_SIMULATION",
+      "domainKey": "non-relational-data",
+      "objectiveCode": "3.1",
+      "difficulty": "MEDIUM",
+      "stem": "Configure the simulated chooser for a managed file share.",
+      "explanation": "Azure Files is the managed Azure Storage service for shared file-system access, so the simulated chooser should select Azure Files rather than Blob Storage.",
+      "uiSimulation": {
+        "title": "Storage chooser (simulated)",
+        "fields": [
+          {
+            "id": "svc",
+            "label": "Service",
+            "control": "select",
+            "options": [
+              {
+                "value": "files",
+                "label": "Azure Files"
+              },
+              {
+                "value": "blob",
+                "label": "Blob Storage"
+              }
+            ],
+            "correct": "files",
+            "explanation": "Choose Azure Files because a managed file share requires file-system semantics; Blob Storage is for object containers."
+          }
+        ]
+      },
+      "lessonSlug": "azure-storage-non-relational-services",
+      "sources": [
+        {
+          "title": "Azure Files introduction",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-introduction",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-nrl-018",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "non-relational-data",
+      "objectiveCode": "3.1",
+      "difficulty": "MEDIUM",
+      "stem": "A media site needs to store thumbnail images, exported CSV files, and archived JSON payloads as individual objects. Which non-relational service is the best fit?",
+      "explanation": "Azure Blob Storage is the non-relational object storage choice for separate media files, exports, and archived payloads; the alternatives target shares, entities, or relational databases.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure Blob Storage",
+          "correct": true,
+          "explanation": "Blob Storage stores each thumbnail, CSV export, or archived JSON payload as an object in a container."
+        },
+        {
+          "key": "B",
+          "text": "Azure Files",
+          "correct": false,
+          "explanation": "Azure Files is better for shared file system access, not object-container storage."
+        },
+        {
+          "key": "C",
+          "text": "Azure Table storage",
+          "correct": false,
+          "explanation": "Azure Table storage stores key-attribute entities and is not intended for arbitrary media files or exported objects."
+        },
+        {
+          "key": "D",
+          "text": "Managed SQL Server-compatible relational instance",
+          "correct": false,
+          "explanation": "Managed Instance is relational SQL Server-compatible database service, not non-relational object storage."
+        }
+      ],
+      "lessonSlug": "cosmos-db-apis-workload-fit",
+      "sources": [
+        {
+          "title": "Blob Storage introduction",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-nrl-019",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "non-relational-data",
+      "objectiveCode": "3.1",
+      "difficulty": "MEDIUM",
+      "stem": "A legacy application expects a shared folder that multiple virtual machines can mount by using SMB. Which Azure Storage option should Alpine choose?",
+      "explanation": "Azure Files provides managed cloud file shares for applications that need shared file-system semantics.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure Files",
+          "correct": true,
+          "explanation": "Azure Files is the Azure Storage service for managed SMB or NFS file shares."
+        },
+        {
+          "key": "B",
+          "text": "Azure Blob Storage",
+          "correct": false,
+          "explanation": "Blob Storage exposes object containers rather than a mounted shared folder."
+        },
+        {
+          "key": "C",
+          "text": "Azure Table storage",
+          "correct": false,
+          "explanation": "Table storage holds NoSQL entities and is not a file share."
+        },
+        {
+          "key": "D",
+          "text": "Azure Cosmos DB for NoSQL API",
+          "correct": false,
+          "explanation": "Cosmos DB is a document database service, not a shared file system."
+        }
+      ],
+      "lessonSlug": "azure-storage-non-relational-services",
+      "sources": [
+        {
+          "title": "Blob Storage introduction",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-nrl-020",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "non-relational-data",
+      "objectiveCode": "3.2",
+      "difficulty": "MEDIUM",
+      "stem": "A SaaS app stores tenant documents in Cosmos DB and needs to distribute reads and writes by tenantId. Which design choice is most important?",
+      "explanation": "A tenantId partition key matches the SaaS access pattern and helps distribute tenant documents across logical partitions for scalable reads and writes.",
+      "options": [
+        {
+          "key": "A",
+          "text": "A Cosmos DB NoSQL container partitioned by /tenantId",
+          "correct": true,
+          "explanation": "Partitioning by tenantId groups tenant documents and supports scale-out distribution."
+        },
+        {
+          "key": "B",
+          "text": "An Azure Files share mounted by every tenant",
+          "correct": false,
+          "explanation": "Azure Files provides shared folders; it does not define how Cosmos DB distributes JSON items inside a container."
+        },
+        {
+          "key": "C",
+          "text": "A Blob Storage archive tier for active tenant documents",
+          "correct": false,
+          "explanation": "Blob tiers manage object access cost and latency, not Cosmos DB item distribution."
+        },
+        {
+          "key": "D",
+          "text": "A SQL Server VM with one flat text column",
+          "correct": false,
+          "explanation": "Moving to a SQL Server VM would abandon the requested Cosmos DB document design and does not solve partition-key distribution."
+        }
+      ],
+      "lessonSlug": "cosmos-db-distribution-consistency-partitioning",
+      "sources": [
+        {
+          "title": "Azure Cosmos DB documentation",
+          "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-nrl-021",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "non-relational-data",
+      "objectiveCode": "3.2",
+      "difficulty": "MEDIUM",
+      "stem": "A development team has JSON product documents and wants the native Cosmos DB document API with SQL-style queries. Which API should it choose?",
+      "explanation": "The native NoSQL API in Azure Cosmos DB stores JSON items in containers and supports SQL-style querying over document properties.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Native Azure Cosmos DB NoSQL API for JSON items",
+          "correct": true,
+          "explanation": "This API is intended for native JSON document workloads in Cosmos DB."
+        },
+        {
+          "key": "B",
+          "text": "Azure Cosmos DB API for Apache Cassandra",
+          "correct": false,
+          "explanation": "The Cassandra API targets Cassandra-compatible wide-column workloads."
+        },
+        {
+          "key": "C",
+          "text": "Azure Cosmos DB for Apache Gremlin",
+          "correct": false,
+          "explanation": "Gremlin is for graph vertices and edges, not native document queries."
+        },
+        {
+          "key": "D",
+          "text": "Azure Files REST API",
+          "correct": false,
+          "explanation": "Azure Files is a storage service for file shares, not a Cosmos DB API."
+        }
+      ],
+      "lessonSlug": "cosmos-db-apis-workload-fit",
+      "sources": [
+        {
+          "title": "Azure Cosmos DB documentation",
+          "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-nrl-022",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "non-relational-data",
+      "objectiveCode": "3.2",
+      "difficulty": "MEDIUM",
+      "stem": "An application team has existing MongoDB code and drivers but wants to use Azure Cosmos DB as the managed backend. Which API should they select?",
+      "explanation": "The Azure Cosmos DB API for MongoDB supports applications that are written for MongoDB-compatible protocols and drivers.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure Cosmos DB API for MongoDB",
+          "correct": true,
+          "explanation": "The MongoDB API is the Cosmos DB choice for MongoDB-compatible applications."
+        },
+        {
+          "key": "B",
+          "text": "Azure Cosmos DB NoSQL API for new native document apps",
+          "correct": false,
+          "explanation": "The NoSQL API is native to Cosmos DB but does not preserve MongoDB protocol compatibility."
+        },
+        {
+          "key": "C",
+          "text": "Azure Table storage API",
+          "correct": false,
+          "explanation": "Azure Table storage is a key-attribute store; it does not provide MongoDB-compatible drivers or protocol behavior."
+        },
+        {
+          "key": "D",
+          "text": "Azure Data Lake Storage Gen2 hierarchical namespace",
+          "correct": false,
+          "explanation": "A data lake namespace organizes files for analytics, not MongoDB application access."
+        }
+      ],
+      "lessonSlug": "azure-storage-non-relational-services",
+      "sources": [
+        {
+          "title": "Azure Cosmos DB documentation",
+          "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-nrl-023",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "non-relational-data",
+      "objectiveCode": "3.2",
+      "difficulty": "MEDIUM",
+      "stem": "A social app stores users and follows relationships, then traverses from one user to connected users. Which Cosmos DB API fits this graph model?",
+      "explanation": "Azure Cosmos DB for Apache Gremlin supports graph data with vertices, edges, and traversal queries.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure Cosmos DB for Apache Gremlin graph workloads",
+          "correct": true,
+          "explanation": "The Gremlin API is the Cosmos DB API for graph data, where queries traverse vertices and edges such as users and follows."
+        },
+        {
+          "key": "B",
+          "text": "Azure Cosmos DB NoSQL API for standalone JSON documents",
+          "correct": false,
+          "explanation": "The NoSQL API stores JSON documents; it is not the graph traversal API for connected vertices and edges."
+        },
+        {
+          "key": "C",
+          "text": "Azure Blob Storage block blobs",
+          "correct": false,
+          "explanation": "Blob Storage stores objects and does not query vertices and edges."
+        },
+        {
+          "key": "D",
+          "text": "Managed PostgreSQL relational database service",
+          "correct": false,
+          "explanation": "PostgreSQL is relational and is not the Cosmos DB graph API."
+        }
+      ],
+      "lessonSlug": "cosmos-db-distribution-consistency-partitioning",
+      "sources": [
+        {
+          "title": "Azure Cosmos DB documentation",
+          "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    }
+  ]
+}

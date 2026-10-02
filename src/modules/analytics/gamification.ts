@@ -12,6 +12,13 @@ export const XP_RULES = {
   flashcardReviewed: 1,
   studySessionCompleted: 10,
   diagnosticCompleted: 30,
+  /** Claimed daily quest (each) and the bonus for finishing all of the day's quests. */
+  questCompleted: 10,
+  allQuestsBonus: 20,
+  /** Completed focus session (Windows Clock style timer). */
+  focusSession: 10,
+  /** Completed lightning round (in addition to correct-answer XP). */
+  lightningRound: 15,
 } as const;
 
 /** Cumulative XP needed to reach a level: 0, 100, 300, 600, 1000, ... */
@@ -39,7 +46,13 @@ export type BadgeCriteria =
   | { type: "comeback"; inactiveDays: number }
   | { type: "personal_best" }
   | { type: "practice_exam_score"; minPercent: number }
-  | { type: "xp"; amount: number };
+  | { type: "xp"; amount: number }
+  | { type: "quest_days"; count: number }
+  | { type: "focus_sessions"; count: number }
+  | { type: "three_star_labs"; count: number }
+  | { type: "lightning_correct"; minCorrect: number }
+  | { type: "lightning_combo"; combo: number }
+  | { type: "lab_cert_explorer"; count: number };
 
 export type BadgeStats = {
   lessonsCompleted: number;
@@ -54,6 +67,13 @@ export type BadgeStats = {
   /** Best full practice exam per certification, and the previous best before the latest exam. */
   fullExamBests: { certCode: string; best: number; previousBest: number | null }[];
   totalXp: number;
+  questDaysAllCompleted?: number;
+  focusSessions?: number;
+  threeStarLabs?: number;
+  lightningRoundsAtLeast8?: number;
+  bestLightningCorrect?: number;
+  bestLightningCombo?: number;
+  labCertificationsCompleted?: number;
 };
 
 export type EarnedBadge = { key: string; scopeKey: string; certCode?: string; context?: Record<string, unknown> };
@@ -105,6 +125,24 @@ export function evaluateBadges(defs: { key: string; criteria: BadgeCriteria }[],
         break;
       case "xp":
         if (stats.totalXp >= c.amount) earned.push({ key: def.key, scopeKey: "global" });
+        break;
+      case "quest_days":
+        if ((stats.questDaysAllCompleted ?? 0) >= c.count) earned.push({ key: def.key, scopeKey: "global" });
+        break;
+      case "focus_sessions":
+        if ((stats.focusSessions ?? 0) >= c.count) earned.push({ key: def.key, scopeKey: "global" });
+        break;
+      case "three_star_labs":
+        if ((stats.threeStarLabs ?? 0) >= c.count) earned.push({ key: def.key, scopeKey: "global" });
+        break;
+      case "lightning_correct":
+        if ((stats.bestLightningCorrect ?? ((stats.lightningRoundsAtLeast8 ?? 0) >= 1 ? 8 : 0)) >= c.minCorrect) earned.push({ key: def.key, scopeKey: "global" });
+        break;
+      case "lightning_combo":
+        if ((stats.bestLightningCombo ?? 0) >= c.combo) earned.push({ key: def.key, scopeKey: "global" });
+        break;
+      case "lab_cert_explorer":
+        if ((stats.labCertificationsCompleted ?? 0) >= c.count) earned.push({ key: def.key, scopeKey: "global" });
         break;
     }
   }

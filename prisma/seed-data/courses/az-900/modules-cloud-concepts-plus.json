@@ -1,0 +1,787 @@
+{
+  "domainKey": "cloud-concepts",
+  "modules": [
+    {
+      "slug": "cloud-concepts-scenario-depth",
+      "title": "Cloud concepts scenario depth",
+      "summary": "Scenario-based deepening for cloud benefits and service models.",
+      "lessons": [
+        {
+          "slug": "cloud-benefits-beyond-scale",
+          "title": "Cloud benefits beyond scale: reliability, predictability, governance, and manageability",
+          "objectiveCode": "1.2",
+          "estimatedMinutes": 12,
+          "summary": "Deepens cloud benefits that the existing path only introduces.",
+          "learningObjectives": [
+            "Explain reliability, predictability, governance, and manageability benefits in cloud scenarios",
+            "Identify controls such as tags, policies, RBAC, alerts, and Advisor recommendations",
+            "Distinguish managing cloud resources from managing resources with cloud tools"
+          ],
+          "explanation": "Reliability, predictability, security, governance, and manageability are benefits only when a team uses the right controls. Reliability means designing for recovery. Predictability means planning from known behavior, monitoring, and tested changes. Security protects identities, data, and resources, while governance applies standards such as policies, tags, and access reviews. Manageability has two sides: **of the cloud**, using tools to deploy and monitor resources, and **in the cloud**, because the provider handles physical facilities and many platform operations. In scenarios, match the business clue to the benefit: failure recovery is reliability, approved regions are governance, dashboards and automation are manageability.",
+          "terminology": [
+            {
+              "term": "Reliability",
+              "definition": "Recovering from failures and continuing to operate."
+            },
+            {
+              "term": "Predictability",
+              "definition": "Planning from expected service behavior, monitoring, and tested changes."
+            },
+            {
+              "term": "Security",
+              "definition": "Protecting identities, data, applications, and resources."
+            },
+            {
+              "term": "Governance",
+              "definition": "Applying standards such as policy, tags, and access reviews."
+            },
+            {
+              "term": "Cloud manageability",
+              "definition": "Using cloud tools to deploy, monitor, automate, and organize resources."
+            }
+          ],
+          "businessScenario": "Tailwind Traders is launching ticket sales for a charity concert. Marketing wants a fast release, finance wants every cost tied to a campaign, and security wants the site to survive routine component problems without becoming a free-for-all.",
+          "technicalExample": "The team deploys the app in an approved region, adds owner and campaign tags, assigns least-privilege roles, creates availability and cost alerts, and reviews Azure Advisor recommendations after the first event.",
+          "misconception": {
+            "myth": "Reliability, governance, and manageability appear automatically just because a workload runs in Azure.",
+            "reality": "Azure supplies controls such as regions, policy, tags, identity, and monitoring, but the customer must select and configure them for the workload."
+          },
+          "examTakeaway": "If the scenario says survive failure, choose reliability; if it says approved locations, ownership, or standards, choose governance; if it says dashboards, automation, or less operations work, choose manageability.",
+          "recap": "Deepens cloud benefits that the existing path only introduces.",
+          "simplerExplanation": "Imagine a concert venue: the building has exits, signs, guards, and a control room, but the event team still assigns seats, checks tickets, and watches the crowd.",
+          "anotherExample": "A library portal uses policy to keep resources in approved regions, tags each resource by branch, and alerts staff when response time or spending moves outside the expected range.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Cloud benefit clues for the concert site",
+                "columns": [
+                  {
+                    "title": "Reliability",
+                    "points": [
+                      "Ticket checkout should continue through routine component issues",
+                      "Alerts show when availability drops"
+                    ]
+                  },
+                  {
+                    "title": "Governance and security",
+                    "points": [
+                      "Only approved regions are allowed",
+                      "Owner tags and least privilege are required"
+                    ]
+                  },
+                  {
+                    "title": "Manageability",
+                    "points": [
+                      "Operations uses dashboards and automation",
+                      "The team reduces physical infrastructure work"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Concert launch triage",
+                "instructions": "Match each request to the strongest cloud benefit.",
+                "items": [
+                  {
+                    "prompt": "“Block deployments outside approved geography.”",
+                    "answer": "Governance."
+                  },
+                  {
+                    "prompt": "“Notify us when checkout latency rises.”",
+                    "answer": "Manageability and predictability."
+                  },
+                  {
+                    "prompt": "“Keep selling tickets if a component fails.”",
+                    "answer": "Reliability."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Reliability clue",
+              "back": "A requirement to keep working or recover after a failure."
+            },
+            {
+              "front": "Governance clue",
+              "back": "A requirement for approved regions, tags, standards, or ownership."
+            },
+            {
+              "front": "Manageability of the cloud",
+              "back": "Using Azure tools to deploy, scale, automate, and monitor resources."
+            },
+            {
+              "front": "Manageability in the cloud",
+              "back": "Provider-handled operations such as physical datacenter maintenance."
+            },
+            {
+              "front": "Predictability clue",
+              "back": "A requirement for expected behavior, measured trends, and fewer surprises."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Describe the benefits of using cloud services",
+              "url": "https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/",
+              "kind": "LEARN_MODULE"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-x-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "cloud-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "EASY",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Describe the benefits of using cloud services",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "cloud-benefits-beyond-scale",
+              "stem": "A payment application is deployed across multiple Azure availability zones so it can keep processing orders if one datacenter has a hardware issue. Which cloud benefit is the primary goal?",
+              "explanation": "Reliability is the benefit focused on continuing to operate or recovering when a component or location has a problem. The zone design supports that goal by avoiding a single point of failure.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Reliability",
+                  "correct": true,
+                  "explanation": "Reliability addresses availability and recovery during failures."
+                },
+                {
+                  "key": "B",
+                  "text": "Elasticity",
+                  "correct": false,
+                  "explanation": "Elasticity adjusts capacity as demand changes; the stem is about failure tolerance."
+                },
+                {
+                  "key": "C",
+                  "text": "Cost management",
+                  "correct": false,
+                  "explanation": "Cost management tracks and optimizes spending but does not describe surviving a datacenter problem."
+                },
+                {
+                  "key": "D",
+                  "text": "SaaS",
+                  "correct": false,
+                  "explanation": "SaaS is a service model, not a cloud benefit for resilient architecture."
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-x-002",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "cloud-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Describe the benefits of using cloud services",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "cloud-benefits-beyond-scale",
+              "stem": "Which **two** Azure controls help an organization keep cloud resources consistently classified and deployed only in approved locations?",
+              "explanation": "Tags and Azure Policy are governance controls. Tags add business metadata, and policy can evaluate or enforce allowed settings such as permitted regions.",
+              "selectCount": 2,
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Resource tags such as Department and Environment",
+                  "correct": true,
+                  "explanation": "Tags classify resources for ownership, reporting, automation, and cost analysis."
+                },
+                {
+                  "key": "B",
+                  "text": "Azure Policy definitions that restrict allowed regions",
+                  "correct": true,
+                  "explanation": "Azure Policy can audit, deny, or remediate resources that do not meet rules such as allowed locations."
+                },
+                {
+                  "key": "C",
+                  "text": "Larger virtual machine sizes",
+                  "correct": false,
+                  "explanation": "VM size changes capacity and performance; it does not standardize metadata or allowed locations."
+                },
+                {
+                  "key": "D",
+                  "text": "Blob archive access tier",
+                  "correct": false,
+                  "explanation": "Archive tier is a storage lifecycle choice, not a governance control for resource placement."
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-x-003",
+              "type": "TRUE_FALSE",
+              "domainKey": "cloud-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "EASY",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Describe the benefits of using cloud services",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "cloud-benefits-beyond-scale",
+              "stem": "True or false: A workload that has a tested recovery plan and redundant components is using cloud reliability practices.",
+              "explanation": "The statement is true because reliability is about designing and operating a workload so it can withstand failures and recover within expected timeframes.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Redundant components and tested recovery plans help a workload withstand failures and recover within expected targets."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that reliability practices include redundancy, failover planning, and recovery testing."
+                }
+              ]
+            },
+            {
+              "ref": "az900-x-004",
+              "type": "MATCHING",
+              "domainKey": "cloud-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Describe the benefits of using cloud services",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "cloud-benefits-beyond-scale",
+              "stem": "Match each requirement to the cloud benefit or management concept it best represents.",
+              "explanation": "Each match is based on the business clue: failure continuity maps to reliability, approved standards map to governance, spend alerts map to cost management, and automation dashboards map to manageability.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Keep the checkout API available during routine component failure"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Deny creation of resources outside approved Azure regions"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Notify owners when monthly spending approaches a budget"
+                  },
+                  {
+                    "id": "p4",
+                    "text": "Use dashboards and scripts to operate resources consistently"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Reliability"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Governance"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Cost management"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Manageability"
+                  },
+                  {
+                    "id": "a5",
+                    "text": "SaaS"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3",
+                  "p4": "a4"
+                },
+                "explanations": {
+                  "p1": "Reliability focuses on continuity and recovery when components fail.",
+                  "p2": "Governance applies organizational rules such as approved regions.",
+                  "p3": "Budgets and alerts help teams monitor and control cloud spend.",
+                  "p4": "Manageability uses tools, automation, and monitoring to operate resources."
+                }
+              }
+            },
+            {
+              "ref": "az900-x-005",
+              "type": "SCENARIO",
+              "domainKey": "cloud-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Describe the benefits of using cloud services",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "cloud-benefits-beyond-scale",
+              "scenario": "Contoso is preparing a short-term ticketing site. Finance wants each resource charged to a campaign, security wants deployments limited to two approved regions, and operations wants alerts for availability issues.",
+              "stem": "What should Contoso configure first to satisfy the governance requirements before the site is deployed?",
+              "explanation": "Tags and Azure Policy address the stated governance needs before resources are created: tags support campaign cost tracking, and policy can restrict deployment locations.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Define required tags and an Azure Policy assignment for allowed regions",
+                  "correct": true,
+                  "explanation": "This combines metadata standards with enforcement of approved deployment locations."
+                },
+                {
+                  "key": "B",
+                  "text": "Increase every virtual machine to the largest available size",
+                  "correct": false,
+                  "explanation": "Larger VMs do not add campaign metadata or region enforcement."
+                },
+                {
+                  "key": "C",
+                  "text": "Move the app to SaaS so the business cannot configure governance",
+                  "correct": false,
+                  "explanation": "SaaS changes responsibility boundaries but does not directly configure Azure tags or policy for this deployment."
+                },
+                {
+                  "key": "D",
+                  "text": "Choose archive storage for all ticketing transactions",
+                  "correct": false,
+                  "explanation": "Archive storage is for rarely accessed blobs, not governance of compute and app resources."
+                }
+              ],
+              "shuffleOptions": true
+            }
+          ]
+        },
+        {
+          "slug": "choosing-iaas-paas-saas-scenarios",
+          "title": "Choosing IaaS, PaaS, and SaaS from scenario clues",
+          "objectiveCode": "1.3",
+          "estimatedMinutes": 12,
+          "summary": "Adds scenario practice for cloud service types and shared responsibility.",
+          "learningObjectives": [
+            "Compare IaaS, PaaS, and SaaS by customer control and provider responsibility",
+            "Choose a service type from OS control, custom code, or finished app clues",
+            "Explain how shared responsibility changes from VMs to SaaS apps"
+          ],
+          "explanation": "IaaS gives the customer the most control, including guest OS and installed software. It fits legacy apps, special OS settings, and lift-and-shift. PaaS lets developers deploy custom code while the provider manages more of the platform. SaaS is a finished application. Shared responsibility changes as you move from IaaS to SaaS, but customers always keep responsibility for data decisions, access, and business configuration. Read for control, speed, and management effort: OS control points to IaaS, code without servers points to PaaS, and ready-to-use apps point to SaaS.",
+          "terminology": [
+            {
+              "term": "IaaS",
+              "definition": "Infrastructure as a service: customer manages guest OS, apps, data, and configuration."
+            },
+            {
+              "term": "PaaS",
+              "definition": "Platform as a service: developers deploy code while the provider manages more platform operations."
+            },
+            {
+              "term": "SaaS",
+              "definition": "Software as a service: users consume a finished application."
+            },
+            {
+              "term": "Guest operating system",
+              "definition": "The OS inside a virtual machine that the customer patches and configures in IaaS."
+            },
+            {
+              "term": "Customer responsibility",
+              "definition": "Data, access, and business configuration choices that remain with the customer."
+            }
+          ],
+          "businessScenario": "Woodgrove Bank is sorting three requests: a loan app with a custom Windows service, a new customer API that developers want to ship weekly, and a standard HR case-management tool.",
+          "technicalExample": "Architects keep the loan app on Azure VMs for OS control, host the new API on App Service, and subscribe to a SaaS HR tool while managing employee access and data-retention settings.",
+          "misconception": {
+            "myth": "Choosing SaaS means Woodgrove can ignore access, data, and configuration choices.",
+            "reality": "SaaS reduces application operations, but Woodgrove still owns user assignments, data decisions, compliance configuration, and business process choices."
+          },
+          "examTakeaway": "OS-level control points to IaaS, custom code with less server work points to PaaS, and a ready-to-use business application points to SaaS.",
+          "recap": "Adds scenario practice for cloud service types and shared responsibility.",
+          "simplerExplanation": "Think of lunch: IaaS is renting a kitchen, PaaS is using a prepared kitchen counter, and SaaS is ordering the finished meal.",
+          "anotherExample": "A retailer runs a licensed inventory app on VMs, deploys its loyalty API to a managed app platform, and uses a SaaS help-desk product for support tickets.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Woodgrove service-model choice",
+                "columns": [
+                  {
+                    "title": "IaaS",
+                    "points": [
+                      "Custom OS service",
+                      "Customer patches guest OS"
+                    ]
+                  },
+                  {
+                    "title": "PaaS",
+                    "points": [
+                      "Weekly API releases",
+                      "Provider manages platform runtime"
+                    ]
+                  },
+                  {
+                    "title": "SaaS",
+                    "points": [
+                      "Finished HR workflow",
+                      "Customer manages users and settings"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Shortcut",
+                "body": "Ask what the team wants to manage: machines, code, or only app configuration."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "IaaS clue",
+              "back": "The scenario requires OS control, custom drivers, or lift-and-shift."
+            },
+            {
+              "front": "PaaS clue",
+              "back": "The scenario wants custom code without managing servers directly."
+            },
+            {
+              "front": "SaaS clue",
+              "back": "The scenario wants a finished application for users."
+            },
+            {
+              "front": "SaaS customer duty",
+              "back": "Manage users, data, and business configuration."
+            },
+            {
+              "front": "Service model order",
+              "back": "IaaS gives most control; SaaS gives least infrastructure management."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Describe Cloud Service Types",
+              "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-service-types/",
+              "kind": "LEARN_MODULE"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "az900-x-006",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "cloud-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Describe Cloud Service Types",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-service-types/",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "choosing-iaas-paas-saas-scenarios",
+              "stem": "A legacy inventory application requires administrators to install custom agents, change the guest operating system, and control patch timing. Which cloud service model best fits this requirement?",
+              "explanation": "IaaS provides virtual machines where the customer has the most control over the guest operating system and installed software, which matches the legacy application requirement.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Infrastructure as a service (IaaS)",
+                  "correct": true,
+                  "explanation": "IaaS gives customers VM-level control over the guest OS and installed agents."
+                },
+                {
+                  "key": "B",
+                  "text": "Platform as a service (PaaS)",
+                  "correct": false,
+                  "explanation": "PaaS reduces OS administration and is better when the team can deploy code without managing the guest OS."
+                },
+                {
+                  "key": "C",
+                  "text": "Software as a service (SaaS)",
+                  "correct": false,
+                  "explanation": "SaaS is a finished application and normally does not allow guest OS changes."
+                },
+                {
+                  "key": "D",
+                  "text": "Consumption-based billing",
+                  "correct": false,
+                  "explanation": "Consumption billing is a cost model, not a service model for OS control."
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-x-007",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "cloud-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Describe Cloud Service Types",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-service-types/",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "choosing-iaas-paas-saas-scenarios",
+              "stem": "Which **two** statements correctly describe shared responsibility when moving from IaaS toward SaaS?",
+              "explanation": "The provider takes on more platform and application operation as the model moves toward SaaS, but the customer still owns data, identities, access decisions, and business configuration.",
+              "selectCount": 2,
+              "options": [
+                {
+                  "key": "A",
+                  "text": "The cloud provider manages more of the underlying platform in PaaS than in IaaS.",
+                  "correct": true,
+                  "explanation": "PaaS shifts runtime and platform maintenance away from the customer."
+                },
+                {
+                  "key": "B",
+                  "text": "Customers still make data governance and access decisions in SaaS.",
+                  "correct": true,
+                  "explanation": "Even with SaaS, customers manage users, data, permissions, and business settings."
+                },
+                {
+                  "key": "C",
+                  "text": "SaaS gives the customer the most control over the guest operating system.",
+                  "correct": false,
+                  "explanation": "Guest OS control is associated with IaaS, not SaaS."
+                },
+                {
+                  "key": "D",
+                  "text": "In IaaS, the provider owns application code and data classification.",
+                  "correct": false,
+                  "explanation": "Application code and data decisions remain customer responsibilities in IaaS."
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "az900-x-008",
+              "type": "TRUE_FALSE",
+              "domainKey": "cloud-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "EASY",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Describe Cloud Service Types",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-service-types/",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "choosing-iaas-paas-saas-scenarios",
+              "stem": "True or false: A provider-hosted email system that users access in a browser is usually an example of SaaS.",
+              "explanation": "The statement is true because SaaS delivers a complete application for users while the provider manages the application platform.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Browser-based provider-hosted email is a complete application delivered to users, which is the SaaS model."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that SaaS means consuming a finished provider-managed application rather than managing the platform yourself."
+                }
+              ]
+            },
+            {
+              "ref": "az900-x-009",
+              "type": "MATCHING",
+              "domainKey": "cloud-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Describe Cloud Service Types",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-service-types/",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "choosing-iaas-paas-saas-scenarios",
+              "stem": "Match each scenario to the cloud service model or responsibility concept it best demonstrates.",
+              "explanation": "The matches separate VM control, managed application platforms, complete applications, and responsibilities that remain with the customer.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Administrators patch the guest OS on an Azure VM"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Developers deploy web code while Azure manages the web server platform"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Employees use a provider-hosted HR application through a browser"
+                  },
+                  {
+                    "id": "p4",
+                    "text": "The business classifies data and grants user access"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "IaaS"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "PaaS"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "SaaS"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Customer responsibility"
+                  },
+                  {
+                    "id": "a5",
+                    "text": "Azure region pair"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3",
+                  "p4": "a4"
+                },
+                "explanations": {
+                  "p1": "Guest OS patching is a typical customer task with IaaS VMs.",
+                  "p2": "PaaS hosts custom code while reducing platform administration.",
+                  "p3": "SaaS is a complete application delivered by a provider.",
+                  "p4": "Data classification and user access decisions remain customer responsibilities."
+                }
+              }
+            },
+            {
+              "ref": "az900-x-010",
+              "type": "SCENARIO",
+              "domainKey": "cloud-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "MEDIUM",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Describe Cloud Service Types",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-service-types/",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "choosing-iaas-paas-saas-scenarios",
+              "scenario": "Fabrikam is modernizing a custom customer API. Developers need to publish their own code, but they do not want to manage operating system patches or web server maintenance.",
+              "stem": "Which service model best matches the API hosting requirement?",
+              "explanation": "PaaS is the best fit because it supports custom application code while shifting operating system and platform maintenance to the provider.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "PaaS",
+                  "correct": true,
+                  "explanation": "PaaS lets developers deploy custom code with less infrastructure and OS management."
+                },
+                {
+                  "key": "B",
+                  "text": "IaaS",
+                  "correct": false,
+                  "explanation": "IaaS would leave more VM and guest OS maintenance with the customer."
+                },
+                {
+                  "key": "C",
+                  "text": "SaaS",
+                  "correct": false,
+                  "explanation": "SaaS is a finished application and would not normally host Fabrikam-owned API code."
+                },
+                {
+                  "key": "D",
+                  "text": "On-premises only",
+                  "correct": false,
+                  "explanation": "The requirement asks for a cloud service model, and on-premises hosting keeps full infrastructure responsibility."
+                }
+              ],
+              "shuffleOptions": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

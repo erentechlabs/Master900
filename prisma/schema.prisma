@@ -112,6 +112,8 @@ enum PracticeMode {
   ADAPTIVE
   DAILY
   MISTAKE_REVIEW
+  /// Short timed round with instant feedback and a combo streak.
+  LIGHTNING
 }
 
 enum AttemptStatus {
@@ -298,6 +300,10 @@ enum LearningEventType {
   STUDY_SESSION_COMPLETED
   TUTOR_MESSAGE
   BADGE_EARNED
+  /// Reward claimed for a completed daily quest (metadata.questKey, metadata.date).
+  QUEST_COMPLETED
+  /// Completed focus session (metadata.minutes). Not counted as study duration to avoid double counting.
+  FOCUS_SESSION_COMPLETED
 }
 
 enum TutorRole {
@@ -379,6 +385,9 @@ model UserPreference {
   reducedMotion           Boolean          @default(false)
   shareAnonymousAnalytics Boolean          @default(true)
   showTimerByDefault      Boolean          @default(true)
+  /// Personalization: accent colour key ("default" = Windows blue) and Mica/acrylic transparency effects.
+  accentColor             String           @default("default")
+  transparencyEffects     Boolean          @default(true)
   timezone                String           @default("UTC")
   updatedAt               DateTime         @updatedAt
   user                    User             @relation(fields: [userId], references: [id], onDelete: Cascade)

@@ -1,0 +1,422 @@
+{
+  "domainKey": "ai-concepts",
+  "modules": [
+    {
+      "slug": "ai-workload-scenario-selector",
+      "title": "Scenario-based AI workload selection",
+      "summary": "Deepens AI-901 workload coverage with practical business scenarios for choosing prediction, classification, anomaly detection, language, speech, vision, extraction, generative AI, and agents.",
+      "lessons": [
+        {
+          "slug": "choosing-ai-workloads-for-business-scenarios",
+          "title": "Choose the right AI workload for the problem",
+          "objectiveCode": "1.3",
+          "estimatedMinutes": 12,
+          "summary": "Practice reading scenario clues and mapping them to common AI workloads such as prediction, classification, anomaly detection, NLP, speech, vision, extraction, generative AI, and agents.",
+          "learningObjectives": [
+            "Map inputs and outputs to prediction, classification, extraction, vision, speech, or language workloads",
+            "Distinguish anomaly detection, sentiment, OCR, summarization, and agent scenarios",
+            "Choose generative AI when a solution must create grounded content or responses"
+          ],
+          "explanation": "A good AI architect starts like a detective. Before choosing a model or tool, ask: **What is the input? What output or action does the business need?** Relecloud receives photos, reviews, invoices, voice calls, and telemetry, and each source points to a different workload.\n\nUse **prediction** for a numeric or future estimate, such as demand. Use **classification** when the answer is a category, such as billing or safety. Use **anomaly detection** when the goal is to find unusual patterns. Written comments use **text analysis** such as named entity recognition, sentiment analysis, and summarization. Spoken input starts with **speech to text**; spoken output uses **text to speech**. Images use **computer vision** for OCR, tags, captions, or object detection. Documents, forms, images, audio, and video that must become structured fields use **information extraction**.\n\nChoose **generative AI** when the solution creates or transforms content. Choose an **agentic AI** pattern when the system must reason over instructions and use tools, such as checking booking rules and opening a support ticket. The skill is spotting scenario clues and selecting the workload that solves the business problem responsibly.",
+          "terminology": [
+            {
+              "term": "Prediction",
+              "definition": "Estimating a future or numeric outcome from patterns in data."
+            },
+            {
+              "term": "Classification",
+              "definition": "Assigning an item to one or more categories."
+            },
+            {
+              "term": "Anomaly detection",
+              "definition": "Identifying observations that are unusual compared with expected behavior."
+            },
+            {
+              "term": "Named entity recognition",
+              "definition": "Finding entities such as people, places, organizations, dates, and quantities in text."
+            },
+            {
+              "term": "Agentic AI",
+              "definition": "A pattern where a model follows instructions and can use tools or knowledge to complete a task."
+            }
+          ],
+          "businessScenario": "Relecloud wants one intake experience for travel disruptions. Customers can type complaints, upload receipts, speak to a kiosk, or share luggage photos. The team maps each requirement to the simplest workload before prototyping.",
+          "technicalExample": "A decision matrix maps `receipt image -> OCR + extraction`, `call recording -> speech to text + summarization`, `review text -> sentiment + NER`, `refund spike -> anomaly detection`, and `policy-grounded reply -> generative AI with retrieval`.",
+          "misconception": {
+            "myth": "A generative model is always the best answer because it can handle many inputs.",
+            "reality": "Generative AI is powerful, but specialized workloads can be easier to test, govern, and explain for classification, OCR, speech transcription, or field extraction."
+          },
+          "examTakeaway": "Watch for verbs: **predict**, **classify**, **detect unusual**, **extract**, **transcribe**, **synthesize**, **caption**, **summarize**, or **act with tools**. The verb often reveals the workload.",
+          "recap": "Start with input and outcome. Match text to language, audio to speech, images to vision, forms and media to extraction, and content creation or tool use to generative or agentic AI.",
+          "simplerExplanation": "Think of AI workloads like stations in a workshop. A saw, drill, and paintbrush all help build things, but you choose the station that matches the job.",
+          "anotherExample": "Alpine Ski House inspects sensor readings, classifies incident reports, and answers policy questions: anomaly detection for sensors, classification for reports, and a grounded assistant for policy answers.",
+          "extraBlocks": [
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Two-minute workload triage",
+                "instructions": "Name the workload before reading the answer.",
+                "items": [
+                  {
+                    "prompt": "A customer speaks into a kiosk.",
+                    "answer": "Speech to text first, then language understanding or response generation."
+                  },
+                  {
+                    "prompt": "A camera sees a damaged suitcase tag.",
+                    "answer": "Computer vision with OCR, possibly followed by extraction."
+                  },
+                  {
+                    "prompt": "A refund amount is far outside normal range.",
+                    "answer": "Anomaly detection."
+                  }
+                ]
+              }
+            },
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Common workload clues",
+                "columns": [
+                  {
+                    "title": "Analyze content",
+                    "points": [
+                      "Text analysis finds meaning in words",
+                      "Vision interprets images",
+                      "Speech converts audio and text"
+                    ]
+                  },
+                  {
+                    "title": "Create or act",
+                    "points": [
+                      "Generative AI creates content",
+                      "Agents use tools under instructions",
+                      "Extraction turns messy content into fields"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What clue points to anomaly detection?",
+              "back": "The scenario asks to find unusual values, spikes, drops, or behavior compared with normal patterns."
+            },
+            {
+              "front": "When should you choose OCR?",
+              "back": "When the solution must extract text from an image or document."
+            },
+            {
+              "front": "What is agentic AI?",
+              "back": "A model-driven solution that follows instructions and can use tools or knowledge."
+            },
+            {
+              "front": "Text to speech vs speech to text",
+              "back": "Speech to text transcribes audio; text to speech synthesizes audio from text."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Azure Language in Foundry Tools",
+              "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Azure Speech?",
+              "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ai901-x-001",
+              "type": "MATCHING",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "MEDIUM",
+              "stem": "Match each business clue to the AI workload that best fits it.",
+              "explanation": "Each clue identifies either unusual numeric behavior, text routing, or text visible in an image.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Flag unusual meter readings"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Route support email by topic"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Read a serial number from a photo"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Anomaly detection"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Text classification"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Computer vision with OCR"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Text to speech"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "Unusual values are anomaly clues.",
+                  "p2": "Routing text by category is classification.",
+                  "p3": "Reading visible characters uses OCR."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Language in Foundry Tools",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "OCR - Optical Character Recognition - Foundry Tools",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-ocr",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "choosing-ai-workloads-for-business-scenarios"
+            },
+            {
+              "ref": "ai901-x-002",
+              "type": "SCENARIO",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which AI workload combination should support the field engineers' hands-free question-and-answer experience first?",
+              "explanation": "The engineers provide audio input and need audio output, so the solution should transcribe speech before responding and synthesize the response back to speech.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Speech to text plus text to speech",
+                  "correct": true,
+                  "explanation": "Spoken input becomes text; the answer becomes audio."
+                },
+                {
+                  "key": "B",
+                  "text": "Only image classification",
+                  "correct": false,
+                  "explanation": "No image input is described."
+                },
+                {
+                  "key": "C",
+                  "text": "Only anomaly detection",
+                  "correct": false,
+                  "explanation": "The requirement is conversational audio."
+                },
+                {
+                  "key": "D",
+                  "text": "Only document field extraction",
+                  "correct": false,
+                  "explanation": "There are no forms to parse."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Speech?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "choosing-ai-workloads-for-business-scenarios",
+              "scenario": "Tailwind Traders wants field engineers to ask spoken questions and hear answers while their hands are busy."
+            },
+            {
+              "ref": "ai901-x-003",
+              "type": "CATEGORIZATION",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each Tailwind Traders AI scenario as a language, vision, or generative/agentic workload.",
+              "explanation": "The correct category is determined by whether the requirement analyzes text, interprets an image, or uses generative reasoning with tools.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "language",
+                    "label": "Language / NLP"
+                  },
+                  {
+                    "id": "vision",
+                    "label": "Vision"
+                  },
+                  {
+                    "id": "generation",
+                    "label": "Generative / agentic AI"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Summarize thousands of customer comments",
+                    "category": "language",
+                    "explanation": "Summarization of text is a language workload."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Caption product photos",
+                    "category": "vision",
+                    "explanation": "Image captioning interprets visual content."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Plan next steps by calling approved business tools",
+                    "category": "generation",
+                    "explanation": "Tool use under instructions is agentic."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Image Analysis? - Foundry Tools",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-image-analysis",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Microsoft Foundry?",
+                  "url": "https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "choosing-ai-workloads-for-business-scenarios"
+            },
+            {
+              "ref": "ai901-x-004",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "EASY",
+              "stem": "Which workload extracts entities such as people, locations, products, or dates from text?",
+              "explanation": "Named entity recognition identifies and categorizes entities in unstructured text.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Named entity recognition",
+                  "correct": true,
+                  "explanation": "NER finds entity categories."
+                },
+                {
+                  "key": "B",
+                  "text": "Image generation",
+                  "correct": false,
+                  "explanation": "This creates visuals."
+                },
+                {
+                  "key": "C",
+                  "text": "Speech synthesis",
+                  "correct": false,
+                  "explanation": "This creates audio."
+                },
+                {
+                  "key": "D",
+                  "text": "Object detection",
+                  "correct": false,
+                  "explanation": "This locates things in images."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is named entity recognition in Azure Language?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/named-entity-recognition/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "choosing-ai-workloads-for-business-scenarios"
+            },
+            {
+              "ref": "ai901-x-005",
+              "type": "CASE_STUDY",
+              "domainKey": "ai-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "HARD",
+              "scenario": "Woodgrove Bank receives forms, typed questions, and call recordings. It wants sentiment, field extraction, and call summaries.",
+              "stem": "For each statement, select **Yes** if it is a good workload match. Otherwise, select **No**.",
+              "explanation": "Each statement maps to the input type and intended output.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Use sentiment analysis for typed comments.",
+                    "answer": true,
+                    "explanation": "Sentiment analysis works on text."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Use image generation to extract invoice totals.",
+                    "answer": false,
+                    "explanation": "Field extraction or Document Intelligence fits invoices."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Use speech to text before summarizing calls.",
+                    "answer": true,
+                    "explanation": "Audio must be transcribed before text summarization."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Study guide for Exam AI-901: Microsoft Azure AI Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Azure Language in Foundry Tools",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "What is Azure Speech?",
+                  "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "choosing-ai-workloads-for-business-scenarios"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

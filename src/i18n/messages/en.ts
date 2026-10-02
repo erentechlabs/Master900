@@ -8,6 +8,7 @@ import { planner, progress } from "./en/progress";
 import { tutor } from "./en/tutor";
 import { settings } from "./en/settings";
 import { admin } from "./en/admin";
+import { shell } from "./en/shell";
 
 export const en = {
   common,
@@ -25,6 +26,7 @@ export const en = {
   tutor,
   settings,
   admin,
+  shell,
 };
 
 export type Messages = typeof en;

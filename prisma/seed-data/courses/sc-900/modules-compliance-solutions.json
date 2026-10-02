@@ -1,0 +1,1918 @@
+{
+  "domainKey": "compliance-solutions",
+  "modules": [
+    {
+      "slug": "trust-and-compliance-management",
+      "title": "Trust and compliance management",
+      "summary": "Use assurance resources and Microsoft Purview compliance management capabilities to plan, track, and explain compliance posture.",
+      "lessons": [
+        {
+          "slug": "service-trust-portal-and-privacy-principles",
+          "title": "Service Trust Portal and privacy principles",
+          "objectiveCode": "4.1",
+          "estimatedMinutes": 10,
+          "summary": "Use the Service Trust Portal and Microsoft privacy principles to answer customer assurance questions without confusing evidence with customer responsibility.",
+          "learningObjectives": [
+            "Describe how Service Trust Portal supports customer assurance reviews",
+            "Identify when SOC reports and compliance documents may require sign-in",
+            "Explain how Microsoft privacy principles guide cloud data handling",
+            "Recognize that assurance evidence does not replace customer controls"
+          ],
+          "explanation": "A customer assurance review can feel like a treasure hunt: legal asks for SOC reports, procurement asks for privacy commitments, and IT asks where Microsoft explains its cloud controls. The **Microsoft Service Trust Portal (STP)** is the starting point for that evidence.\n\nSTP publishes resources about how Microsoft cloud services protect data and support compliance. Typical content includes audit reports, certifications, regulatory resources, whitepapers, and restricted documents. Some resources are public, while others require an authenticated Microsoft cloud services account and acceptance of terms before download.\n\nMicrosoft privacy principles are the companion idea. At a high level, expect themes such as transparency about data practices, customer control, security, strong legal protections, and responsible use of personal data. In SC-900 scenarios, the point is not to memorize legal text. Instead, identify whether the question asks for **Microsoft's published assurance evidence** or for **your organization's own compliance action**.\n\nThe current SC-900 study guide for objective 4.1 lists Service Trust Portal offerings and Microsoft privacy principles. Microsoft Priva is useful privacy-risk context, but it is not listed as a current 4.1 skill bullet.",
+          "terminology": [
+            {
+              "term": "Service Trust Portal",
+              "definition": "Microsoft's portal for cloud compliance, audit, privacy, and assurance resources."
+            },
+            {
+              "term": "Audit report",
+              "definition": "Independent evidence that assesses controls for a service or process."
+            },
+            {
+              "term": "Privacy principle",
+              "definition": "A high-level commitment about how personal data is handled and protected."
+            },
+            {
+              "term": "Restricted document",
+              "definition": "A compliance material that might require sign-in, permissions, and acceptance of terms."
+            }
+          ],
+          "businessScenario": "Woodgrove Bank is onboarding Microsoft 365. Priya creates a checklist: download relevant reports from STP, map them to the bank's vendor questionnaire, and record which controls Woodgrove still operates itself.",
+          "technicalExample": "A vendor-review worksheet might include `Evidence requested: SOC report`, `Source: Service Trust Portal`, `Owner: Priya`, and `Customer action: Review and store under policy`.",
+          "misconception": {
+            "myth": "STP proves my organization is automatically compliant.",
+            "reality": "STP provides Microsoft assurance materials. Your organization still configures services, manages data, trains users, and maintains its own evidence."
+          },
+          "examTakeaway": "Watch for scenarios that ask for Microsoft audit reports, compliance attestations, or privacy whitepapers: choose Service Trust Portal, not a workload admin center.",
+          "recap": "STP is the evidence library for Microsoft cloud assurance, while privacy principles explain the commitments behind data handling.",
+          "simplerExplanation": "Think of STP like a secure document room. Microsoft stocks it with reports and whitepapers; your team still decides which documents satisfy your audit.",
+          "anotherExample": "Fabrikam responds to a government customer by collecting STP reports, adding internal access-control evidence, and noting shared responsibilities.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Assurance evidence vs customer controls",
+                "columns": [
+                  {
+                    "title": "Microsoft evidence",
+                    "points": [
+                      "Audit reports and compliance resources in STP",
+                      "Privacy and data-protection statements",
+                      "Microsoft-managed control details"
+                    ]
+                  },
+                  {
+                    "title": "Customer evidence",
+                    "points": [
+                      "Your access reviews and policies",
+                      "Your data classification decisions",
+                      "Your training and incident records"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Vendor questionnaire triage",
+                "instructions": "Decide before revealing the answer.",
+                "items": [
+                  {
+                    "prompt": "External auditor report for Microsoft 365",
+                    "answer": "Start with Service Trust Portal."
+                  },
+                  {
+                    "prompt": "List of your users with Compliance Administrator permissions",
+                    "answer": "Use your internal identity and access evidence."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What is the Service Trust Portal?",
+              "back": "A Microsoft portal for cloud assurance materials such as audit reports, certifications, whitepapers, and compliance resources."
+            },
+            {
+              "front": "Does STP replace customer compliance work?",
+              "back": "No. It supplies Microsoft evidence; customers still operate their own controls."
+            },
+            {
+              "front": "Is Microsoft Priva part of current 4.1 skills measured?",
+              "back": "The current study guide lists STP and privacy principles for 4.1; Priva is related context."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam SC-900",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Get started with the Microsoft Service Trust Portal",
+              "url": "https://learn.microsoft.com/en-us/compliance/assurance/stp-get-started",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Microsoft Privacy Statement",
+              "url": "https://www.microsoft.com/en-us/privacy/privacystatement",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "sc900-cmp-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.1",
+              "difficulty": "EASY",
+              "stem": "Woodgrove Bank needs independent audit reports for Microsoft cloud services during a vendor review. Where should the team start?",
+              "explanation": "The Service Trust Portal publishes audit reports and compliance resources for Microsoft cloud services.",
+              "sources": [
+                {
+                  "title": "Study guide for Exam SC-900",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Get started with the Microsoft Service Trust Portal",
+                  "url": "https://learn.microsoft.com/en-us/compliance/assurance/stp-get-started",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "service-trust-portal-and-privacy-principles",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Microsoft Service Trust Portal",
+                  "correct": true,
+                  "explanation": "STP is designed for audit reports, whitepapers, and compliance resources."
+                },
+                {
+                  "key": "B",
+                  "text": "Microsoft Teams admin center",
+                  "correct": false,
+                  "explanation": "Teams administration does not publish Microsoft cloud audit reports."
+                },
+                {
+                  "key": "C",
+                  "text": "Azure pricing calculator",
+                  "correct": false,
+                  "explanation": "Pricing tools do not provide compliance attestations."
+                },
+                {
+                  "key": "D",
+                  "text": "Microsoft Store",
+                  "correct": false,
+                  "explanation": "The Store is not used for assurance documentation."
+                }
+              ]
+            },
+            {
+              "ref": "sc900-cmp-002",
+              "type": "TRUE_FALSE",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.1",
+              "difficulty": "EASY",
+              "stem": "Some Service Trust Portal materials can require signing in and accepting terms before download.",
+              "explanation": "Some STP resources require an authenticated Microsoft cloud services account and acceptance of terms.",
+              "sources": [
+                {
+                  "title": "Get started with the Microsoft Service Trust Portal",
+                  "url": "https://learn.microsoft.com/en-us/compliance/assurance/stp-get-started",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "service-trust-portal-and-privacy-principles",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Some Service Trust Portal documents require signing in with a Microsoft cloud services account and accepting terms before download."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that some STP materials are gated by authentication and terms acceptance."
+                }
+              ]
+            },
+            {
+              "ref": "sc900-cmp-003",
+              "type": "MATCHING",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each review need to the best assurance or privacy resource.",
+              "explanation": "Service Trust Portal reports, privacy statements, and compliance offerings answer different assurance questions for customer reviews.",
+              "sources": [
+                {
+                  "title": "Get started with the Microsoft Service Trust Portal",
+                  "url": "https://learn.microsoft.com/en-us/compliance/assurance/stp-get-started",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Privacy Statement",
+                  "url": "https://www.microsoft.com/en-us/privacy/privacystatement",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "service-trust-portal-and-privacy-principles",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "External audit evidence for a cloud service"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "General statement about Microsoft handling personal data"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Industry compliance offering list"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Service Trust Portal reports"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Microsoft Privacy Statement"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Compliance offerings documentation"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "DLP policy alert"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "STP is the assurance-document starting point.",
+                  "p2": "The privacy statement explains personal-data handling.",
+                  "p3": "Compliance offerings organize standards and regulatory resources."
+                }
+              }
+            },
+            {
+              "ref": "sc900-cmp-004",
+              "type": "CASE_STUDY",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.1",
+              "difficulty": "HARD",
+              "stem": "For each statement about using the Service Trust Portal during Contoso's customer assurance review, select **Yes** if it is true. Otherwise, select **No**.",
+              "explanation": "Service Trust Portal can provide restricted assurance artifacts for customer due diligence, but it does not replace the customer's review process.",
+              "sources": [
+                {
+                  "title": "Study guide for Exam SC-900",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Get started with the Microsoft Service Trust Portal",
+                  "url": "https://learn.microsoft.com/en-us/compliance/assurance/stp-get-started",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "service-trust-portal-and-privacy-principles",
+              "scenario": "Contoso is preparing a questionnaire from a healthcare customer. The customer asks for cloud audit reports, data protection whitepapers, and evidence that only approved reviewers can access restricted materials.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "The Service Trust Portal is a suitable place to look for audit reports and whitepapers.",
+                    "answer": true,
+                    "explanation": "STP publishes reports, whitepapers, and artifacts."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Every STP document is public with no sign-in or terms requirement.",
+                    "answer": false,
+                    "explanation": "Some materials require sign-in and acceptance of terms."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "STP replaces Contoso's own compliance responsibilities.",
+                    "answer": false,
+                    "explanation": "STP supplies Microsoft assurance information; the customer still owns its controls."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "sc900-cmp-005",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.1",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about assurance resources.",
+              "explanation": "Service Trust is the missing phrase.",
+              "sources": [
+                {
+                  "title": "Get started with the Microsoft Service Trust Portal",
+                  "url": "https://learn.microsoft.com/en-us/compliance/assurance/stp-get-started",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "service-trust-portal-and-privacy-principles",
+              "fillInBlank": {
+                "template": "The Microsoft {{b1}} Portal publishes cloud assurance resources such as audit reports and compliance documents.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "Service Trust",
+                      "service trust"
+                    ],
+                    "explanation": "Service Trust is the missing phrase."
+                  }
+                ],
+                "wordBank": [
+                  "Service Trust",
+                  "Compliance",
+                  "Pricing",
+                  "Defender"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "slug": "purview-compliance-manager-and-compliance-score",
+          "title": "Compliance Manager and compliance score",
+          "objectiveCode": "4.2",
+          "estimatedMinutes": 11,
+          "summary": "Navigate Microsoft Purview compliance management concepts: the portal, Compliance Manager, assessments, improvement actions, and compliance score.",
+          "learningObjectives": [
+            "Describe how Compliance Manager organizes regulatory assessments",
+            "Identify improvement actions that can raise compliance score",
+            "Explain what compliance score does and does not measure",
+            "Choose Purview compliance tools for assessment and risk tracking"
+          ],
+          "explanation": "Compliance work often starts with a deceptively simple question: \"Are we ready for this audit?\" Microsoft Purview helps by putting compliance, risk, and data protection solutions in a unified portal experience. For SC-900, know that the **Microsoft Purview portal** is the entry point for many data security, governance, risk, and compliance experiences.\n\n**Compliance Manager** is the key capability for compliance management. It helps organizations create or use assessments, understand controls, assign and track improvement actions, and collect evidence. An assessment groups controls for a regulation, standard, or internal policy. An improvement action is a recommended task that can be assigned, implemented, tested, and documented.\n\nThe **compliance score** is a risk-based measurement of progress in completing improvement actions. It is useful for prioritization: a high-impact unfinished action deserves attention before a lower-impact cosmetic task. But the score is not a legal certification, not a substitute for professional advice, and not proof that every law is satisfied. It is a management signal.",
+          "terminology": [
+            {
+              "term": "Microsoft Purview portal",
+              "definition": "The unified portal for Microsoft Purview data security, data governance, and risk and compliance solutions."
+            },
+            {
+              "term": "Compliance Manager",
+              "definition": "A Purview solution for assessing and managing compliance activities across environments."
+            },
+            {
+              "term": "Assessment",
+              "definition": "A grouping of controls for a regulation, standard, or policy."
+            },
+            {
+              "term": "Improvement action",
+              "definition": "A recommended task used to improve compliance posture and collect evidence."
+            },
+            {
+              "term": "Compliance score",
+              "definition": "A risk-based score reflecting progress in completing improvement actions."
+            }
+          ],
+          "businessScenario": "Relecloud runs regional retail sites. Mehmet uses Compliance Manager to create an assessment, assign improvement actions to IT and legal owners, and prepare evidence before an external review.",
+          "technicalExample": "A tracking row could read: `Assessment: Data protection baseline | Improvement action: Review guest sharing settings | Owner: Collaboration team | Evidence: Screenshot and approval note | Status: Implemented`.",
+          "misconception": {
+            "myth": "A perfect compliance score means the organization is legally compliant everywhere.",
+            "reality": "Compliance score helps prioritize and track progress. Legal obligations still require expert review, correct configuration, and organizational processes."
+          },
+          "examTakeaway": "Watch for compliance posture, assessments, improvement actions, or risk-based scoring: these point to Compliance Manager.",
+          "recap": "Compliance Manager turns broad compliance requirements into assessments, actions, owners, evidence, and a score that helps prioritize work.",
+          "simplerExplanation": "Think of Compliance Manager as a project board for compliance. It does not write the law for you, but it helps you see tasks, owners, evidence, and progress.",
+          "anotherExample": "Tailwind Traders uses Compliance Manager to compare two assessments, finds repeated improvement actions, and assigns shared work once.",
+          "extraBlocks": [
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Compliance Manager flow",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "assessment",
+                    "label": "Assessment"
+                  },
+                  {
+                    "id": "controls",
+                    "label": "Controls"
+                  },
+                  {
+                    "id": "actions",
+                    "label": "Improvement actions"
+                  },
+                  {
+                    "id": "score",
+                    "label": "Compliance score"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "assessment",
+                    "to": "controls"
+                  },
+                  {
+                    "from": "controls",
+                    "to": "actions"
+                  },
+                  {
+                    "from": "actions",
+                    "to": "score"
+                  }
+                ],
+                "caption": "An assessment contains controls, controls map to improvement actions, and completed actions contribute to compliance score."
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "tip",
+                "title": "Score safely",
+                "body": "Use compliance score to prioritize work; do not describe it as a legal guarantee or certification."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What is Compliance Manager for?",
+              "back": "Managing compliance assessments, controls, improvement actions, evidence, and score."
+            },
+            {
+              "front": "What does compliance score measure?",
+              "back": "Risk-based progress in completing improvement actions."
+            },
+            {
+              "front": "What is an improvement action?",
+              "back": "A recommended compliance task that can be assigned, implemented, tested, and documented."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam SC-900",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Learn about the Microsoft Purview portal",
+              "url": "https://learn.microsoft.com/en-us/purview/purview-portal",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Microsoft Purview Compliance Manager",
+              "url": "https://learn.microsoft.com/en-us/purview/compliance-manager",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "sc900-cmp-006",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.2",
+              "difficulty": "EASY",
+              "stem": "Relecloud wants a single place to review regulatory assessments, suggested improvement actions, and a risk-based score. Which Microsoft Purview capability fits best?",
+              "explanation": "Compliance Manager is the Purview capability for creating assessments, reviewing improvement actions, and tracking compliance score progress for those assessments.",
+              "sources": [
+                {
+                  "title": "Study guide for Exam SC-900",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Microsoft Purview Compliance Manager",
+                  "url": "https://learn.microsoft.com/en-us/purview/compliance-manager",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "purview-compliance-manager-and-compliance-score",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Compliance Manager",
+                  "correct": true,
+                  "explanation": "It is designed to assess and manage compliance activities."
+                },
+                {
+                  "key": "B",
+                  "text": "Data Map",
+                  "correct": false,
+                  "explanation": "Data Map supports metadata scanning and governance."
+                },
+                {
+                  "key": "C",
+                  "text": "Sensitivity labels",
+                  "correct": false,
+                  "explanation": "Labels classify and protect content."
+                },
+                {
+                  "key": "D",
+                  "text": "eDiscovery",
+                  "correct": false,
+                  "explanation": "eDiscovery supports legal discovery workflows."
+                }
+              ]
+            },
+            {
+              "ref": "sc900-cmp-007",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** statements describe uses of compliance score in Compliance Manager?",
+              "explanation": "Compliance score helps prioritize improvement actions and understand progress against assessments, but it is not a legal certification.",
+              "sources": [
+                {
+                  "title": "Microsoft Purview Compliance Manager",
+                  "url": "https://learn.microsoft.com/en-us/purview/compliance-manager",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "purview-compliance-manager-and-compliance-score",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Prioritize improvement actions based on risk impact",
+                  "correct": true,
+                  "explanation": "Actions contribute points based on risk impact."
+                },
+                {
+                  "key": "B",
+                  "text": "Measure progress in completing improvement actions",
+                  "correct": true,
+                  "explanation": "The score reflects progress against actions."
+                },
+                {
+                  "key": "C",
+                  "text": "Guarantee legal compliance in every jurisdiction",
+                  "correct": false,
+                  "explanation": "The score is not a legal guarantee."
+                },
+                {
+                  "key": "D",
+                  "text": "Replace an organization's auditors",
+                  "correct": false,
+                  "explanation": "It helps manage evidence; it does not replace auditors."
+                }
+              ],
+              "selectCount": 2
+            },
+            {
+              "ref": "sc900-cmp-008",
+              "type": "ORDERING",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.2",
+              "difficulty": "MEDIUM",
+              "stem": "Put the Compliance Manager workflow in a sensible order.",
+              "explanation": "A Compliance Manager rollout starts with an assessment, then uses improvement actions, evidence work, and score monitoring.",
+              "sources": [
+                {
+                  "title": "Microsoft Purview Compliance Manager",
+                  "url": "https://learn.microsoft.com/en-us/purview/compliance-manager",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "purview-compliance-manager-and-compliance-score",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Choose or create an assessment"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Review improvement actions"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Assign work, collect evidence, and update status"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Monitor compliance score and posture"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "Assessments group relevant controls.",
+                  "s2": "Improvement actions show recommended work.",
+                  "s3": "Owners implement, test, and record evidence.",
+                  "s4": "The score helps monitor progress."
+                }
+              }
+            },
+            {
+              "ref": "sc900-cmp-009",
+              "type": "UI_SIMULATION",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.2",
+              "difficulty": "MEDIUM",
+              "stem": "Configure the simulated Compliance Manager view for unfinished high-impact work.",
+              "explanation": "For Compliance Manager, focusing on incomplete high-impact improvement actions helps the team work on the riskiest gaps first.",
+              "sources": [
+                {
+                  "title": "Microsoft Purview Compliance Manager",
+                  "url": "https://learn.microsoft.com/en-us/purview/compliance-manager",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Learn about the Microsoft Purview portal",
+                  "url": "https://learn.microsoft.com/en-us/purview/purview-portal",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "purview-compliance-manager-and-compliance-score",
+              "uiSimulation": {
+                "title": "Compliance Manager focus panel (simulated)",
+                "description": "This is a simplified fictional interface, not the real Microsoft Purview portal.",
+                "fields": [
+                  {
+                    "id": "view",
+                    "label": "Show actions",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "all",
+                        "label": "All actions"
+                      },
+                      {
+                        "value": "incomplete",
+                        "label": "Incomplete improvement actions"
+                      }
+                    ],
+                    "correct": "incomplete",
+                    "explanation": "The team wants unfinished work."
+                  },
+                  {
+                    "id": "sort",
+                    "label": "Sort by",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "impact",
+                        "label": "Risk impact"
+                      },
+                      {
+                        "value": "name",
+                        "label": "Action name"
+                      }
+                    ],
+                    "correct": "impact",
+                    "explanation": "Risk impact helps prioritize actions."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "sc900-cmp-010",
+              "type": "SCENARIO",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which action should Alex recommend first?",
+              "explanation": "The scenario asks for prioritized compliance work. Compliance Manager improvement actions are designed for this.",
+              "sources": [
+                {
+                  "title": "Microsoft Purview Compliance Manager",
+                  "url": "https://learn.microsoft.com/en-us/purview/compliance-manager",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "purview-compliance-manager-and-compliance-score",
+              "scenario": "Alpine Ski House created a new assessment. The compliance lead wants a prioritized list of actions and a way to track implementation evidence.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Open Compliance Manager and review improvement actions for the assessment",
+                  "correct": true,
+                  "explanation": "This provides guided actions and scoring context."
+                },
+                {
+                  "key": "B",
+                  "text": "Create a DLP policy without reviewing assessment requirements",
+                  "correct": false,
+                  "explanation": "DLP might help later, but it is not the first assessment step."
+                },
+                {
+                  "key": "C",
+                  "text": "Export all mailboxes for legal review",
+                  "correct": false,
+                  "explanation": "That is not a compliance-management starting point."
+                },
+                {
+                  "key": "D",
+                  "text": "Disable audit logging to reduce noise",
+                  "correct": false,
+                  "explanation": "Audit visibility supports investigations and compliance."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "data-protection-governance-and-investigations",
+      "title": "Data protection, governance, and investigations",
+      "summary": "Classify, protect, retain, govern, investigate, and audit data with Microsoft Purview capabilities.",
+      "lessons": [
+        {
+          "slug": "classify-protect-and-prevent-data-loss",
+          "title": "Classify, protect, and prevent data loss",
+          "objectiveCode": "4.3",
+          "estimatedMinutes": 13,
+          "summary": "Use Microsoft Purview to identify sensitive data, apply sensitivity labels, and reduce oversharing with DLP policies.",
+          "learningObjectives": [
+            "Identify sensitive information types used to find protected data",
+            "Describe how sensitivity labels classify and protect content",
+            "Choose DLP policies to reduce risky sharing across locations",
+            "Explain how labels and DLP work together in Microsoft Purview"
+          ],
+          "explanation": "Imagine Fabrikam's finance team stores contract drafts, payroll spreadsheets, and public brochures in the same collaboration space. Before the team can protect data, it must know **what** the data is. Microsoft Purview Information Protection uses classifiers to discover sensitive content, labels to protect it, and DLP policies to reduce accidental oversharing.\n\n**Sensitive information types (SITs)** detect pattern-based data such as credit card numbers, national IDs, or bank account numbers. They can use regular expressions, keywords, functions, confidence levels, and nearby evidence. **Trainable classifiers** learn from examples, which helps detect content types that do not have a simple pattern, such as legal documents or strategic business plans.\n\nThe Purview portal has been moving toward a **Classifiers** and explorer-based experience. Data Explorer helps review classified items, while Activity explorer helps monitor actions taken on labeled content. Because portal names change, learn the purpose: classify content, inspect matches, and understand activity.\n\n**Sensitivity labels** classify content and can enforce protection such as encryption, watermarks, headers, footers, and container settings. The SC-900 lab **Create and publish a finance sensitivity label in Microsoft Purview** lets you practise this safely. **Data loss prevention (DLP)** policies watch for sensitive information and can warn, audit, block, or allow justified overrides. The **Create a Microsoft Purview DLP policy in simulation mode** lab reinforces that lifecycle.",
+          "terminology": [
+            {
+              "term": "Sensitive information type",
+              "definition": "A pattern-based classifier that identifies sensitive information such as credit card or bank account numbers."
+            },
+            {
+              "term": "Trainable classifier",
+              "definition": "A classifier that identifies content by learning from examples instead of simple pattern matching."
+            },
+            {
+              "term": "Sensitivity label",
+              "definition": "A label that classifies content and can apply protection settings such as encryption or markings."
+            },
+            {
+              "term": "Data loss prevention",
+              "definition": "Policies and tools that help prevent inappropriate sharing or use of sensitive information."
+            },
+            {
+              "term": "Activity explorer",
+              "definition": "A Purview view for monitoring actions users take on labeled content."
+            }
+          ],
+          "businessScenario": "Fabrikam wants collaboration without sending payroll files externally. Alex maps payroll data to SITs, tests a Confidential Finance label, and deploys a DLP policy in simulation before enforcing blocks.",
+          "technicalExample": "A DLP policy intent statement might be: `Detect payroll identifiers in Exchange, SharePoint, OneDrive, and Teams; show a policy tip; block external sharing unless a manager-approved override is recorded`.",
+          "misconception": {
+            "myth": "DLP policies can stop every data leak automatically once they are turned on.",
+            "reality": "DLP reduces risky sharing by using configured conditions and actions such as policy tips, audit, block, or override. It still needs accurate sensitive-information detection, testing, tuning, and user awareness."
+          },
+          "examTakeaway": "Watch for classify/protect language for labels and classifiers; watch for prevent sharing, policy tips, or blocking for DLP.",
+          "recap": "Purview information protection starts by identifying sensitive data, then labels and DLP policies help protect it as people use and share it.",
+          "simplerExplanation": "Think of classifiers as detectors, labels as stickers with rules, and DLP as a traffic guard that reacts when sensitive data is about to leave the safe route.",
+          "anotherExample": "Litware uses a trainable classifier for contract drafts, a Confidential label for signed contracts, and a DLP policy that warns users before sending contracts to personal email.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "SITs, classifiers, labels, and DLP",
+                "columns": [
+                  {
+                    "title": "Find",
+                    "points": [
+                      "Sensitive information types match patterns",
+                      "Trainable classifiers learn from examples"
+                    ]
+                  },
+                  {
+                    "title": "Protect",
+                    "points": [
+                      "Sensitivity labels classify and can encrypt or mark content",
+                      "Label policies publish labels"
+                    ]
+                  },
+                  {
+                    "title": "Prevent",
+                    "points": [
+                      "DLP policies monitor activities",
+                      "Actions include policy tips, blocks, overrides, alerts, and audit records"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Pick the right tool",
+                "instructions": "Decide before revealing the answer.",
+                "items": [
+                  {
+                    "prompt": "Detect credit card numbers in email",
+                    "answer": "Sensitive information type used by DLP or labeling."
+                  },
+                  {
+                    "prompt": "Apply a watermark and encryption to confidential files",
+                    "answer": "Sensitivity label."
+                  },
+                  {
+                    "prompt": "Warn when a user sends sensitive content externally",
+                    "answer": "DLP policy."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What does a sensitive information type detect?",
+              "back": "Pattern-based sensitive data such as credit card numbers, IDs, or bank account numbers."
+            },
+            {
+              "front": "When are trainable classifiers useful?",
+              "back": "When examples are a better signal than simple patterns."
+            },
+            {
+              "front": "What can a sensitivity label do?",
+              "back": "Classify data and optionally enforce protection such as encryption or markings."
+            },
+            {
+              "front": "What is DLP for?",
+              "back": "Reducing risky sharing or use of sensitive information through monitoring and protective actions."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam SC-900",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Microsoft Purview Information Protection",
+              "url": "https://learn.microsoft.com/en-us/purview/information-protection",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Microsoft Purview Classifiers Overview",
+              "url": "https://learn.microsoft.com/en-us/purview/data-classification-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Learn about sensitive information types",
+              "url": "https://learn.microsoft.com/en-us/purview/sit-sensitive-information-type-learn-about",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Learn about trainable classifiers",
+              "url": "https://learn.microsoft.com/en-us/purview/trainable-classifiers-learn-about",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Learn about sensitivity labels",
+              "url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Learn about data loss prevention",
+              "url": "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Get started with Activity explorer",
+              "url": "https://learn.microsoft.com/en-us/purview/data-classification-activity-explorer",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "sc900-cmp-011",
+              "type": "CATEGORIZATION",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.3",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each capability by its main purpose.",
+              "explanation": "Sensitivity labels, trainable classifiers, and DLP map to protection, discovery, and loss-prevention purposes.",
+              "sources": [
+                {
+                  "title": "Microsoft Purview Information Protection",
+                  "url": "https://learn.microsoft.com/en-us/purview/information-protection",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Purview Classifiers Overview",
+                  "url": "https://learn.microsoft.com/en-us/purview/data-classification-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Learn about data loss prevention",
+                  "url": "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "classify-protect-and-prevent-data-loss",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "discover",
+                    "label": "Discover/classify"
+                  },
+                  {
+                    "id": "protect",
+                    "label": "Protect"
+                  },
+                  {
+                    "id": "prevent",
+                    "label": "Prevent oversharing"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Sensitive information type",
+                    "category": "discover",
+                    "explanation": "SITs detect sensitive patterns."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Trainable classifier",
+                    "category": "discover",
+                    "explanation": "Trainable classifiers identify content based on examples."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Sensitivity label",
+                    "category": "protect",
+                    "explanation": "Labels can classify and enforce protection."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "DLP policy",
+                    "category": "prevent",
+                    "explanation": "DLP policies monitor and protect against risky sharing."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "sc900-cmp-012",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.3",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about pattern-based classification.",
+              "explanation": "A sensitive information type is the pattern-based classifier described.",
+              "sources": [
+                {
+                  "title": "Learn about sensitive information types",
+                  "url": "https://learn.microsoft.com/en-us/purview/sit-sensitive-information-type-learn-about",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "classify-protect-and-prevent-data-loss",
+              "fillInBlank": {
+                "template": "A {{b1}} identifies sensitive data by using patterns such as regular expressions, keywords, functions, and corroborative evidence.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "sensitive information type",
+                      "SIT"
+                    ],
+                    "explanation": "A sensitive information type is the pattern-based classifier described."
+                  }
+                ],
+                "wordBank": [
+                  "sensitive information type",
+                  "retention policy",
+                  "audit search",
+                  "eDiscovery case"
+                ]
+              }
+            },
+            {
+              "ref": "sc900-cmp-013",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** actions are common uses for sensitivity labels?",
+              "explanation": "Sensitivity labels can classify data and apply protection such as encryption, access restrictions, and markings.",
+              "sources": [
+                {
+                  "title": "Learn about sensitivity labels",
+                  "url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "classify-protect-and-prevent-data-loss",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Apply encryption or content markings to sensitive files",
+                  "correct": true,
+                  "explanation": "Labels can enforce these protection settings."
+                },
+                {
+                  "key": "B",
+                  "text": "Represent the sensitivity of data in metadata",
+                  "correct": true,
+                  "explanation": "Labels persist as metadata and travel with content."
+                },
+                {
+                  "key": "C",
+                  "text": "Create a legal hold for a custodian",
+                  "correct": false,
+                  "explanation": "That is an eDiscovery capability."
+                },
+                {
+                  "key": "D",
+                  "text": "Publish external audit reports",
+                  "correct": false,
+                  "explanation": "That is a Service Trust Portal scenario."
+                }
+              ],
+              "selectCount": 2
+            },
+            {
+              "ref": "sc900-cmp-014",
+              "type": "COMMAND_SELECTION",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which fictional configuration snippet best matches a DLP policy that warns users before external sharing of credit card data?",
+              "explanation": "The DLP snippet should detect credit card information and warn users before external sharing rather than applying an unrelated label.",
+              "sources": [
+                {
+                  "title": "Learn about data loss prevention",
+                  "url": "https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Learn about sensitive information types",
+                  "url": "https://learn.microsoft.com/en-us/purview/sit-sensitive-information-type-learn-about",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "classify-protect-and-prevent-data-loss",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`If content contains Credit Card Number SIT; location = Exchange and SharePoint; action = show policy tip and block external sharing with override justification`",
+                  "correct": true,
+                  "explanation": "The condition uses a sensitive information type and a protective action."
+                },
+                {
+                  "key": "B",
+                  "text": "`If user opens Compliance Manager; action = delete all unlabeled files`",
+                  "correct": false,
+                  "explanation": "Compliance Manager is not the DLP content condition."
+                },
+                {
+                  "key": "C",
+                  "text": "`If audit search returns no results; action = publish sensitivity labels to everyone`",
+                  "correct": false,
+                  "explanation": "Audit search results do not define this DLP scenario."
+                },
+                {
+                  "key": "D",
+                  "text": "`If document is older than one year; action = create eDiscovery hold`",
+                  "correct": false,
+                  "explanation": "Age and eDiscovery hold do not match credit-card oversharing prevention."
+                }
+              ],
+              "shuffleOptions": true
+            },
+            {
+              "ref": "sc900-cmp-015",
+              "type": "SCENARIO",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.3",
+              "difficulty": "MEDIUM",
+              "stem": "What should the team do next after creating a sensitivity label for confidential finance documents?",
+              "explanation": "A sensitivity label must be made available through an appropriate label policy before it can be applied broadly.",
+              "sources": [
+                {
+                  "title": "Learn about sensitivity labels",
+                  "url": "https://learn.microsoft.com/en-us/purview/sensitivity-labels",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "classify-protect-and-prevent-data-loss",
+              "scenario": "Fabrikam created a Confidential Finance sensitivity label and now wants finance staff to apply it in Office apps across the organization.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Publish the label by using a sensitivity label policy",
+                  "correct": true,
+                  "explanation": "Label policies make labels available and configure related settings."
+                },
+                {
+                  "key": "B",
+                  "text": "Create an unrelated eDiscovery case",
+                  "correct": false,
+                  "explanation": "eDiscovery is not needed to publish labels."
+                },
+                {
+                  "key": "C",
+                  "text": "Disable all DLP policies",
+                  "correct": false,
+                  "explanation": "DLP can complement labels."
+                },
+                {
+                  "key": "D",
+                  "text": "Move the label definition to Service Trust Portal",
+                  "correct": false,
+                  "explanation": "STP is not where labels are published."
+                }
+              ]
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Microsoft Purview portal names and preview experiences change quickly; re-check current navigation before publication."
+        },
+        {
+          "slug": "govern-retain-and-manage-records",
+          "title": "Govern, retain, and manage records",
+          "objectiveCode": "4.3",
+          "estimatedMinutes": 12,
+          "summary": "Connect Microsoft Purview data lifecycle management, records management, and governance concepts such as Data Map and Unified Catalog.",
+          "learningObjectives": [
+            "Distinguish data lifecycle management from records management",
+            "Describe how retention labels and policies keep or delete content",
+            "Identify how Data Map and Unified Catalog support data governance",
+            "Choose governance steps for retention planning scenarios"
+          ],
+          "explanation": "Good governance answers two everyday questions: \"Can we find trusted data?\" and \"Are we keeping the right information for the right amount of time?\" Microsoft Purview addresses both with data lifecycle management, records management, and data governance capabilities.\n\n**Data Lifecycle Management** helps retain what the organization must keep and delete what it no longer needs. **Retention policies** apply broad settings to locations such as mailboxes, SharePoint sites, OneDrive accounts, Teams, and Viva Engage. **Retention labels** apply item-level settings to specific documents, folders, or emails.\n\n**Records management** is for high-value items that must be managed as records for legal, regulatory, or business reasons. Retention labels can declare items as records, support a file plan, start retention based on events, and support disposition review.\n\nPurview also has data governance solutions. **Data Map** scans and stores metadata about data assets across hybrid and multicloud environments. **Unified Catalog** uses that metadata so people can discover, curate, request access to, and improve trusted data products. A key distinction: these solutions manage metadata and governance workflows; they do not automatically grant access to the underlying data.",
+          "terminology": [
+            {
+              "term": "Retention policy",
+              "definition": "A broad retention setting applied to locations such as mailboxes, sites, or accounts."
+            },
+            {
+              "term": "Retention label",
+              "definition": "An item-level retention setting that can classify content for retention, deletion, or record declaration."
+            },
+            {
+              "term": "Records management",
+              "definition": "Capabilities for managing high-value records, file plans, disposition, and proof of deletion."
+            },
+            {
+              "term": "Data Map",
+              "definition": "The Microsoft Purview metadata foundation populated by scanning and classification."
+            },
+            {
+              "term": "Unified Catalog",
+              "definition": "A data governance catalog for discovery, curation, access workflows, quality, and health."
+            }
+          ],
+          "businessScenario": "Northwind Traders has contracts, policy documents, chat messages, and analytics tables. Sara designs retention policies for broad collaboration sites, retention labels for legal contracts, and a Unified Catalog rollout for trusted data products.",
+          "technicalExample": "A governance plan might say: `Retain all HR mailbox content with a retention policy; publish a Board Minutes record label; scan analytics sources into Data Map; curate Finance data products in Unified Catalog`.",
+          "misconception": {
+            "myth": "Retention means keeping everything forever.",
+            "reality": "Retention can retain, delete, or retain then delete. The correct design balances legal, regulatory, business, and risk requirements."
+          },
+          "examTakeaway": "Broad workload retention points to retention policy. Item-level or record declaration points to retention labels and records management. Metadata discovery points to Data Map and Unified Catalog.",
+          "recap": "Purview helps retain required content, dispose of unneeded content, manage formal records, and catalog metadata for discovery and quality.",
+          "simplerExplanation": "Think of lifecycle management as a library's lending rules, records management as the locked archive, and Data Map plus Unified Catalog as the card catalog.",
+          "anotherExample": "Proseware keeps project-channel messages for a defined period, labels signed supplier contracts as records, and uses Unified Catalog so analysts can find approved sales datasets.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Policy, label, record, catalog",
+                "columns": [
+                  {
+                    "title": "Retention policy",
+                    "points": [
+                      "Broad location-level settings",
+                      "Efficient for all mailboxes or sites"
+                    ]
+                  },
+                  {
+                    "title": "Retention label / record",
+                    "points": [
+                      "Item-level settings",
+                      "Can declare records and support disposition"
+                    ]
+                  },
+                  {
+                    "title": "Data governance",
+                    "points": [
+                      "Data Map scans metadata",
+                      "Unified Catalog curates trusted data assets"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CALLOUT",
+              "data": {
+                "variant": "warning",
+                "title": "Metadata is not data access",
+                "body": "Data Map and Unified Catalog improve discovery and governance of metadata. They do not by themselves grant permission to the underlying data."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "When should you use a retention policy?",
+              "back": "For broad retention settings across locations such as mailboxes or sites."
+            },
+            {
+              "front": "When should you use a retention label?",
+              "back": "For item-level retention, deletion, or record declaration."
+            },
+            {
+              "front": "What is records management for?",
+              "back": "Managing high-value business, legal, or regulatory records."
+            },
+            {
+              "front": "What are Data Map and Unified Catalog for?",
+              "back": "Metadata scanning, discovery, curation, governance, data quality, and catalog experiences."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam SC-900",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Learn about Microsoft Purview Data Lifecycle Management",
+              "url": "https://learn.microsoft.com/en-us/purview/data-lifecycle-management",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Learn about retention policies & labels to retain or delete",
+              "url": "https://learn.microsoft.com/en-us/purview/retention",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Records management for documents and emails in Microsoft 365",
+              "url": "https://learn.microsoft.com/en-us/purview/records-management",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Learn about data governance with Microsoft Purview",
+              "url": "https://learn.microsoft.com/en-us/purview/data-governance-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Microsoft Purview Data Map overview",
+              "url": "https://learn.microsoft.com/en-us/purview/data-map",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "sc900-cmp-016",
+              "type": "ORDERING",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.3",
+              "difficulty": "MEDIUM",
+              "stem": "Place a simple retention planning workflow in order.",
+              "explanation": "Retention planning should begin with requirements, choose policy or label scope, configure the control, and review end-of-life outcomes.",
+              "sources": [
+                {
+                  "title": "Learn about Microsoft Purview Data Lifecycle Management",
+                  "url": "https://learn.microsoft.com/en-us/purview/data-lifecycle-management",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Learn about retention policies & labels to retain or delete",
+                  "url": "https://learn.microsoft.com/en-us/purview/retention",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Records management for documents and emails in Microsoft 365",
+                  "url": "https://learn.microsoft.com/en-us/purview/records-management",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "govern-retain-and-manage-records",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Identify regulatory and business retention requirements"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Decide whether policy-level or item-level retention fits"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Configure retention policies or retention labels"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Review disposition or deletion outcomes"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "Requirements drive design.",
+                  "s2": "Policies fit broad locations; labels fit items.",
+                  "s3": "Configuration follows design.",
+                  "s4": "Governance includes reviewing end-of-life outcomes."
+                }
+              }
+            },
+            {
+              "ref": "sc900-cmp-017",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.3",
+              "difficulty": "EASY",
+              "stem": "A department wants the same retention settings applied to every mailbox in a region. What should it consider first?",
+              "explanation": "Retention policies are efficient for broad location-level retention across workloads.",
+              "sources": [
+                {
+                  "title": "Learn about retention policies & labels to retain or delete",
+                  "url": "https://learn.microsoft.com/en-us/purview/retention",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "govern-retain-and-manage-records",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "A retention policy",
+                  "correct": true,
+                  "explanation": "Policies apply broad retention settings to locations."
+                },
+                {
+                  "key": "B",
+                  "text": "A single sensitivity label for one file",
+                  "correct": false,
+                  "explanation": "Labels are item-level and not ideal for all mailboxes."
+                },
+                {
+                  "key": "C",
+                  "text": "A Service Trust Portal document",
+                  "correct": false,
+                  "explanation": "STP provides assurance evidence."
+                },
+                {
+                  "key": "D",
+                  "text": "A custom trainable classifier only",
+                  "correct": false,
+                  "explanation": "A classifier can be a condition, but it is not the broad retention setting."
+                }
+              ]
+            },
+            {
+              "ref": "sc900-cmp-018",
+              "type": "CASE_STUDY",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.3",
+              "difficulty": "HARD",
+              "stem": "For each statement about Northwind Traders' retention, records management, and Data Map governance plan, select **Yes** if it is true. Otherwise, select **No**.",
+              "explanation": "Retention, records management, and Data Map each address a different part of Northwind Traders' governance plan.",
+              "sources": [
+                {
+                  "title": "Learn about retention policies & labels to retain or delete",
+                  "url": "https://learn.microsoft.com/en-us/purview/retention",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Records management for documents and emails in Microsoft 365",
+                  "url": "https://learn.microsoft.com/en-us/purview/records-management",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Learn about data governance with Microsoft Purview",
+                  "url": "https://learn.microsoft.com/en-us/purview/data-governance-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "govern-retain-and-manage-records",
+              "scenario": "Northwind Traders must retain policy documents, mark final board minutes as records, and dispose of expired drafts according to a file plan.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Records management can use retention labels to declare records.",
+                    "answer": true,
+                    "explanation": "Retention labels are used to mark items as records."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Retention policies and labels can support retain-only, delete-only, or retain-and-delete outcomes.",
+                    "answer": true,
+                    "explanation": "Retention settings support those outcomes."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Data Map grants users access to underlying data just because metadata is scanned.",
+                    "answer": false,
+                    "explanation": "Data Map and Unified Catalog work with metadata and do not grant underlying data access."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "sc900-cmp-019",
+              "type": "MATCHING",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.3",
+              "difficulty": "MEDIUM",
+              "stem": "Match the governance concept to the best description.",
+              "explanation": "Data governance, Data Map, and records management serve different governance needs, so match the clue to the Purview capability.",
+              "sources": [
+                {
+                  "title": "Learn about data governance with Microsoft Purview",
+                  "url": "https://learn.microsoft.com/en-us/purview/data-governance-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Microsoft Purview Data Map overview",
+                  "url": "https://learn.microsoft.com/en-us/purview/data-map",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Records management for documents and emails in Microsoft 365",
+                  "url": "https://learn.microsoft.com/en-us/purview/records-management",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "govern-retain-and-manage-records",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Data Map"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Unified Catalog"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Records management"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Captures metadata through scanning and classification"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Searchable catalog for curating, discovering, and improving data health"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Manages business, legal, and regulatory records"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Blocks external sharing based on DLP rules"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "Data Map is the metadata foundation.",
+                  "p2": "Unified Catalog helps people discover and curate governed data.",
+                  "p3": "Records management handles record declaration, file plans, and disposition."
+                }
+              }
+            },
+            {
+              "ref": "sc900-cmp-020",
+              "type": "TRUE_FALSE",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.3",
+              "difficulty": "EASY",
+              "stem": "Retention labels can travel with content and apply item-level retention settings.",
+              "explanation": "Retention labels are used for item-level retention settings and can travel with content when moved.",
+              "sources": [
+                {
+                  "title": "Learn about retention policies & labels to retain or delete",
+                  "url": "https://learn.microsoft.com/en-us/purview/retention",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "govern-retain-and-manage-records",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Retention labels apply item-level retention settings and can remain with the content when it moves."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that retention labels are designed for item-level retention that can travel with labeled content."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "insider-risk-ediscovery-and-audit",
+          "title": "Insider risk, eDiscovery, and Audit",
+          "objectiveCode": "4.4",
+          "estimatedMinutes": 12,
+          "summary": "Distinguish Microsoft Purview capabilities for internal risk signals, legal discovery, and activity auditing.",
+          "learningObjectives": [
+            "Compare Insider Risk Management, eDiscovery, and Audit use cases",
+            "Identify when to create a case for risky internal activity",
+            "Describe how Audit records user and admin activity",
+            "Choose Purview tools for investigation and legal discovery scenarios"
+          ],
+          "explanation": "Investigations are stressful because the clock is ticking and evidence must be handled carefully. Microsoft Purview separates three related but different jobs: identify risky insider activity, find and preserve content, and review activity logs.\n\n**Insider Risk Management** helps detect, investigate, and act on malicious or inadvertent internal risks such as data leakage or policy violations. It correlates signals, uses policies, and supports alerts and cases. Microsoft describes the solution as privacy by design, including pseudonymization by default, role-based access controls, and audit logs.\n\n**eDiscovery** is about electronically stored information for investigations and legal cases. In the Microsoft Purview portal, eDiscovery can search supported Microsoft 365 services, organize work in cases, place content locations on hold, export results, and, with premium features, support review sets and analytics.\n\n**Audit** captures user and admin operations in a unified audit log. Authorized investigators can search activities, export results, and use audit evidence for security, compliance, forensic, or legal investigations. Choose Audit when the clue is \"who did what and when.\" Choose eDiscovery for content search, hold, review, or export. Choose Insider Risk Management for risky internal behavior.",
+          "terminology": [
+            {
+              "term": "Insider Risk Management",
+              "definition": "A Purview solution that correlates signals to help detect, investigate, and act on internal risks."
+            },
+            {
+              "term": "eDiscovery",
+              "definition": "Tools for identifying, holding, reviewing, and exporting electronically stored information for investigations."
+            },
+            {
+              "term": "Audit",
+              "definition": "A Purview solution for searching user and admin activity records captured in the unified audit log."
+            },
+            {
+              "term": "Case",
+              "definition": "A workspace for organizing investigation activities, permissions, content, and review work."
+            },
+            {
+              "term": "Legal hold",
+              "definition": "A preservation action that helps keep relevant content available for an investigation or legal matter."
+            }
+          ],
+          "businessScenario": "Adventure Works notices unusual file downloads by an employee who is leaving. The compliance team uses Insider Risk Management to triage alerts, Audit to confirm activities, and eDiscovery if legal needs to preserve related content.",
+          "technicalExample": "A triage note might say: `Signal: mass download from SharePoint | Tool: Insider Risk Management case | Audit check: file access and label changes | eDiscovery action: hold relevant custodian data if legal approves`.",
+          "misconception": {
+            "myth": "One Purview investigation tool does everything.",
+            "reality": "The tools complement each other. Insider Risk Management detects risky patterns, Audit shows activities, and eDiscovery manages legal content workflows."
+          },
+          "examTakeaway": "Map the clue: risky insider behavior = Insider Risk Management; search/hold/export case content = eDiscovery; user/admin activity records = Audit.",
+          "recap": "Purview investigation tools work together: insider risk identifies risky behavior, eDiscovery manages case content, and Audit provides activity evidence.",
+          "simplerExplanation": "Think of a sports replay room: Insider Risk Management flags suspicious plays, Audit shows timestamped camera angles, and eDiscovery packages clips for official review.",
+          "anotherExample": "Wide World Importers investigates leaked pricing files. Audit shows downloads and sharing events, Insider Risk Management prioritizes the user case, and eDiscovery preserves related mail and documents.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Investigation capability clues",
+                "columns": [
+                  {
+                    "title": "Insider Risk Management",
+                    "points": [
+                      "Risky user activities",
+                      "Alerts and cases",
+                      "Privacy-aware workflow"
+                    ]
+                  },
+                  {
+                    "title": "eDiscovery",
+                    "points": [
+                      "Search, hold, review, export",
+                      "Legal or internal investigations",
+                      "Case-based content workflow"
+                    ]
+                  },
+                  {
+                    "title": "Audit",
+                    "points": [
+                      "Who did what and when",
+                      "Searchable user/admin operations",
+                      "Exportable activity records"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Choose the tool",
+                "instructions": "Decide before revealing the answer.",
+                "items": [
+                  {
+                    "prompt": "Find who changed a DLP policy yesterday",
+                    "answer": "Audit."
+                  },
+                  {
+                    "prompt": "Preserve a custodian's mailbox for a legal matter",
+                    "answer": "eDiscovery."
+                  },
+                  {
+                    "prompt": "Triage potential data theft by a departing employee",
+                    "answer": "Insider Risk Management."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What is Insider Risk Management for?",
+              "back": "Detecting, investigating, and acting on internal risks using correlated signals and privacy-aware case workflows."
+            },
+            {
+              "front": "What is eDiscovery for?",
+              "back": "Finding, preserving, reviewing, and exporting electronically stored information for investigations."
+            },
+            {
+              "front": "What is Audit for?",
+              "back": "Searching and exporting user and admin activity records from the unified audit log."
+            },
+            {
+              "front": "What clue points to Audit?",
+              "back": "Questions asking who performed an activity, what changed, and when."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam SC-900",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Learn about Insider Risk Management",
+              "url": "https://learn.microsoft.com/en-us/purview/insider-risk-management",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Learn about eDiscovery",
+              "url": "https://learn.microsoft.com/en-us/purview/edisc",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Learn about auditing solutions in Microsoft Purview",
+              "url": "https://learn.microsoft.com/en-us/purview/audit-solutions-overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "sc900-cmp-021",
+              "type": "SCENARIO",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.4",
+              "difficulty": "MEDIUM",
+              "stem": "Which Purview capability should the team use first to correlate signals and create a case for a potentially risky employee data leak?",
+              "explanation": "Insider Risk Management correlates signals, detects risky activities, and supports cases for internal risks.",
+              "sources": [
+                {
+                  "title": "Learn about Insider Risk Management",
+                  "url": "https://learn.microsoft.com/en-us/purview/insider-risk-management",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "insider-risk-ediscovery-and-audit",
+              "scenario": "Adventure Works sees unusual downloads before an employee's planned departure.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Insider Risk Management",
+                  "correct": true,
+                  "explanation": "It is designed to identify, investigate, and act on internal risks."
+                },
+                {
+                  "key": "B",
+                  "text": "Compliance score",
+                  "correct": false,
+                  "explanation": "Compliance score tracks improvement-action progress."
+                },
+                {
+                  "key": "C",
+                  "text": "Service Trust Portal",
+                  "correct": false,
+                  "explanation": "STP publishes Microsoft assurance resources."
+                },
+                {
+                  "key": "D",
+                  "text": "Retention policy",
+                  "correct": false,
+                  "explanation": "Retention policies govern retain/delete behavior."
+                }
+              ]
+            },
+            {
+              "ref": "sc900-cmp-022",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.4",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** capabilities are associated with Microsoft Purview eDiscovery?",
+              "explanation": "eDiscovery supports searching, holding, reviewing, and exporting electronically stored information for investigations.",
+              "sources": [
+                {
+                  "title": "Learn about eDiscovery",
+                  "url": "https://learn.microsoft.com/en-us/purview/edisc",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "insider-risk-ediscovery-and-audit",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Search for content across mailboxes and sites",
+                  "correct": true,
+                  "explanation": "Searching content is a core eDiscovery activity."
+                },
+                {
+                  "key": "B",
+                  "text": "Place relevant content locations on hold",
+                  "correct": true,
+                  "explanation": "Holds preserve content for cases."
+                },
+                {
+                  "key": "C",
+                  "text": "Publish sensitivity labels to Office apps",
+                  "correct": false,
+                  "explanation": "Label publishing belongs to information protection."
+                },
+                {
+                  "key": "D",
+                  "text": "Calculate compliance score for assessments",
+                  "correct": false,
+                  "explanation": "That belongs to Compliance Manager."
+                }
+              ],
+              "selectCount": 2
+            },
+            {
+              "ref": "sc900-cmp-023",
+              "type": "CATEGORIZATION",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.4",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each investigation requirement.",
+              "explanation": "Insider Risk Management, eDiscovery, and Audit sort requirements by risky activity, legal content review, and activity records.",
+              "sources": [
+                {
+                  "title": "Learn about Insider Risk Management",
+                  "url": "https://learn.microsoft.com/en-us/purview/insider-risk-management",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Learn about eDiscovery",
+                  "url": "https://learn.microsoft.com/en-us/purview/edisc",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Learn about auditing solutions in Microsoft Purview",
+                  "url": "https://learn.microsoft.com/en-us/purview/audit-solutions-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "insider-risk-ediscovery-and-audit",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "insider",
+                    "label": "Insider Risk Management"
+                  },
+                  {
+                    "id": "ediscovery",
+                    "label": "eDiscovery"
+                  },
+                  {
+                    "id": "audit",
+                    "label": "Audit"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Correlate risky user activity into alerts and cases",
+                    "category": "insider",
+                    "explanation": "Insider Risk Management handles internal risk signals."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Search and hold content for a legal case",
+                    "category": "ediscovery",
+                    "explanation": "eDiscovery is used for ESI in investigations."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Search user and admin activity records",
+                    "category": "audit",
+                    "explanation": "Audit provides searchable audit records."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "sc900-cmp-024",
+              "type": "UI_SIMULATION",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.4",
+              "difficulty": "MEDIUM",
+              "stem": "Configure the simulated Audit search to investigate who changed a sensitivity label on a finance document.",
+              "explanation": "For an Audit search, choosing label-change activity and the finance file scope targets the investigation without destructive action.",
+              "sources": [
+                {
+                  "title": "Learn about auditing solutions in Microsoft Purview",
+                  "url": "https://learn.microsoft.com/en-us/purview/audit-solutions-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "insider-risk-ediscovery-and-audit",
+              "uiSimulation": {
+                "title": "Audit search filter (simulated)",
+                "description": "This is a simplified fictional interface, not the real Microsoft Purview portal.",
+                "fields": [
+                  {
+                    "id": "activity",
+                    "label": "Activity type",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "labelchange",
+                        "label": "Sensitivity label changed"
+                      },
+                      {
+                        "value": "scorechange",
+                        "label": "Compliance score changed"
+                      }
+                    ],
+                    "correct": "labelchange",
+                    "explanation": "The investigation is about a label change."
+                  },
+                  {
+                    "id": "export",
+                    "label": "Export results",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "Exporting results supports offline review."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "sc900-cmp-025",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "compliance-solutions",
+              "objectiveCode": "4.4",
+              "difficulty": "EASY",
+              "stem": "Which statement best describes Microsoft Purview Audit?",
+              "explanation": "Audit captures, records, and lets authorized users search many user and admin activities across Microsoft services.",
+              "sources": [
+                {
+                  "title": "Learn about auditing solutions in Microsoft Purview",
+                  "url": "https://learn.microsoft.com/en-us/purview/audit-solutions-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "insider-risk-ediscovery-and-audit",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "It provides a searchable unified audit log for user and admin operations",
+                  "correct": true,
+                  "explanation": "That is the core Audit concept."
+                },
+                {
+                  "key": "B",
+                  "text": "It is the portal for Microsoft cloud audit reports",
+                  "correct": false,
+                  "explanation": "That is Service Trust Portal."
+                },
+                {
+                  "key": "C",
+                  "text": "It automatically labels every sensitive file",
+                  "correct": false,
+                  "explanation": "Labeling is an information protection capability."
+                },
+                {
+                  "key": "D",
+                  "text": "It replaces eDiscovery cases",
+                  "correct": false,
+                  "explanation": "Audit supports investigations but does not replace eDiscovery workflows."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

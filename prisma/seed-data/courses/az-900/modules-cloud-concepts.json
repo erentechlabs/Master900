@@ -20,9 +20,9 @@
           "estimatedMinutes": 10,
           "summary": "Cloud computing delivers computing resources as services so organizations can create and release capacity without owning every layer of infrastructure.",
           "learningObjectives": [
-            "Explain the main concept in plain language",
-            "Apply the concept to a business scenario",
-            "Choose the best option from scenario clues"
+            "Describe cloud computing as on-demand compute, storage, networking, and platforms",
+            "Identify how cloud services reduce fixed hardware ownership",
+            "Recognize scenarios where rapid capacity and provider infrastructure are benefits"
           ],
           "explanation": "**What is cloud computing?** is part of the AZ-900 cloud concepts domain. It explains how compute, storage, networking, and platforms can be consumed as services rather than purchased as fixed hardware. Cloud learning at this level is about reasoning from the business requirement to the right model, benefit, or responsibility split. A cloud provider operates large-scale infrastructure and exposes services that customers can use without buying every physical component themselves. The customer still owns business decisions such as data classification, user access, secure configuration, monitoring, and cost awareness.\n\nFor beginners, focus on the vocabulary in the scenario. If a requirement mentions rapid provisioning, short-lived environments, or variable demand, think about cloud characteristics such as on-demand access and elasticity. If it mentions who protects data or assigns permissions, think about the shared responsibility model. If it mentions public, private, or hybrid, identify whether resources are provider-operated, dedicated to one organization, or combined across environments.\n\nCloud advantages are strongest when teams design and operate carefully. High availability, reliability, scalability, predictability, security, governance, and manageability are capabilities to use, not automatic outcomes. Teams should choose appropriate services, configure access, apply standards, monitor usage, and revise designs as needs change. That practical reasoning is more important than memorizing isolated product names.",
           "terminology": [
@@ -39,16 +39,16 @@
               "definition": "Capacity changes with demand."
             }
           ],
-          "businessScenario": "Fabrikam is planning a cloud adoption step and must balance speed, responsibility, governance, and operational effort while protecting business data.",
-          "technicalExample": "A team creates Azure resources for a pilot, assigns access only to the project group, monitors usage, and removes resources after the pilot ends.",
+          "businessScenario": "Fabrikam Training runs evening workshops for students. Instead of buying servers for occasional registration spikes, the team wants temporary computing power, storage, and networking that can be provisioned from Azure when classes open and reduced when enrolment closes.",
+          "technicalExample": "For a short pilot, the team creates a resource group, deploys a small web app and database, assigns access to the course administrators, and monitors use. The important idea is not a specific service name; it is that compute, storage, and networking are delivered as services over the internet rather than purchased as fixed hardware.",
           "misconception": {
-            "myth": "Moving to the cloud removes all customer responsibilities.",
-            "reality": "The provider manages many infrastructure tasks, but the customer still manages data, identities, configuration, governance, and usage."
+            "myth": "Cloud computing is simply someone else's computer with no meaningful choices for the customer.",
+            "reality": "Azure supplies shared datacenters and managed services, but customers still choose regions, service types, access controls, data protection settings, and cost controls for their workloads."
           },
-          "examTakeaway": "Map scenario words to concepts: demand means scalability, access and data mean customer responsibility, dedicated means private cloud, ready-to-use app means SaaS.",
-          "recap": "Cloud computing delivers computing resources as services so organizations can create and release capacity without owning every layer of infrastructure.",
-          "simplerExplanation": "Think of cloud like renting managed capabilities. You do not maintain the whole building, but you still decide who enters your rooms and how you use them.",
-          "anotherExample": "Tailwind Traders uses cloud resources for a seasonal site, scales during demand, and keeps policies for tags and approved access.",
+          "examTakeaway": "When a scenario emphasizes rapid provisioning, internet-accessible services, measured usage, or avoiding hardware purchases, connect it to the basic definition of cloud computing.",
+          "recap": "Cloud computing means delivering technology services such as compute, storage, and networking over the internet with self-service provisioning and usage-based consumption. You gain speed and flexibility, but you still design, secure, and govern what you deploy.",
+          "simplerExplanation": "Think of cloud computing like using a city bike scheme. You do not buy and maintain every bicycle; you unlock one when needed, ride it, and return it. You still choose the route, follow the rules, and look after anything you carry.",
+          "anotherExample": "A community theatre sells tickets online for only a few shows each month. Azure lets it host the ticket site during sale periods without buying permanent servers that sit idle between events.",
           "extraBlocks": [
             {
               "type": "COMPARISON",
@@ -76,23 +76,27 @@
               "type": "CALLOUT",
               "data": {
                 "variant": "tip",
-                "title": "Exam focus",
-                "body": "Read the scenario for control, responsibility, demand, and management keywords."
+                "title": "Definition clue",
+                "body": "Look for words such as *on demand*, *over the internet*, *shared pool of resources*, and *pay for what you use*. Those clues point to cloud computing fundamentals rather than to one specific Azure product."
               }
             }
           ],
           "flashcards": [
             {
-              "front": "What is cloud computing?",
-              "back": "Cloud computing delivers computing resources as services so organizations can create and release capacity without owning every layer of infrastructure."
+              "front": "Cloud computing definition",
+              "back": "Delivery of computing services such as servers, storage, databases, networking, and software over the internet."
             },
             {
-              "front": "Customer responsibility",
-              "back": "Data, identities, access, configuration, and governance remain important."
+              "front": "On-demand provisioning",
+              "back": "Creating or scaling resources when they are needed instead of waiting for new physical hardware."
             },
             {
-              "front": "Provider responsibility",
-              "back": "Physical facilities and provider-operated infrastructure are managed by the cloud provider."
+              "front": "Measured usage",
+              "back": "Cloud services can track consumption so organizations can align cost with actual use."
+            },
+            {
+              "front": "Customer choices in cloud",
+              "back": "Customers still choose configuration, access, data protection, governance, and cost controls."
             }
           ],
           "sources": [
@@ -188,7 +192,7 @@
               "objectiveCode": "1.1",
               "difficulty": "EASY",
               "stem": "Cloud computing can provide resources as services instead of requiring ownership of all hardware.",
-              "explanation": "The statement follows the core cloud concept described in the lesson.",
+              "explanation": "Cloud computing delivers compute, storage, and other capabilities as services instead of requiring every organization to own all hardware.",
               "lessonSlug": "what-is-cloud-computing",
               "sources": [
                 {
@@ -202,27 +206,27 @@
                   "key": "TRUE",
                   "text": "True",
                   "correct": true,
-                  "explanation": "This is the accurate choice."
+                  "explanation": "Correct. Cloud computing delivers compute, storage, and other resources as services so organizations do not need to own every hardware component."
                 },
                 {
                   "key": "FALSE",
                   "text": "False",
                   "correct": false,
-                  "explanation": "This would reject an accurate statement."
+                  "explanation": "Choosing False misses that service-based resource delivery is a core cloud computing concept."
                 }
               ],
               "translations": {
                 "tr": {
                   "stem": "Cloud computing, tüm donanıma sahip olmayı gerektirmeden kaynakları hizmet olarak sağlayabilir.",
-                  "explanation": "Cloud modelinde kaynaklar sağlayıcı altyapısı üzerinden hizmet olarak kullanılabilir.",
+                  "explanation": "Cloud computing delivers compute, storage, and other capabilities as services instead of requiring every organization to own all hardware.",
                   "options": {
                     "TRUE": {
                       "text": "True",
-                      "explanation": "İfade doğrudur."
+                      "explanation": "Doğru. Cloud computing; işlem, depolama ve diğer kaynakları hizmet olarak sunar, böylece kuruluşların her donanım bileşenine sahip olması gerekmez."
                     },
                     "FALSE": {
                       "text": "False",
-                      "explanation": "İfade cloud modelini yanlış reddeder."
+                      "explanation": "False seçeneği, kaynakları hizmet olarak sunmanın cloud computing için temel bir kavram olduğunu gözden kaçırır."
                     }
                   },
                   "status": "DRAFT"
@@ -235,8 +239,8 @@
               "domainKey": "cloud-concepts",
               "objectiveCode": "1.1",
               "difficulty": "EASY",
-              "stem": "Cloud computing commonly provides access to resources on demand called",
-              "explanation": "The correct term is on-demand.",
+              "stem": "Complete the sentence about how cloud users request resources when they need them.",
+              "explanation": "On-demand access means a customer can request cloud resources when the business needs them instead of waiting for new hardware purchases.",
               "lessonSlug": "what-is-cloud-computing",
               "sources": [
                 {
@@ -246,7 +250,7 @@
                 }
               ],
               "fillInBlank": {
-                "template": "Cloud computing commonly provides access to resources on demand called {{b1}}.",
+                "template": "Because customers can provision cloud resources themselves whenever they need them, without waiting for the provider to buy and install hardware, cloud computing offers {{b1}} self-service.",
                 "blanks": [
                   {
                     "id": "b1",
@@ -254,21 +258,22 @@
                       "on-demand",
                       "on demand"
                     ],
-                    "explanation": "on-demand is the expected concept."
+                    "explanation": "On-demand self-service means resources are requested through a portal, CLI or API at the moment they are needed instead of through a purchasing process."
                   }
                 ],
                 "wordBank": [
                   "on-demand",
                   "offline-only",
-                  "perpetual"
+                  "perpetual",
+                  "fixed-capacity"
                 ]
               },
               "translations": {
                 "tr": {
-                  "stem": "Cümleyi tamamlayın.",
-                  "explanation": "Doğru kavram on-demand erişimdir.",
+                  "stem": "Bulut kullanıcılarının kaynakları ihtiyaç duyduklarında nasıl istediğini anlatan cümleyi tamamlayın.",
+                  "explanation": "On-demand erişim, müşterinin yeni donanım alımını beklemek yerine iş ihtiyacı olduğunda bulut kaynağı isteyebilmesi demektir.",
                   "fillInBlank": {
-                    "template": "Cloud kaynaklarına genellikle {{b1}} erişim sağlanır.",
+                    "template": "Müşteriler, sağlayıcının donanım satın alıp kurmasını beklemeden bulut kaynaklarını ihtiyaç duydukları anda kendileri oluşturabildiği için bulut bilişim {{b1}} self servis sunar.",
                     "accepted": {
                       "b1": [
                         "isteğe bağlı",
@@ -276,12 +281,13 @@
                       ]
                     },
                     "explanations": {
-                      "b1": "Kaynaklar ihtiyaç olduğunda istenebilir."
+                      "b1": "İsteğe bağlı self servis, kaynakların satın alma süreci yerine portal, CLI veya API üzerinden ihtiyaç anında istenebilmesi demektir."
                     },
                     "wordBank": [
                       "isteğe bağlı",
                       "çevrimdışı",
-                      "kalıcı"
+                      "kalıcı",
+                      "sabit kapasiteli"
                     ]
                   },
                   "status": "DRAFT"
@@ -431,9 +437,9 @@
               "title": "Cloud computing nedir?",
               "summary": "Cloud computing, kuruluşların altyapının her katmanına sahip olmadan kaynak oluşturup bırakabilmesi için bilişim kaynaklarını hizmet olarak sunar.",
               "learningObjectives": [
-                "Cloud computing kavramını sade bir dille açıklamak",
-                "Kısa süreli veya değişken talepli senaryolara uygulamak",
-                "Senaryo ipuçlarından doğru cloud özelliğini seçmek"
+                "Cloud computing kavramını isteğe bağlı compute, storage, networking ve platformlar olarak açıkla",
+                "Cloud hizmetlerinin sabit donanım sahipliğini nasıl azalttığını belirle",
+                "Hızlı kapasite ve sağlayıcı altyapısının fayda olduğu senaryoları tanı"
               ],
               "explanation": "**Cloud computing**, işlem, depolama, ağ ve platform yeteneklerinin bir ağ üzerinden hizmet olarak sunulmasıdır. Kuruluşlar her fiziksel bileşeni satın almak yerine ihtiyaç duyduklarında kaynak ister, kullanır ve gerekmediğinde bırakır. Bu yaklaşım özellikle pilot çalışmalar, kısa süreli test ortamları ve değişken talep için yararlıdır. Cloud sağlayıcısı büyük ölçekli altyapıyı işletir; müşteri ise veri, kimlik, erişim, güvenli yapılandırma, izleme ve maliyet farkındalığı gibi iş kararlarından sorumlu kalır.",
               "terminology": [
@@ -450,16 +456,16 @@
                   "definition": "Kapasitenin talebe göre artıp azalabilmesi."
                 }
               ],
-              "businessScenario": "Fabrikam, fiziksel sunucu satın almadan kısa süreli bir müşteri portalı pilotu yürütmek ister.",
-              "technicalExample": "Ekip bir pilot için Azure kaynakları oluşturur, erişimi proje grubuyla sınırlar, kullanımı izler ve pilot bitince kaynakları kaldırır.",
+              "businessScenario": "Fabrikam Training akşam atölyeleri düzenler. Kayıt dönemlerindeki kısa yoğunluklar için sunucu satın almak yerine ekip, dersler açıldığında Azure’dan geçici işlem gücü, depolama ve ağ kaynakları sağlamayı, kayıtlar kapanınca da bunları azaltmayı ister.",
+              "technicalExample": "Kısa bir pilot için ekip bir resource group oluşturur, küçük bir web uygulaması ve veritabanı dağıtır, kurs yöneticilerine erişim verir ve kullanımı izler. Önemli fikir belirli bir hizmet adı değil; işlem, depolama ve ağın sabit donanım satın almak yerine internet üzerinden hizmet olarak sunulmasıdır.",
               "misconception": {
-                "myth": "Cloud tüm müşteri sorumluluklarını kaldırır.",
-                "reality": "Sağlayıcı birçok altyapı görevini yönetir; müşteri veri, kimlik, erişim ve yapılandırmadan sorumludur."
+                "myth": "Bulut bilişim, müşterinin anlamlı seçim yapmadığı şekilde yalnızca başkasının bilgisayarını kullanmaktır.",
+                "reality": "Azure paylaşılan veri merkezleri ve yönetilen hizmetler sağlar; ancak müşteriler iş yükleri için bölgeyi, hizmet türünü, erişim denetimlerini, veri koruma ayarlarını ve maliyet kontrollerini yine seçer."
               },
-              "examTakeaway": "Hızlı kaynak oluşturma, kısa süreli ortam veya değişken talep görürseniz on-demand ve elasticity kavramlarını düşünün.",
-              "recap": "Cloud computing, bilişim kaynaklarını hizmet olarak sunar ve kapasiteyi ihtiyaca göre yönetmeyi kolaylaştırır.",
-              "simplerExplanation": "Cloud, yönetilen imkanları kiralamak gibidir; binayı siz yönetmezsiniz ama kendi kullanımınızı ve erişimi siz belirlersiniz.",
-              "anotherExample": "Tailwind Traders sezonluk site için cloud kaynakları kullanır, yoğunlukta ölçekler ve kampanya bitince kaynakları azaltır.",
+              "examTakeaway": "Bir senaryo hızlı kaynak sağlama, internet üzerinden erişilen hizmetler, ölçülen kullanım veya donanım satın almaktan kaçınma vurgusu yapıyorsa bunu bulut bilişimin temel tanımıyla ilişkilendirin.",
+              "recap": "Bulut bilişim; işlem, depolama ve ağ gibi teknoloji hizmetlerinin internet üzerinden, self servis kaynak sağlama ve kullanıma dayalı tüketimle sunulmasıdır. Hız ve esneklik kazanırsınız; ancak dağıttığınız şeyleri tasarlama, güvenliğini sağlama ve yönetme sorumluluğunuz devam eder.",
+              "simplerExplanation": "Bulut bilişimi şehir bisikleti sistemi gibi düşünün. Her bisikleti satın alıp bakımını yapmazsınız; gerektiğinde birini açar, kullanır ve geri bırakırsınız. Yine de rotayı siz seçer, kurallara uyar ve yanınızdaki eşyadan siz sorumlu olursunuz.",
+              "anotherExample": "Bir mahalle tiyatrosu ayda yalnızca birkaç gösteri için çevrimiçi bilet satar. Azure, gösteriler arasında boşta kalacak kalıcı sunucular satın almadan bilet sitesini satış dönemlerinde barındırmasını sağlar.",
               "extraBlocks": [
                 {
                   "title": "Yerel ve cloud yaklaşımı",
@@ -482,22 +488,26 @@
                 },
                 {
                   "variant": "tip",
-                  "title": "Sınav odağı",
-                  "body": "Senaryoda kontrol, sorumluluk, talep ve yönetim ipuçlarını arayın."
+                  "title": "Tanım ipucu",
+                  "body": "*İsteğe bağlı*, *internet üzerinden*, *paylaşılan kaynak havuzu* ve *kullandığın kadar öde* gibi ifadeleri arayın. Bu ipuçları tek bir Azure ürününden çok bulut bilişimin temellerini gösterir."
                 }
               ],
               "flashcards": [
                 {
-                  "front": "Cloud computing",
-                  "back": "Bilişim yeteneklerinin hizmet olarak sunulması."
+                  "front": "Bulut bilişim tanımı",
+                  "back": "Sunucu, depolama, veritabanı, ağ ve yazılım gibi bilişim hizmetlerinin internet üzerinden sunulması."
                 },
                 {
-                  "front": "On-demand",
-                  "back": "Kaynağı ihtiyaç anında istemek."
+                  "front": "İsteğe bağlı kaynak sağlama",
+                  "back": "Yeni fiziksel donanımı beklemek yerine kaynakları ihtiyaç duyulduğunda oluşturmak veya ölçeklendirmek."
                 },
                 {
-                  "front": "Elasticity",
-                  "back": "Kapasitenin talebe göre değişebilmesi."
+                  "front": "Ölçülen kullanım",
+                  "back": "Bulut hizmetleri tüketimi izleyebilir; böylece kuruluşlar maliyeti gerçek kullanımla ilişkilendirebilir."
+                },
+                {
+                  "front": "Bulutta müşteri seçimleri",
+                  "back": "Yapılandırma, erişim, veri koruma, yönetişim ve maliyet kontrollerini müşteri seçmeye devam eder."
                 }
               ],
               "status": "DRAFT"
@@ -511,9 +521,9 @@
           "estimatedMinutes": 10,
           "summary": "Explains which cloud tasks belong to the provider, which remain with the customer, and how the split changes by service type.",
           "learningObjectives": [
-            "Explain the main concept in plain language",
-            "Apply the concept to a business scenario",
-            "Choose the best option from scenario clues"
+            "Explain which responsibilities stay with the customer in cloud services",
+            "Distinguish provider and customer duties across IaaS, PaaS, and SaaS",
+            "Recognize why data, access, and business configuration remain customer responsibilities"
           ],
           "explanation": "**The shared responsibility model** is part of the AZ-900 cloud concepts domain. It clarifies that cloud adoption shifts some operational work to the provider without transferring ownership of customer data or access choices. Cloud learning at this level is about reasoning from the business requirement to the right model, benefit, or responsibility split. A cloud provider operates large-scale infrastructure and exposes services that customers can use without buying every physical component themselves. The customer still owns business decisions such as data classification, user access, secure configuration, monitoring, and cost awareness.\n\nFor beginners, focus on the vocabulary in the scenario. If a requirement mentions rapid provisioning, short-lived environments, or variable demand, think about cloud characteristics such as on-demand access and elasticity. If it mentions who protects data or assigns permissions, think about the shared responsibility model. If it mentions public, private, or hybrid, identify whether resources are provider-operated, dedicated to one organization, or combined across environments.\n\nCloud advantages are strongest when teams design and operate carefully. High availability, reliability, scalability, predictability, security, governance, and manageability are capabilities to use, not automatic outcomes. Teams should choose appropriate services, configure access, apply standards, monitor usage, and revise designs as needs change. That practical reasoning is more important than memorizing isolated product names.",
           "terminology": [
@@ -530,16 +540,16 @@
               "definition": "Physical facilities and provider infrastructure."
             }
           ],
-          "businessScenario": "Fabrikam is planning a cloud adoption step and must balance speed, responsibility, governance, and operational effort while protecting business data.",
-          "technicalExample": "A team creates Azure resources for a pilot, assigns access only to the project group, monitors usage, and removes resources after the pilot ends.",
+          "businessScenario": "Woodgrove Bank is moving a staff scheduling app to Azure. Leaders need to know which tasks Microsoft handles for the cloud platform and which tasks remain with Woodgrove, especially user access, data classification, and application configuration.",
+          "technicalExample": "If Woodgrove runs a virtual machine, Microsoft operates the physical datacenter and host infrastructure, while Woodgrove patches the guest operating system, manages the app, and controls identities. If Woodgrove uses SaaS, the provider manages more of the stack, but Woodgrove still controls users, data, and business settings.",
           "misconception": {
-            "myth": "Moving to the cloud removes all customer responsibilities.",
-            "reality": "The provider manages many infrastructure tasks, but the customer still manages data, identities, configuration, governance, and usage."
+            "myth": "The shared responsibility model is a fixed checklist that never changes between IaaS, PaaS, and SaaS.",
+            "reality": "Responsibility shifts by service type. The provider always runs the cloud infrastructure, but customers always retain responsibility for their data, identities, and decisions about access."
           },
-          "examTakeaway": "Map scenario words to concepts: demand means scalability, access and data mean customer responsibility, dedicated means private cloud, ready-to-use app means SaaS.",
-          "recap": "Explains which cloud tasks belong to the provider, which remain with the customer, and how the split changes by service type.",
-          "simplerExplanation": "Think of cloud like renting managed capabilities. You do not maintain the whole building, but you still decide who enters your rooms and how you use them.",
-          "anotherExample": "Tailwind Traders uses cloud resources for a seasonal site, scales during demand, and keeps policies for tags and approved access.",
+          "examTakeaway": "Watch for the service type. IaaS leaves more operating-system and application work with the customer; SaaS shifts most platform operation to the provider, while customer data and access decisions remain customer responsibilities.",
+          "recap": "Shared responsibility explains who manages each layer of a cloud solution. Moving up from IaaS to PaaS to SaaS usually reduces customer operational tasks, but it does not remove responsibility for data, identities, permissions, and business configuration.",
+          "simplerExplanation": "Think of a hotel. The hotel maintains the building, lifts, and utilities. You still lock your room, decide who gets a key card, and look after your own belongings.",
+          "anotherExample": "A school using Microsoft 365 does not patch the mail servers, but it still decides which staff accounts exist, which groups can access files, and how sensitive student data is handled.",
           "extraBlocks": [
             {
               "type": "COMPARISON",
@@ -567,23 +577,27 @@
               "type": "CALLOUT",
               "data": {
                 "variant": "tip",
-                "title": "Exam focus",
-                "body": "Read the scenario for control, responsibility, demand, and management keywords."
+                "title": "Service-type clue",
+                "body": "For shared responsibility questions, first identify whether the scenario is IaaS, PaaS, or SaaS. Then ask: is this about the physical cloud platform, or about the customer's data, identities, app settings, and access?"
               }
             }
           ],
           "flashcards": [
             {
-              "front": "The shared responsibility model",
-              "back": "Explains which cloud tasks belong to the provider, which remain with the customer, and how the split changes by service type."
+              "front": "Shared responsibility model",
+              "back": "A way to describe which security and operational tasks belong to the cloud provider and which remain with the customer."
             },
             {
-              "front": "Customer responsibility",
-              "back": "Data, identities, access, configuration, and governance remain important."
+              "front": "Always customer-owned",
+              "back": "Data, identities, access decisions, and business configuration remain customer responsibilities."
             },
             {
-              "front": "Provider responsibility",
-              "back": "Physical facilities and provider-operated infrastructure are managed by the cloud provider."
+              "front": "IaaS responsibility pattern",
+              "back": "The provider manages physical infrastructure; the customer manages the guest OS, applications, data, and access."
+            },
+            {
+              "front": "SaaS responsibility pattern",
+              "back": "The provider manages most infrastructure and application operation; the customer manages users, data, and configuration."
             }
           ],
           "sources": [
@@ -606,7 +620,7 @@
               "objectiveCode": "1.1",
               "difficulty": "MEDIUM",
               "stem": "Match each responsibility to the party that usually owns it.",
-              "explanation": "Each prompt maps to the model or party that best owns it.",
+              "explanation": "In the shared responsibility model, the provider operates cloud facilities while the customer manages identities, access, and business data.",
               "lessonSlug": "shared-responsibility-model",
               "sources": [
                 {
@@ -658,7 +672,7 @@
               "translations": {
                 "tr": {
                   "stem": "Her sorumluluğu genellikle sahibi olan tarafla eşleştirin.",
-                  "explanation": "Fiziksel tesisler sağlayıcıya; veri ve izinler müşteriye aittir.",
+                  "explanation": "In the shared responsibility model, the provider operates cloud facilities while the customer manages identities, access, and business data.",
                   "matching": {
                     "prompts": {
                       "p1": "Fiziksel veri merkezi güvenliği",
@@ -747,7 +761,7 @@
               "objectiveCode": "1.1",
               "difficulty": "MEDIUM",
               "stem": "Classify each responsibility.",
-              "explanation": "Each item is classified by its defining characteristic.",
+              "explanation": "The provider category covers physical cloud facilities; the customer category covers business data and access choices.",
               "lessonSlug": "shared-responsibility-model",
               "sources": [
                 {
@@ -791,7 +805,7 @@
               "translations": {
                 "tr": {
                   "stem": "Her sorumluluğu sınıflandırın.",
-                  "explanation": "Fiziksel tesisler sağlayıcıya; veri ve erişim müşteriye aittir.",
+                  "explanation": "The provider category covers physical cloud facilities; the customer category covers business data and access choices.",
                   "categorization": {
                     "categories": {
                       "provider": "Sağlayıcı",
@@ -882,7 +896,7 @@
               "objectiveCode": "1.1",
               "difficulty": "EASY",
               "stem": "In every cloud service type, the customer remains responsible for its information and data.",
-              "explanation": "The statement follows the core cloud concept described in the lesson.",
+              "explanation": "Information and data remain customer responsibilities across IaaS, PaaS, and SaaS, even as provider-managed layers increase.",
               "lessonSlug": "shared-responsibility-model",
               "sources": [
                 {
@@ -896,27 +910,27 @@
                   "key": "TRUE",
                   "text": "True",
                   "correct": true,
-                  "explanation": "This is the accurate choice."
+                  "explanation": "Correct. Customers keep responsibility for their information and data in IaaS, PaaS, and SaaS even as the provider manages more platform layers."
                 },
                 {
                   "key": "FALSE",
                   "text": "False",
                   "correct": false,
-                  "explanation": "This would reject an accurate statement."
+                  "explanation": "Choosing False misses that the provider does not take over responsibility for the customer's data in any cloud service type."
                 }
               ],
               "translations": {
                 "tr": {
                   "stem": "Her cloud hizmet türünde müşteri, kendi bilgi ve verilerinden sorumlu olmaya devam eder.",
-                  "explanation": "Müşteri verisi hizmet türünden bağımsız olarak müşteri sorumluluğundadır.",
+                  "explanation": "Information and data remain customer responsibilities across IaaS, PaaS, and SaaS, even as provider-managed layers increase.",
                   "options": {
                     "TRUE": {
                       "text": "True",
-                      "explanation": "İfade doğrudur."
+                      "explanation": "Doğru. Sağlayıcı daha fazla platform katmanını yönetse bile müşteri IaaS, PaaS ve SaaS içinde kendi bilgi ve verilerinden sorumlu kalır."
                     },
                     "FALSE": {
                       "text": "False",
-                      "explanation": "Bu seçenek doğru ifadeyi reddeder."
+                      "explanation": "False seçeneği, hiçbir cloud hizmet türünde sağlayıcının müşteri verilerinin sorumluluğunu devralmadığını gözden kaçırır."
                     }
                   },
                   "status": "DRAFT"
@@ -929,9 +943,9 @@
               "title": "Paylaşılan sorumluluk modeli",
               "summary": "Paylaşılan sorumluluk modeli, hangi cloud görevlerinin sağlayıcıya, hangilerinin müşteriye ait olduğunu ve hizmet türüne göre bu dağılımın nasıl değiştiğini açıklar.",
               "learningObjectives": [
-                "Paylaşılan sorumluluk modelini açıklamak",
-                "Müşteri ve sağlayıcı görevlerini ayırt etmek",
-                "Hizmet türü değişince sorumlulukların nasıl değiştiğini yorumlamak"
+                "Cloud hizmetlerinde hangi sorumlulukların müşteride kaldığını açıkla",
+                "IaaS, PaaS ve SaaS arasında sağlayıcı ve müşteri görevlerini ayırt et",
+                "Veri, erişim ve iş yapılandırmasının neden müşteride kaldığını tanı"
               ],
               "explanation": "**Paylaşılan sorumluluk modeli**, cloud sağlayıcısı ile müşteri arasındaki görev paylaşımını açıklar. Sağlayıcı fiziksel tesisleri, donanımı ve provider-managed altyapıyı işletir. Müşteri ise kendi verisini, kimliklerini, erişim kararlarını, yapılandırmalarını ve iş yükünün kullanımını yönetmeye devam eder. IaaS daha fazla müşteri kontrolü ve işletim işi bırakır; PaaS platform işlerinin daha fazlasını sağlayıcıya aktarır; SaaS uygulama yığınının çoğunu sağlayıcıya bırakır. Ancak SaaS kullanırken bile kullanıcılar, veri ve uygun kullanım müşterinin sorumluluğundadır.",
               "terminology": [
@@ -948,16 +962,16 @@
                   "definition": "Fiziksel tesisler ve sağlayıcı altyapısı gibi sağlayıcının yönettiği görevler."
                 }
               ],
-              "businessScenario": "Fabrikam, yönetilen veritabanı hizmeti kullanır; platformu sağlayıcı işletir, müşteri verisine kimlerin erişeceğine Fabrikam karar verir.",
-              "technicalExample": "PaaS web uygulamasında sağlayıcı platformu yönetir; ekip kodu, uygulama ayarlarını, gizli değerleri ve veri erişimini yönetir.",
+              "businessScenario": "Woodgrove Bank personel planlama uygulamasını Azure’a taşıyor. Yöneticiler özellikle kullanıcı erişimi, veri sınıflandırması ve uygulama yapılandırması için Microsoft’un bulut platformunda hangi görevleri üstlendiğini, hangilerinin Woodgrove’da kaldığını bilmek istiyor.",
+              "technicalExample": "Woodgrove bir sanal makine çalıştırırsa Microsoft fiziksel veri merkezini ve ana altyapıyı işletir; Woodgrove ise konuk işletim sistemine yama uygular, uygulamayı yönetir ve kimlikleri denetler. Woodgrove SaaS kullanırsa sağlayıcı yığının daha büyük bölümünü yönetir; ancak kullanıcılar, veriler ve iş ayarları yine Woodgrove’un denetimindedir.",
               "misconception": {
-                "myth": "Cloud sağlayıcısı her güvenlik kararını üstlenir.",
-                "reality": "Sağlayıcı altyapının çoğunu yönetir; müşteri veri, kimlik, erişim ve güvenli yapılandırmadan sorumludur."
+                "myth": "Paylaşılan sorumluluk modeli IaaS, PaaS ve SaaS arasında hiç değişmeyen sabit bir listedir.",
+                "reality": "Sorumluluk hizmet türüne göre değişir. Sağlayıcı her zaman bulut altyapısını işletir; müşteri ise verileri, kimlikleri ve erişim kararları üzerindeki sorumluluğu her zaman korur."
               },
-              "examTakeaway": "Veri, kullanıcı, izin veya yapılandırma görürseniz müşteri sorumluluğunu; fiziksel tesis görürseniz sağlayıcı sorumluluğunu düşünün.",
-              "recap": "Paylaşılan sorumluluk modeli görevleri sağlayıcı ve müşteri arasında böler; hizmet türü bu dağılımı etkiler.",
-              "simplerExplanation": "Kiralanan ofis gibi düşünün: bina sahibi binayı yönetir; dosyalarınız, çalışanlarınız ve oda erişimleri sizdedir.",
-              "anotherExample": "Relecloud bir SaaS uygulaması kullanır. Sağlayıcı uygulamayı işletir, Relecloud kullanıcı hesaplarını ve veriyi yönetir.",
+              "examTakeaway": "Hizmet türüne dikkat edin. IaaS, işletim sistemi ve uygulama işleri açısından müşteriye daha fazla görev bırakır; SaaS platform işletiminin çoğunu sağlayıcıya devreder, ancak müşteri verileri ve erişim kararları müşteride kalır.",
+              "recap": "Paylaşılan sorumluluk, bulut çözümündeki her katmanı kimin yönettiğini açıklar. IaaS’tan PaaS’a ve SaaS’a ilerledikçe müşteri operasyon görevleri genellikle azalır; ancak veri, kimlik, izin ve iş yapılandırması sorumluluğu ortadan kalkmaz.",
+              "simplerExplanation": "Bunu bir otel gibi düşünün. Otel binayı, asansörleri ve altyapıyı korur. Siz yine de odanızı kilitler, kime kart verileceğine karar verir ve kendi eşyalarınızdan sorumlu olursunuz.",
+              "anotherExample": "Microsoft 365 kullanan bir okul posta sunucularına yama uygulamaz; ancak hangi personel hesaplarının var olacağına, hangi grupların dosyalara erişeceğine ve hassas öğrenci verilerinin nasıl işleneceğine yine kendisi karar verir.",
               "extraBlocks": [
                 {
                   "title": "Sorumluluk karşılaştırması",
@@ -980,22 +994,26 @@
                 },
                 {
                   "variant": "tip",
-                  "title": "Sınav odağı",
-                  "body": "Sorumluluk sorularında kimin sahip olduğunu ve hizmet türünü belirleyin."
+                  "title": "Hizmet türü ipucu",
+                  "body": "Paylaşılan sorumluluk sorularında önce senaryonun IaaS, PaaS veya SaaS olup olmadığını belirleyin. Sonra sorun: Bu fiziksel bulut platformuyla mı, yoksa müşterinin verileri, kimlikleri, uygulama ayarları ve erişimiyle mi ilgili?"
                 }
               ],
               "flashcards": [
                 {
-                  "front": "Shared responsibility",
-                  "back": "Görevler sağlayıcı ve müşteri arasında paylaşılır."
+                  "front": "Paylaşılan sorumluluk modeli",
+                  "back": "Hangi güvenlik ve operasyon görevlerinin bulut sağlayıcısına, hangilerinin müşteriye ait olduğunu açıklayan model."
                 },
                 {
-                  "front": "Müşteri sorumluluğu",
-                  "back": "Veri, kimlik, erişim ve yapılandırma."
+                  "front": "Her zaman müşteriye ait olanlar",
+                  "back": "Veriler, kimlikler, erişim kararları ve iş yapılandırması müşterinin sorumluluğunda kalır."
                 },
                 {
-                  "front": "Sağlayıcı sorumluluğu",
-                  "back": "Fiziksel tesisler ve provider-managed altyapı."
+                  "front": "IaaS sorumluluk deseni",
+                  "back": "Sağlayıcı fiziksel altyapıyı yönetir; müşteri konuk işletim sistemini, uygulamaları, verileri ve erişimi yönetir."
+                },
+                {
+                  "front": "SaaS sorumluluk deseni",
+                  "back": "Sağlayıcı altyapının ve uygulama işletiminin çoğunu yönetir; müşteri kullanıcıları, verileri ve yapılandırmayı yönetir."
                 }
               ],
               "status": "DRAFT"
@@ -1023,9 +1041,9 @@
           "estimatedMinutes": 10,
           "summary": "Public, private, and hybrid cloud models describe how cloud environments are deployed and combined.",
           "learningObjectives": [
-            "Explain the main concept in plain language",
-            "Apply the concept to a business scenario",
-            "Choose the best option from scenario clues"
+            "Distinguish provider-hosted, dedicated, and connected cloud environments",
+            "Choose a deployment model from dedicated, provider-hosted, or connected-environment clues",
+            "Recognize how hybrid cloud combines Azure with private or on-premises systems"
           ],
           "explanation": "**Public, private, and hybrid cloud** is part of the AZ-900 cloud concepts domain. It compares provider-operated public cloud, dedicated private cloud, and combinations that connect cloud with private or on-premises environments. Cloud learning at this level is about reasoning from the business requirement to the right model, benefit, or responsibility split. A cloud provider operates large-scale infrastructure and exposes services that customers can use without buying every physical component themselves. The customer still owns business decisions such as data classification, user access, secure configuration, monitoring, and cost awareness.\n\nFor beginners, focus on the vocabulary in the scenario. If a requirement mentions rapid provisioning, short-lived environments, or variable demand, think about cloud characteristics such as on-demand access and elasticity. If it mentions who protects data or assigns permissions, think about the shared responsibility model. If it mentions public, private, or hybrid, identify whether resources are provider-operated, dedicated to one organization, or combined across environments.\n\nCloud advantages are strongest when teams design and operate carefully. High availability, reliability, scalability, predictability, security, governance, and manageability are capabilities to use, not automatic outcomes. Teams should choose appropriate services, configure access, apply standards, monitor usage, and revise designs as needs change. That practical reasoning is more important than memorizing isolated product names.",
           "terminology": [
@@ -1042,16 +1060,16 @@
               "definition": "Combination of public cloud with private or on-premises resources."
             }
           ],
-          "businessScenario": "Fabrikam is planning a cloud adoption step and must balance speed, responsibility, governance, and operational effort while protecting business data.",
-          "technicalExample": "A team creates Azure resources for a pilot, assigns access only to the project group, monitors usage, and removes resources after the pilot ends.",
+          "businessScenario": "Northwind Traders has a public website, a factory system that must stay in its own datacenter, and a reporting workload that needs data from both. The architecture discussion is about choosing public cloud, private cloud, or a hybrid approach for each part.",
+          "technicalExample": "The public site can run in Azure public cloud. The factory control system can remain in a private environment. A secure connection can support a hybrid reporting flow that reads approved data from both locations.",
           "misconception": {
-            "myth": "Moving to the cloud removes all customer responsibilities.",
-            "reality": "The provider manages many infrastructure tasks, but the customer still manages data, identities, configuration, governance, and usage."
+            "myth": "Hybrid cloud means a company has failed to move fully to Azure.",
+            "reality": "Hybrid cloud is a valid design when regulatory, latency, legacy, or business requirements require some resources to stay outside the public cloud while other workloads use Azure."
           },
-          "examTakeaway": "Map scenario words to concepts: demand means scalability, access and data mean customer responsibility, dedicated means private cloud, ready-to-use app means SaaS.",
-          "recap": "Public, private, and hybrid cloud models describe how cloud environments are deployed and combined.",
-          "simplerExplanation": "Think of cloud like renting managed capabilities. You do not maintain the whole building, but you still decide who enters your rooms and how you use them.",
-          "anotherExample": "Tailwind Traders uses cloud resources for a seasonal site, scales during demand, and keeps policies for tags and approved access.",
+          "examTakeaway": "Map the requirement to the deployment model: public for provider-operated shared cloud resources, private for dedicated environments, and hybrid when a scenario connects both.",
+          "recap": "Public, private, and hybrid cloud describe where resources run and who can use the environment. The best model depends on isolation, control, compliance, connectivity, and modernization goals.",
+          "simplerExplanation": "Imagine event venues. A public cloud is like renting space in a large conference center, a private cloud is your own company auditorium, and hybrid is using both with a shuttle between them.",
+          "anotherExample": "A hospital can keep a specialist imaging system in its own facility while using Azure for appointment reminders and analytics dashboards that do not require the device to move.",
           "extraBlocks": [
             {
               "type": "COMPARISON",
@@ -1078,24 +1096,28 @@
             {
               "type": "CALLOUT",
               "data": {
-                "variant": "tip",
-                "title": "Exam focus",
-                "body": "Read the scenario for control, responsibility, demand, and management keywords."
+                "variant": "info",
+                "title": "Deployment model clue",
+                "body": "If the scenario says resources are shared and offered by a cloud provider, think public cloud. If it says dedicated to one organization, think private cloud. If it combines both, think hybrid cloud."
               }
             }
           ],
           "flashcards": [
             {
-              "front": "Public, private, and hybrid cloud",
-              "back": "Public, private, and hybrid cloud models describe how cloud environments are deployed and combined."
+              "front": "Public cloud",
+              "back": "Cloud resources offered by a provider and shared across many customers with logical isolation."
             },
             {
-              "front": "Customer responsibility",
-              "back": "Data, identities, access, configuration, and governance remain important."
+              "front": "Private cloud",
+              "back": "A cloud environment dedicated to one organization, often for control, isolation, or compliance needs."
             },
             {
-              "front": "Provider responsibility",
-              "back": "Physical facilities and provider-operated infrastructure are managed by the cloud provider."
+              "front": "Hybrid cloud",
+              "back": "A design that connects public cloud resources with private cloud or on-premises resources."
+            },
+            {
+              "front": "Hybrid use case",
+              "back": "Keeping a legacy system on-premises while using Azure for new apps, analytics, or burst capacity."
             }
           ],
           "sources": [
@@ -1117,8 +1139,8 @@
               "domainKey": "cloud-concepts",
               "objectiveCode": "1.1",
               "difficulty": "MEDIUM",
-              "stem": "Which deployment model is the best starting point?",
-              "explanation": "Public cloud fits when no local or dedicated requirement is described.",
+              "stem": "Which deployment model fits a provider-hosted training website with no private datacenter requirement?",
+              "explanation": "A public cloud deployment fits because the scenario describes a new website running on provider-operated resources without a requirement for a dedicated private environment or a connection to local systems.",
               "lessonSlug": "cloud-deployment-models",
               "sources": [
                 {
@@ -1132,19 +1154,19 @@
                   "key": "A",
                   "text": "Public cloud",
                   "correct": true,
-                  "explanation": "Provider-operated cloud resources fit."
+                  "explanation": "Public cloud uses provider-operated shared cloud infrastructure for customer workloads."
                 },
                 {
                   "key": "B",
                   "text": "Private cloud only",
                   "correct": false,
-                  "explanation": "Dedication is not required."
+                  "explanation": "Private cloud is for an environment dedicated to one organization, which the scenario does not require."
                 },
                 {
                   "key": "C",
                   "text": "Hybrid cloud only",
                   "correct": false,
-                  "explanation": "No local system is described."
+                  "explanation": "Hybrid cloud combines private or on-premises resources with public cloud resources; no local dependency is described."
                 }
               ],
               "scenario": "Northwind Traders wants a new training website without buying infrastructure."
@@ -1237,7 +1259,7 @@
               "objectiveCode": "1.1",
               "difficulty": "MEDIUM",
               "stem": "Classify each example by deployment model.",
-              "explanation": "Each item is classified by its defining characteristic.",
+              "explanation": "Public, private, and hybrid deployment models are identified by who can use the environment and whether cloud and local resources are combined.",
               "lessonSlug": "cloud-deployment-models",
               "sources": [
                 {
@@ -1290,7 +1312,7 @@
               "objectiveCode": "1.1",
               "difficulty": "MEDIUM",
               "stem": "Match each need to public, private, or hybrid cloud.",
-              "explanation": "Each prompt maps to the model or party that best owns it.",
+              "explanation": "Public cloud uses provider-operated shared resources, private cloud is dedicated to one organization, and hybrid cloud connects cloud with private or on-premises resources.",
               "lessonSlug": "cloud-deployment-models",
               "sources": [
                 {
@@ -1349,9 +1371,9 @@
           "estimatedMinutes": 10,
           "summary": "Consumption-based pricing and serverless help teams align resource use with demand while reducing idle infrastructure management.",
           "learningObjectives": [
-            "Explain the main concept in plain language",
-            "Apply the concept to a business scenario",
-            "Choose the best option from scenario clues"
+            "Explain how consumption-based pricing charges for measured use",
+            "Describe serverless as code execution without managing servers directly",
+            "Choose serverless for intermittent event-driven workloads"
           ],
           "explanation": "**Consumption-based pricing and serverless** is part of the AZ-900 cloud concepts domain. It distinguishes paying based on use from buying fixed capacity and explains that serverless abstracts server management but still uses servers. Cloud learning at this level is about reasoning from the business requirement to the right model, benefit, or responsibility split. A cloud provider operates large-scale infrastructure and exposes services that customers can use without buying every physical component themselves. The customer still owns business decisions such as data classification, user access, secure configuration, monitoring, and cost awareness.\n\nFor beginners, focus on the vocabulary in the scenario. If a requirement mentions rapid provisioning, short-lived environments, or variable demand, think about cloud characteristics such as on-demand access and elasticity. If it mentions who protects data or assigns permissions, think about the shared responsibility model. If it mentions public, private, or hybrid, identify whether resources are provider-operated, dedicated to one organization, or combined across environments.\n\nCloud advantages are strongest when teams design and operate carefully. High availability, reliability, scalability, predictability, security, governance, and manageability are capabilities to use, not automatic outcomes. Teams should choose appropriate services, configure access, apply standards, monitor usage, and revise designs as needs change. That practical reasoning is more important than memorizing isolated product names.",
           "terminology": [
@@ -1368,16 +1390,16 @@
               "definition": "Resources available but not doing useful work."
             }
           ],
-          "businessScenario": "Fabrikam is planning a cloud adoption step and must balance speed, responsibility, governance, and operational effort while protecting business data.",
-          "technicalExample": "A team creates Azure resources for a pilot, assigns access only to the project group, monitors usage, and removes resources after the pilot ends.",
+          "businessScenario": "Litware Finance processes expense receipts at the end of each month. The workload is quiet most days, then runs heavily for a short period. The team wants a model that avoids paying for idle capacity where possible.",
+          "technicalExample": "The team compares a continuously running VM with an event-driven function that starts when receipts arrive. Consumption-based pricing aligns better with intermittent work, while serverless reduces the need to manage servers for that processing step.",
           "misconception": {
-            "myth": "Moving to the cloud removes all customer responsibilities.",
-            "reality": "The provider manages many infrastructure tasks, but the customer still manages data, identities, configuration, governance, and usage."
+            "myth": "Serverless means there are no servers and therefore no architecture decisions.",
+            "reality": "Servers still exist, but the provider abstracts much of their management. You still design triggers, permissions, monitoring, data flow, and cost controls."
           },
-          "examTakeaway": "Map scenario words to concepts: demand means scalability, access and data mean customer responsibility, dedicated means private cloud, ready-to-use app means SaaS.",
-          "recap": "Consumption-based pricing and serverless help teams align resource use with demand while reducing idle infrastructure management.",
-          "simplerExplanation": "Think of cloud like renting managed capabilities. You do not maintain the whole building, but you still decide who enters your rooms and how you use them.",
-          "anotherExample": "Tailwind Traders uses cloud resources for a seasonal site, scales during demand, and keeps policies for tags and approved access.",
+          "examTakeaway": "For bursty or event-driven work, look for consumption and serverless clues. For steady workloads that need full OS control, a VM may still be the better fit.",
+          "recap": "Consumption-based models charge according to usage rather than a fixed hardware purchase. Serverless services can run code or workflows without customer-managed servers, which is useful for event-driven and variable workloads.",
+          "simplerExplanation": "Think of electricity in a meeting room. You switch the lights on when people arrive and off when they leave; you do not buy a generator that runs all month for one monthly meeting.",
+          "anotherExample": "A sports club uploads match photos on weekends. A serverless process can create thumbnails when images arrive instead of running a full-time image server all week.",
           "extraBlocks": [
             {
               "type": "COMPARISON",
@@ -1405,23 +1427,27 @@
               "type": "CALLOUT",
               "data": {
                 "variant": "tip",
-                "title": "Exam focus",
-                "body": "Read the scenario for control, responsibility, demand, and management keywords."
+                "title": "Usage-pattern clue",
+                "body": "Consumption and serverless are strongest when demand is irregular, event-based, or short lived. They do not automatically replace every long-running application."
               }
             }
           ],
           "flashcards": [
             {
-              "front": "Consumption-based pricing and serverless",
-              "back": "Consumption-based pricing and serverless help teams align resource use with demand while reducing idle infrastructure management."
+              "front": "Consumption-based pricing",
+              "back": "A model where cost is tied to actual resource use rather than a large upfront hardware purchase."
             },
             {
-              "front": "Customer responsibility",
-              "back": "Data, identities, access, configuration, and governance remain important."
+              "front": "Serverless",
+              "back": "A cloud approach where the provider abstracts server management and the customer focuses on code, triggers, and configuration."
             },
             {
-              "front": "Provider responsibility",
-              "back": "Physical facilities and provider-operated infrastructure are managed by the cloud provider."
+              "front": "Event-driven workload",
+              "back": "A workload that starts because something happens, such as a message, file upload, or timer."
+            },
+            {
+              "front": "Idle capacity risk",
+              "back": "Paying for resources that are running even when the workload has little or no demand."
             }
           ],
           "sources": [
@@ -1448,8 +1474,8 @@
               "domainKey": "cloud-concepts",
               "objectiveCode": "1.1",
               "difficulty": "EASY",
-              "stem": "A model where charges are based on actual resource use is called",
-              "explanation": "The correct term is consumption-based.",
+              "stem": "Complete the sentence about paying for cloud resources based on actual usage.",
+              "explanation": "Consumption-based pricing means the bill is tied to consumed cloud resources rather than to purchasing all capacity before it is needed.",
               "lessonSlug": "consumption-and-serverless",
               "sources": [
                 {
@@ -1467,7 +1493,7 @@
                       "consumption-based",
                       "pay-as-you-go"
                     ],
-                    "explanation": "consumption-based is the expected concept."
+                    "explanation": "Consumption-based and pay-as-you-go both describe paying as cloud resources are consumed."
                   }
                 ],
                 "wordBank": [
@@ -1676,9 +1702,9 @@
           "estimatedMinutes": 10,
           "summary": "Cloud services can improve availability, scalability, reliability, predictability, security, governance, and manageability when used well.",
           "learningObjectives": [
-            "Explain the main concept in plain language",
-            "Apply the concept to a business scenario",
-            "Choose the best option from scenario clues"
+            "Identify cloud benefits such as scalability, reliability, security, governance, and manageability",
+            "Match availability, demand, recovery, and standards clues to cloud benefits",
+            "Explain how cloud controls support predictable operations"
           ],
           "explanation": "**Benefits of cloud services** is part of the AZ-900 cloud concepts domain. It maps common benefits to scenario clues such as uptime, changing demand, recovery, standards, security controls, and operational tooling. Cloud learning at this level is about reasoning from the business requirement to the right model, benefit, or responsibility split. A cloud provider operates large-scale infrastructure and exposes services that customers can use without buying every physical component themselves. The customer still owns business decisions such as data classification, user access, secure configuration, monitoring, and cost awareness.\n\nFor beginners, focus on the vocabulary in the scenario. If a requirement mentions rapid provisioning, short-lived environments, or variable demand, think about cloud characteristics such as on-demand access and elasticity. If it mentions who protects data or assigns permissions, think about the shared responsibility model. If it mentions public, private, or hybrid, identify whether resources are provider-operated, dedicated to one organization, or combined across environments.\n\nCloud advantages are strongest when teams design and operate carefully. High availability, reliability, scalability, predictability, security, governance, and manageability are capabilities to use, not automatic outcomes. Teams should choose appropriate services, configure access, apply standards, monitor usage, and revise designs as needs change. That practical reasoning is more important than memorizing isolated product names.",
           "terminology": [
@@ -1699,16 +1725,16 @@
               "definition": "Deploying, monitoring, and operating resources."
             }
           ],
-          "businessScenario": "Fabrikam is planning a cloud adoption step and must balance speed, responsibility, governance, and operational effort while protecting business data.",
-          "technicalExample": "A team creates Azure resources for a pilot, assigns access only to the project group, monitors usage, and removes resources after the pilot ends.",
+          "businessScenario": "Proseware Learning expects unpredictable traffic when a new training course launches. The team wants the site to stay available, scale for demand, apply consistent security rules, and remain manageable by a small operations group.",
+          "technicalExample": "The design uses scalable hosting, health monitoring, backup and recovery planning, access controls, and policy-based governance. Each feature supports a different cloud benefit: scalability, reliability, security, governance, and manageability.",
           "misconception": {
-            "myth": "Moving to the cloud removes all customer responsibilities.",
-            "reality": "The provider manages many infrastructure tasks, but the customer still manages data, identities, configuration, governance, and usage."
+            "myth": "High availability, scalability, reliability, and manageability all mean the same thing.",
+            "reality": "They are related but different. Availability is about being reachable, scalability is about handling demand changes, reliability is about recovering from failure, and manageability is about operating the environment effectively."
           },
-          "examTakeaway": "Map scenario words to concepts: demand means scalability, access and data mean customer responsibility, dedicated means private cloud, ready-to-use app means SaaS.",
-          "recap": "Cloud services can improve availability, scalability, reliability, predictability, security, governance, and manageability when used well.",
-          "simplerExplanation": "Think of cloud like renting managed capabilities. You do not maintain the whole building, but you still decide who enters your rooms and how you use them.",
-          "anotherExample": "Tailwind Traders uses cloud resources for a seasonal site, scales during demand, and keeps policies for tags and approved access.",
+          "examTakeaway": "Read the problem statement for the benefit being requested: demand changes suggest scalability, outage tolerance suggests reliability or availability, standards suggest governance, and easier operations suggest manageability.",
+          "recap": "Azure benefits are most useful when you can match each term to a business need. Cloud services can help scale, recover, secure, govern, and manage workloads, but each benefit requires deliberate design choices.",
+          "simplerExplanation": "Think of a popular café. More tables handle a rush (scalability), spare equipment helps when a coffee machine fails (reliability), opening hours keep service reachable (availability), and a checklist helps staff run shifts consistently (manageability).",
+          "anotherExample": "A charity donation site can scale during a campaign, use monitoring to detect issues, apply access policies for volunteers, and review recommendations to improve operations after the event.",
           "extraBlocks": [
             {
               "type": "COMPARISON",
@@ -1736,23 +1762,27 @@
               "type": "CALLOUT",
               "data": {
                 "variant": "tip",
-                "title": "Exam focus",
-                "body": "Read the scenario for control, responsibility, demand, and management keywords."
+                "title": "Benefit wording",
+                "body": "Do not choose a benefit by the most impressive word. Choose the benefit that directly solves the scenario: scale for demand, recover from failure, enforce standards, or simplify operations."
               }
             }
           ],
           "flashcards": [
             {
-              "front": "Benefits of cloud services",
-              "back": "Cloud services can improve availability, scalability, reliability, predictability, security, governance, and manageability when used well."
+              "front": "Scalability",
+              "back": "The ability to add or reduce resources as demand changes."
             },
             {
-              "front": "Customer responsibility",
-              "back": "Data, identities, access, configuration, and governance remain important."
+              "front": "High availability",
+              "back": "Designing so a service remains accessible when components fail or maintenance occurs."
             },
             {
-              "front": "Provider responsibility",
-              "back": "Physical facilities and provider-operated infrastructure are managed by the cloud provider."
+              "front": "Reliability",
+              "back": "The ability of a workload to recover from failures and continue functioning."
+            },
+            {
+              "front": "Cloud manageability",
+              "back": "Using tools and automation to deploy, monitor, secure, and govern resources consistently."
             }
           ],
           "sources": [
@@ -1988,9 +2018,9 @@
           "estimatedMinutes": 10,
           "summary": "IaaS, PaaS, and SaaS describe how much of the technology stack the provider manages and how much remains with the customer.",
           "learningObjectives": [
-            "Explain the main concept in plain language",
-            "Apply the concept to a business scenario",
-            "Choose the best option from scenario clues"
+            "Compare IaaS, PaaS, and SaaS by stack management and customer control",
+            "Choose IaaS for OS control, PaaS for custom code, or SaaS for ready-to-use apps",
+            "Explain how responsibility decreases as services move from IaaS to SaaS"
           ],
           "explanation": "**IaaS, PaaS, and SaaS** is part of the AZ-900 cloud concepts domain. It compares control and responsibility: IaaS offers more control, PaaS supports custom code on a managed platform, and SaaS is ready-to-use software. Cloud learning at this level is about reasoning from the business requirement to the right model, benefit, or responsibility split. A cloud provider operates large-scale infrastructure and exposes services that customers can use without buying every physical component themselves. The customer still owns business decisions such as data classification, user access, secure configuration, monitoring, and cost awareness.\n\nFor beginners, focus on the vocabulary in the scenario. If a requirement mentions rapid provisioning, short-lived environments, or variable demand, think about cloud characteristics such as on-demand access and elasticity. If it mentions who protects data or assigns permissions, think about the shared responsibility model. If it mentions public, private, or hybrid, identify whether resources are provider-operated, dedicated to one organization, or combined across environments.\n\nCloud advantages are strongest when teams design and operate carefully. High availability, reliability, scalability, predictability, security, governance, and manageability are capabilities to use, not automatic outcomes. Teams should choose appropriate services, configure access, apply standards, monitor usage, and revise designs as needs change. That practical reasoning is more important than memorizing isolated product names.",
           "terminology": [
@@ -2007,16 +2037,16 @@
               "definition": "Ready-to-use application delivered as a service."
             }
           ],
-          "businessScenario": "Fabrikam is planning a cloud adoption step and must balance speed, responsibility, governance, and operational effort while protecting business data.",
-          "technicalExample": "A team creates Azure resources for a pilot, assigns access only to the project group, monitors usage, and removes resources after the pilot ends.",
+          "businessScenario": "Adventure Works is modernizing three systems: a legacy payroll app that needs custom OS settings, a new web API where developers want to focus on code, and a collaboration tool for employees. The team must choose IaaS, PaaS, or SaaS for each need.",
+          "technicalExample": "A virtual machine can support the legacy app because it offers OS control. Azure App Service or another platform service can host the API with less infrastructure work. A SaaS collaboration app provides ready-to-use functionality with minimal customer management.",
           "misconception": {
-            "myth": "Moving to the cloud removes all customer responsibilities.",
-            "reality": "The provider manages many infrastructure tasks, but the customer still manages data, identities, configuration, governance, and usage."
+            "myth": "SaaS is always better than PaaS, and PaaS is always better than IaaS.",
+            "reality": "The best service type depends on control, customization, management effort, and business fit. IaaS can be appropriate when OS control is required; SaaS is best when the ready-made app meets the need."
           },
-          "examTakeaway": "Map scenario words to concepts: demand means scalability, access and data mean customer responsibility, dedicated means private cloud, ready-to-use app means SaaS.",
-          "recap": "IaaS, PaaS, and SaaS describe how much of the technology stack the provider manages and how much remains with the customer.",
-          "simplerExplanation": "Think of cloud like renting managed capabilities. You do not maintain the whole building, but you still decide who enters your rooms and how you use them.",
-          "anotherExample": "Tailwind Traders uses cloud resources for a seasonal site, scales during demand, and keeps policies for tags and approved access.",
+          "examTakeaway": "Use control and management clues. Need guest OS control: IaaS. Need to deploy custom code without managing servers: PaaS. Need a ready-to-use application: SaaS.",
+          "recap": "IaaS, PaaS, and SaaS describe how much of the stack the provider manages. As you move from IaaS to SaaS, customer infrastructure work generally decreases while provider management increases.",
+          "simplerExplanation": "Think about meals. IaaS is renting a kitchen and cooking everything yourself, PaaS is using a meal kit with the hard prep done, and SaaS is ordering a finished meal.",
+          "anotherExample": "A developer team might run a test domain controller on a VM, publish a customer portal on a platform service, and use a hosted CRM system for sales staff.",
           "extraBlocks": [
             {
               "type": "COMPARISON",
@@ -2044,23 +2074,27 @@
               "type": "CALLOUT",
               "data": {
                 "variant": "tip",
-                "title": "Exam focus",
-                "body": "Read the scenario for control, responsibility, demand, and management keywords."
+                "title": "Service type shortcut",
+                "body": "Ask what the customer wants to manage. More control usually points to IaaS. Less infrastructure management for custom apps points to PaaS. Ready-made business capability points to SaaS."
               }
             }
           ],
           "flashcards": [
             {
-              "front": "IaaS, PaaS, and SaaS",
-              "back": "IaaS, PaaS, and SaaS describe how much of the technology stack the provider manages and how much remains with the customer."
+              "front": "IaaS",
+              "back": "Infrastructure as a service: customer manages the OS, applications, data, and access on provider-managed infrastructure."
             },
             {
-              "front": "Customer responsibility",
-              "back": "Data, identities, access, configuration, and governance remain important."
+              "front": "PaaS",
+              "back": "Platform as a service: customer deploys apps and data while the provider manages much of the platform."
             },
             {
-              "front": "Provider responsibility",
-              "back": "Physical facilities and provider-operated infrastructure are managed by the cloud provider."
+              "front": "SaaS",
+              "back": "Software as a service: customer uses a ready-made application and manages users, data, and configuration."
+            },
+            {
+              "front": "Service-type decision clue",
+              "back": "Choose based on required control, customization, and how much management the customer wants to keep."
             }
           ],
           "sources": [

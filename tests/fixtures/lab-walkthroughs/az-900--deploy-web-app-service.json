@@ -1,0 +1,94 @@
+{
+  "certification": "AZ-900",
+  "lab": "deploy-web-app-service",
+  "note": "Create a Web App, add staging, deploy v2, swap, and verify production.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "app-services"
+    },
+    {
+      "type": "click",
+      "componentId": "app-create"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "webapp-wizard",
+      "values": {
+        "subscription": "Contoso Learning (simulated)",
+        "resourceGroup": "create-new",
+        "newResourceGroup": "rg-app-service-demo",
+        "name": "app-tailwind-portal",
+        "publish": "Code",
+        "runtimeStack": ".NET 8 (LTS)",
+        "operatingSystem": "Linux",
+        "region": "westeurope",
+        "appServicePlan": "create-new",
+        "newPlanName": "asp-tailwind-demo",
+        "pricingPlan": "Basic B1"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "go-to-webapp"
+    },
+    {
+      "type": "openUrl",
+      "url": "https://app-tailwind-portal.azurewebsites.net"
+    },
+    {
+      "type": "back"
+    },
+    {
+      "type": "navigate",
+      "page": "deployment-slots"
+    },
+    {
+      "type": "click",
+      "componentId": "add-slot"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "slot-form",
+      "values": {
+        "name": "staging",
+        "clone": "Production"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "deployment-center"
+    },
+    {
+      "type": "command",
+      "command": "az webapp deploy -g rg-app-service-demo -n app-tailwind-portal --slot staging --src-path site-v2.zip --type zip"
+    },
+    {
+      "type": "openUrl",
+      "url": "https://app-tailwind-portal-staging.azurewebsites.net"
+    },
+    {
+      "type": "back"
+    },
+    {
+      "type": "navigate",
+      "page": "deployment-slots"
+    },
+    {
+      "type": "click",
+      "componentId": "swap-slots"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "swap-form",
+      "values": {
+        "source": "staging",
+        "target": "production"
+      }
+    },
+    {
+      "type": "openUrl",
+      "url": "https://app-tailwind-portal.azurewebsites.net"
+    }
+  ]
+}

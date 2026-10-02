@@ -1,0 +1,859 @@
+{
+  "questions": [
+    {
+      "ref": "sc900-con-101",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "security-compliance-identity-concepts",
+      "objectiveCode": "1.1",
+      "difficulty": "EASY",
+      "stem": "A SaaS provider hosts the application. Which task is still normally the customer's responsibility?",
+      "explanation": "Customers remain responsible for their data and access decisions in SaaS scenarios.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Deciding which users may access company data",
+          "correct": true,
+          "explanation": "The customer controls data access."
+        },
+        {
+          "key": "B",
+          "text": "Replacing failed disks in the provider datacenter",
+          "correct": false,
+          "explanation": "The provider handles physical infrastructure."
+        },
+        {
+          "key": "C",
+          "text": "Cooling the provider server room",
+          "correct": false,
+          "explanation": "Facilities are provider responsibilities."
+        },
+        {
+          "key": "D",
+          "text": "Writing the provider's global network firmware",
+          "correct": false,
+          "explanation": "Provider platform engineering is not the customer's task."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Shared responsibility in the cloud",
+          "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "sc900-con-102",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "security-compliance-identity-concepts",
+      "objectiveCode": "1.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which **two** controls are examples of defense in depth for a business app?",
+      "explanation": "Layered controls across identity, network, app, and data reduce reliance on one barrier.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Require MFA for administrators",
+          "correct": true,
+          "explanation": "Identity protection is one layer."
+        },
+        {
+          "key": "B",
+          "text": "Encrypt sensitive data",
+          "correct": true,
+          "explanation": "Data protection is another layer."
+        },
+        {
+          "key": "C",
+          "text": "Use only a public anonymous link for all files",
+          "correct": false,
+          "explanation": "Anonymous access weakens control."
+        },
+        {
+          "key": "D",
+          "text": "Delete monitoring after launch",
+          "correct": false,
+          "explanation": "Monitoring remains an important layer."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Zero Trust Guidance Center",
+          "url": "https://learn.microsoft.com/en-us/security/zero-trust/",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Azure encryption overview",
+          "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/encryption-overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "selectCount": 2,
+      "shuffleOptions": true
+    },
+    {
+      "ref": "sc900-con-103",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "security-compliance-identity-concepts",
+      "objectiveCode": "1.2",
+      "difficulty": "EASY",
+      "stem": "Complete the sentence about the access decision that happens after authentication.",
+      "explanation": "Authorization decides permitted actions after the identity is authenticated.",
+      "fillInBlank": {
+        "template": "After authentication, {{b1}} determines what the user is allowed to do.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "authorization"
+            ],
+            "explanation": "Authorization decides permitted actions after the identity is authenticated."
+          }
+        ],
+        "wordBank": [
+          "authorization",
+          "hashing",
+          "encryption",
+          "replication"
+        ]
+      },
+      "sources": [
+        {
+          "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "What is Microsoft Entra?",
+          "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-con-104",
+      "type": "ORDERING",
+      "domainKey": "security-compliance-identity-concepts",
+      "objectiveCode": "1.2",
+      "difficulty": "MEDIUM",
+      "stem": "Order the basic access decision flow.",
+      "explanation": "Identity is verified before permissions are evaluated and access is granted or denied.",
+      "ordering": {
+        "items": [
+          {
+            "id": "s1",
+            "text": "User requests a resource"
+          },
+          {
+            "id": "s2",
+            "text": "Identity is authenticated"
+          },
+          {
+            "id": "s3",
+            "text": "Permissions are evaluated"
+          },
+          {
+            "id": "s4",
+            "text": "Access is granted or denied"
+          }
+        ],
+        "correctOrder": [
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "explanations": {
+          "s1": "The request starts the flow.",
+          "s2": "Authentication verifies identity.",
+          "s3": "Authorization checks permissions.",
+          "s4": "The result is allow or deny."
+        }
+      },
+      "sources": [
+        {
+          "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "What is Microsoft Entra?",
+          "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-con-105",
+      "type": "SCENARIO",
+      "domainKey": "security-compliance-identity-concepts",
+      "objectiveCode": "1.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which concept best describes this approach?",
+      "explanation": "Zero Trust assumes breach and verifies each request with least privilege.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Zero Trust",
+          "correct": true,
+          "explanation": "The design verifies requests and limits access."
+        },
+        {
+          "key": "B",
+          "text": "Single perimeter trust",
+          "correct": false,
+          "explanation": "The design does not trust solely by network location."
+        },
+        {
+          "key": "C",
+          "text": "Unmanaged access",
+          "correct": false,
+          "explanation": "The design is actively managed."
+        },
+        {
+          "key": "D",
+          "text": "Password storage hashing",
+          "correct": false,
+          "explanation": "Hashing is not the broader access model described."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Zero Trust Guidance Center",
+          "url": "https://learn.microsoft.com/en-us/security/zero-trust/",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "scenario": "A company requires device compliance, MFA, least-privileged roles, and continuous monitoring even for users on the corporate network.",
+      "shuffleOptions": true
+    },
+    {
+      "ref": "sc900-con-106",
+      "type": "CASE_STUDY",
+      "domainKey": "security-compliance-identity-concepts",
+      "objectiveCode": "1.2",
+      "difficulty": "HARD",
+      "scenario": "A partner app trusts tokens issued by Fabrikam's identity provider. The app checks a user's group claim before allowing access to reports.",
+      "stem": "For each statement about Fabrikam's federated app access flow, select **Yes** if it is true. Otherwise, select **No**.",
+      "explanation": "The scenario combines federation, authentication, and authorization.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Trusting tokens from Fabrikam's identity provider is an example of federation.",
+            "answer": true,
+            "explanation": "Federation lets one system trust another identity provider."
+          },
+          {
+            "id": "s2",
+            "text": "Checking the group claim is part of authorization.",
+            "answer": true,
+            "explanation": "The app uses claims to decide permitted access."
+          },
+          {
+            "id": "s3",
+            "text": "The app should store the partner's password to be federated.",
+            "answer": false,
+            "explanation": "Federation avoids separate local passwords for that app."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "OpenID Connect on the Microsoft identity platform",
+          "url": "https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-ent-101",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "microsoft-entra",
+      "objectiveCode": "2.1",
+      "difficulty": "EASY",
+      "stem": "Which identity type best fits a daemon app that synchronizes inventory without a human signing in?",
+      "explanation": "A workload identity represents an application, service, or automation.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Workload identity",
+          "correct": true,
+          "explanation": "It is for apps and services."
+        },
+        {
+          "key": "B",
+          "text": "Access review",
+          "correct": false,
+          "explanation": "An access review is a governance process."
+        },
+        {
+          "key": "C",
+          "text": "Human user only",
+          "correct": false,
+          "explanation": "The app is not a person."
+        },
+        {
+          "key": "D",
+          "text": "Hash value",
+          "correct": false,
+          "explanation": "A hash is not an identity type."
+        }
+      ],
+      "sources": [
+        {
+          "title": "What is Microsoft Entra?",
+          "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "sc900-ent-102",
+      "type": "MATCHING",
+      "domainKey": "microsoft-entra",
+      "objectiveCode": "2.1",
+      "difficulty": "MEDIUM",
+      "stem": "Match the Microsoft Entra object to the scenario.",
+      "explanation": "Users, groups, devices, and workload identities serve different scenarios.",
+      "matching": {
+        "prompts": [
+          {
+            "id": "p1",
+            "text": "Employee account"
+          },
+          {
+            "id": "p2",
+            "text": "Team access collection"
+          },
+          {
+            "id": "p3",
+            "text": "Registered laptop"
+          },
+          {
+            "id": "p4",
+            "text": "Automation app"
+          }
+        ],
+        "answers": [
+          {
+            "id": "a1",
+            "text": "User"
+          },
+          {
+            "id": "a2",
+            "text": "Group"
+          },
+          {
+            "id": "a3",
+            "text": "Device"
+          },
+          {
+            "id": "a4",
+            "text": "Workload identity"
+          }
+        ],
+        "pairs": {
+          "p1": "a1",
+          "p2": "a2",
+          "p3": "a3",
+          "p4": "a4"
+        },
+        "explanations": {
+          "p1": "Employees are represented by user identities.",
+          "p2": "Groups collect identities for assignment.",
+          "p3": "Devices represent endpoints.",
+          "p4": "Apps and services use workload identities."
+        }
+      },
+      "sources": [
+        {
+          "title": "What is Microsoft Entra?",
+          "url": "https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-ent-103",
+      "type": "SCENARIO",
+      "domainKey": "microsoft-entra",
+      "objectiveCode": "2.2",
+      "difficulty": "MEDIUM",
+      "stem": "Which capability best meets the requirement?",
+      "explanation": "SSPR lets configured users reset or unlock accounts after verification.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Self-service password reset",
+          "correct": true,
+          "explanation": "SSPR addresses password reset and unlock without help desk involvement."
+        },
+        {
+          "key": "B",
+          "text": "Privileged Identity Management",
+          "correct": false,
+          "explanation": "PIM is for privileged role activation."
+        },
+        {
+          "key": "C",
+          "text": "Access packages",
+          "correct": false,
+          "explanation": "Access packages manage resource access requests."
+        },
+        {
+          "key": "D",
+          "text": "Hashing only",
+          "correct": false,
+          "explanation": "Hashing passwords does not give users a reset workflow."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Self-service password reset deep dive",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-sspr-howitworks",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "scenario": "Users at Proseware frequently call the help desk to unlock accounts after forgetting passwords.",
+      "shuffleOptions": true
+    },
+    {
+      "ref": "sc900-ent-104",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "microsoft-entra",
+      "objectiveCode": "2.2",
+      "difficulty": "MEDIUM",
+      "stem": "Which configuration snippet best supports blocking weak company-themed passwords?",
+      "explanation": "Microsoft Entra Password Protection supports banned password lists and weak password blocking.",
+      "options": [
+        {
+          "key": "A",
+          "text": "`Password protection: custom banned password = ProsewareWinter`",
+          "correct": true,
+          "explanation": "A custom banned password helps block company-themed weak passwords."
+        },
+        {
+          "key": "B",
+          "text": "`Access review: reviewer = Manager`",
+          "correct": false,
+          "explanation": "Access reviews do not block password choices."
+        },
+        {
+          "key": "C",
+          "text": "`PIM activation: require approval`",
+          "correct": false,
+          "explanation": "PIM controls privileged role activation."
+        },
+        {
+          "key": "D",
+          "text": "`Entitlement package: resources = Finance app`",
+          "correct": false,
+          "explanation": "Access packages do not set password rules."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Password protection in Microsoft Entra ID",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-password-ban-bad",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "sc900-ent-105",
+      "type": "TRUE_FALSE",
+      "domainKey": "microsoft-entra",
+      "objectiveCode": "2.2",
+      "difficulty": "EASY",
+      "stem": "Passwordless authentication means the user signs in without typing a reusable password.",
+      "explanation": "Passwordless methods avoid a typed reusable password at sign-in.",
+      "options": [
+        {
+          "key": "TRUE",
+          "text": "True",
+          "correct": true,
+          "explanation": "Correct. Passwordless authentication signs users in with methods such as authenticator approval or security keys instead of a reusable typed password."
+        },
+        {
+          "key": "FALSE",
+          "text": "False",
+          "correct": false,
+          "explanation": "Choosing False misses that passwordless sign-in removes the reusable password from the user sign-in flow."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Microsoft Entra authentication overview",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/overview-authentication",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-ent-106",
+      "type": "UI_SIMULATION",
+      "domainKey": "microsoft-entra",
+      "objectiveCode": "2.3",
+      "difficulty": "MEDIUM",
+      "stem": "Set the simulated access rule to block high-risk sign-ins and require MFA for medium-risk sign-ins.",
+      "explanation": "The settings demonstrate Conditional Access-style risk-based controls: block the highest risk and require extra verification for medium risk.",
+      "uiSimulation": {
+        "title": "Risk-based access controls (simulated)",
+        "description": "This is a simplified fictional interface, not a real product screen.",
+        "fields": [
+          {
+            "id": "high",
+            "label": "High risk action",
+            "control": "select",
+            "options": [
+              {
+                "value": "allow",
+                "label": "Allow"
+              },
+              {
+                "value": "block",
+                "label": "Block"
+              }
+            ],
+            "correct": "block",
+            "explanation": "Blocking high-risk sign-ins is the safer simulated choice for this scenario."
+          },
+          {
+            "id": "medium",
+            "label": "Medium risk action",
+            "control": "select",
+            "options": [
+              {
+                "value": "mfa",
+                "label": "Require MFA"
+              },
+              {
+                "value": "none",
+                "label": "No control"
+              }
+            ],
+            "correct": "mfa",
+            "explanation": "MFA adds verification for elevated risk."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Microsoft Entra Conditional Access overview",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "What is Microsoft Entra ID Protection?",
+          "url": "https://learn.microsoft.com/en-us/entra/id-protection/overview-identity-protection",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-ent-107",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "microsoft-entra",
+      "objectiveCode": "2.3",
+      "difficulty": "MEDIUM",
+      "stem": "Which **two** are appropriate Conditional Access signals or assignments?",
+      "explanation": "Conditional Access can use users/groups, apps, locations, devices, and risk as part of policy decisions.",
+      "options": [
+        {
+          "key": "A",
+          "text": "User or group",
+          "correct": true,
+          "explanation": "Policies can target users or groups."
+        },
+        {
+          "key": "B",
+          "text": "Cloud app",
+          "correct": true,
+          "explanation": "Policies can target applications."
+        },
+        {
+          "key": "C",
+          "text": "Provider datacenter fan speed",
+          "correct": false,
+          "explanation": "That is not a Conditional Access signal for tenant policy."
+        },
+        {
+          "key": "D",
+          "text": "Random exam score",
+          "correct": false,
+          "explanation": "That is unrelated to access policy."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Microsoft Entra Conditional Access overview",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/overview",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "selectCount": 2,
+      "shuffleOptions": true
+    },
+    {
+      "ref": "sc900-ent-108",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "microsoft-entra",
+      "objectiveCode": "2.3",
+      "difficulty": "EASY",
+      "stem": "Complete the sentence about assigning Microsoft Entra permissions through roles.",
+      "explanation": "Role-based access control assigns permissions through roles.",
+      "fillInBlank": {
+        "template": "Assigning permissions through roles is known as {{b1}}.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "role-based access control",
+              "RBAC"
+            ],
+            "explanation": "Role-based access control assigns permissions through roles."
+          }
+        ],
+        "wordBank": [
+          "role-based access control",
+          "hashing",
+          "federation",
+          "encryption"
+        ]
+      },
+      "sources": [
+        {
+          "title": "Understand Microsoft Entra role concepts",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/concept-understand-roles",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-ent-109",
+      "type": "CASE_STUDY",
+      "domainKey": "microsoft-entra",
+      "objectiveCode": "2.4",
+      "difficulty": "HARD",
+      "scenario": "Litware grants seasonal contractors access to a project app for three months. Managers approve requests and review access every month.",
+      "stem": "For each statement about Litware's contractor access package and reviews, select **Yes** if it is true. Otherwise, select **No**.",
+      "explanation": "The scenario uses entitlement management for access packages and access reviews for continued need.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "An access package can bundle the project app access and request policy.",
+            "answer": true,
+            "explanation": "That is an entitlement management use case."
+          },
+          {
+            "id": "s2",
+            "text": "Monthly checks of continued need are access reviews.",
+            "answer": true,
+            "explanation": "Access reviews confirm whether users should keep access."
+          },
+          {
+            "id": "s3",
+            "text": "PIM is required for every seasonal contractor to read the app.",
+            "answer": false,
+            "explanation": "PIM is for privileged roles, not ordinary app read access."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "What is entitlement management?",
+          "url": "https://learn.microsoft.com/en-us/entra/id-governance/entitlement-management-overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "What are access reviews?",
+          "url": "https://learn.microsoft.com/en-us/entra/id-governance/access-reviews-overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "What is Privileged Identity Management?",
+          "url": "https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-ent-110",
+      "type": "CATEGORIZATION",
+      "domainKey": "microsoft-entra",
+      "objectiveCode": "2.4",
+      "difficulty": "MEDIUM",
+      "stem": "Classify each Microsoft Entra capability by primary purpose.",
+      "explanation": "ID Protection, entitlement management, and PIM address different identity lifecycle risks.",
+      "categorization": {
+        "categories": [
+          {
+            "id": "risk",
+            "label": "Detect identity risk"
+          },
+          {
+            "id": "package",
+            "label": "Package and approve access"
+          },
+          {
+            "id": "priv",
+            "label": "Manage privileged activation"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "text": "Microsoft Entra ID Protection",
+            "category": "risk",
+            "explanation": "It detects and helps remediate identity risk."
+          },
+          {
+            "id": "i2",
+            "text": "Entitlement management",
+            "category": "package",
+            "explanation": "It uses access packages and request policies."
+          },
+          {
+            "id": "i3",
+            "text": "Privileged Identity Management",
+            "category": "priv",
+            "explanation": "It manages eligible privileged role activation."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "What is Microsoft Entra ID Protection?",
+          "url": "https://learn.microsoft.com/en-us/entra/id-protection/overview-identity-protection",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "What is entitlement management?",
+          "url": "https://learn.microsoft.com/en-us/entra/id-governance/entitlement-management-overview",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "What is Privileged Identity Management?",
+          "url": "https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-ent-111",
+      "type": "ORDERING",
+      "domainKey": "microsoft-entra",
+      "objectiveCode": "2.4",
+      "difficulty": "MEDIUM",
+      "stem": "Order a PIM privileged role activation flow.",
+      "explanation": "PIM uses eligible assignment, activation, controls, and auditing.",
+      "ordering": {
+        "items": [
+          {
+            "id": "s1",
+            "text": "User has an eligible role assignment"
+          },
+          {
+            "id": "s2",
+            "text": "User requests activation"
+          },
+          {
+            "id": "s3",
+            "text": "Required controls such as MFA or approval are satisfied"
+          },
+          {
+            "id": "s4",
+            "text": "Activation is audited"
+          }
+        ],
+        "correctOrder": [
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "explanations": {
+          "s1": "Eligibility exists before activation.",
+          "s2": "The user initiates activation when needed.",
+          "s3": "Controls protect the activation.",
+          "s4": "Auditing records the privileged activity."
+        }
+      },
+      "sources": [
+        {
+          "title": "What is Privileged Identity Management?",
+          "url": "https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "sc900-ent-112",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "microsoft-entra",
+      "objectiveCode": "2.4",
+      "difficulty": "HARD",
+      "stem": "A security team wants automated help identifying risky users and risky sign-ins. Which capability should they evaluate first?",
+      "explanation": "Microsoft Entra ID Protection focuses on identity risk detection and remediation workflows.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Microsoft Entra ID Protection",
+          "correct": true,
+          "explanation": "It detects and helps remediate risky users and sign-ins."
+        },
+        {
+          "key": "B",
+          "text": "A static group naming policy",
+          "correct": false,
+          "explanation": "Naming policies do not detect identity risk."
+        },
+        {
+          "key": "C",
+          "text": "Self-service password reset only",
+          "correct": false,
+          "explanation": "SSPR helps users reset credentials, but it is not the risk detection capability."
+        },
+        {
+          "key": "D",
+          "text": "Directory role descriptions",
+          "correct": false,
+          "explanation": "Role descriptions do not detect risky sign-ins."
+        }
+      ],
+      "sources": [
+        {
+          "title": "What is Microsoft Entra ID Protection?",
+          "url": "https://learn.microsoft.com/en-us/entra/id-protection/overview-identity-protection",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true
+    }
+  ]
+}

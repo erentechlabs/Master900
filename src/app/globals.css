@@ -127,6 +127,40 @@
     --brand-green: 113 50% 58%;
   }
 
+
+
+  html[data-accent="default"] {
+    --primary: 209 100% 36%; --primary-foreground: 0 0% 100%; --tint-brand: 209 90% 93%;
+  }
+  html.dark[data-accent="default"] {
+    --primary: 199 100% 69%; --primary-foreground: 0 0% 0%; --tint-brand: 205 45% 22%;
+  }
+  html[data-accent="teal"] { --primary: 185 100% 22.9%; --primary-foreground: 0 0% 100%; --tint-brand: 186 72.7% 92.4%; }
+  html.dark[data-accent="teal"] { --primary: 184 75.6% 63.3%; --primary-foreground: 186 100% 8.4%; --tint-brand: 187 57.4% 16.5%; }
+  html[data-accent="sea"] { --primary: 148 81.3% 22.9%; --primary-foreground: 0 0% 100%; --tint-brand: 139 65% 93.1%; }
+  html.dark[data-accent="sea"] { --primary: 143 59.2% 64.1%; --primary-foreground: 146 100% 7.6%; --tint-brand: 142 45.5% 16.7%; }
+  html[data-accent="purple"] { --primary: 267 43.8% 43.7%; --primary-foreground: 0 0% 100%; --tint-brand: 263 100% 95.5%; }
+  html.dark[data-accent="purple"] { --primary: 262 100% 82.7%; --primary-foreground: 267 100% 15.1%; --tint-brand: 264 32.4% 20.4%; }
+  html[data-accent="orchid"] { --primary: 310 45.8% 37.3%; --primary-foreground: 0 0% 100%; --tint-brand: 314 76.9% 94.9%; }
+  html.dark[data-accent="orchid"] { --primary: 309 74.8% 79.6%; --primary-foreground: 309 100% 11.4%; --tint-brand: 312 33.3% 20.8%; }
+  html[data-accent="rose"] { --primary: 341 72% 40.6%; --primary-foreground: 0 0% 100%; --tint-brand: 342 100% 95.3%; }
+  html.dark[data-accent="rose"] { --primary: 341 100% 80.8%; --primary-foreground: 341 100% 14.5%; --tint-brand: 340 42.9% 21.8%; }
+  html[data-accent="red"] { --primary: 4 71.2% 41%; --primary-foreground: 0 0% 100%; --tint-brand: 5 100% 95.1%; }
+  html.dark[data-accent="red"] { --primary: 6 100% 83.5%; --primary-foreground: 5 87.5% 15.7%; --tint-brand: 4 45.1% 21.8%; }
+  html[data-accent="orange"] { --primary: 33 100% 27.1%; --primary-foreground: 0 0% 100%; --tint-brand: 35 100% 92.9%; }
+  html.dark[data-accent="orange"] { --primary: 33 100% 70%; --primary-foreground: 34 100% 11.6%; --tint-brand: 35 47.6% 19.4%; }
+  html[data-accent="gold"] { --primary: 47 100% 21.8%; --primary-foreground: 0 0% 100%; --tint-brand: 48 100% 90%; }
+  html.dark[data-accent="gold"] { --primary: 49 71.4% 62.4%; --primary-foreground: 48 100% 9.4%; --tint-brand: 46 43.1% 17.5%; }
+  html[data-accent="graphite"] { --primary: 203 12.7% 35.5%; --primary-foreground: 0 0% 100%; --tint-brand: 200 27.3% 94.3%; }
+  html.dark[data-accent="graphite"] { --primary: 201 17.1% 79.2%; --primary-foreground: 203 28.9% 8.8%; --tint-brand: 200 13.1% 19.4%; }
+
+  html.no-transparency {
+    --control: hsl(var(--card));
+    --control-hover: hsl(var(--secondary));
+    --control-pressed: hsl(var(--muted));
+  }
+
+
   * {
     @apply border-border;
   }
@@ -316,6 +350,48 @@
 
   .portal-font-github {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+  }
+}
+
+
+
+/* Mica / acrylic materials. Kept in the components layer so positioning utilities (sticky, relative, fixed) on the
+   same element still win; the blur lives on ::before so flyouts inside the title bar are not nested in a backdrop root. */
+@layer components {
+  .mica-surface {
+    position: relative;
+    isolation: isolate;
+    background-color: transparent;
+  }
+
+  .mica-surface::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-color: color-mix(in srgb, hsl(var(--background)) 82%, transparent);
+    backdrop-filter: blur(24px) saturate(140%);
+  }
+
+  .acrylic-surface {
+    background-color: color-mix(in srgb, hsl(var(--popover)) 94%, transparent);
+    backdrop-filter: blur(30px) saturate(145%);
+  }
+
+  .dark .acrylic-surface {
+    background-color: color-mix(in srgb, hsl(var(--popover)) 92%, transparent);
+    backdrop-filter: blur(30px) saturate(130%);
+  }
+
+  html.no-transparency .mica-surface::before {
+    background-color: hsl(var(--background));
+    backdrop-filter: none;
+  }
+
+  html.no-transparency .acrylic-surface {
+    background-color: hsl(var(--popover));
+    backdrop-filter: none;
   }
 }
 

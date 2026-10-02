@@ -1240,10 +1240,10 @@
         },
         {
           "key": "view-usage-report",
-          "title": "Open the Microsoft Copilot usage report",
-          "instruction": "Open **Reports > Usage > Microsoft Copilot** and review the readiness and usage view for the Sales pilot.",
+          "title": "Verify licensing and Copilot usage reporting",
+          "instruction": "Open **Reports > Usage > Microsoft Copilot** and verify the Sales pilot appears after assignment. Treat this as the final check that licensing and Copilot settings are ready.",
           "hint": "You can also reach the report from the Copilot page **Usage** tile.",
-          "explanation": "Usage reports help administrators track readiness and adoption after assignment; they do not change permissions or expose data.",
+          "explanation": "A final usage report check confirms the admin center can monitor readiness and adoption after assignment without changing user permissions.",
           "targetId": "report-tiles",
           "rules": [
             {
@@ -1288,7 +1288,7 @@
             ]
           },
           "successFeedback": "The license assignment is limited to the approved pilot group.",
-          "failureFeedback": "Remove broad or wrong-group assignments; only Copilot Pilot - Sales may receive the license."
+          "failureFeedback": "Assign Microsoft Copilot only to Copilot Pilot - Sales. Tenant-wide or broad department assignment weakens least privilege."
         },
         {
           "key": "required-copilot-setting",

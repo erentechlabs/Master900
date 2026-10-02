@@ -1,0 +1,1108 @@
+{
+  "labs": [
+    {
+      "slug": "run-ediscovery-search-hold",
+      "type": "UI_SIMULATION",
+      "title": "Run an eDiscovery search and hold in Microsoft Purview",
+      "summary": "Create an eDiscovery case, add scoped data sources, run a keyword/date search, preserve sources with a hold, and complement it with an Audit search.",
+      "scenario": "Fabrikam HR asks the compliance team to preserve and find content for a fictional payroll investigation. In the **simulated Microsoft Purview portal** on your lab VM, create a scoped eDiscovery case, add relevant custodians and collaboration locations, run a keyword/date search, review statistics, place only those sources on hold, and run an Audit search for supporting activity. Done means the investigation is preserved without searching or holding the whole organization.",
+      "domainKey": "compliance-solutions",
+      "objectiveCode": "4.4",
+      "complexity": "INTERMEDIATE",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Create a Microsoft Purview eDiscovery case for an investigation",
+        "Add user, OneDrive, mailbox, Teams, and SharePoint data sources with limited scope",
+        "Build a KQL-style keyword and date search and review statistics",
+        "Place selected sources on hold and use Audit search as complementary evidence"
+      ],
+      "prerequisites": [
+        "Know that eDiscovery preserves and searches Microsoft 365 content for investigations"
+      ],
+      "sources": [
+        {
+          "title": "Get started with eDiscovery",
+          "url": "https://learn.microsoft.com/en-us/purview/edisc-get-started"
+        },
+        {
+          "title": "Create and manage cases in eDiscovery",
+          "url": "https://learn.microsoft.com/en-us/purview/edisc-cases-manage"
+        },
+        {
+          "title": "Data sources in eDiscovery",
+          "url": "https://learn.microsoft.com/en-us/purview/edisc-data-sources"
+        },
+        {
+          "title": "Search the audit log",
+          "url": "https://learn.microsoft.com/en-us/purview/audit-search"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Purview portal",
+          "theme": "purview",
+          "user": "alex@contoso.example",
+          "tenant": "Fabrikam (fabrikam.example)",
+          "url": "https://purview.microsoft.com",
+          "searchPlaceholder": "Search Purview solutions, policies, cases, and activities"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-10-02T09:00:00Z"
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "cases",
+            "label": "Cases",
+            "icon": "Briefcase",
+            "section": "eDiscovery"
+          },
+          {
+            "page": "audit",
+            "label": "Audit",
+            "icon": "Search",
+            "section": "Solutions"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "home-tiles",
+                "title": "Microsoft Purview solutions",
+                "size": "md",
+                "items": [
+                  {
+                    "id": "tile-cases",
+                    "label": "eDiscovery",
+                    "icon": "Briefcase",
+                    "action": {
+                      "type": "navigate",
+                      "page": "cases"
+                    }
+                  },
+                  {
+                    "id": "tile-audit",
+                    "label": "Audit",
+                    "icon": "Search",
+                    "action": {
+                      "type": "navigate",
+                      "page": "audit"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "Everything is simulated. Scope case membership, searches, holds, and audit queries to the HR matter."
+              }
+            ]
+          },
+          {
+            "id": "cases",
+            "title": "Cases",
+            "subtitle": "eDiscovery",
+            "icon": "Briefcase",
+            "url": "/ediscovery/cases",
+            "components": [
+              {
+                "kind": "table",
+                "id": "cases-table",
+                "title": "Cases",
+                "source": "cases",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "caseType",
+                    "label": "Case type",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "case-overview",
+                  "select": {
+                    "as": "case",
+                    "path": "cases",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              },
+              {
+                "kind": "form",
+                "id": "case-form",
+                "title": "Create case",
+                "fields": [
+                  {
+                    "id": "name",
+                    "label": "Case name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "HR-2026-payroll-review",
+                    "unique": {
+                      "path": "cases",
+                      "key": "name"
+                    }
+                  },
+                  {
+                    "id": "caseType",
+                    "label": "Case type",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Premium",
+                    "options": [
+                      {
+                        "value": "Premium",
+                        "label": "Premium"
+                      },
+                      {
+                        "value": "Standard",
+                        "label": "Standard"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "members",
+                    "label": "Case members",
+                    "control": "checkboxes",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Alex Wilber",
+                        "label": "Alex Wilber"
+                      },
+                      {
+                        "value": "All compliance admins",
+                        "label": "All compliance admins"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "description",
+                    "label": "Description",
+                    "control": "textarea",
+                    "required": true,
+                    "defaultValue": "Fictional HR investigation into payroll-adjustment communications."
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "includes",
+                        "path": "$form.members",
+                        "value": "Alex Wilber"
+                      },
+                      "message": "Add yourself as a scoped case member."
+                    },
+                    {
+                      "rule": {
+                        "type": "not",
+                        "rule": {
+                          "type": "includes",
+                          "path": "$form.members",
+                          "value": "All compliance admins"
+                        }
+                      },
+                      "message": "Do not add broad administrator groups to a sensitive HR case."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "cases",
+                      "unique": "name",
+                      "value": {
+                        "id": "case-hr-2026",
+                        "name": "{{$form.name}}",
+                        "caseType": "{{$form.caseType}}",
+                        "status": "Active",
+                        "members": "{{$form.members | list}}",
+                        "description": "{{$form.description}}"
+                      }
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "case-overview",
+                      "select": {
+                        "as": "case",
+                        "path": "cases",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "case-overview",
+            "title": "{{$sel.case.name}}",
+            "subtitle": "eDiscovery case",
+            "icon": "Briefcase",
+            "requires": "case",
+            "navItem": "cases",
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Case summary",
+                "items": [
+                  {
+                    "label": "Case type",
+                    "value": "{{$sel.case.caseType}}",
+                    "format": "badge"
+                  },
+                  {
+                    "label": "Status",
+                    "value": "{{$sel.case.status}}",
+                    "format": "status"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "sources-table",
+                "title": "Case data sources",
+                "source": "eDiscoverySources",
+                "where": {
+                  "caseId": "{{$sel.case.id}}"
+                },
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name"
+                  },
+                  {
+                    "key": "sourceType",
+                    "label": "Type",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "locations",
+                    "label": "Locations"
+                  }
+                ]
+              },
+              {
+                "kind": "form",
+                "id": "add-sources",
+                "title": "Add data sources",
+                "fields": [
+                  {
+                    "id": "custodians",
+                    "label": "Custodians",
+                    "control": "checkboxes",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Mira Ileri",
+                        "label": "Mira Ileri - mailbox and OneDrive"
+                      },
+                      {
+                        "value": "Adele Vance",
+                        "label": "Adele Vance - mailbox and OneDrive"
+                      },
+                      {
+                        "value": "All employees",
+                        "label": "All employees"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "site",
+                    "label": "Teams or SharePoint site",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Payroll Review Team",
+                    "options": [
+                      {
+                        "value": "Payroll Review Team",
+                        "label": "Payroll Review Team (Teams site)"
+                      },
+                      {
+                        "value": "All SharePoint sites",
+                        "label": "All SharePoint sites"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "includeMailbox",
+                    "label": "Include Exchange mailboxes",
+                    "control": "toggle",
+                    "defaultValue": true
+                  },
+                  {
+                    "id": "includeOneDrive",
+                    "label": "Include OneDrive sites",
+                    "control": "toggle",
+                    "defaultValue": true
+                  }
+                ],
+                "submit": {
+                  "label": "Add",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "not",
+                        "rule": {
+                          "type": "includes",
+                          "path": "$form.custodians",
+                          "value": "All employees"
+                        }
+                      },
+                      "message": "Do not scope the investigation to all employees."
+                    },
+                    {
+                      "rule": {
+                        "type": "notEquals",
+                        "path": "$form.site",
+                        "value": "All SharePoint sites"
+                      },
+                      "message": "All SharePoint sites is too broad."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.includeMailbox",
+                        "value": true
+                      },
+                      "message": "Include mailboxes."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.includeOneDrive",
+                        "value": true
+                      },
+                      "message": "Include OneDrive sites."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "eDiscoverySources",
+                      "unique": "name",
+                      "value": {
+                        "caseId": "{{$sel.case.id}}",
+                        "name": "Mira Ileri",
+                        "sourceType": "Custodian",
+                        "locations": "Mailbox, OneDrive"
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "eDiscoverySources",
+                      "unique": "name",
+                      "value": {
+                        "caseId": "{{$sel.case.id}}",
+                        "name": "Adele Vance",
+                        "sourceType": "Custodian",
+                        "locations": "Mailbox, OneDrive"
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "eDiscoverySources",
+                      "unique": "name",
+                      "value": {
+                        "caseId": "{{$sel.case.id}}",
+                        "name": "Payroll Review Team",
+                        "sourceType": "Teams site",
+                        "locations": "Teams messages, SharePoint site"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "table",
+                "id": "searches-table",
+                "title": "Search statistics",
+                "source": "eDiscoverySearches",
+                "where": {
+                  "caseId": "{{$sel.case.id}}"
+                },
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Search"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "items",
+                    "label": "Items",
+                    "format": "count"
+                  },
+                  {
+                    "key": "estimatedSize",
+                    "label": "Estimated size"
+                  },
+                  {
+                    "key": "locations",
+                    "label": "Locations"
+                  }
+                ]
+              },
+              {
+                "kind": "form",
+                "id": "create-search",
+                "title": "Create search and review statistics",
+                "fields": [
+                  {
+                    "id": "name",
+                    "label": "Search name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Payroll adjustment communications"
+                  },
+                  {
+                    "id": "query",
+                    "label": "Keywords / KQL",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "(\"payroll adjustment\" OR bonus OR compensation)"
+                  },
+                  {
+                    "id": "dateRange",
+                    "label": "Date range",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "2026-09-01 to 2026-10-02",
+                    "options": [
+                      {
+                        "value": "2026-09-01 to 2026-10-02",
+                        "label": "2026-09-01 to 2026-10-02"
+                      },
+                      {
+                        "value": "All time",
+                        "label": "All time"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "locations",
+                    "label": "Locations",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Case data sources",
+                    "options": [
+                      {
+                        "value": "Case data sources",
+                        "label": "Case data sources"
+                      },
+                      {
+                        "value": "Whole organization",
+                        "label": "Whole organization"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "reviewed",
+                    "label": "Statistics reviewed",
+                    "control": "toggle",
+                    "defaultValue": true
+                  }
+                ],
+                "submit": {
+                  "label": "Run search",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.locations",
+                        "value": "Case data sources"
+                      },
+                      "message": "Searching the whole organization is too broad for this case."
+                    },
+                    {
+                      "rule": {
+                        "type": "notEquals",
+                        "path": "$form.dateRange",
+                        "value": "All time"
+                      },
+                      "message": "Use the requested date range."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.reviewed",
+                        "value": true
+                      },
+                      "message": "Review the statistics before continuing."
+                    },
+                    {
+                      "rule": {
+                        "type": "arrayContains",
+                        "path": "eDiscoverySources",
+                        "match": {
+                          "caseId": "{{$sel.case.id}}",
+                          "name": "Payroll Review Team"
+                        }
+                      },
+                      "message": "Add custodians and Teams site first."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "eDiscoverySearches",
+                      "unique": "name",
+                      "value": {
+                        "caseId": "{{$sel.case.id}}",
+                        "name": "{{$form.name}}",
+                        "query": "{{$form.query}}",
+                        "dateRange": "{{$form.dateRange}}",
+                        "locations": "{{$form.locations}}",
+                        "status": "Completed",
+                        "items": [
+                          "Mail",
+                          "Teams",
+                          "OneDrive"
+                        ],
+                        "estimatedSize": "18 MB",
+                        "statisticsReviewed": "{{$form.reviewed}}"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "table",
+                "id": "holds-table",
+                "title": "Holds",
+                "source": "eDiscoveryHolds",
+                "where": {
+                  "caseId": "{{$sel.case.id}}"
+                },
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name"
+                  },
+                  {
+                    "key": "scope",
+                    "label": "Scope"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ]
+              },
+              {
+                "kind": "form",
+                "id": "create-hold",
+                "title": "Create hold",
+                "fields": [
+                  {
+                    "id": "name",
+                    "label": "Hold name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "HR payroll preservation hold"
+                  },
+                  {
+                    "id": "scope",
+                    "label": "Hold scope",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Selected case data sources",
+                    "options": [
+                      {
+                        "value": "Selected case data sources",
+                        "label": "Selected case data sources"
+                      },
+                      {
+                        "value": "Whole organization",
+                        "label": "Whole organization"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "query",
+                    "label": "Hold query",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "(\"payroll adjustment\" OR bonus OR compensation)"
+                  },
+                  {
+                    "id": "preserveTeams",
+                    "label": "Include Teams site content",
+                    "control": "toggle",
+                    "defaultValue": true
+                  }
+                ],
+                "submit": {
+                  "label": "Create hold",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.scope",
+                        "value": "Selected case data sources"
+                      },
+                      "message": "A whole-organization hold is too broad."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.preserveTeams",
+                        "value": true
+                      },
+                      "message": "Include the Teams site."
+                    },
+                    {
+                      "rule": {
+                        "type": "arrayContains",
+                        "path": "eDiscoverySearches",
+                        "match": {
+                          "caseId": "{{$sel.case.id}}",
+                          "statisticsReviewed": true
+                        }
+                      },
+                      "message": "Run and review the search before placing the hold."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "eDiscoveryHolds",
+                      "unique": "name",
+                      "value": {
+                        "caseId": "{{$sel.case.id}}",
+                        "name": "{{$form.name}}",
+                        "scope": "{{$form.scope}}",
+                        "query": "{{$form.query}}",
+                        "status": "On hold"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "audit",
+            "title": "Audit",
+            "subtitle": "Solutions",
+            "icon": "Search",
+            "url": "/audit/search",
+            "components": [
+              {
+                "kind": "form",
+                "id": "audit-search-form",
+                "title": "New audit search",
+                "fields": [
+                  {
+                    "id": "activity",
+                    "label": "Activities",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "FileAccessed",
+                    "options": [
+                      {
+                        "value": "FileAccessed",
+                        "label": "FileAccessed"
+                      },
+                      {
+                        "value": "UserLoggedIn",
+                        "label": "UserLoggedIn"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "user",
+                    "label": "Users",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Mira Ileri",
+                    "options": [
+                      {
+                        "value": "Mira Ileri",
+                        "label": "Mira Ileri"
+                      },
+                      {
+                        "value": "All users",
+                        "label": "All users"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "dateRange",
+                    "label": "Date and time range",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "2026-09-01 to 2026-10-02",
+                    "options": [
+                      {
+                        "value": "2026-09-01 to 2026-10-02",
+                        "label": "2026-09-01 to 2026-10-02"
+                      },
+                      {
+                        "value": "All time",
+                        "label": "All time"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Search",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.activity",
+                        "value": "FileAccessed"
+                      },
+                      "message": "Search FileAccessed activity."
+                    },
+                    {
+                      "rule": {
+                        "type": "notEquals",
+                        "path": "$form.user",
+                        "value": "All users"
+                      },
+                      "message": "All users is too broad."
+                    },
+                    {
+                      "rule": {
+                        "type": "notEquals",
+                        "path": "$form.dateRange",
+                        "value": "All time"
+                      },
+                      "message": "Use the case date range."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "auditSearches",
+                      "unique": "name",
+                      "value": {
+                        "name": "Payroll file access audit",
+                        "activity": "{{$form.activity}}",
+                        "user": "{{$form.user}}",
+                        "dateRange": "{{$form.dateRange}}",
+                        "status": "Completed",
+                        "results": 4
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "table",
+                "id": "audit-results",
+                "title": "Audit search jobs",
+                "source": "auditSearches",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Search name"
+                  },
+                  {
+                    "key": "activity",
+                    "label": "Activity"
+                  },
+                  {
+                    "key": "user",
+                    "label": "User"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "results",
+                    "label": "Results",
+                    "format": "count"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "cases": [
+            {
+              "id": "case-privacy-2026",
+              "name": "Privacy access review",
+              "caseType": "Standard",
+              "status": "Closed",
+              "members": [
+                "Alex Wilber"
+              ]
+            }
+          ],
+          "eDiscoverySources": [],
+          "eDiscoverySearches": [],
+          "eDiscoveryHolds": [],
+          "auditSearches": []
+        }
+      },
+      "steps": [
+        {
+          "key": "create-case",
+          "title": "Create a scoped eDiscovery case",
+          "instruction": "Open **Cases** and use **Create case** to create **HR-2026-payroll-review** as a **Premium** case. Add **Alex Wilber** as a case member and do not add **All compliance admins**.",
+          "hint": "Case membership is access control for the matter. Add only people who need to work the case.",
+          "explanation": "eDiscovery cases group sources, searches, holds, and review activity so an investigation has a defensible boundary.",
+          "targetId": "case-form",
+          "rules": [
+            {
+              "key": "case-created",
+              "description": "The HR payroll eDiscovery case exists with scoped membership",
+              "rule": {
+                "type": "arrayContains",
+                "path": "cases",
+                "match": {
+                  "name": "HR-2026-payroll-review",
+                  "caseType": "Premium",
+                  "status": "Active",
+                  "members.0": "Alex Wilber"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "add-sources",
+          "title": "Add relevant custodians and collaboration source",
+          "instruction": "In the case, use **Add data sources** to add **Mira Ileri**, **Adele Vance**, and **Payroll Review Team**. Include mailboxes and OneDrive sites.",
+          "hint": "Do not choose **All employees** or **All SharePoint sites**.",
+          "explanation": "Data sources define where eDiscovery searches and holds apply. Narrow source selection is part of least privilege.",
+          "targetId": "add-sources",
+          "rules": [
+            {
+              "key": "sources-added",
+              "description": "The case has the required sources",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "arrayContains",
+                    "path": "eDiscoverySources",
+                    "match": {
+                      "name": "Mira Ileri"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "eDiscoverySources",
+                    "match": {
+                      "name": "Adele Vance"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "eDiscoverySources",
+                    "match": {
+                      "name": "Payroll Review Team"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "key": "run-search",
+          "title": "Run a keyword and date search",
+          "instruction": "Use **Create search and review statistics** to run **Payroll adjustment communications** with keywords `(\"payroll adjustment\" OR bonus OR compensation)`, date range **2026-09-01 to 2026-10-02**, **Case data sources**, and **Statistics reviewed** on.",
+          "hint": "**Whole organization** and **All time** are intentionally rejected.",
+          "explanation": "A focused query reduces irrelevant content and supports proportional discovery.",
+          "targetId": "create-search",
+          "rules": [
+            {
+              "key": "search-completed",
+              "description": "A completed scoped search exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "eDiscoverySearches",
+                "match": {
+                  "name": "Payroll adjustment communications",
+                  "locations": "Case data sources",
+                  "status": "Completed"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "review-statistics",
+          "title": "Review search statistics",
+          "instruction": "Check the **Search statistics** table for item count, estimated size, query scope, and completed status.",
+          "hint": "Statistics help confirm whether the query is too broad or too narrow before hold or export decisions.",
+          "explanation": "Reviewing statistics is a quality gate before committing to downstream actions.",
+          "targetId": "searches-table",
+          "rules": [
+            {
+              "key": "statistics-reviewed",
+              "description": "Search statistics were reviewed",
+              "rule": {
+                "type": "arrayContains",
+                "path": "eDiscoverySearches",
+                "match": {
+                  "name": "Payroll adjustment communications",
+                  "statisticsReviewed": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "create-hold",
+          "title": "Place selected sources on hold",
+          "instruction": "Use **Create hold** to create **HR payroll preservation hold** with **Selected case data sources**, the same keyword query, and **Include Teams site content** on.",
+          "hint": "Whole-organization holds are blocked because they over-preserve unrelated employees.",
+          "explanation": "A hold preserves potentially relevant content against deletion. The scope should be no broader than the investigation requires.",
+          "targetId": "create-hold",
+          "rules": [
+            {
+              "key": "hold-created",
+              "description": "A selected-source preservation hold exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "eDiscoveryHolds",
+                "match": {
+                  "name": "HR payroll preservation hold",
+                  "scope": "Selected case data sources",
+                  "status": "On hold"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "run-audit",
+          "title": "Run a complementary Audit search",
+          "instruction": "Open **Audit** and run a search for **FileAccessed** activity by **Mira Ileri** for **2026-09-01 to 2026-10-02**.",
+          "hint": "Audit answers activity questions, such as who accessed a file.",
+          "explanation": "Audit records user and admin activity, while eDiscovery searches content. Together they show what matched and what actions occurred.",
+          "targetId": "audit-search-form",
+          "rules": [
+            {
+              "key": "audit-completed",
+              "description": "A scoped FileAccessed audit search exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "auditSearches",
+                "match": {
+                  "activity": "FileAccessed",
+                  "user": "Mira Ileri",
+                  "status": "Completed"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "no-organization-wide-scope",
+          "description": "No search or hold uses whole-organization scope",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayNotContains",
+                "path": "eDiscoverySearches",
+                "match": {
+                  "locations": "Whole organization"
+                }
+              },
+              {
+                "type": "arrayNotContains",
+                "path": "eDiscoveryHolds",
+                "match": {
+                  "scope": "Whole organization"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "key": "matter-complete",
+          "description": "Case, sources, search, hold, and audit evidence are complete",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayContains",
+                "path": "cases",
+                "match": {
+                  "name": "HR-2026-payroll-review"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "eDiscoverySearches",
+                "match": {
+                  "name": "Payroll adjustment communications",
+                  "statisticsReviewed": true
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "eDiscoveryHolds",
+                "match": {
+                  "name": "HR payroll preservation hold",
+                  "status": "On hold"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "auditSearches",
+                "match": {
+                  "activity": "FileAccessed",
+                  "user": "Mira Ileri"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "solution": "1. Open **Cases** and create case `HR-2026-payroll-review` as **Premium** with **Alex Wilber** only.\n2. In the case, add **Mira Ileri**, **Adele Vance**, and **Payroll Review Team** with mailbox and OneDrive locations.\n3. Run **Payroll adjustment communications** with `(\"payroll adjustment\" OR bonus OR compensation)`, date range **2026-09-01 to 2026-10-02**, **Case data sources**, and **Statistics reviewed** on.\n4. Review the **Search statistics** table.\n5. Create **HR payroll preservation hold** for **Selected case data sources** and include Teams site content.\n6. Open **Audit** and search **FileAccessed** for **Mira Ileri** in the same date range."
+    }
+  ]
+}

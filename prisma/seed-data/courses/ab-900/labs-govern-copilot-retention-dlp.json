@@ -1,0 +1,1327 @@
+{
+  "labs": [
+    {
+      "slug": "govern-copilot-retention-dlp",
+      "type": "UI_SIMULATION",
+      "title": "Govern Copilot interactions with retention and DLP",
+      "summary": "Use Microsoft Purview to create a Copilot retention policy and a Copilot-scoped DLP policy, review simulation results, and turn on enforcement.",
+      "scenario": "Contoso is expanding Microsoft 365 Copilot and wants guardrails in place first. In the **simulated Microsoft Purview** portal, create a retention policy with the current **Microsoft Copilot experiences** location. Then create a DLP policy for **Microsoft 365 Copilot and Copilot Chat** that prevents Copilot from processing items labeled **Highly Confidential**, test it in simulation mode, and turn it on after review.",
+      "domainKey": "data-protection-governance",
+      "objectiveCode": "2.1",
+      "complexity": "INTERMEDIATE",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Identify the current Purview retention location for Copilot and AI app interactions",
+        "Create a DLP policy scoped to Microsoft 365 Copilot and Copilot Chat",
+        "Use sensitivity labels to exclude protected content from Copilot processing",
+        "Deploy DLP through simulation before enforcement"
+      ],
+      "prerequisites": [
+        "Know the purpose of retention, DLP, and sensitivity labels in Microsoft Purview"
+      ],
+      "sources": [
+        {
+          "title": "Learn about retention for Copilot and AI apps",
+          "url": "https://learn.microsoft.com/en-us/purview/retention-policies-copilot"
+        },
+        {
+          "title": "Microsoft Purview DLP for Microsoft 365 Copilot and Copilot Chat",
+          "url": "https://learn.microsoft.com/en-us/purview/dlp-microsoft365-copilot-location-learn-about"
+        },
+        {
+          "title": "Create and deploy a data loss prevention policy",
+          "url": "https://learn.microsoft.com/en-us/purview/dlp-create-deploy-policy"
+        },
+        {
+          "title": "Create and publish sensitivity labels",
+          "url": "https://learn.microsoft.com/en-us/purview/create-sensitivity-labels"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Purview",
+          "theme": "purview",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://purview.microsoft.com",
+          "searchPlaceholder": "Search Purview"
+        },
+        "vm": {
+          "name": "LAB-VM01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "retention",
+            "label": "Retention policies",
+            "icon": "Archive",
+            "section": "Data lifecycle management"
+          },
+          {
+            "page": "dlp",
+            "label": "Policies",
+            "icon": "ShieldCheck",
+            "section": "Data Loss Prevention"
+          },
+          {
+            "page": "activity",
+            "label": "Activity explorer",
+            "icon": "Search",
+            "section": "Data Loss Prevention"
+          },
+          {
+            "page": "labels",
+            "label": "Sensitivity labels",
+            "icon": "Tag",
+            "section": "Information Protection"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Microsoft Purview",
+            "url": "/#/home",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Mission",
+                "text": "Retain Copilot interactions, then use DLP to stop Highly Confidential labeled items from being processed by Copilot."
+              },
+              {
+                "kind": "tiles",
+                "id": "home-tiles",
+                "title": "Solutions",
+                "items": [
+                  {
+                    "id": "retention",
+                    "label": "Data lifecycle management",
+                    "icon": "Archive",
+                    "action": {
+                      "type": "navigate",
+                      "page": "retention"
+                    }
+                  },
+                  {
+                    "id": "dlp",
+                    "label": "Data Loss Prevention",
+                    "icon": "ShieldCheck",
+                    "action": {
+                      "type": "navigate",
+                      "page": "dlp"
+                    }
+                  },
+                  {
+                    "id": "labels",
+                    "label": "Information Protection",
+                    "icon": "Tag",
+                    "action": {
+                      "type": "navigate",
+                      "page": "labels"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "checklist",
+                "title": "Checklist",
+                "source": "checklist",
+                "rowKey": "name",
+                "variant": "list",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Task"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "labels",
+            "title": "Sensitivity labels",
+            "subtitle": "Information Protection",
+            "url": "/#/informationprotection/sensitivitylabels",
+            "components": [
+              {
+                "kind": "table",
+                "id": "labels-table",
+                "source": "labels",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "scope",
+                    "label": "Scope"
+                  },
+                  {
+                    "key": "published",
+                    "label": "Published",
+                    "format": "bool"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "retention",
+            "title": "Retention policies",
+            "subtitle": "Data lifecycle management",
+            "url": "/#/data-lifecycle-management/retention/policies",
+            "breadcrumb": [
+              "Home",
+              "Data lifecycle management"
+            ],
+            "commands": [
+              {
+                "id": "create-retention",
+                "label": "New retention policy",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "create-retention"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "New Copilot retention policies use AI app locations such as **Microsoft Copilot experiences**; older combined Teams wording is not the right choice for this new policy."
+              },
+              {
+                "kind": "table",
+                "id": "retention-table",
+                "source": "retentionPolicies",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "locations",
+                    "label": "Locations",
+                    "format": "tags"
+                  },
+                  {
+                    "key": "retentionAction",
+                    "label": "Retention setting"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "create-retention",
+            "title": "New retention policy",
+            "subtitle": "Data lifecycle management",
+            "url": "/#/data-lifecycle-management/retention/policies/create",
+            "navItem": "retention",
+            "breadcrumb": [
+              "Home",
+              "Data lifecycle management",
+              "Retention policies"
+            ],
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "retention-wizard",
+                "description": "Create a retention policy for Copilot and AI app prompts and responses.",
+                "reviewLabel": "Submit",
+                "tabs": [
+                  {
+                    "id": "name",
+                    "label": "Name",
+                    "fields": [
+                      {
+                        "id": "name",
+                        "label": "Name",
+                        "control": "text",
+                        "required": true,
+                        "defaultValue": "Copilot interactions retention",
+                        "unique": {
+                          "path": "retentionPolicies",
+                          "key": "name"
+                        }
+                      },
+                      {
+                        "id": "description",
+                        "label": "Description",
+                        "control": "textarea",
+                        "defaultValue": "Retain Copilot and AI app prompts and responses according to Contoso policy."
+                      }
+                    ]
+                  },
+                  {
+                    "id": "locations",
+                    "label": "Locations",
+                    "fields": [
+                      {
+                        "id": "locations",
+                        "label": "Locations",
+                        "control": "checkboxes",
+                        "required": true,
+                        "defaultValue": [
+                          "Microsoft Copilot experiences"
+                        ],
+                        "options": [
+                          {
+                            "value": "Microsoft Copilot experiences",
+                            "label": "Microsoft Copilot experiences"
+                          },
+                          {
+                            "value": "Enterprise AI apps",
+                            "label": "Enterprise AI apps"
+                          },
+                          {
+                            "value": "Teams chats and Copilot interactions",
+                            "label": "Teams chats and Copilot interactions (legacy existing policies)"
+                          },
+                          {
+                            "value": "Exchange mailboxes",
+                            "label": "Exchange mailboxes"
+                          },
+                          {
+                            "value": "SharePoint sites",
+                            "label": "SharePoint sites"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "settings",
+                    "label": "Retention settings",
+                    "fields": [
+                      {
+                        "id": "retentionAction",
+                        "label": "Retention setting",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Retain then delete",
+                        "options": [
+                          {
+                            "value": "Retain then delete",
+                            "label": "Retain items for the organization period and then delete"
+                          },
+                          {
+                            "value": "Retain only",
+                            "label": "Retain items only"
+                          },
+                          {
+                            "value": "Delete only",
+                            "label": "Delete items only"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "status",
+                        "label": "Policy status",
+                        "control": "radio",
+                        "required": true,
+                        "defaultValue": "On",
+                        "options": [
+                          {
+                            "value": "On",
+                            "label": "Turn it on"
+                          },
+                          {
+                            "value": "Off",
+                            "label": "Keep it off"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "includes",
+                        "path": "$form.locations",
+                        "value": "Microsoft Copilot experiences"
+                      },
+                      "message": "Use Microsoft Copilot experiences for Copilot retention."
+                    },
+                    {
+                      "rule": {
+                        "type": "not",
+                        "rule": {
+                          "type": "includes",
+                          "path": "$form.locations",
+                          "value": "Teams chats and Copilot interactions"
+                        }
+                      },
+                      "message": "Do not use older Teams chats and Copilot interactions for this new policy."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.retentionAction",
+                        "value": "Retain then delete"
+                      },
+                      "message": "Contoso requires retain-then-delete for this policy."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "retentionPolicies",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "description": "{{$form.description}}",
+                        "locations": "{{$form.locations | list}}",
+                        "retentionAction": "{{$form.retentionAction}}",
+                        "status": "{{$form.status}}",
+                        "createdAt": "{{$now}}"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "checklist",
+                      "where": {
+                        "name": "Create Copilot retention policy"
+                      },
+                      "set": {
+                        "status": "Complete"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Retention policy created",
+                      "message": "The policy targets Microsoft Copilot experiences."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "retention"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "dlp",
+            "title": "Policies",
+            "subtitle": "Data Loss Prevention",
+            "url": "/#/dlp/policies",
+            "breadcrumb": [
+              "Home",
+              "Data Loss Prevention"
+            ],
+            "commands": [
+              {
+                "id": "create-dlp",
+                "label": "Create policy",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "create-dlp"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "text": "For this Copilot-specific DLP lab, choose only the **Microsoft 365 Copilot and Copilot Chat** location."
+              },
+              {
+                "kind": "table",
+                "id": "dlp-table",
+                "source": "dlpPolicies",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "locations",
+                    "label": "Locations",
+                    "format": "tags"
+                  },
+                  {
+                    "key": "condition",
+                    "label": "Condition"
+                  },
+                  {
+                    "key": "action",
+                    "label": "Action"
+                  },
+                  {
+                    "key": "state",
+                    "label": "State",
+                    "format": "status"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "dlp-detail",
+                  "select": {
+                    "as": "dlp",
+                    "path": "dlpPolicies",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "create-dlp",
+            "title": "Create policy",
+            "subtitle": "Data Loss Prevention",
+            "url": "/#/dlp/policies/create",
+            "navItem": "dlp",
+            "breadcrumb": [
+              "Home",
+              "Data Loss Prevention",
+              "Policies"
+            ],
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "dlp-wizard",
+                "description": "Create a custom policy for Microsoft 365 Copilot and Copilot Chat. Start in simulation mode.",
+                "reviewLabel": "Submit",
+                "tabs": [
+                  {
+                    "id": "template",
+                    "label": "Template",
+                    "fields": [
+                      {
+                        "id": "template",
+                        "label": "Template",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Custom policy",
+                        "options": [
+                          {
+                            "value": "Custom policy",
+                            "label": "Custom policy"
+                          },
+                          {
+                            "value": "Privacy templates",
+                            "label": "Privacy templates"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "name",
+                    "label": "Name",
+                    "fields": [
+                      {
+                        "id": "name",
+                        "label": "Name",
+                        "control": "text",
+                        "required": true,
+                        "defaultValue": "Block Highly Confidential content in Copilot",
+                        "unique": {
+                          "path": "dlpPolicies",
+                          "key": "name"
+                        }
+                      },
+                      {
+                        "id": "description",
+                        "label": "Description",
+                        "control": "textarea",
+                        "defaultValue": "Prevent Microsoft 365 Copilot and Copilot Chat from processing items labeled Highly Confidential."
+                      }
+                    ]
+                  },
+                  {
+                    "id": "locations",
+                    "label": "Locations",
+                    "fields": [
+                      {
+                        "id": "locations",
+                        "label": "Locations",
+                        "control": "checkboxes",
+                        "required": true,
+                        "defaultValue": [
+                          "Microsoft 365 Copilot and Copilot Chat"
+                        ],
+                        "options": [
+                          {
+                            "value": "Microsoft 365 Copilot and Copilot Chat",
+                            "label": "Microsoft 365 Copilot and Copilot Chat"
+                          },
+                          {
+                            "value": "Exchange email",
+                            "label": "Exchange email"
+                          },
+                          {
+                            "value": "SharePoint sites",
+                            "label": "SharePoint sites"
+                          },
+                          {
+                            "value": "Teams chat and channel messages",
+                            "label": "Teams chat and channel messages"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "rules",
+                    "label": "Rules",
+                    "fields": [
+                      {
+                        "id": "condition",
+                        "label": "Condition",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Content contains sensitivity labels",
+                        "options": [
+                          {
+                            "value": "Content contains sensitivity labels",
+                            "label": "Content contains > Sensitivity labels"
+                          },
+                          {
+                            "value": "Content contains sensitive info types",
+                            "label": "Content contains > Sensitive information types"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "labels",
+                        "label": "Sensitivity labels",
+                        "control": "checkboxes",
+                        "required": true,
+                        "defaultValue": [
+                          "Highly Confidential"
+                        ],
+                        "optionsFrom": {
+                          "path": "labels",
+                          "value": "name"
+                        }
+                      },
+                      {
+                        "id": "action",
+                        "label": "Action",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Prevent Copilot from processing content",
+                        "options": [
+                          {
+                            "value": "Prevent Copilot from processing content",
+                            "label": "Prevent Copilot from processing content"
+                          },
+                          {
+                            "value": "Audit only",
+                            "label": "Audit only"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "mode",
+                    "label": "Policy mode",
+                    "fields": [
+                      {
+                        "id": "state",
+                        "label": "Policy state",
+                        "control": "radio",
+                        "required": true,
+                        "defaultValue": "Run the policy in simulation mode",
+                        "options": [
+                          {
+                            "value": "Run the policy in simulation mode",
+                            "label": "Run the policy in simulation mode"
+                          },
+                          {
+                            "value": "Run the policy in simulation mode and show policy tips",
+                            "label": "Run the policy in simulation mode and show policy tips"
+                          },
+                          {
+                            "value": "Turn it on",
+                            "label": "Turn it on right away"
+                          },
+                          {
+                            "value": "Keep it off",
+                            "label": "Keep it off"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create policy",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.template",
+                        "value": "Custom policy"
+                      },
+                      "message": "Use Custom policy for the Copilot location."
+                    },
+                    {
+                      "rule": {
+                        "type": "allOf",
+                        "rules": [
+                          {
+                            "type": "includes",
+                            "path": "$form.locations",
+                            "value": "Microsoft 365 Copilot and Copilot Chat"
+                          },
+                          {
+                            "type": "not",
+                            "rule": {
+                              "type": "includes",
+                              "path": "$form.locations",
+                              "value": "SharePoint sites"
+                            }
+                          },
+                          {
+                            "type": "not",
+                            "rule": {
+                              "type": "includes",
+                              "path": "$form.locations",
+                              "value": "Exchange email"
+                            }
+                          }
+                        ]
+                      },
+                      "message": "Use only Microsoft 365 Copilot and Copilot Chat for this policy."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.condition",
+                        "value": "Content contains sensitivity labels"
+                      },
+                      "message": "Use sensitivity labels for labeled files and emails."
+                    },
+                    {
+                      "rule": {
+                        "type": "includes",
+                        "path": "$form.labels",
+                        "value": "Highly Confidential"
+                      },
+                      "message": "Select Highly Confidential."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.action",
+                        "value": "Prevent Copilot from processing content"
+                      },
+                      "message": "Use Prevent Copilot from processing content."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.state",
+                        "value": "Run the policy in simulation mode"
+                      },
+                      "message": "Start in simulation mode."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "dlpPolicies",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "description": "{{$form.description}}",
+                        "locations": "{{$form.locations | list}}",
+                        "condition": "{{$form.condition}}",
+                        "labels": "{{$form.labels | list}}",
+                        "action": "{{$form.action}}",
+                        "state": "{{$form.state}}",
+                        "simulationReviewed": false,
+                        "createdAt": "{{$now}}"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "checklist",
+                      "where": {
+                        "name": "Create Copilot DLP policy in simulation"
+                      },
+                      "set": {
+                        "status": "Complete"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "DLP policy created",
+                      "message": "The policy is running in simulation mode."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "dlp"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "dlp-detail",
+            "title": "{{$sel.dlp.name}}",
+            "subtitle": "DLP policy",
+            "requires": "dlp",
+            "navItem": "dlp",
+            "url": "/#/dlp/policies/{{$sel.dlp.name}}",
+            "commands": [
+              {
+                "id": "review-simulation",
+                "label": "Review simulation results",
+                "icon": "Search",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "$sel.dlp.state",
+                  "value": "Run the policy in simulation mode"
+                },
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "dlpPolicies",
+                      "where": {
+                        "name": "{{$sel.dlp.name}}"
+                      },
+                      "set": {
+                        "simulationReviewed": true,
+                        "matches": 3
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "checklist",
+                      "where": {
+                        "name": "Review simulation results"
+                      },
+                      "set": {
+                        "status": "Complete"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Simulation reviewed",
+                      "message": "Three simulated Copilot interactions matched the rule."
+                    }
+                  ]
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Policy summary",
+                "items": [
+                  {
+                    "label": "Locations",
+                    "value": "{{$sel.dlp.locations}}",
+                    "format": "tags"
+                  },
+                  {
+                    "label": "Condition",
+                    "value": "{{$sel.dlp.condition}}"
+                  },
+                  {
+                    "label": "Labels",
+                    "value": "{{$sel.dlp.labels}}",
+                    "format": "tags"
+                  },
+                  {
+                    "label": "Action",
+                    "value": "{{$sel.dlp.action}}"
+                  },
+                  {
+                    "label": "State",
+                    "value": "{{$sel.dlp.state}}",
+                    "format": "status"
+                  },
+                  {
+                    "label": "Simulation reviewed",
+                    "value": "{{$sel.dlp.simulationReviewed}}",
+                    "format": "bool"
+                  }
+                ]
+              },
+              {
+                "kind": "form",
+                "id": "dlp-state-form",
+                "title": "Policy state",
+                "fields": [
+                  {
+                    "id": "state",
+                    "label": "Policy state",
+                    "control": "radio",
+                    "required": true,
+                    "defaultValue": "{{$sel.dlp.state}}",
+                    "options": [
+                      {
+                        "value": "Run the policy in simulation mode",
+                        "label": "Run the policy in simulation mode"
+                      },
+                      {
+                        "value": "Turn it on",
+                        "label": "Turn it on"
+                      },
+                      {
+                        "value": "Keep it off",
+                        "label": "Keep it off"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.state",
+                        "value": "Turn it on"
+                      },
+                      "message": "Turn on the policy after review."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$sel.dlp.simulationReviewed",
+                        "value": true
+                      },
+                      "message": "Review simulation results before turning on enforcement."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "dlpPolicies",
+                      "where": {
+                        "name": "{{$sel.dlp.name}}"
+                      },
+                      "set": {
+                        "state": "{{$form.state}}",
+                        "enforcedAt": "{{$now}}"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "checklist",
+                      "where": {
+                        "name": "Turn on Copilot DLP policy"
+                      },
+                      "set": {
+                        "status": "Complete"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "DLP policy turned on"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "activity",
+            "title": "Activity explorer",
+            "subtitle": "Data Loss Prevention",
+            "url": "/#/dlp/activityexplorer",
+            "components": [
+              {
+                "kind": "table",
+                "id": "activity-table",
+                "source": "activities",
+                "rowKey": "id",
+                "columns": [
+                  {
+                    "key": "time",
+                    "label": "Time"
+                  },
+                  {
+                    "key": "policy",
+                    "label": "Policy"
+                  },
+                  {
+                    "key": "activity",
+                    "label": "Activity"
+                  },
+                  {
+                    "key": "mode",
+                    "label": "Mode"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "labels": [
+            {
+              "name": "Public",
+              "scope": "Files, emails",
+              "published": true
+            },
+            {
+              "name": "Internal",
+              "scope": "Files, emails",
+              "published": true
+            },
+            {
+              "name": "Confidential",
+              "scope": "Files, emails",
+              "published": true
+            },
+            {
+              "name": "Highly Confidential",
+              "scope": "Files, emails",
+              "published": true
+            }
+          ],
+          "retentionPolicies": [
+            {
+              "name": "Teams channel messages retention",
+              "locations": [
+                "Teams channel messages"
+              ],
+              "retentionAction": "Retain only",
+              "status": "On"
+            }
+          ],
+          "dlpPolicies": [
+            {
+              "name": "Credit card numbers in email",
+              "locations": [
+                "Exchange email"
+              ],
+              "condition": "Content contains sensitive info types",
+              "labels": [],
+              "action": "Notify users",
+              "state": "Turn it on",
+              "simulationReviewed": true
+            }
+          ],
+          "activities": [
+            {
+              "id": "a1",
+              "time": "08:42",
+              "policy": "Credit card numbers in email",
+              "activity": "Policy matched",
+              "mode": "Enforced"
+            }
+          ],
+          "checklist": [
+            {
+              "name": "Create Copilot retention policy",
+              "status": "Not started"
+            },
+            {
+              "name": "Create Copilot DLP policy in simulation",
+              "status": "Not started"
+            },
+            {
+              "name": "Review simulation results",
+              "status": "Not started"
+            },
+            {
+              "name": "Turn on Copilot DLP policy",
+              "status": "Not started"
+            }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "key": "create-retention",
+          "title": "Create a Copilot retention policy",
+          "instruction": "Open **Data lifecycle management > Retention policies**, select **New retention policy**, and create **Copilot interactions retention**. For **Locations**, select **Microsoft Copilot experiences** only, choose **Retain items for the organization period and then delete**, and turn the policy on.",
+          "hint": "Do not use the older combined Teams chats and Copilot interactions wording for this new policy.",
+          "explanation": "Retention for Microsoft 365 Copilot and Copilot Chat is now separate from Teams chats. The Microsoft Copilot experiences location covers supported Copilot interactions for compliance retention.",
+          "targetId": "create-retention",
+          "rules": [
+            {
+              "key": "retention-created",
+              "description": "Retention policy targets Microsoft Copilot experiences",
+              "rule": {
+                "type": "arrayContains",
+                "path": "retentionPolicies",
+                "match": {
+                  "name": "Copilot interactions retention",
+                  "locations": [
+                    "Microsoft Copilot experiences"
+                  ],
+                  "retentionAction": "Retain then delete",
+                  "status": "On"
+                }
+              },
+              "failureFeedback": "Create the retention policy with Microsoft Copilot experiences as the location."
+            }
+          ]
+        },
+        {
+          "key": "open-dlp",
+          "title": "Start a custom DLP policy",
+          "instruction": "Open **Data Loss Prevention > Policies**, select **Create policy**, and choose **Custom policy**.",
+          "hint": "The Copilot policy location is available from the Custom policy template.",
+          "explanation": "Copilot-specific DLP uses its own location rather than combining Exchange or SharePoint in the same policy.",
+          "targetId": "create-dlp",
+          "rules": [
+            {
+              "key": "visited-dlp-create",
+              "description": "DLP create wizard opened",
+              "rule": {
+                "type": "visited",
+                "page": "create-dlp"
+              }
+            }
+          ]
+        },
+        {
+          "key": "scope-copilot-location",
+          "title": "Scope DLP to Microsoft 365 Copilot and Copilot Chat",
+          "instruction": "Name the policy **Block Highly Confidential content in Copilot**. On **Locations**, select only **Microsoft 365 Copilot and Copilot Chat**.",
+          "hint": "Do not add Exchange email or SharePoint sites in this Copilot-specific policy.",
+          "explanation": "The Microsoft 365 Copilot and Copilot Chat location applies controls when Copilot processes prompts, files, and emails in supported experiences.",
+          "targetId": "dlp-wizard",
+          "rules": [
+            {
+              "key": "dlp-location",
+              "description": "DLP policy uses only the Copilot location",
+              "rule": {
+                "type": "arrayContains",
+                "path": "dlpPolicies",
+                "match": {
+                  "name": "Block Highly Confidential content in Copilot",
+                  "locations": [
+                    "Microsoft 365 Copilot and Copilot Chat"
+                  ]
+                }
+              },
+              "failureFeedback": "Use only the Microsoft 365 Copilot and Copilot Chat location."
+            }
+          ]
+        },
+        {
+          "key": "configure-label-action",
+          "title": "Block processing of Highly Confidential content",
+          "instruction": "In **Rules**, use **Content contains > Sensitivity labels**, select **Highly Confidential**, and choose **Prevent Copilot from processing content**.",
+          "hint": "This applies to labeled files and emails Copilot might otherwise use as grounding data.",
+          "explanation": "Sensitivity-label-based DLP can exclude labeled files and emails from Copilot processing while the user’s original access remains governed by Microsoft 365 permissions.",
+          "rules": [
+            {
+              "key": "label-action",
+              "description": "DLP blocks Highly Confidential labeled content from Copilot processing",
+              "rule": {
+                "type": "arrayContains",
+                "path": "dlpPolicies",
+                "match": {
+                  "name": "Block Highly Confidential content in Copilot",
+                  "condition": "Content contains sensitivity labels",
+                  "labels": [
+                    "Highly Confidential"
+                  ],
+                  "action": "Prevent Copilot from processing content"
+                }
+              },
+              "failureFeedback": "Use sensitivity labels with Highly Confidential and Prevent Copilot from processing content."
+            }
+          ]
+        },
+        {
+          "key": "simulation-first",
+          "title": "Run the DLP policy in simulation mode",
+          "instruction": "Set **Policy state** to **Run the policy in simulation mode** and create the policy. Open it and select **Review simulation results**.",
+          "hint": "Simulation audits impact without enforcing actions.",
+          "explanation": "Simulation mode lets admins validate policy scope and tune exceptions before the policy affects users.",
+          "targetId": "review-simulation",
+          "rules": [
+            {
+              "key": "simulation-reviewed",
+              "description": "Simulation mode was used and reviewed",
+              "rule": {
+                "type": "arrayContains",
+                "path": "dlpPolicies",
+                "match": {
+                  "name": "Block Highly Confidential content in Copilot",
+                  "simulationReviewed": true
+                }
+              },
+              "failureFeedback": "Create in simulation mode and review results."
+            }
+          ]
+        },
+        {
+          "key": "turn-on-policy",
+          "title": "Turn on the DLP policy after review",
+          "instruction": "In **Policy state**, change the policy to **Turn it on** and select **Save**.",
+          "hint": "The form will not save enforcement until simulation results have been reviewed.",
+          "explanation": "A staged deployment balances protection with change management: observe first, then enforce once the policy behaves as intended.",
+          "targetId": "dlp-state-form",
+          "rules": [
+            {
+              "key": "policy-on",
+              "description": "DLP policy is turned on after simulation review",
+              "rule": {
+                "type": "arrayContains",
+                "path": "dlpPolicies",
+                "match": {
+                  "name": "Block Highly Confidential content in Copilot",
+                  "state": "Turn it on",
+                  "simulationReviewed": true
+                }
+              },
+              "failureFeedback": "Review simulation results, then turn on the DLP policy."
+            }
+          ]
+        },
+        {
+          "key": "verify-governance",
+          "title": "Verify retention and DLP governance",
+          "instruction": "Return to **Retention policies** and **Data Loss Prevention > Policies** to verify the retention policy is on and DLP is enforcing the Highly Confidential label rule.",
+          "hint": "Both policies should be complete in the checklist.",
+          "explanation": "Retention preserves interaction records for compliance, while DLP reduces the sensitive content Copilot can process.",
+          "rules": [
+            {
+              "key": "checklist-complete",
+              "description": "All governance tasks complete",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "arrayContains",
+                    "path": "checklist",
+                    "match": {
+                      "name": "Create Copilot retention policy",
+                      "status": "Complete"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "checklist",
+                    "match": {
+                      "name": "Create Copilot DLP policy in simulation",
+                      "status": "Complete"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "checklist",
+                    "match": {
+                      "name": "Review simulation results",
+                      "status": "Complete"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "checklist",
+                    "match": {
+                      "name": "Turn on Copilot DLP policy",
+                      "status": "Complete"
+                    }
+                  }
+                ]
+              },
+              "successFeedback": "Copilot retention and DLP governance are configured.",
+              "failureFeedback": "Complete retention, simulation, review, and enforcement."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "retention-current-location",
+          "description": "Retention uses Microsoft Copilot experiences, not older Teams wording",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayContains",
+                "path": "retentionPolicies",
+                "match": {
+                  "name": "Copilot interactions retention",
+                  "locations": [
+                    "Microsoft Copilot experiences"
+                  ],
+                  "status": "On"
+                }
+              },
+              {
+                "type": "arrayNotContains",
+                "path": "retentionPolicies",
+                "match": {
+                  "name": "Copilot interactions retention",
+                  "locations": [
+                    "Teams chats and Copilot interactions"
+                  ]
+                }
+              }
+            ]
+          },
+          "successFeedback": "Retention targets the current Copilot location.",
+          "failureFeedback": "Use Microsoft Copilot experiences for this new retention policy."
+        },
+        {
+          "key": "dlp-least-scope",
+          "description": "DLP is scoped to Copilot and enforces Highly Confidential label processing control",
+          "rule": {
+            "type": "arrayContains",
+            "path": "dlpPolicies",
+            "match": {
+              "name": "Block Highly Confidential content in Copilot",
+              "locations": [
+                "Microsoft 365 Copilot and Copilot Chat"
+              ],
+              "condition": "Content contains sensitivity labels",
+              "labels": [
+                "Highly Confidential"
+              ],
+              "action": "Prevent Copilot from processing content",
+              "state": "Turn it on",
+              "simulationReviewed": true
+            }
+          },
+          "successFeedback": "DLP was simulated, reviewed, and enforced with the correct Copilot scope.",
+          "failureFeedback": "Scope to Copilot, use Highly Confidential, review simulation, then turn it on."
+        }
+      ],
+      "solution": "1. Open **Data lifecycle management > Retention policies** and select **New retention policy**.\n2. Create **Copilot interactions retention**. Select **Microsoft Copilot experiences** only, choose **Retain items for the organization period and then delete**, and turn it on.\n3. Open **Data Loss Prevention > Policies** and select **Create policy** > **Custom policy**.\n4. Name it **Block Highly Confidential content in Copilot**. Select only **Microsoft 365 Copilot and Copilot Chat**.\n5. In **Rules**, choose **Content contains > Sensitivity labels**, select **Highly Confidential**, and set **Prevent Copilot from processing content**.\n6. Set **Policy state** to **Run the policy in simulation mode**, create it, open it, and select **Review simulation results**.\n7. Change **Policy state** to **Turn it on** and save. Simulation mode, DLP alerts, and notifications are supported for this location; wording stays conservative because rollout details can vary by tenant."
+    }
+  ]
+}

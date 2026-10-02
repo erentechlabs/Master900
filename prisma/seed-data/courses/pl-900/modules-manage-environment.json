@@ -1,0 +1,783 @@
+{
+  "domainKey": "manage-environment",
+  "modules": [
+    {
+      "slug": "pl900-dataverse-and-governance",
+      "title": "Dataverse and platform governance",
+      "summary": "Explains Dataverse modeling and platform governance concepts.",
+      "lessons": [
+        {
+          "slug": "pl900-dataverse-foundations",
+          "title": "Microsoft Dataverse foundations",
+          "objectiveCode": "2.1",
+          "estimatedMinutes": 13,
+          "summary": "Learn how Dataverse stores business data with tables, columns, relationships, forms, views, business rules, security, Power Fx, and AI-assisted modeling.",
+          "learningObjectives": [
+            "Describe Dataverse tables, columns, rows, and relationships",
+            "Identify forms, views, and business rules used in model-driven data experiences",
+            "Explain how security roles control access to Dataverse data",
+            "Recognize how Power Fx and AI-assisted modeling support app makers"
+          ],
+          "explanation": "Dataverse is the secure business data platform for Power Platform. Tables contain rows and typed columns; relationships connect tables; forms and views shape how users work; and business rules or Power Fx add logic. Compared with a traditional database, Dataverse also provides rich metadata, standard tables, role-based security, Dynamics 365 integration, and maker-friendly tools. AI can help create or edit tables, columns, and relationships, but the data model still needs review. Practise this in the Create a Dataverse table and a canvas app lab.",
+          "terminology": [
+            {
+              "term": "Table",
+              "definition": "A set of Dataverse rows."
+            },
+            {
+              "term": "Column",
+              "definition": "A typed value on a row."
+            },
+            {
+              "term": "Relationship",
+              "definition": "A connection between tables."
+            },
+            {
+              "term": "Business rule",
+              "definition": "No-code validation or defaulting logic."
+            },
+            {
+              "term": "Security role",
+              "definition": "Privileges that control access."
+            }
+          ],
+          "businessScenario": "Contoso Facilities has one spreadsheet for departments, requesters, technicians, and repair tasks. Priya wants to turn those repeated columns into related Dataverse tables so dispatchers stop copying the same department details into every row.",
+          "technicalExample": "Model `Department` with Name and Cost Center, `Equipment Request` with Status, Priority, Requester, and a lookup to Department, and `Request Task` with Due Date and a lookup to Equipment Request. Add an Open Requests view and a business rule that requires Justification when Priority is High.",
+          "misconception": {
+            "myth": "Dataverse tables are just spreadsheet tabs with a new name.",
+            "reality": "Dataverse tables include typed columns, relationships, forms, views, business rules, auditing and role-based access that spreadsheets do not provide by themselves."
+          },
+          "examTakeaway": "When a scenario mentions rows, columns, relationships, forms, views, Dynamics 365 data, or reusable validation logic, think Dataverse before thinking about a standalone file.",
+          "recap": "Learn how Dataverse stores business data with tables, columns, relationships, forms, views, business rules, security, Power Fx, and AI-assisted modeling.",
+          "simplerExplanation": "Dataverse is more like a city records office than a spreadsheet: each form has approved fields, related records point to each other, and clerks only see the files their badge allows.",
+          "anotherExample": "A volunteer charity could model Volunteers, Events, and Assignments as related Dataverse tables, then let coordinators filter a view to this weekend’s unfilled shifts.",
+          "extraBlocks": [
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Microsoft Dataverse foundations",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "data",
+                    "label": "Data"
+                  },
+                  {
+                    "id": "security",
+                    "label": "Security"
+                  },
+                  {
+                    "id": "apps",
+                    "label": "Apps"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "data",
+                    "to": "security"
+                  },
+                  {
+                    "from": "security",
+                    "to": "apps"
+                  }
+                ],
+                "caption": "Business data is modeled, protected with roles and policies, then used by apps."
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Normalize the request sheet",
+                "instructions": "Decide whether each spreadsheet column should become a table, column, or relationship in Dataverse.",
+                "items": [
+                  {
+                    "prompt": "Department name appears on every equipment request row.",
+                    "answer": "Create a Department table and relate Equipment Request rows to it."
+                  },
+                  {
+                    "prompt": "Priority contains High, Normal, or Low.",
+                    "answer": "Use a choice column on Equipment Request."
+                  },
+                  {
+                    "prompt": "Several repair tasks belong to one request.",
+                    "answer": "Create a Request Task table related to Equipment Request."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Dataverse row design",
+              "back": "A row represents one business item, such as one equipment request, with typed columns describing it."
+            },
+            {
+              "front": "Lookup relationship",
+              "back": "A column that connects a row in one table to a row in another table, such as a request to a department."
+            },
+            {
+              "front": "Business rule scope",
+              "back": "A business rule can apply validation or defaulting logic to Dataverse data without writing plug-ins."
+            },
+            {
+              "front": "Forms versus views",
+              "back": "Forms edit one row; views list many rows filtered or sorted for a task."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Microsoft Dataverse?",
+              "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-intro",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Create a business rule in Microsoft Dataverse",
+              "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-create-business-rule",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "pl900-env-001",
+              "type": "CATEGORIZATION",
+              "domainKey": "manage-environment",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each Dataverse item.",
+              "explanation": "Tables belong to the Dataverse data model, views shape the user experience, and business rules add no-code logic.",
+              "lessonSlug": "pl900-dataverse-foundations",
+              "sources": [
+                {
+                  "title": "What is Microsoft Dataverse?",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-intro",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Create a business rule in Microsoft Dataverse",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-create-business-rule",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "data",
+                    "label": "Data model"
+                  },
+                  {
+                    "id": "ux",
+                    "label": "User experience"
+                  },
+                  {
+                    "id": "logic",
+                    "label": "Logic"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Equipment Request table",
+                    "category": "data",
+                    "explanation": "Tables model data."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Open Requests view",
+                    "category": "ux",
+                    "explanation": "Views present lists."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Require justification when priority is high",
+                    "category": "logic",
+                    "explanation": "Business rules apply logic."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "pl900-env-002",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "manage-environment",
+              "objectiveCode": "2.1",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about current Dataverse terminology.",
+              "explanation": "Current Dataverse terminology uses tables for sets of rows and columns for typed values on each row.",
+              "lessonSlug": "pl900-dataverse-foundations",
+              "sources": [
+                {
+                  "title": "What is Microsoft Dataverse?",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-intro",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "fillInBlank": {
+                "template": "A Dataverse {{b1}} stores rows, and a {{b2}} stores a typed value.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "table"
+                    ],
+                    "explanation": "Tables store rows."
+                  },
+                  {
+                    "id": "b2",
+                    "accepted": [
+                      "column"
+                    ],
+                    "explanation": "Columns store values."
+                  }
+                ],
+                "wordBank": [
+                  "table",
+                  "column",
+                  "environment",
+                  "connector"
+                ]
+              }
+            },
+            {
+              "ref": "pl900-env-003",
+              "type": "MATCHING",
+              "domainKey": "manage-environment",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each concept to its purpose.",
+              "explanation": "Relationships connect related tables, business rules validate or set values, and views present filtered lists of rows.",
+              "lessonSlug": "pl900-dataverse-foundations",
+              "sources": [
+                {
+                  "title": "What is Microsoft Dataverse?",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-intro",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Create a business rule in Microsoft Dataverse",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-create-business-rule",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Relationship"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Business rule"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "View"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Connects tables"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Validates or sets values"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Lists filtered rows"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "Relationships connect related rows.",
+                  "p2": "Business rules add logic.",
+                  "p3": "Views show lists."
+                }
+              }
+            },
+            {
+              "ref": "pl900-env-004",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "manage-environment",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Contoso needs to store equipment requests with related departments, editable forms, filtered views, and role-based access. What should it use?",
+              "explanation": "Dataverse provides secure tables, relationships, forms, views, and security roles for structured business data.",
+              "lessonSlug": "pl900-dataverse-foundations",
+              "sources": [
+                {
+                  "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Microsoft Dataverse?",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-intro",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Microsoft Dataverse",
+                  "correct": true,
+                  "explanation": "Dataverse stores secure business data with tables and relationships."
+                },
+                {
+                  "key": "B",
+                  "text": "A disconnected PDF",
+                  "correct": false,
+                  "explanation": "A PDF is not a governed data platform."
+                },
+                {
+                  "key": "C",
+                  "text": "A personal inbox",
+                  "correct": false,
+                  "explanation": "Email is not structured business data."
+                }
+              ]
+            },
+            {
+              "ref": "pl900-env-005",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "manage-environment",
+              "objectiveCode": "2.1",
+              "difficulty": "MEDIUM",
+              "stem": "Copilot drafts a Dataverse data model from a paragraph about departments, requests, and tasks. What should the maker validate next?",
+              "explanation": "AI-generated Dataverse designs are drafts; the maker should review the proposed tables, columns, relationships, and security assumptions before building apps on them.",
+              "lessonSlug": "pl900-dataverse-foundations",
+              "sources": [
+                {
+                  "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Microsoft Dataverse?",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-intro",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Review the proposed tables, columns, relationships, and security roles",
+                  "correct": true,
+                  "explanation": "This verifies that the generated Dataverse model matches the business process and governance needs."
+                },
+                {
+                  "key": "B",
+                  "text": "Publish the generated model to production without changes",
+                  "correct": false,
+                  "explanation": "Generated assets still need human validation before production use."
+                },
+                {
+                  "key": "C",
+                  "text": "Move the request data into a disconnected PDF",
+                  "correct": false,
+                  "explanation": "A PDF cannot provide relational Dataverse tables, forms, views, or role-based data access."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "pl900-admin-governance",
+          "title": "Administer and govern Power Platform environments",
+          "objectiveCode": "2.2",
+          "estimatedMinutes": 13,
+          "summary": "Learn how environments, admin center, data policies, security roles, managed environments, monitoring, privacy, accessibility, and ALM fit together.",
+          "learningObjectives": [
+            "Describe how environments separate Power Platform apps, flows, and data",
+            "Identify admin center tools for monitoring, security, and data policies",
+            "Explain how managed environments and ALM support governed delivery",
+            "Choose governance actions for privacy, accessibility, and lifecycle needs"
+          ],
+          "explanation": "Governance makes the easy path the safe path. Environments separate apps, flows, data, agents, and audiences. The Power Platform admin center manages environments, security, Copilot governance, monitoring, deployments, licensing, and support. Data policies govern connector use. Security roles define what users can create, open, or edit. Managed environments add scale controls such as sharing limits, usage insights, pipelines, and solution checker. Privacy, accessibility, monitoring, and ALM all matter. Practise this in the governed environment and data policy lab.",
+          "terminology": [
+            {
+              "term": "Environment",
+              "definition": "A container for apps, flows, data, agents, and connections."
+            },
+            {
+              "term": "Data policy",
+              "definition": "Connector governance that reduces data exposure risk."
+            },
+            {
+              "term": "Managed environment",
+              "definition": "Premium capabilities for administration at scale."
+            },
+            {
+              "term": "ALM",
+              "definition": "Controlled movement of solution changes."
+            }
+          ],
+          "businessScenario": "Fabrikam’s facilities app is ready for a pilot, but legal requires connector guardrails, IT wants a separate sandbox, and operations wants only approved makers touching production.",
+          "technicalExample": "Create a Sandbox environment named Facilities Dev, restrict maker access to the Facilities Makers security group, enable Dataverse, apply a data policy that keeps Dataverse and Outlook in the business connector group, and promote the solution to production through a pipeline.",
+          "misconception": {
+            "myth": "A Power Platform administrator role is the same thing as permission to read every Dataverse row.",
+            "reality": "Tenant and environment admin roles manage platform settings, while Dataverse security roles still control data privileges inside each environment."
+          },
+          "examTakeaway": "For administration questions, separate the container (environment), the people permissions (environment and Dataverse roles), connector guardrails (data policies), and release path (solutions and pipelines).",
+          "recap": "Learn how environments, admin center, data policies, security roles, managed environments, monitoring, privacy, accessibility, and ALM fit together.",
+          "simplerExplanation": "Governance is like running a makerspace: people get badges for specific rooms, some tools cannot be combined, and finished projects leave through a supervised checkout desk.",
+          "anotherExample": "A retailer can let store managers prototype in a sandbox while production apps are locked to approved security groups and monitored through managed environment insights.",
+          "extraBlocks": [
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Administer and govern Power Platform environments",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "data",
+                    "label": "Data"
+                  },
+                  {
+                    "id": "security",
+                    "label": "Security"
+                  },
+                  {
+                    "id": "apps",
+                    "label": "Apps"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "data",
+                    "to": "security"
+                  },
+                  {
+                    "from": "security",
+                    "to": "apps"
+                  }
+                ],
+                "caption": "Business data is modeled, protected with roles and policies, then used by apps."
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Choose the governance control",
+                "instructions": "Match the admin concern to the control you would discuss first.",
+                "items": [
+                  {
+                    "prompt": "Makers should not mix payroll data with consumer social connectors.",
+                    "answer": "Create or update a data policy."
+                  },
+                  {
+                    "prompt": "Only the HR app team should build in a new environment.",
+                    "answer": "Restrict environment access and assign maker roles to the group."
+                  },
+                  {
+                    "prompt": "A tested solution must move from test to production.",
+                    "answer": "Use managed solutions and Power Platform pipelines."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Environment boundary",
+              "back": "An environment separates resources such as apps, flows, connections, agents, and Dataverse data for a purpose or audience."
+            },
+            {
+              "front": "Data policy connector groups",
+              "back": "Data policies classify or block connectors to reduce unintended data movement."
+            },
+            {
+              "front": "Managed environment value",
+              "back": "Managed environments add admin-at-scale capabilities such as sharing limits, insights, pipelines, and solution checker."
+            },
+            {
+              "front": "Tenant admin vs Dataverse access",
+              "back": "A tenant admin can manage platform settings but still needs Dataverse roles for data privileges."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Power Platform environments overview",
+              "url": "https://learn.microsoft.com/en-us/power-platform/admin/environments-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Power Platform admin center overview for administrators",
+              "url": "https://learn.microsoft.com/en-us/power-platform/admin/admin-documentation",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Data policies - Power Platform",
+              "url": "https://learn.microsoft.com/en-us/power-platform/admin/wp-data-loss-prevention",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Role-based security roles for Dataverse",
+              "url": "https://learn.microsoft.com/en-us/power-platform/admin/database-security",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Managed environments overview",
+              "url": "https://learn.microsoft.com/en-us/power-platform/admin/managed-environment-overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "pl900-env-006",
+              "type": "UI_SIMULATION",
+              "domainKey": "manage-environment",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Configure the simulated environment request for governed development.",
+              "explanation": "The simulated request should create a sandbox for development and include Dataverse because the app needs tables.",
+              "lessonSlug": "pl900-admin-governance",
+              "sources": [
+                {
+                  "title": "Power Platform environments overview",
+                  "url": "https://learn.microsoft.com/en-us/power-platform/admin/environments-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Power Platform admin center overview for administrators",
+                  "url": "https://learn.microsoft.com/en-us/power-platform/admin/admin-documentation",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "uiSimulation": {
+                "title": "Power Platform environment request (simulated)",
+                "description": "A simplified fictional screen, not the real portal.",
+                "fields": [
+                  {
+                    "id": "type",
+                    "label": "Environment type",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "prod",
+                        "label": "Production"
+                      },
+                      {
+                        "value": "sandbox",
+                        "label": "Sandbox"
+                      }
+                    ],
+                    "correct": "sandbox",
+                    "explanation": "Sandbox fits development and testing."
+                  },
+                  {
+                    "id": "db",
+                    "label": "Add Dataverse",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "The app needs Dataverse tables."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "pl900-env-007",
+              "type": "CASE_STUDY",
+              "domainKey": "manage-environment",
+              "objectiveCode": "2.2",
+              "difficulty": "HARD",
+              "stem": "For each statement about Fabrikam environment governance and connector controls, select **Yes** if it is accurate. Otherwise, select **No**.",
+              "explanation": "The case separates connector governance, Dataverse data access, and ALM pipelines rather than treating one admin role as everything.",
+              "lessonSlug": "pl900-admin-governance",
+              "sources": [
+                {
+                  "title": "Data policies - Power Platform",
+                  "url": "https://learn.microsoft.com/en-us/power-platform/admin/wp-data-loss-prevention",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Role-based security roles for Dataverse",
+                  "url": "https://learn.microsoft.com/en-us/power-platform/admin/database-security",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Managed environments overview",
+                  "url": "https://learn.microsoft.com/en-us/power-platform/admin/managed-environment-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "scenario": "Fabrikam has development and production environments with Dataverse and several connectors.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Data policies can govern connector combinations.",
+                    "answer": true,
+                    "explanation": "Data policies are connector guardrails."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Environment Maker grants all Dataverse data access.",
+                    "answer": false,
+                    "explanation": "Dataverse roles are separate."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Pipelines can support ALM between environments.",
+                    "answer": true,
+                    "explanation": "Pipelines support deployment."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "pl900-env-008",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "manage-environment",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** governance statements are accurate?",
+              "explanation": "Environments separate resources and data policies govern connector use; maker permissions do not replace Dataverse roles or ALM controls.",
+              "lessonSlug": "pl900-admin-governance",
+              "sources": [
+                {
+                  "title": "Power Platform admin center overview for administrators",
+                  "url": "https://learn.microsoft.com/en-us/power-platform/admin/admin-documentation",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "selectCount": 2,
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Environments separate resources and audiences.",
+                  "correct": true,
+                  "explanation": "Environments are containers."
+                },
+                {
+                  "key": "B",
+                  "text": "Data policies govern connector usage.",
+                  "correct": true,
+                  "explanation": "They reduce data exposure risk."
+                },
+                {
+                  "key": "C",
+                  "text": "Every maker automatically has all Dataverse access.",
+                  "correct": false,
+                  "explanation": "Dataverse roles are separate."
+                },
+                {
+                  "key": "D",
+                  "text": "ALM means ignoring production controls.",
+                  "correct": false,
+                  "explanation": "ALM controls releases."
+                }
+              ]
+            },
+            {
+              "ref": "pl900-env-009",
+              "type": "TRUE_FALSE",
+              "domainKey": "manage-environment",
+              "objectiveCode": "2.2",
+              "difficulty": "EASY",
+              "stem": "A tenant-level admin role automatically grants every Dataverse table privilege in every environment.",
+              "explanation": "Tenant administration and Dataverse table privileges are different permission layers, so the statement is false.",
+              "lessonSlug": "pl900-admin-governance",
+              "sources": [
+                {
+                  "title": "Role-based security roles for Dataverse",
+                  "url": "https://learn.microsoft.com/en-us/power-platform/admin/database-security",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": false,
+                  "explanation": "Choosing True confuses tenant administration with Dataverse data permissions; table privileges are granted through environment-scoped Dataverse security roles."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": true,
+                  "explanation": "Correct. A tenant-level admin role does not automatically grant every Dataverse table privilege, because Dataverse uses separate security roles."
+                }
+              ]
+            },
+            {
+              "ref": "pl900-env-010",
+              "type": "ORDERING",
+              "domainKey": "manage-environment",
+              "objectiveCode": "2.2",
+              "difficulty": "MEDIUM",
+              "stem": "Order the dependent steps for applying connector governance to a new maker environment before users begin building.",
+              "explanation": "The environment must exist before it can be scoped by a data policy; connector groups are configured in that policy before makers are granted access.",
+              "lessonSlug": "pl900-admin-governance",
+              "sources": [
+                {
+                  "title": "Power Platform environments overview",
+                  "url": "https://learn.microsoft.com/en-us/power-platform/admin/environments-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Data policies - Power Platform",
+                  "url": "https://learn.microsoft.com/en-us/power-platform/admin/wp-data-loss-prevention",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Managed environments overview",
+                  "url": "https://learn.microsoft.com/en-us/power-platform/admin/managed-environment-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Create or select the target environment"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Add that environment as the scope of a data policy"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Classify required connectors in the policy and save it"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Assign maker roles after the scoped policy is active"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "The environment is the governance boundary that later policy and role steps target.",
+                  "s2": "A data policy can be scoped to the environment only after that environment exists.",
+                  "s3": "Connector classifications must be saved in the scoped policy before it can govern maker activity.",
+                  "s4": "Makers should receive roles after the policy is active so their work starts under the intended connector rules."
+                }
+              }
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Admin center labels and managed environment feature names change; verify before publishing UI steps."
+        }
+      ]
+    }
+  ]
+}

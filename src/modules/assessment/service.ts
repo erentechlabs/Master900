@@ -1,6 +1,6 @@
 import "server-only";
 import { z } from "zod";
-import type { AttemptContext, PracticeMode, Prisma, QuizKind } from "@prisma/client";
+import type { AttemptContext, PracticeMode, Prisma, QuestionType, QuizKind } from "@prisma/client";
 import { prisma } from "@/lib/db";
 import { ActionError } from "@/lib/actions";
 import { addDays, addMinutes, todayISO } from "@/lib/dates";
@@ -20,6 +20,7 @@ import { buildOptionOrder, buildReview, extraAcceptedAnswers, projectQuestion, t
 import { scoreQuestion } from "./engine/scoring";
 import { classifyDomains, summarizeAttempt } from "./engine/results";
 import { expectedResponseKind, responseSchema, type PublicQuestion, type QuestionResponse, type QuestionReview } from "./engine/types";
+import { computeLightningSummary, LIGHTNING_DURATION_MS, LIGHTNING_QUESTION_COUNT, type LightningSummary } from "./engine/lightning";
 
 export type AttemptKind = "quiz" | "practice";
 export type AttemptItem = { questionId: string; version: number; optionOrder: string[]; marked?: boolean };
@@ -28,6 +29,7 @@ export type PracticeSettings = {
   restrictions?: boolean;
   questionCount: number;
   explainFirst?: boolean;
+  lightning?: { durationSeconds: number };
   domainIds?: string[];
   adaptive?: { ability: number; length: number; answers: AdaptiveState["answers"] };
 };
@@ -144,7 +146,7 @@ export async function startQuiz(user: CurrentUser, quizId: string): Promise<stri
 // ------------------------------------------------------------------ practice
 
 export const practiceStartSchema = z.object({
-  mode: z.enum(["QUICK", "DOMAIN", "FULL", "ADAPTIVE", "DAILY", "MISTAKE_REVIEW"]),
+  mode: z.enum(["QUICK", "DOMAIN", "FULL", "ADAPTIVE", "DAILY", "MISTAKE_REVIEW", "LIGHTNING"]),
   certificationCode: z.string().regex(/^[A-Z]{2,3}-\d{3}$/).optional(),
   questionCount: z.coerce.number().int().min(1).max(60).optional(),
   domainIds: z.array(z.string().max(40)).max(12).optional(),
@@ -274,6 +276,32 @@ export async function startPractice(user: CurrentUser, raw: PracticeStartInput):
   }
 
   const cert = await resolveCert(user, input.certificationCode);
+
+  if (input.mode === "LIGHTNING") {
+    const quickTypes: QuestionType[] = ["SINGLE_CHOICE", "TRUE_FALSE", "SCENARIO", "MULTIPLE_RESPONSE"];
+    let pool = await questionPool(user.id, { certificationId: cert.id, type: { in: quickTypes }, difficulty: { in: ["EASY", "MEDIUM"] } });
+    if (pool.length < LIGHTNING_QUESTION_COUNT) {
+      pool = await questionPool(user.id, { certificationId: cert.id, type: { in: quickTypes } });
+    }
+    const count = Math.min(LIGHTNING_QUESTION_COUNT, pool.length);
+    const bp = await blueprint(cert.id);
+    const ids = selectQuestions(pool, allocateByBlueprint(bp, count), { rng, now, difficultyMix: { EASY: 0.55, MEDIUM: 0.4, HARD: 0.05 } });
+    if (ids.length === 0) throw new ActionError("no_questions");
+    const items = await buildItems(ids, seed);
+    const settings: PracticeSettings = { immediateFeedback: true, questionCount: items.length, lightning: { durationSeconds: LIGHTNING_DURATION_MS / 1000 } };
+    const attempt = await prisma.practiceExamAttempt.create({
+      data: {
+        userId: user.id,
+        certificationId: cert.id,
+        mode: "LIGHTNING",
+        settings: settings as unknown as Prisma.InputJsonValue,
+        items: items as unknown as Prisma.InputJsonValue,
+        totalCount: items.length,
+        expiresAt: new Date(now.getTime() + LIGHTNING_DURATION_MS),
+      },
+    });
+    return attempt.id;
+  }
 
   if (input.questionIds?.length) {
     const items = await buildItems(input.questionIds, seed);
@@ -420,7 +448,8 @@ export async function loadAttempt(user: CurrentUser, kind: AttemptKind, attemptI
 }
 
 function isExpired(a: LoadedAttempt, now = new Date()): boolean {
-  return !!a.expiresAt && now.getTime() > a.expiresAt.getTime() + GRACE_MS;
+  const grace = a.kind === "practice" && a.mode === "LIGHTNING" ? 0 : GRACE_MS;
+  return !!a.expiresAt && now.getTime() > a.expiresAt.getTime() + grace;
 }
 
 function contextFor(a: LoadedAttempt): AttemptContext {
@@ -453,6 +482,7 @@ export type RunnerData = {
   adaptive: boolean;
   total: number;
   expiresAt: string | null;
+  lightningDurationSeconds: number | null;
   serverNow: string;
   showTimer: boolean;
   questions: RunnerQuestion[];
@@ -524,6 +554,7 @@ export async function getRunnerData(user: CurrentUser, kind: AttemptKind, attemp
     adaptive: a.mode === "ADAPTIVE",
     total: a.settings.adaptive?.length ?? a.items.length,
     expiresAt: a.expiresAt?.toISOString() ?? null,
+    lightningDurationSeconds: a.settings.lightning?.durationSeconds ?? null,
     serverNow: new Date().toISOString(),
     showTimer: user.preference?.showTimerByDefault ?? true,
     questions: runnerQuestions,
@@ -704,7 +735,11 @@ export async function submitAttempt(user: CurrentUser, kind: AttemptKind, attemp
   }
   if (a.status !== "IN_PROGRESS") return resultsHref;
   const now = new Date();
-  const answers = await attemptAnswers(a);
+  const allAnswers = await attemptAnswers(a);
+  const answers =
+    a.kind === "practice" && a.mode === "LIGHTNING" && a.expiresAt
+      ? allAnswers.filter((answer) => answer.answeredAt.getTime() <= a.expiresAt!.getTime())
+      : allAnswers;
   const answerMap = new Map(answers.map((x) => [x.questionId, x]));
   const questions = await prisma.question.findMany({ where: { id: { in: a.items.map((i) => i.questionId) } }, select: { id: true, domainId: true, certificationId: true, lessonId: true } });
   const qMap = new Map(questions.map((q) => [q.id, q]));
@@ -715,6 +750,16 @@ export async function submitAttempt(user: CurrentUser, kind: AttemptKind, attemp
   const summary = summarizeAttempt(results, domainOrder);
   const expired = !!opts.expired || isExpired(a, now);
   const status = expired ? "EXPIRED" : "SUBMITTED";
+  const lightning =
+    a.kind === "practice" && a.mode === "LIGHTNING" && a.expiresAt
+      ? computeLightningSummary({
+          answers: allAnswers.map((answer) => ({ isCorrect: answer.isCorrect, answeredAt: answer.answeredAt })),
+          total: results.length,
+          startedAt: a.startedAt,
+          deadline: a.expiresAt,
+          submittedAt: now,
+        })
+      : null;
 
   // Deferred side effects for exam-style attempts (no feedback during the attempt).
   if (!a.settings.immediateFeedback) {
@@ -756,18 +801,32 @@ export async function submitAttempt(user: CurrentUser, kind: AttemptKind, attemp
       data: {
         status,
         submittedAt: now,
-        score: summary.scorePercent,
-        correctCount: summary.correct,
+        score: lightning ? lightning.score : summary.scorePercent,
+        correctCount: lightning ? lightning.correct : summary.correct,
         totalCount: results.length,
         domainBreakdown: summary.domains as unknown as Prisma.InputJsonValue,
-        timeSpentMs: Math.min(now.getTime() - a.startedAt.getTime(), a.expiresAt ? a.expiresAt.getTime() - a.startedAt.getTime() : Infinity),
+        timeSpentMs: lightning ? lightning.timeUsedMs : Math.min(now.getTime() - a.startedAt.getTime(), a.expiresAt ? a.expiresAt.getTime() - a.startedAt.getTime() : Infinity),
       },
     });
     if (updated.count === 0) return resultsHref;
     const type = a.mode === "DAILY" ? "DAILY_CHALLENGE_COMPLETED" : "PRACTICE_COMPLETED";
-    const xp = a.mode === "DAILY" ? XP_RULES.dailyChallenge : a.mode === "FULL" ? XP_RULES.fullExamCompleted : XP_RULES.practiceCompleted;
+    const xp =
+      a.mode === "DAILY"
+        ? XP_RULES.dailyChallenge
+        : a.mode === "FULL"
+          ? XP_RULES.fullExamCompleted
+          : a.mode === "LIGHTNING" && lightning
+            ? XP_RULES.lightningRound + lightning.correct * XP_RULES.correctAnswer
+            : XP_RULES.practiceCompleted;
     await prisma.learningEvent.create({
-      data: { userId: user.id, type, certificationId, xp, durationSeconds: Math.round((now.getTime() - a.startedAt.getTime()) / 1000), metadata: { mode: a.mode, score: summary.scorePercent } },
+      data: {
+        userId: user.id,
+        type,
+        certificationId,
+        xp,
+        durationSeconds: Math.round((lightning ? lightning.timeUsedMs : now.getTime() - a.startedAt.getTime()) / 1000),
+        metadata: lightning ? { mode: "LIGHTNING", attemptId: a.id, correct: lightning.correct, total: lightning.total, bestCombo: lightning.bestCombo, score: lightning.score } : { mode: a.mode, score: summary.scorePercent },
+      },
     });
     if ((a.mode === "FULL" || a.mode === "DOMAIN") && certificationId) {
       const weak = summary.domains.filter((d) => d.total >= 3 && d.percent < 60);
@@ -855,16 +914,21 @@ export type ResultsData = {
   newBadges: { key: string; name: string }[];
   backHref: string;
   passPercent: number | null;
+  lightning: (LightningSummary & { personalBest: number | null; isPersonalBest: boolean }) | null;
 };
 
 export async function getResults(user: CurrentUser, kind: AttemptKind, attemptId: string, locale: string, t: TFunction): Promise<ResultsData | { redirect: string }> {
   const a = await loadAttempt(user, kind, attemptId);
   if (a.status === "IN_PROGRESS") return { redirect: kind === "quiz" ? `/quiz/${a.id}` : `/practice/${a.id}` };
-  const [questions, answers, cert] = await Promise.all([
+  const [questions, allAnswers, cert] = await Promise.all([
     prisma.question.findMany({ where: { id: { in: a.items.map((i) => i.questionId) } }, include: { ...QUESTION_INCLUDE, domain: { select: { title: true, translations: true } } } }),
     attemptAnswers(a),
     a.certificationId ? prisma.certification.findUnique({ where: { id: a.certificationId }, select: { code: true } }) : null,
   ]);
+  const answers =
+    kind === "practice" && a.mode === "LIGHTNING" && a.expiresAt
+      ? allAnswers.filter((answer) => answer.answeredAt.getTime() <= a.expiresAt!.getTime())
+      : allAnswers;
   const byId = new Map(questions.map((q) => [q.id, q]));
   const answerMap = new Map(answers.map((x) => [x.questionId, x]));
   const labels = reviewLabels(t);
@@ -896,6 +960,24 @@ export async function getResults(user: CurrentUser, kind: AttemptKind, attemptId
   });
   const correct = reviews.filter((r) => r.isCorrect).length;
   const data = await getRunnerTitle(a, cert?.code ?? null, locale, t);
+  const lightning =
+    kind === "practice" && a.mode === "LIGHTNING" && a.expiresAt
+      ? computeLightningSummary({
+          answers: allAnswers.map((answer) => ({ isCorrect: answer.isCorrect, answeredAt: answer.answeredAt })),
+          total: reviews.length,
+          startedAt: a.startedAt,
+          deadline: a.expiresAt,
+          submittedAt: a.submittedAt ?? new Date(),
+        })
+      : null;
+  const previousLightningBest =
+    lightning && a.certificationId
+      ? await prisma.practiceExamAttempt.findFirst({
+          where: { userId: user.id, certificationId: a.certificationId, mode: "LIGHTNING", status: { in: ["SUBMITTED", "EXPIRED"] }, id: { not: a.id }, startedAt: { lt: a.startedAt }, score: { not: null } },
+          orderBy: { score: "desc" },
+          select: { score: true },
+        })
+      : null;
   return {
     kind,
     attemptId: a.id,
@@ -903,8 +985,8 @@ export async function getResults(user: CurrentUser, kind: AttemptKind, attemptId
     title: data.title,
     certificationCode: cert?.code ?? null,
     status: a.status,
-    score: reviews.length ? Math.round((correct / reviews.length) * 100) : 0,
-    correct,
+    score: lightning ? lightning.score : reviews.length ? Math.round((correct / reviews.length) * 100) : 0,
+    correct: lightning ? lightning.correct : correct,
     total: reviews.length,
     startedAt: a.startedAt,
     submittedAt: a.submittedAt,
@@ -916,6 +998,9 @@ export async function getResults(user: CurrentUser, kind: AttemptKind, attemptId
     incorrectCount: reviews.filter((r) => !r.isCorrect).length,
     newBadges: badges.map((b) => ({ key: b.badge.key, name: localizedField(b.badge.name, b.badge.translations, locale, "name") })),
     backHref: data.backHref,
+    lightning: lightning
+      ? { ...lightning, personalBest: previousLightningBest?.score ?? null, isPersonalBest: lightning.score > (previousLightningBest?.score ?? -1) }
+      : null,
   };
 }
 

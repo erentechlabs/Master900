@@ -1,0 +1,69 @@
+{
+  "certification": "AZ-900",
+  "lab": "review-defender-for-cloud",
+  "note": "Remediate Defender recommendations and assign ISO 27001.",
+  "events": [
+    {
+      "type": "click",
+      "componentId": "defender-tiles",
+      "itemId": "recommendations"
+    },
+    {
+      "type": "rowClick",
+      "componentId": "recommendations-table",
+      "rowKey": "storage-network"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "storage-remediation",
+      "values": {
+        "networkAccess": "Disabled"
+      }
+    },
+    {
+      "type": "rowClick",
+      "componentId": "recommendations-table",
+      "rowKey": "jit-vm"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "jit-remediation",
+      "values": {
+        "managementPorts": "Enable just-in-time VM access",
+        "requestSource": "My IP"
+      }
+    },
+    {
+      "type": "rowClick",
+      "componentId": "recommendations-table",
+      "rowKey": "mfa-owner"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "mfa-remediation",
+      "values": {
+        "policy": "Require multifactor authentication for owner assignments"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "regulatory-compliance"
+    },
+    {
+      "type": "click",
+      "componentId": "manage-compliance"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "standard-form",
+      "values": {
+        "scope": "Contoso Learning (simulated)",
+        "standard": "ISO 27001"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "defender-overview"
+    }
+  ]
+}

@@ -1,2 +1,1005 @@
-{"labs":[{"slug":"git-cli-clone-commit-push","type":"UI_SIMULATION","title":"Clone, commit, push, and open a pull request with Git CLI","summary":"Use a simulated VM terminal and GitHub browser to configure Git, clone a repository, create a branch, stage and commit a file, push it, and open a pull request.","scenario":"Contoso Labs maintains **contoso-labs/inventory-api**. Configure Git in the VM terminal, clone the repository, create **feature/health-endpoint**, add `docs/health.md`, stage and commit it, push the branch, then use the browser banner to open a pull request.","domainKey":"git-github-basics","objectiveCode":"1.1","complexity":"BASIC","estimatedMinutes":25,"learningObjectives":["Explain working tree, staging area, commits, branches, local and remote repositories","Run Git commands in a valid state-dependent order","Open a pull request from a pushed feature branch"],"prerequisites":["Basic command-line familiarity"],"sources":[{"title":"Set up Git","url":"https://docs.github.com/en/get-started/git-basics/set-up-git"},{"title":"Cloning a repository","url":"https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository"},{"title":"Quickstart for repositories","url":"https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories"},{"title":"Creating a pull request","url":"https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request"}],"config":{"portal":{"name":"GitHub","theme":"github","user":"alex-contoso","tenant":"contoso-labs","url":"https://github.com","searchPlaceholder":"Type / to search"},"vm":{"name":"LAB-VM-01","os":"linux","apps":["browser","terminal"]},"terminal":{"title":"Terminal","prompt":"alex@LAB-VM-01:{{git.promptPath}}$","surface":"app","welcome":"Welcome to the lab VM terminal. Git is installed.","commands":[{"id":"git-version","pattern":"^git --version$","help":"git --version","output":"git version 2.46.0"},{"id":"config-name","pattern":"^git config --global user\\.name \"?(?<name>[^\"]+)\"?$","help":"git config --global user.name \"Alex Contoso\"","actions":[{"type":"set","path":"git.userName","value":"{{$args.name}}"}],"output":""},{"id":"config-email","pattern":"^git config --global user\\.email \"?(?<email>[^\"]+)\"?$","help":"git config --global user.email \"alex@contoso.example\"","actions":[{"type":"set","path":"git.userEmail","value":"{{$args.email}}"}],"output":""},{"id":"clone","pattern":"^git clone https://github\\.com/contoso-labs/inventory-api\\.git$","when":{"type":"falsy","path":"git.cloned"},"help":"git clone https://github.com/contoso-labs/inventory-api.git","actions":[{"type":"set","path":"git.cloned","value":true},{"type":"set","path":"git.cwd","value":"~/inventory-api"},{"type":"set","path":"git.promptPath","value":"~/inventory-api"}],"output":"Cloning into 'inventory-api'...\nReceiving objects: 100% (24/24), done."},{"id":"cd-repo","pattern":"^cd inventory-api$","when":{"type":"truthy","path":"git.cloned"},"help":"cd inventory-api","actions":[{"type":"set","path":"git.cwd","value":"~/inventory-api"},{"type":"set","path":"git.promptPath","value":"~/inventory-api"}],"output":""},{"id":"status-repo","pattern":"^git status$","when":{"type":"equals","path":"git.cwd","value":"~/inventory-api"},"help":"git status","output":"On branch {{git.branch}}\n{{git.statusText}}"},{"id":"status-notrepo","pattern":"^git status$","when":{"type":"notEquals","path":"git.cwd","value":"~/inventory-api"},"error":"fatal: not a git repository (or any of the parent directories): .git"},{"id":"switch","pattern":"^git switch -c (?<branch>feature/health-endpoint)$","when":{"type":"equals","path":"git.cwd","value":"~/inventory-api"},"help":"git switch -c feature/health-endpoint","actions":[{"type":"set","path":"git.branch","value":"{{$args.branch}}"},{"type":"append","path":"git.branches","unique":"$value","value":"{{$args.branch}}"}],"output":"Switched to a new branch 'feature/health-endpoint'"},{"id":"checkout","pattern":"^git checkout -b (?<branch>feature/health-endpoint)$","when":{"type":"equals","path":"git.cwd","value":"~/inventory-api"},"help":"git checkout -b feature/health-endpoint","actions":[{"type":"set","path":"git.branch","value":"{{$args.branch}}"},{"type":"append","path":"git.branches","unique":"$value","value":"{{$args.branch}}"}],"output":"Switched to a new branch 'feature/health-endpoint'"},{"id":"mkdir","pattern":"^mkdir -p docs$","when":{"type":"equals","path":"git.cwd","value":"~/inventory-api"},"actions":[{"type":"set","path":"git.docsDir","value":true}],"output":""},{"id":"echo","pattern":"^echo \"(?<text>.+)\" > docs/health\\.md$","when":{"type":"allOf","rules":[{"type":"equals","path":"git.cwd","value":"~/inventory-api"},{"type":"equals","path":"git.branch","value":"feature/health-endpoint"}]},"help":"echo \"Health endpoint notes\" > docs/health.md","actions":[{"type":"set","path":"git.fileCreated","value":true},{"type":"set","path":"git.statusText","value":"Untracked files:\n\tdocs/health.md\n\nnothing added to commit but untracked files present (use \"git add\" to track)"}],"output":""},{"id":"add","pattern":"^git add( \\.| docs/health\\.md)$","when":{"type":"truthy","path":"git.fileCreated"},"help":"git add docs/health.md","actions":[{"type":"set","path":"git.staged","value":true},{"type":"set","path":"git.statusText","value":"Changes to be committed:\n\tnew file: docs/health.md"}],"output":""},{"id":"commit-before-add","pattern":"^git commit -m \"(?<msg>.+)\"$","when":{"type":"allOf","rules":[{"type":"truthy","path":"git.fileCreated"},{"type":"falsy","path":"git.staged"}]},"error":"nothing added to commit but untracked files present (use \"git add\" to track)"},{"id":"commit","pattern":"^git commit -m \"(?<msg>.+)\"$","when":{"type":"truthy","path":"git.staged"},"help":"git commit -m \"Add health endpoint notes\"","actions":[{"type":"set","path":"git.committed","value":true},{"type":"set","path":"git.commitMessage","value":"{{$args.msg}}"},{"type":"set","path":"git.commitSha","value":"{{$args.msg | hash:7}}"},{"type":"append","path":"git.commits","value":{"sha":"{{$args.msg | hash:7}}","message":"{{$args.msg}}","branch":"feature/health-endpoint"}},{"type":"set","path":"git.statusText","value":"nothing to commit, working tree clean"}],"output":"[feature/health-endpoint {{$args.msg | hash:7}}] {{$args.msg}}\n 1 file changed, 1 insertion(+)"},{"id":"log","pattern":"^git log --oneline$","when":{"type":"equals","path":"git.cwd","value":"~/inventory-api"},"help":"git log --oneline","output":"{{git.commitSha}} {{git.commitMessage}}\nc0ffee1 Initial commit"},{"id":"push-before-commit","pattern":"^git push -u origin feature/health-endpoint$","when":{"type":"falsy","path":"git.committed"},"error":"error: src refspec feature/health-endpoint does not match any\nerror: failed to push some refs"},{"id":"push","pattern":"^git push -u origin feature/health-endpoint$","when":{"type":"truthy","path":"git.committed"},"help":"git push -u origin feature/health-endpoint","actions":[{"type":"set","path":"git.pushed","value":true},{"type":"set","path":"repo.recentPush","value":true},{"type":"set","path":"repo.remoteBranch","value":"feature/health-endpoint"}],"output":"To https://github.com/contoso-labs/inventory-api.git\n * [new branch] feature/health-endpoint -> feature/health-endpoint"},{"id":"git-notrepo","pattern":"^git (add|commit|push|switch|checkout).*$","when":{"type":"notEquals","path":"git.cwd","value":"~/inventory-api"},"error":"fatal: not a git repository (or any of the parent directories): .git"}],"fallback":"bash: {{$cmd}}: command not found"},"clock":{"start":"2026-09-30T09:00:00Z"},"startPage":"repo","navigation":[{"page":"repo","label":"Code","icon":"Code"},{"page":"pulls","label":"Pull requests","icon":"GitPullRequest"}],"pages":[{"id":"repo","title":"contoso-labs/inventory-api","url":"/contoso-labs/inventory-api","menuStyle":"tabs","menu":[{"page":"repo","label":"Code","icon":"Code"},{"page":"pulls","label":"Pull requests","icon":"GitPullRequest"}],"commands":[{"id":"compare-pr-banner-cli","label":"Compare & pull request","icon":"GitPullRequest","variant":"primary","visibleWhen":{"type":"allOf","rules":[{"type":"truthy","path":"repo.recentPush"},{"type":"falsy","path":"repo.prOpened"}]},"action":{"type":"navigate","page":"open-pr-cli"}}],"components":[{"kind":"callout","variant":"success","visibleWhen":{"type":"truthy","path":"repo.recentPush"},"title":"feature/health-endpoint had recent pushes","text":"Select **Compare & pull request**."},{"kind":"properties","title":"Repository overview","items":[{"label":"Default branch","value":"main","format":"code"},{"label":"Remote branch","value":"{{repo.remoteBranch | default:No pushed feature branch yet}}","format":"code"},{"label":"Concepts","value":"Working tree → staging area → commit → push to remote."}]},{"kind":"table","id":"repo-files-cli","title":"Files","source":"repo.files","rowKey":"path","variant":"files","columns":[{"key":"path","label":"Name","format":"link"},{"key":"description","label":"Description"}]},{"kind":"terminal","id":"git-terminal","title":"Terminal"}]},{"id":"open-pr-cli","title":"Open a pull request","url":"/contoso-labs/inventory-api/compare/main...feature/health-endpoint","components":[{"kind":"form","id":"open-pr-cli-form","title":"Open a pull request","fields":[{"id":"title","label":"Title","control":"text","required":true,"defaultValue":"Add health endpoint notes"},{"id":"body","label":"Description","control":"textarea","required":true,"defaultValue":"Adds documentation for the health endpoint so reviewers can confirm the expected path."},{"id":"reviewers","label":"Reviewers","control":"checkboxes","defaultValue":["maya"],"options":[{"value":"maya","label":"maya"},{"value":"sam","label":"sam"}]}],"submit":{"label":"Create Pull Request","actions":[{"type":"set","path":"repo.prOpened","value":true},{"type":"append","path":"repo.pullRequests","value":{"number":"2","title":"{{$form.title}}","base":"main","head":"feature/health-endpoint","state":"open"}},{"type":"navigate","page":"pulls"},{"type":"notify","title":"Pull request opened"}]}}]},{"id":"pulls","title":"Pull requests","url":"/contoso-labs/inventory-api/pulls","components":[{"kind":"table","id":"pull-list-cli","source":"repo.pullRequests","rowKey":"number","columns":[{"key":"number","label":"#"},{"key":"title","label":"Title","format":"link"},{"key":"head","label":"Compare","format":"code"},{"key":"state","label":"State","format":"badge"}]}]}],"initialState":{"git":{"promptPath":"~","cwd":"~","branch":"main","branches":["main"],"statusText":"nothing to commit, working tree clean","commits":[]},"repo":{"files":[{"path":"README.md","description":"Project overview"},{"path":"src/server.js","description":"API server"},{"path":"package.json","description":"Node package metadata"},{"path":"docs/architecture.md","description":"Architecture notes"}],"pullRequests":[],"recentPush":false,"prOpened":false,"remoteBranch":""}}},"steps":[{"key":"configure","title":"Check and configure Git","instruction":"Run `git --version`, `git config --global user.name \"Alex Contoso\"`, and `git config --global user.email \"alex@contoso.example\"`.","explanation":"Git uses local identity when creating commits.","targetId":"git-terminal","rules":[{"key":"version","description":"git --version was run","rule":{"type":"commandUsed","pattern":"^git --version$"}},{"key":"identity","description":"Identity configured","rule":{"type":"allOf","rules":[{"type":"truthy","path":"git.userName"},{"type":"truthy","path":"git.userEmail"}]}}]},{"key":"clone","title":"Clone the repository","instruction":"Run `git clone https://github.com/contoso-labs/inventory-api.git`, `cd inventory-api`, and `git status`.","explanation":"Cloning creates a local repository from the remote repository.","targetId":"git-terminal","rules":[{"key":"cloned","description":"Repository cloned","rule":{"type":"allOf","rules":[{"type":"truthy","path":"git.cloned"},{"type":"equals","path":"git.cwd","value":"~/inventory-api"}]}},{"key":"status","description":"Status checked","rule":{"type":"commandUsed","pattern":"^git status$"}}]},{"key":"branch-file","title":"Create a branch and file","instruction":"Run `git switch -c feature/health-endpoint`, `mkdir -p docs`, and `echo \"Health endpoint notes\" > docs/health.md`.","explanation":"The working tree holds edits before they are staged.","targetId":"git-terminal","rules":[{"key":"branch","description":"Branch created","rule":{"type":"includes","path":"git.branches","value":"feature/health-endpoint"}},{"key":"file","description":"File created","rule":{"type":"truthy","path":"git.fileCreated"}}]},{"key":"commit","title":"Stage and commit","instruction":"Run `git add docs/health.md`, `git commit -m \"Add health endpoint notes\"`, and `git log --oneline`.","explanation":"The staging area selects what goes into the next commit.","targetId":"git-terminal","rules":[{"key":"staged","description":"File staged","rule":{"type":"truthy","path":"git.staged"}},{"key":"committed","description":"Commit exists","rule":{"type":"arrayContains","path":"git.commits","match":{"branch":"feature/health-endpoint"}}}]},{"key":"push","title":"Push the branch","instruction":"Run `git push -u origin feature/health-endpoint`.","explanation":"Push publishes local commits to the remote repository.","targetId":"git-terminal","rules":[{"key":"pushed","description":"Branch pushed","rule":{"type":"truthy","path":"git.pushed"}}]},{"key":"pr","title":"Open the pull request","instruction":"In the browser, select **Compare & pull request**, complete the form, and select **Create Pull Request**.","explanation":"A pull request asks reviewers to compare the remote branch with main.","targetId":"compare-pr-banner-cli","rules":[{"key":"pr-opened","description":"PR opened","rule":{"type":"arrayContains","path":"repo.pullRequests","match":{"head":"feature/health-endpoint","base":"main","state":"open"}}}]}],"finalRules":[{"key":"commit-final","description":"Feature branch has a commit","rule":{"type":"truthy","path":"git.committed"}},{"key":"pushed-final","description":"Feature branch pushed","rule":{"type":"truthy","path":"git.pushed"}},{"key":"pr-final","description":"PR opened from feature branch","rule":{"type":"arrayContains","path":"repo.pullRequests","match":{"head":"feature/health-endpoint","state":"open"}}}],"solution":"1. Run `git --version`.\n2. Run `git config --global user.name \"Alex Contoso\"` and `git config --global user.email \"alex@contoso.example\"`.\n3. Run `git clone https://github.com/contoso-labs/inventory-api.git`, `cd inventory-api`, and `git status`.\n4. Run `git switch -c feature/health-endpoint`.\n5. Run `mkdir -p docs` and `echo \"Health endpoint notes\" > docs/health.md`.\n6. Run `git add docs/health.md`, `git commit -m \"Add health endpoint notes\"`, and `git log --oneline`.\n7. Run `git push -u origin feature/health-endpoint`.\n8. Select **Compare & pull request**, complete the form, and select **Create Pull Request**."}]}
-
+{
+  "labs": [
+    {
+      "slug": "git-cli-clone-commit-push",
+      "type": "UI_SIMULATION",
+      "title": "Clone, commit, push, and open a pull request with Git CLI",
+      "summary": "Use a simulated VM terminal and GitHub browser to configure Git, clone a repository, branch, inspect diff/status/log output, commit, push, open a PR, and resolve a review comment.",
+      "scenario": "Contoso Labs maintains **contoso-labs/inventory-api**. Configure Git in the VM terminal, clone the repository, create **feature/health-endpoint**, add `docs/health.md`, inspect `git status` and `git diff`, commit and push the branch, open a pull request, then respond to a simulated review comment before the branch protection check can pass.",
+      "domainKey": "git-github-basics",
+      "objectiveCode": "1.1",
+      "complexity": "BASIC",
+      "estimatedMinutes": 25,
+      "learningObjectives": [
+        "Explain working tree, staging area, commits, branches, local and remote repositories",
+        "Run Git commands in a valid state-dependent order",
+        "Open a pull request from a pushed feature branch"
+      ],
+      "prerequisites": [
+        "Basic command-line familiarity"
+      ],
+      "sources": [
+        {
+          "title": "Set up Git",
+          "url": "https://docs.github.com/en/get-started/git-basics/set-up-git"
+        },
+        {
+          "title": "Cloning a repository",
+          "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository"
+        },
+        {
+          "title": "Quickstart for repositories",
+          "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories"
+        },
+        {
+          "title": "Creating a pull request",
+          "url": "https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "GitHub",
+          "theme": "github",
+          "user": "alex-contoso",
+          "tenant": "contoso-labs",
+          "url": "https://github.com",
+          "searchPlaceholder": "Type / to search"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "linux",
+          "apps": [
+            "browser",
+            "terminal"
+          ]
+        },
+        "terminal": {
+          "title": "Terminal",
+          "prompt": "alex@LAB-VM-01:{{git.promptPath}}$",
+          "surface": "app",
+          "welcome": "Welcome to the lab VM terminal. Git is installed.",
+          "commands": [
+            {
+              "id": "git-version",
+              "pattern": "^git --version$",
+              "help": "git --version",
+              "output": "git version 2.46.0"
+            },
+            {
+              "id": "config-name",
+              "pattern": "^git config --global user\\.name \"?(?<name>[^\"]+)\"?$",
+              "help": "git config --global user.name \"Alex Contoso\"",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "git.userName",
+                  "value": "{{$args.name}}"
+                }
+              ],
+              "output": ""
+            },
+            {
+              "id": "config-email",
+              "pattern": "^git config --global user\\.email \"?(?<email>[^\"]+)\"?$",
+              "help": "git config --global user.email \"alex@contoso.example\"",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "git.userEmail",
+                  "value": "{{$args.email}}"
+                }
+              ],
+              "output": ""
+            },
+            {
+              "id": "clone",
+              "pattern": "^git clone https://github\\.com/contoso-labs/inventory-api\\.git$",
+              "when": {
+                "type": "falsy",
+                "path": "git.cloned"
+              },
+              "help": "git clone https://github.com/contoso-labs/inventory-api.git",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "git.cloned",
+                  "value": true
+                },
+                {
+                  "type": "set",
+                  "path": "git.cwd",
+                  "value": "~/inventory-api"
+                },
+                {
+                  "type": "set",
+                  "path": "git.promptPath",
+                  "value": "~/inventory-api"
+                }
+              ],
+              "output": "Cloning into 'inventory-api'...\nReceiving objects: 100% (24/24), done."
+            },
+            {
+              "id": "cd-repo",
+              "pattern": "^cd inventory-api$",
+              "when": {
+                "type": "truthy",
+                "path": "git.cloned"
+              },
+              "help": "cd inventory-api",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "git.cwd",
+                  "value": "~/inventory-api"
+                },
+                {
+                  "type": "set",
+                  "path": "git.promptPath",
+                  "value": "~/inventory-api"
+                }
+              ],
+              "output": ""
+            },
+            {
+              "id": "status-repo",
+              "pattern": "^git status$",
+              "when": {
+                "type": "equals",
+                "path": "git.cwd",
+                "value": "~/inventory-api"
+              },
+              "help": "git status",
+              "output": "On branch {{git.branch}}\nYour branch is up to date with 'origin/{{git.branch}}'.\n\n{{git.statusText}}"
+            },
+            {
+              "id": "status-notrepo",
+              "pattern": "^git status$",
+              "when": {
+                "type": "notEquals",
+                "path": "git.cwd",
+                "value": "~/inventory-api"
+              },
+              "error": "fatal: not a git repository (or any of the parent directories): .git"
+            },
+            {
+              "id": "switch",
+              "pattern": "^git switch -c (?<branch>feature/health-endpoint)$",
+              "when": {
+                "type": "equals",
+                "path": "git.cwd",
+                "value": "~/inventory-api"
+              },
+              "help": "git switch -c feature/health-endpoint",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "git.branch",
+                  "value": "{{$args.branch}}"
+                },
+                {
+                  "type": "append",
+                  "path": "git.branches",
+                  "unique": "$value",
+                  "value": "{{$args.branch}}"
+                }
+              ],
+              "output": "Switched to a new branch 'feature/health-endpoint'"
+            },
+            {
+              "id": "checkout",
+              "pattern": "^git checkout -b (?<branch>feature/health-endpoint)$",
+              "when": {
+                "type": "equals",
+                "path": "git.cwd",
+                "value": "~/inventory-api"
+              },
+              "help": "git checkout -b feature/health-endpoint",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "git.branch",
+                  "value": "{{$args.branch}}"
+                },
+                {
+                  "type": "append",
+                  "path": "git.branches",
+                  "unique": "$value",
+                  "value": "{{$args.branch}}"
+                }
+              ],
+              "output": "Switched to a new branch 'feature/health-endpoint'"
+            },
+            {
+              "id": "mkdir",
+              "pattern": "^mkdir -p docs$",
+              "when": {
+                "type": "equals",
+                "path": "git.cwd",
+                "value": "~/inventory-api"
+              },
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "git.docsDir",
+                  "value": true
+                }
+              ],
+              "output": ""
+            },
+            {
+              "id": "echo",
+              "pattern": "^echo \"(?<text>.+)\" > docs/health\\.md$",
+              "when": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "equals",
+                    "path": "git.cwd",
+                    "value": "~/inventory-api"
+                  },
+                  {
+                    "type": "equals",
+                    "path": "git.branch",
+                    "value": "feature/health-endpoint"
+                  }
+                ]
+              },
+              "help": "echo \"Health endpoint notes\" > docs/health.md",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "git.fileCreated",
+                  "value": true
+                },
+                {
+                  "type": "set",
+                  "path": "git.statusText",
+                  "value": "Untracked files:\n\tdocs/health.md\n\nnothing added to commit but untracked files present (use \"git add\" to track)"
+                }
+              ],
+              "output": ""
+            },
+            {
+              "id": "diff-health",
+              "pattern": "^git diff$",
+              "when": {
+                "type": "truthy",
+                "path": "git.fileCreated"
+              },
+              "help": "git diff",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "git.diffViewed",
+                  "value": true
+                }
+              ],
+              "output": "diff --git a/docs/health.md b/docs/health.md\nnew file mode 100644\n@@\n+Health endpoint notes"
+            },
+            {
+              "id": "add",
+              "pattern": "^git add( \\.| docs/health\\.md)$",
+              "when": {
+                "type": "truthy",
+                "path": "git.fileCreated"
+              },
+              "help": "git add docs/health.md",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "git.staged",
+                  "value": true
+                },
+                {
+                  "type": "set",
+                  "path": "git.statusText",
+                  "value": "Changes to be committed:\n\tnew file: docs/health.md"
+                }
+              ],
+              "output": ""
+            },
+            {
+              "id": "commit-before-add",
+              "pattern": "^git commit -m \"(?<msg>.+)\"$",
+              "when": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "truthy",
+                    "path": "git.fileCreated"
+                  },
+                  {
+                    "type": "falsy",
+                    "path": "git.staged"
+                  }
+                ]
+              },
+              "error": "nothing added to commit but untracked files present (use \"git add\" to track)"
+            },
+            {
+              "id": "commit",
+              "pattern": "^git commit -m \"(?<msg>.+)\"$",
+              "when": {
+                "type": "truthy",
+                "path": "git.staged"
+              },
+              "help": "git commit -m \"Add health endpoint notes\"",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "git.committed",
+                  "value": true
+                },
+                {
+                  "type": "set",
+                  "path": "git.commitMessage",
+                  "value": "{{$args.msg}}"
+                },
+                {
+                  "type": "set",
+                  "path": "git.commitSha",
+                  "value": "{{$args.msg | hash:7}}"
+                },
+                {
+                  "type": "append",
+                  "path": "git.commits",
+                  "value": {
+                    "sha": "{{$args.msg | hash:7}}",
+                    "message": "{{$args.msg}}",
+                    "branch": "feature/health-endpoint"
+                  }
+                },
+                {
+                  "type": "set",
+                  "path": "git.statusText",
+                  "value": "nothing to commit, working tree clean"
+                }
+              ],
+              "output": "[feature/health-endpoint {{$args.msg | hash:7}}] {{$args.msg}}\n 1 file changed, 1 insertion(+)"
+            },
+            {
+              "id": "log",
+              "pattern": "^git log --oneline$",
+              "when": {
+                "type": "equals",
+                "path": "git.cwd",
+                "value": "~/inventory-api"
+              },
+              "help": "git log --oneline",
+              "output": "{{git.commitSha}} {{git.commitMessage}}\nc0ffee1 Initial commit"
+            },
+            {
+              "id": "push-before-commit",
+              "pattern": "^git push -u origin feature/health-endpoint$",
+              "when": {
+                "type": "falsy",
+                "path": "git.committed"
+              },
+              "error": "error: src refspec feature/health-endpoint does not match any\nerror: failed to push some refs"
+            },
+            {
+              "id": "push",
+              "pattern": "^git push -u origin feature/health-endpoint$",
+              "when": {
+                "type": "truthy",
+                "path": "git.committed"
+              },
+              "help": "git push -u origin feature/health-endpoint",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "git.pushed",
+                  "value": true
+                },
+                {
+                  "type": "set",
+                  "path": "repo.recentPush",
+                  "value": true
+                },
+                {
+                  "type": "set",
+                  "path": "repo.remoteBranch",
+                  "value": "feature/health-endpoint"
+                }
+              ],
+              "output": "Enumerating objects: 6, done.\nCounting objects: 100% (6/6), done.\nWriting objects: 100% (4/4), 512 bytes | 512.00 KiB/s, done.\nTo https://github.com/contoso-labs/inventory-api.git\n * [new branch] feature/health-endpoint -> feature/health-endpoint\nbranch 'feature/health-endpoint' set up to track 'origin/feature/health-endpoint'."
+            },
+            {
+              "id": "git-notrepo",
+              "pattern": "^git (add|commit|push|switch|checkout).*$",
+              "when": {
+                "type": "notEquals",
+                "path": "git.cwd",
+                "value": "~/inventory-api"
+              },
+              "error": "fatal: not a git repository (or any of the parent directories): .git"
+            }
+          ],
+          "fallback": "bash: {{$cmd}}: command not found"
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
+        "startPage": "repo",
+        "navigation": [
+          {
+            "page": "repo",
+            "label": "Code",
+            "icon": "Code"
+          },
+          {
+            "page": "pulls",
+            "label": "Pull requests",
+            "icon": "GitPullRequest"
+          }
+        ],
+        "pages": [
+          {
+            "id": "repo",
+            "title": "contoso-labs/inventory-api",
+            "url": "/contoso-labs/inventory-api",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "repo",
+                "label": "Code",
+                "icon": "Code"
+              },
+              {
+                "page": "pulls",
+                "label": "Pull requests",
+                "icon": "GitPullRequest"
+              }
+            ],
+            "commands": [
+              {
+                "id": "compare-pr-banner-cli",
+                "label": "Compare & pull request",
+                "icon": "GitPullRequest",
+                "variant": "primary",
+                "visibleWhen": {
+                  "type": "allOf",
+                  "rules": [
+                    {
+                      "type": "truthy",
+                      "path": "repo.recentPush"
+                    },
+                    {
+                      "type": "falsy",
+                      "path": "repo.prOpened"
+                    }
+                  ]
+                },
+                "action": {
+                  "type": "navigate",
+                  "page": "open-pr-cli"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "success",
+                "visibleWhen": {
+                  "type": "truthy",
+                  "path": "repo.recentPush"
+                },
+                "title": "feature/health-endpoint had recent pushes",
+                "text": "Select **Compare & pull request**."
+              },
+              {
+                "kind": "properties",
+                "title": "Repository overview",
+                "items": [
+                  {
+                    "label": "Default branch",
+                    "value": "main",
+                    "format": "code"
+                  },
+                  {
+                    "label": "Remote branch",
+                    "value": "{{repo.remoteBranch | default:No pushed feature branch yet}}",
+                    "format": "code"
+                  },
+                  {
+                    "label": "Concepts",
+                    "value": "Working tree → staging area → commit → push to remote."
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "repo-files-cli",
+                "title": "Files",
+                "source": "repo.files",
+                "rowKey": "path",
+                "variant": "files",
+                "columns": [
+                  {
+                    "key": "path",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "description",
+                    "label": "Description"
+                  }
+                ]
+              },
+              {
+                "kind": "terminal",
+                "id": "git-terminal",
+                "title": "Terminal"
+              }
+            ]
+          },
+          {
+            "id": "open-pr-cli",
+            "title": "Open a pull request",
+            "url": "/contoso-labs/inventory-api/compare/main...feature/health-endpoint",
+            "components": [
+              {
+                "kind": "form",
+                "id": "open-pr-cli-form",
+                "title": "Open a pull request",
+                "fields": [
+                  {
+                    "id": "title",
+                    "label": "Title",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Add health endpoint notes"
+                  },
+                  {
+                    "id": "body",
+                    "label": "Description",
+                    "control": "textarea",
+                    "required": true,
+                    "defaultValue": "Adds documentation for the health endpoint so reviewers can confirm the expected path."
+                  },
+                  {
+                    "id": "reviewers",
+                    "label": "Reviewers",
+                    "control": "checkboxes",
+                    "defaultValue": [
+                      "maya"
+                    ],
+                    "options": [
+                      {
+                        "value": "maya",
+                        "label": "maya"
+                      },
+                      {
+                        "value": "sam",
+                        "label": "sam"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create Pull Request",
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "repo.prOpened",
+                      "value": true
+                    },
+                    {
+                      "type": "set",
+                      "path": "repo.reviewCommentOpen",
+                      "value": true
+                    },
+                    {
+                      "type": "set",
+                      "path": "repo.reviewResolved",
+                      "value": false
+                    },
+                    {
+                      "type": "append",
+                      "path": "repo.pullRequests",
+                      "value": {
+                        "number": "2",
+                        "title": "{{$form.title}}",
+                        "base": "main",
+                        "head": "feature/health-endpoint",
+                        "state": "open"
+                      }
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "pulls"
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Pull request opened"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "pulls",
+            "title": "Pull requests",
+            "url": "/contoso-labs/inventory-api/pulls",
+            "components": [
+              {
+                "kind": "table",
+                "id": "pull-list-cli",
+                "source": "repo.pullRequests",
+                "rowKey": "number",
+                "columns": [
+                  {
+                    "key": "number",
+                    "label": "#"
+                  },
+                  {
+                    "key": "title",
+                    "label": "Title",
+                    "format": "link"
+                  },
+                  {
+                    "key": "head",
+                    "label": "Compare",
+                    "format": "code"
+                  },
+                  {
+                    "key": "state",
+                    "label": "State",
+                    "format": "badge"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "pr-review-cli",
+                  "select": {
+                    "as": "pr",
+                    "path": "repo.pullRequests",
+                    "key": "number",
+                    "value": "{{$row.number}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "pr-review-cli",
+            "title": "Add health endpoint notes",
+            "subtitle": "Pull request #2",
+            "icon": "GitPullRequest",
+            "url": "/contoso-labs/inventory-api/pull/2",
+            "requires": "pr",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "pr-review-cli",
+                "label": "Conversation",
+                "icon": "MessagesSquare"
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "repo.reviewCommentOpen",
+                  "value": true
+                },
+                "title": "Review comment from maya",
+                "text": "Please confirm the health endpoint path is `/healthz` before this can merge. Branch protection also requires one approved review."
+              },
+              {
+                "kind": "button",
+                "id": "resolve-cli-review",
+                "label": "Reply and resolve review comment",
+                "icon": "CircleCheck",
+                "variant": "primary",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "repo.reviewCommentOpen",
+                  "value": true
+                },
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "repo.reviewCommentOpen",
+                      "value": false
+                    },
+                    {
+                      "type": "set",
+                      "path": "repo.reviewResolved",
+                      "value": true
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Review comment resolved",
+                      "message": "Replied: Confirmed /healthz in docs/health.md."
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "properties",
+                "title": "Branch protection awareness",
+                "items": [
+                  {
+                    "label": "Required review",
+                    "value": "{{repo.reviewResolved | yesno}}"
+                  },
+                  {
+                    "label": "Required status checks",
+                    "value": "Pending simulated CI"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "git": {
+            "promptPath": "~",
+            "cwd": "~",
+            "branch": "main",
+            "branches": [
+              "main"
+            ],
+            "statusText": "nothing to commit, working tree clean",
+            "commits": []
+          },
+          "repo": {
+            "files": [
+              {
+                "path": "README.md",
+                "description": "Project overview"
+              },
+              {
+                "path": "src/server.js",
+                "description": "API server"
+              },
+              {
+                "path": "package.json",
+                "description": "Node package metadata"
+              },
+              {
+                "path": "docs/architecture.md",
+                "description": "Architecture notes"
+              }
+            ],
+            "pullRequests": [],
+            "recentPush": false,
+            "prOpened": false,
+            "remoteBranch": "",
+            "reviewCommentOpen": false,
+            "reviewResolved": false
+          }
+        }
+      },
+      "steps": [
+        {
+          "key": "configure",
+          "title": "Check and configure Git",
+          "instruction": "Run `git --version`, `git config --global user.name \"Alex Contoso\"`, and `git config --global user.email \"alex@contoso.example\"`.",
+          "explanation": "Git uses local identity when creating commits.",
+          "targetId": "git-terminal",
+          "rules": [
+            {
+              "key": "version",
+              "description": "git --version was run",
+              "rule": {
+                "type": "commandUsed",
+                "pattern": "^git --version$"
+              }
+            },
+            {
+              "key": "identity",
+              "description": "Identity configured",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "truthy",
+                    "path": "git.userName"
+                  },
+                  {
+                    "type": "truthy",
+                    "path": "git.userEmail"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "key": "clone",
+          "title": "Clone the repository",
+          "instruction": "Run `git clone https://github.com/contoso-labs/inventory-api.git`, `cd inventory-api`, and `git status`.",
+          "explanation": "Cloning creates a local repository from the remote repository.",
+          "targetId": "git-terminal",
+          "rules": [
+            {
+              "key": "cloned",
+              "description": "Repository cloned",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "truthy",
+                    "path": "git.cloned"
+                  },
+                  {
+                    "type": "equals",
+                    "path": "git.cwd",
+                    "value": "~/inventory-api"
+                  }
+                ]
+              }
+            },
+            {
+              "key": "status",
+              "description": "Status checked",
+              "rule": {
+                "type": "commandUsed",
+                "pattern": "^git status$"
+              }
+            }
+          ]
+        },
+        {
+          "key": "branch-file",
+          "title": "Create a branch and file",
+          "instruction": "Run `git switch -c feature/health-endpoint`, `mkdir -p docs`, and `echo \"Health endpoint notes\" > docs/health.md`.",
+          "explanation": "The working tree holds edits before they are staged.",
+          "targetId": "git-terminal",
+          "rules": [
+            {
+              "key": "branch",
+              "description": "Branch created",
+              "rule": {
+                "type": "includes",
+                "path": "git.branches",
+                "value": "feature/health-endpoint"
+              }
+            },
+            {
+              "key": "file",
+              "description": "File created",
+              "rule": {
+                "type": "truthy",
+                "path": "git.fileCreated"
+              }
+            }
+          ]
+        },
+        {
+          "key": "commit",
+          "title": "Stage and commit",
+          "instruction": "Run `git diff`, `git add docs/health.md`, `git status`, `git commit -m \"Add health endpoint notes\"`, and `git log --oneline`.",
+          "explanation": "Reviewing the diff before staging helps catch accidental edits; the staging area selects exactly what goes into the next commit.",
+          "targetId": "git-terminal",
+          "rules": [
+            {
+              "key": "diff-viewed",
+              "description": "Diff was reviewed",
+              "rule": {
+                "type": "commandUsed",
+                "pattern": "^git diff$"
+              },
+              "failureFeedback": "Run git diff before staging the file."
+            },
+            {
+              "key": "staged",
+              "description": "File staged",
+              "rule": {
+                "type": "truthy",
+                "path": "git.staged"
+              }
+            },
+            {
+              "key": "committed",
+              "description": "Commit exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "git.commits",
+                "match": {
+                  "branch": "feature/health-endpoint"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "push",
+          "title": "Push the branch",
+          "instruction": "Run `git push -u origin feature/health-endpoint`.",
+          "explanation": "Push publishes local commits to the remote repository.",
+          "targetId": "git-terminal",
+          "rules": [
+            {
+              "key": "pushed",
+              "description": "Branch pushed",
+              "rule": {
+                "type": "truthy",
+                "path": "git.pushed"
+              }
+            }
+          ]
+        },
+        {
+          "key": "pr",
+          "title": "Open the pull request",
+          "instruction": "In the browser, select **Compare & pull request**, complete the form, select **Create Pull Request**, open the pull request from the list, and resolve the simulated review comment.",
+          "explanation": "A pull request combines discussion, branch protection checks, and review comments before merging to main.",
+          "targetId": "compare-pr-banner-cli",
+          "rules": [
+            {
+              "key": "pr-opened",
+              "description": "PR opened",
+              "rule": {
+                "type": "arrayContains",
+                "path": "repo.pullRequests",
+                "match": {
+                  "head": "feature/health-endpoint",
+                  "base": "main",
+                  "state": "open"
+                }
+              }
+            },
+            {
+              "key": "review-resolved",
+              "description": "Review comment resolved",
+              "rule": {
+                "type": "equals",
+                "path": "repo.reviewResolved",
+                "value": true
+              },
+              "failureFeedback": "Open the PR and resolve the review comment."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "commit-final",
+          "description": "Feature branch has a commit",
+          "rule": {
+            "type": "truthy",
+            "path": "git.committed"
+          }
+        },
+        {
+          "key": "pushed-final",
+          "description": "Feature branch pushed",
+          "rule": {
+            "type": "truthy",
+            "path": "git.pushed"
+          }
+        },
+        {
+          "key": "pr-final",
+          "description": "PR opened from feature branch",
+          "rule": {
+            "type": "arrayContains",
+            "path": "repo.pullRequests",
+            "match": {
+              "head": "feature/health-endpoint",
+              "state": "open"
+            }
+          }
+        },
+        {
+          "key": "review-final",
+          "description": "Review comment resolved",
+          "rule": {
+            "type": "equals",
+            "path": "repo.reviewResolved",
+            "value": true
+          }
+        }
+      ],
+      "solution": "1. Run `git --version`.\n2. Run `git config --global user.name \"Alex Contoso\"` and `git config --global user.email \"alex@contoso.example\"`.\n3. Run `git clone https://github.com/contoso-labs/inventory-api.git`, `cd inventory-api`, and `git status`.\n4. Run `git switch -c feature/health-endpoint`.\n5. Run `mkdir -p docs` and `echo \"Health endpoint notes\" > docs/health.md`.\n6. Run `git add docs/health.md`, `git commit -m \"Add health endpoint notes\"`, and `git log --oneline`.\n7. Run `git push -u origin feature/health-endpoint`.\n8. Select **Compare & pull request**, complete the form, and select **Create Pull Request**.\n9. Open the pull request from **Pull requests** and select **Reply and resolve review comment** after confirming the `/healthz` note."
+    }
+  ]
+}

@@ -1,1 +1,110 @@
-{"certification":"GH-900","lab":"create-repo-branch-pull-request","note":"Create private repo, branch, README edit, PR, merge and delete branch.","events":[{"type":"click","componentId":"global-create","itemId":"new-repository"},{"type":"submitForm","componentId":"create-repo-form","values":{"owner":"contoso-labs","name":"inventory-api-docs","description":"Internal documentation for the Inventory API","visibility":"private","readme":true,"gitignore":"Node","license":"MIT License"}},{"type":"click","componentId":"branch-selector"},{"type":"submitForm","componentId":"new-branch-form","values":{"source":"main","branch":"docs/update-readme"}},{"type":"rowClick","componentId":"file-list","rowKey":"README.md"},{"type":"click","componentId":"edit-file"},{"type":"submitForm","componentId":"edit-readme-form","values":{"content":"# inventory-api-docs\n\nInternal documentation.\n\n## Review workflow\n\nChanges are reviewed with pull requests before they reach main.\n","message":"Document review workflow","target":"current"}},{"type":"click","componentId":"compare-pr-banner"},{"type":"submitForm","componentId":"open-pr-form","values":{"title":"Update README review workflow","body":"Documents that README updates are reviewed with a pull request.","reviewers":["maya"]}},{"type":"navigate","page":"pr-files"},{"type":"navigate","page":"pr-conversation"},{"type":"click","componentId":"approve-pr"},{"type":"click","componentId":"merge-pull-request"},{"type":"submitForm","componentId":"merge-form","values":{"method":"merge","message":"Merge pull request #1 from docs/update-readme"}},{"type":"click","componentId":"delete-branch-button"}]}
+{
+  "certification": "GH-900",
+  "lab": "create-repo-branch-pull-request",
+  "note": "Create private repo, branch, README edit, PR, merge and delete branch.",
+  "events": [
+    {
+      "type": "click",
+      "componentId": "global-create",
+      "itemId": "new-repository"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "create-repo-form",
+      "values": {
+        "owner": "contoso-labs",
+        "name": "inventory-api-docs",
+        "description": "Internal documentation for the Inventory API",
+        "visibility": "private",
+        "readme": true,
+        "gitignore": "Node",
+        "license": "MIT License"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "branch-selector"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "new-branch-form",
+      "values": {
+        "source": "main",
+        "branch": "docs/update-readme"
+      }
+    },
+    {
+      "type": "rowClick",
+      "componentId": "file-list",
+      "rowKey": "README.md"
+    },
+    {
+      "type": "click",
+      "componentId": "edit-file"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "edit-readme-form",
+      "values": {
+        "content": "# inventory-api-docs\n\nInternal documentation.\n\n## Review workflow\n\nChanges are reviewed with pull requests before they reach main.\n",
+        "message": "Document review workflow",
+        "target": "current"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "compare-pr-banner"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "open-pr-form",
+      "values": {
+        "title": "Update README review workflow",
+        "body": "Documents that README updates are reviewed with a pull request.",
+        "reviewers": [
+          "maya"
+        ]
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "pr-files"
+    },
+    {
+      "type": "navigate",
+      "page": "pr-conversation"
+    },
+    {
+      "type": "click",
+      "componentId": "approve-pr"
+    },
+    {
+      "type": "click",
+      "componentId": "merge-pull-request"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "conflict-form",
+      "values": {
+        "content": "# inventory-api-docs\n\nInternal documentation.\n\n## Support\n\nOpen an issue for documentation problems.\n\n## Review workflow\n\nChanges are reviewed with pull requests before they reach main.\n",
+        "message": "Resolve README conflict"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "merge-pull-request"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "merge-form",
+      "values": {
+        "method": "merge",
+        "message": "Merge pull request #1 from docs/update-readme"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "delete-branch-button"
+    }
+  ]
+}

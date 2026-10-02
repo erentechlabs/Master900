@@ -12,7 +12,7 @@ import { ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /** Acrylic surface for flyouts and menus (WinUI AcrylicInAppFillColorDefault). */
-const acrylic = "border border-stroke-surface bg-popover/95 text-popover-foreground backdrop-blur-2xl backdrop-saturate-150";
+const acrylic = "acrylic-surface border border-stroke-surface text-popover-foreground";
 
 // ---------------------------------------------------------------- Dialog (ContentDialog)
 export const Dialog = DialogPrimitive.Root;
@@ -72,7 +72,7 @@ export function SheetContent({
       <DialogPrimitive.Content
         aria-describedby={undefined}
         className={cn(
-          "fixed inset-y-0 z-50 flex w-80 max-w-[85vw] flex-col gap-3 overflow-y-auto border-stroke-surface bg-popover/95 p-2 shadow-2xl backdrop-blur-2xl data-[state=open]:animate-in data-[state=open]:duration-200",
+          "acrylic-surface fixed inset-y-0 z-50 flex w-80 max-w-[85vw] flex-col gap-3 overflow-y-auto border-stroke-surface p-2 shadow-2xl data-[state=open]:animate-in data-[state=open]:duration-200",
           side === "left" ? "left-0 border-r data-[state=open]:slide-in-from-left" : "right-0 border-l data-[state=open]:slide-in-from-right",
           className,
         )}

@@ -1,0 +1,1515 @@
+{
+  "questions": [
+    {
+      "ref": "az900-x-026",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "cloud-concepts",
+      "objectiveCode": "1.2",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Describe the benefits of using cloud services",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "stem": "A toy retailer expects its web traffic to surge during a product launch and then return to normal. Which cloud benefit directly addresses adding and removing capacity as demand changes?",
+      "explanation": "Elasticity is the cloud benefit that matches automatic capacity adjustment. It is different from reliability, which focuses on surviving failures.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Elasticity",
+          "correct": true,
+          "explanation": "Elasticity scales resources out or in as demand rises or falls."
+        },
+        {
+          "key": "B",
+          "text": "Reliability",
+          "correct": false,
+          "explanation": "Reliability helps a workload continue through failures, not primarily adjust to demand spikes."
+        },
+        {
+          "key": "C",
+          "text": "Governance",
+          "correct": false,
+          "explanation": "Governance applies rules and standards; it does not describe capacity scaling."
+        },
+        {
+          "key": "D",
+          "text": "SaaS",
+          "correct": false,
+          "explanation": "A SaaS offering is a ready-to-use application model; it does not name the benefit of scaling capacity up or down."
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "az900-x-027",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "cloud-concepts",
+      "objectiveCode": "1.2",
+      "difficulty": "EASY",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Describe the benefits of using cloud services",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "stem": "Which **two** actions are examples of governance for Azure resources?",
+      "explanation": "Governance applies organizational rules and metadata. Policy can enforce allowed settings, and tags can identify ownership or cost allocation.",
+      "selectCount": 2,
+      "options": [
+        {
+          "key": "A",
+          "text": "Require an Owner tag on resource groups",
+          "correct": true,
+          "explanation": "Required tags improve ownership, organization, and reporting."
+        },
+        {
+          "key": "B",
+          "text": "Deny deployments in unapproved regions with Azure Policy",
+          "correct": true,
+          "explanation": "Azure Policy can enforce allowed locations."
+        },
+        {
+          "key": "C",
+          "text": "Use archive tier for a frequently edited document library",
+          "correct": false,
+          "explanation": "Archive tier is a storage access choice and is unsuitable for frequently edited data."
+        },
+        {
+          "key": "D",
+          "text": "Peer two virtual networks for private connectivity",
+          "correct": false,
+          "explanation": "VNet peering is networking, not a governance standard."
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "az900-x-028",
+      "type": "TRUE_FALSE",
+      "domainKey": "cloud-concepts",
+      "objectiveCode": "1.2",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Describe the benefits of using cloud services",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "stem": "True or false: Cloud predictability can be improved by monitoring workload behavior and testing changes before production rollout.",
+      "explanation": "The statement is true because predictability is about reducing surprises through known behavior, measured trends, and controlled changes.",
+      "options": [
+        {
+          "key": "TRUE",
+          "text": "True",
+          "correct": true,
+          "explanation": "Correct. Monitoring trends and testing changes before release reduce surprises and make workload behavior more predictable."
+        },
+        {
+          "key": "FALSE",
+          "text": "False",
+          "correct": false,
+          "explanation": "Choosing False misses that predictability comes from measured behavior, validation, and controlled production changes."
+        }
+      ]
+    },
+    {
+      "ref": "az900-x-029",
+      "type": "MATCHING",
+      "domainKey": "cloud-concepts",
+      "objectiveCode": "1.2",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Describe the benefits of using cloud services",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "stem": "Match each cloud operations request to the concept it most directly represents.",
+      "explanation": "The requests point to distinct concepts: elasticity for changing capacity, governance for rules, reliability for failure tolerance, and manageability for operational tooling.",
+      "matching": {
+        "prompts": [
+          {
+            "id": "p1",
+            "text": "Automatically add instances during a flash sale"
+          },
+          {
+            "id": "p2",
+            "text": "Block deployments that lack required business tags"
+          },
+          {
+            "id": "p3",
+            "text": "Continue serving users if a component fails"
+          },
+          {
+            "id": "p4",
+            "text": "Use alerts and automation runbooks for daily operations"
+          }
+        ],
+        "answers": [
+          {
+            "id": "a1",
+            "text": "Elasticity"
+          },
+          {
+            "id": "a2",
+            "text": "Governance"
+          },
+          {
+            "id": "a3",
+            "text": "Reliability"
+          },
+          {
+            "id": "a4",
+            "text": "Manageability"
+          },
+          {
+            "id": "a5",
+            "text": "SaaS"
+          }
+        ],
+        "pairs": {
+          "p1": "a1",
+          "p2": "a2",
+          "p3": "a3",
+          "p4": "a4"
+        },
+        "explanations": {
+          "p1": "Elasticity changes capacity with demand.",
+          "p2": "Governance enforces organizational standards such as required tags.",
+          "p3": "Reliability focuses on continuity during failures.",
+          "p4": "Manageability uses monitoring, automation, and management tools."
+        }
+      }
+    },
+    {
+      "ref": "az900-x-030",
+      "type": "ORDERING",
+      "domainKey": "cloud-concepts",
+      "objectiveCode": "1.3",
+      "difficulty": "HARD",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Describe Cloud Service Types",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-service-types/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "stem": "Put the steps in order for moving a legacy web app to the most appropriate cloud service model.",
+      "explanation": "A realistic service-model decision starts by identifying constraints, then selecting the model, then assigning responsibilities for the chosen model, and finally validating operations after migration.",
+      "ordering": {
+        "items": [
+          {
+            "id": "s1",
+            "text": "List requirements for guest OS control, custom code, identity, and data handling"
+          },
+          {
+            "id": "s2",
+            "text": "Choose IaaS, PaaS, or SaaS based on the required control and management tradeoff"
+          },
+          {
+            "id": "s3",
+            "text": "Assign customer-owned tasks such as data classification, access, and app configuration"
+          },
+          {
+            "id": "s4",
+            "text": "Test monitoring, backup, and update procedures for the selected model"
+          }
+        ],
+        "correctOrder": [
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "explanations": {
+          "s1": "Requirements must be understood before a service model can be selected.",
+          "s2": "The model choice follows the control and management requirements.",
+          "s3": "Shared responsibilities are clarified after the model is chosen.",
+          "s4": "Operational procedures are validated once responsibilities and design are known."
+        }
+      }
+    },
+    {
+      "ref": "az900-x-031",
+      "type": "CATEGORIZATION",
+      "domainKey": "cloud-concepts",
+      "objectiveCode": "1.3",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Describe Cloud Service Types",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-service-types/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "stem": "Classify each scenario by the cloud service model it best represents.",
+      "explanation": "IaaS, PaaS, and SaaS differ by how much the customer manages versus how much the provider manages.",
+      "categorization": {
+        "categories": [
+          {
+            "id": "iaas",
+            "label": "IaaS"
+          },
+          {
+            "id": "paas",
+            "label": "PaaS"
+          },
+          {
+            "id": "saas",
+            "label": "SaaS"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "text": "A VM where the customer installs middleware and patches the guest OS",
+            "category": "iaas",
+            "explanation": "Customer guest OS and middleware administration are IaaS characteristics."
+          },
+          {
+            "id": "i2",
+            "text": "A managed web app platform for deploying custom application code",
+            "category": "paas",
+            "explanation": "PaaS supports custom code while reducing OS and platform maintenance."
+          },
+          {
+            "id": "i3",
+            "text": "A provider-managed accounting application used through a browser",
+            "category": "saas",
+            "explanation": "A finished provider-managed application consumed by users is SaaS."
+          },
+          {
+            "id": "i4",
+            "text": "A lift-and-shift database server that requires OS-level backup software",
+            "category": "iaas",
+            "explanation": "OS-level software requirements point to IaaS VM control."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "az900-x-032",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "cloud-concepts",
+      "objectiveCode": "1.3",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Describe Cloud Service Types",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-service-types/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "stem": "Complete the sentence about a cloud service model for custom applications.",
+      "explanation": "PaaS is the model that lets developers deploy custom applications while the provider handles more of the operating system and platform maintenance.",
+      "fillInBlank": {
+        "template": "When a team deploys custom application code but wants Azure to manage the operating system and application platform, the service model is {{b1}}.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "PaaS",
+              "platform as a service"
+            ],
+            "explanation": "PaaS is the accepted model for custom code with managed platform responsibilities."
+          }
+        ],
+        "wordBank": [
+          "IaaS",
+          "PaaS",
+          "SaaS",
+          "CapEx",
+          "hybrid cloud"
+        ]
+      }
+    },
+    {
+      "ref": "az900-x-033",
+      "type": "CASE_STUDY",
+      "domainKey": "cloud-concepts",
+      "objectiveCode": "1.3",
+      "difficulty": "EASY",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Describe Cloud Service Types",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-service-types/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "scenario": "Fabrikam is choosing between hosting a custom app on VMs, deploying it to a managed web platform, or subscribing to a finished business application.",
+      "stem": "For each statement about the service models, select **Yes** if it is true. Otherwise, select **No**.",
+      "explanation": "The statements test how responsibility changes across IaaS, PaaS, and SaaS while customer control decreases from IaaS toward SaaS.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "IaaS usually provides more guest operating system control than PaaS.",
+            "answer": true,
+            "explanation": "IaaS exposes VM-level control including the guest OS."
+          },
+          {
+            "id": "s2",
+            "text": "PaaS is appropriate when developers deploy custom code but want reduced platform maintenance.",
+            "answer": true,
+            "explanation": "PaaS shifts more platform operation to the provider while keeping custom-code deployment."
+          },
+          {
+            "id": "s3",
+            "text": "With SaaS, the customer typically manages the provider's application source code.",
+            "answer": false,
+            "explanation": "The provider manages the SaaS application; customers manage users, data, and configuration."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "az900-x-034",
+      "type": "SCENARIO",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.2",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Describe Azure Compute Services",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-azure-compute-networking-services/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "scenario": "A VM-based web tier handles seasonal promotions. All instances use the same image, and the operations team wants Azure to add or remove VM instances as load changes.",
+      "stem": "Which Azure compute feature best matches this requirement?",
+      "explanation": "Virtual Machine Scale Sets are intended for groups of similar VMs that scale together, which matches the VM-based seasonal web tier.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Virtual Machine Scale Sets",
+          "correct": true,
+          "explanation": "Scale sets manage and scale identical VM instances as a group."
+        },
+        {
+          "key": "B",
+          "text": "Azure Virtual Desktop",
+          "correct": false,
+          "explanation": "Contractor desktop delivery is an Azure Virtual Desktop scenario, not scaling a VM web tier."
+        },
+        {
+          "key": "C",
+          "text": "Azure DNS",
+          "correct": false,
+          "explanation": "Azure DNS resolves names and does not add VM instances."
+        },
+        {
+          "key": "D",
+          "text": "Private endpoint",
+          "correct": false,
+          "explanation": "A private endpoint provides private access to a service; it does not scale VMs."
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "az900-x-035",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.2",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "az group",
+          "url": "https://learn.microsoft.com/en-us/cli/azure/group",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "stem": "A team needs an empty Azure resource group called `rg-compute-prod` in the `eastus` region before deploying compute resources. Which Azure CLI command creates it?",
+      "explanation": "The command must use the Azure CLI resource-group creation verb with the requested resource group name and target Azure location.",
+      "options": [
+        {
+          "key": "A",
+          "text": "`az group create --name rg-compute-prod --location eastus`",
+          "correct": true,
+          "explanation": "This is the resource group creation command and it supplies eastus as the Azure location for the new container."
+        },
+        {
+          "key": "B",
+          "text": "`az vmss create --resource-group eastus --name rg-compute-prod`",
+          "correct": false,
+          "explanation": "A virtual machine scale set command expects an existing resource group and cannot create the container first."
+        },
+        {
+          "key": "C",
+          "text": "`az network vnet peering create --name rg-compute-prod --location eastus`",
+          "correct": false,
+          "explanation": "VNet peering commands connect virtual networks; they do not create a resource group."
+        },
+        {
+          "key": "D",
+          "text": "`az storage account create --name eastus --resource-group rg-compute-prod`",
+          "correct": false,
+          "explanation": "This would create a storage account in an existing resource group and does not create the resource group itself."
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "az900-x-036",
+      "type": "UI_SIMULATION",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.2",
+      "difficulty": "EASY",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Describe Azure Compute Services",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-azure-compute-networking-services/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "stem": "Configure the simulated Azure screen so two Azure virtual networks can communicate privately.",
+      "explanation": "The simulated fields should choose VNet peering and keep public exposure off because the requirement is private VNet-to-VNet communication.",
+      "uiSimulation": {
+        "title": "Virtual network connection screen (simulated)",
+        "description": "Simplified fictional screen for AZ-900 practice; it is not the real Azure portal.",
+        "fields": [
+          {
+            "id": "connectionType",
+            "label": "Connection type",
+            "control": "select",
+            "options": [
+              {
+                "value": "peering",
+                "label": "Virtual network peering"
+              },
+              {
+                "value": "publicIp",
+                "label": "Public IP endpoint"
+              },
+              {
+                "value": "dnsOnly",
+                "label": "DNS zone only"
+              }
+            ],
+            "correct": "peering",
+            "explanation": "Virtual network peering connects Azure VNets privately over Microsoft networking."
+          },
+          {
+            "id": "allowPublicAccess",
+            "label": "Expose application by public IP",
+            "control": "toggle",
+            "correct": false,
+            "explanation": "A public IP is not required for private VNet-to-VNet communication."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "az900-x-037",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.2",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Describe Azure Compute Services",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-azure-compute-networking-services/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "stem": "A photo-processing app must resize an image whenever a blob is added to storage. The team wants to run only the small processing task and avoid managing servers. Which service should it choose?",
+      "explanation": "Azure Functions is the best choice for small event-driven code triggered by storage events with minimal server administration.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure Functions",
+          "correct": true,
+          "explanation": "Functions can run code in response to blob events without direct server management."
+        },
+        {
+          "key": "B",
+          "text": "Azure Virtual Desktop",
+          "correct": false,
+          "explanation": "Desktop virtualization serves interactive user sessions; it would not be chosen to process storage events."
+        },
+        {
+          "key": "C",
+          "text": "ExpressRoute",
+          "correct": false,
+          "explanation": "ExpressRoute is a networking connectivity service, so it would not execute an image-resize task."
+        },
+        {
+          "key": "D",
+          "text": "Geo-redundant storage",
+          "correct": false,
+          "explanation": "GRS replicates data to another region; it does not run image-resize code."
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "az900-x-038",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.2",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Describe Azure Compute Services",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-azure-compute-networking-services/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "stem": "Which **two** Azure features provide private or hybrid network connectivity rather than application hosting?",
+      "explanation": "VNet peering and VPN Gateway are networking features. They connect networks; they do not host application code.",
+      "selectCount": 2,
+      "options": [
+        {
+          "key": "A",
+          "text": "Virtual network peering",
+          "correct": true,
+          "explanation": "VNet peering connects Azure VNets privately."
+        },
+        {
+          "key": "B",
+          "text": "VPN Gateway",
+          "correct": true,
+          "explanation": "VPN Gateway supports encrypted VPN connectivity such as site-to-site links."
+        },
+        {
+          "key": "C",
+          "text": "Azure App Service",
+          "correct": false,
+          "explanation": "App Service is an application hosting platform, so it is outside the requested connectivity features."
+        },
+        {
+          "key": "D",
+          "text": "Azure Functions",
+          "correct": false,
+          "explanation": "Functions runs event-driven code and is not a network connectivity service."
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "az900-x-039",
+      "type": "TRUE_FALSE",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.2",
+      "difficulty": "EASY",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Describe Azure Compute Services",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-azure-compute-networking-services/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "stem": "True or false: Azure DNS can host DNS zones, while VPN Gateway is used for VPN tunnel connectivity.",
+      "explanation": "The statement is true because the services solve different networking problems: name resolution versus encrypted network connectivity.",
+      "options": [
+        {
+          "key": "TRUE",
+          "text": "True",
+          "correct": true,
+          "explanation": "Correct. Azure DNS hosts DNS zones and records, while VPN Gateway provides encrypted VPN connectivity."
+        },
+        {
+          "key": "FALSE",
+          "text": "False",
+          "correct": false,
+          "explanation": "Choosing False misses that DNS hosting and VPN tunnel connectivity are separate Azure networking functions."
+        }
+      ]
+    },
+    {
+      "ref": "az900-x-040",
+      "type": "MATCHING",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.2",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Describe Azure Compute Services",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-azure-compute-networking-services/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "stem": "Match each Azure requirement to the service or feature that satisfies it.",
+      "explanation": "The matches distinguish compute hosting from networking and storage resilience features.",
+      "matching": {
+        "prompts": [
+          {
+            "id": "p1",
+            "text": "Host a managed web API without managing web servers"
+          },
+          {
+            "id": "p2",
+            "text": "Provide desktops to remote contractors"
+          },
+          {
+            "id": "p3",
+            "text": "Create a private connection from an on-premises site to Azure over VPN"
+          },
+          {
+            "id": "p4",
+            "text": "Replicate storage data to a secondary region"
+          }
+        ],
+        "answers": [
+          {
+            "id": "a1",
+            "text": "Azure App Service"
+          },
+          {
+            "id": "a2",
+            "text": "Azure Virtual Desktop"
+          },
+          {
+            "id": "a3",
+            "text": "VPN Gateway"
+          },
+          {
+            "id": "a4",
+            "text": "Geo-redundant storage"
+          },
+          {
+            "id": "a5",
+            "text": "Azure Policy"
+          }
+        ],
+        "pairs": {
+          "p1": "a1",
+          "p2": "a2",
+          "p3": "a3",
+          "p4": "a4"
+        },
+        "explanations": {
+          "p1": "App Service hosts web apps and APIs with managed platform operation.",
+          "p2": "Azure Virtual Desktop provides hosted desktops and remote apps.",
+          "p3": "VPN Gateway provides VPN tunnel connectivity.",
+          "p4": "Geo-redundant storage copies data to a secondary Azure region."
+        }
+      }
+    },
+    {
+      "ref": "az900-x-041",
+      "type": "ORDERING",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.2",
+      "difficulty": "HARD",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Describe Azure Compute Services",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-azure-compute-networking-services/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "stem": "Put the steps in order for selecting a hosting option for a new containerized API.",
+      "explanation": "The decision should start with application requirements, then determine whether Kubernetes is needed, then choose the managed hosting option, and finally configure network and monitoring needs.",
+      "ordering": {
+        "items": [
+          {
+            "id": "s1",
+            "text": "Confirm runtime needs, traffic pattern, and whether the app is packaged as a container"
+          },
+          {
+            "id": "s2",
+            "text": "Decide whether the team needs Kubernetes orchestration or a simpler managed container platform"
+          },
+          {
+            "id": "s3",
+            "text": "Select AKS for Kubernetes needs or Container Apps/ACI for simpler managed container scenarios"
+          },
+          {
+            "id": "s4",
+            "text": "Configure ingress, scaling rules, and monitoring for the chosen service"
+          }
+        ],
+        "correctOrder": [
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "explanations": {
+          "s1": "Requirements and packaging are gathered before comparing services.",
+          "s2": "The Kubernetes requirement is a key branching decision for container hosting.",
+          "s3": "The service is selected after the orchestration need is known.",
+          "s4": "Operational settings are configured after the hosting choice is made."
+        }
+      }
+    },
+    {
+      "ref": "az900-x-042",
+      "type": "CATEGORIZATION",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.3",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Data redundancy - Azure Storage",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "stem": "Classify each Azure Storage choice by whether it is a redundancy option or a blob access tier.",
+      "explanation": "Redundancy options describe copy placement for resilience. Access tiers describe expected read patterns and retrieval tradeoffs for blob data.",
+      "categorization": {
+        "categories": [
+          {
+            "id": "redundancy",
+            "label": "Redundancy option"
+          },
+          {
+            "id": "tier",
+            "label": "Blob access tier"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "text": "Locally redundant storage (LRS)",
+            "category": "redundancy",
+            "explanation": "LRS is a redundancy option that keeps copies within one region location."
+          },
+          {
+            "id": "i2",
+            "text": "Zone-redundant storage (ZRS)",
+            "category": "redundancy",
+            "explanation": "ZRS is a redundancy option across availability zones in a region."
+          },
+          {
+            "id": "i3",
+            "text": "Hot",
+            "category": "tier",
+            "explanation": "Hot is an access tier for frequently accessed blobs."
+          },
+          {
+            "id": "i4",
+            "text": "Archive",
+            "category": "tier",
+            "explanation": "Archive is an access tier for rarely accessed blobs that can tolerate retrieval steps."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "az900-x-043",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.3",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Data redundancy - Azure Storage",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "stem": "Complete the sentence about storing rarely retrieved blob data.",
+      "explanation": "Archive is the blob access tier intended for data that is rarely accessed and can tolerate retrieval processing before use.",
+      "fillInBlank": {
+        "template": "For blob data that is rarely read and can wait for retrieval processing, the lowest-access long-term tier is usually {{b1}}.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "Archive",
+              "archive tier",
+              "Archive tier"
+            ],
+            "explanation": "Archive tier matches rarely accessed blob data that can tolerate retrieval steps."
+          }
+        ],
+        "wordBank": [
+          "Hot",
+          "Cool",
+          "Cold",
+          "Archive",
+          "GRS"
+        ]
+      }
+    },
+    {
+      "ref": "az900-x-044",
+      "type": "CASE_STUDY",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.3",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Data redundancy - Azure Storage",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "scenario": "Woodgrove Bank is designing storage for transaction exports, audit evidence, and a regional recovery requirement.",
+      "stem": "For each Azure Storage statement, select **Yes** if it is true. Otherwise, select **No**.",
+      "explanation": "The statements check the difference between redundancy and access tier choices in storage design.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "GRS can be selected when data must be copied to a secondary Azure region.",
+            "answer": true,
+            "explanation": "Geo-redundant storage replicates data to another region."
+          },
+          {
+            "id": "s2",
+            "text": "Hot tier is intended for blobs that are accessed frequently.",
+            "answer": true,
+            "explanation": "Hot tier is optimized for frequent access patterns."
+          },
+          {
+            "id": "s3",
+            "text": "Archive tier is the best tier for data that must be read immediately many times each hour.",
+            "answer": false,
+            "explanation": "Frequently and immediately accessed data is a hot-tier scenario, not archive."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "az900-x-045",
+      "type": "SCENARIO",
+      "domainKey": "azure-architecture-services",
+      "objectiveCode": "2.3",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Data redundancy - Azure Storage",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "scenario": "A legal team stores compliance documents for years. After the first few weeks, the files are rarely retrieved, and the team can wait while a file is made available before reading it.",
+      "stem": "Which blob tier should the legal team choose for these rarely retrieved long-term files?",
+      "explanation": "Because the files are rarely read and the team can wait for retrieval processing, Archive is the best blob access tier for the long-term pattern.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Archive",
+          "correct": true,
+          "explanation": "Archive fits long-term, rarely accessed data that can tolerate retrieval delay."
+        },
+        {
+          "key": "B",
+          "text": "Hot",
+          "correct": false,
+          "explanation": "Hot is for frequently accessed data."
+        },
+        {
+          "key": "C",
+          "text": "Virtual network peering",
+          "correct": false,
+          "explanation": "VNet peering is networking and has no role in blob access tier selection."
+        },
+        {
+          "key": "D",
+          "text": "Azure Functions",
+          "correct": false,
+          "explanation": "Functions runs code and does not define how blob data is tiered."
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "az900-x-046",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.1",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "az group",
+          "url": "https://learn.microsoft.com/en-us/cli/azure/group",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "stem": "During monthly cost cleanup, finance asks operations to create a separate `rg-cost-review` container in West US so resources for a budget analysis can be grouped before tags and budgets are applied. Which Azure CLI command should operations run first?",
+      "explanation": "Before budgets or tags can be applied to that container, Azure CLI must create the resource group by name in the specified Azure region.",
+      "options": [
+        {
+          "key": "A",
+          "text": "`az group create --name rg-cost-review --location westus`",
+          "correct": true,
+          "explanation": "This command creates the West US resource group that later cost-management settings can target."
+        },
+        {
+          "key": "B",
+          "text": "`az consumption budget create --name rg-cost-review --resource-group westus`",
+          "correct": false,
+          "explanation": "A consumption budget command configures spending thresholds; it does not provision the resource group container."
+        },
+        {
+          "key": "C",
+          "text": "`az monitor metrics list --resource-group rg-cost-review --location westus`",
+          "correct": false,
+          "explanation": "Azure Monitor metrics commands read telemetry from existing resources rather than provisioning a new group."
+        },
+        {
+          "key": "D",
+          "text": "`az policy assignment create --name rg-cost-review --location westus`",
+          "correct": false,
+          "explanation": "Policy assignment applies governance to an existing scope; it is not the command to create that scope."
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "az900-x-047",
+      "type": "UI_SIMULATION",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.1",
+      "difficulty": "EASY",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "stem": "Configure the simulated Azure screen to notify a project owner when spending approaches a planned monthly amount.",
+      "explanation": "A budget with alert thresholds is the cost-management configuration that warns owners before spending exceeds planned levels.",
+      "uiSimulation": {
+        "title": "Cost budget alert screen (simulated)",
+        "description": "Simplified fictional screen for AZ-900 practice; it is not the real Azure portal.",
+        "fields": [
+          {
+            "id": "costControl",
+            "label": "Cost control type",
+            "control": "select",
+            "options": [
+              {
+                "value": "budget",
+                "label": "Budget with alert thresholds"
+              },
+              {
+                "value": "policy",
+                "label": "Allowed region policy"
+              },
+              {
+                "value": "peering",
+                "label": "Virtual network peering"
+              }
+            ],
+            "correct": "budget",
+            "explanation": "Budgets and alerts notify stakeholders as costs approach configured thresholds."
+          },
+          {
+            "id": "emailOwner",
+            "label": "Email project owner when threshold is reached",
+            "control": "toggle",
+            "correct": true,
+            "explanation": "Sending notifications to the owner supports timely cost review."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "az900-x-048",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.1",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "stem": "A project owner wants email notifications when monthly Azure spending reaches planned thresholds. What should be configured?",
+      "explanation": "Azure budgets in Cost Management can be configured with thresholds and notifications so owners are alerted as spend approaches the planned amount.",
+      "options": [
+        {
+          "key": "A",
+          "text": "A budget with alert notifications in Microsoft Cost Management",
+          "correct": true,
+          "explanation": "Budgets track spending against planned thresholds and can notify recipients."
+        },
+        {
+          "key": "B",
+          "text": "A private endpoint for the subscription",
+          "correct": false,
+          "explanation": "Private endpoints provide private network access to services, not spend notifications."
+        },
+        {
+          "key": "C",
+          "text": "A VM availability set",
+          "correct": false,
+          "explanation": "Availability sets affect VM placement, not cost-alert emails."
+        },
+        {
+          "key": "D",
+          "text": "An archive access tier policy only",
+          "correct": false,
+          "explanation": "Storage tiering may affect cost but does not create monthly budget alerts by itself."
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "az900-x-049",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.2",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "stem": "Which **two** Azure services help enforce or assess governance and compliance requirements?",
+      "explanation": "Azure Policy can enforce or audit rules, and Microsoft Defender for Cloud can assess security posture and provide compliance recommendations.",
+      "selectCount": 2,
+      "options": [
+        {
+          "key": "A",
+          "text": "Azure Policy",
+          "correct": true,
+          "explanation": "Azure Policy evaluates resources against organizational rules and can deny or remediate noncompliant configurations."
+        },
+        {
+          "key": "B",
+          "text": "Microsoft Defender for Cloud",
+          "correct": true,
+          "explanation": "Defender for Cloud assesses security posture and regulatory compliance recommendations."
+        },
+        {
+          "key": "C",
+          "text": "Azure Virtual Desktop",
+          "correct": false,
+          "explanation": "Hosted desktops do not evaluate compliance rules or security posture for Azure resources."
+        },
+        {
+          "key": "D",
+          "text": "Azure App Service",
+          "correct": false,
+          "explanation": "App Service hosts web applications; it is not the governance assessment service requested here."
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "az900-x-050",
+      "type": "TRUE_FALSE",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.2",
+      "difficulty": "EASY",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "stem": "True or false: Azure Policy can evaluate resources for compliance with organizational rules and can deny certain noncompliant deployments.",
+      "explanation": "The statement is true. Azure Policy is used to audit and enforce resource configuration rules such as allowed locations or required tags.",
+      "options": [
+        {
+          "key": "TRUE",
+          "text": "True",
+          "correct": true,
+          "explanation": "Correct. Azure Policy can audit resources for compliance and use effects such as deny to block noncompliant deployments."
+        },
+        {
+          "key": "FALSE",
+          "text": "False",
+          "correct": false,
+          "explanation": "Choosing False misses that Azure Policy can enforce rules, not just report compliance status."
+        }
+      ]
+    },
+    {
+      "ref": "az900-x-051",
+      "type": "MATCHING",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.2",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "stem": "Match each governance requirement to the Azure tool that best satisfies it.",
+      "explanation": "The matches separate enforcement, security posture assessment, resource organization, and hierarchical governance scope.",
+      "matching": {
+        "prompts": [
+          {
+            "id": "p1",
+            "text": "Deny resources that are created in unapproved locations"
+          },
+          {
+            "id": "p2",
+            "text": "Review security recommendations and regulatory compliance posture"
+          },
+          {
+            "id": "p3",
+            "text": "Group subscriptions so policy can be applied at a higher scope"
+          },
+          {
+            "id": "p4",
+            "text": "Label resources with CostCenter and Owner metadata"
+          }
+        ],
+        "answers": [
+          {
+            "id": "a1",
+            "text": "Azure Policy"
+          },
+          {
+            "id": "a2",
+            "text": "Microsoft Defender for Cloud"
+          },
+          {
+            "id": "a3",
+            "text": "Management groups"
+          },
+          {
+            "id": "a4",
+            "text": "Tags"
+          },
+          {
+            "id": "a5",
+            "text": "Azure Functions"
+          }
+        ],
+        "pairs": {
+          "p1": "a1",
+          "p2": "a2",
+          "p3": "a3",
+          "p4": "a4"
+        },
+        "explanations": {
+          "p1": "Azure Policy can audit or deny resources based on rules.",
+          "p2": "Defender for Cloud provides security posture and compliance recommendations.",
+          "p3": "Management groups organize subscriptions for governance at scale.",
+          "p4": "Tags add metadata for ownership, automation, and cost reporting."
+        }
+      }
+    },
+    {
+      "ref": "az900-x-052",
+      "type": "ORDERING",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.3",
+      "difficulty": "HARD",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "stem": "Put the steps in order for safely deploying repeatable Azure infrastructure with infrastructure as code.",
+      "explanation": "A practical IaC workflow defines the desired state, stores and reviews it, deploys with an Azure tool, and then verifies the deployed resources.",
+      "ordering": {
+        "items": [
+          {
+            "id": "s1",
+            "text": "Describe the target resources and settings in a Bicep, ARM, or Terraform file"
+          },
+          {
+            "id": "s2",
+            "text": "Review and version the file so changes are tracked before deployment"
+          },
+          {
+            "id": "s3",
+            "text": "Run the deployment command or pipeline against the intended Azure scope"
+          },
+          {
+            "id": "s4",
+            "text": "Validate that the deployed resources match the approved definition"
+          }
+        ],
+        "correctOrder": [
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "explanations": {
+          "s1": "The desired state must be written before it can be reviewed or deployed.",
+          "s2": "Versioning and review reduce risk before execution.",
+          "s3": "Deployment occurs after the approved definition exists.",
+          "s4": "Validation confirms the actual environment matches the intended configuration."
+        }
+      }
+    },
+    {
+      "ref": "az900-x-053",
+      "type": "CATEGORIZATION",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.3",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "stem": "Classify each item as an Azure deployment tool or an infrastructure-as-code concept.",
+      "explanation": "Deployment tools are used to create or manage resources. IaC concepts describe repeatable, declarative definitions and version-controlled changes.",
+      "categorization": {
+        "categories": [
+          {
+            "id": "tool",
+            "label": "Deployment tool"
+          },
+          {
+            "id": "iac",
+            "label": "Infrastructure as code concept"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "text": "Azure CLI command run from a script",
+            "category": "tool",
+            "explanation": "Azure CLI is a command-line deployment and management tool."
+          },
+          {
+            "id": "i2",
+            "text": "Azure PowerShell cmdlet in an automation job",
+            "category": "tool",
+            "explanation": "Azure PowerShell is a scripting tool for Azure management."
+          },
+          {
+            "id": "i3",
+            "text": "A declarative Bicep file describing resources",
+            "category": "iac",
+            "explanation": "Bicep files represent infrastructure as code definitions."
+          },
+          {
+            "id": "i4",
+            "text": "Version control review before changing resource definitions",
+            "category": "iac",
+            "explanation": "Reviewing versioned definitions is a common IaC practice."
+          }
+        ]
+      }
+    },
+    {
+      "ref": "az900-x-054",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.4",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "stem": "Complete the sentence about Azure operational recommendations.",
+      "explanation": "Azure Advisor is the service that analyzes deployed Azure resources and provides recommendations across areas such as reliability, security, performance, operational excellence, and cost.",
+      "fillInBlank": {
+        "template": "The Azure service that reviews deployed resources and suggests operational improvements is {{b1}}.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "Azure Advisor",
+              "Advisor"
+            ],
+            "explanation": "Azure Advisor provides personalized recommendations for Azure resources."
+          }
+        ],
+        "wordBank": [
+          "Azure Advisor",
+          "Azure DNS",
+          "ExpressRoute",
+          "Azure Functions",
+          "Blob archive"
+        ]
+      }
+    },
+    {
+      "ref": "az900-x-055",
+      "type": "CASE_STUDY",
+      "domainKey": "azure-management-governance",
+      "objectiveCode": "3.4",
+      "difficulty": "MEDIUM",
+      "sources": [
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        },
+        {
+          "title": "Study guide for Exam AZ-900: Microsoft Azure Fundamentals",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "scenario": "Proseware wants to observe application metrics, receive resource recommendations, and know when Azure service incidents may affect its region.",
+      "stem": "For each monitoring and health statement, select **Yes** if it is true. Otherwise, select **No**.",
+      "explanation": "The statements distinguish Azure Monitor telemetry, Azure Advisor recommendations, and Azure Service Health incident and maintenance communications.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Azure Monitor can collect and analyze metrics and logs from Azure resources.",
+            "answer": true,
+            "explanation": "Azure Monitor is the platform service for Azure telemetry such as metrics and logs."
+          },
+          {
+            "id": "s2",
+            "text": "Azure Advisor provides personalized recommendations based on deployed resources.",
+            "answer": true,
+            "explanation": "Advisor analyzes resource configuration and usage to suggest improvements."
+          },
+          {
+            "id": "s3",
+            "text": "Azure Service Health is used to create virtual network peering between VNets.",
+            "answer": false,
+            "explanation": "Service Health communicates service incidents and planned maintenance; it does not connect networks."
+          }
+        ]
+      }
+    }
+  ]
+}

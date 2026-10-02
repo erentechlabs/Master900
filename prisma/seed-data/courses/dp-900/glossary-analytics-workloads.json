@@ -1,0 +1,459 @@
+{
+  "terms": [
+    {
+      "slug": "dp900-analytics-data-warehouse",
+      "term": "Data warehouse",
+      "kind": "CONCEPT",
+      "definition": "A structured analytical data store optimized for curated relational tables, SQL queries, and repeatable reporting.",
+      "attributes": {
+        "category": "Analytics stores",
+        "useCases": [
+          "Curated business reporting",
+          "SQL-based analytical queries",
+          "Historical trend analysis"
+        ],
+        "keyFeatures": [
+          "Structured tables",
+          "Optimized for analytical reads",
+          "Works well with dimensional models"
+        ],
+        "comparesWith": [
+          "dp900-analytics-data-lake",
+          "dp900-analytics-lakehouse"
+        ]
+      },
+      "source": {
+        "title": "What is Fabric Data Warehouse?",
+        "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/data-warehousing",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Veri ambarı",
+          "definition": "Düzenlenmiş ilişkisel tablolar, SQL sorguları ve tekrarlanabilir raporlama için optimize edilmiş yapılandırılmış analitik veri deposu.",
+          "useCases": [
+            "Düzenlenmiş iş raporlaması",
+            "SQL tabanlı analitik sorgular",
+            "Geçmiş trend analizi"
+          ],
+          "keyFeatures": [
+            "Yapılandırılmış tablolar",
+            "Analitik okumalar için optimize edilir",
+            "Boyutsal modellerle iyi çalışır"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "dp900-analytics-data-lake",
+      "term": "Data lake",
+      "kind": "CONCEPT",
+      "definition": "A storage approach for keeping raw or curated data files in many formats so teams can process them for analytics later.",
+      "attributes": {
+        "category": "Analytics stores",
+        "useCases": [
+          "Landing raw files",
+          "Storing semi-structured or unstructured data",
+          "Exploratory analytics"
+        ],
+        "keyFeatures": [
+          "Flexible file formats",
+          "Raw and curated zones",
+          "Schema can be applied during processing"
+        ],
+        "comparesWith": [
+          "dp900-analytics-data-warehouse",
+          "dp900-analytics-lakehouse"
+        ]
+      },
+      "source": {
+        "title": "What is a lakehouse in Microsoft Fabric?",
+        "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Veri gölü",
+          "definition": "Ekiplerin daha sonra analitik amaçla işleyebilmesi için ham veya düzenlenmiş veri dosyalarını birçok biçimde tutan depolama yaklaşımı.",
+          "useCases": [
+            "Ham dosyaları karşılama",
+            "Yarı yapılandırılmış veya yapılandırılmamış verileri saklama",
+            "Keşif amaçlı analiz"
+          ],
+          "keyFeatures": [
+            "Esnek dosya biçimleri",
+            "Ham ve düzenlenmiş bölgeler",
+            "Şema işleme sırasında uygulanabilir"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "dp900-analytics-lakehouse",
+      "term": "Lakehouse",
+      "kind": "CONCEPT",
+      "definition": "An analytics pattern that combines data lake file storage with managed tables and query capabilities commonly associated with warehouses.",
+      "attributes": {
+        "category": "Analytics stores",
+        "useCases": [
+          "File-based ingestion with SQL analytics",
+          "Delta table analytics",
+          "Combining engineering and BI workloads"
+        ],
+        "keyFeatures": [
+          "Files and tables in one pattern",
+          "Supports SQL-style analytics",
+          "Useful for ELT workflows"
+        ],
+        "comparesWith": [
+          "dp900-analytics-data-lake",
+          "dp900-analytics-data-warehouse"
+        ]
+      },
+      "source": {
+        "title": "What is a lakehouse in Microsoft Fabric?",
+        "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Veri gölü dosya depolamasını, genellikle veri ambarlarıyla ilişkilendirilen yönetilen tablolar ve sorgu yetenekleriyle birleştiren analitik yaklaşım.",
+          "useCases": [
+            "Dosya tabanlı alım ve SQL analitiği",
+            "Delta tablo analitiği",
+            "Veri mühendisliği ve BI iş yüklerini birleştirme"
+          ],
+          "keyFeatures": [
+            "Dosyalar ve tablolar aynı yaklaşımda",
+            "SQL tarzı analitiği destekler",
+            "ELT iş akışları için uygundur"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "dp900-analytics-star-schema",
+      "term": "Star schema",
+      "kind": "CONCEPT",
+      "definition": "A dimensional modeling pattern with a central fact table connected to surrounding dimension tables for filtering and grouping measures.",
+      "attributes": {
+        "category": "Data modeling",
+        "useCases": [
+          "Power BI semantic models",
+          "Warehouse reporting models",
+          "Consistent business aggregations"
+        ],
+        "keyFeatures": [
+          "Fact table for measures",
+          "Dimension tables for descriptions",
+          "Simple relationships for reporting"
+        ]
+      },
+      "source": {
+        "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+        "kind": "STUDY_GUIDE"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Yıldız şeması",
+          "definition": "Ölçüleri filtrelemek ve gruplamak için merkezde bir olgu tablosunun çevresindeki boyut tablolarına bağlandığı boyutsal modelleme yaklaşımı.",
+          "useCases": [
+            "Power BI semantik modelleri",
+            "Veri ambarı raporlama modelleri",
+            "Tutarlı iş özetleri"
+          ],
+          "keyFeatures": [
+            "Ölçüler için olgu tablosu",
+            "Açıklamalar için boyut tabloları",
+            "Raporlama için sade ilişkiler"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "dp900-analytics-etl-elt",
+      "term": "ETL and ELT",
+      "kind": "CONCEPT",
+      "definition": "Data integration patterns for extracting data from sources, transforming it, and loading it either before or after it lands in the analytical platform.",
+      "attributes": {
+        "category": "Data integration",
+        "useCases": [
+          "Preparing source data for analytics",
+          "Moving data into a warehouse or lakehouse",
+          "Automating repeatable transformations"
+        ],
+        "keyFeatures": [
+          "Extract source data",
+          "Transform data quality or shape",
+          "Load prepared or raw data"
+        ]
+      },
+      "source": {
+        "title": "What is Data Factory in Microsoft Fabric?",
+        "url": "https://learn.microsoft.com/en-us/fabric/data-factory/data-factory-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Veriyi kaynaklardan çıkarma, dönüştürme ve analitik platforma inmeden önce veya indikten sonra yükleme için kullanılan veri tümleştirme yaklaşımları.",
+          "useCases": [
+            "Kaynak veriyi analitik için hazırlama",
+            "Veriyi ambar veya lakehouse ortamına taşıma",
+            "Tekrarlanabilir dönüşümleri otomatikleştirme"
+          ],
+          "keyFeatures": [
+            "Kaynak veriyi çıkarır",
+            "Veri kalitesini veya şeklini dönüştürür",
+            "Hazırlanmış ya da ham veriyi yükler"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "dp900-analytics-data-pipeline",
+      "term": "Data pipeline",
+      "kind": "CONCEPT",
+      "definition": "A repeatable workflow that moves, validates, transforms, and loads data for analytical use.",
+      "attributes": {
+        "category": "Data integration",
+        "useCases": [
+          "Scheduled file loads",
+          "Data quality checks",
+          "Preparing curated analytical tables"
+        ],
+        "keyFeatures": [
+          "Orchestrated steps",
+          "Repeatable processing",
+          "Monitoring and retry opportunities"
+        ]
+      },
+      "source": {
+        "title": "What is Data Factory in Microsoft Fabric?",
+        "url": "https://learn.microsoft.com/en-us/fabric/data-factory/data-factory-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Veri işlem hattı",
+          "definition": "Analitik kullanım için veriyi taşıyan, doğrulayan, dönüştüren ve yükleyen tekrarlanabilir iş akışı.",
+          "useCases": [
+            "Zamanlanmış dosya yükleri",
+            "Veri kalitesi kontrolleri",
+            "Düzenlenmiş analitik tablolar hazırlama"
+          ],
+          "keyFeatures": [
+            "Sıralı adımlar",
+            "Tekrarlanabilir işleme",
+            "İzleme ve yeniden deneme olanakları"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "dp900-analytics-microsoft-fabric",
+      "term": "Microsoft Fabric",
+      "kind": "SERVICE",
+      "definition": "Microsoft's all-in-one analytics platform that brings together experiences for data movement, data engineering, real-time analytics, data warehousing, and business intelligence.",
+      "attributes": {
+        "category": "Analytics platform",
+        "serviceModel": "SaaS",
+        "useCases": [
+          "End-to-end analytics projects",
+          "Lakehouse and warehouse workloads",
+          "Real-time analytics and BI"
+        ],
+        "keyFeatures": [
+          "Integrated analytics experiences",
+          "Power BI integration",
+          "Data movement and engineering capabilities"
+        ],
+        "comparesWith": [
+          "dp900-analytics-azure-databricks"
+        ]
+      },
+      "source": {
+        "title": "What is Microsoft Fabric?",
+        "url": "https://learn.microsoft.com/en-us/fabric/fundamentals/microsoft-fabric-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Veri taşıma, veri mühendisliği, gerçek zamanlı analitik, veri ambarı ve iş zekası deneyimlerini bir araya getiren Microsoft'un uçtan uca analitik platformu.",
+          "useCases": [
+            "Uçtan uca analitik projeleri",
+            "Lakehouse ve veri ambarı iş yükleri",
+            "Gerçek zamanlı analitik ve BI"
+          ],
+          "keyFeatures": [
+            "Bütünleşik analitik deneyimleri",
+            "Power BI tümleştirmesi",
+            "Veri taşıma ve mühendislik yetenekleri"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "dp900-analytics-azure-databricks",
+      "term": "Azure Databricks",
+      "kind": "SERVICE",
+      "definition": "A unified, open analytics platform on Azure for building and operating large-scale data, analytics, and AI solutions.",
+      "attributes": {
+        "category": "Analytics platform",
+        "serviceModel": "PaaS",
+        "useCases": [
+          "Large-scale data engineering",
+          "Collaborative analytics and data science",
+          "Lakehouse-style processing"
+        ],
+        "keyFeatures": [
+          "Integrated with Azure storage and security",
+          "Supports data engineering and analytics workflows",
+          "Built for scalable processing"
+        ],
+        "comparesWith": [
+          "dp900-analytics-microsoft-fabric"
+        ]
+      },
+      "source": {
+        "title": "What is Azure Databricks?",
+        "url": "https://learn.microsoft.com/en-us/azure/databricks/introduction/",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Büyük ölçekli veri, analitik ve AI çözümleri oluşturmak ve işletmek için Azure üzerinde sunulan birleşik, açık analitik platformu.",
+          "useCases": [
+            "Büyük ölçekli veri mühendisliği",
+            "İşbirliğine dayalı analitik ve veri bilimi",
+            "Lakehouse tarzı işleme"
+          ],
+          "keyFeatures": [
+            "Azure depolama ve güvenliğiyle tümleşir",
+            "Veri mühendisliği ve analitik iş akışlarını destekler",
+            "Ölçeklenebilir işleme için tasarlanmıştır"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "dp900-analytics-stream-processing",
+      "term": "Stream processing",
+      "kind": "CONCEPT",
+      "definition": "The practice of analyzing data events continuously as they arrive, often for live dashboards, alerts, or operational decisions.",
+      "attributes": {
+        "category": "Real-time analytics",
+        "useCases": [
+          "IoT monitoring",
+          "Clickstream analysis",
+          "Fraud or anomaly detection"
+        ],
+        "keyFeatures": [
+          "Continuous event handling",
+          "Low-latency insights",
+          "Often uses time windows and alerts"
+        ]
+      },
+      "source": {
+        "title": "Introduction to Azure Stream Analytics",
+        "url": "https://learn.microsoft.com/en-us/azure/stream-analytics/stream-analytics-introduction",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Akış işleme",
+          "definition": "Canlı panolar, uyarılar veya operasyonel kararlar için veri olaylarını geldikçe sürekli analiz etme yaklaşımı.",
+          "useCases": [
+            "IoT izleme",
+            "Tıklama akışı analizi",
+            "Dolandırıcılık veya anomali algılama"
+          ],
+          "keyFeatures": [
+            "Sürekli olay işleme",
+            "Düşük gecikmeli içgörüler",
+            "Genellikle zaman pencereleri ve uyarılar kullanır"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "dp900-analytics-power-bi-semantic-model",
+      "term": "Power BI semantic model",
+      "kind": "CONCEPT",
+      "definition": "A governed Power BI model containing tables, relationships, measures, and security definitions that reports use as a consistent source of truth.",
+      "attributes": {
+        "category": "Business intelligence",
+        "useCases": [
+          "Consistent reporting metrics",
+          "Shared models for multiple reports",
+          "Governed self-service BI"
+        ],
+        "keyFeatures": [
+          "Tables and relationships",
+          "Reusable measures",
+          "Supports report creation and sharing"
+        ]
+      },
+      "source": {
+        "title": "Semantic models in the Power BI service",
+        "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-understand",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "DP-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Raporların tutarlı bir doğruluk kaynağı olarak kullandığı tabloları, ilişkileri, ölçüleri ve güvenlik tanımlarını içeren yönetilen Power BI modeli.",
+          "useCases": [
+            "Tutarlı raporlama metrikleri",
+            "Birden çok rapor için paylaşılan modeller",
+            "Yönetilen self servis BI"
+          ],
+          "keyFeatures": [
+            "Tablolar ve ilişkiler",
+            "Yeniden kullanılabilir ölçüler",
+            "Rapor oluşturma ve paylaşmayı destekler"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    }
+  ]
+}

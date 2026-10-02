@@ -100,13 +100,13 @@
           "key": "TRUE",
           "text": "True",
           "correct": true,
-          "explanation": "Deployment details matter. For model configuration, the app must target a deployed model through endpoint and deployment settings rather than a general catalog listing."
+          "explanation": "Correct. Applications route requests through configured endpoints and deployments, so deployment configuration affects which model is called."
         },
         {
           "key": "FALSE",
           "text": "False",
           "correct": false,
-          "explanation": "The app does not call only a catalog card. For model configuration, the app must target a deployed model through endpoint and deployment settings rather than a general catalog listing."
+          "explanation": "Choosing False misses that an app targets a deployed model by endpoint and deployment settings, not just a catalog listing."
         }
       ],
       "translations": {
@@ -116,11 +116,11 @@
           "options": {
             "TRUE": {
               "text": "Doğru",
-              "explanation": "Dağıtım ayrıntıları önemlidir."
+              "explanation": "Doğru. Uygulamalar istekleri yapılandırılmış uç noktalar ve dağıtımlar üzerinden yönlendirir; bu nedenle deployment configuration hangi modelin çağrılacağını etkiler."
             },
             "FALSE": {
               "text": "Yanlış",
-              "explanation": "Uygulama yalnızca katalog kartını çağırmaz."
+              "explanation": "False seçeneği, uygulamanın yalnızca katalog kaydını değil endpoint ve deployment ayarlarıyla dağıtılmış modeli hedeflediğini gözden kaçırır."
             }
           },
           "status": "DRAFT"
@@ -338,7 +338,7 @@
       "domainKey": "ai-concepts",
       "objectiveCode": "1.3",
       "difficulty": "MEDIUM",
-      "stem": "Classify each scenario by workload.",
+      "stem": "Classify each workload scenario by its primary input: text, speech, or vision.",
       "explanation": "Each item maps to the primary input. For workload classification, email text, meeting audio, and product photos each point to a different AI workload.",
       "lessonSlug": "ai-workloads-overview",
       "sources": [
@@ -391,8 +391,8 @@
       "domainKey": "ai-concepts",
       "objectiveCode": "1.2",
       "difficulty": "EASY",
-      "stem": "Complete the sentence.",
-      "explanation": "A system prompt defines high-level behavior. For prompt configuration, the system prompt is the high-level instruction layer that frames assistant behavior.",
+      "stem": "Complete the sentence about the prompt layer that sets an assistant's role and boundaries.",
+      "explanation": "A system prompt is the high-level instruction layer that defines an assistant's role, tone, boundaries, and expected behavior before user messages are handled.",
       "lessonSlug": "generative-ai-model-configuration",
       "sources": [
         {
@@ -410,7 +410,7 @@
               "system",
               "System"
             ],
-            "explanation": "The accepted answer completes the sentence with the exact capability required by the scenario. For prompt configuration, the system prompt is the high-level instruction layer that frames assistant behavior."
+            "explanation": "System completes the sentence because a system prompt frames the assistant's role and boundaries."
           }
         ],
         "wordBank": [
@@ -633,8 +633,8 @@
       "domainKey": "foundry-solutions",
       "objectiveCode": "2.3",
       "difficulty": "MEDIUM",
-      "stem": "Which **two** requirements point to vision or image generation?",
-      "explanation": "One interprets images and one creates images. For visual requirements, uploaded photos require vision analysis and prompt-created illustrations require image generation.",
+      "stem": "Which **two** requirements indicate the solution should use visual AI rather than language or speech?",
+      "explanation": "A photo-question feature uses vision to interpret uploaded images, and a text-to-illustration feature uses image generation to create a new visual.",
       "lessonSlug": "vision-and-image-generation",
       "sources": [
         {

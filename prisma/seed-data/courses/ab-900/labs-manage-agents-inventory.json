@@ -1373,10 +1373,10 @@
         },
         {
           "key": "view-agent-usage",
-          "title": "View agent usage",
-          "instruction": "Open **Reports > Usage > Agents** to review the current agent usage view.",
+          "title": "Verify agent usage and lifecycle signals",
+          "instruction": "Open **Reports > Usage > Agents** and verify usage can be monitored for the pilot-scoped agent before broader rollout.",
           "hint": "Usage is optional for governance but useful after deployment.",
-          "explanation": "Usage and lifecycle signals help admins monitor adoption and risky agents.",
+          "explanation": "Agent usage and lifecycle signals help admins spot adoption, stale agents, and risky publishing decisions after approval.",
           "targetId": "reports-agent-tiles",
           "rules": [
             {
@@ -1439,7 +1439,7 @@
             ]
           },
           "successFeedback": "The approved agent is scoped to the pilot group.",
-          "failureFeedback": "Publish Sales Proposal Coach only to Copilot Pilot - Sales; do not deploy tenant-wide."
+          "failureFeedback": "Publish Sales Proposal Coach only to Copilot Pilot - Sales and avoid preinstalling it tenant-wide."
         },
         {
           "key": "tenant-agent-settings",

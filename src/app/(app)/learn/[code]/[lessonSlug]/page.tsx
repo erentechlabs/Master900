@@ -51,7 +51,7 @@ export default async function LessonPage({ params }: { params: Promise<{ code: s
         {lesson.objective ? <Badge variant="info">{t("learner.lesson.objectiveRef", { code: lesson.objective.code, title: lesson.objective.title })}</Badge> : null}
       </div>
       {lesson.status === "OUTDATED" ? <Alert variant="warning" title={t("learner.lesson.outdatedBanner")} /> : null}
-      {lesson.needsVerification ? <Alert variant="warning" title={t("learner.lesson.needsVerification")}><p>{lesson.verificationNote ?? t("learner.lesson.needsVerificationBody")}</p></Alert> : null}
+      {lesson.needsVerification ? <Alert variant="info" title={t("learner.lesson.needsVerification")}><p>{t("learner.lesson.needsVerificationBody")}</p></Alert> : null}
       <p className="text-sm text-muted-foreground">{lesson.lastReviewedAt ? t("learner.lesson.reviewed", { date: fmt.calendarDate(lesson.lastReviewedAt) }) : t("common.neverReviewed")}</p>
       {lesson.translationState === "pending" ? <Alert variant="info">{t("common.translationPending")}</Alert> : null}
       {lesson.translationState === "missing" ? <Alert variant="info">{t("common.translationFallback")}</Alert> : null}

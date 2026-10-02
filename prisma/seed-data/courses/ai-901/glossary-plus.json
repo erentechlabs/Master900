@@ -1,0 +1,324 @@
+{
+  "terms": [
+    {
+      "slug": "optical-character-recognition",
+      "term": "Optical character recognition",
+      "definition": "A computer vision capability that extracts printed or handwritten text from images, scanned documents, signs, labels, or forms.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Vision",
+        "useCases": [
+          "Read labels and signs in images",
+          "Digitize scanned receipts or forms"
+        ],
+        "keyFeatures": [
+          "Extracts text lines and words",
+          "Often returns locations and confidence information"
+        ]
+      },
+      "source": {
+        "title": "OCR - Optical Character Recognition - Foundry Tools",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-ocr",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Optik karakter tanıma",
+          "definition": "Görüntülerden, taranmış belgelerden, tabelalardan, etiketlerden veya formlardan basılı ya da el yazısı metni çıkaran görüntü işleme yeteneği.",
+          "useCases": [
+            "Görüntülerdeki etiketleri ve tabelaları okuma",
+            "Taranmış fişleri veya formları dijitalleştirme"
+          ],
+          "keyFeatures": [
+            "Metin satırlarını ve sözcükleri çıkarır",
+            "Çoğu senaryoda konum ve güven bilgisi sağlar"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "image-generation",
+      "term": "Image generation",
+      "definition": "A generative AI capability that creates new visual outputs from text prompts and, depending on the model, optional image inputs.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Generative AI",
+        "useCases": [
+          "Create fictional campaign concepts",
+          "Produce design variations for review"
+        ],
+        "keyFeatures": [
+          "Uses prompts to guide visual output",
+          "May expose parameters such as size, quality, and number of images"
+        ]
+      },
+      "source": {
+        "title": "How to use image generation models from OpenAI",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Görüntü oluşturma",
+          "definition": "Metin istemlerinden ve modele bağlı olarak isteğe bağlı görüntü girdilerinden yeni görsel çıktılar oluşturan üretken yapay zekâ yeteneği.",
+          "useCases": [
+            "Kurgusal kampanya konseptleri oluşturma",
+            "İnceleme için tasarım varyasyonları üretme"
+          ],
+          "keyFeatures": [
+            "Görsel çıktıyı yönlendirmek için istemleri kullanır",
+            "Boyut, kalite ve görüntü sayısı gibi parametreler sunabilir"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "content-filter",
+      "term": "Content filter",
+      "definition": "A safety system that classifies prompts or model outputs for potentially harmful content and can block or annotate risky content.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Responsible AI",
+        "useCases": [
+          "Reduce harmful generated text or images",
+          "Add safety checks to public AI apps"
+        ],
+        "keyFeatures": [
+          "Classifies content by harm categories",
+          "Works with application policy and human review"
+        ]
+      },
+      "source": {
+        "title": "Content filtering for Microsoft Foundry Models",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry-classic/foundry-models/concepts/content-filter",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "İçerik filtresi",
+          "definition": "İstemleri veya model çıktılarını olası zararlı içerik açısından sınıflandıran ve riskli içeriği engelleyebilen ya da işaretleyebilen güvenlik sistemi.",
+          "useCases": [
+            "Zararlı üretilen metin veya görüntüleri azaltma",
+            "Herkese açık yapay zekâ uygulamalarına güvenlik denetimleri ekleme"
+          ],
+          "keyFeatures": [
+            "İçeriği zarar kategorilerine göre sınıflandırır",
+            "Uygulama politikası ve insan incelemesiyle birlikte çalışır"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "speech-to-text",
+      "term": "Speech to text",
+      "definition": "A speech capability that converts spoken audio into written text for captions, transcripts, voice commands, and downstream text analysis.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Speech",
+        "useCases": [
+          "Transcribe support calls",
+          "Create captions for audio or video"
+        ],
+        "keyFeatures": [
+          "Supports real-time and batch transcription patterns",
+          "Can feed transcripts into language or generative AI workflows"
+        ]
+      },
+      "source": {
+        "title": "Speech to Text overview",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/speech-to-text",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Konuşmadan metne",
+          "definition": "Konuşulan sesi altyazı, transkript, sesli komut ve sonraki metin analizi için yazılı metne dönüştüren konuşma yeteneği.",
+          "useCases": [
+            "Destek çağrılarını yazıya dökme",
+            "Ses veya video için altyazı oluşturma"
+          ],
+          "keyFeatures": [
+            "Gerçek zamanlı ve toplu transkripsiyon desenlerini destekler",
+            "Transkriptleri dil veya üretken yapay zekâ iş akışlarına aktarabilir"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "text-to-speech",
+      "term": "Text to speech",
+      "definition": "A speech capability that converts written text into synthesized audio, often using natural-sounding neural voices.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Speech",
+        "useCases": [
+          "Read assistant responses aloud",
+          "Create audio versions of written content"
+        ],
+        "keyFeatures": [
+          "Synthesizes speech from text",
+          "Can support voice and speaking-style controls depending on the service"
+        ]
+      },
+      "source": {
+        "title": "What is Azure Speech?",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Metinden konuşmaya",
+          "definition": "Yazılı metni genellikle doğal sesli nöral seslerle sentezlenmiş sese dönüştüren konuşma yeteneği.",
+          "useCases": [
+            "Asistan yanıtlarını sesli okutma",
+            "Yazılı içeriğin sesli sürümlerini oluşturma"
+          ],
+          "keyFeatures": [
+            "Metinden konuşma üretir",
+            "Hizmete bağlı olarak ses ve konuşma tarzı denetimlerini destekleyebilir"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "sentiment-analysis",
+      "term": "Sentiment analysis",
+      "definition": "A natural language processing technique that estimates whether text expresses positive, negative, neutral, or mixed opinion.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Language",
+        "useCases": [
+          "Analyze customer reviews",
+          "Prioritize unhappy support messages"
+        ],
+        "keyFeatures": [
+          "Works on written text or transcripts",
+          "Often used with summarization and entity extraction"
+        ]
+      },
+      "source": {
+        "title": "What is Azure Language in Foundry Tools",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Duygu analizi",
+          "definition": "Metnin olumlu, olumsuz, nötr veya karma görüş ifade edip etmediğini tahmin eden doğal dil işleme tekniği.",
+          "useCases": [
+            "Müşteri yorumlarını analiz etme",
+            "Memnun olmayan destek iletilerini önceliklendirme"
+          ],
+          "keyFeatures": [
+            "Yazılı metin veya transkriptler üzerinde çalışır",
+            "Çoğu zaman özetleme ve varlık çıkarımıyla birlikte kullanılır"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "named-entity-recognition",
+      "term": "Named entity recognition",
+      "definition": "A language capability that identifies and categorizes entities in text, such as people, places, organizations, dates, quantities, or product names.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Language",
+        "useCases": [
+          "Extract customer names or product names from emails",
+          "Improve search with entity tags"
+        ],
+        "keyFeatures": [
+          "Finds predefined entity categories",
+          "Can support custom entity categories for specialized domains"
+        ]
+      },
+      "source": {
+        "title": "What is named entity recognition in Azure Language?",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/named-entity-recognition/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "term": "Adlandırılmış varlık tanıma",
+          "definition": "Metindeki kişi, yer, kuruluş, tarih, miktar veya ürün adı gibi varlıkları belirleyip sınıflandıran dil yeteneği.",
+          "useCases": [
+            "E-postalardan müşteri veya ürün adlarını çıkarma",
+            "Varlık etiketleriyle aramayı iyileştirme"
+          ],
+          "keyFeatures": [
+            "Önceden tanımlı varlık kategorilerini bulur",
+            "Uzmanlaşmış alanlar için özel varlık kategorilerini destekleyebilir"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "content-understanding",
+      "term": "Content Understanding",
+      "definition": "An Azure capability in Foundry Tools that extracts and structures information from documents, images, audio, and video by using analyzers, schemas, confidence scores, and grounding.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Information extraction",
+        "serviceModel": "Foundry Tool",
+        "useCases": [
+          "Extract fields from claim packets",
+          "Prepare multimodal content for agents or workflows"
+        ],
+        "keyFeatures": [
+          "Processes documents, images, audio, and video",
+          "Produces structured output with confidence and grounding"
+        ]
+      },
+      "source": {
+        "title": "What is Azure Content Understanding in Foundry Tools?",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AI-901"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Foundry Tools içinde belgelerden, görüntülerden, sesten ve videodan analizörler, şemalar, güven skorları ve dayanak bilgisiyle bilgi çıkarıp yapılandıran Azure yeteneği.",
+          "useCases": [
+            "Hasar dosyalarından alanları çıkarma",
+            "Çok modlu içeriği ajanlar veya iş akışları için hazırlama"
+          ],
+          "keyFeatures": [
+            "Belgeleri, görüntüleri, sesi ve videoyu işler",
+            "Güven skoru ve dayanak bilgisiyle yapılandırılmış çıktı üretir"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    }
+  ]
+}

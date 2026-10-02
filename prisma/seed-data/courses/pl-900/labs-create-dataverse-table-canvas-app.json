@@ -15,22 +15,65 @@
         "Choose appropriate Dataverse column data types for dates, choices, numbers and people fields",
         "Generate, save, publish and share a canvas app from a Dataverse table using least privilege"
       ],
-      "prerequisites": ["Know that Dataverse stores business data for Power Platform apps"],
+      "prerequisites": [
+        "Know that Dataverse stores business data for Power Platform apps"
+      ],
       "sources": [
-        { "title": "Create and edit tables using Power Apps", "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/create-edit-entities-portal" },
-        { "title": "Column data types in Microsoft Dataverse", "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/types-of-fields" },
-        { "title": "Understand canvas-app forms", "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/working-with-forms" },
-        { "title": "Share a canvas app with your organization", "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/share-app" }
+        {
+          "title": "Create and edit tables using Power Apps",
+          "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/create-edit-entities-portal"
+        },
+        {
+          "title": "Column data types in Microsoft Dataverse",
+          "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/types-of-fields"
+        },
+        {
+          "title": "Understand canvas-app forms",
+          "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/working-with-forms"
+        },
+        {
+          "title": "Share a canvas app with your organization",
+          "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/share-app"
+        }
       ],
       "config": {
-        "portal": { "name": "Power Apps", "theme": "power-apps", "user": "alex@contoso.example", "tenant": "Contoso (default)", "url": "https://make.powerapps.com", "searchPlaceholder": "Search" },
-        "vm": { "name": "LAB-VM-01", "os": "windows", "apps": ["browser"] },
-        "clock": { "start": "2026-09-30T09:00:00Z" },
+        "portal": {
+          "name": "Power Apps",
+          "theme": "power-apps",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (default)",
+          "url": "https://make.powerapps.com",
+          "searchPlaceholder": "Search"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
         "startPage": "home",
         "navigation": [
-          { "page": "home", "label": "Home", "icon": "Home" },
-          { "page": "tables", "label": "Tables", "icon": "Table", "section": "Data" },
-          { "page": "apps", "label": "Apps", "icon": "AppWindow", "section": "Build" }
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "tables",
+            "label": "Tables",
+            "icon": "Table",
+            "section": "Data"
+          },
+          {
+            "page": "apps",
+            "label": "Apps",
+            "icon": "AppWindow",
+            "section": "Build"
+          }
         ],
         "pages": [
           {
@@ -39,16 +82,49 @@
             "subtitle": "Contoso (default)",
             "url": "/",
             "components": [
-              { "kind": "callout", "variant": "info", "title": "Environment", "text": "You are working in **Contoso (default)**. Dataverse stores business data; Power Apps uses connectors, including the Dataverse connector, to read and write that data." },
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Environment",
+                "text": "You are working in **Contoso (default)**. Dataverse stores business data; Power Apps uses connectors, including the Dataverse connector, to read and write that data."
+              },
               {
                 "kind": "tiles",
                 "id": "maker-home",
                 "title": "Start building",
                 "size": "md",
                 "items": [
-                  { "id": "tables", "label": "Tables", "description": "Model business data in Microsoft Dataverse.", "icon": "Table", "action": { "type": "navigate", "page": "tables" } },
-                  { "id": "apps", "label": "Apps", "description": "Create canvas or model-driven apps for users.", "icon": "AppWindow", "action": { "type": "navigate", "page": "apps" } },
-                  { "id": "connections", "label": "Connections", "description": "Connectors link apps and flows to services and data sources.", "icon": "Plug", "action": { "type": "message", "tone": "info", "text": "Connectors aren't configured in this lab. The generated app uses the Dataverse connector." } }
+                  {
+                    "id": "tables",
+                    "label": "Tables",
+                    "description": "Model business data in Microsoft Dataverse.",
+                    "icon": "Table",
+                    "action": {
+                      "type": "navigate",
+                      "page": "tables"
+                    }
+                  },
+                  {
+                    "id": "apps",
+                    "label": "Apps",
+                    "description": "Create canvas or model-driven apps for users.",
+                    "icon": "AppWindow",
+                    "action": {
+                      "type": "navigate",
+                      "page": "apps"
+                    }
+                  },
+                  {
+                    "id": "connections",
+                    "label": "Connections",
+                    "description": "Connectors link apps and flows to services and data sources.",
+                    "icon": "Plug",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Connectors aren't configured in this lab. The generated app uses the Dataverse connector."
+                    }
+                  }
                 ]
               }
             ]
@@ -59,13 +135,36 @@
             "subtitle": "Contoso (default)",
             "icon": "Table",
             "url": "/environments/contoso-default/tables",
-            "breadcrumb": ["Home"],
+            "breadcrumb": [
+              "Home"
+            ],
             "commands": [
-              { "id": "tables-new", "label": "+ New table", "icon": "Plus", "variant": "primary", "action": { "type": "navigate", "page": "new-table" } },
-              { "id": "tables-refresh", "label": "Refresh", "icon": "RefreshCw", "action": { "type": "message", "tone": "info", "text": "The table list is up to date." } }
+              {
+                "id": "tables-new",
+                "label": "+ New table",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "new-table"
+                }
+              },
+              {
+                "id": "tables-refresh",
+                "label": "Refresh",
+                "icon": "RefreshCw",
+                "action": {
+                  "type": "message",
+                  "tone": "info",
+                  "text": "The table list is up to date."
+                }
+              }
             ],
             "components": [
-              { "kind": "text", "text": "Use **Tables** to create custom Dataverse tables. A table contains columns, relationships, views, forms and rows." },
+              {
+                "kind": "text",
+                "text": "Use **Tables** to create custom Dataverse tables. A table contains columns, relationships, views, forms and rows."
+              },
               {
                 "kind": "table",
                 "id": "tables-list",
@@ -73,12 +172,35 @@
                 "rowKey": "displayName",
                 "searchable": true,
                 "columns": [
-                  { "key": "displayName", "label": "Display name", "format": "link" },
-                  { "key": "type", "label": "Type" },
-                  { "key": "primaryColumn", "label": "Primary column" },
-                  { "key": "rows", "label": "Rows", "format": "count" }
+                  {
+                    "key": "displayName",
+                    "label": "Display name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Type"
+                  },
+                  {
+                    "key": "primaryColumn",
+                    "label": "Primary column"
+                  },
+                  {
+                    "key": "rows",
+                    "label": "Rows",
+                    "format": "count"
+                  }
                 ],
-                "rowAction": { "type": "navigate", "page": "table-designer", "select": { "as": "table", "path": "dataverseTables", "key": "displayName", "value": "{{$row.displayName}}" } }
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "table-designer",
+                  "select": {
+                    "as": "table",
+                    "path": "dataverseTables",
+                    "key": "displayName",
+                    "value": "{{$row.displayName}}"
+                  }
+                }
               }
             ]
           },
@@ -88,7 +210,10 @@
             "icon": "Table",
             "url": "/environments/contoso-default/tables/new",
             "navItem": "tables",
-            "breadcrumb": ["Home", "Tables"],
+            "breadcrumb": [
+              "Home",
+              "Tables"
+            ],
             "components": [
               {
                 "kind": "form",
@@ -96,22 +221,104 @@
                 "title": "Table properties",
                 "description": "Create a custom table. The primary column is the text column that identifies each row in lists and lookups.",
                 "fields": [
-                  { "id": "displayName", "label": "Display name", "control": "text", "required": true, "placeholder": "Equipment Request", "unique": { "path": "dataverseTables", "key": "displayName", "message": "A table with this display name already exists." } },
-                  { "id": "pluralName", "label": "Plural name", "control": "text", "required": true, "placeholder": "Equipment Requests" },
-                  { "id": "primaryColumn", "label": "Primary column", "control": "text", "required": true, "placeholder": "Request title" },
-                  { "id": "description", "label": "Description", "control": "textarea", "defaultValue": "Tracks Contoso equipment requests for review and approval." }
+                  {
+                    "id": "displayName",
+                    "label": "Display name",
+                    "control": "text",
+                    "required": true,
+                    "placeholder": "Equipment Request",
+                    "unique": {
+                      "path": "dataverseTables",
+                      "key": "displayName",
+                      "message": "A table with this display name already exists."
+                    }
+                  },
+                  {
+                    "id": "pluralName",
+                    "label": "Plural name",
+                    "control": "text",
+                    "required": true,
+                    "placeholder": "Equipment Requests"
+                  },
+                  {
+                    "id": "primaryColumn",
+                    "label": "Primary column",
+                    "control": "text",
+                    "required": true,
+                    "placeholder": "Request title"
+                  },
+                  {
+                    "id": "description",
+                    "label": "Description",
+                    "control": "textarea",
+                    "defaultValue": "Tracks Contoso equipment requests for review and approval."
+                  }
                 ],
                 "submit": {
                   "label": "Create",
                   "checks": [
-                    { "rule": { "type": "equals", "path": "$form.displayName", "value": "Equipment Request" }, "message": "Use the singular display name Equipment Request so Dataverse can generate clear table and app labels." },
-                    { "rule": { "type": "equals", "path": "$form.pluralName", "value": "Equipment Requests" }, "message": "Set the plural name to Equipment Requests. Lists and navigation use the plural label." },
-                    { "rule": { "type": "equals", "path": "$form.primaryColumn", "value": "Request title" }, "message": "Use Request title for the primary column so each request has a readable row name." }
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.displayName",
+                        "value": "Equipment Request"
+                      },
+                      "message": "Use the singular display name Equipment Request so Dataverse can generate clear table and app labels."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.pluralName",
+                        "value": "Equipment Requests"
+                      },
+                      "message": "Set the plural name to Equipment Requests. Lists and navigation use the plural label."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.primaryColumn",
+                        "value": "Request title"
+                      },
+                      "message": "Use Request title for the primary column so each request has a readable row name."
+                    }
                   ],
                   "actions": [
-                    { "type": "append", "path": "dataverseTables", "unique": "displayName", "value": { "displayName": "{{$form.displayName}}", "pluralName": "{{$form.pluralName}}", "primaryColumn": "{{$form.primaryColumn}}", "type": "Custom", "description": "{{$form.description}}", "columns": [{ "name": "Request title", "dataType": "Text", "required": true, "kind": "Primary" }], "rows": [] } },
-                    { "type": "notify", "title": "Table created", "message": "Equipment Request was created in Dataverse." },
-                    { "type": "navigate", "page": "table-designer", "select": { "as": "table", "path": "dataverseTables", "key": "displayName", "value": "{{$form.displayName}}" } }
+                    {
+                      "type": "append",
+                      "path": "dataverseTables",
+                      "unique": "displayName",
+                      "value": {
+                        "displayName": "{{$form.displayName}}",
+                        "pluralName": "{{$form.pluralName}}",
+                        "primaryColumn": "{{$form.primaryColumn}}",
+                        "type": "Custom",
+                        "description": "{{$form.description}}",
+                        "columns": [
+                          {
+                            "name": "Request title",
+                            "dataType": "Text",
+                            "required": true,
+                            "kind": "Primary"
+                          }
+                        ],
+                        "rows": []
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Table created",
+                      "message": "Equipment Request was created in Dataverse."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "table-designer",
+                      "select": {
+                        "as": "table",
+                        "path": "dataverseTables",
+                        "key": "displayName",
+                        "value": "{{$form.displayName}}"
+                      }
+                    }
                   ]
                 }
               }
@@ -125,24 +332,65 @@
             "url": "/environments/contoso-default/tables/equipment-request",
             "requires": "table",
             "navItem": "tables",
-            "breadcrumb": ["Home", "Tables"],
+            "breadcrumb": [
+              "Home",
+              "Tables"
+            ],
             "menu": [
-              { "page": "table-designer", "label": "Columns", "icon": "Table2" },
-              { "page": "data-editor", "label": "Edit data", "icon": "Sheet" }
+              {
+                "page": "table-designer",
+                "label": "Columns",
+                "icon": "Table2"
+              },
+              {
+                "page": "data-editor",
+                "label": "Edit data",
+                "icon": "Sheet"
+              }
             ],
             "commands": [
-              { "id": "add-columns", "label": "+ New column", "icon": "Plus", "variant": "primary", "action": { "type": "navigate", "page": "add-columns" } },
-              { "id": "open-edit-data", "label": "Edit data", "icon": "Sheet", "action": { "type": "navigate", "page": "data-editor" } }
+              {
+                "id": "add-columns",
+                "label": "+ New column",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "add-columns"
+                }
+              },
+              {
+                "id": "open-edit-data",
+                "label": "Edit data",
+                "icon": "Sheet",
+                "action": {
+                  "type": "navigate",
+                  "page": "data-editor"
+                }
+              }
             ],
             "components": [
               {
                 "kind": "properties",
                 "title": "Table properties",
                 "items": [
-                  { "label": "Display name", "value": "{{$sel.table.displayName}}" },
-                  { "label": "Plural name", "value": "{{$sel.table.pluralName}}" },
-                  { "label": "Primary column", "value": "{{$sel.table.primaryColumn}}" },
-                  { "label": "Rows", "value": "{{$sel.table.rows | count}}", "format": "count" }
+                  {
+                    "label": "Display name",
+                    "value": "{{$sel.table.displayName}}"
+                  },
+                  {
+                    "label": "Plural name",
+                    "value": "{{$sel.table.pluralName}}"
+                  },
+                  {
+                    "label": "Primary column",
+                    "value": "{{$sel.table.primaryColumn}}"
+                  },
+                  {
+                    "label": "Rows",
+                    "value": "{{$sel.table.rows | count}}",
+                    "format": "count"
+                  }
                 ]
               },
               {
@@ -152,9 +400,19 @@
                 "source": "$sel.table.columns",
                 "rowKey": "name",
                 "columns": [
-                  { "key": "name", "label": "Display name" },
-                  { "key": "dataType", "label": "Data type", "format": "badge" },
-                  { "key": "kind", "label": "Kind" }
+                  {
+                    "key": "name",
+                    "label": "Display name"
+                  },
+                  {
+                    "key": "dataType",
+                    "label": "Data type",
+                    "format": "badge"
+                  },
+                  {
+                    "key": "kind",
+                    "label": "Kind"
+                  }
                 ]
               }
             ]
@@ -167,47 +425,216 @@
             "url": "/environments/contoso-default/tables/equipment-request/columns/new",
             "requires": "table",
             "navItem": "tables",
-            "breadcrumb": ["Home", "Tables", "Equipment Request"],
+            "breadcrumb": [
+              "Home",
+              "Tables",
+              "Equipment Request"
+            ],
             "components": [
-              { "kind": "callout", "variant": "info", "title": "Choose the right data type", "text": "Dataverse data types control validation and behavior. Use **Date Only** for dates, **Whole Number** for counts, **Choice** for controlled status values, and **Text** or **Lookup** for the requester depending on whether you need a relationship to a user/contact table." },
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Choose the right data type",
+                "text": "Dataverse data types control validation and behavior. Use **Date Only** for dates, **Whole Number** for counts, **Choice** for controlled status values, and **Text** or **Lookup** for the requester depending on whether you need a relationship to a user/contact table."
+              },
               {
                 "kind": "form",
                 "id": "columns-form",
                 "title": "New columns",
                 "description": "Add the columns needed by the request process.",
                 "fields": [
-                  { "id": "requestDateType", "label": "Request date data type", "control": "select", "required": true, "options": [{ "value": "Date Only", "label": "Date Only" }, { "value": "Text", "label": "Text" }, { "value": "Date and Time", "label": "Date and Time" }] },
-                  { "id": "statusType", "label": "Status data type", "control": "select", "required": true, "options": [{ "value": "Choice", "label": "Choice" }, { "value": "Text", "label": "Text" }, { "value": "Yes/No", "label": "Yes/No" }] },
-                  { "id": "statusChoices", "label": "Status choices", "control": "text", "required": true, "defaultValue": "New; Approved; Rejected", "help": "Enter the allowed values separated by semicolons." },
-                  { "id": "quantityType", "label": "Quantity data type", "control": "select", "required": true, "options": [{ "value": "Whole Number", "label": "Whole Number" }, { "value": "Text", "label": "Text" }, { "value": "Decimal Number", "label": "Decimal Number" }] },
-                  { "id": "requestedByType", "label": "Requested by data type", "control": "select", "required": true, "options": [{ "value": "Text", "label": "Text" }, { "value": "Lookup", "label": "Lookup" }, { "value": "Whole Number", "label": "Whole Number" }] }
+                  {
+                    "id": "requestDateType",
+                    "label": "Request date data type",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Date Only",
+                        "label": "Date Only"
+                      },
+                      {
+                        "value": "Text",
+                        "label": "Text"
+                      },
+                      {
+                        "value": "Date and Time",
+                        "label": "Date and Time"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "statusType",
+                    "label": "Status data type",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Choice",
+                        "label": "Choice"
+                      },
+                      {
+                        "value": "Text",
+                        "label": "Text"
+                      },
+                      {
+                        "value": "Yes/No",
+                        "label": "Yes/No"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "statusChoices",
+                    "label": "Status choices",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "New; Approved; Rejected",
+                    "help": "Enter the allowed values separated by semicolons."
+                  },
+                  {
+                    "id": "quantityType",
+                    "label": "Quantity data type",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Whole Number",
+                        "label": "Whole Number"
+                      },
+                      {
+                        "value": "Text",
+                        "label": "Text"
+                      },
+                      {
+                        "value": "Decimal Number",
+                        "label": "Decimal Number"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "requestedByType",
+                    "label": "Requested by data type",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Text",
+                        "label": "Text"
+                      },
+                      {
+                        "value": "Lookup",
+                        "label": "Lookup"
+                      },
+                      {
+                        "value": "Whole Number",
+                        "label": "Whole Number"
+                      }
+                    ]
+                  }
                 ],
                 "submit": {
                   "label": "Save",
                   "checks": [
-                    { "rule": { "type": "equals", "path": "$form.requestDateType", "value": "Date Only" }, "message": "Request date should be Date Only. Text would not sort or validate as a date." },
-                    { "rule": { "type": "equals", "path": "$form.statusType", "value": "Choice" }, "message": "Status should be a Choice so users select New, Approved, or Rejected instead of typing inconsistent text." },
-                    { "rule": { "type": "matches", "path": "$form.statusChoices", "pattern": "New.*Approved.*Rejected" }, "message": "Include the choices New, Approved, and Rejected." },
-                    { "rule": { "type": "equals", "path": "$form.quantityType", "value": "Whole Number" }, "message": "Quantity should be Whole Number. Text would allow values such as 'two' and break numeric sorting or conditions." },
-                    { "rule": { "type": "oneOf", "path": "$form.requestedByType", "values": ["Text", "Lookup"] }, "message": "Requested by should be Text for a simple name/email value or Lookup if you relate to a user/contact table." }
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.requestDateType",
+                        "value": "Date Only"
+                      },
+                      "message": "Request date should be Date Only. Text would not sort or validate as a date."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.statusType",
+                        "value": "Choice"
+                      },
+                      "message": "Status should be a Choice so users select New, Approved, or Rejected instead of typing inconsistent text."
+                    },
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.statusChoices",
+                        "pattern": "New.*Approved.*Rejected"
+                      },
+                      "message": "Include the choices New, Approved, and Rejected."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.quantityType",
+                        "value": "Whole Number"
+                      },
+                      "message": "Quantity should be Whole Number. Text would allow values such as 'two' and break numeric sorting or conditions."
+                    },
+                    {
+                      "rule": {
+                        "type": "oneOf",
+                        "path": "$form.requestedByType",
+                        "values": [
+                          "Text",
+                          "Lookup"
+                        ]
+                      },
+                      "message": "Requested by should be Text for a simple name/email value or Lookup if you relate to a user/contact table."
+                    }
                   ],
                   "actions": [
                     {
                       "type": "update",
                       "path": "dataverseTables",
-                      "where": { "displayName": "Equipment Request" },
+                      "where": {
+                        "displayName": "Equipment Request"
+                      },
                       "set": {
                         "columns": [
-                          { "name": "Request title", "dataType": "Text", "required": true, "kind": "Primary" },
-                          { "name": "Request date", "dataType": "Date Only", "required": true, "kind": "Custom" },
-                          { "name": "Status", "dataType": "Choice", "choices": ["New", "Approved", "Rejected"], "required": true, "kind": "Custom" },
-                          { "name": "Quantity", "dataType": "Whole Number", "required": true, "kind": "Custom" },
-                          { "name": "Requested by", "dataType": "{{$form.requestedByType}}", "required": true, "kind": "Custom" }
+                          {
+                            "name": "Request title",
+                            "dataType": "Text",
+                            "required": true,
+                            "kind": "Primary"
+                          },
+                          {
+                            "name": "Request date",
+                            "dataType": "Date Only",
+                            "required": true,
+                            "kind": "Custom"
+                          },
+                          {
+                            "name": "Status",
+                            "dataType": "Choice",
+                            "choices": [
+                              "New",
+                              "Approved",
+                              "Rejected"
+                            ],
+                            "required": true,
+                            "kind": "Custom"
+                          },
+                          {
+                            "name": "Quantity",
+                            "dataType": "Whole Number",
+                            "required": true,
+                            "kind": "Custom"
+                          },
+                          {
+                            "name": "Requested by",
+                            "dataType": "{{$form.requestedByType}}",
+                            "required": true,
+                            "kind": "Custom"
+                          }
                         ]
                       }
                     },
-                    { "type": "notify", "title": "Columns saved", "message": "Equipment Request now has typed Dataverse columns." },
-                    { "type": "navigate", "page": "table-designer" }
+                    {
+                      "type": "notify",
+                      "title": "Columns saved",
+                      "message": "Equipment Request now has typed Dataverse columns."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "table-designer"
+                    }
                   ]
                 }
               }
@@ -221,10 +648,22 @@
             "url": "/environments/contoso-default/tables/equipment-request/data",
             "requires": "table",
             "navItem": "tables",
-            "breadcrumb": ["Home", "Tables", "Equipment Request"],
+            "breadcrumb": [
+              "Home",
+              "Tables",
+              "Equipment Request"
+            ],
             "menu": [
-              { "page": "table-designer", "label": "Columns", "icon": "Table2" },
-              { "page": "data-editor", "label": "Edit data", "icon": "Sheet" }
+              {
+                "page": "table-designer",
+                "label": "Columns",
+                "icon": "Table2"
+              },
+              {
+                "page": "data-editor",
+                "label": "Edit data",
+                "icon": "Sheet"
+              }
             ],
             "components": [
               {
@@ -235,11 +674,30 @@
                 "rowKey": "title",
                 "emptyText": "No rows. Use Add sample rows to create request rows.",
                 "columns": [
-                  { "key": "title", "label": "Request title", "format": "link" },
-                  { "key": "requestDate", "label": "Request date", "format": "date" },
-                  { "key": "status", "label": "Status", "format": "status" },
-                  { "key": "quantity", "label": "Quantity", "format": "count" },
-                  { "key": "requestedBy", "label": "Requested by" }
+                  {
+                    "key": "title",
+                    "label": "Request title",
+                    "format": "link"
+                  },
+                  {
+                    "key": "requestDate",
+                    "label": "Request date",
+                    "format": "date"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "quantity",
+                    "label": "Quantity",
+                    "format": "count"
+                  },
+                  {
+                    "key": "requestedBy",
+                    "label": "Requested by"
+                  }
                 ]
               },
               {
@@ -248,12 +706,51 @@
                 "title": "Add sample rows",
                 "description": "The table row editor can add, edit, or delete rows. Add three realistic request rows for the generated app to show.",
                 "fields": [
-                  { "id": "rowOneTitle", "label": "Row 1 request title", "control": "text", "required": true, "defaultValue": "Replacement keyboard" },
-                  { "id": "rowOneQuantity", "label": "Row 1 quantity", "control": "number", "required": true, "min": 1, "defaultValue": 2 },
-                  { "id": "rowTwoTitle", "label": "Row 2 request title", "control": "text", "required": true, "defaultValue": "Visitor badges" },
-                  { "id": "rowTwoQuantity", "label": "Row 2 quantity", "control": "number", "required": true, "min": 1, "defaultValue": 25 },
-                  { "id": "rowThreeTitle", "label": "Row 3 request title", "control": "text", "required": true, "defaultValue": "Conference room adapters" },
-                  { "id": "rowThreeQuantity", "label": "Row 3 quantity", "control": "number", "required": true, "min": 1, "defaultValue": 4 }
+                  {
+                    "id": "rowOneTitle",
+                    "label": "Row 1 request title",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Replacement keyboard"
+                  },
+                  {
+                    "id": "rowOneQuantity",
+                    "label": "Row 1 quantity",
+                    "control": "number",
+                    "required": true,
+                    "min": 1,
+                    "defaultValue": 2
+                  },
+                  {
+                    "id": "rowTwoTitle",
+                    "label": "Row 2 request title",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Visitor badges"
+                  },
+                  {
+                    "id": "rowTwoQuantity",
+                    "label": "Row 2 quantity",
+                    "control": "number",
+                    "required": true,
+                    "min": 1,
+                    "defaultValue": 25
+                  },
+                  {
+                    "id": "rowThreeTitle",
+                    "label": "Row 3 request title",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Conference room adapters"
+                  },
+                  {
+                    "id": "rowThreeQuantity",
+                    "label": "Row 3 quantity",
+                    "control": "number",
+                    "required": true,
+                    "min": 1,
+                    "defaultValue": 4
+                  }
                 ],
                 "submit": {
                   "label": "Save rows",
@@ -261,16 +758,40 @@
                     {
                       "type": "update",
                       "path": "dataverseTables",
-                      "where": { "displayName": "Equipment Request" },
+                      "where": {
+                        "displayName": "Equipment Request"
+                      },
                       "set": {
                         "rows": [
-                          { "title": "{{$form.rowOneTitle}}", "requestDate": "2026-09-30", "status": "New", "quantity": "{{$form.rowOneQuantity}}", "requestedBy": "Aylin" },
-                          { "title": "{{$form.rowTwoTitle}}", "requestDate": "2026-10-01", "status": "Approved", "quantity": "{{$form.rowTwoQuantity}}", "requestedBy": "Jon" },
-                          { "title": "{{$form.rowThreeTitle}}", "requestDate": "2026-10-02", "status": "Rejected", "quantity": "{{$form.rowThreeQuantity}}", "requestedBy": "Priya" }
+                          {
+                            "title": "{{$form.rowOneTitle}}",
+                            "requestDate": "2026-09-30",
+                            "status": "New",
+                            "quantity": "{{$form.rowOneQuantity}}",
+                            "requestedBy": "Aylin"
+                          },
+                          {
+                            "title": "{{$form.rowTwoTitle}}",
+                            "requestDate": "2026-10-01",
+                            "status": "Approved",
+                            "quantity": "{{$form.rowTwoQuantity}}",
+                            "requestedBy": "Jon"
+                          },
+                          {
+                            "title": "{{$form.rowThreeTitle}}",
+                            "requestDate": "2026-10-02",
+                            "status": "Rejected",
+                            "quantity": "{{$form.rowThreeQuantity}}",
+                            "requestedBy": "Priya"
+                          }
                         ]
                       }
                     },
-                    { "type": "notify", "title": "Rows saved", "message": "Three equipment request rows were saved." }
+                    {
+                      "type": "notify",
+                      "title": "Rows saved",
+                      "message": "Three equipment request rows were saved."
+                    }
                   ]
                 }
               }
@@ -282,10 +803,30 @@
             "subtitle": "Contoso (default)",
             "icon": "AppWindow",
             "url": "/environments/contoso-default/apps",
-            "breadcrumb": ["Home"],
+            "breadcrumb": [
+              "Home"
+            ],
             "commands": [
-              { "id": "apps-create", "label": "+ Create", "icon": "Plus", "variant": "primary", "action": { "type": "navigate", "page": "create-app" } },
-              { "id": "apps-refresh", "label": "Refresh", "icon": "RefreshCw", "action": { "type": "message", "tone": "info", "text": "The app list is up to date." } }
+              {
+                "id": "apps-create",
+                "label": "+ Create",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "create-app"
+                }
+              },
+              {
+                "id": "apps-refresh",
+                "label": "Refresh",
+                "icon": "RefreshCw",
+                "action": {
+                  "type": "message",
+                  "tone": "info",
+                  "text": "The app list is up to date."
+                }
+              }
             ],
             "components": [
               {
@@ -295,13 +836,40 @@
                 "rowKey": "name",
                 "emptyText": "No apps created yet.",
                 "columns": [
-                  { "key": "name", "label": "Name", "format": "link" },
-                  { "key": "type", "label": "Type" },
-                  { "key": "dataSource", "label": "Data source" },
-                  { "key": "published", "label": "Published", "format": "bool" },
-                  { "key": "shared.role", "label": "Shared role", "format": "badge" }
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Type"
+                  },
+                  {
+                    "key": "dataSource",
+                    "label": "Data source"
+                  },
+                  {
+                    "key": "published",
+                    "label": "Published",
+                    "format": "bool"
+                  },
+                  {
+                    "key": "shared.role",
+                    "label": "Shared role",
+                    "format": "badge"
+                  }
                 ],
-                "rowAction": { "type": "navigate", "page": "app-studio", "select": { "as": "app", "path": "apps", "key": "name", "value": "{{$row.name}}" } }
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "app-studio",
+                  "select": {
+                    "as": "app",
+                    "path": "apps",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
               }
             ]
           },
@@ -311,7 +879,10 @@
             "icon": "Plus",
             "url": "/environments/contoso-default/create",
             "navItem": "apps",
-            "breadcrumb": ["Home", "Apps"],
+            "breadcrumb": [
+              "Home",
+              "Apps"
+            ],
             "components": [
               {
                 "kind": "tiles",
@@ -319,9 +890,38 @@
                 "title": "Start creating",
                 "size": "md",
                 "items": [
-                  { "id": "start-with-data", "label": "Start with data", "description": "Generate a canvas app from a Dataverse table or another data source.", "icon": "Database", "action": { "type": "navigate", "page": "start-with-data" } },
-                  { "id": "blank-canvas", "label": "Blank canvas app", "description": "Design every screen and control yourself.", "icon": "AppWindow", "action": { "type": "message", "tone": "info", "text": "A blank canvas app is flexible, but this lab uses Start with data to generate browse, detail and edit screens from Dataverse." } },
-                  { "id": "model-driven", "label": "Model-driven app", "description": "Use Dataverse forms, views, business rules and navigation.", "icon": "LayoutDashboard", "action": { "type": "message", "tone": "info", "text": "Model-driven apps are driven by the Dataverse data model. This lab creates a canvas app so you can see generated browse, detail and edit screens." } }
+                  {
+                    "id": "start-with-data",
+                    "label": "Start with data",
+                    "description": "Generate a canvas app from a Dataverse table or another data source.",
+                    "icon": "Database",
+                    "action": {
+                      "type": "navigate",
+                      "page": "start-with-data"
+                    }
+                  },
+                  {
+                    "id": "blank-canvas",
+                    "label": "Blank canvas app",
+                    "description": "Design every screen and control yourself.",
+                    "icon": "AppWindow",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "A blank canvas app is flexible, but this lab uses Start with data to generate browse, detail and edit screens from Dataverse."
+                    }
+                  },
+                  {
+                    "id": "model-driven",
+                    "label": "Model-driven app",
+                    "description": "Use Dataverse forms, views, business rules and navigation.",
+                    "icon": "LayoutDashboard",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Model-driven apps are driven by the Dataverse data model. This lab creates a canvas app so you can see generated browse, detail and edit screens."
+                    }
+                  }
                 ]
               }
             ]
@@ -333,7 +933,11 @@
             "icon": "Database",
             "url": "/environments/contoso-default/create/start-with-data",
             "navItem": "apps",
-            "breadcrumb": ["Home", "Apps", "Create"],
+            "breadcrumb": [
+              "Home",
+              "Apps",
+              "Create"
+            ],
             "components": [
               {
                 "kind": "form",
@@ -341,20 +945,104 @@
                 "title": "Generate an app from a Dataverse table",
                 "description": "Power Apps can generate a canvas app with a browse screen, a details screen and an edit screen from a data source.",
                 "fields": [
-                  { "id": "dataSource", "label": "Data source", "control": "select", "required": true, "options": [{ "value": "Dataverse", "label": "Dataverse" }, { "value": "Excel", "label": "Excel" }, { "value": "SharePoint", "label": "SharePoint" }], "defaultValue": "Dataverse" },
-                  { "id": "tableName", "label": "Table", "control": "select", "required": true, "optionsFrom": { "path": "dataverseTables", "value": "displayName", "label": "pluralName" } },
-                  { "id": "appName", "label": "App name", "control": "text", "required": true, "defaultValue": "Equipment Requests Canvas" }
+                  {
+                    "id": "dataSource",
+                    "label": "Data source",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Dataverse",
+                        "label": "Dataverse"
+                      },
+                      {
+                        "value": "Excel",
+                        "label": "Excel"
+                      },
+                      {
+                        "value": "SharePoint",
+                        "label": "SharePoint"
+                      }
+                    ],
+                    "defaultValue": "Dataverse"
+                  },
+                  {
+                    "id": "tableName",
+                    "label": "Table",
+                    "control": "select",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "dataverseTables",
+                      "value": "displayName",
+                      "label": "pluralName"
+                    }
+                  },
+                  {
+                    "id": "appName",
+                    "label": "App name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Equipment Requests Canvas"
+                  }
                 ],
                 "submit": {
                   "label": "Create app",
                   "checks": [
-                    { "rule": { "type": "equals", "path": "$form.dataSource", "value": "Dataverse" }, "message": "Use the Dataverse data source so the app is connected to the Equipment Request table." },
-                    { "rule": { "type": "equals", "path": "$form.tableName", "value": "Equipment Request" }, "message": "Select the Equipment Request table you created." }
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.dataSource",
+                        "value": "Dataverse"
+                      },
+                      "message": "Use the Dataverse data source so the app is connected to the Equipment Request table."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.tableName",
+                        "value": "Equipment Request"
+                      },
+                      "message": "Select the Equipment Request table you created."
+                    }
                   ],
                   "actions": [
-                    { "type": "append", "path": "apps", "unique": "name", "value": { "name": "{{$form.appName}}", "type": "Canvas", "dataSource": "Dataverse", "table": "Equipment Request", "screens": ["Browse screen", "Detail screen", "Edit screen"], "saved": false, "published": false, "shared": { "group": "", "role": "" } } },
-                    { "type": "notify", "title": "Canvas app generated", "message": "Power Apps generated browse, detail and edit screens from the Equipment Request table." },
-                    { "type": "navigate", "page": "app-studio", "select": { "as": "app", "path": "apps", "key": "name", "value": "{{$form.appName}}" } }
+                    {
+                      "type": "append",
+                      "path": "apps",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.appName}}",
+                        "type": "Canvas",
+                        "dataSource": "Dataverse",
+                        "table": "Equipment Request",
+                        "screens": [
+                          "Browse screen",
+                          "Detail screen",
+                          "Edit screen"
+                        ],
+                        "saved": false,
+                        "published": false,
+                        "shared": {
+                          "group": "",
+                          "role": ""
+                        }
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Canvas app generated",
+                      "message": "Power Apps generated browse, detail and edit screens from the Equipment Request table."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "app-studio",
+                      "select": {
+                        "as": "app",
+                        "path": "apps",
+                        "key": "name",
+                        "value": "{{$form.appName}}"
+                      }
+                    }
                   ]
                 }
               }
@@ -368,26 +1056,137 @@
             "url": "/environments/contoso-default/apps/{{$sel.app.name | slug}}/edit",
             "requires": "app",
             "navItem": "apps",
-            "breadcrumb": ["Home", "Apps"],
+            "breadcrumb": [
+              "Home",
+              "Apps"
+            ],
             "commands": [
-              { "id": "app-save", "label": "Save", "icon": "Save", "variant": "primary", "action": { "type": "sequence", "actions": [{ "type": "update", "path": "apps", "where": { "name": "{{$sel.app.name}}" }, "set": { "saved": true } }, { "type": "notify", "title": "Saved", "message": "The app changes were saved." }] } },
-              { "id": "app-publish", "label": "Publish", "icon": "Upload", "action": { "type": "if", "when": { "type": "equals", "path": "$sel.app.saved", "value": true }, "then": [{ "type": "update", "path": "apps", "where": { "name": "{{$sel.app.name}}" }, "set": { "published": true } }, { "type": "notify", "title": "Published", "message": "Published version is now available to shared users." }], "else": [{ "type": "fail", "message": "Save the app before publishing it." }] } },
-              { "id": "app-share", "label": "Share", "icon": "Share2", "action": { "type": "navigate", "page": "share-app" } }
+              {
+                "id": "app-save",
+                "label": "Save",
+                "icon": "Save",
+                "variant": "primary",
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "apps",
+                      "where": {
+                        "name": "{{$sel.app.name}}"
+                      },
+                      "set": {
+                        "saved": true
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Saved",
+                      "message": "The app changes were saved."
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "app-publish",
+                "label": "Publish",
+                "icon": "Upload",
+                "action": {
+                  "type": "if",
+                  "when": {
+                    "type": "equals",
+                    "path": "$sel.app.saved",
+                    "value": true
+                  },
+                  "then": [
+                    {
+                      "type": "update",
+                      "path": "apps",
+                      "where": {
+                        "name": "{{$sel.app.name}}"
+                      },
+                      "set": {
+                        "published": true
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Published",
+                      "message": "Published version is now available to shared users."
+                    }
+                  ],
+                  "else": [
+                    {
+                      "type": "fail",
+                      "message": "Save the app before publishing it."
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "app-share",
+                "label": "Share",
+                "icon": "Share2",
+                "action": {
+                  "type": "navigate",
+                  "page": "share-app"
+                }
+              }
             ],
             "components": [
-              { "kind": "callout", "variant": "success", "visibleWhen": { "type": "equals", "path": "$sel.app.published", "value": true }, "text": "This app is published. Users see the latest published version after it is shared with them." },
+              {
+                "kind": "callout",
+                "variant": "success",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "$sel.app.published",
+                  "value": true
+                },
+                "text": "This app is published. Users see the latest published version after it is shared with them."
+              },
               {
                 "kind": "properties",
                 "title": "App details",
                 "items": [
-                  { "label": "Type", "value": "{{$sel.app.type}}" },
-                  { "label": "Data source", "value": "{{$sel.app.dataSource}} connector" },
-                  { "label": "Table", "value": "{{$sel.app.table}}" },
-                  { "label": "Saved", "value": "{{$sel.app.saved}}", "format": "bool" },
-                  { "label": "Published", "value": "{{$sel.app.published}}", "format": "bool" }
+                  {
+                    "label": "Type",
+                    "value": "{{$sel.app.type}}"
+                  },
+                  {
+                    "label": "Data source",
+                    "value": "{{$sel.app.dataSource}} connector"
+                  },
+                  {
+                    "label": "Table",
+                    "value": "{{$sel.app.table}}"
+                  },
+                  {
+                    "label": "Saved",
+                    "value": "{{$sel.app.saved}}",
+                    "format": "bool"
+                  },
+                  {
+                    "label": "Published",
+                    "value": "{{$sel.app.published}}",
+                    "format": "bool"
+                  }
                 ]
               },
-              { "kind": "table", "id": "generated-screens", "title": "Generated screens", "source": "$sel.app.screens", "rowKey": "$value", "variant": "cards", "columns": [{ "key": "$value", "label": "Screen", "format": "badge" }] }
+              {
+                "kind": "table",
+                "id": "generated-screens",
+                "title": "Generated screens",
+                "source": "$sel.app.screens",
+                "rowKey": "$value",
+                "variant": "cards",
+                "columns": [
+                  {
+                    "key": "$value",
+                    "label": "Screen",
+                    "format": "badge"
+                  }
+                ]
+              }
             ]
           },
           {
@@ -398,28 +1197,98 @@
             "url": "/environments/contoso-default/apps/{{$sel.app.name | slug}}/share",
             "requires": "app",
             "navItem": "apps",
-            "breadcrumb": ["Home", "Apps", "{{$sel.app.name}}"],
+            "breadcrumb": [
+              "Home",
+              "Apps",
+              "{{$sel.app.name}}"
+            ],
             "components": [
-              { "kind": "callout", "variant": "info", "title": "Least privilege", "text": "The **User** permission can run the app. **Co-owner** can use, edit and share the app, so it is too much access for requesters." },
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Least privilege",
+                "text": "The **User** permission can run the app. **Co-owner** can use, edit and share the app, so it is too much access for requesters."
+              },
               {
                 "kind": "form",
                 "id": "share-app-form",
                 "title": "Share with users or groups",
                 "fields": [
-                  { "id": "recipient", "label": "Name, email, or security group", "control": "select", "required": true, "optionsFrom": { "path": "securityGroups", "value": "name" } },
-                  { "id": "permission", "label": "Permission", "control": "radio", "required": true, "options": [{ "value": "User", "label": "User" }, { "value": "Co-owner", "label": "Co-owner" }] },
-                  { "id": "message", "label": "Optional message", "control": "textarea", "defaultValue": "Use this app to submit and track equipment requests." }
+                  {
+                    "id": "recipient",
+                    "label": "Name, email, or security group",
+                    "control": "select",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "securityGroups",
+                      "value": "name"
+                    }
+                  },
+                  {
+                    "id": "permission",
+                    "label": "Permission",
+                    "control": "radio",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "User",
+                        "label": "User"
+                      },
+                      {
+                        "value": "Co-owner",
+                        "label": "Co-owner"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "message",
+                    "label": "Optional message",
+                    "control": "textarea",
+                    "defaultValue": "Use this app to submit and track equipment requests."
+                  }
                 ],
                 "submit": {
                   "label": "Share",
                   "checks": [
-                    { "rule": { "type": "equals", "path": "$form.recipient", "value": "Equipment requesters" }, "message": "Share with the Equipment requesters security group, not with individual users." },
-                    { "rule": { "type": "equals", "path": "$form.permission", "value": "User" }, "message": "Use User permission. Co-owner would let requesters modify and re-share the app." }
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.recipient",
+                        "value": "Equipment requesters"
+                      },
+                      "message": "Share with the Equipment requesters security group, not with individual users."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.permission",
+                        "value": "User"
+                      },
+                      "message": "Use User permission. Co-owner would let requesters modify and re-share the app."
+                    }
                   ],
                   "actions": [
-                    { "type": "update", "path": "apps", "where": { "name": "{{$sel.app.name}}" }, "set": { "shared.group": "{{$form.recipient}}", "shared.role": "{{$form.permission}}", "shared.message": "{{$form.message}}" } },
-                    { "type": "notify", "title": "App shared", "message": "{{$sel.app.name}} was shared with {{$form.recipient}} as {{$form.permission}}." },
-                    { "type": "navigate", "page": "apps" }
+                    {
+                      "type": "update",
+                      "path": "apps",
+                      "where": {
+                        "name": "{{$sel.app.name}}"
+                      },
+                      "set": {
+                        "shared.group": "{{$form.recipient}}",
+                        "shared.role": "{{$form.permission}}",
+                        "shared.message": "{{$form.message}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "App shared",
+                      "message": "{{$sel.app.name}} was shared with {{$form.recipient}} as {{$form.permission}}."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "apps"
+                    }
                   ]
                 }
               }
@@ -427,16 +1296,105 @@
           }
         ],
         "initialState": {
-          "environment": { "name": "Contoso (default)", "region": "Europe" },
+          "environment": {
+            "name": "Contoso (default)",
+            "region": "Europe"
+          },
           "dataverseTables": [
-            { "displayName": "Account", "pluralName": "Accounts", "primaryColumn": "Account name", "type": "Standard", "columns": [{ "name": "Account name", "dataType": "Text", "kind": "Primary" }], "rows": [{ "title": "Contoso" }, { "title": "Fabrikam" }] },
-            { "displayName": "Contact", "pluralName": "Contacts", "primaryColumn": "Full name", "type": "Standard", "columns": [{ "name": "Full name", "dataType": "Text", "kind": "Primary" }], "rows": [{ "title": "Aylin" }, { "title": "Jon" }] },
-            { "displayName": "Facility", "pluralName": "Facilities", "primaryColumn": "Facility name", "type": "Custom", "columns": [{ "name": "Facility name", "dataType": "Text", "kind": "Primary" }], "rows": [{ "title": "Istanbul office" }, { "title": "London office" }] }
+            {
+              "displayName": "Account",
+              "pluralName": "Accounts",
+              "primaryColumn": "Account name",
+              "type": "Standard",
+              "columns": [
+                {
+                  "name": "Account name",
+                  "dataType": "Text",
+                  "kind": "Primary"
+                }
+              ],
+              "rows": [
+                {
+                  "title": "Contoso"
+                },
+                {
+                  "title": "Fabrikam"
+                }
+              ]
+            },
+            {
+              "displayName": "Contact",
+              "pluralName": "Contacts",
+              "primaryColumn": "Full name",
+              "type": "Standard",
+              "columns": [
+                {
+                  "name": "Full name",
+                  "dataType": "Text",
+                  "kind": "Primary"
+                }
+              ],
+              "rows": [
+                {
+                  "title": "Aylin"
+                },
+                {
+                  "title": "Jon"
+                }
+              ]
+            },
+            {
+              "displayName": "Facility",
+              "pluralName": "Facilities",
+              "primaryColumn": "Facility name",
+              "type": "Custom",
+              "columns": [
+                {
+                  "name": "Facility name",
+                  "dataType": "Text",
+                  "kind": "Primary"
+                }
+              ],
+              "rows": [
+                {
+                  "title": "Istanbul office"
+                },
+                {
+                  "title": "London office"
+                }
+              ]
+            }
           ],
           "apps": [
-            { "name": "Facilities directory", "type": "Canvas", "dataSource": "Dataverse", "table": "Facility", "screens": ["Browse screen", "Detail screen", "Edit screen"], "saved": true, "published": true, "shared": { "group": "Facilities team", "role": "User" } }
+            {
+              "name": "Facilities directory",
+              "type": "Canvas",
+              "dataSource": "Dataverse",
+              "table": "Facility",
+              "screens": [
+                "Browse screen",
+                "Detail screen",
+                "Edit screen"
+              ],
+              "saved": true,
+              "published": true,
+              "shared": {
+                "group": "Facilities team",
+                "role": "User"
+              }
+            }
           ],
-          "securityGroups": [{ "name": "Equipment requesters" }, { "name": "Facilities approvers" }, { "name": "All Contoso employees" }]
+          "securityGroups": [
+            {
+              "name": "Equipment requesters"
+            },
+            {
+              "name": "Facilities approvers"
+            },
+            {
+              "name": "All Contoso employees"
+            }
+          ]
         }
       },
       "steps": [
@@ -448,7 +1406,20 @@
           "explanation": "Dataverse tables model business data. The primary column is the readable text value shown for each row.",
           "targetId": "tables-new",
           "rules": [
-            { "key": "table-created", "description": "Equipment Request table exists with the correct primary column", "rule": { "type": "arrayContains", "path": "dataverseTables", "match": { "displayName": "Equipment Request", "pluralName": "Equipment Requests", "primaryColumn": "Request title" } }, "failureFeedback": "Create a custom table named Equipment Request with plural name Equipment Requests and primary column Request title." }
+            {
+              "key": "table-created",
+              "description": "Equipment Request table exists with the correct primary column",
+              "rule": {
+                "type": "arrayContains",
+                "path": "dataverseTables",
+                "match": {
+                  "displayName": "Equipment Request",
+                  "pluralName": "Equipment Requests",
+                  "primaryColumn": "Request title"
+                }
+              },
+              "failureFeedback": "Create a custom table named Equipment Request with plural name Equipment Requests and primary column Request title."
+            }
           ]
         },
         {
@@ -459,8 +1430,32 @@
           "explanation": "Correct data types improve validation, sorting, filtering, formulas and flow conditions.",
           "targetId": "add-columns",
           "rules": [
-            { "key": "date-column", "description": "Request date uses Date Only", "rule": { "type": "arrayContains", "path": "dataverseTables.3.columns", "match": { "name": "Request date", "dataType": "Date Only" } }, "failureFeedback": "Request date must use Date Only, not Text." },
-            { "key": "quantity-column", "description": "Quantity uses Whole Number", "rule": { "type": "arrayContains", "path": "dataverseTables.3.columns", "match": { "name": "Quantity", "dataType": "Whole Number" } }, "failureFeedback": "Quantity must use Whole Number so numeric comparisons work." }
+            {
+              "key": "date-column",
+              "description": "Request date uses Date Only",
+              "rule": {
+                "type": "arrayContains",
+                "path": "dataverseTables.3.columns",
+                "match": {
+                  "name": "Request date",
+                  "dataType": "Date Only"
+                }
+              },
+              "failureFeedback": "Request date must use Date Only, not Text."
+            },
+            {
+              "key": "quantity-column",
+              "description": "Quantity uses Whole Number",
+              "rule": {
+                "type": "arrayContains",
+                "path": "dataverseTables.3.columns",
+                "match": {
+                  "name": "Quantity",
+                  "dataType": "Whole Number"
+                }
+              },
+              "failureFeedback": "Quantity must use Whole Number so numeric comparisons work."
+            }
           ]
         },
         {
@@ -471,7 +1466,16 @@
           "explanation": "Dataverse stores rows centrally so Power Apps and Power Automate can use the same data.",
           "targetId": "open-edit-data",
           "rules": [
-            { "key": "rows-added", "description": "Equipment Request has at least three rows", "rule": { "type": "arrayLength", "path": "dataverseTables.3.rows", "min": 3 }, "failureFeedback": "Add at least three rows in Edit data." }
+            {
+              "key": "rows-added",
+              "description": "Equipment Request has at least three rows",
+              "rule": {
+                "type": "arrayLength",
+                "path": "dataverseTables.3.rows",
+                "min": 3
+              },
+              "failureFeedback": "Add at least three rows in Edit data."
+            }
           ]
         },
         {
@@ -482,7 +1486,21 @@
           "explanation": "Canvas apps focus on the maker-designed user experience; model-driven apps are driven by Dataverse tables, forms, views and navigation.",
           "targetId": "apps-create",
           "rules": [
-            { "key": "canvas-app-created", "description": "Canvas app was generated from Equipment Request", "rule": { "type": "arrayContains", "path": "apps", "match": { "name": "Equipment Requests Canvas", "type": "Canvas", "dataSource": "Dataverse", "table": "Equipment Request" } }, "failureFeedback": "Create the canvas app from the Equipment Request Dataverse table." }
+            {
+              "key": "canvas-app-created",
+              "description": "Canvas app was generated from Equipment Request",
+              "rule": {
+                "type": "arrayContains",
+                "path": "apps",
+                "match": {
+                  "name": "Equipment Requests Canvas",
+                  "type": "Canvas",
+                  "dataSource": "Dataverse",
+                  "table": "Equipment Request"
+                }
+              },
+              "failureFeedback": "Create the canvas app from the Equipment Request Dataverse table."
+            }
           ]
         },
         {
@@ -493,8 +1511,33 @@
           "explanation": "Users need run access to use the app. Co-owner is for makers who edit and re-share the app.",
           "targetId": "app-save",
           "rules": [
-            { "key": "app-published", "description": "The app is published", "rule": { "type": "arrayContains", "path": "apps", "match": { "name": "Equipment Requests Canvas", "published": true } }, "failureFeedback": "Save and publish the canvas app." },
-            { "key": "app-shared-user", "description": "The app is shared with requesters as User", "rule": { "type": "arrayContains", "path": "apps", "match": { "name": "Equipment Requests Canvas", "shared.group": "Equipment requesters", "shared.role": "User" } }, "failureFeedback": "Share with Equipment requesters as User. Co-owner is too much access for requesters." }
+            {
+              "key": "app-published",
+              "description": "The app is published",
+              "rule": {
+                "type": "arrayContains",
+                "path": "apps",
+                "match": {
+                  "name": "Equipment Requests Canvas",
+                  "published": true
+                }
+              },
+              "failureFeedback": "Save and publish the canvas app."
+            },
+            {
+              "key": "app-shared-user",
+              "description": "The app is shared with requesters as User",
+              "rule": {
+                "type": "arrayContains",
+                "path": "apps",
+                "match": {
+                  "name": "Equipment Requests Canvas",
+                  "shared.group": "Equipment requesters",
+                  "shared.role": "User"
+                }
+              },
+              "failureFeedback": "Share with Equipment requesters as User. Co-owner is too much access for requesters."
+            }
           ]
         }
       ],
@@ -505,10 +1548,51 @@
           "rule": {
             "type": "allOf",
             "rules": [
-              { "type": "arrayContains", "path": "dataverseTables.3.columns", "match": { "name": "Request date", "dataType": "Date Only" } },
-              { "type": "arrayContains", "path": "dataverseTables.3.columns", "match": { "name": "Status", "dataType": "Choice" } },
-              { "type": "arrayContains", "path": "dataverseTables.3.columns", "match": { "name": "Quantity", "dataType": "Whole Number" } },
-              { "type": "anyOf", "rules": [{ "type": "arrayContains", "path": "dataverseTables.3.columns", "match": { "name": "Requested by", "dataType": "Text" } }, { "type": "arrayContains", "path": "dataverseTables.3.columns", "match": { "name": "Requested by", "dataType": "Lookup" } }] }
+              {
+                "type": "arrayContains",
+                "path": "dataverseTables.3.columns",
+                "match": {
+                  "name": "Request date",
+                  "dataType": "Date Only"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "dataverseTables.3.columns",
+                "match": {
+                  "name": "Status",
+                  "dataType": "Choice"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "dataverseTables.3.columns",
+                "match": {
+                  "name": "Quantity",
+                  "dataType": "Whole Number"
+                }
+              },
+              {
+                "type": "anyOf",
+                "rules": [
+                  {
+                    "type": "arrayContains",
+                    "path": "dataverseTables.3.columns",
+                    "match": {
+                      "name": "Requested by",
+                      "dataType": "Text"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "dataverseTables.3.columns",
+                    "match": {
+                      "name": "Requested by",
+                      "dataType": "Lookup"
+                    }
+                  }
+                ]
+              }
             ]
           },
           "successFeedback": "The table uses data types that support validation and automation.",
@@ -517,7 +1601,16 @@
         {
           "key": "published-least-privilege",
           "description": "The canvas app is published and shared with least privilege",
-          "rule": { "type": "arrayContains", "path": "apps", "match": { "name": "Equipment Requests Canvas", "published": true, "shared.group": "Equipment requesters", "shared.role": "User" } },
+          "rule": {
+            "type": "arrayContains",
+            "path": "apps",
+            "match": {
+              "name": "Equipment Requests Canvas",
+              "published": true,
+              "shared.group": "Equipment requesters",
+              "shared.role": "User"
+            }
+          },
           "successFeedback": "The app is available to the correct security group with least privilege.",
           "failureFeedback": "Publish the app and share it with Equipment requesters as User."
         }

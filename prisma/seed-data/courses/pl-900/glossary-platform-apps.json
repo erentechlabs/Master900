@@ -1,0 +1,489 @@
+{
+  "terms": [
+    {
+      "slug": "low-code",
+      "term": "Low-code",
+      "definition": "A development approach using visual designers, configuration, templates, and formulas to reduce handwritten code.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Power Platform",
+        "useCases": [
+          "Learn PL-900 scenarios",
+          "Design governed business solutions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used across this PL-900 slice"
+        ]
+      },
+      "source": {
+        "title": "What is Power Apps?",
+        "url": "https://learn.microsoft.com/en-us/power-apps/powerapps-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "A development approach using visual designers, configuration, templates, and formulas to reduce handwritten code.",
+          "useCases": [
+            "PL-900 senaryolarını öğrenme",
+            "Yönetilen iş çözümleri tasarlama"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Bu PL-900 bölümünde kullanılır"
+          ],
+          "status": "DRAFT",
+          "term": "Düşük kod"
+        }
+      }
+    },
+    {
+      "slug": "microsoft-dataverse",
+      "term": "Microsoft Dataverse",
+      "definition": "A secure Power Platform data platform for business tables, relationships, logic, and role-based security.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Power Platform",
+        "useCases": [
+          "Learn PL-900 scenarios",
+          "Design governed business solutions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used across this PL-900 slice"
+        ],
+        "serviceModel": "SaaS"
+      },
+      "source": {
+        "title": "What is Microsoft Dataverse?",
+        "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-intro",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "A secure Power Platform data platform for business tables, relationships, logic, and role-based security.",
+          "useCases": [
+            "PL-900 senaryolarını öğrenme",
+            "Yönetilen iş çözümleri tasarlama"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Bu PL-900 bölümünde kullanılır"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "dataverse-table",
+      "term": "Dataverse table",
+      "definition": "A structure that stores rows of a specific type of business data with typed columns.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Power Platform",
+        "useCases": [
+          "Learn PL-900 scenarios",
+          "Design governed business solutions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used across this PL-900 slice"
+        ]
+      },
+      "source": {
+        "title": "What is Microsoft Dataverse?",
+        "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-intro",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "A structure that stores rows of a specific type of business data with typed columns.",
+          "useCases": [
+            "PL-900 senaryolarını öğrenme",
+            "Yönetilen iş çözümleri tasarlama"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Bu PL-900 bölümünde kullanılır"
+          ],
+          "status": "DRAFT",
+          "term": "Dataverse tablosu"
+        }
+      }
+    },
+    {
+      "slug": "business-rule",
+      "term": "Business rule",
+      "definition": "No-code Dataverse logic that applies conditions and actions such as validation, defaulting, or error messages.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Power Platform",
+        "useCases": [
+          "Learn PL-900 scenarios",
+          "Design governed business solutions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used across this PL-900 slice"
+        ]
+      },
+      "source": {
+        "title": "Create a business rule in Microsoft Dataverse",
+        "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-create-business-rule",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "No-code Dataverse logic that applies conditions and actions such as validation, defaulting, or error messages.",
+          "useCases": [
+            "PL-900 senaryolarını öğrenme",
+            "Yönetilen iş çözümleri tasarlama"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Bu PL-900 bölümünde kullanılır"
+          ],
+          "status": "DRAFT",
+          "term": "İş kuralı"
+        }
+      }
+    },
+    {
+      "slug": "connector",
+      "term": "Connector",
+      "definition": "A prebuilt or custom integration wrapper that lets Power Platform services communicate with APIs or services.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Power Platform",
+        "useCases": [
+          "Learn PL-900 scenarios",
+          "Design governed business solutions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used across this PL-900 slice"
+        ]
+      },
+      "source": {
+        "title": "Connectors documentation",
+        "url": "https://learn.microsoft.com/en-us/connectors/",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "A prebuilt or custom integration wrapper that lets Power Platform services communicate with APIs or services.",
+          "useCases": [
+            "PL-900 senaryolarını öğrenme",
+            "Yönetilen iş çözümleri tasarlama"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Bu PL-900 bölümünde kullanılır"
+          ],
+          "status": "DRAFT",
+          "term": "Bağlayıcı"
+        }
+      }
+    },
+    {
+      "slug": "environment",
+      "term": "Environment",
+      "definition": "A Power Platform container for apps, flows, data, agents, connections, and optionally Dataverse.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Power Platform",
+        "useCases": [
+          "Learn PL-900 scenarios",
+          "Design governed business solutions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used across this PL-900 slice"
+        ]
+      },
+      "source": {
+        "title": "Power Platform environments overview",
+        "url": "https://learn.microsoft.com/en-us/power-platform/admin/environments-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "A Power Platform container for apps, flows, data, agents, connections, and optionally Dataverse.",
+          "useCases": [
+            "PL-900 senaryolarını öğrenme",
+            "Yönetilen iş çözümleri tasarlama"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Bu PL-900 bölümünde kullanılır"
+          ],
+          "status": "DRAFT",
+          "term": "Ortam"
+        }
+      }
+    },
+    {
+      "slug": "data-policy",
+      "term": "Data policy",
+      "definition": "A governance policy that controls connector usage to reduce unintended data exposure.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Power Platform",
+        "useCases": [
+          "Learn PL-900 scenarios",
+          "Design governed business solutions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used across this PL-900 slice"
+        ]
+      },
+      "source": {
+        "title": "Data policies - Power Platform",
+        "url": "https://learn.microsoft.com/en-us/power-platform/admin/wp-data-loss-prevention",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "A governance policy that controls connector usage to reduce unintended data exposure.",
+          "useCases": [
+            "PL-900 senaryolarını öğrenme",
+            "Yönetilen iş çözümleri tasarlama"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Bu PL-900 bölümünde kullanılır"
+          ],
+          "status": "DRAFT",
+          "term": "Veri ilkesi"
+        }
+      }
+    },
+    {
+      "slug": "security-role",
+      "term": "Security role",
+      "definition": "A set of privileges determining what a user or team can access in Dataverse and apps.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Power Platform",
+        "useCases": [
+          "Learn PL-900 scenarios",
+          "Design governed business solutions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used across this PL-900 slice"
+        ]
+      },
+      "source": {
+        "title": "Role-based security roles for Dataverse",
+        "url": "https://learn.microsoft.com/en-us/power-platform/admin/database-security",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "A set of privileges determining what a user or team can access in Dataverse and apps.",
+          "useCases": [
+            "PL-900 senaryolarını öğrenme",
+            "Yönetilen iş çözümleri tasarlama"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Bu PL-900 bölümünde kullanılır"
+          ],
+          "status": "DRAFT",
+          "term": "Güvenlik rolü"
+        }
+      }
+    },
+    {
+      "slug": "canvas-app",
+      "term": "Canvas app",
+      "definition": "A Power Apps app where makers design screens and controls directly and use Power Fx formulas.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Power Platform",
+        "useCases": [
+          "Learn PL-900 scenarios",
+          "Design governed business solutions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used across this PL-900 slice"
+        ],
+        "comparesWith": [
+          "model-driven-app"
+        ]
+      },
+      "source": {
+        "title": "Complete guide to building canvas applications",
+        "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/getting-started",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "A Power Apps app where makers design screens and controls directly and use Power Fx formulas.",
+          "useCases": [
+            "PL-900 senaryolarını öğrenme",
+            "Yönetilen iş çözümleri tasarlama"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Bu PL-900 bölümünde kullanılır"
+          ],
+          "status": "DRAFT",
+          "term": "Canvas app"
+        }
+      }
+    },
+    {
+      "slug": "model-driven-app",
+      "term": "Model-driven app",
+      "definition": "A Power Apps app where Dataverse tables, forms, views, and relationships drive the user experience.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Power Platform",
+        "useCases": [
+          "Learn PL-900 scenarios",
+          "Design governed business solutions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used across this PL-900 slice"
+        ],
+        "comparesWith": [
+          "canvas-app"
+        ]
+      },
+      "source": {
+        "title": "Overview of building a model-driven app",
+        "url": "https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/model-driven-app-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "A Power Apps app where Dataverse tables, forms, views, and relationships drive the user experience.",
+          "useCases": [
+            "PL-900 senaryolarını öğrenme",
+            "Yönetilen iş çözümleri tasarlama"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Bu PL-900 bölümünde kullanılır"
+          ],
+          "status": "DRAFT",
+          "term": "Model-driven app"
+        }
+      }
+    },
+    {
+      "slug": "power-fx",
+      "term": "Power Fx",
+      "definition": "The low-code formula language used in Power Apps to calculate values and control app behavior.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Power Platform",
+        "useCases": [
+          "Learn PL-900 scenarios",
+          "Design governed business solutions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used across this PL-900 slice"
+        ]
+      },
+      "source": {
+        "title": "Get started with formulas in canvas apps",
+        "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/working-with-formulas",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "The low-code formula language used in Power Apps to calculate values and control app behavior.",
+          "useCases": [
+            "PL-900 senaryolarını öğrenme",
+            "Yönetilen iş çözümleri tasarlama"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Bu PL-900 bölümünde kullanılır"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "power-pages",
+      "term": "Power Pages",
+      "definition": "A secure low-code SaaS platform for creating, hosting, and administering external-facing business websites.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Power Platform",
+        "useCases": [
+          "Learn PL-900 scenarios",
+          "Design governed business solutions"
+        ],
+        "keyFeatures": [
+          "Beginner-friendly concept",
+          "Used across this PL-900 slice"
+        ],
+        "serviceModel": "SaaS"
+      },
+      "source": {
+        "title": "What is Power Pages?",
+        "url": "https://learn.microsoft.com/en-us/power-pages/introduction",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "PL-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "A secure low-code SaaS platform for creating, hosting, and administering external-facing business websites.",
+          "useCases": [
+            "PL-900 senaryolarını öğrenme",
+            "Yönetilen iş çözümleri tasarlama"
+          ],
+          "keyFeatures": [
+            "Başlangıç düzeyi kavram",
+            "Bu PL-900 bölümünde kullanılır"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    }
+  ]
+}

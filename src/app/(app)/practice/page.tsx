@@ -22,8 +22,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t("assessment.practice.title") };
 }
 
-type Mode = "QUICK" | "DOMAIN" | "FULL" | "ADAPTIVE" | "DAILY" | "MISTAKE_REVIEW";
-const MODES: Mode[] = ["QUICK", "DOMAIN", "FULL", "ADAPTIVE", "DAILY", "MISTAKE_REVIEW"];
+type Mode = "LIGHTNING" | "QUICK" | "DOMAIN" | "FULL" | "ADAPTIVE" | "DAILY" | "MISTAKE_REVIEW";
+const MODES: Mode[] = ["LIGHTNING", "QUICK", "DOMAIN", "FULL", "ADAPTIVE", "DAILY", "MISTAKE_REVIEW"];
 
 function one(v: string | string[] | undefined) {
   return Array.isArray(v) ? v[0] : v;
@@ -62,6 +62,37 @@ export default async function PracticeHubPage({ searchParams }: { searchParams: 
     ) : null;
 
   const cards: Record<Mode, React.ReactNode> = {
+    LIGHTNING: (
+      <Card key="LIGHTNING" id="mode-LIGHTNING" className={cn(cardClass("LIGHTNING"), "border-primary/35 bg-primary/5")}>
+        <form action={startPracticeFormAction} className="flex flex-1 flex-col">
+          {hidden("LIGHTNING")}
+          <CardHeader>
+            {recommendedBadge("LIGHTNING")}
+            <Badge variant="purple" className="w-fit">
+              <Timer aria-hidden="true" />
+              {t("assessment.practice.lightningTimer")}
+            </Badge>
+            <CardTitle as="h3" className="flex items-center gap-2">
+              <Zap className="h-5 w-5 text-primary" aria-hidden="true" />
+              {t("assessment.practice.lightningTitle")}
+            </CardTitle>
+            <CardDescription>{t("assessment.practice.lightningBody")}</CardDescription>
+          </CardHeader>
+          <CardContent className="flex-1 space-y-3">
+            <p className="text-sm text-muted-foreground">{t("assessment.practice.lightningHonesty")}</p>
+            <p className="rounded-lg border bg-card px-3 py-2 text-sm">
+              <span className="font-medium">{t("assessment.practice.personalBest")}:</span>{" "}
+              <span className="tabular-nums">{hub.lightningBest === null ? t("common.none") : t("assessment.results.points", { score: hub.lightningBest })}</span>
+            </p>
+          </CardContent>
+          <CardFooter>
+            <SubmitButton disabled={!hasQuestions} pendingLabel={t("common.loading")}>
+              {t("assessment.practice.playLightning")}
+            </SubmitButton>
+          </CardFooter>
+        </form>
+      </Card>
+    ),
     QUICK: (
       <Card key="QUICK" id="mode-QUICK" className={cardClass("QUICK")}>
         <form action={startPracticeFormAction} className="flex flex-1 flex-col">
@@ -332,7 +363,7 @@ export default async function PracticeHubPage({ searchParams }: { searchParams: 
                 {!cert.enrolled ? (
                   <>
                     {" "}
-                    <Link href={`/certifications/${cert.code}`} className="text-primary underline-offset-4 hover:underline">
+                    <Link href={`/certifications/${cert.code}`} className="text-primary underline decoration-primary/40 underline-offset-4 hover:decoration-primary">
                       {t("assessment.practice.enrollHint")}
                     </Link>
                   </>
@@ -396,7 +427,7 @@ export default async function PracticeHubPage({ searchParams }: { searchParams: 
                   <TD>{a.certificationCode ?? "—"}</TD>
                   <TD>{a.submittedAt ? fmt.dateTime(a.submittedAt) : "—"}</TD>
                   <TD className="tabular-nums">
-                    {a.score !== null ? fmt.percent(a.score) : "—"}
+                    {a.score !== null ? (a.mode === "LIGHTNING" ? t("assessment.results.points", { score: a.score }) : fmt.percent(a.score)) : "—"}
                     {a.status === "EXPIRED" ? (
                       <Badge variant="warning" className="ml-2">
                         {t("assessment.practice.timedOut")}

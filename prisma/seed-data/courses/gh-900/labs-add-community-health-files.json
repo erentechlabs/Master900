@@ -1,0 +1,1111 @@
+{
+  "labs": [
+    {
+      "slug": "add-community-health-files",
+      "type": "UI_SIMULATION",
+      "title": "Add community health files to a public repository",
+      "summary": "Improve README, add a license, contribution guide, code of conduct, issue templates, and Discussions so the Community Standards checklist reaches 100%.",
+      "scenario": "Contoso OSS is preparing **trail-mapper** for outside contributors. The maintainer asks you to make the repository welcoming and supportable before promoting it: improve the README, add community health files, configure issue templates, enable Discussions, and verify **Community Standards** reaches 100%.",
+      "domainKey": "github-community",
+      "objectiveCode": "7.1",
+      "complexity": "BASIC",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Identify common community health files for a public repository",
+        "Use the Community Standards checklist to add missing files",
+        "Configure bug report and feature request issue templates",
+        "Enable Discussions for community Q&A"
+      ],
+      "prerequisites": [
+        "Basic repository navigation"
+      ],
+      "sources": [
+        {
+          "title": "About community profiles for public repositories",
+          "url": "https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/about-community-profiles-for-public-repositories"
+        },
+        {
+          "title": "About the repository README file",
+          "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes"
+        },
+        {
+          "title": "Licensing a repository",
+          "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository"
+        },
+        {
+          "title": "Configuring issue templates for your repository",
+          "url": "https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "GitHub",
+          "theme": "github",
+          "user": "alex-contoso",
+          "tenant": "contoso-oss",
+          "url": "https://github.com",
+          "searchPlaceholder": "Type / to search"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
+        "startPage": "repo-code",
+        "navigation": [
+          {
+            "page": "repo-code",
+            "label": "Code",
+            "icon": "Code"
+          },
+          {
+            "page": "issues",
+            "label": "Issues",
+            "icon": "CircleDot"
+          },
+          {
+            "page": "discussions",
+            "label": "Discussions",
+            "icon": "MessagesSquare"
+          },
+          {
+            "page": "insights",
+            "label": "Insights",
+            "icon": "ChartLine"
+          },
+          {
+            "page": "settings",
+            "label": "Settings",
+            "icon": "Settings"
+          }
+        ],
+        "pages": [
+          {
+            "id": "repo-code",
+            "title": "contoso-oss/trail-mapper",
+            "subtitle": "Public repository",
+            "icon": "FolderGit2",
+            "url": "/contoso-oss/trail-mapper",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "repo-code",
+                "label": "Code",
+                "icon": "Code"
+              },
+              {
+                "page": "issues",
+                "label": "Issues",
+                "icon": "CircleDot"
+              },
+              {
+                "page": "discussions",
+                "label": "Discussions",
+                "icon": "MessagesSquare"
+              },
+              {
+                "page": "insights",
+                "label": "Insights",
+                "icon": "ChartLine"
+              },
+              {
+                "page": "settings",
+                "label": "Settings",
+                "icon": "Settings"
+              }
+            ],
+            "commands": [
+              {
+                "id": "add-file",
+                "label": "Add file",
+                "icon": "Plus",
+                "action": {
+                  "type": "navigate",
+                  "page": "readme-edit"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "title": "Community profile incomplete",
+                "text": "This public repository needs README details, a license, contribution guidance, a code of conduct, issue templates, and Discussions."
+              },
+              {
+                "kind": "table",
+                "id": "repo-files",
+                "title": "Files",
+                "source": "files",
+                "rowKey": "path",
+                "variant": "files",
+                "columns": [
+                  {
+                    "key": "path",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "badge"
+                  }
+                ]
+              },
+              {
+                "kind": "code",
+                "id": "readme-preview",
+                "title": "README.md",
+                "language": "markdown",
+                "content": "{{readme}}"
+              }
+            ]
+          },
+          {
+            "id": "readme-edit",
+            "title": "Edit README.md",
+            "icon": "FileText",
+            "url": "/contoso-oss/trail-mapper/edit/main/README.md",
+            "navItem": "repo-code",
+            "components": [
+              {
+                "kind": "form",
+                "id": "readme-form",
+                "title": "README.md",
+                "fields": [
+                  {
+                    "id": "content",
+                    "label": "README.md",
+                    "control": "code",
+                    "language": "markdown",
+                    "required": true,
+                    "minLength": 120,
+                    "defaultValue": "# Trail Mapper\n\nTrail Mapper is a fictional open-source sample that helps learners practice GitHub community workflows.\n\n## Getting started\n\nRun the sample locally with npm test.\n\n## Contributing\n\nPlease read CONTRIBUTING.md and the Code of Conduct before opening issues or pull requests.\n\n## License\n\nThis project uses the MIT License.\n"
+                  },
+                  {
+                    "id": "message",
+                    "label": "Commit message",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Improve README community information"
+                  }
+                ],
+                "submit": {
+                  "label": "Commit changes",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.content",
+                        "pattern": "Getting started"
+                      },
+                      "message": "README should explain how to get started."
+                    },
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.content",
+                        "pattern": "Contributing"
+                      },
+                      "message": "README should point contributors to guidance."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "readme",
+                      "value": "{{$form.content}}"
+                    },
+                    {
+                      "type": "set",
+                      "path": "health.readme",
+                      "value": true
+                    },
+                    {
+                      "type": "update",
+                      "path": "files",
+                      "where": {
+                        "path": "README.md"
+                      },
+                      "set": {
+                        "status": "Updated"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "README committed"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "repo-code"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "license-picker",
+            "title": "Choose a license",
+            "icon": "Scale",
+            "url": "/contoso-oss/trail-mapper/community/license/new",
+            "navItem": "repo-code",
+            "components": [
+              {
+                "kind": "form",
+                "id": "license-form",
+                "title": "License picker",
+                "fields": [
+                  {
+                    "id": "license",
+                    "label": "Choose a license template",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "MIT License",
+                    "options": [
+                      {
+                        "value": "MIT License",
+                        "label": "MIT License"
+                      },
+                      {
+                        "value": "Apache License 2.0",
+                        "label": "Apache License 2.0"
+                      },
+                      {
+                        "value": "GNU General Public License v3.0",
+                        "label": "GNU General Public License v3.0"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "message",
+                    "label": "Commit message",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Add MIT License"
+                  }
+                ],
+                "submit": {
+                  "label": "Review and submit",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.license",
+                        "value": "MIT License"
+                      },
+                      "message": "Use **MIT License** for this lab."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "files",
+                      "unique": "path",
+                      "value": {
+                        "path": "LICENSE",
+                        "status": "Added"
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "health.license",
+                      "value": true
+                    },
+                    {
+                      "type": "notify",
+                      "title": "License added"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "community-standards"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "insights",
+            "title": "Insights",
+            "subtitle": "contoso-oss/trail-mapper",
+            "icon": "ChartLine",
+            "url": "/contoso-oss/trail-mapper/pulse",
+            "navItem": "insights",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "repo-code",
+                "label": "Code",
+                "icon": "Code"
+              },
+              {
+                "page": "issues",
+                "label": "Issues",
+                "icon": "CircleDot"
+              },
+              {
+                "page": "discussions",
+                "label": "Discussions",
+                "icon": "MessagesSquare"
+              },
+              {
+                "page": "insights",
+                "label": "Insights",
+                "icon": "ChartLine"
+              },
+              {
+                "page": "settings",
+                "label": "Settings",
+                "icon": "Settings"
+              }
+            ],
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "insights-menu",
+                "title": "Insights navigation",
+                "items": [
+                  {
+                    "id": "community-standards",
+                    "label": "Community Standards",
+                    "icon": "ClipboardCheck",
+                    "description": "Checklist for public repository community health files.",
+                    "action": {
+                      "type": "navigate",
+                      "page": "community-standards"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "community-standards",
+            "title": "Community Standards",
+            "subtitle": "Insights",
+            "icon": "ClipboardCheck",
+            "url": "/contoso-oss/trail-mapper/community",
+            "navItem": "insights",
+            "commands": [
+              {
+                "id": "add-license",
+                "label": "Add license",
+                "icon": "Scale",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "health.license",
+                  "value": false
+                },
+                "action": {
+                  "type": "navigate",
+                  "page": "license-picker"
+                }
+              },
+              {
+                "id": "add-contributing",
+                "label": "Add CONTRIBUTING",
+                "icon": "FileText",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "health.contributing",
+                  "value": false
+                },
+                "action": {
+                  "type": "navigate",
+                  "page": "contributing-edit"
+                }
+              },
+              {
+                "id": "add-code-of-conduct",
+                "label": "Add CODE_OF_CONDUCT",
+                "icon": "Gavel",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "health.codeOfConduct",
+                  "value": false
+                },
+                "action": {
+                  "type": "navigate",
+                  "page": "conduct-edit"
+                }
+              },
+              {
+                "id": "add-templates",
+                "label": "Add issue templates",
+                "icon": "ListTodo",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "health.issueTemplates",
+                  "value": false
+                },
+                "action": {
+                  "type": "navigate",
+                  "page": "issue-templates"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Community profile",
+                "items": [
+                  {
+                    "label": "Checklist complete",
+                    "value": "{{health.percent}}%"
+                  },
+                  {
+                    "label": "Discussions",
+                    "value": "{{features.discussions | onoff}}"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "health-checklist",
+                "title": "Community Standards checklist",
+                "source": "checklist",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Checklist item"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "contributing-edit",
+            "title": "Add CONTRIBUTING.md",
+            "icon": "FileText",
+            "url": "/contoso-oss/trail-mapper/community/contributing/new",
+            "navItem": "insights",
+            "components": [
+              {
+                "kind": "form",
+                "id": "contributing-form",
+                "title": "CONTRIBUTING.md",
+                "fields": [
+                  {
+                    "id": "content",
+                    "label": "CONTRIBUTING.md",
+                    "control": "code",
+                    "language": "markdown",
+                    "required": true,
+                    "minLength": 80,
+                    "defaultValue": "# Contributing\n\nThank you for improving Trail Mapper. Search existing issues first, use the bug report or feature request templates, keep pull requests focused, and be kind to reviewers.\n"
+                  },
+                  {
+                    "id": "message",
+                    "label": "Commit message",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Add contribution guidelines"
+                  }
+                ],
+                "submit": {
+                  "label": "Commit changes",
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "files",
+                      "unique": "path",
+                      "value": {
+                        "path": "CONTRIBUTING.md",
+                        "status": "Added"
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "health.contributing",
+                      "value": true
+                    },
+                    {
+                      "type": "notify",
+                      "title": "CONTRIBUTING.md added"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "community-standards"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "conduct-edit",
+            "title": "Add CODE_OF_CONDUCT.md",
+            "icon": "Gavel",
+            "url": "/contoso-oss/trail-mapper/community/code-of-conduct/new",
+            "navItem": "insights",
+            "components": [
+              {
+                "kind": "form",
+                "id": "conduct-form",
+                "title": "Code of conduct",
+                "fields": [
+                  {
+                    "id": "template",
+                    "label": "Code of conduct template",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Contributor Covenant",
+                    "options": [
+                      {
+                        "value": "Contributor Covenant",
+                        "label": "Contributor Covenant"
+                      },
+                      {
+                        "value": "Custom",
+                        "label": "Custom"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "contact",
+                    "label": "Contact method",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "maintainers@contoso.example"
+                  }
+                ],
+                "submit": {
+                  "label": "Review and submit",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.template",
+                        "value": "Contributor Covenant"
+                      },
+                      "message": "Use the standard Contributor Covenant template for this scenario."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "files",
+                      "unique": "path",
+                      "value": {
+                        "path": "CODE_OF_CONDUCT.md",
+                        "status": "Added"
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "health.codeOfConduct",
+                      "value": true
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Code of conduct added"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "community-standards"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "issue-templates",
+            "title": "Set up issue templates",
+            "icon": "ListTodo",
+            "url": "/contoso-oss/trail-mapper/issues/templates/edit",
+            "navItem": "settings",
+            "components": [
+              {
+                "kind": "form",
+                "id": "templates-form",
+                "title": "Issue templates",
+                "fields": [
+                  {
+                    "id": "templates",
+                    "label": "Add template",
+                    "control": "checkboxes",
+                    "required": true,
+                    "defaultValue": [
+                      "Bug report",
+                      "Feature request"
+                    ],
+                    "options": [
+                      {
+                        "value": "Bug report",
+                        "label": "Bug report"
+                      },
+                      {
+                        "value": "Feature request",
+                        "label": "Feature request"
+                      },
+                      {
+                        "value": "Question",
+                        "label": "Question"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "commit",
+                    "label": "Commit message",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Add issue templates"
+                  }
+                ],
+                "submit": {
+                  "label": "Propose changes",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "includes",
+                        "path": "$form.templates",
+                        "value": "Bug report"
+                      },
+                      "message": "Add a **Bug report** template."
+                    },
+                    {
+                      "rule": {
+                        "type": "includes",
+                        "path": "$form.templates",
+                        "value": "Feature request"
+                      },
+                      "message": "Add a **Feature request** template."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "files",
+                      "unique": "path",
+                      "value": {
+                        "path": ".github/ISSUE_TEMPLATE/bug_report.yml",
+                        "status": "Added"
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "files",
+                      "unique": "path",
+                      "value": {
+                        "path": ".github/ISSUE_TEMPLATE/feature_request.yml",
+                        "status": "Added"
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "health.issueTemplates",
+                      "value": true
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Issue templates added"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "settings"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "settings",
+            "title": "Settings",
+            "subtitle": "contoso-oss/trail-mapper",
+            "icon": "Settings",
+            "url": "/contoso-oss/trail-mapper/settings",
+            "navItem": "settings",
+            "menu": [
+              {
+                "page": "settings",
+                "label": "General",
+                "icon": "Settings"
+              }
+            ],
+            "components": [
+              {
+                "kind": "settings",
+                "id": "features-settings",
+                "title": "Features",
+                "fields": [
+                  {
+                    "id": "issues",
+                    "label": "Issues",
+                    "control": "toggle",
+                    "bindTo": "features.issues"
+                  },
+                  {
+                    "id": "discussions",
+                    "label": "Discussions",
+                    "control": "toggle",
+                    "bindTo": "features.discussions"
+                  }
+                ]
+              },
+              {
+                "kind": "button",
+                "id": "save-features",
+                "label": "Update Community Standards score",
+                "icon": "Save",
+                "variant": "primary",
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "if",
+                      "when": {
+                        "type": "equals",
+                        "path": "features.discussions",
+                        "value": true
+                      },
+                      "then": [
+                        {
+                          "type": "set",
+                          "path": "health.discussions",
+                          "value": true
+                        }
+                      ]
+                    },
+                    {
+                      "type": "set",
+                      "path": "health.percent",
+                      "value": 100
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Repository features updated"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "community-standards"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "issues",
+            "title": "Issues",
+            "icon": "CircleDot",
+            "url": "/contoso-oss/trail-mapper/issues",
+            "navItem": "issues",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "repo-code",
+                "label": "Code",
+                "icon": "Code"
+              },
+              {
+                "page": "issues",
+                "label": "Issues",
+                "icon": "CircleDot"
+              },
+              {
+                "page": "discussions",
+                "label": "Discussions",
+                "icon": "MessagesSquare"
+              },
+              {
+                "page": "insights",
+                "label": "Insights",
+                "icon": "ChartLine"
+              },
+              {
+                "page": "settings",
+                "label": "Settings",
+                "icon": "Settings"
+              }
+            ],
+            "components": [
+              {
+                "kind": "text",
+                "text": "Issue templates help contributors provide the details maintainers need for bug reports and feature requests."
+              }
+            ]
+          },
+          {
+            "id": "discussions",
+            "title": "Discussions",
+            "icon": "MessagesSquare",
+            "url": "/contoso-oss/trail-mapper/discussions",
+            "navItem": "discussions",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "repo-code",
+                "label": "Code",
+                "icon": "Code"
+              },
+              {
+                "page": "issues",
+                "label": "Issues",
+                "icon": "CircleDot"
+              },
+              {
+                "page": "discussions",
+                "label": "Discussions",
+                "icon": "MessagesSquare"
+              },
+              {
+                "page": "insights",
+                "label": "Insights",
+                "icon": "ChartLine"
+              },
+              {
+                "page": "settings",
+                "label": "Settings",
+                "icon": "Settings"
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "success",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "features.discussions",
+                  "value": true
+                },
+                "title": "Discussions enabled",
+                "text": "The community can now ask questions and share ideas outside issue tracking."
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "readme": "# Trail Mapper\n\nA small fictional mapping demo.\n",
+          "features": {
+            "issues": true,
+            "discussions": false
+          },
+          "health": {
+            "readme": false,
+            "license": false,
+            "contributing": false,
+            "codeOfConduct": false,
+            "issueTemplates": false,
+            "discussions": false,
+            "percent": 20
+          },
+          "files": [
+            {
+              "path": "README.md",
+              "status": "Needs detail"
+            },
+            {
+              "path": "src/app.js",
+              "status": "Committed"
+            },
+            {
+              "path": "package.json",
+              "status": "Committed"
+            }
+          ],
+          "checklist": [
+            {
+              "name": "README",
+              "status": "Needs improvement"
+            },
+            {
+              "name": "License",
+              "status": "Not added yet"
+            },
+            {
+              "name": "Contributing",
+              "status": "Not added yet"
+            },
+            {
+              "name": "Code of conduct",
+              "status": "Not added yet"
+            },
+            {
+              "name": "Issue templates",
+              "status": "Not added yet"
+            },
+            {
+              "name": "Discussions",
+              "status": "Off"
+            }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "key": "readme",
+          "title": "Improve the README",
+          "instruction": "On **Code**, select **Add file**, update **README.md** with what the project does, getting started guidance, contribution guidance, and license information, then select **Commit changes**.",
+          "hint": "A useful README answers what the project is, why it matters, how to start, and where contributors should look next.",
+          "explanation": "README is often the first file visitors see, so it should orient users and contributors before they open issues or pull requests.",
+          "targetId": "add-file",
+          "rules": [
+            {
+              "key": "readme-updated",
+              "description": "README is improved",
+              "rule": {
+                "type": "equals",
+                "path": "health.readme",
+                "value": true
+              },
+              "failureFeedback": "Commit the improved README."
+            }
+          ]
+        },
+        {
+          "key": "license",
+          "title": "Add a license with the license picker",
+          "instruction": "Open **Insights** > **Community Standards**, select **Add license**, choose **MIT License**, and select **Review and submit**.",
+          "hint": "The license picker creates a standard license file in the repository root.",
+          "explanation": "A license tells others what they can do with the code; without one, reuse rights are unclear.",
+          "targetId": "add-license",
+          "rules": [
+            {
+              "key": "license-added",
+              "description": "MIT license file added",
+              "rule": {
+                "type": "equals",
+                "path": "health.license",
+                "value": true
+              },
+              "failureFeedback": "Add the MIT License."
+            }
+          ]
+        },
+        {
+          "key": "community-files",
+          "title": "Add contributing and code of conduct files",
+          "instruction": "From **Community Standards**, select **Add CONTRIBUTING** and commit **CONTRIBUTING.md**, then select **Add CODE_OF_CONDUCT** and submit the **Contributor Covenant** template.",
+          "hint": "The checklist Add buttons draft missing community health files.",
+          "explanation": "Contribution guidelines explain workflow expectations; a code of conduct sets behavior expectations for community spaces.",
+          "targetId": "add-contributing",
+          "rules": [
+            {
+              "key": "files-added",
+              "description": "CONTRIBUTING and CODE_OF_CONDUCT exist",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "equals",
+                    "path": "health.contributing",
+                    "value": true
+                  },
+                  {
+                    "type": "equals",
+                    "path": "health.codeOfConduct",
+                    "value": true
+                  }
+                ]
+              },
+              "failureFeedback": "Add both CONTRIBUTING.md and CODE_OF_CONDUCT.md."
+            }
+          ]
+        },
+        {
+          "key": "templates",
+          "title": "Add issue templates",
+          "instruction": "From **Community Standards**, select **Add issue templates**, add **Bug report** and **Feature request**, and select **Propose changes**.",
+          "hint": "Use templates for repeatable bug and feature details; Discussions are better for open-ended questions.",
+          "explanation": "Issue templates improve triage by asking for consistent information before maintainers start investigating.",
+          "targetId": "add-templates",
+          "rules": [
+            {
+              "key": "templates-added",
+              "description": "Bug and feature templates added",
+              "rule": {
+                "type": "equals",
+                "path": "health.issueTemplates",
+                "value": true
+              },
+              "failureFeedback": "Add both issue templates."
+            }
+          ]
+        },
+        {
+          "key": "discussions",
+          "title": "Enable Discussions",
+          "instruction": "Open **Settings**, in **Features** turn on **Discussions**, then select **Update Community Standards score**.",
+          "hint": "Discussions lives in repository Settings under Features.",
+          "explanation": "Discussions give the community a place for Q&A and ideas so issues can stay focused on actionable work.",
+          "targetId": "features-settings",
+          "rules": [
+            {
+              "key": "discussions-on",
+              "description": "Discussions enabled",
+              "rule": {
+                "type": "equals",
+                "path": "features.discussions",
+                "value": true
+              },
+              "failureFeedback": "Turn on Discussions."
+            }
+          ]
+        },
+        {
+          "key": "complete",
+          "title": "Verify the Community Standards checklist",
+          "instruction": "Return to **Insights** > **Community Standards** and verify the community profile reaches **100%**.",
+          "hint": "If the score is not 100%, re-check the missing checklist item.",
+          "explanation": "The community profile checklist is a maintainer review of recommended community health files for public repositories.",
+          "targetId": "health-checklist",
+          "rules": [
+            {
+              "key": "percent",
+              "description": "Checklist is 100%",
+              "rule": {
+                "type": "equals",
+                "path": "health.percent",
+                "value": 100
+              },
+              "failureFeedback": "Complete all community health items and enable Discussions."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "healthy",
+          "description": "Community profile complete",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "equals",
+                "path": "health.percent",
+                "value": 100
+              },
+              {
+                "type": "equals",
+                "path": "features.discussions",
+                "value": true
+              },
+              {
+                "type": "equals",
+                "path": "health.issueTemplates",
+                "value": true
+              }
+            ]
+          },
+          "successFeedback": "Community Standards is complete.",
+          "failureFeedback": "Complete all health files, issue templates, and Discussions."
+        }
+      ],
+      "solution": "1. On **Code**, select **Add file**, improve **README.md**, and **Commit changes**.\n2. Open **Insights** > **Community Standards**, select **Add license**, choose **MIT License**, and **Review and submit**.\n3. Select **Add CONTRIBUTING**, commit the guidelines, then select **Add CODE_OF_CONDUCT** and submit **Contributor Covenant**.\n4. Select **Add issue templates**, add **Bug report** and **Feature request**, and **Propose changes**.\n5. Open **Settings**, under **Features** turn on **Discussions**, then select **Update Community Standards score**.\n6. Return to **Community Standards** and confirm the checklist is **100%**."
+    }
+  ]
+}

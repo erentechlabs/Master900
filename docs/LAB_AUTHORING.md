@@ -24,6 +24,16 @@ walkthrough `tests/fixtures/lab-walkthroughs/az-900--create-linux-vm-portal.json
 - **Original wording**, current terminology (Microsoft Entra ID, Microsoft Defender XDR, Microsoft Purview, Microsoft
   Foundry, Copilot Studio, Microsoft 365 Copilot, GitHub Copilot, ...). Cite 2-4 official pages in `sources`.
 - Every lab teaches 2-3 exam-relevant ideas, has 4-7 verifiable steps and a realistic scenario.
+- **Labs are missions.** The player shows a *mission briefing* before the first event (the `scenario`, the
+  `learningObjectives`, minutes, complexity and the portal name), a "step complete" moment whenever a step passes, and
+  a completion dialog with **0–3 stars** (3 = completed without hints and without the solution, 2 = with hints, 1 =
+  after revealing the solution) plus **"What you learned"**: every step's `title` and `explanation`. So write the
+  `scenario` as a short story (who asks for what, why it matters, what "done" looks like), each `explanation` as a
+  crisp 1–2 sentence takeaway that teaches the concept behind the step (not a repeat of the instruction), and `hint`s
+  that help without giving the whole answer.
+- **Portal behaviour is public, grading is not.** The browser receives the portal `config` (pages, actions, form
+  `checks`, conditions) to run the reducer optimistically, so never put secrets or grading-only text there. Step `rules`,
+  `finalRules`, hints and the `solution` stay on the server until earned (tested in `tests/labs-service.test.ts`).
 
 ## 2. Files
 - Labs go in `prisma/seed-data/courses/<cert>/labs-<topic>.json` as `{ "labs": [ ... ] }` (all `labs*.json` files of a
@@ -218,4 +228,5 @@ use (`click` on the tile, command or link rather than a direct `navigate` to a p
 - Steps are outcome-based, instructions use the exact labels, guided `targetId`s point at the next control.
 - Destructive or recovery actions exist where a learner could get stuck (delete/undo/edit).
 - No sign-in/out, no passwords, no prices/limits, no logos, no real people/tenants.
-- `content:validate` and the walkthrough tests pass.
+- The scenario reads like a mission, every step has a teaching `explanation`, and hints help without solving.
+- `content:validate` and the walkthrough tests pass; `npm run labs:ui-replay -- <slug>` completes the lab in the UI.

@@ -1,0 +1,816 @@
+{
+  "labs": [
+    {
+      "slug": "review-defender-for-cloud",
+      "type": "UI_SIMULATION",
+      "title": "Review Microsoft Defender for Cloud recommendations",
+      "summary": "Review secure score, remediate prioritized recommendations, and assign a regulatory compliance standard.",
+      "scenario": "Contoso is preparing a cloud security review. Use Defender for Cloud to review secure score and recommendation severities, restrict risky storage access, protect VM management ports with just-in-time access, enable an MFA-related privileged access control, and assign **ISO 27001** in Regulatory compliance. Wrong fixes that open resources wider must be rejected.",
+      "domainKey": "azure-architecture-services",
+      "moduleSlug": "azure-identity-security",
+      "objectiveCode": "2.4",
+      "complexity": "INTERMEDIATE",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Interpret Defender for Cloud secure score and recommendation severity",
+        "Remediate recommendations without increasing exposure",
+        "Explain how just-in-time VM access reduces management port risk",
+        "Assign and view a regulatory compliance standard"
+      ],
+      "prerequisites": [
+        "Know basic Azure resource and security terminology"
+      ],
+      "sources": [
+        {
+          "title": "Cloud Secure Score in Microsoft Defender for Cloud",
+          "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/secure-score-security-controls"
+        },
+        {
+          "title": "Security recommendations in Defender for Cloud",
+          "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/security-recommendations"
+        },
+        {
+          "title": "Enable Just-in-Time Access",
+          "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/enable-just-in-time-access"
+        },
+        {
+          "title": "Assign regulatory compliance standards in Defender for Cloud",
+          "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/assign-regulatory-compliance-standards"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Defender for Cloud",
+          "theme": "defender",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://portal.azure.com",
+          "searchPlaceholder": "Search resources, services, and docs (G+/)"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-10-02T09:00:00Z"
+        },
+        "startPage": "defender-overview",
+        "navigation": [
+          {
+            "page": "defender-overview",
+            "label": "Overview",
+            "icon": "ShieldCheck"
+          },
+          {
+            "page": "recommendations",
+            "label": "Recommendations",
+            "icon": "ListChecks"
+          },
+          {
+            "page": "regulatory-compliance",
+            "label": "Regulatory compliance",
+            "icon": "ClipboardCheck"
+          }
+        ],
+        "pages": [
+          {
+            "id": "defender-overview",
+            "title": "Microsoft Defender for Cloud",
+            "icon": "ShieldCheck",
+            "url": "/#view/Microsoft_Azure_Security/SecurityMenuBlade/~/0",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "title": "Subscription posture",
+                "text": "Secure score is **{{security.secureScore}}**. Prioritize high severity recommendations."
+              },
+              {
+                "kind": "tiles",
+                "id": "defender-tiles",
+                "title": "Workload protection",
+                "size": "sm",
+                "items": [
+                  {
+                    "id": "recommendations",
+                    "label": "Recommendations",
+                    "icon": "ListChecks",
+                    "action": {
+                      "type": "navigate",
+                      "page": "recommendations"
+                    }
+                  },
+                  {
+                    "id": "compliance",
+                    "label": "Regulatory compliance",
+                    "icon": "ClipboardCheck",
+                    "action": {
+                      "type": "navigate",
+                      "page": "regulatory-compliance"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "recommendations",
+            "title": "Recommendations",
+            "icon": "ListChecks",
+            "url": "/#view/Microsoft_Azure_Security/RecommendationsBlade",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "Open a recommendation to see severity, affected resources, and remediation steps."
+              },
+              {
+                "kind": "table",
+                "id": "recommendations-table",
+                "source": "recommendations",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Recommendation",
+                    "format": "link"
+                  },
+                  {
+                    "key": "severity",
+                    "label": "Severity",
+                    "format": "status"
+                  },
+                  {
+                    "key": "affected",
+                    "label": "Affected resources",
+                    "format": "count"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ],
+                "rowKey": "id",
+                "searchable": true,
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "recommendation-detail",
+                  "select": {
+                    "as": "rec",
+                    "path": "recommendations",
+                    "key": "id",
+                    "value": "{{$row.id}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "recommendation-detail",
+            "title": "{{$sel.rec.name}}",
+            "subtitle": "Recommendation",
+            "icon": "ShieldAlert",
+            "requires": "rec",
+            "navItem": "recommendations",
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Summary",
+                "items": [
+                  {
+                    "label": "Severity",
+                    "value": "{{$sel.rec.severity}}",
+                    "format": "status"
+                  },
+                  {
+                    "label": "Affected resources",
+                    "value": "{{$sel.rec.affected}}",
+                    "format": "count"
+                  },
+                  {
+                    "label": "Why it matters",
+                    "value": "{{$sel.rec.reason}}"
+                  }
+                ]
+              },
+              {
+                "kind": "form",
+                "id": "storage-remediation",
+                "title": "Remediate storage network access",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "$sel.rec.id",
+                  "value": "storage-network"
+                },
+                "fields": [
+                  {
+                    "id": "networkAccess",
+                    "label": "Public network access",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Disabled",
+                    "options": [
+                      {
+                        "value": "Enabled from all networks",
+                        "label": "Enabled from all networks"
+                      },
+                      {
+                        "value": "Enabled from selected virtual networks and IP addresses",
+                        "label": "Enabled from selected virtual networks and IP addresses"
+                      },
+                      {
+                        "value": "Disabled",
+                        "label": "Disabled"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Apply",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "notEquals",
+                        "path": "$form.networkAccess",
+                        "value": "Enabled from all networks"
+                      },
+                      "message": "Leaving the storage account open to all networks is not remediation."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "storageAccounts",
+                      "where": {
+                        "name": "stpublicreports01"
+                      },
+                      "set": {
+                        "publicNetworkAccess": "{{$form.networkAccess}}"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "recommendations",
+                      "where": {
+                        "id": "storage-network"
+                      },
+                      "set": {
+                        "status": "Healthy",
+                        "affected": 0
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "security.secureScore",
+                      "value": 58
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Storage recommendation remediated"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "recommendations"
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "form",
+                "id": "jit-remediation",
+                "title": "Protect VM management ports",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "$sel.rec.id",
+                  "value": "jit-vm"
+                },
+                "fields": [
+                  {
+                    "id": "managementPorts",
+                    "label": "Management port access",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Enable just-in-time VM access",
+                    "options": [
+                      {
+                        "value": "Open RDP and SSH to Internet",
+                        "label": "Open RDP and SSH to Internet"
+                      },
+                      {
+                        "value": "Enable just-in-time VM access",
+                        "label": "Enable just-in-time VM access"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "requestSource",
+                    "label": "Allowed request source",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "My IP",
+                    "options": [
+                      {
+                        "value": "Any",
+                        "label": "Any"
+                      },
+                      {
+                        "value": "My IP",
+                        "label": "My IP"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Apply",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.managementPorts",
+                        "value": "Enable just-in-time VM access"
+                      },
+                      "message": "JIT is the correct fix; opening ports wider increases exposure."
+                    },
+                    {
+                      "rule": {
+                        "type": "notEquals",
+                        "path": "$form.requestSource",
+                        "value": "Any"
+                      },
+                      "message": "Do not allow management access from Any."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "virtualMachines",
+                      "where": {
+                        "name": "vm-ops-01"
+                      },
+                      "set": {
+                        "jit": "Enabled",
+                        "managementPorts": "JIT protected"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "recommendations",
+                      "where": {
+                        "id": "jit-vm"
+                      },
+                      "set": {
+                        "status": "Healthy",
+                        "affected": 0
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "security.secureScore",
+                      "value": 70
+                    },
+                    {
+                      "type": "notify",
+                      "title": "JIT enabled"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "recommendations"
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "form",
+                "id": "mfa-remediation",
+                "title": "Require MFA for privileged access",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "$sel.rec.id",
+                  "value": "mfa-owner"
+                },
+                "fields": [
+                  {
+                    "id": "policy",
+                    "label": "Privileged access control",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Require multifactor authentication for owner assignments",
+                    "options": [
+                      {
+                        "value": "No additional verification",
+                        "label": "No additional verification"
+                      },
+                      {
+                        "value": "Require multifactor authentication for owner assignments",
+                        "label": "Require multifactor authentication for owner assignments"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Apply",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.policy",
+                        "value": "Require multifactor authentication for owner assignments"
+                      },
+                      "message": "Owner permissions need stronger verification."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "identity.privilegedMfa",
+                      "value": true
+                    },
+                    {
+                      "type": "update",
+                      "path": "recommendations",
+                      "where": {
+                        "id": "mfa-owner"
+                      },
+                      "set": {
+                        "status": "Healthy",
+                        "affected": 0
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "security.secureScore",
+                      "value": 82
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Privileged MFA control enabled"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "recommendations"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "regulatory-compliance",
+            "title": "Regulatory compliance",
+            "icon": "ClipboardCheck",
+            "url": "/#view/Microsoft_Azure_Security/RegulatoryComplianceDashboard",
+            "commands": [
+              {
+                "id": "manage-compliance",
+                "label": "Manage compliance policies",
+                "icon": "Settings",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "manage-compliance"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "Standards map recommendations to controls; they do not automatically remediate resources."
+              },
+              {
+                "kind": "table",
+                "id": "standards-table",
+                "source": "complianceStandards",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Standard",
+                    "format": "link"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "passedControls",
+                    "label": "Passed controls"
+                  },
+                  {
+                    "key": "failedControls",
+                    "label": "Failed controls"
+                  }
+                ],
+                "rowKey": "name",
+                "emptyText": "No additional regulatory standards assigned."
+              }
+            ]
+          },
+          {
+            "id": "manage-compliance",
+            "title": "Manage compliance policies",
+            "icon": "Settings",
+            "navItem": "regulatory-compliance",
+            "components": [
+              {
+                "kind": "form",
+                "id": "standard-form",
+                "title": "Add regulatory compliance standard",
+                "fields": [
+                  {
+                    "id": "scope",
+                    "label": "Scope",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Contoso Learning (simulated)",
+                    "options": [
+                      {
+                        "value": "Contoso Learning (simulated)",
+                        "label": "Contoso Learning (simulated)"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "standard",
+                    "label": "Standard",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "ISO 27001",
+                    "options": [
+                      {
+                        "value": "ISO 27001",
+                        "label": "ISO 27001"
+                      },
+                      {
+                        "value": "NIST SP 800-53",
+                        "label": "NIST SP 800-53"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Add",
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "complianceStandards",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.standard}}",
+                        "status": "Assigned",
+                        "passedControls": 12,
+                        "failedControls": 3
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Standard assigned"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "regulatory-compliance"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "security": {
+            "secureScore": 45
+          },
+          "storageAccounts": [
+            {
+              "name": "stpublicreports01",
+              "publicNetworkAccess": "Enabled from all networks"
+            }
+          ],
+          "virtualMachines": [
+            {
+              "name": "vm-ops-01",
+              "managementPorts": "RDP and SSH open to Internet",
+              "jit": "Disabled"
+            }
+          ],
+          "identity": {
+            "privilegedMfa": false
+          },
+          "recommendations": [
+            {
+              "id": "storage-network",
+              "name": "Storage accounts should restrict network access",
+              "severity": "High",
+              "affected": 1,
+              "status": "Unhealthy",
+              "reason": "Public network access from all networks increases data exposure."
+            },
+            {
+              "id": "jit-vm",
+              "name": "Management ports of virtual machines should be protected with just-in-time network access control",
+              "severity": "High",
+              "affected": 1,
+              "status": "Unhealthy",
+              "reason": "Open RDP or SSH ports increase brute-force and scanning risk."
+            },
+            {
+              "id": "mfa-owner",
+              "name": "MFA should be enabled on accounts with owner permissions",
+              "severity": "Medium",
+              "affected": 1,
+              "status": "Unhealthy",
+              "reason": "Privileged accounts need stronger verification."
+            }
+          ],
+          "complianceStandards": []
+        }
+      },
+      "steps": [
+        {
+          "key": "review-score",
+          "title": "Review secure score and recommendations",
+          "instruction": "On **Overview**, note the **Secure score**, then open **Recommendations** and review severity, affected resources, and status.",
+          "hint": "Use the Recommendations tile or left navigation.",
+          "explanation": "Secure score summarizes posture; recommendations explain actions that reduce risk and improve the score.",
+          "targetId": "defender-tiles",
+          "rules": [
+            {
+              "key": "visited-recommendations",
+              "description": "Recommendations page opened",
+              "rule": {
+                "type": "visited",
+                "page": "recommendations"
+              }
+            }
+          ]
+        },
+        {
+          "key": "fix-storage",
+          "title": "Restrict the storage account network",
+          "instruction": "Open **Storage accounts should restrict network access** and set **Public network access** to **Disabled**.",
+          "hint": "Do not leave the account enabled from all networks.",
+          "explanation": "Restricting public network access reduces paths to storage data. Opening access wider is not remediation.",
+          "targetId": "storage-remediation",
+          "rules": [
+            {
+              "key": "storage-healthy",
+              "description": "Storage recommendation remediated",
+              "rule": {
+                "type": "arrayContains",
+                "path": "recommendations",
+                "match": {
+                  "id": "storage-network",
+                  "status": "Healthy"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "fix-jit",
+          "title": "Protect VM management ports",
+          "instruction": "Open the VM management port recommendation and choose **Enable just-in-time VM access** with **Allowed request source** **My IP**.",
+          "hint": "Do not choose Any.",
+          "explanation": "JIT keeps management ports closed by default and opens temporary approved access.",
+          "targetId": "jit-remediation",
+          "rules": [
+            {
+              "key": "jit-enabled",
+              "description": "JIT enabled",
+              "rule": {
+                "type": "arrayContains",
+                "path": "virtualMachines",
+                "match": {
+                  "name": "vm-ops-01",
+                  "jit": "Enabled"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "fix-mfa",
+          "title": "Require MFA for privileged access",
+          "instruction": "Open **MFA should be enabled on accounts with owner permissions** and require multifactor authentication for owner assignments.",
+          "hint": "Owner permissions can change resources and access.",
+          "explanation": "MFA reduces the impact of password compromise for privileged identities.",
+          "targetId": "mfa-remediation",
+          "rules": [
+            {
+              "key": "mfa-enabled",
+              "description": "Privileged MFA enabled",
+              "rule": {
+                "type": "equals",
+                "path": "identity.privilegedMfa",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "key": "assign-standard",
+          "title": "Assign a regulatory compliance standard",
+          "instruction": "Open **Regulatory compliance**, select **Manage compliance policies**, choose **ISO 27001**, and select **Add**.",
+          "hint": "The standard appears in the compliance dashboard.",
+          "explanation": "Compliance standards map technical recommendations to control families for tracking evidence and gaps.",
+          "targetId": "manage-compliance",
+          "rules": [
+            {
+              "key": "standard-assigned",
+              "description": "ISO assigned",
+              "rule": {
+                "type": "arrayContains",
+                "path": "complianceStandards",
+                "match": {
+                  "name": "ISO 27001",
+                  "status": "Assigned"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "verify-score",
+          "title": "Verify the improved posture",
+          "instruction": "Return to **Overview** and confirm the secure score improved.",
+          "hint": "The score should be higher than 45.",
+          "explanation": "Posture management is iterative: fix, refresh, and prioritize the next risk.",
+          "targetId": "defender-tiles",
+          "rules": [
+            {
+              "key": "score-improved",
+              "description": "Score improved",
+              "rule": {
+                "type": "equals",
+                "path": "security.secureScore",
+                "value": 82
+              }
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "wrong-fixes-not-used",
+          "description": "No remediation widened exposure",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayNotContains",
+                "path": "storageAccounts",
+                "match": {
+                  "publicNetworkAccess": "Enabled from all networks"
+                }
+              },
+              {
+                "type": "arrayNotContains",
+                "path": "virtualMachines",
+                "match": {
+                  "managementPorts": "RDP and SSH open to Internet"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "key": "all-remediated",
+          "description": "All selected recommendations are healthy",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayContains",
+                "path": "recommendations",
+                "match": {
+                  "id": "storage-network",
+                  "status": "Healthy"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "recommendations",
+                "match": {
+                  "id": "jit-vm",
+                  "status": "Healthy"
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "recommendations",
+                "match": {
+                  "id": "mfa-owner",
+                  "status": "Healthy"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "solution": "1. Open **Recommendations**.\n2. Remediate **Storage accounts should restrict network access** by setting **Public network access** to **Disabled**.\n3. Remediate **Management ports...just-in-time** by enabling **just-in-time VM access** and limiting source to **My IP**.\n4. Remediate **MFA should be enabled on accounts with owner permissions** by requiring multifactor authentication.\n5. Open **Regulatory compliance** > **Manage compliance policies**, add **ISO 27001**, and verify the score improved."
+    }
+  ]
+}

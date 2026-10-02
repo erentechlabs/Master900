@@ -64,7 +64,7 @@ export const catalog = {
   learningPath: "Learning path",
   modulesCount: "{count} {count|module|modules}",
   labsCount: "{count} {count|lab|labs}",
-  practiceQuestionsCount: "{count} practice questions",
+  practiceQuestionsCount: "{count} practice {count|question|questions}",
   enroll: "Start this learning path",
   enrolled: "You are enrolled",
   continueLearning: "Continue learning",
@@ -117,6 +117,7 @@ export const enums = {
   },
   labComplexity: { INTRO: "Introductory", BASIC: "Basic", INTERMEDIATE: "Intermediate" },
   practiceMode: {
+    LIGHTNING: "Lightning round",
     QUICK: "Quick practice",
     DOMAIN: "Domain exam",
     FULL: "Full practice exam",

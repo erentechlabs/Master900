@@ -33,18 +33,26 @@ Related documents: [SECURITY.md](SECURITY.md), [CONTENT_FORMAT.md](CONTENT_FORMA
 * **Assessment** — 11 question types (single choice, multiple response, true/false, matching, ordering, categorization,
   fill-in-the-blank, case study, scenario, command selection, UI simulation); knowledge checks, domain assessments,
   diagnostic; practice modes: quick, domain, full timed exam, adaptive, daily challenge, mistake review
-  (with explain-first); immediate-feedback vs exam mode; mark for review; final review screen; timer with accessible
-  announcements; exam-style restrictions; results with domain breakdown, review, similar questions, review queue.
+  (with explain-first) and **lightning round** (10 quick questions, 120-second server deadline, instant feedback, combo
+  multiplier x2/x3, time bonus, personal best per certification); immediate-feedback vs exam mode; mark for review;
+  final review screen; timer with accessible announcements; keyboard shortcuts; exam-style restrictions; results with
+  domain breakdown, review, similar questions, review queue and celebrations for targets and personal bests.
 * **Labs** — sandboxed simulations only, presented as a simulated **lab VM** (desktop, taskbar, browser and terminal
   apps): portal look-alike labs (Azure portal, Microsoft Entra, Purview, Defender, Microsoft 365 / SharePoint admin
   centers, Power Apps / Automate / Copilot Studio / Power Platform admin, Power BI, Fabric, Microsoft Foundry, GitHub)
   with Cloud Shell / VM terminals, SQL query editors and chat test panes; command sandbox (simulated Azure CLI);
   architecture design; troubleshooting; business scenario (decision stages); guided vs challenge mode, hints, solution
-  reveal, server-side validation by replaying an event log.
-* **Personalization** — onboarding wizard, diagnostic → strengths/focus areas → study plan; dashboard with next best
-  action; readiness score (7 weighted signals with caps); study planner with calendar export (ICS), missed-session
-  detection and automatic adjustment; review queue (SM-2 style SRS); gamification (XP, levels, badges, streaks —
-  optional); progress analytics.
+  reveal, server-side validation by replaying an event log. Labs are framed as **missions**: a briefing (scenario,
+  objectives, product, time, mode), "step complete" feedback, a completion dialog with 0–3 stars (3 = no hints and no
+  solution), time, XP, "What you learned" (each step's explanation) and the next lab; the catalog shows stars, progress
+  and a "continue where you left off" row.
+* **Personalization & motivation** — onboarding wizard, diagnostic → strengths/focus areas → study plan; dashboard
+  with next best action, level/XP bar, streak, daily-goal ring and "jump back in"; **daily quests** (three per local
+  day, balanced learn/practice/hands-on, claimable XP and an all-quests bonus); **focus sessions** (Windows Clock style
+  timer in the title bar); readiness score (7 weighted signals with caps); study planner with calendar export (ICS),
+  missed-session detection and automatic adjustment; review queue (SM-2 style SRS); gamification (XP, levels, badges
+  with an achievements gallery showing locked badges and progress, streaks, level-up moments — optional); progress
+  analytics; **Windows personalization** (theme, accent colour, transparency effects, animation effects).
 * **AI tutor** — modes (explain, simpler, analogy, compare, scenario, Socratic quiz, explain my mistake, summarize,
   flashcards, what next), depth levels, lesson/question context, citations, prompt-injection defence, daily limits,
   provider abstraction (local grounded provider by default; OpenAI-compatible optional).
@@ -159,6 +167,22 @@ tests/                    Vitest suites
    stroke, tint and shadow colours for light and dark) live in `globals.css` and `tailwind.config.ts`; the UI kit in
    `src/components/ui` maps them to controls. There is no account avatar or user menu: profile, preferences and
    privacy live under **Settings**, pinned at the bottom of the pane. Contrast is checked with axe (WCAG 2.2 AA).
+    Personalization mirrors Windows Settings: the accent colour is applied server-side as `data-accent` on `<html>`
+    (palettes with contrast-tested light/dark values), transparency effects toggle Mica/acrylic (`html.no-transparency`
+    makes every surface solid) and animation effects map to the reduced-motion preference. Mica/acrylic blur lives on a
+    `::before` layer so flyouts inside the title bar are never nested in a backdrop-filter root. The title bar holds an
+    AutoSuggestBox (`GET /api/search/suggest`), the focus-session timer, keyboard shortcuts (Ctrl+K, `/`, `?`, Ctrl+B)
+    and InfoBadges on navigation items. Pages enter with a short Fluent animation; celebrations (`celebrate()`) are
+    decorative, always paired with a text announcement and skipped when reduced motion is requested.
+9. **Rewards are events.** Quests, focus sessions, lightning rounds and labs only record `LearningEvent`s with a small
+    metadata contract (`QUEST_COMPLETED {questKey, date}`, `FOCUS_SESSION_COMPLETED {minutes}` without study duration,
+    `PRACTICE_COMPLETED {mode, correct, total, bestCombo, score}`, `LAB_COMPLETED {stars, mode, attemptId}`); XP, quest
+    progress, achievements and badge criteria are derived from those events by pure functions, so each reward is
+    idempotent and recomputable.
+10. **Content quality gates.** Besides schema and reference checks, `content:validate` warns when lesson text is copied
+    between lessons or objectives paste the lesson title into a template (`src/modules/content/quality.ts`), and a test
+    keeps the seeded packages at zero warnings. Certification outlines are compared in a normalized form because
+    `jsonb` does not preserve key order (otherwise every re-seed would raise a false "outline changed" alert).
 
 ---
 
@@ -168,13 +192,13 @@ tests/                    Vitest suites
 
 | Group | Models | Notes |
 | --- | --- | --- |
-| Identity & access | `User`, `Role`, `UserRole`, `UserPreference` | optional legacy password hash, `sessionVersion`, status, locale, timezone, study preferences, gamification & privacy flags |
+| Identity & access | `User`, `Role`, `UserRole`, `UserPreference` | optional legacy password hash, `sessionVersion`, status, locale, timezone, study preferences, gamification & privacy flags, personalization (`accentColor`, `transparencyEffects`, `reducedMotion`) |
 | Catalog & curriculum | `Certification`, `CertificationRelation`, `CertificationVersion`, `CurriculumAlert`, `ExamDomain`, `ExamObjective`, `OfficialSource` | weights, exam version, retirement/replacement, change history |
 | Learning content | `Module`, `Lesson`, `ContentBlock`, `LessonTranslation`, `LessonSource`, `Flashcard`, `GlossaryTerm`, `GlossaryTermCertification`, `Concept`, `ConceptLink` | status + `publishAt`, translations with review status, curriculum version |
 | Questions | `Question`, `QuestionOption`, `QuestionVersion`, `QuestionTranslation`, `QuestionSource` | public `interaction` vs secret `answerKey`, statistics (served/answered/correct/time) |
 | Assessment | `Quiz`, `QuizQuestion`, `QuizAttempt`, `PracticeExam`, `PracticeExamAttempt`, `QuestionAttempt`, `ReviewQueueItem` | attempt `items` snapshot, domain breakdown, SRS fields |
 | Labs | `Lab`, `LabStep`, `LabValidationRule`, `LabSource`, `LabAttempt` | validated JSON config, event log, hints, solution flag, score |
-| Progress & planning | `Enrollment`, `LessonProgress`, `StudyPlan`, `StudySession`, `ReadinessSnapshot`, `LearningEvent`, `Badge`, `UserBadge`, `Bookmark`, `Note` | diagnostic result on enrollment, adjustment log on plan |
+| Progress & planning | `Enrollment`, `LessonProgress`, `StudyPlan`, `StudySession`, `ReadinessSnapshot`, `LearningEvent`, `Badge`, `UserBadge`, `Bookmark`, `Note` | diagnostic result on enrollment, adjustment log on plan; event types include `QUEST_COMPLETED` and `FOCUS_SESSION_COMPLETED`; practice modes include `LIGHTNING` |
 | Tutor | `TutorConversation`, `TutorMessage` | citations, flagged, provider |
 | CMS & operations | `ContentReview`, `ContentRevision`, `AuditLog`, `AppSetting`, `Job`, `MediaAsset` | review decisions, snapshots for diff/rollback, IP hash + user agent in audit |
 
@@ -197,27 +221,27 @@ Important conventions:
 | Route | Purpose |
 | --- | --- |
 | `/onboarding` | 4-step wizard → enrollments, preferences → diagnostic |
-| `/dashboard` | next best action, readiness, continue learning, today's sessions, reviews due, streak/XP, alerts |
+| `/dashboard` | greeting, level/XP, streak, daily-goal ring, next best action, jump back in, daily quests, readiness, today's sessions, recommended labs, reviews due, achievements, alerts |
 | `/learn`, `/learn/[code]`, `/learn/[code]/[lessonSlug]` | my paths, path view with mastery, lesson page |
-| `/practice` | practice hub (quick, domain, full, adaptive, daily, mistakes) + history |
+| `/practice` | practice hub (lightning round, quick, domain, full, adaptive, daily, mistakes) + history |
 | `/practice/[attemptId]`, `/quiz/[attemptId]` | assessment runner |
 | `/practice/[attemptId]/results`, `/quiz/[attemptId]/results` | results & review |
 | `/practice/mistakes` | mistake review with filters |
 | `/diagnostic/[code]`, `/diagnostic/[code]/results` | diagnostic intro & results (plan + initial readiness) |
-| `/labs`, `/labs/[labId]` | lab catalog & players |
+| `/labs`, `/labs/[labId]` | lab catalog (stats, stars, certification pills, continue row) & mission players |
 | `/plan` | study planner, ICS export |
-| `/progress` | analytics, readiness history, badges |
+| `/progress` | analytics, readiness history, achievements (earned and locked badges with progress) |
 | `/tutor` | AI tutor (`?lessonId=`, `?questionId=` context) |
 | `/flashcards`, `/bookmarks`, `/search` | knowledge tools |
 | `/certificates/[code]` | printable course completion record |
-| `/settings` | profile, preferences, privacy, data export and learning-progress reset |
+| `/settings` | personalization (theme, accent colour, transparency, animation effects), profile, preferences, privacy, data export and learning-progress reset |
 
 **Admin (`content:read_drafts` and finer permissions):** `/admin` overview · `/admin/certifications[/new|/[id]]` ·
 `/admin/content`, `/admin/content/lessons/[id]` · `/admin/questions[/new|/[id]]` · `/admin/labs[/new|/[id]]` ·
 `/admin/reviews` · `/admin/audit` · `/admin/jobs` · `/admin/settings` · `/admin/import-export` ·
 `/admin/analytics`.
 
-**API:** `GET /api/health` · `POST /api/tutor` · `GET /api/plan/ics` ·
+**API:** `GET /api/health` · `POST /api/tutor` · `GET /api/plan/ics` · `GET /api/search/suggest` (title-bar suggestions) ·
 `GET /api/me/export` · `POST /api/media/upload`, `GET /api/media/[...key]` · `POST /api/admin/import` ·
 `GET /api/admin/export`.
 
@@ -255,6 +279,20 @@ the same reducer and adopts the server state when no event is in flight.
 (locale-aware, cached index) → context (lesson / answered question only) → provider → output check (strips real-exam
 claims, guarantees, canary leaks) → persisted messages with citations.
 
+**Daily quests.** `selectDailyQuests` picks three quests per local day (seeded by user and date, balanced as learn /
+practice / hands-on, targets adapted to the daily goal) → `computeQuestProgress` reads today's events →
+`claimQuestReward` re-checks completion on the server and records one `QUEST_COMPLETED` per quest and day (plus the
+all-quests bonus) in a transaction, then awards badges.
+
+**Lightning round.** `startPractice(LIGHTNING)` picks 10 quick questions → each answer is scored on the server against
+the attempt deadline (late answers do not count) → `engine/lightning.ts` computes the combo multiplier, round score and
+time bonus → submission records `PRACTICE_COMPLETED` with the round metadata and compares with previous rounds for a
+personal best.
+
+**Focus sessions.** The timer runs in the browser (end timestamp in local storage, survives navigation and reloads);
+on completion a server action validates the minutes and idempotency key and records `FOCUS_SESSION_COMPLETED`
+without study duration, so the daily study goal is never counted twice.
+
 **Editorial workflow.** Editors submit → technical review → editorial review → approve → publish now or schedule;
 every transition is permission-checked, commented where required, recorded as `ContentReview` + `AuditLog`, and
 revisions allow diff and rollback.
@@ -267,6 +305,8 @@ revisions allow diff and rollback.
 | --- | --- | --- |
 | Unit | engines (scoring, projection/no-leak, exam builder, adaptive, readiness, SRS, planner, ICS, labs, portal simulation, SQL, guard, retrieval), RBAC, workflow, i18n parity, content packages | `npm test` |
 | Lab walkthroughs | every portal lab has a solving walkthrough (`tests/fixtures/lab-walkthroughs`) that is replayed through the real engines: every event accepted, no unexpected errors, all step and final rules pass, required selections resolve | `npx vitest run tests/lab-walkthroughs.test.ts` (`LAB_CERT` / `LAB_FILE` filters) |
+| Lab UI replay | every walkthrough is played through the real lab UI of a running app with Playwright (mission briefing and completion dialogs included): each portal lab must complete | `npm run labs:ui-replay -- --base <url>` |
+| Content quality | course packages validate with zero warnings, including the copy-paste/template detector | `npm run content:validate` + `tests/content-quality.test.ts` |
 | Integration | real DB: all practice modes, diagnostic → plan → readiness, knowledge check, ownership rejection, lab completion | `npm run test:flows` |
 | Smoke | HTTP: public/learner/admin pages, 404s and APIs without auth cookies | `npm run smoke` (against a running server) |
 | Static | TypeScript strict, ESLint (incl. React compiler rules) | `npm run typecheck`, `npm run lint` |

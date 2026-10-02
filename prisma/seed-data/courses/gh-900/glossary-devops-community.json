@@ -1,0 +1,475 @@
+{
+  "terms": [
+    {
+      "slug": "github-actions",
+      "term": "GitHub Actions",
+      "definition": "A GitHub feature for automating repository workflows such as testing, building, labeling, and deployment.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Automation",
+        "useCases": [
+          "Run CI checks for pull requests",
+          "Automate repository tasks"
+        ],
+        "keyFeatures": [
+          "Event-triggered workflows",
+          "Jobs, steps, and runners"
+        ]
+      },
+      "source": {
+        "title": "Workflows",
+        "url": "https://docs.github.com/actions/writing-workflows/about-workflows",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Test, derleme, etiketleme ve dağıtım gibi repository workflow'larını otomatikleştirmek için kullanılan GitHub özelliği.",
+          "useCases": [
+            "Pull request'ler için CI kontrolleri çalıştırma",
+            "Repository görevlerini otomatikleştirme"
+          ],
+          "keyFeatures": [
+            "Olayla tetiklenen workflow'lar",
+            "Job, step ve runner kavramları"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "workflow",
+      "term": "Workflow",
+      "definition": "A configurable automated process defined in a YAML file in a repository's `.github/workflows` directory.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Automation",
+        "useCases": [
+          "Run tests on pull requests",
+          "Publish artifacts after releases"
+        ],
+        "keyFeatures": [
+          "Triggered by events",
+          "Contains jobs"
+        ]
+      },
+      "source": {
+        "title": "Workflows",
+        "url": "https://docs.github.com/actions/writing-workflows/about-workflows",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir repository'nin `.github/workflows` klasöründeki YAML dosyasında tanımlanan yapılandırılabilir otomasyon süreci.",
+          "useCases": [
+            "Pull request'lerde test çalıştırma",
+            "Release sonrasında artifact yayımlama"
+          ],
+          "keyFeatures": [
+            "Olaylarla tetiklenir",
+            "Job'lardan oluşur"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "runner",
+      "term": "Runner",
+      "definition": "The machine that executes jobs in a GitHub Actions workflow, either hosted by GitHub or self-hosted by an organization.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Automation",
+        "useCases": [
+          "Run build commands",
+          "Execute test jobs"
+        ],
+        "keyFeatures": [
+          "Executes job steps",
+          "Can be GitHub-hosted or self-hosted"
+        ]
+      },
+      "source": {
+        "title": "GitHub-hosted runners",
+        "url": "https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "GitHub Actions workflow'larında job'ları çalıştıran; GitHub tarafından barındırılabilen veya kuruluş tarafından self-hosted yönetilebilen makine.",
+          "useCases": [
+            "Derleme komutlarını çalıştırma",
+            "Test job'larını yürütme"
+          ],
+          "keyFeatures": [
+            "Job step'lerini çalıştırır",
+            "GitHub-hosted veya self-hosted olabilir"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "github-copilot",
+      "term": "GitHub Copilot",
+      "definition": "An AI-assisted development tool that can suggest code, explain context, help write tests, and support development tasks.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "AI-assisted development",
+        "useCases": [
+          "Generate code suggestions",
+          "Explain unfamiliar code",
+          "Draft tests"
+        ],
+        "keyFeatures": [
+          "AI coding assistance",
+          "Chat and agent experiences"
+        ]
+      },
+      "source": {
+        "title": "GitHub Copilot documentation",
+        "url": "https://docs.github.com/copilot",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Kod önerileri sunabilen, bağlamı açıklayabilen, test yazmaya yardımcı olabilen ve geliştirme görevlerini destekleyen yapay zekâ destekli geliştirme aracı.",
+          "useCases": [
+            "Kod önerileri üretme",
+            "Bilinmeyen kodu açıklama",
+            "Test taslakları hazırlama"
+          ],
+          "keyFeatures": [
+            "Yapay zekâ destekli kod yardımı",
+            "Chat ve agent deneyimleri"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "github-codespaces",
+      "term": "GitHub Codespaces",
+      "definition": "A cloud-hosted development environment connected to a repository, commonly configured with a development container.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Development environment",
+        "useCases": [
+          "Onboard contributors without local setup",
+          "Run tools in a consistent environment"
+        ],
+        "keyFeatures": [
+          "Browser-accessible environment",
+          "Dev container support"
+        ],
+        "serviceModel": "Cloud development environment"
+      },
+      "source": {
+        "title": "Codespaces documentation",
+        "url": "https://docs.github.com/codespaces",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir repository'ye bağlı, genellikle development container ile yapılandırılan bulut tabanlı geliştirme ortamı.",
+          "useCases": [
+            "Yerel kurulum olmadan katkıcıları başlatma",
+            "Araçları tutarlı bir ortamda çalıştırma"
+          ],
+          "keyFeatures": [
+            "Tarayıcıdan erişilebilir ortam",
+            "Dev container desteği"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "github-projects",
+      "term": "GitHub Projects",
+      "definition": "A flexible planning feature for tracking issues, pull requests, draft items, custom fields, and views.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Project management",
+        "useCases": [
+          "Track release work",
+          "Create board and table views"
+        ],
+        "keyFeatures": [
+          "Custom fields",
+          "Multiple views"
+        ]
+      },
+      "source": {
+        "title": "Planning and tracking with Projects",
+        "url": "https://docs.github.com/issues/planning-and-tracking-with-projects",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Issue, pull request, taslak öğe, özel alan ve görünüm takibi için esnek planlama özelliği.",
+          "useCases": [
+            "Release çalışmalarını takip etme",
+            "Board ve table görünümleri oluşturma"
+          ],
+          "keyFeatures": [
+            "Özel alanlar",
+            "Birden çok görünüm"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "milestone",
+      "term": "Milestone",
+      "definition": "A GitHub tracking feature that groups issues and pull requests so teams can monitor progress toward a goal.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Project management",
+        "useCases": [
+          "Group work for a release",
+          "Track progress toward a launch"
+        ],
+        "keyFeatures": [
+          "Groups issues and pull requests",
+          "Shows progress"
+        ]
+      },
+      "source": {
+        "title": "Using labels and milestones to track work",
+        "url": "https://docs.github.com/issues/using-labels-and-milestones-to-track-work",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Ekiplerin bir hedefe doğru ilerlemeyi izleyebilmesi için issue ve pull request'leri gruplayan GitHub takip özelliği.",
+          "useCases": [
+            "Release çalışmalarını gruplama",
+            "Lansman hedefine ilerlemeyi takip etme"
+          ],
+          "keyFeatures": [
+            "Issue ve pull request'leri gruplar",
+            "İlerlemeyi gösterir"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "dependabot",
+      "term": "Dependabot",
+      "definition": "GitHub tooling that helps identify vulnerable dependencies and can help keep dependency versions up to date.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Security",
+        "useCases": [
+          "Receive vulnerable dependency alerts",
+          "Open dependency update pull requests"
+        ],
+        "keyFeatures": [
+          "Dependency alerts",
+          "Version update workflows"
+        ]
+      },
+      "source": {
+        "title": "Securing your supply chain",
+        "url": "https://docs.github.com/code-security/dependabot",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Güvenlik açığı olan dependency'leri belirlemeye ve dependency sürümlerini güncel tutmaya yardımcı olan GitHub aracı.",
+          "useCases": [
+            "Güvenlik açığı olan dependency uyarıları alma",
+            "Dependency update pull request'leri açma"
+          ],
+          "keyFeatures": [
+            "Dependency uyarıları",
+            "Sürüm güncelleme workflow'ları"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "code-scanning",
+      "term": "Code scanning",
+      "definition": "A GitHub code security capability that analyzes source code to help find vulnerabilities and coding errors.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Security",
+        "useCases": [
+          "Find vulnerability patterns",
+          "Review security alerts"
+        ],
+        "keyFeatures": [
+          "Static analysis alerts",
+          "Repository security integration"
+        ]
+      },
+      "source": {
+        "title": "Find and fix code vulnerabilities",
+        "url": "https://docs.github.com/code-security/code-scanning",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Kaynak kodu analiz ederek güvenlik açıklarını ve kodlama hatalarını bulmaya yardımcı olan GitHub code security yeteneği.",
+          "useCases": [
+            "Güvenlik açığı örüntülerini bulma",
+            "Security alert'leri gözden geçirme"
+          ],
+          "keyFeatures": [
+            "Statik analiz uyarıları",
+            "Repository security entegrasyonu"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "secret-scanning",
+      "term": "Secret scanning",
+      "definition": "A GitHub security capability that detects committed secrets such as tokens and credentials and can help prevent future leaks where configured.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Security",
+        "useCases": [
+          "Detect leaked tokens",
+          "Reduce credential exposure"
+        ],
+        "keyFeatures": [
+          "Secret detection",
+          "Leak prevention workflows where available"
+        ]
+      },
+      "source": {
+        "title": "How-tos for securing secrets",
+        "url": "https://docs.github.com/code-security/secret-scanning",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Token ve kimlik bilgileri gibi commit edilmiş secret'ları algılayan ve yapılandırıldığı durumlarda gelecekteki sızıntıları önlemeye yardımcı olan GitHub güvenlik yeteneği.",
+          "useCases": [
+            "Sızmış token'ları algılama",
+            "Kimlik bilgisi sızıntılarını azaltma"
+          ],
+          "keyFeatures": [
+            "Secret algılama",
+            "Kullanılabildiği yerlerde sızıntı önleme workflow'ları"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "innersource",
+      "term": "InnerSource",
+      "definition": "The practice of applying open-source collaboration patterns within an organization, often using internal repositories, guidelines, and pull requests.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Community",
+        "useCases": [
+          "Encourage cross-team collaboration",
+          "Make internal repositories discoverable"
+        ],
+        "keyFeatures": [
+          "Internal contribution guidelines",
+          "Shared ownership practices"
+        ]
+      },
+      "source": {
+        "title": "Manage an InnerSource program by using GitHub",
+        "url": "https://learn.microsoft.com/en-us/training/modules/manage-innersource-program-github/",
+        "kind": "LEARN_MODULE"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Open-source iş birliği yöntemlerini bir kuruluş içinde; genellikle iç repository'ler, yönergeler ve pull request'ler ile uygulama pratiği.",
+          "useCases": [
+            "Ekipler arası iş birliğini teşvik etme",
+            "İç repository'leri keşfedilebilir hale getirme"
+          ],
+          "keyFeatures": [
+            "İç katkı yönergeleri",
+            "Paylaşılan sahiplik uygulamaları"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "github-sponsors",
+      "term": "GitHub Sponsors",
+      "definition": "A GitHub feature that lets people and organizations financially support maintainers and projects directly on GitHub.",
+      "kind": "SERVICE",
+      "attributes": {
+        "category": "Community",
+        "useCases": [
+          "Support open-source maintainers",
+          "Fund ongoing project maintenance"
+        ],
+        "keyFeatures": [
+          "Sponsorship tiers",
+          "Developer and organization profiles"
+        ]
+      },
+      "source": {
+        "title": "About GitHub Sponsors",
+        "url": "https://docs.github.com/sponsors/getting-started-with-github-sponsors/about-github-sponsors",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Kişilerin ve kuruluşların maintainer'ları ve projeleri doğrudan GitHub üzerinde finansal olarak desteklemesini sağlayan GitHub özelliği.",
+          "useCases": [
+            "Open-source maintainer'larını destekleme",
+            "Sürekli proje bakımını finanse etme"
+          ],
+          "keyFeatures": [
+            "Sponsorluk seviyeleri",
+            "Geliştirici ve kuruluş profilleri"
+          ],
+          "status": "DRAFT"
+        }
+      }
+    }
+  ]
+}

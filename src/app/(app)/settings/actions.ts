@@ -9,6 +9,7 @@ import { ActionError, enforceRateLimit, runAction, type ActionResult } from "@/l
 import { isValidTimeZone } from "@/lib/dates";
 import { LOCALE_COOKIE } from "@/i18n/config";
 import { authorize } from "@/modules/auth/session";
+import { accentColorSchema } from "@/components/settings/personalization-options";
 
 const preferenceDefaults = {
   timezone: "UTC",
@@ -20,6 +21,8 @@ const preferenceDefaults = {
   showTimerByDefault: true,
   gamificationEnabled: true,
   reducedMotion: false,
+  accentColor: "default",
+  transparencyEffects: true,
   shareAnonymousAnalytics: true,
 };
 
@@ -35,6 +38,8 @@ const settingsSchema = z.object({
   showTimerByDefault: z.boolean(),
   gamificationEnabled: z.boolean(),
   reducedMotion: z.boolean(),
+  accentColor: accentColorSchema,
+  transparencyEffects: z.boolean(),
   shareAnonymousAnalytics: z.boolean(),
 });
 
@@ -60,6 +65,8 @@ export async function updateSettingsAction(input: unknown): Promise<ActionResult
               showTimerByDefault: parsed.showTimerByDefault,
               gamificationEnabled: parsed.gamificationEnabled,
               reducedMotion: parsed.reducedMotion,
+              accentColor: parsed.accentColor,
+              transparencyEffects: parsed.transparencyEffects,
               shareAnonymousAnalytics: parsed.shareAnonymousAnalytics,
             },
             update: {
@@ -72,6 +79,8 @@ export async function updateSettingsAction(input: unknown): Promise<ActionResult
               showTimerByDefault: parsed.showTimerByDefault,
               gamificationEnabled: parsed.gamificationEnabled,
               reducedMotion: parsed.reducedMotion,
+              accentColor: parsed.accentColor,
+              transparencyEffects: parsed.transparencyEffects,
               shareAnonymousAnalytics: parsed.shareAnonymousAnalytics,
             },
           },

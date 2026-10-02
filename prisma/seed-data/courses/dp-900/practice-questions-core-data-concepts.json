@@ -1,0 +1,660 @@
+{
+  "questions": [
+    {
+      "ref": "dp900-cdc-026",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "core-data-concepts",
+      "objectiveCode": "1.1",
+      "difficulty": "EASY",
+      "stem": "A catalog has ProductId, Name, Category, and Price columns for every product. What kind of data is it?",
+      "explanation": "A fixed set of columns indicates structured data.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Structured data",
+          "correct": true,
+          "explanation": "It follows a fixed schema."
+        },
+        {
+          "key": "B",
+          "text": "Semi-structured data",
+          "correct": false,
+          "explanation": "Fields do not vary."
+        },
+        {
+          "key": "C",
+          "text": "Unstructured data",
+          "correct": false,
+          "explanation": "It has a clear schema."
+        },
+        {
+          "key": "D",
+          "text": "Streaming data",
+          "correct": false,
+          "explanation": "Streaming describes movement."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Identify data formats",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/2-data-formats",
+          "kind": "LEARN_MODULE"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-cdc-027",
+      "type": "SCENARIO",
+      "domainKey": "core-data-concepts",
+      "objectiveCode": "1.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which classification best fits the case documents?",
+      "explanation": "The documents have named fields but vary by case.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Semi-structured",
+          "correct": true,
+          "explanation": "JSON with optional fields is semi-structured."
+        },
+        {
+          "key": "B",
+          "text": "Structured",
+          "correct": false,
+          "explanation": "The fields vary."
+        },
+        {
+          "key": "C",
+          "text": "Unstructured",
+          "correct": false,
+          "explanation": "The data has labels."
+        },
+        {
+          "key": "D",
+          "text": "OLAP",
+          "correct": false,
+          "explanation": "OLAP is processing, not representation."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Identify data formats",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/2-data-formats",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "scenario": "Support cases are JSON documents. Some include refund details, some include escalation details, and some include neither."
+    },
+    {
+      "ref": "dp900-cdc-028",
+      "type": "CASE_STUDY",
+      "domainKey": "core-data-concepts",
+      "objectiveCode": "1.1",
+      "difficulty": "HARD",
+      "scenario": "Relecloud needs efficient column scans of a large curated dataset, a small spreadsheet-friendly branch list, and nested app messages.",
+      "stem": "For each statement about Relecloud's Parquet, CSV, and nested-message format choices, select **Yes** if it is true. Otherwise, select **No**.",
+      "explanation": "Relecloud needs Parquet for column-efficient analytics, CSV for a small flat list, and JSON rather than CSV for nested messages.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Use Parquet for efficient scans of selected columns.",
+            "answer": true,
+            "explanation": "Parquet is columnar."
+          },
+          {
+            "id": "s2",
+            "text": "Use CSV for the small branch list.",
+            "answer": true,
+            "explanation": "CSV is spreadsheet-friendly."
+          },
+          {
+            "id": "s3",
+            "text": "Use CSV as the best fit for nested app messages.",
+            "answer": false,
+            "explanation": "JSON is better for nested messages."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Explore file storage",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/3-file-storage",
+          "kind": "LEARN_MODULE"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-cdc-029",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "core-data-concepts",
+      "objectiveCode": "1.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which configuration snippet best represents semi-structured customer data with nested contacts?",
+      "explanation": "The correct snippet is valid JSON with an array of contact objects.",
+      "options": [
+        {
+          "key": "A",
+          "text": "`{ \"customerId\": \"C-10\", \"contacts\": [{ \"type\": \"email\", \"value\": \"alex@example.com\" }] }`",
+          "correct": true,
+          "explanation": "This is JSON with nested data."
+        },
+        {
+          "key": "B",
+          "text": "`CustomerId,ContactType,ContactValue`",
+          "correct": false,
+          "explanation": "This is a CSV header."
+        },
+        {
+          "key": "C",
+          "text": "`CREATE TABLE Customers (CustomerId int PRIMARY KEY);`",
+          "correct": false,
+          "explanation": "This is a SQL table definition."
+        },
+        {
+          "key": "D",
+          "text": "`photo-customer-10.jpg`",
+          "correct": false,
+          "explanation": "This names an image file."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Identify data formats",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/2-data-formats",
+          "kind": "LEARN_MODULE"
+        },
+        {
+          "title": "Explore file storage",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/3-file-storage",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "dp900-cdc-030",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "core-data-concepts",
+      "objectiveCode": "1.2",
+      "difficulty": "EASY",
+      "stem": "Which option is best for a line-of-business app that stores orders and customers in related tables?",
+      "explanation": "Related structured tables point to a relational database.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Relational database",
+          "correct": true,
+          "explanation": "Related structured tables fit a relational database."
+        },
+        {
+          "key": "B",
+          "text": "Raw image store",
+          "correct": false,
+          "explanation": "Images are unrelated to order records."
+        },
+        {
+          "key": "C",
+          "text": "Video archive",
+          "correct": false,
+          "explanation": "Video is unrelated."
+        },
+        {
+          "key": "D",
+          "text": "Dashboard only",
+          "correct": false,
+          "explanation": "A dashboard consumes data."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Explore databases",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/4-databases",
+          "kind": "LEARN_MODULE"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-cdc-031",
+      "type": "CATEGORIZATION",
+      "domainKey": "core-data-concepts",
+      "objectiveCode": "1.2",
+      "difficulty": "MEDIUM",
+      "stem": "Classify each storage scenario.",
+      "explanation": "Raw exports fit file storage, related checkout records fit relational tables, and varying product documents fit a document database.",
+      "categorization": {
+        "categories": [
+          {
+            "id": "files",
+            "label": "Files"
+          },
+          {
+            "id": "rel",
+            "label": "Relational database"
+          },
+          {
+            "id": "nonrel",
+            "label": "Non-relational database"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "text": "Landing raw telemetry exports",
+            "category": "files",
+            "explanation": "Raw exports are file storage."
+          },
+          {
+            "id": "i2",
+            "text": "Checkout orders linked to customers",
+            "category": "rel",
+            "explanation": "Relationships and transactions fit relational storage."
+          },
+          {
+            "id": "i3",
+            "text": "Product documents with varying attributes",
+            "category": "nonrel",
+            "explanation": "Flexible documents fit non-relational storage."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Explore file storage",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/3-file-storage",
+          "kind": "LEARN_MODULE"
+        },
+        {
+          "title": "Explore databases",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/4-databases",
+          "kind": "LEARN_MODULE"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-cdc-032",
+      "type": "UI_SIMULATION",
+      "domainKey": "core-data-concepts",
+      "objectiveCode": "1.2",
+      "difficulty": "MEDIUM",
+      "stem": "Use the simulated selector to recommend a store for JSON shopping-cart documents read by cart id.",
+      "explanation": "Shopping-cart JSON read by cart id is best represented as documents with key-based lookup in the simulated selector.",
+      "uiSimulation": {
+        "title": "Data decision screen (simulated)",
+        "description": "A fictional simplified settings screen for practice; it is not a real portal page.",
+        "fields": [
+          {
+            "id": "model",
+            "label": "Data model",
+            "control": "select",
+            "options": [
+              {
+                "value": "relational",
+                "label": "Relational tables"
+              },
+              {
+                "value": "document",
+                "label": "Document store"
+              },
+              {
+                "value": "rawfiles",
+                "label": "Raw file store"
+              }
+            ],
+            "correct": "document",
+            "explanation": "JSON carts fit a document store."
+          },
+          {
+            "id": "access",
+            "label": "Primary access pattern",
+            "control": "select",
+            "options": [
+              {
+                "value": "key",
+                "label": "Read by cart id"
+              },
+              {
+                "value": "monthly",
+                "label": "Monthly spreadsheet download"
+              }
+            ],
+            "correct": "key",
+            "explanation": "The app reads each cart by identifier."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Explore databases",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/4-databases",
+          "kind": "LEARN_MODULE"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-cdc-033",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "core-data-concepts",
+      "objectiveCode": "1.3",
+      "difficulty": "EASY",
+      "stem": "Which workload is optimized for reports, aggregations, and historical trend analysis?",
+      "explanation": "Analytical workloads support reporting and aggregations.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Analytical workload",
+          "correct": true,
+          "explanation": "Analytics focuses on insight from historical or curated data."
+        },
+        {
+          "key": "B",
+          "text": "Transactional workload",
+          "correct": false,
+          "explanation": "Transactional workloads record events."
+        },
+        {
+          "key": "C",
+          "text": "A checkout transaction",
+          "correct": false,
+          "explanation": "That is OLTP."
+        },
+        {
+          "key": "D",
+          "text": "A primary key",
+          "correct": false,
+          "explanation": "That is a database object."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Explore analytical data processing",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/6-analytical-processing",
+          "kind": "LEARN_MODULE"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-cdc-034",
+      "type": "MATCHING",
+      "domainKey": "core-data-concepts",
+      "objectiveCode": "1.3",
+      "difficulty": "MEDIUM",
+      "stem": "Match each clue to the workload or processing pattern.",
+      "explanation": "Checkout writes are transactional, trend analysis is analytical, scheduled loads are batch, and live events are streaming.",
+      "matching": {
+        "prompts": [
+          {
+            "id": "checkout",
+            "text": "Checkout writes an order"
+          },
+          {
+            "id": "trend",
+            "text": "Five-year sales trend"
+          },
+          {
+            "id": "nightly",
+            "text": "Nightly file load"
+          },
+          {
+            "id": "live",
+            "text": "Event processed as it arrives"
+          }
+        ],
+        "answers": [
+          {
+            "id": "oltp",
+            "text": "OLTP / transactional"
+          },
+          {
+            "id": "analytics",
+            "text": "Analytical"
+          },
+          {
+            "id": "batch",
+            "text": "Batch"
+          },
+          {
+            "id": "streaming",
+            "text": "Streaming"
+          }
+        ],
+        "pairs": {
+          "checkout": "oltp",
+          "trend": "analytics",
+          "nightly": "batch",
+          "live": "streaming"
+        },
+        "explanations": {
+          "checkout": "Checkout writes are transactional.",
+          "trend": "Trend analysis is analytical.",
+          "nightly": "Scheduled grouped loads are batch.",
+          "live": "Arriving events are streaming."
+        }
+      },
+      "sources": [
+        {
+          "title": "Explore transactional data processing",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/5-transactional-data-processing",
+          "kind": "LEARN_MODULE"
+        },
+        {
+          "title": "Explore analytical data processing",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/6-analytical-processing",
+          "kind": "LEARN_MODULE"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-cdc-035",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "core-data-concepts",
+      "objectiveCode": "1.3",
+      "difficulty": "MEDIUM",
+      "stem": "Complete the analytical processing term.",
+      "explanation": "OLAP is the analytical processing pattern used for summarized measures by dimensions such as date, product, and region.",
+      "fillInBlank": {
+        "template": "A semantic model that summarizes sales by date, product, and region supports {{b1}} analysis.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "OLAP",
+              "Online Analytical Processing"
+            ],
+            "explanation": "OLAP is correct because the task is multidimensional analysis over summarized sales, not individual checkout transactions."
+          }
+        ],
+        "wordBank": [
+          "OLAP",
+          "OLTP",
+          "CSV",
+          "CRUD"
+        ]
+      },
+      "sources": [
+        {
+          "title": "Explore analytical data processing",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/6-analytical-processing",
+          "kind": "LEARN_MODULE"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-cdc-036",
+      "type": "CASE_STUDY",
+      "domainKey": "core-data-concepts",
+      "objectiveCode": "1.4",
+      "difficulty": "HARD",
+      "scenario": "Northwind has three requests: improve database restore procedures, build an ingestion pipeline, and create a margin report.",
+      "stem": "For each statement about assigning Northwind's restore, pipeline, and reporting requests to data roles, select **Yes** if it is true. Otherwise, select **No**.",
+      "explanation": "Northwind should assign restore operations to the DBA, ingestion pipelines to the data engineer, and report visuals to the analyst.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Assign restore procedures to the database administrator.",
+            "answer": true,
+            "explanation": "Restore is a DBA responsibility."
+          },
+          {
+            "id": "s2",
+            "text": "Assign the ingestion pipeline to the data engineer.",
+            "answer": true,
+            "explanation": "Pipelines are data engineering work."
+          },
+          {
+            "id": "s3",
+            "text": "Assign report visuals to the DBA as the primary role.",
+            "answer": false,
+            "explanation": "Visuals are primarily analyst work."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Explore job roles in the world of data",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/2-explore-job-roles",
+          "kind": "LEARN_MODULE"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-cdc-037",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "core-data-concepts",
+      "objectiveCode": "1.4",
+      "difficulty": "EASY",
+      "stem": "Which role commonly explores data and builds visualizations for business decisions?",
+      "explanation": "Data analysts create reports, models, and visualizations.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Data analyst",
+          "correct": true,
+          "explanation": "Analysts create insights and visuals."
+        },
+        {
+          "key": "B",
+          "text": "Database administrator",
+          "correct": false,
+          "explanation": "DBAs operate databases."
+        },
+        {
+          "key": "C",
+          "text": "Data engineer",
+          "correct": false,
+          "explanation": "Engineers prepare data pipelines."
+        },
+        {
+          "key": "D",
+          "text": "Network administrator",
+          "correct": false,
+          "explanation": "Networking is not the data visualization role."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Explore job roles in the world of data",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/2-explore-job-roles",
+          "kind": "LEARN_MODULE"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-cdc-038",
+      "type": "ORDERING",
+      "domainKey": "core-data-concepts",
+      "objectiveCode": "1.4",
+      "difficulty": "MEDIUM",
+      "stem": "Order the dependent handoff steps for delivering a new executive dashboard from governed source data.",
+      "explanation": "The team must define the requested dashboard and sources, grant access to those sources, create the curated data layer, and then build visuals from that layer.",
+      "ordering": {
+        "items": [
+          {
+            "id": "s1",
+            "text": "Business sponsor confirms dashboard questions and approved source systems"
+          },
+          {
+            "id": "s2",
+            "text": "DBA grants the data engineer read access to those approved sources"
+          },
+          {
+            "id": "s3",
+            "text": "Data engineer ingests, cleans, and publishes curated tables"
+          },
+          {
+            "id": "s4",
+            "text": "Data analyst builds measures and visuals from the curated tables"
+          }
+        ],
+        "correctOrder": [
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "explanations": {
+          "s1": "The sponsor's questions and approved source list define what data access is needed.",
+          "s2": "The DBA can grant read access only after the approved source systems are known.",
+          "s3": "The data engineer needs that source access before ingesting, cleansing, and publishing trusted tables.",
+          "s4": "The analyst needs the curated tables before creating reliable measures and dashboard visuals."
+        }
+      },
+      "sources": [
+        {
+          "title": "Explore job roles in the world of data",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/2-explore-job-roles",
+          "kind": "LEARN_MODULE"
+        },
+        {
+          "title": "Explore analytical data processing",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/6-analytical-processing",
+          "kind": "LEARN_MODULE"
+        }
+      ]
+    },
+    {
+      "ref": "dp900-cdc-039",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "core-data-concepts",
+      "objectiveCode": "1.4",
+      "difficulty": "MEDIUM",
+      "stem": "Which **two** tasks are most likely owned by a data engineer?",
+      "explanation": "Data engineers build and monitor data movement and transformation processes.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Create a pipeline that transforms raw sales files",
+          "correct": true,
+          "explanation": "Pipelines are engineering tasks."
+        },
+        {
+          "key": "B",
+          "text": "Monitor loads into a lakehouse",
+          "correct": true,
+          "explanation": "Pipeline monitoring is engineering work."
+        },
+        {
+          "key": "C",
+          "text": "Restore a database backup",
+          "correct": false,
+          "explanation": "That is DBA work."
+        },
+        {
+          "key": "D",
+          "text": "Choose colors for a chart",
+          "correct": false,
+          "explanation": "That is analyst/report design work."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Explore job roles in the world of data",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/2-explore-job-roles",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "selectCount": 2
+    }
+  ]
+}

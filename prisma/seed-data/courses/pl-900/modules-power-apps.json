@@ -1,0 +1,1151 @@
+{
+  "domainKey": "power-apps",
+  "modules": [
+    {
+      "slug": "pl900-power-apps-fundamentals",
+      "title": "Power Apps capabilities and app building",
+      "summary": "Compares app types and walks through basic canvas and model-driven app building.",
+      "lessons": [
+        {
+          "slug": "pl900-power-apps-use-cases",
+          "title": "Power Apps capabilities and use cases",
+          "objectiveCode": "3.1",
+          "estimatedMinutes": 13,
+          "summary": "Compare canvas apps, model-driven apps, plans, code apps, Power Pages context, and Copilot-assisted creation.",
+          "learningObjectives": [
+            "Compare canvas, model-driven, Power Pages, and code app options",
+            "Identify when screen layout control makes a canvas app a good fit",
+            "Explain how plans and Copilot can accelerate app creation",
+            "Choose the right Power Apps approach for a business scenario"
+          ],
+          "explanation": "Power Apps offers several build paths. Canvas apps give makers direct control over screens, controls, and Power Fx formulas. Model-driven apps are driven by Dataverse tables, forms, views, and relationships. Plans in Power Apps can draft broader solutions from natural language. Code apps let developers create custom web apps on the managed platform. Power Pages is the related Power Platform choice for external websites. Copilot can accelerate creation, but makers still review generated design and security.",
+          "terminology": [
+            {
+              "term": "Canvas app",
+              "definition": "Custom app with maker-controlled screens."
+            },
+            {
+              "term": "Model-driven app",
+              "definition": "Dataverse-driven app with forms and views."
+            },
+            {
+              "term": "Plan designer",
+              "definition": "Copilot-first solution planning."
+            },
+            {
+              "term": "Code app",
+              "definition": "Developer-built web app on Power Platform."
+            }
+          ],
+          "businessScenario": "Adventure Works needs three experiences: warehouse staff need a phone checklist, supervisors need a structured request-management workspace, and suppliers need an external status site.",
+          "technicalExample": "Choose a canvas app for the barcode checklist, a model-driven app over Dataverse for supervisor case work, Plans to draft the first solution outline from the business description, and Power Pages for the supplier-facing website.",
+          "misconception": {
+            "myth": "Canvas apps are always the advanced choice because they offer more layout control.",
+            "reality": "Model-driven apps are often the better and faster choice when Dataverse tables, relationships, forms, and views should define a consistent process UI."
+          },
+          "examTakeaway": "Read for the user experience clue: custom task screen means canvas, Dataverse process workspace means model-driven, natural-language solution draft means Plans, and developer-hosted web app means code app.",
+          "recap": "Compare canvas apps, model-driven apps, plans, code apps, Power Pages context, and Copilot-assisted creation.",
+          "simplerExplanation": "Choosing an app type is like choosing a vehicle: a bicycle is nimble for a route you design yourself, while a train works best when the tracks and stations already define the journey.",
+          "anotherExample": "A bank might use a canvas app for a lobby greeter tablet, a model-driven app for relationship managers, and a code app when developers need a custom React experience under Power Platform governance.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Power Apps capabilities and use cases",
+                "columns": [
+                  {
+                    "title": "Canvas",
+                    "points": [
+                      "Custom layout",
+                      "Power Fx formulas"
+                    ]
+                  },
+                  {
+                    "title": "Model-driven",
+                    "points": [
+                      "Dataverse required",
+                      "Forms and views drive UI"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Read the app clue",
+                "instructions": "Choose the Power Apps path that best fits each clue.",
+                "items": [
+                  {
+                    "prompt": "A tablet app needs a large signature box and barcode scan button.",
+                    "answer": "Canvas app."
+                  },
+                  {
+                    "prompt": "Users navigate Accounts, Contacts, Activities, and dashboards from related Dataverse records.",
+                    "answer": "Model-driven app."
+                  },
+                  {
+                    "prompt": "A product owner describes a multi-step business process and wants AI to draft data, apps, and flows.",
+                    "answer": "Plans in Power Apps."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Canvas app scenario clue",
+              "back": "A highly tailored screen, mobile task flow, scanner, or custom control layout."
+            },
+            {
+              "front": "Model-driven scenario clue",
+              "back": "A Dataverse-centered process with forms, views, related records, and consistent navigation."
+            },
+            {
+              "front": "Plans in Power Apps clue",
+              "back": "A maker describes a business problem in natural language and wants a generated solution draft."
+            },
+            {
+              "front": "Code app clue",
+              "back": "Developers need a code-first custom web app that still uses Power Platform hosting, data, connectors, and governance."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Power Apps?",
+              "url": "https://learn.microsoft.com/en-us/power-apps/powerapps-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Complete guide to building canvas applications",
+              "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/getting-started",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Overview of building a model-driven app with Power Apps",
+              "url": "https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/model-driven-app-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Use plans to create AI-Powered business solutions with Copilot",
+              "url": "https://learn.microsoft.com/en-us/power-apps/maker/plan-designer/plan-designer",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Power Apps Code Apps: Features and Requirements",
+              "url": "https://learn.microsoft.com/en-us/power-apps/developer/code-apps/overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "pl900-app-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "power-apps",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which app type gives the most control over screen layout?",
+              "explanation": "A canvas app is the app type that gives makers direct control over screens, controls, and Power Fx formulas.",
+              "lessonSlug": "pl900-power-apps-use-cases",
+              "sources": [
+                {
+                  "title": "Complete guide to building canvas applications",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/getting-started",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Overview of building a model-driven app with Power Apps",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/model-driven-app-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Canvas app",
+                  "correct": true,
+                  "explanation": "Canvas apps let makers place and configure screens and controls directly for a tailored layout."
+                },
+                {
+                  "key": "B",
+                  "text": "Data policy",
+                  "correct": false,
+                  "explanation": "Data policies govern connector combinations; they do not define the screens of an app."
+                },
+                {
+                  "key": "C",
+                  "text": "Static PDF",
+                  "correct": false,
+                  "explanation": "A PDF can present information but cannot provide an interactive Power Apps screen layout."
+                }
+              ]
+            },
+            {
+              "ref": "pl900-app-002",
+              "type": "MATCHING",
+              "domainKey": "power-apps",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each Power Apps creation experience to the use case it best supports.",
+              "explanation": "Canvas apps fit custom task screens, model-driven apps fit Dataverse process workspaces, Plans draft solutions, and code apps fit developer-built web experiences.",
+              "lessonSlug": "pl900-power-apps-use-cases",
+              "sources": [
+                {
+                  "title": "What is Power Apps?",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/powerapps-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Use plans to create AI-Powered business solutions with Copilot",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/plan-designer/plan-designer",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Power Apps Code Apps: Features and Requirements",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/developer/code-apps/overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Canvas app"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Model-driven app"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Plans"
+                  },
+                  {
+                    "id": "p4",
+                    "text": "Code app"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Custom mobile task UI"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Dataverse process app"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Copilot-first solution draft"
+                  },
+                  {
+                    "id": "a4",
+                    "text": "Developer-built web app"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3",
+                  "p4": "a4"
+                },
+                "explanations": {
+                  "p1": "Canvas controls layout.",
+                  "p2": "Model-driven uses Dataverse.",
+                  "p3": "Plans draft solutions.",
+                  "p4": "Code apps are developer-first."
+                }
+              }
+            },
+            {
+              "ref": "pl900-app-003",
+              "type": "CATEGORIZATION",
+              "domainKey": "power-apps",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each Power Apps clue as canvas app or model-driven app.",
+              "explanation": "Custom screens and Power Fx point to canvas apps, while Dataverse forms and views point to model-driven apps.",
+              "lessonSlug": "pl900-power-apps-use-cases",
+              "sources": [
+                {
+                  "title": "Complete guide to building canvas applications",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/getting-started",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Overview of building a model-driven app with Power Apps",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/model-driven-app-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Get started with formulas in canvas apps",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/working-with-formulas",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "canvas",
+                    "label": "Canvas"
+                  },
+                  {
+                    "id": "model",
+                    "label": "Model-driven"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Blank screen with controls",
+                    "category": "canvas",
+                    "explanation": "Canvas controls layout."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Dataverse forms and views",
+                    "category": "model",
+                    "explanation": "Model-driven apps use components."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Power Fx on control properties",
+                    "category": "canvas",
+                    "explanation": "Canvas apps use Power Fx."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "pl900-app-004",
+              "type": "SCENARIO",
+              "domainKey": "power-apps",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which app type fits related records, standard forms, filtered views, and automatic responsiveness?",
+              "explanation": "A model-driven app is driven by Dataverse tables, forms, views, relationships, and responsive navigation.",
+              "lessonSlug": "pl900-power-apps-use-cases",
+              "sources": [
+                {
+                  "title": "Overview of building a model-driven app with Power Apps",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/model-driven-app-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Model-driven app",
+                  "correct": true,
+                  "explanation": "Model-driven apps use Dataverse metadata to generate forms, views, relationships, and responsive navigation."
+                },
+                {
+                  "key": "B",
+                  "text": "Data policy",
+                  "correct": false,
+                  "explanation": "A data policy can restrict connector usage, but it is not a Dataverse-driven app experience."
+                },
+                {
+                  "key": "C",
+                  "text": "Static PDF",
+                  "correct": false,
+                  "explanation": "A static PDF cannot navigate related records or adapt forms and views to devices."
+                }
+              ],
+              "scenario": "Woodgrove Bank manages advisor records."
+            },
+            {
+              "ref": "pl900-app-005",
+              "type": "TRUE_FALSE",
+              "domainKey": "power-apps",
+              "objectiveCode": "3.1",
+              "difficulty": "EASY",
+              "stem": "Plans can draft a broader solution from a natural-language description, but makers should review the result.",
+              "explanation": "Plans can generate a solution draft from natural language, but makers remain responsible for reviewing design, security, and business fit.",
+              "lessonSlug": "pl900-power-apps-use-cases",
+              "sources": [
+                {
+                  "title": "Use plans to create AI-Powered business solutions with Copilot",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/plan-designer/plan-designer",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+                  "kind": "STUDY_GUIDE"
+                }
+              ],
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Plans can create an AI-assisted solution draft from natural language, but makers still review security, data design, and business fit."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that Copilot-generated drafts are starting points and still require maker validation."
+                }
+              ]
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Plans, code apps, Copilot, and AI-native creation experiences evolve; verify exact labels and availability before publication."
+        },
+        {
+          "slug": "pl900-build-canvas-app",
+          "title": "Build a basic canvas app from data",
+          "objectiveCode": "3.2",
+          "estimatedMinutes": 13,
+          "summary": "Create a canvas app from data and customize it with real Power Fx formulas.",
+          "learningObjectives": [
+            "Describe how to create a canvas app from a data source",
+            "Identify controls, galleries, forms, and screens used in a basic canvas app",
+            "Apply Power Fx formulas to filter, display, and update data",
+            "Explain how preview and testing confirm a canvas app works"
+          ],
+          "explanation": "A canvas app is a custom task tool. Makers choose data, generate or design screens, then customize controls with Power Fx. Real formulas include `Filter(EquipmentRequests, Status = \"Open\")` for a gallery, `SubmitForm(EditForm1)` for a save button, `Navigate(scrDetails)` for navigation, and `IsBlank(txtTitle.Text)` for validation. Copilot can suggest apps and formulas, but makers test permissions, delegation, accessibility, and business fit. Practise this in the Dataverse table and canvas app lab.",
+          "terminology": [
+            {
+              "term": "Power Fx",
+              "definition": "Formula language for canvas apps."
+            },
+            {
+              "term": "Gallery",
+              "definition": "Control that displays rows."
+            },
+            {
+              "term": "Form control",
+              "definition": "Control for viewing or editing a row."
+            },
+            {
+              "term": "Data source",
+              "definition": "Connection to data such as Dataverse or SharePoint."
+            }
+          ],
+          "businessScenario": "Tailwind Traders technicians open a phone app each morning to see only their open equipment requests, update photos and notes, and submit the repair status before leaving the site.",
+          "technicalExample": "Set the request gallery Items property to `SortByColumns(Filter(EquipmentRequests, AssignedTo.Email = User().Email && Status = \"Open\"), \"CreatedOn\", SortOrder.Descending)`. Use `SubmitForm(EditForm1)` on Save and show a warning label when `IsBlank(txtResolution.Text)`.",
+          "misconception": {
+            "myth": "Generated canvas apps are finished as soon as Power Apps creates the browse, detail, and edit screens.",
+            "reality": "Generated screens are a starting point; makers still refine formulas, accessibility, delegation, validation, sharing, and the task flow."
+          },
+          "examTakeaway": "For canvas build questions, look for data source selection, generated screens, control properties, Power Fx formulas, save/publish/share steps, and data permissions.",
+          "recap": "Create a canvas app from data and customize it with real Power Fx formulas.",
+          "simplerExplanation": "A canvas app is a customizable field clipboard: you decide which boxes appear, which list is filtered, and what the Save button does when the technician taps it.",
+          "anotherExample": "A nonprofit check-in app could use `LookUp(VolunteerShifts, Code = txtCode.Text)` to find a shift, then `Patch` or a form submit to record arrival time.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Build a basic canvas app from data",
+                "columns": [
+                  {
+                    "title": "Canvas",
+                    "points": [
+                      "Custom layout",
+                      "Power Fx formulas"
+                    ]
+                  },
+                  {
+                    "title": "Model-driven",
+                    "points": [
+                      "Dataverse required",
+                      "Forms and views drive UI"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Power Fx property detective",
+                "instructions": "Identify which property should hold each formula.",
+                "items": [
+                  {
+                    "prompt": "`Filter(EquipmentRequests, Status = \"Open\")` controls rows in a gallery.",
+                    "answer": "Gallery Items property."
+                  },
+                  {
+                    "prompt": "`SubmitForm(EditForm1)` saves edits when a button is tapped.",
+                    "answer": "Button OnSelect property."
+                  },
+                  {
+                    "prompt": "`IsBlank(txtResolution.Text)` decides whether a warning appears.",
+                    "answer": "Warning label Visible property."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Gallery Items formula",
+              "back": "Returns the table of rows a gallery should display, often with Filter and SortByColumns."
+            },
+            {
+              "front": "SubmitForm purpose",
+              "back": "Sends the current form values to the connected data source."
+            },
+            {
+              "front": "OnSelect property",
+              "back": "Runs an action formula when the user selects a control such as a button."
+            },
+            {
+              "front": "Formula validation habit",
+              "back": "Test formulas with realistic data and check delegation, permissions, and accessibility before publishing."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Complete guide to building canvas applications",
+              "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/getting-started",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Get started with formulas in canvas apps",
+              "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/working-with-formulas",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "pl900-app-006",
+              "type": "COMMAND_SELECTION",
+              "domainKey": "power-apps",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which Power Fx formula filters open equipment requests?",
+              "explanation": "The Power Fx Filter function returns only EquipmentRequests rows whose Status value equals Open.",
+              "lessonSlug": "pl900-build-canvas-app",
+              "sources": [
+                {
+                  "title": "Get started with formulas in canvas apps",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/working-with-formulas",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`Filter(EquipmentRequests, Status = \"Open\")`",
+                  "correct": true,
+                  "explanation": "This is valid Power Fx Filter syntax."
+                },
+                {
+                  "key": "B",
+                  "text": "`SELECT * FROM EquipmentRequests`",
+                  "correct": false,
+                  "explanation": "This is SQL, not canvas Power Fx."
+                },
+                {
+                  "key": "C",
+                  "text": "`Navigate(EquipmentRequests)`",
+                  "correct": false,
+                  "explanation": "Navigate changes screens."
+                }
+              ]
+            },
+            {
+              "ref": "pl900-app-007",
+              "type": "ORDERING",
+              "domainKey": "power-apps",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Order the steps to create, customize, publish, and share a basic canvas app from Dataverse data.",
+              "explanation": "A basic canvas app build starts with data, generates or creates the app, customizes screens and formulas, then publishes and shares it.",
+              "lessonSlug": "pl900-build-canvas-app",
+              "sources": [
+                {
+                  "title": "Complete guide to building canvas applications",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/getting-started",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Get started with formulas in canvas apps",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/working-with-formulas",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Choose or create data"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Create app from data"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Customize screens and formulas"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Publish and share"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "The app needs a Dataverse table or other data source before controls can be generated from it.",
+                  "s2": "Creating the canvas app from data gives the maker a working starting point.",
+                  "s3": "Screens, controls, and Power Fx formulas are refined after the initial app exists.",
+                  "s4": "Publishing and sharing happen after the app is ready for users."
+                }
+              }
+            },
+            {
+              "ref": "pl900-app-008",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "power-apps",
+              "objectiveCode": "3.2",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about the formula language used in canvas apps.",
+              "explanation": "Power Fx is the formula language used by canvas apps to calculate values and respond to user input.",
+              "lessonSlug": "pl900-build-canvas-app",
+              "sources": [
+                {
+                  "title": "Get started with formulas in canvas apps",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/working-with-formulas",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "fillInBlank": {
+                "template": "Canvas apps use {{b1}} to calculate values and respond to input.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "Power Fx",
+                      "power fx",
+                      "PowerFx"
+                    ],
+                    "explanation": "Power Fx is the formula language."
+                  }
+                ],
+                "wordBank": [
+                  "Power Fx",
+                  "T-SQL",
+                  "KQL",
+                  "Bicep"
+                ]
+              }
+            },
+            {
+              "ref": "pl900-app-009",
+              "type": "SCENARIO",
+              "domainKey": "power-apps",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which button formula pattern submits an edit form?",
+              "explanation": "SubmitForm(EditForm1) is the Power Fx pattern that submits changes from an edit form control.",
+              "lessonSlug": "pl900-build-canvas-app",
+              "sources": [
+                {
+                  "title": "Get started with formulas in canvas apps",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/working-with-formulas",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Complete guide to building canvas applications",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/getting-started",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "`SubmitForm(EditForm1)`",
+                  "correct": true,
+                  "explanation": "SubmitForm sends the values from the named edit form to its connected data source."
+                },
+                {
+                  "key": "B",
+                  "text": "Data policy",
+                  "correct": false,
+                  "explanation": "A data policy does not save form edits or run as a button formula."
+                },
+                {
+                  "key": "C",
+                  "text": "Static PDF",
+                  "correct": false,
+                  "explanation": "A PDF cannot submit Dataverse changes from an edit form."
+                }
+              ],
+              "scenario": "A maker customizes an equipment request canvas app."
+            },
+            {
+              "ref": "pl900-app-010",
+              "type": "UI_SIMULATION",
+              "domainKey": "power-apps",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Configure a simulated gallery to show open requests.",
+              "explanation": "The gallery Items property should use a Power Fx filter that returns only the open equipment request rows.",
+              "lessonSlug": "pl900-build-canvas-app",
+              "sources": [
+                {
+                  "title": "Get started with formulas in canvas apps",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/working-with-formulas",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Complete guide to building canvas applications",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/getting-started",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "uiSimulation": {
+                "title": "Canvas app gallery settings (simulated)",
+                "description": "A simplified fictional screen, not the real designer.",
+                "fields": [
+                  {
+                    "id": "items",
+                    "label": "Gallery Items",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "filter",
+                        "label": "Filter(EquipmentRequests, Status = \"Open\")"
+                      },
+                      {
+                        "value": "count",
+                        "label": "CountRows(EquipmentRequests)"
+                      }
+                    ],
+                    "correct": "filter",
+                    "explanation": "Items should return the rows to show."
+                  }
+                ]
+              }
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Plans, code apps, Copilot, and AI-native creation experiences evolve; verify exact labels and availability before publication."
+        },
+        {
+          "slug": "pl900-build-model-driven-app",
+          "title": "Build a basic model-driven app",
+          "objectiveCode": "3.2",
+          "estimatedMinutes": 13,
+          "summary": "Build from Dataverse tables, forms, views, app designer pages, publishing, and roles.",
+          "learningObjectives": [
+            "Describe how Dataverse tables, forms, and views shape model-driven apps",
+            "Identify app designer pages and navigation used to assemble the app",
+            "Explain why publishing and security roles are needed before sharing",
+            "Order the steps to build and share a basic model-driven app"
+          ],
+          "explanation": "A model-driven app starts with Dataverse. Model tables and relationships, configure forms and views, create app pages in the app designer, validate, publish, and share with appropriate security roles. This approach is strong for data-dense processes with consistent navigation and responsive experiences. AI can draft model-driven components, but makers validate names, columns, forms, views, relationships, roles, and ALM. Practise this in the model-driven app for equipment requests lab.",
+          "terminology": [
+            {
+              "term": "Form",
+              "definition": "Defines how a row is viewed or edited."
+            },
+            {
+              "term": "View",
+              "definition": "Filtered and sorted list of rows."
+            },
+            {
+              "term": "App designer",
+              "definition": "Tool to compose app pages and navigation."
+            },
+            {
+              "term": "Publish",
+              "definition": "Make changes available to users."
+            }
+          ],
+          "businessScenario": "Contoso dispatch supervisors need a command center for equipment requests where related departments, tasks, notes, and status history are easy to navigate without designing every screen from scratch.",
+          "technicalExample": "Create Equipment Request, Department, and Request Task tables; configure a main request form with tabs for assignment and resolution; create Open Requests and High Priority views; add the tables as pages in app designer; validate, publish, and share with dispatcher and manager security roles.",
+          "misconception": {
+            "myth": "Model-driven app makers mainly arrange pixels on a blank screen.",
+            "reality": "Model-driven app makers spend most effort on the Dataverse model, forms, views, relationships, business rules, pages, and security roles."
+          },
+          "examTakeaway": "For model-driven build questions, start with Dataverse tables and relationships, then forms and views, then app designer pages, validation, publishing, and security roles.",
+          "recap": "Build from Dataverse tables, forms, views, app designer pages, publishing, and roles.",
+          "simplerExplanation": "Building a model-driven app is like designing a train station from a timetable: once the tracks, stops, and routes are defined, the passenger experience follows a consistent pattern.",
+          "anotherExample": "An alumni office could build a model-driven app over Alumni, Donations, and Events tables, with views for major donors and forms for pledge follow-up.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Build a basic model-driven app",
+                "columns": [
+                  {
+                    "title": "Canvas",
+                    "points": [
+                      "Custom layout",
+                      "Power Fx formulas"
+                    ]
+                  },
+                  {
+                    "title": "Model-driven",
+                    "points": [
+                      "Dataverse required",
+                      "Forms and views drive UI"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Pick the model-driven component",
+                "instructions": "Choose the component that solves each design need.",
+                "items": [
+                  {
+                    "prompt": "Show dispatchers only active high-priority requests.",
+                    "answer": "Create a filtered view."
+                  },
+                  {
+                    "prompt": "Group assignment and resolution fields for one request.",
+                    "answer": "Customize the main form."
+                  },
+                  {
+                    "prompt": "Add Requests and Departments to the left navigation.",
+                    "answer": "Add pages in the app designer."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Model-driven first step",
+              "back": "Model the Dataverse tables, columns, and relationships that describe the business process."
+            },
+            {
+              "front": "View in a model-driven app",
+              "back": "A reusable filtered and sorted list of Dataverse rows."
+            },
+            {
+              "front": "Form in a model-driven app",
+              "back": "The layout users use to view or edit a single Dataverse row."
+            },
+            {
+              "front": "Sharing model-driven apps",
+              "back": "Users need app access and appropriate Dataverse security roles."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Overview of building a model-driven app with Power Apps",
+              "url": "https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/model-driven-app-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Design model-driven apps by using the app designer",
+              "url": "https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/design-custom-business-apps-using-app-designer",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Role-based security roles for Dataverse",
+              "url": "https://learn.microsoft.com/en-us/power-platform/admin/database-security",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Use plans to create AI-Powered business solutions with Copilot",
+              "url": "https://learn.microsoft.com/en-us/power-apps/maker/plan-designer/plan-designer",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "pl900-app-011",
+              "type": "ORDERING",
+              "domainKey": "power-apps",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Order the steps to build and share a basic model-driven app from Dataverse tables.",
+              "explanation": "A model-driven app build starts with Dataverse tables, adds forms and views, assembles app pages, and then publishes and shares with roles.",
+              "lessonSlug": "pl900-build-model-driven-app",
+              "sources": [
+                {
+                  "title": "Overview of building a model-driven app with Power Apps",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/model-driven-app-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Design model-driven apps by using the app designer",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/design-custom-business-apps-using-app-designer",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Model Dataverse tables"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Configure forms and views"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Create app pages"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Publish and share with roles"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "Model-driven apps start with the Dataverse tables and relationships that describe the business data.",
+                  "s2": "Forms and views define how users edit and browse those table rows.",
+                  "s3": "App pages assemble the Dataverse components into the model-driven app navigation.",
+                  "s4": "Publishing and sharing with roles makes the app and its data available to the right users."
+                }
+              }
+            },
+            {
+              "ref": "pl900-app-012",
+              "type": "MATCHING",
+              "domainKey": "power-apps",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Match each model-driven app component to its job in an equipment request app.",
+              "explanation": "Forms edit one row, views list filtered rows, security roles grant the Dataverse privileges users need, and app pages add tables or dashboards to the app's navigation.",
+              "lessonSlug": "pl900-build-model-driven-app",
+              "sources": [
+                {
+                  "title": "Overview of building a model-driven app with Power Apps",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/model-driven-app-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Design model-driven apps by using the app designer",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/design-custom-business-apps-using-app-designer",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Role-based security roles for Dataverse",
+                  "url": "https://learn.microsoft.com/en-us/power-platform/admin/database-security",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "form",
+                    "text": "Form"
+                  },
+                  {
+                    "id": "view",
+                    "text": "View"
+                  },
+                  {
+                    "id": "role",
+                    "text": "Security role"
+                  },
+                  {
+                    "id": "page",
+                    "text": "App page"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a",
+                    "text": "Defines how one equipment request row is edited"
+                  },
+                  {
+                    "id": "b",
+                    "text": "Lists filtered rows such as open requests"
+                  },
+                  {
+                    "id": "c",
+                    "text": "Grants privileges to Dataverse data"
+                  },
+                  {
+                    "id": "d",
+                    "text": "Adds a table or dashboard to app navigation"
+                  }
+                ],
+                "pairs": {
+                  "form": "a",
+                  "view": "b",
+                  "role": "c",
+                  "page": "d"
+                },
+                "explanations": {
+                  "form": "A form is the model-driven app surface for viewing or editing one Dataverse row.",
+                  "view": "A view filters and arranges rows for users to browse.",
+                  "role": "A security role controls what table data the user can read or change.",
+                  "page": "A page places a table, dashboard, or custom page in the app experience."
+                }
+              }
+            },
+            {
+              "ref": "pl900-app-013",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "power-apps",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** are model-driven app foundations?",
+              "explanation": "Model-driven apps are founded on Dataverse data plus forms and views, not pixel-perfect blank screens or public website templates.",
+              "lessonSlug": "pl900-build-model-driven-app",
+              "sources": [
+                {
+                  "title": "Overview of building a model-driven app with Power Apps",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/model-driven-app-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "selectCount": 2,
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Dataverse tables and relationships",
+                  "correct": true,
+                  "explanation": "Model-driven apps require Dataverse."
+                },
+                {
+                  "key": "B",
+                  "text": "Forms and views",
+                  "correct": true,
+                  "explanation": "These shape the user experience."
+                },
+                {
+                  "key": "C",
+                  "text": "Pixel-perfect blank screens",
+                  "correct": false,
+                  "explanation": "That is canvas-oriented."
+                },
+                {
+                  "key": "D",
+                  "text": "Anonymous public website templates",
+                  "correct": false,
+                  "explanation": "That suggests Power Pages."
+                }
+              ]
+            },
+            {
+              "ref": "pl900-app-014",
+              "type": "CASE_STUDY",
+              "domainKey": "power-apps",
+              "objectiveCode": "3.2",
+              "difficulty": "HARD",
+              "stem": "For each statement about Contoso model-driven app components and sharing, select **Yes** if it is accurate. Otherwise, select **No**.",
+              "explanation": "The case tests how model-driven apps use Dataverse components, publishing, and security roles for supervisor access.",
+              "lessonSlug": "pl900-build-model-driven-app",
+              "sources": [
+                {
+                  "title": "Overview of building a model-driven app with Power Apps",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/model-driven-app-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Role-based security roles for Dataverse",
+                  "url": "https://learn.microsoft.com/en-us/power-platform/admin/database-security",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "scenario": "Contoso builds a model-driven equipment request app.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "An Open Requests view can filter by status.",
+                    "answer": true,
+                    "explanation": "Views can filter rows."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "The app can be built without Dataverse.",
+                    "answer": false,
+                    "explanation": "Model-driven apps require Dataverse."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Security roles should be reviewed before sharing.",
+                    "answer": true,
+                    "explanation": "Roles control access."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "pl900-app-015",
+              "type": "SCENARIO",
+              "domainKey": "power-apps",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Copilot drafts a model-driven app. What should be validated first?",
+              "explanation": "Before accepting a Copilot-drafted model-driven app, the maker should verify the Dataverse model, UI components, relationships, and security assumptions.",
+              "lessonSlug": "pl900-build-model-driven-app",
+              "sources": [
+                {
+                  "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Overview of building a model-driven app with Power Apps",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/model-driven-app-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Use plans to create AI-Powered business solutions with Copilot",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/maker/plan-designer/plan-designer",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Tables, forms, views, relationships, and security assumptions.",
+                  "correct": true,
+                  "explanation": "These components determine whether the generated model-driven app is usable and secure."
+                },
+                {
+                  "key": "B",
+                  "text": "Data policy",
+                  "correct": false,
+                  "explanation": "A data policy is important governance, but it does not validate generated tables, forms, or views."
+                },
+                {
+                  "key": "C",
+                  "text": "Static PDF",
+                  "correct": false,
+                  "explanation": "A static PDF would not confirm model-driven app structure or Dataverse security."
+                }
+              ],
+              "scenario": "A maker wants to speed up first draft creation."
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Plans, code apps, Copilot, and AI-native creation experiences evolve; verify exact labels and availability before publication."
+        }
+      ]
+    }
+  ]
+}

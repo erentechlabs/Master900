@@ -36,9 +36,8 @@
           "kind": "DOCUMENTATION"
         },
         {
-          "title": "Use Microsoft Purview to manage data security & compliance for Microsoft 365 Copilot",
-          "url": "https://learn.microsoft.com/en-us/purview/ai-m365-copilot",
-          "kind": "DOCUMENTATION"
+          "title": "Learn how Microsoft Purview Data Security Posture Management for AI provides protections",
+          "url": "https://learn.microsoft.com/en-us/purview/dspm-for-ai"
         }
       ],
       "config": {
@@ -1242,6 +1241,46 @@
               "failureFeedback": "Apply the Confidential - HR sensitivity label remediation to HR-Internal."
             }
           ]
+        },
+        {
+          "key": "verify-dspm-posture",
+          "title": "Verify DSPM posture changes",
+          "instruction": "Return to **Policies** and **Data risk assessments** to verify the AI protection policies exist and the HR-Internal remediation is recorded.",
+          "hint": "Look for the three created policies and the remediated HR-Internal assessment result.",
+          "explanation": "DSPM is valuable when recommendations become measurable posture changes: policies, reviewed reports, and remediated oversharing risks.",
+          "rules": [
+            {
+              "key": "dspm-verified",
+              "description": "DSPM policies and assessment remediation are complete",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "arrayContains",
+                    "path": "policies",
+                    "match": {
+                      "name": "DSPM for AI - Detect risky AI usage",
+                      "status": "On"
+                    }
+                  },
+                  {
+                    "type": "arrayContains",
+                    "path": "policies",
+                    "match": {
+                      "name": "DSPM for AI - Protect sensitive data from Copilot processing",
+                      "status": "On"
+                    }
+                  },
+                  {
+                    "type": "equals",
+                    "path": "assessments.oversharing.status",
+                    "value": "Complete"
+                  }
+                ]
+              },
+              "failureFeedback": "Create the required AI policies and remediate HR-Internal from the assessment."
+            }
+          ]
         }
       ],
       "finalRules": [
@@ -1301,7 +1340,7 @@
           "failureFeedback": "Run the oversharing data risk assessment."
         }
       ],
-      "solution": "1. Open **Solutions** and choose **DSPM**. Use the current **Data Security Posture Management** solution; **DSPM for AI (classic)** is the previous experience.\n2. On **Data Security Posture Management**, in the **Get started checklist**, mark **Turn on Microsoft Purview Audit**, **Install Microsoft Purview browser extension**, and **Onboard devices to Microsoft Purview** complete.\n3. Open **Recommendations** and select **Create policy** for **Detect risky interactions in AI apps**, **Detect sensitive info shared with AI via network**, and **Protect items with sensitivity labels from Microsoft 365 Copilot and agent processing**. This creates **DSPM for AI - Detect risky AI usage**, **DSPM for AI - Detect sensitive info shared with AI via network**, and **DSPM for AI - Protect sensitive data from Copilot processing**.\n4. Open **Reports**, select **AI interactions containing sensitive info**, review the interactions, and select **Mark reviewed**.\n5. Open **Data risk assessments** and select **Run assessment** for the top SharePoint sites oversharing assessment.\n6. In the results, for **HR-Internal**, choose **Apply sensitivity label**. Purview helps protect Copilot interactions because sensitivity labels are honored, encrypted content requires appropriate **VIEW** and **EXTRACT** usage rights, supported prompts and responses are audited, eDiscovery can search supported interaction data, and retention can preserve Copilot interactions when configured."
+      "solution": "1. Open **Solutions** and choose **DSPM**. Use the current **Data Security Posture Management** solution; **DSPM for AI (classic)** is the previous experience.\n2. On **Data Security Posture Management**, in the **Get started checklist**, mark **Turn on Microsoft Purview Audit**, **Install Microsoft Purview browser extension**, and **Onboard devices to Microsoft Purview** complete.\n3. Open **Recommendations** and select **Create policy** for **Detect risky interactions in AI apps**, **Detect sensitive info shared with AI via network**, and **Protect items with sensitivity labels from Microsoft 365 Copilot and agent processing**. This creates **DSPM for AI - Detect risky AI usage**, **DSPM for AI - Detect sensitive info shared with AI via network**, and **DSPM for AI - Protect sensitive data from Copilot processing**.\n4. Open **Reports**, select **AI interactions containing sensitive info**, review the interactions, and select **Mark reviewed**.\n5. Open **Data risk assessments** and select **Run assessment** for the top SharePoint sites oversharing assessment.\n6. In the results, for **HR-Internal**, choose **Apply sensitivity label**. Purview helps protect Copilot interactions because sensitivity labels are honored, encrypted content requires appropriate **VIEW** and **EXTRACT** usage rights, supported prompts and responses are audited, eDiscovery can search supported interaction data, and retention can preserve Copilot interactions when configured.\n7. Final verification: confirm the three AI policies exist and **HR-Internal** shows the selected remediation in **Data risk assessments**."
     }
   ]
 }

@@ -1,0 +1,806 @@
+{
+  "questions": [
+    {
+      "ref": "gh900-dev-011",
+      "type": "SCENARIO",
+      "domainKey": "modern-development",
+      "objectiveCode": "4.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which combination best fits?",
+      "explanation": "Copilot helps explain code; Codespaces provides the environment.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Copilot plus Codespaces",
+          "correct": true,
+          "explanation": "Matches AI help and environment needs."
+        },
+        {
+          "key": "B",
+          "text": "Milestones plus labels",
+          "correct": false,
+          "explanation": "Those track work."
+        },
+        {
+          "key": "C",
+          "text": "Secret scanning plus Sponsors",
+          "correct": false,
+          "explanation": "Those address security and funding."
+        },
+        {
+          "key": "D",
+          "text": "Marketplace plus templates",
+          "correct": false,
+          "explanation": "Those do not provide AI explanation and environment."
+        }
+      ],
+      "sources": [
+        {
+          "title": "GitHub Copilot documentation",
+          "url": "https://docs.github.com/copilot",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Codespaces documentation",
+          "url": "https://docs.github.com/codespaces",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true,
+      "scenario": "A new developer needs code explanations and a ready cloud environment."
+    },
+    {
+      "ref": "gh900-dev-012",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "modern-development",
+      "objectiveCode": "4.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which snippet manually triggers a workflow?",
+      "explanation": "`workflow_dispatch` is the manual trigger.",
+      "options": [
+        {
+          "key": "A",
+          "text": "`on:\n  workflow_dispatch:`",
+          "correct": true,
+          "explanation": "Correct manual trigger."
+        },
+        {
+          "key": "B",
+          "text": "`manual: true`",
+          "correct": false,
+          "explanation": "Not valid Actions trigger syntax."
+        },
+        {
+          "key": "C",
+          "text": "`jobs:\n  dispatch: now`",
+          "correct": false,
+          "explanation": "Jobs do not define manual triggering."
+        },
+        {
+          "key": "D",
+          "text": "`runs-on: manual`",
+          "correct": false,
+          "explanation": "`runs-on` selects a runner."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Events that trigger workflows",
+          "url": "https://docs.github.com/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Workflows",
+          "url": "https://docs.github.com/actions/writing-workflows/about-workflows",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": false
+    },
+    {
+      "ref": "gh900-dev-013",
+      "type": "ORDERING",
+      "domainKey": "modern-development",
+      "objectiveCode": "4.1",
+      "difficulty": "MEDIUM",
+      "stem": "Order the broad lifecycle of a workflow run.",
+      "explanation": "A configured event creates the workflow run, GitHub schedules the job on a runner, and the runner executes each step in order.",
+      "ordering": {
+        "items": [
+          {
+            "id": "s1",
+            "text": "Event occurs"
+          },
+          {
+            "id": "s2",
+            "text": "Workflow starts"
+          },
+          {
+            "id": "s3",
+            "text": "Job runs on a runner"
+          },
+          {
+            "id": "s4",
+            "text": "Steps execute"
+          }
+        ],
+        "correctOrder": [
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "explanations": {
+          "s1": "The run begins only after an event such as a push, pull request, or manual dispatch matches the workflow trigger.",
+          "s2": "GitHub then creates a workflow run from the YAML definition.",
+          "s3": "Each job is assigned to a runner that provides the execution environment.",
+          "s4": "The job completes its commands or reusable actions as ordered steps."
+        }
+      },
+      "sources": [
+        {
+          "title": "Workflows",
+          "url": "https://docs.github.com/actions/writing-workflows/about-workflows",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "GitHub-hosted runners",
+          "url": "https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "gh900-dev-014",
+      "type": "FILL_IN_BLANK",
+      "domainKey": "modern-development",
+      "objectiveCode": "4.1",
+      "difficulty": "EASY",
+      "stem": "Complete the sentence about opening a lightweight browser editor for quick GitHub repository edits.",
+      "explanation": "github.dev is the lightweight browser editor.",
+      "fillInBlank": {
+        "template": "For a quick browser-only edit, open {{b1}}.",
+        "blanks": [
+          {
+            "id": "b1",
+            "accepted": [
+              "github.dev",
+              "githubdev"
+            ],
+            "explanation": "github.dev opens VS Code for the Web."
+          }
+        ],
+        "wordBank": [
+          "github.dev",
+          "Dependabot",
+          "milestone"
+        ]
+      },
+      "sources": [
+        {
+          "title": "Using VS Code for the Web from GitHub",
+          "url": "https://docs.github.com/codespaces/the-githubdev-web-based-editor",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "gh900-prj-006",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "project-management",
+      "objectiveCode": "5.1",
+      "difficulty": "EASY",
+      "stem": "A maintainer wants bug reports to include reproduction steps. What should they configure?",
+      "explanation": "Issue templates collect consistent information.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Issue template",
+          "correct": true,
+          "explanation": "Templates prompt for details."
+        },
+        {
+          "key": "B",
+          "text": "Runner",
+          "correct": false,
+          "explanation": "Runners execute jobs."
+        },
+        {
+          "key": "C",
+          "text": "Secret scanning",
+          "correct": false,
+          "explanation": "This detects secrets."
+        },
+        {
+          "key": "D",
+          "text": "Fork",
+          "correct": false,
+          "explanation": "A fork is a copy."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Using templates to encourage useful issues and pull requests",
+          "url": "https://docs.github.com/communities/using-templates-to-encourage-useful-issues-and-pull-requests",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "gh900-prj-007",
+      "type": "MATCHING",
+      "domainKey": "project-management",
+      "objectiveCode": "5.1",
+      "difficulty": "MEDIUM",
+      "stem": "Match the need to the feature.",
+      "explanation": "Fields/views, milestones, and labels support different planning needs.",
+      "matching": {
+        "prompts": [
+          {
+            "id": "n1",
+            "text": "Show work by priority"
+          },
+          {
+            "id": "n2",
+            "text": "Group work for launch"
+          },
+          {
+            "id": "n3",
+            "text": "Classify docs issues"
+          }
+        ],
+        "answers": [
+          {
+            "id": "a",
+            "text": "Project field/view"
+          },
+          {
+            "id": "b",
+            "text": "Milestone"
+          },
+          {
+            "id": "c",
+            "text": "Label"
+          }
+        ],
+        "pairs": {
+          "n1": "a",
+          "n2": "b",
+          "n3": "c"
+        },
+        "explanations": {
+          "n1": "Project views can show priority.",
+          "n2": "Milestones group goals.",
+          "n3": "Labels classify work."
+        }
+      },
+      "sources": [
+        {
+          "title": "Planning and tracking with Projects",
+          "url": "https://docs.github.com/issues/planning-and-tracking-with-projects",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Using labels and milestones to track work",
+          "url": "https://docs.github.com/issues/using-labels-and-milestones-to-track-work",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "gh900-prj-008",
+      "type": "UI_SIMULATION",
+      "domainKey": "project-management",
+      "objectiveCode": "5.1",
+      "difficulty": "HARD",
+      "stem": "Configure a simulated Project view for urgent release work.",
+      "explanation": "A table view with Priority and milestone focus helps track urgent release work.",
+      "uiSimulation": {
+        "title": "Project view settings (simulated)",
+        "description": "This is a fictional simplified screen, not the real GitHub UI.",
+        "fields": [
+          {
+            "id": "layout",
+            "label": "Layout",
+            "control": "select",
+            "options": [
+              {
+                "value": "table",
+                "label": "Table"
+              },
+              {
+                "value": "policy",
+                "label": "Security policy"
+              }
+            ],
+            "correct": "table",
+            "explanation": "A table is a Project layout."
+          },
+          {
+            "id": "priority",
+            "label": "Add Priority field",
+            "control": "toggle",
+            "correct": true,
+            "explanation": "Priority helps sort urgent work."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Planning and tracking with Projects",
+          "url": "https://docs.github.com/issues/planning-and-tracking-with-projects",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "gh900-prj-009",
+      "type": "MULTIPLE_RESPONSE",
+      "domainKey": "project-management",
+      "objectiveCode": "5.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which **two** features help classify or group issues and pull requests for tracking?",
+      "selectCount": 2,
+      "explanation": "Labels classify work, and milestones group work toward a goal.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Labels",
+          "correct": true,
+          "explanation": "Labels classify issues and pull requests."
+        },
+        {
+          "key": "B",
+          "text": "Milestones",
+          "correct": true,
+          "explanation": "Milestones group issues and pull requests toward a goal."
+        },
+        {
+          "key": "C",
+          "text": "Runners",
+          "correct": false,
+          "explanation": "Runners execute GitHub Actions jobs."
+        },
+        {
+          "key": "D",
+          "text": "Secret scanning",
+          "correct": false,
+          "explanation": "Secret scanning detects leaked secrets, not project tracking categories."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Using labels and milestones to track work",
+          "url": "https://docs.github.com/issues/using-labels-and-milestones-to-track-work",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "gh900-sec-011",
+      "type": "SCENARIO",
+      "domainKey": "privacy-security-administration",
+      "objectiveCode": "6.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which feature best addresses this risk?",
+      "explanation": "Secret scanning detects leaked credentials.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Secret scanning",
+          "correct": true,
+          "explanation": "Detects committed secrets."
+        },
+        {
+          "key": "B",
+          "text": "Sponsors",
+          "correct": false,
+          "explanation": "Funds maintainers."
+        },
+        {
+          "key": "C",
+          "text": "Milestones",
+          "correct": false,
+          "explanation": "Groups work."
+        },
+        {
+          "key": "D",
+          "text": "github.dev",
+          "correct": false,
+          "explanation": "Web editor."
+        }
+      ],
+      "sources": [
+        {
+          "title": "How-tos for securing secrets",
+          "url": "https://docs.github.com/code-security/secret-scanning",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true,
+      "scenario": "A developer accidentally commits an API token."
+    },
+    {
+      "ref": "gh900-sec-012",
+      "type": "CATEGORIZATION",
+      "domainKey": "privacy-security-administration",
+      "objectiveCode": "6.1",
+      "difficulty": "MEDIUM",
+      "stem": "Classify each security scenario.",
+      "explanation": "Each control addresses a different risk.",
+      "categorization": {
+        "categories": [
+          {
+            "id": "acct",
+            "label": "Account"
+          },
+          {
+            "id": "access",
+            "label": "Access"
+          },
+          {
+            "id": "dep",
+            "label": "Dependency"
+          },
+          {
+            "id": "secret",
+            "label": "Secret"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "text": "Require another sign-in factor",
+            "category": "acct",
+            "explanation": "2FA protects accounts."
+          },
+          {
+            "id": "i2",
+            "text": "Grant team Read access",
+            "category": "access",
+            "explanation": "Roles and teams manage access."
+          },
+          {
+            "id": "i3",
+            "text": "Alert on vulnerable package",
+            "category": "dep",
+            "explanation": "Dependabot handles dependency alerts."
+          },
+          {
+            "id": "i4",
+            "text": "Detect a token",
+            "category": "secret",
+            "explanation": "Secret scanning detects tokens."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Securing your account with two-factor authentication",
+          "url": "https://docs.github.com/authentication/securing-your-account-with-two-factor-authentication-2fa",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Roles in an organization",
+          "url": "https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/roles-in-an-organization",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Securing your supply chain",
+          "url": "https://docs.github.com/code-security/dependabot",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "How-tos for securing secrets",
+          "url": "https://docs.github.com/code-security/secret-scanning",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "gh900-sec-013",
+      "type": "CASE_STUDY",
+      "domainKey": "privacy-security-administration",
+      "objectiveCode": "6.1",
+      "difficulty": "HARD",
+      "scenario": "Litware reviews administration after an incident.",
+      "stem": "For each statement, select Yes if it is sound.",
+      "explanation": "Least privilege, account protection, teams, and policies reduce risk.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Remove unnecessary admin access.",
+            "answer": true,
+            "explanation": "Least privilege helps."
+          },
+          {
+            "id": "s2",
+            "text": "Disable 2FA for maintainers.",
+            "answer": false,
+            "explanation": "That weakens sign-in."
+          },
+          {
+            "id": "s3",
+            "text": "Use teams for common access.",
+            "answer": true,
+            "explanation": "Teams simplify access."
+          },
+          {
+            "id": "s4",
+            "text": "Add SECURITY.md.",
+            "answer": true,
+            "explanation": "It guides vulnerability reports."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Securing your account with two-factor authentication",
+          "url": "https://docs.github.com/authentication/securing-your-account-with-two-factor-authentication-2fa",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Roles in an organization",
+          "url": "https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/roles-in-an-organization",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Adding a security policy to your repository",
+          "url": "https://docs.github.com/code-security/getting-started/adding-a-security-policy-to-your-repository",
+          "kind": "DOCUMENTATION"
+        }
+      ]
+    },
+    {
+      "ref": "gh900-sec-014",
+      "type": "COMMAND_SELECTION",
+      "domainKey": "privacy-security-administration",
+      "objectiveCode": "6.1",
+      "difficulty": "MEDIUM",
+      "stem": "Which Dependabot snippet configures weekly npm version updates?",
+      "explanation": "Dependabot configuration uses version 2, updates, package ecosystem, directory, and schedule.",
+      "options": [
+        {
+          "key": "A",
+          "text": "`version: 2\nupdates:\n  - package-ecosystem: npm\n    directory: /\n    schedule:\n      interval: weekly`",
+          "correct": true,
+          "explanation": "This matches Dependabot update configuration."
+        },
+        {
+          "key": "B",
+          "text": "`dependabot: true\nscan: secrets`",
+          "correct": false,
+          "explanation": "Not a valid updates configuration."
+        },
+        {
+          "key": "C",
+          "text": "`on: dependabot`",
+          "correct": false,
+          "explanation": "This is not the config shape."
+        },
+        {
+          "key": "D",
+          "text": "`security:\n  marketplace: enabled`",
+          "correct": false,
+          "explanation": "Unrelated to dependency updates."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Securing your supply chain",
+          "url": "https://docs.github.com/code-security/dependabot",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": false
+    },
+    {
+      "ref": "gh900-com-006",
+      "type": "SINGLE_CHOICE",
+      "domainKey": "github-community",
+      "objectiveCode": "7.1",
+      "difficulty": "EASY",
+      "stem": "Which file most directly tells contributors how to submit changes?",
+      "explanation": "CONTRIBUTING.md explains contribution process.",
+      "options": [
+        {
+          "key": "A",
+          "text": "CONTRIBUTING.md",
+          "correct": true,
+          "explanation": "It guides contributors."
+        },
+        {
+          "key": "B",
+          "text": "Runner log",
+          "correct": false,
+          "explanation": "Logs show automation output."
+        },
+        {
+          "key": "C",
+          "text": "Dependabot alert",
+          "correct": false,
+          "explanation": "This concerns dependencies."
+        },
+        {
+          "key": "D",
+          "text": "Milestone",
+          "correct": false,
+          "explanation": "This groups work."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Contributing to open source",
+          "url": "https://docs.github.com/get-started/exploring-projects-on-github/contributing-to-open-source",
+          "kind": "DOCUMENTATION"
+        }
+      ],
+      "shuffleOptions": true
+    },
+    {
+      "ref": "gh900-com-007",
+      "type": "MATCHING",
+      "domainKey": "github-community",
+      "objectiveCode": "7.1",
+      "difficulty": "MEDIUM",
+      "stem": "Match each community concept.",
+      "explanation": "These concepts help people contribute, support, and extend projects.",
+      "matching": {
+        "prompts": [
+          {
+            "id": "fork",
+            "text": "Fork"
+          },
+          {
+            "id": "sponsor",
+            "text": "Sponsors"
+          },
+          {
+            "id": "market",
+            "text": "Marketplace"
+          },
+          {
+            "id": "inner",
+            "text": "InnerSource"
+          }
+        ],
+        "answers": [
+          {
+            "id": "a",
+            "text": "Copy for proposing changes"
+          },
+          {
+            "id": "b",
+            "text": "Financial support"
+          },
+          {
+            "id": "c",
+            "text": "Discovery for apps and actions"
+          },
+          {
+            "id": "d",
+            "text": "Open-source practices inside an organization"
+          }
+        ],
+        "pairs": {
+          "fork": "a",
+          "sponsor": "b",
+          "market": "c",
+          "inner": "d"
+        },
+        "explanations": {
+          "fork": "Forks support contribution workflows.",
+          "sponsor": "Sponsors supports maintainers.",
+          "market": "Marketplace helps find tools.",
+          "inner": "InnerSource is internal collaboration."
+        }
+      },
+      "sources": [
+        {
+          "title": "Contributing to open source",
+          "url": "https://docs.github.com/get-started/exploring-projects-on-github/contributing-to-open-source",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "About GitHub Sponsors",
+          "url": "https://docs.github.com/sponsors/getting-started-with-github-sponsors/about-github-sponsors",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "GitHub Marketplace",
+          "url": "https://docs.github.com/apps/github-marketplace",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Manage an InnerSource program by using GitHub",
+          "url": "https://learn.microsoft.com/en-us/training/modules/manage-innersource-program-github/",
+          "kind": "LEARN_MODULE"
+        }
+      ]
+    },
+    {
+      "ref": "gh900-com-008",
+      "type": "TRUE_FALSE",
+      "domainKey": "github-community",
+      "objectiveCode": "7.1",
+      "difficulty": "EASY",
+      "stem": "InnerSource applies open-source collaboration practices inside an organization.",
+      "explanation": "Microsoft Learn describes managing InnerSource programs on GitHub.",
+      "options": [
+        {
+          "key": "TRUE",
+          "text": "True",
+          "correct": true,
+          "explanation": "Correct. InnerSource uses open-source collaboration practices for projects inside an organization."
+        },
+        {
+          "key": "FALSE",
+          "text": "False",
+          "correct": false,
+          "explanation": "Choosing False misses that InnerSource applies open-source-style collaboration within an organization rather than only in public projects."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Manage an InnerSource program by using GitHub",
+          "url": "https://learn.microsoft.com/en-us/training/modules/manage-innersource-program-github/",
+          "kind": "LEARN_MODULE"
+        }
+      ],
+      "shuffleOptions": false
+    },
+    {
+      "ref": "gh900-com-009",
+      "type": "CASE_STUDY",
+      "domainKey": "github-community",
+      "objectiveCode": "7.1",
+      "difficulty": "HARD",
+      "scenario": "A team wants a respectful first public contribution and later reuse the approach internally.",
+      "stem": "For each statement about making a respectful open source contribution and reusing InnerSource practices, select Yes if it fits. Otherwise, select No.",
+      "explanation": "Contribution guidance, forks, and InnerSource support collaboration.",
+      "caseStudy": {
+        "statements": [
+          {
+            "id": "s1",
+            "text": "Read CONTRIBUTING and CODE_OF_CONDUCT first.",
+            "answer": true,
+            "explanation": "They explain expectations."
+          },
+          {
+            "id": "s2",
+            "text": "Fork the project for a focused change.",
+            "answer": true,
+            "explanation": "Forks are common for contributions."
+          },
+          {
+            "id": "s3",
+            "text": "Ignore maintainer feedback.",
+            "answer": false,
+            "explanation": "Maintainers review contributions."
+          },
+          {
+            "id": "s4",
+            "text": "Use InnerSource for private cross-team collaboration.",
+            "answer": true,
+            "explanation": "InnerSource applies internally."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Contributing to open source",
+          "url": "https://docs.github.com/get-started/exploring-projects-on-github/contributing-to-open-source",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Manage an InnerSource program by using GitHub",
+          "url": "https://learn.microsoft.com/en-us/training/modules/manage-innersource-program-github/",
+          "kind": "LEARN_MODULE"
+        }
+      ]
+    }
+  ]
+}

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useTheme } from "next-themes";
-import { Bell, Languages, Monitor, Moon, Sun } from "lucide-react";
+import { Bell, HelpCircle, Languages, Monitor, Moon, MoreHorizontal, Sun } from "lucide-react";
 import { useI18n } from "@/i18n/client";
 import { LOCALE_LABELS, LOCALES } from "@/i18n/config";
 import { setLocaleAction } from "@/app/actions/locale";
@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
@@ -54,6 +55,51 @@ export function LocaleSwitcher() {
   );
 }
 
+export function HeaderOverflow() {
+  const { t, locale } = useI18n();
+  const { theme, setTheme } = useTheme();
+  const router = useRouter();
+  const [pending, start] = useTransition();
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" className="w-10 sm:hidden" aria-label={t("shell.more")}>
+          <MoreHorizontal className="h-5 w-5" aria-hidden="true" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>{t("settings.theme")}</DropdownMenuLabel>
+        <DropdownMenuRadioGroup value={theme ?? "system"} onValueChange={setTheme}>
+          <DropdownMenuRadioItem value="light"><Sun aria-hidden="true" />{t("common.themeLight")}</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="dark"><Moon aria-hidden="true" />{t("common.themeDark")}</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="system"><Monitor aria-hidden="true" />{t("common.themeSystem")}</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+        <DropdownMenuLabel>{t("common.language")}</DropdownMenuLabel>
+        <DropdownMenuRadioGroup
+          value={locale}
+          onValueChange={(value) =>
+            start(async () => {
+              await setLocaleAction(value);
+              router.refresh();
+            })
+          }
+        >
+          {LOCALES.map((l) => (
+            <DropdownMenuRadioItem key={l} value={l} lang={l} disabled={pending}>
+              <Languages aria-hidden="true" />
+              {LOCALE_LABELS[l]}
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+        <DropdownMenuItem onSelect={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "?" }))}>
+          <HelpCircle aria-hidden="true" />
+          {t("shell.keyboardShortcuts")}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
 export function ThemeToggle() {
   const { t } = useI18n();
   const { theme, setTheme } = useTheme();
@@ -67,18 +113,9 @@ export function ThemeToggle() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuRadioGroup value={theme ?? "system"} onValueChange={setTheme}>
-          <DropdownMenuRadioItem value="light">
-            <Sun aria-hidden="true" />
-            {t("common.themeLight")}
-          </DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="dark">
-            <Moon aria-hidden="true" />
-            {t("common.themeDark")}
-          </DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="system">
-            <Monitor aria-hidden="true" />
-            {t("common.themeSystem")}
-          </DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="light"><Sun aria-hidden="true" />{t("common.themeLight")}</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="dark"><Moon aria-hidden="true" />{t("common.themeDark")}</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="system"><Monitor aria-hidden="true" />{t("common.themeSystem")}</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>

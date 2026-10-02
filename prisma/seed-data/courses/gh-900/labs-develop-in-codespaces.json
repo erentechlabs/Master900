@@ -1,0 +1,926 @@
+{
+  "labs": [
+    {
+      "slug": "develop-in-codespaces",
+      "type": "UI_SIMULATION",
+      "title": "Develop in GitHub Codespaces",
+      "summary": "Create a codespace from a repository, use a VS Code for the Web-style workspace, run tests, fix code, commit and push, then stop the codespace.",
+      "scenario": "Contoso Labs needs a fast fix to the greeting used by **contoso-labs/codespaces-demo**. Create a codespace on **main**, use the browser-based editor and integrated terminal to run tests, fix the failing value, commit and push with Git, and stop the codespace from **github.com/codespaces** when finished. Done means the branch has a pushed commit and the running codespace is stopped.",
+      "domainKey": "modern-development",
+      "objectiveCode": "4.1",
+      "complexity": "BASIC",
+      "estimatedMinutes": 25,
+      "learningObjectives": [
+        "Create a codespace from the Code button on a repository branch",
+        "Use the file explorer, editor, and integrated terminal in a Codespaces workspace",
+        "Explain when Codespaces differs from github.dev and local development",
+        "Stop an idle codespace to pause compute resources"
+      ],
+      "prerequisites": [
+        "Basic Git and npm familiarity"
+      ],
+      "sources": [
+        {
+          "title": "Creating a codespace for a repository",
+          "url": "https://docs.github.com/en/codespaces/developing-in-a-codespace/creating-a-codespace-for-a-repository"
+        },
+        {
+          "title": "Stopping and starting a codespace",
+          "url": "https://docs.github.com/en/codespaces/developing-in-a-codespace/stopping-and-starting-a-codespace"
+        },
+        {
+          "title": "Using VS Code for the Web from GitHub",
+          "url": "https://docs.github.com/en/codespaces/the-githubdev-web-based-editor"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "GitHub",
+          "theme": "github",
+          "user": "alex-contoso",
+          "tenant": "contoso-labs",
+          "url": "https://github.com",
+          "searchPlaceholder": "Type / to search"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser",
+            "terminal"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
+        "terminal": {
+          "title": "Codespaces integrated terminal",
+          "prompt": "@alex-contoso ➜ /workspaces/codespaces-demo ({{repo.currentBranch}}) $",
+          "surface": "both",
+          "welcome": "Connected to codespace contoso-labs-codespaces-demo-main. Repository cloned to /workspaces/codespaces-demo.",
+          "commands": [
+            {
+              "id": "npm-test-fail",
+              "pattern": "^npm test$",
+              "when": {
+                "type": "notEquals",
+                "path": "workspace.fixed",
+                "value": true
+              },
+              "help": "npm test",
+              "output": "> codespaces-demo@1.0.0 test\n> vitest run\n\n FAIL  tests/greeting.test.js\n  greeting\n    × returns the expected message\n\nExpected: \"Hello, Codespaces!\"\nReceived: \"Hello, GitHub!\"\n\nTest Files 1 failed\nTests 1 failed",
+              "error": ""
+            },
+            {
+              "id": "npm-test-pass",
+              "pattern": "^npm test$",
+              "when": {
+                "type": "equals",
+                "path": "workspace.fixed",
+                "value": true
+              },
+              "help": "npm test",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "workspace.testsPassed",
+                  "value": true
+                }
+              ],
+              "output": "> codespaces-demo@1.0.0 test\n> vitest run\n\n PASS  tests/greeting.test.js\n  greeting\n    ✓ returns the expected message\n\nTest Files 1 passed\nTests 1 passed"
+            },
+            {
+              "id": "git-status-clean",
+              "pattern": "^git status$",
+              "when": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "equals",
+                    "path": "workspace.fixed",
+                    "value": false
+                  },
+                  {
+                    "type": "equals",
+                    "path": "workspace.staged",
+                    "value": false
+                  }
+                ]
+              },
+              "help": "git status",
+              "output": "On branch main\nYour branch is up to date with 'origin/main'.\n\nnothing to commit, working tree clean"
+            },
+            {
+              "id": "git-status-modified",
+              "pattern": "^git status$",
+              "when": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "equals",
+                    "path": "workspace.fixed",
+                    "value": true
+                  },
+                  {
+                    "type": "equals",
+                    "path": "workspace.staged",
+                    "value": false
+                  },
+                  {
+                    "type": "equals",
+                    "path": "workspace.committed",
+                    "value": false
+                  }
+                ]
+              },
+              "output": "On branch main\nChanges not staged for commit:\n  modified:   src/greeting.js\n\nno changes added to commit (use \"git add\" and/or \"git commit -a\")"
+            },
+            {
+              "id": "git-diff",
+              "pattern": "^git diff$",
+              "when": {
+                "type": "equals",
+                "path": "workspace.fixed",
+                "value": true
+              },
+              "help": "git diff",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "workspace.diffViewed",
+                  "value": true
+                }
+              ],
+              "output": "diff --git a/src/greeting.js b/src/greeting.js\n@@\n-export const greeting = 'Hello, GitHub!';\n+export const greeting = 'Hello, Codespaces!';"
+            },
+            {
+              "id": "git-add",
+              "pattern": "^git add src/greeting\\.js$",
+              "when": {
+                "type": "equals",
+                "path": "workspace.fixed",
+                "value": true
+              },
+              "help": "git add src/greeting.js",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "workspace.staged",
+                  "value": true
+                }
+              ],
+              "output": ""
+            },
+            {
+              "id": "git-status-staged",
+              "pattern": "^git status$",
+              "when": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "equals",
+                    "path": "workspace.staged",
+                    "value": true
+                  },
+                  {
+                    "type": "equals",
+                    "path": "workspace.committed",
+                    "value": false
+                  }
+                ]
+              },
+              "output": "On branch main\nChanges to be committed:\n  modified:   src/greeting.js"
+            },
+            {
+              "id": "git-commit",
+              "pattern": "^git commit -m \"(?<msg>.+)\"$",
+              "when": {
+                "type": "equals",
+                "path": "workspace.staged",
+                "value": true
+              },
+              "help": "git commit -m \"Fix Codespaces greeting\"",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "workspace.committed",
+                  "value": true
+                },
+                {
+                  "type": "set",
+                  "path": "workspace.commitMessage",
+                  "value": "{{$args.msg}}"
+                },
+                {
+                  "type": "set",
+                  "path": "workspace.commitSha",
+                  "value": "{{$args.msg | hash:7}}"
+                },
+                {
+                  "type": "append",
+                  "path": "workspace.commits",
+                  "value": {
+                    "sha": "{{$args.msg | hash:7}}",
+                    "message": "{{$args.msg}}"
+                  }
+                }
+              ],
+              "output": "[main {{$args.msg | hash:7}}] {{$args.msg}}\n 1 file changed, 1 insertion(+), 1 deletion(-)"
+            },
+            {
+              "id": "git-log",
+              "pattern": "^git log --oneline -1$",
+              "when": {
+                "type": "equals",
+                "path": "workspace.committed",
+                "value": true
+              },
+              "help": "git log --oneline -1",
+              "output": "{{workspace.commitSha}} {{workspace.commitMessage}}"
+            },
+            {
+              "id": "git-push",
+              "pattern": "^git push origin main$",
+              "when": {
+                "type": "equals",
+                "path": "workspace.committed",
+                "value": true
+              },
+              "help": "git push origin main",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "workspace.pushed",
+                  "value": true
+                },
+                {
+                  "type": "set",
+                  "path": "codespaces.0.lastPushed",
+                  "value": "{{workspace.commitSha}}"
+                }
+              ],
+              "output": "Enumerating objects: 5, done.\nWriting objects: 100% (3/3), done.\nTo https://github.com/contoso-labs/codespaces-demo.git\n   a1b2c3d..{{workspace.commitSha}}  main -> main"
+            },
+            {
+              "id": "git-push-before",
+              "pattern": "^git push origin main$",
+              "when": {
+                "type": "not",
+                "rule": {
+                  "type": "equals",
+                  "path": "workspace.committed",
+                  "value": true
+                }
+              },
+              "error": "Everything up-to-date. Commit your fix before pushing."
+            }
+          ],
+          "fallback": "{{$cmd}}: command not available in this simulated codespace. Type help to list supported commands."
+        },
+        "startPage": "repo-code",
+        "navigation": [
+          {
+            "page": "repo-code",
+            "label": "Code",
+            "icon": "Code"
+          },
+          {
+            "page": "codespaces-list",
+            "label": "Your Codespaces",
+            "icon": "AppWindow"
+          }
+        ],
+        "pages": [
+          {
+            "id": "repo-code",
+            "title": "contoso-labs/codespaces-demo",
+            "subtitle": "Public repository",
+            "icon": "FolderGit2",
+            "url": "/contoso-labs/codespaces-demo",
+            "menuStyle": "tabs",
+            "menu": [
+              {
+                "page": "repo-code",
+                "label": "Code",
+                "icon": "Code"
+              }
+            ],
+            "commands": [
+              {
+                "id": "code-button",
+                "label": "Code",
+                "icon": "Code",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "code-menu"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Choose the right web development surface",
+                "text": "**Codespaces** gives you a cloud VM, dev container, terminal, extensions, and ports. **github.dev** is VS Code for the Web: great for browsing and lightweight edits, but it does not provide a compute container or full terminal. Local development uses your own machine."
+              },
+              {
+                "kind": "properties",
+                "title": "Repository",
+                "items": [
+                  {
+                    "label": "Default branch",
+                    "value": "main",
+                    "format": "code"
+                  },
+                  {
+                    "label": "Language",
+                    "value": "JavaScript"
+                  },
+                  {
+                    "label": "Codespaces",
+                    "value": "{{codespaces.0.status}}"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "repo-file-list",
+                "title": "Files",
+                "source": "repo.files",
+                "rowKey": "path",
+                "variant": "files",
+                "columns": [
+                  {
+                    "key": "path",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "description",
+                    "label": "Description"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "code-menu",
+            "title": "Code",
+            "subtitle": "Clone or open with a cloud development environment",
+            "url": "/contoso-labs/codespaces-demo?tab=codespaces",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "code-tabs",
+                "title": "Code menu",
+                "items": [
+                  {
+                    "id": "local",
+                    "label": "Local",
+                    "description": "Clone to your own computer.",
+                    "icon": "Laptop",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Local development uses your own installed tools. Use Codespaces for this lab."
+                    }
+                  },
+                  {
+                    "id": "codespaces",
+                    "label": "Codespaces",
+                    "description": "Create a cloud development environment for main.",
+                    "icon": "AppWindow",
+                    "action": {
+                      "type": "navigate",
+                      "page": "codespaces-tab"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "codespaces-tab",
+            "title": "Code | Codespaces",
+            "url": "/contoso-labs/codespaces-demo?quickstart=1",
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Create codespace",
+                "items": [
+                  {
+                    "label": "Branch",
+                    "value": "main",
+                    "format": "code"
+                  },
+                  {
+                    "label": "Dev container",
+                    "value": "Default"
+                  },
+                  {
+                    "label": "Editor",
+                    "value": "Visual Studio Code for the Web"
+                  }
+                ]
+              },
+              {
+                "kind": "button",
+                "id": "create-codespace-main",
+                "label": "Create codespace on main",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "sequence",
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "codespaces",
+                      "where": {
+                        "name": "contoso-labs-codespaces-demo-main"
+                      },
+                      "set": {
+                        "status": "Running"
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "workspace.open",
+                      "value": true
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Codespace created",
+                      "message": "Opening contoso-labs-codespaces-demo-main in VS Code for the Web."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "codespace-editor"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "codespace-editor",
+            "title": "contoso-labs/codespaces-demo — Codespaces",
+            "subtitle": "VS Code for the Web",
+            "icon": "CodeXml",
+            "url": "https://quiet-space-codex.github.dev/contoso-labs/codespaces-demo",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Codespace workspace",
+                "text": "This page imitates the VS Code web client connected to a Codespaces compute container. Use **Explorer**, the editor, and the integrated terminal."
+              },
+              {
+                "kind": "table",
+                "id": "explorer",
+                "title": "Explorer",
+                "source": "workspace.files",
+                "rowKey": "path",
+                "variant": "files",
+                "columns": [
+                  {
+                    "key": "path",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "editor-file",
+                  "select": {
+                    "as": "file",
+                    "path": "workspace.files",
+                    "key": "path",
+                    "value": "{{$row.path}}"
+                  }
+                }
+              },
+              {
+                "kind": "terminal",
+                "id": "codespace-terminal",
+                "title": "Terminal"
+              }
+            ]
+          },
+          {
+            "id": "editor-file",
+            "title": "{{$sel.file.path}}",
+            "subtitle": "Editor",
+            "icon": "FileCode",
+            "url": "https://quiet-space-codex.github.dev/contoso-labs/codespaces-demo/blob/main/{{$sel.file.path}}",
+            "requires": "file",
+            "commands": [
+              {
+                "id": "edit-greeting",
+                "label": "Edit value",
+                "icon": "Pencil",
+                "variant": "primary",
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "$sel.file.path",
+                  "value": "src/greeting.js"
+                },
+                "action": {
+                  "type": "navigate",
+                  "page": "edit-greeting-page"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "code",
+                "id": "editor-code",
+                "title": "{{$sel.file.path}}",
+                "language": "javascript",
+                "content": "{{$sel.file.content}}"
+              },
+              {
+                "kind": "terminal",
+                "id": "file-terminal",
+                "title": "Terminal"
+              }
+            ]
+          },
+          {
+            "id": "edit-greeting-page",
+            "title": "Edit src/greeting.js",
+            "subtitle": "Editor",
+            "icon": "SquarePen",
+            "url": "https://quiet-space-codex.github.dev/contoso-labs/codespaces-demo/edit/main/src/greeting.js",
+            "components": [
+              {
+                "kind": "form",
+                "id": "edit-greeting-form",
+                "title": "src/greeting.js",
+                "fields": [
+                  {
+                    "id": "content",
+                    "label": "src/greeting.js",
+                    "control": "code",
+                    "language": "javascript",
+                    "required": true,
+                    "defaultValue": "export const greeting = 'Hello, GitHub!';\n"
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "matches",
+                        "path": "$form.content",
+                        "pattern": "Hello, Codespaces!"
+                      },
+                      "message": "Fix the value to **Hello, Codespaces!** so the test matches the expected output."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "workspace.files",
+                      "where": {
+                        "path": "src/greeting.js"
+                      },
+                      "set": {
+                        "content": "{{$form.content}}",
+                        "status": "Modified"
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "workspace.fixed",
+                      "value": true
+                    },
+                    {
+                      "type": "set",
+                      "path": "workspace.staged",
+                      "value": false
+                    },
+                    {
+                      "type": "notify",
+                      "title": "File saved",
+                      "message": "src/greeting.js has unsaved Git changes."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "codespace-editor"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "codespaces-list",
+            "title": "Your Codespaces",
+            "icon": "AppWindow",
+            "url": "https://github.com/codespaces",
+            "components": [
+              {
+                "kind": "table",
+                "id": "codespaces-table",
+                "title": "Codespaces",
+                "source": "codespaces",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "repository",
+                    "label": "Repository"
+                  },
+                  {
+                    "key": "branch",
+                    "label": "Branch",
+                    "format": "code"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ],
+                "rowActions": [
+                  {
+                    "id": "stop",
+                    "label": "Stop codespace",
+                    "icon": "Square",
+                    "visibleWhen": {
+                      "type": "equals",
+                      "path": "$row.status",
+                      "value": "Running"
+                    },
+                    "action": {
+                      "type": "sequence",
+                      "actions": [
+                        {
+                          "type": "update",
+                          "path": "codespaces",
+                          "where": {
+                            "name": "{{$row.name}}"
+                          },
+                          "set": {
+                            "status": "Stopped"
+                          }
+                        },
+                        {
+                          "type": "notify",
+                          "title": "Codespace stopped",
+                          "message": "{{$row.name}} is stopped."
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "repo": {
+            "currentBranch": "main",
+            "files": [
+              {
+                "path": "README.md",
+                "description": "Project overview"
+              },
+              {
+                "path": "package.json",
+                "description": "npm scripts"
+              },
+              {
+                "path": "src/greeting.js",
+                "description": "Greeting module"
+              },
+              {
+                "path": "tests/greeting.test.js",
+                "description": "Unit test"
+              }
+            ]
+          },
+          "workspace": {
+            "open": false,
+            "fixed": false,
+            "testsPassed": false,
+            "staged": false,
+            "committed": false,
+            "pushed": false,
+            "diffViewed": false,
+            "commitMessage": "",
+            "commitSha": "",
+            "commits": [],
+            "files": [
+              {
+                "path": "README.md",
+                "status": "Clean",
+                "content": "# Codespaces Demo\n\nA small JavaScript project for Codespaces practice.\n"
+              },
+              {
+                "path": "package.json",
+                "status": "Clean",
+                "content": "{\n  \"scripts\": { \"test\": \"vitest run\" }\n}\n"
+              },
+              {
+                "path": "src/greeting.js",
+                "status": "Clean",
+                "content": "export const greeting = 'Hello, GitHub!';\n"
+              },
+              {
+                "path": "tests/greeting.test.js",
+                "status": "Clean",
+                "content": "import { greeting } from '../src/greeting.js';\nimport { expect, test } from 'vitest';\n\ntest('greeting', () => {\n  expect(greeting).toBe('Hello, Codespaces!');\n});\n"
+              }
+            ]
+          },
+          "codespaces": [
+            {
+              "name": "contoso-labs-codespaces-demo-main",
+              "repository": "contoso-labs/codespaces-demo",
+              "branch": "main",
+              "status": "Not created",
+              "lastPushed": ""
+            }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "key": "create",
+          "title": "Create a codespace on main",
+          "instruction": "On the repository **Code** page, select **Code**, open the **Codespaces** tab, and select **Create codespace on main**.",
+          "hint": "Use the Code button, not the browser address bar. The Codespaces tab creates a cloud environment tied to a branch.",
+          "explanation": "A codespace is a cloud development environment with repository files, compute, a terminal, and editor support; github.dev is lighter and runs in the browser without the same container.",
+          "targetId": "code-button",
+          "rules": [
+            {
+              "key": "running",
+              "description": "Codespace workspace was opened",
+              "rule": {
+                "type": "equals",
+                "path": "workspace.open",
+                "value": true
+              },
+              "failureFeedback": "Create the codespace on main."
+            }
+          ]
+        },
+        {
+          "key": "test",
+          "title": "Run the failing tests",
+          "instruction": "In the codespace integrated terminal, run `npm test` and read the failure for `tests/greeting.test.js`.",
+          "hint": "The terminal is below the Explorer and editor in the Codespaces workspace.",
+          "explanation": "Codespaces gives you a real development-style terminal for build and test commands; a local machine would need the same tools installed manually.",
+          "targetId": "codespace-terminal",
+          "rules": [
+            {
+              "key": "test-run",
+              "description": "npm test was run",
+              "rule": {
+                "type": "commandUsed",
+                "pattern": "^npm test$"
+              },
+              "failureFeedback": "Run npm test in the terminal."
+            }
+          ]
+        },
+        {
+          "key": "fix",
+          "title": "Fix src/greeting.js",
+          "instruction": "In **Explorer**, open **src/greeting.js**, select **Edit value**, change the value to `Hello, Codespaces!`, and select **Save**.",
+          "hint": "The test expected text includes the exclamation point.",
+          "explanation": "The Explorer and editor mimic VS Code for the Web, but because this is Codespaces the change lives in the cloud workspace until you commit and push it.",
+          "targetId": "explorer",
+          "rules": [
+            {
+              "key": "fixed",
+              "description": "Greeting value fixed",
+              "rule": {
+                "type": "equals",
+                "path": "workspace.fixed",
+                "value": true
+              },
+              "failureFeedback": "Edit src/greeting.js to return Hello, Codespaces!."
+            }
+          ]
+        },
+        {
+          "key": "verify",
+          "title": "Verify and inspect the change",
+          "instruction": "Run `npm test`, `git status`, and `git diff` to confirm tests pass and review the exact code change.",
+          "hint": "Run the tests after saving; use git diff before staging to see the line change.",
+          "explanation": "Checking tests and diff before a commit reduces review noise and helps you catch accidental edits.",
+          "targetId": "codespace-terminal",
+          "rules": [
+            {
+              "key": "tests-pass",
+              "description": "Tests pass after the fix",
+              "rule": {
+                "type": "equals",
+                "path": "workspace.testsPassed",
+                "value": true
+              },
+              "failureFeedback": "Run npm test after fixing the file."
+            },
+            {
+              "key": "diff",
+              "description": "Diff was viewed",
+              "rule": {
+                "type": "equals",
+                "path": "workspace.diffViewed",
+                "value": true
+              },
+              "failureFeedback": "Run git diff before staging."
+            }
+          ]
+        },
+        {
+          "key": "commit-push",
+          "title": "Commit and push from the terminal",
+          "instruction": "Run `git add src/greeting.js`, `git commit -m \"Fix Codespaces greeting\"`, `git log --oneline -1`, and `git push origin main`.",
+          "hint": "Stage the modified file before committing, then push the commit to the remote main branch.",
+          "explanation": "Git commits create local history; push publishes that history back to GitHub so teammates and automation can see it.",
+          "targetId": "codespace-terminal",
+          "rules": [
+            {
+              "key": "pushed",
+              "description": "Commit was pushed",
+              "rule": {
+                "type": "equals",
+                "path": "workspace.pushed",
+                "value": true
+              },
+              "failureFeedback": "Commit and push the change to origin main."
+            }
+          ]
+        },
+        {
+          "key": "stop",
+          "title": "Stop the codespace",
+          "instruction": "Open **Your Codespaces** (`github.com/codespaces`) and select **Stop codespace** for **contoso-labs-codespaces-demo-main**.",
+          "hint": "Closing the editor tab is not the same as stopping the codespace.",
+          "explanation": "Stopping a codespace stops running processes and pauses compute use while preserving saved work for a later start.",
+          "targetId": "codespaces-table",
+          "rules": [
+            {
+              "key": "stopped",
+              "description": "Codespace stopped",
+              "rule": {
+                "type": "arrayContains",
+                "path": "codespaces",
+                "match": {
+                  "name": "contoso-labs-codespaces-demo-main",
+                  "status": "Stopped"
+                }
+              },
+              "failureFeedback": "Stop the running codespace from github.com/codespaces."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "done",
+          "description": "Tests passed, commit pushed, codespace stopped",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "equals",
+                "path": "workspace.testsPassed",
+                "value": true
+              },
+              {
+                "type": "equals",
+                "path": "workspace.pushed",
+                "value": true
+              },
+              {
+                "type": "arrayContains",
+                "path": "codespaces",
+                "match": {
+                  "status": "Stopped"
+                }
+              }
+            ]
+          },
+          "successFeedback": "The fix is pushed and the codespace is stopped.",
+          "failureFeedback": "Make sure tests pass, the commit is pushed, and the codespace is stopped."
+        }
+      ],
+      "solution": "1. On **contoso-labs/codespaces-demo**, select **Code**, open **Codespaces**, and select **Create codespace on main**.\n2. In the codespace terminal, run `npm test` and read the failing expected/received values.\n3. In **Explorer**, open **src/greeting.js**, select **Edit value**, set the value to `Hello, Codespaces!`, and **Save**.\n4. Run `npm test`, `git status`, and `git diff`.\n5. Run `git add src/greeting.js`, `git commit -m \"Fix Codespaces greeting\"`, `git log --oneline -1`, and `git push origin main`.\n6. Open **Your Codespaces** at `github.com/codespaces` and select **Stop codespace**."
+    }
+  ]
+}

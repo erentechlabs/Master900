@@ -1,0 +1,1266 @@
+{
+  "labs": [
+    {
+      "slug": "automate-scheduled-flow",
+      "type": "UI_SIMULATION",
+      "title": "Create a scheduled cloud flow for overdue work",
+      "summary": "Use Power Automate to create a scheduled cloud flow with a Recurrence trigger, Dataverse List rows action, condition, summary notification, test run, and run history review.",
+      "scenario": "Fabrikam Operations wants a daily reminder only when Dataverse has overdue follow-up items. In the simulated Power Automate portal, create a scheduled cloud flow that runs every day, lists overdue rows with an OData filter, checks whether any rows were returned, and posts a Teams summary only when work is overdue. Done means the flow has been tested and run history shows a successful run.",
+      "domainKey": "power-automate",
+      "objectiveCode": "4.2",
+      "complexity": "INTERMEDIATE",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Distinguish scheduled cloud flows from automated, instant, and desktop flows",
+        "Configure a Recurrence trigger for a scheduled cloud flow",
+        "Use Dataverse List rows with an OData filter",
+        "Add a condition so a summary is sent only when rows are overdue",
+        "Test a cloud flow and review run history"
+      ],
+      "prerequisites": [
+        "Know that Power Automate cloud flows use triggers and actions"
+      ],
+      "sources": [
+        {
+          "title": "Run a cloud flow on a schedule in Power Automate",
+          "url": "https://learn.microsoft.com/en-us/power-automate/run-scheduled-tasks"
+        },
+        {
+          "title": "Use lists of rows in flows",
+          "url": "https://learn.microsoft.com/en-us/power-automate/dataverse/list-rows"
+        },
+        {
+          "title": "Create a cloud flow in Power Automate",
+          "url": "https://learn.microsoft.com/en-us/power-automate/get-started-logic-flow"
+        },
+        {
+          "title": "Introduction to desktop flows",
+          "url": "https://learn.microsoft.com/en-us/power-automate/desktop-flows/introduction"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Power Automate",
+          "theme": "power-automate",
+          "user": "alex@contoso.example",
+          "tenant": "Fabrikam (default)",
+          "url": "https://make.powerautomate.com",
+          "searchPlaceholder": "Search"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser",
+            "terminal"
+          ]
+        },
+        "terminal": {
+          "title": "Terminal",
+          "prompt": "PS C:\\Users\\Alex>",
+          "surface": "app",
+          "welcome": "Power Automate desktop designer is not installed in this lab VM. Use the browser-based cloud flow designer.",
+          "commands": [
+            {
+              "id": "desktop-info",
+              "pattern": "^(desktop flow|rpa|power automate desktop)$",
+              "output": "Desktop flows use RPA to automate local and legacy apps. This lab VM has only a browser and terminal, so create the scheduled cloud flow in the web designer.",
+              "help": "desktop flow"
+            }
+          ],
+          "fallback": "This lab uses the browser-based Power Automate designer."
+        },
+        "clock": {
+          "start": "2026-10-02T09:00:00Z"
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "my-flows",
+            "label": "My flows",
+            "icon": "Workflow",
+            "section": "Manage"
+          },
+          {
+            "page": "create",
+            "label": "Create",
+            "icon": "Plus",
+            "section": "Build"
+          },
+          {
+            "page": "run-history",
+            "label": "Run history",
+            "icon": "History",
+            "section": "Monitor"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "subtitle": "Fabrikam (default)",
+            "url": "/",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Flow types",
+                "text": "**Automated cloud flows** start from an event, **instant cloud flows** start when a user runs them, **scheduled cloud flows** run on a recurrence, and **desktop flows** use RPA to automate apps on a computer."
+              },
+              {
+                "kind": "tiles",
+                "id": "home-tiles",
+                "title": "Power Automate",
+                "size": "md",
+                "items": [
+                  {
+                    "id": "create",
+                    "label": "Create",
+                    "description": "Create cloud flows or describe a flow to Copilot.",
+                    "icon": "Plus",
+                    "action": {
+                      "type": "navigate",
+                      "page": "create"
+                    }
+                  },
+                  {
+                    "id": "my-flows",
+                    "label": "My flows",
+                    "description": "Manage existing cloud flows.",
+                    "icon": "Workflow",
+                    "action": {
+                      "type": "navigate",
+                      "page": "my-flows"
+                    }
+                  },
+                  {
+                    "id": "desktop-flows",
+                    "label": "Desktop flows",
+                    "description": "RPA for local desktop apps.",
+                    "icon": "MonitorCog",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Desktop-flow designer is not available in this lab VM. Desktop flows are still important for RPA scenarios that automate legacy or local apps."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "create",
+            "title": "Create",
+            "subtitle": "Start from blank or Copilot",
+            "icon": "Plus",
+            "url": "/environments/fabrikam-default/flows/create",
+            "breadcrumb": [
+              "Home"
+            ],
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "flow-types",
+                "title": "Start from blank",
+                "size": "md",
+                "items": [
+                  {
+                    "id": "scheduled",
+                    "label": "Scheduled cloud flow",
+                    "description": "Run on a schedule such as every day or every week.",
+                    "icon": "Calendar",
+                    "action": {
+                      "type": "navigate",
+                      "page": "scheduled-create"
+                    }
+                  },
+                  {
+                    "id": "automated",
+                    "label": "Automated cloud flow",
+                    "description": "Run when an event happens in a connector.",
+                    "icon": "Zap",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Automated flows are event-driven. This lab needs a scheduled flow because the check runs every morning."
+                    }
+                  },
+                  {
+                    "id": "instant",
+                    "label": "Instant cloud flow",
+                    "description": "Run manually from a button.",
+                    "icon": "Play",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Instant flows require a user to start them. This reminder should run without a user clicking a button."
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "form",
+                "id": "copilot-describe-form",
+                "title": "Describe it to design it (optional)",
+                "description": "Copilot can draft a flow from natural language; makers still review triggers, actions, connections, and conditions.",
+                "fields": [
+                  {
+                    "id": "prompt",
+                    "label": "Describe your flow",
+                    "control": "textarea",
+                    "defaultValue": "Every day, list overdue Task Follow-ups from Dataverse and post a Teams summary only if there are overdue rows."
+                  }
+                ],
+                "submit": {
+                  "label": "Generate suggestion",
+                  "actions": [
+                    {
+                      "type": "notify",
+                      "title": "Copilot suggestion",
+                      "message": "Suggested: Recurrence trigger → Dataverse List rows → Condition → Microsoft Teams post message."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "scheduled-create",
+            "title": "Build a scheduled cloud flow",
+            "subtitle": "Recurrence trigger",
+            "icon": "Calendar",
+            "url": "/environments/fabrikam-default/flows/create/scheduled",
+            "navItem": "create",
+            "breadcrumb": [
+              "Create"
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "scheduled-flow-form",
+                "title": "Scheduled cloud flow",
+                "fields": [
+                  {
+                    "id": "name",
+                    "label": "Flow name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "Daily overdue follow-up summary"
+                  },
+                  {
+                    "id": "flowType",
+                    "label": "Flow type",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Scheduled cloud flow",
+                        "label": "Scheduled cloud flow"
+                      },
+                      {
+                        "value": "Automated cloud flow",
+                        "label": "Automated cloud flow"
+                      },
+                      {
+                        "value": "Instant cloud flow",
+                        "label": "Instant cloud flow"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "interval",
+                    "label": "Interval",
+                    "control": "number",
+                    "required": true,
+                    "defaultValue": 1,
+                    "min": 1,
+                    "max": 31
+                  },
+                  {
+                    "id": "frequency",
+                    "label": "Frequency",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Day",
+                        "label": "Day"
+                      },
+                      {
+                        "value": "Week",
+                        "label": "Week"
+                      },
+                      {
+                        "value": "Month",
+                        "label": "Month"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "startTime",
+                    "label": "Start time",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "2026-10-03T07:00:00Z",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+                    "patternMessage": "Use an ISO start time such as 2026-10-03T07:00:00Z."
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.flowType",
+                        "value": "Scheduled cloud flow"
+                      },
+                      "message": "Choose Scheduled cloud flow; automated and instant flows start differently."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.frequency",
+                        "value": "Day"
+                      },
+                      "message": "This lab needs a daily recurrence."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "flows",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "type": "Scheduled cloud flow",
+                        "trigger": "Recurrence",
+                        "interval": "{{$form.interval}}",
+                        "frequency": "{{$form.frequency}}",
+                        "startTime": "{{$form.startTime}}",
+                        "dataverseAction": false,
+                        "conditionConfigured": false,
+                        "summaryAction": false,
+                        "notifyOnlyWhenOverdue": false,
+                        "saved": false,
+                        "tested": false
+                      }
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "designer",
+                      "select": {
+                        "as": "flow",
+                        "path": "flows",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "designer",
+            "title": "{{$sel.flow.name}}",
+            "subtitle": "Cloud flow designer",
+            "icon": "Workflow",
+            "url": "/environments/fabrikam-default/flows/daily-overdue-follow-up-summary/designer",
+            "requires": "flow",
+            "navItem": "my-flows",
+            "breadcrumb": [
+              "My flows"
+            ],
+            "commands": [
+              {
+                "id": "add-dataverse",
+                "label": "+ Add an action",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "add-dataverse"
+                }
+              },
+              {
+                "id": "add-condition",
+                "label": "Add condition",
+                "icon": "Split",
+                "action": {
+                  "type": "navigate",
+                  "page": "add-condition"
+                }
+              },
+              {
+                "id": "add-summary",
+                "label": "Add summary action",
+                "icon": "Send",
+                "action": {
+                  "type": "navigate",
+                  "page": "add-summary"
+                }
+              },
+              {
+                "id": "save-flow",
+                "label": "Save",
+                "icon": "Save",
+                "action": {
+                  "type": "if",
+                  "when": {
+                    "type": "arrayContains",
+                    "path": "flows",
+                    "match": {
+                      "name": "Daily overdue follow-up summary",
+                      "dataverseAction": true,
+                      "conditionConfigured": true,
+                      "summaryAction": true
+                    }
+                  },
+                  "then": [
+                    {
+                      "type": "update",
+                      "path": "flows",
+                      "where": {
+                        "name": "Daily overdue follow-up summary"
+                      },
+                      "set": {
+                        "saved": true
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Flow saved",
+                      "message": "The scheduled cloud flow was saved."
+                    }
+                  ],
+                  "else": [
+                    {
+                      "type": "fail",
+                      "message": "Add the Dataverse List rows action, condition, and summary action before saving."
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "test-flow",
+                "label": "Test",
+                "icon": "Play",
+                "action": {
+                  "type": "navigate",
+                  "page": "test-flow"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Recurrence",
+                "items": [
+                  {
+                    "label": "Trigger",
+                    "value": "{{$sel.flow.trigger}}"
+                  },
+                  {
+                    "label": "Every",
+                    "value": "{{$sel.flow.interval}} {{$sel.flow.frequency}}"
+                  },
+                  {
+                    "label": "Start time",
+                    "value": "{{$sel.flow.startTime}}"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "designer-steps",
+                "title": "Flow steps",
+                "source": "designerSteps",
+                "rowKey": "name",
+                "variant": "flow",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Step"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "add-dataverse",
+            "title": "Add an action",
+            "subtitle": "Microsoft Dataverse",
+            "icon": "Database",
+            "url": "/environments/fabrikam-default/flows/designer/add-action/dataverse",
+            "requires": "flow",
+            "navItem": "my-flows",
+            "breadcrumb": [
+              "Designer"
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "dataverse-action-form",
+                "title": "Microsoft Dataverse - List rows",
+                "fields": [
+                  {
+                    "id": "connector",
+                    "label": "Connector",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Microsoft Dataverse",
+                        "label": "Microsoft Dataverse"
+                      },
+                      {
+                        "value": "Office 365 Outlook",
+                        "label": "Office 365 Outlook"
+                      },
+                      {
+                        "value": "Microsoft Teams",
+                        "label": "Microsoft Teams"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "action",
+                    "label": "Action",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "List rows",
+                        "label": "List rows"
+                      },
+                      {
+                        "value": "Get a row by ID",
+                        "label": "Get a row by ID"
+                      },
+                      {
+                        "value": "Add a new row",
+                        "label": "Add a new row"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "table",
+                    "label": "Table name",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Task Follow-ups",
+                        "label": "Task Follow-ups"
+                      },
+                      {
+                        "value": "Accounts",
+                        "label": "Accounts"
+                      },
+                      {
+                        "value": "Contacts",
+                        "label": "Contacts"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "filterRows",
+                    "label": "Filter rows",
+                    "control": "code",
+                    "required": true,
+                    "language": "odata",
+                    "defaultValue": "status eq 'Overdue'",
+                    "pattern": "^(?!.*\\$filter=)(?=.*status\\s+eq\\s+'Overdue').{15,120}$",
+                    "patternMessage": "Enter an OData filter expression such as status eq 'Overdue'. Do not include the $filter= prefix."
+                  }
+                ],
+                "submit": {
+                  "label": "Add",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.connector",
+                        "value": "Microsoft Dataverse"
+                      },
+                      "message": "Use Microsoft Dataverse to read rows from the table."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.action",
+                        "value": "List rows"
+                      },
+                      "message": "Choose List rows because the flow needs a set of overdue items."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.table",
+                        "value": "Task Follow-ups"
+                      },
+                      "message": "Use the Task Follow-ups table for this lab."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "flows",
+                      "where": {
+                        "name": "Daily overdue follow-up summary"
+                      },
+                      "set": {
+                        "dataverseAction": true,
+                        "dataverseTable": "{{$form.table}}",
+                        "filterRows": "{{$form.filterRows}}"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "designerSteps",
+                      "where": {
+                        "name": "List rows"
+                      },
+                      "set": {
+                        "status": "Configured"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Action added",
+                      "message": "Dataverse List rows will return overdue Task Follow-ups."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "designer"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "add-condition",
+            "title": "Condition",
+            "subtitle": "Control",
+            "icon": "Split",
+            "url": "/environments/fabrikam-default/flows/designer/condition",
+            "requires": "flow",
+            "navItem": "my-flows",
+            "breadcrumb": [
+              "Designer"
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "condition-form",
+                "title": "Configure condition",
+                "description": "Check whether List rows returned any overdue rows before sending a summary.",
+                "fields": [
+                  {
+                    "id": "expression",
+                    "label": "Condition expression",
+                    "control": "code",
+                    "required": true,
+                    "language": "powerautomate",
+                    "defaultValue": "length(body('List_rows')?['value']) is greater than 0",
+                    "pattern": "^(?=.*length\\s*\\()(?=.*greater than 0).{20,180}$",
+                    "patternMessage": "Use a length(...) expression that checks the Dataverse value array is greater than 0."
+                  },
+                  {
+                    "id": "yesBranch",
+                    "label": "If yes",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Send summary",
+                        "label": "Send summary"
+                      },
+                      {
+                        "value": "Terminate",
+                        "label": "Terminate"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "noBranch",
+                    "label": "If no",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Do nothing",
+                        "label": "Do nothing"
+                      },
+                      {
+                        "value": "Send empty message",
+                        "label": "Send empty message"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Save condition",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "arrayContains",
+                        "path": "flows",
+                        "match": {
+                          "name": "Daily overdue follow-up summary",
+                          "dataverseAction": true
+                        }
+                      },
+                      "message": "Add Dataverse List rows before configuring the condition."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.yesBranch",
+                        "value": "Send summary"
+                      },
+                      "message": "Send the summary only from the If yes branch."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.noBranch",
+                        "value": "Do nothing"
+                      },
+                      "message": "The If no branch should do nothing so users are not spammed."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "flows",
+                      "where": {
+                        "name": "Daily overdue follow-up summary"
+                      },
+                      "set": {
+                        "conditionConfigured": true,
+                        "conditionExpression": "{{$form.expression}}",
+                        "notifyOnlyWhenOverdue": true
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "designerSteps",
+                      "where": {
+                        "name": "Condition"
+                      },
+                      "set": {
+                        "status": "Configured"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Condition saved",
+                      "message": "The summary will run only when overdue rows exist."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "designer"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "add-summary",
+            "title": "Add summary action",
+            "subtitle": "If yes branch",
+            "icon": "Send",
+            "url": "/environments/fabrikam-default/flows/designer/summary",
+            "requires": "flow",
+            "navItem": "my-flows",
+            "breadcrumb": [
+              "Designer"
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "summary-action-form",
+                "title": "Send a summary",
+                "fields": [
+                  {
+                    "id": "connector",
+                    "label": "Connector",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Microsoft Teams",
+                        "label": "Microsoft Teams"
+                      },
+                      {
+                        "value": "Office 365 Outlook",
+                        "label": "Office 365 Outlook"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "message",
+                    "label": "Message",
+                    "control": "textarea",
+                    "required": true,
+                    "defaultValue": "Overdue follow-ups: @{length(body('List_rows')?['value'])}. Review the Task Follow-ups table.",
+                    "minLength": 30
+                  }
+                ],
+                "submit": {
+                  "label": "Add action",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "arrayContains",
+                        "path": "flows",
+                        "match": {
+                          "name": "Daily overdue follow-up summary",
+                          "conditionConfigured": true
+                        }
+                      },
+                      "message": "Configure the condition first so the summary is only in the If yes branch."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "flows",
+                      "where": {
+                        "name": "Daily overdue follow-up summary"
+                      },
+                      "set": {
+                        "summaryAction": true,
+                        "summaryConnector": "{{$form.connector}}",
+                        "summaryMessage": "{{$form.message}}"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "designerSteps",
+                      "where": {
+                        "name": "Post summary"
+                      },
+                      "set": {
+                        "status": "Configured"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Summary action added",
+                      "message": "The If yes branch posts a summary."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "designer"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "test-flow",
+            "title": "Test flow",
+            "subtitle": "Manually run trigger",
+            "icon": "Play",
+            "url": "/environments/fabrikam-default/flows/daily-overdue-follow-up-summary/test",
+            "requires": "flow",
+            "navItem": "my-flows",
+            "breadcrumb": [
+              "Designer"
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Test summary",
+                "items": [
+                  {
+                    "label": "Overdue rows",
+                    "value": "3"
+                  },
+                  {
+                    "label": "Expected outcome",
+                    "value": "Post one Teams summary"
+                  }
+                ]
+              },
+              {
+                "kind": "button",
+                "id": "run-test",
+                "label": "Run test",
+                "icon": "Play",
+                "variant": "primary",
+                "action": {
+                  "type": "if",
+                  "when": {
+                    "type": "arrayContains",
+                    "path": "flows",
+                    "match": {
+                      "name": "Daily overdue follow-up summary",
+                      "saved": true,
+                      "summaryAction": true
+                    }
+                  },
+                  "then": [
+                    {
+                      "type": "update",
+                      "path": "flows",
+                      "where": {
+                        "name": "Daily overdue follow-up summary"
+                      },
+                      "set": {
+                        "tested": true
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "runs",
+                      "value": {
+                        "flow": "Daily overdue follow-up summary",
+                        "status": "Succeeded",
+                        "trigger": "Manual test",
+                        "rows": 3,
+                        "summarySent": true,
+                        "time": "{{$now}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Test succeeded",
+                      "message": "The flow found 3 overdue rows and posted one summary."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "run-history"
+                    }
+                  ],
+                  "else": [
+                    {
+                      "type": "fail",
+                      "message": "Save the completed flow before running the test."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "my-flows",
+            "title": "My flows",
+            "subtitle": "Cloud flows",
+            "icon": "Workflow",
+            "url": "/environments/fabrikam-default/flows",
+            "breadcrumb": [
+              "Home"
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "flows-list",
+                "source": "flows",
+                "rowKey": "name",
+                "emptyText": "No cloud flows yet.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Type"
+                  },
+                  {
+                    "key": "trigger",
+                    "label": "Trigger"
+                  },
+                  {
+                    "key": "tested",
+                    "label": "Tested",
+                    "format": "bool"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "designer",
+                  "select": {
+                    "as": "flow",
+                    "path": "flows",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "run-history",
+            "title": "Run history",
+            "subtitle": "Daily overdue follow-up summary",
+            "icon": "History",
+            "url": "/environments/fabrikam-default/flows/daily-overdue-follow-up-summary/runs",
+            "navItem": "run-history",
+            "breadcrumb": [
+              "My flows"
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "runs-table",
+                "source": "runs",
+                "rowKey": "time",
+                "emptyText": "No runs yet.",
+                "columns": [
+                  {
+                    "key": "time",
+                    "label": "Start time",
+                    "format": "datetime"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "rows",
+                    "label": "Overdue rows",
+                    "format": "count"
+                  },
+                  {
+                    "key": "summarySent",
+                    "label": "Summary sent",
+                    "format": "bool"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "flows": [],
+          "runs": [],
+          "designerSteps": [
+            {
+              "name": "Recurrence",
+              "status": "Configured"
+            },
+            {
+              "name": "List rows",
+              "status": "Missing"
+            },
+            {
+              "name": "Condition",
+              "status": "Missing"
+            },
+            {
+              "name": "Post summary",
+              "status": "Missing"
+            }
+          ],
+          "taskFollowUps": [
+            {
+              "title": "Approve supplier access",
+              "status": "Overdue",
+              "owner": "Priya"
+            },
+            {
+              "title": "Review repair quote",
+              "status": "Overdue",
+              "owner": "Alex"
+            },
+            {
+              "title": "Close completed inspection",
+              "status": "Complete",
+              "owner": "Nora"
+            },
+            {
+              "title": "Confirm lift maintenance",
+              "status": "Overdue",
+              "owner": "Sam"
+            },
+            {
+              "title": "Schedule safety briefing",
+              "status": "Open",
+              "owner": "Mehmet"
+            }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "key": "choose-scheduled",
+          "title": "Start a scheduled cloud flow",
+          "instruction": "Open **Create**, choose **Scheduled cloud flow**, name it **Daily overdue follow-up summary**, set **Interval** to **1**, **Frequency** to **Day**, enter a valid **Start time**, and select **Create**.",
+          "hint": "Use Scheduled cloud flow, not automated or instant. The reminder must run without a user clicking a button.",
+          "explanation": "Scheduled cloud flows use a Recurrence trigger; automated flows use connector events, instant flows wait for a manual start, and desktop flows automate local apps with RPA.",
+          "targetId": "flow-types",
+          "rules": [
+            {
+              "key": "scheduled-created",
+              "description": "The scheduled cloud flow exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "flows",
+                "match": {
+                  "name": "Daily overdue follow-up summary",
+                  "type": "Scheduled cloud flow",
+                  "trigger": "Recurrence",
+                  "frequency": "Day"
+                }
+              },
+              "failureFeedback": "Create a daily scheduled cloud flow named Daily overdue follow-up summary."
+            }
+          ]
+        },
+        {
+          "key": "list-rows",
+          "title": "List overdue Dataverse rows",
+          "instruction": "Select **+ Add an action**, choose **Microsoft Dataverse** action **List rows**, table **Task Follow-ups**, and set **Filter rows** to **status eq 'Overdue'**.",
+          "hint": "The Filter rows field expects the OData expression only; do not type `$filter=`.",
+          "explanation": "List rows retrieves a set of Dataverse records, and an OData filter narrows the data before later flow actions run.",
+          "targetId": "add-dataverse",
+          "rules": [
+            {
+              "key": "dataverse-configured",
+              "description": "Dataverse List rows uses the overdue filter",
+              "rule": {
+                "type": "arrayContains",
+                "path": "flows",
+                "match": {
+                  "name": "Daily overdue follow-up summary",
+                  "dataverseAction": true,
+                  "dataverseTable": "Task Follow-ups",
+                  "filterRows": "status eq 'Overdue'"
+                }
+              },
+              "failureFeedback": "Configure Dataverse List rows with Task Follow-ups and status eq 'Overdue'."
+            }
+          ]
+        },
+        {
+          "key": "condition",
+          "title": "Add a condition for returned rows",
+          "instruction": "Select **Add condition** and use a **length(...) is greater than 0** expression. Set **If yes** to **Send summary** and **If no** to **Do nothing**.",
+          "hint": "The summary belongs in the If yes branch so users receive a message only when rows exist.",
+          "explanation": "A condition prevents unnecessary notifications and is a common flow pattern after querying a data source.",
+          "targetId": "add-condition",
+          "rules": [
+            {
+              "key": "condition-configured",
+              "description": "The condition sends only when rows exist",
+              "rule": {
+                "type": "arrayContains",
+                "path": "flows",
+                "match": {
+                  "name": "Daily overdue follow-up summary",
+                  "conditionConfigured": true,
+                  "notifyOnlyWhenOverdue": true
+                }
+              },
+              "failureFeedback": "Configure the condition so the no-overdue branch does nothing."
+            }
+          ]
+        },
+        {
+          "key": "summary-action",
+          "title": "Send the summary from the If yes branch",
+          "instruction": "Select **Add summary action**, choose **Microsoft Teams** or **Office 365 Outlook**, and add a message that summarizes overdue rows for the operations team.",
+          "hint": "Teams and Outlook are common notification actions; place this action only after the condition's yes result.",
+          "explanation": "Flow actions can use outputs from previous steps, such as the number of Dataverse rows returned by List rows.",
+          "targetId": "add-summary",
+          "rules": [
+            {
+              "key": "summary-configured",
+              "description": "A summary action is configured",
+              "rule": {
+                "type": "arrayContains",
+                "path": "flows",
+                "match": {
+                  "name": "Daily overdue follow-up summary",
+                  "summaryAction": true
+                }
+              },
+              "failureFeedback": "Add a Teams or Outlook summary action."
+            }
+          ]
+        },
+        {
+          "key": "test-history",
+          "title": "Save, test, and review run history",
+          "instruction": "Select **Save**, select **Test**, run the test, and review **Run history** to confirm the run **Succeeded** and sent one summary.",
+          "hint": "Run history is the monitoring view that shows whether a cloud flow succeeded and what actions ran.",
+          "explanation": "Testing validates connections and logic immediately; run history is where makers troubleshoot real executions later.",
+          "targetId": "save-flow",
+          "rules": [
+            {
+              "key": "tested",
+              "description": "The test run succeeded",
+              "rule": {
+                "type": "arrayContains",
+                "path": "runs",
+                "match": {
+                  "flow": "Daily overdue follow-up summary",
+                  "status": "Succeeded",
+                  "summarySent": true
+                }
+              },
+              "failureFeedback": "Save and test the flow, then check run history."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "complete-scheduled-flow",
+          "description": "The flow is scheduled, filters Dataverse rows, notifies only when overdue rows exist, and has a successful run",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "arrayContains",
+                "path": "flows",
+                "match": {
+                  "name": "Daily overdue follow-up summary",
+                  "type": "Scheduled cloud flow",
+                  "dataverseAction": true,
+                  "conditionConfigured": true,
+                  "summaryAction": true,
+                  "notifyOnlyWhenOverdue": true,
+                  "tested": true
+                }
+              },
+              {
+                "type": "arrayContains",
+                "path": "runs",
+                "match": {
+                  "flow": "Daily overdue follow-up summary",
+                  "status": "Succeeded",
+                  "rows": 3,
+                  "summarySent": true
+                }
+              }
+            ]
+          },
+          "successFeedback": "The scheduled flow checks Dataverse and sends a summary only when overdue rows exist.",
+          "failureFeedback": "Complete the Recurrence, List rows, condition, summary, Save, Test, and Run history review."
+        }
+      ],
+      "solution": "1. Select **Create** > **Scheduled cloud flow**. Name it `Daily overdue follow-up summary`, set **Interval** to `1`, **Frequency** to **Day**, enter `2026-10-03T07:00:00Z`, and select **Create**.\n2. In the designer, select **+ Add an action**. Choose **Microsoft Dataverse**, action **List rows**, table **Task Follow-ups**, and **Filter rows** `status eq 'Overdue'`.\n3. Select **Add condition**. Enter `length(body('List_rows')?['value']) is greater than 0`, set **If yes** to **Send summary**, and **If no** to **Do nothing**.\n4. Select **Add summary action**. Choose **Microsoft Teams** and enter a message such as `Overdue follow-ups: @{length(body('List_rows')?['value'])}. Review the Task Follow-ups table.`\n5. Select **Save**, then **Test**, then **Run test**.\n6. Open **Run history** and confirm the latest run **Succeeded** and **Summary sent** is true."
+    }
+  ]
+}

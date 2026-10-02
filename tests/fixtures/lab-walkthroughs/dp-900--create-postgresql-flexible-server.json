@@ -1,0 +1,64 @@
+{
+  "certification": "DP-900",
+  "lab": "create-postgresql-flexible-server",
+  "note": "Create PostgreSQL flexible server, connect with psql, and run SQL.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "postgres-servers"
+    },
+    {
+      "type": "click",
+      "componentId": "pg-create"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "pg-wizard",
+      "values": {
+        "subscription": "Contoso Learning (simulated)",
+        "resourceGroup": "create-new",
+        "newResourceGroup": "rg-open-source-data",
+        "serverName": "pg-flex-orders-01",
+        "region": "westeurope",
+        "postgresVersion": "16",
+        "workloadType": "Development",
+        "computeTier": "Burstable",
+        "computeSize": "Small training profile",
+        "storageSize": "Training storage profile",
+        "authentication": "Microsoft Entra authentication only",
+        "entraAdmin": "Data Platform Team",
+        "networking": "Public access (allowed IP addresses)",
+        "firewallMode": "Add current client IP address",
+        "firewallStart": "203.0.113.24",
+        "firewallEnd": "203.0.113.24"
+      }
+    },
+    {
+      "type": "click",
+      "componentId": "pg-go-to-resource"
+    },
+    {
+      "type": "click",
+      "componentId": "open-connect"
+    },
+    {
+      "type": "command",
+      "command": "psql \"host=pg-flex-orders-01.postgres.database.azure.com port=5432 dbname=postgres user=alex@contoso.example sslmode=require\""
+    },
+    {
+      "type": "query",
+      "componentId": "pg-query-editor",
+      "sql": "CREATE TABLE order_sales (order_id INT PRIMARY KEY, region VARCHAR(30), amount INT);"
+    },
+    {
+      "type": "query",
+      "componentId": "pg-query-editor",
+      "sql": "INSERT INTO order_sales(order_id, region, amount) VALUES (1, 'North', 120), (2, 'South', 95), (3, 'North', 80), (4, 'West', 140);"
+    },
+    {
+      "type": "query",
+      "componentId": "pg-query-editor",
+      "sql": "SELECT region, SUM(amount) AS total_amount FROM order_sales GROUP BY region ORDER BY total_amount DESC;"
+    }
+  ]
+}

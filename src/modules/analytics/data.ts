@@ -102,7 +102,7 @@ export async function computeAndStoreReadiness(db: Db, userId: string, certifica
 
 export async function badgeStats(db: Db, userId: string, timeZone = "UTC", now = new Date()): Promise<BadgeStats> {
   const visible = learnerVisibleWhere(now);
-  const [lessonsCompleted, enrollments, labs, perfectQuizzes, perfectPractice, fullExams, xp, streak] = await Promise.all([
+  const [lessonsCompleted, enrollments, labs, perfectQuizzes, perfectPractice, fullExams, xp, streak, engagementEvents] = await Promise.all([
     db.lessonProgress.count({ where: { userId, status: "COMPLETED" } }),
     db.enrollment.findMany({ where: { userId }, select: { certificationId: true, certification: { select: { code: true } } } }),
     db.labAttempt.findMany({ where: { userId, status: "COMPLETED" }, distinct: ["labId"], select: { labId: true } }),
@@ -115,6 +115,7 @@ export async function badgeStats(db: Db, userId: string, timeZone = "UTC", now =
     }),
     totalXp(db, userId),
     streakInfo(db, userId, timeZone, now),
+    db.learningEvent.findMany({ where: { userId, type: { in: ["QUEST_COMPLETED", "FOCUS_SESSION_COMPLETED", "LAB_COMPLETED", "PRACTICE_COMPLETED"] } }, select: { type: true, certificationId: true, metadata: true } }),
   ]);
 
   const domainMasteryRows: BadgeStats["domainMastery"] = [];
@@ -145,6 +146,16 @@ export async function badgeStats(db: Db, userId: string, timeZone = "UTC", now =
     bests.push({ certCode: code, best: scores[scores.length - 1]! > (previous ?? -1) ? scores[scores.length - 1]! : best, previousBest: previous });
   }
 
+  const meta = (value: unknown): Record<string, unknown> => (value && typeof value === "object" ? (value as Record<string, unknown>) : {});
+  const questDaysAllCompleted = new Set(engagementEvents.filter((e) => e.type === "QUEST_COMPLETED" && meta(e.metadata).questKey === "all" && typeof meta(e.metadata).date === "string").map((e) => String(meta(e.metadata).date))).size;
+  const focusSessions = engagementEvents.filter((e) => e.type === "FOCUS_SESSION_COMPLETED").length;
+  const threeStarLabs = engagementEvents.filter((e) => e.type === "LAB_COMPLETED" && Number(meta(e.metadata).stars ?? 0) >= 3).length;
+  const lightning = engagementEvents.filter((e) => e.type === "PRACTICE_COMPLETED" && meta(e.metadata).mode === "LIGHTNING");
+  const lightningRoundsAtLeast8 = lightning.filter((e) => Number(meta(e.metadata).correct ?? 0) >= 8).length;
+  const bestLightningCorrect = lightning.reduce((best, e) => Math.max(best, Number(meta(e.metadata).correct ?? 0)), 0);
+  const bestLightningCombo = lightning.reduce((best, e) => Math.max(best, Number(meta(e.metadata).bestCombo ?? 0)), 0);
+  const labCertificationsCompleted = new Set(engagementEvents.filter((e) => e.type === "LAB_COMPLETED" && e.certificationId).map((e) => e.certificationId)).size;
+
   const sortedDays = [...streak.days].sort();
   const latest = sortedDays[sortedDays.length - 1];
   const before = sortedDays[sortedDays.length - 2];
@@ -161,6 +172,13 @@ export async function badgeStats(db: Db, userId: string, timeZone = "UTC", now =
     gapBeforeLatestActivity: gap,
     fullExamBests: bests,
     totalXp: xp,
+    questDaysAllCompleted,
+    focusSessions,
+    threeStarLabs,
+    lightningRoundsAtLeast8,
+    bestLightningCorrect,
+    bestLightningCombo,
+    labCertificationsCompleted,
   };
 }
 

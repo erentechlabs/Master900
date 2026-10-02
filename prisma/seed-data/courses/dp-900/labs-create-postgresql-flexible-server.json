@@ -1,0 +1,1194 @@
+{
+  "labs": [
+    {
+      "slug": "create-postgresql-flexible-server",
+      "type": "UI_SIMULATION",
+      "title": "Create and query an Azure Database for PostgreSQL flexible server",
+      "summary": "Create a PostgreSQL flexible server with secure authentication and networking, connect with psql from Cloud Shell, and run relational SQL queries.",
+      "scenario": "Wide World Importers is moving a small open-source order service to Azure. In the **simulated Azure portal** on your lab VM, create an Azure Database for PostgreSQL flexible server named **pg-flex-orders-01** in **rg-open-source-data**. Use Microsoft Entra-based authentication, allow only the current lab client IP on public access, deploy the server, connect from Cloud Shell with `psql`, and run portable SQL to create, insert, and aggregate order rows.",
+      "domainKey": "relational-data",
+      "objectiveCode": "2.2",
+      "complexity": "INTERMEDIATE",
+      "estimatedMinutes": 35,
+      "learningObjectives": [
+        "Create an Azure Database for PostgreSQL flexible server with the Azure portal wizard",
+        "Choose secure authentication and networking settings for an open-source relational database",
+        "Connect with psql from Cloud Shell and run portable SQL statements",
+        "Explain when PostgreSQL on Azure is a relational PaaS option compared with Azure SQL Database"
+      ],
+      "prerequisites": [
+        "Know that PostgreSQL is an open-source relational database that stores rows in tables"
+      ],
+      "sources": [
+        {
+          "title": "Quickstart: Create an Azure Database for PostgreSQL flexible server",
+          "url": "https://learn.microsoft.com/en-us/azure/postgresql/configure-maintain/quickstart-create-server"
+        },
+        {
+          "title": "Connect and Query Overview in Azure Database for PostgreSQL Flexible Server",
+          "url": "https://learn.microsoft.com/en-us/azure/postgresql/connectivity/how-to-connect-query-guide"
+        },
+        {
+          "title": "Networking with Public Access in Azure Database for PostgreSQL Flexible Server",
+          "url": "https://learn.microsoft.com/en-us/azure/postgresql/network/concepts-networking-public"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Azure",
+          "theme": "azure",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso Learning (contoso.example)",
+          "url": "https://portal.azure.com",
+          "searchPlaceholder": "Search resources, services, and docs (G+/)"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser",
+            "terminal"
+          ]
+        },
+        "clock": {
+          "start": "2026-09-30T09:00:00Z"
+        },
+        "terminal": {
+          "title": "Cloud Shell (Bash)",
+          "prompt": "alex@Azure:~$",
+          "surface": "both",
+          "welcome": "Welcome to Azure Cloud Shell (simulation). Use psql to connect to the PostgreSQL flexible server created in this lab.",
+          "commands": [
+            {
+              "id": "psql-connect",
+              "pattern": "^psql \"host=pg-flex-orders-01\\.postgres\\.database\\.azure\\.com port=5432 dbname=postgres user=alex@contoso\\.example sslmode=require\"$",
+              "help": "psql \"host=<server>.postgres.database.azure.com port=5432 dbname=postgres user=<user> sslmode=require\"",
+              "actions": [
+                {
+                  "type": "set",
+                  "path": "psql.connected",
+                  "value": true
+                }
+              ],
+              "output": "psql (simulation)\nSSL connection established.\nUse the PostgreSQL query worksheet for SQL statements."
+            },
+            {
+              "id": "psql-missing",
+              "pattern": "^psql .*$",
+              "error": "Use the exact psql command for pg-flex-orders-01."
+            }
+          ],
+          "fallback": "Command not recognized in this lab. Connect with the exact psql command shown in the instructions."
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "postgres-servers",
+            "label": "Azure Database for PostgreSQL",
+            "icon": "Database",
+            "section": "Favorites"
+          },
+          {
+            "page": "resource-groups",
+            "label": "Resource groups",
+            "icon": "Boxes",
+            "section": "Favorites"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/#home",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "azure-services",
+                "title": "Azure services",
+                "size": "sm",
+                "items": [
+                  {
+                    "id": "postgres",
+                    "label": "Azure Database for PostgreSQL",
+                    "description": "Open-source PostgreSQL as a managed Azure service",
+                    "icon": "Database",
+                    "action": {
+                      "type": "navigate",
+                      "page": "postgres-servers"
+                    }
+                  },
+                  {
+                    "id": "sql-db",
+                    "label": "SQL databases",
+                    "icon": "Database",
+                    "action": {
+                      "type": "message",
+                      "tone": "info",
+                      "text": "Azure SQL Database is covered in a different DP-900 lab. This lab uses open-source PostgreSQL."
+                    }
+                  },
+                  {
+                    "id": "resource-groups",
+                    "label": "Resource groups",
+                    "icon": "Boxes",
+                    "action": {
+                      "type": "navigate",
+                      "page": "resource-groups"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "recent-postgres",
+                "title": "Resources - Recent",
+                "source": "postgresServers",
+                "rowKey": "name",
+                "emptyText": "No PostgreSQL flexible servers yet.",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "resourceGroup",
+                    "label": "Resource group"
+                  },
+                  {
+                    "key": "location",
+                    "label": "Location"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "pg-overview",
+                  "select": {
+                    "as": "server",
+                    "path": "postgresServers",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "resource-groups",
+            "title": "Resource groups",
+            "icon": "Boxes",
+            "url": "/#browse/resourcegroups",
+            "breadcrumb": [
+              "Home"
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "rg-list",
+                "source": "resourceGroups",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "location",
+                    "label": "Location"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "postgres-servers",
+            "title": "Azure Database for PostgreSQL flexible servers",
+            "icon": "Database",
+            "url": "/#browse/Microsoft.DBforPostgreSQL%2FflexibleServers",
+            "breadcrumb": [
+              "Home"
+            ],
+            "commands": [
+              {
+                "id": "pg-create",
+                "label": "Create",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "pg-create"
+                }
+              },
+              {
+                "id": "pg-refresh",
+                "label": "Refresh",
+                "icon": "RefreshCw",
+                "action": {
+                  "type": "message",
+                  "tone": "info",
+                  "text": "The list is up to date."
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "pg-list",
+                "source": "postgresServers",
+                "rowKey": "name",
+                "searchable": true,
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "postgresVersion",
+                    "label": "PostgreSQL version"
+                  },
+                  {
+                    "key": "authentication",
+                    "label": "Authentication"
+                  },
+                  {
+                    "key": "networking",
+                    "label": "Networking"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "pg-overview",
+                  "select": {
+                    "as": "server",
+                    "path": "postgresServers",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "pg-create",
+            "title": "Create Azure Database for PostgreSQL flexible server",
+            "subtitle": "Flexible server",
+            "icon": "Database",
+            "url": "/#create/Microsoft.PostgreSQLServer",
+            "navItem": "postgres-servers",
+            "breadcrumb": [
+              "Home",
+              "Azure Database for PostgreSQL"
+            ],
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "pg-wizard",
+                "description": "Create a managed PostgreSQL flexible server.",
+                "reviewLabel": "Review + create",
+                "tabs": [
+                  {
+                    "id": "basics",
+                    "label": "Basics",
+                    "fields": [
+                      {
+                        "id": "subscription",
+                        "label": "Subscription",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Contoso Learning (simulated)",
+                        "options": [
+                          {
+                            "value": "Contoso Learning (simulated)",
+                            "label": "Contoso Learning (simulated)"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "resourceGroup",
+                        "label": "Resource group",
+                        "control": "select",
+                        "required": true,
+                        "options": [
+                          {
+                            "value": "create-new",
+                            "label": "Create new"
+                          }
+                        ],
+                        "optionsFrom": {
+                          "path": "resourceGroups",
+                          "value": "name"
+                        },
+                        "defaultValue": "create-new"
+                      },
+                      {
+                        "id": "newResourceGroup",
+                        "label": "New resource group name",
+                        "control": "text",
+                        "required": true,
+                        "visibleWhen": {
+                          "type": "equals",
+                          "path": "$form.resourceGroup",
+                          "value": "create-new"
+                        },
+                        "pattern": "^[A-Za-z0-9_().-]{1,90}$",
+                        "patternMessage": "Use 1-90 letters, numbers, periods, underscores, hyphens or parentheses."
+                      },
+                      {
+                        "id": "serverName",
+                        "label": "Server name",
+                        "control": "text",
+                        "required": true,
+                        "defaultValue": "pg-flex-orders-01",
+                        "pattern": "^[a-z0-9][a-z0-9-]{2,62}$",
+                        "patternMessage": "Use 3-63 lowercase letters, numbers or hyphens.",
+                        "unique": {
+                          "path": "postgresServers",
+                          "key": "name",
+                          "message": "A PostgreSQL server with this name already exists."
+                        }
+                      },
+                      {
+                        "id": "region",
+                        "label": "Region",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "westeurope",
+                        "optionsFrom": {
+                          "path": "regions",
+                          "value": "name",
+                          "label": "displayName"
+                        }
+                      },
+                      {
+                        "id": "postgresVersion",
+                        "label": "PostgreSQL version",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "16",
+                        "options": [
+                          {
+                            "value": "16",
+                            "label": "16"
+                          },
+                          {
+                            "value": "15",
+                            "label": "15"
+                          },
+                          {
+                            "value": "14",
+                            "label": "14"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "workloadType",
+                        "label": "Workload type",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Development",
+                        "options": [
+                          {
+                            "value": "Development",
+                            "label": "Development"
+                          },
+                          {
+                            "value": "Production",
+                            "label": "Production"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "compute",
+                    "label": "Compute + storage",
+                    "description": "Choose a training profile without showing prices.",
+                    "fields": [
+                      {
+                        "id": "computeTier",
+                        "label": "Compute tier",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Burstable",
+                        "options": [
+                          {
+                            "value": "Burstable",
+                            "label": "Burstable"
+                          },
+                          {
+                            "value": "General Purpose",
+                            "label": "General Purpose"
+                          },
+                          {
+                            "value": "Memory Optimized",
+                            "label": "Memory Optimized"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "computeSize",
+                        "label": "Compute size",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Small training profile",
+                        "options": [
+                          {
+                            "value": "Small training profile",
+                            "label": "Small training profile"
+                          },
+                          {
+                            "value": "Medium training profile",
+                            "label": "Medium training profile"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "storageSize",
+                        "label": "Storage size",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Training storage profile",
+                        "options": [
+                          {
+                            "value": "Training storage profile",
+                            "label": "Training storage profile"
+                          },
+                          {
+                            "value": "Larger training storage profile",
+                            "label": "Larger training storage profile"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "auth",
+                    "label": "Authentication",
+                    "fields": [
+                      {
+                        "id": "authentication",
+                        "label": "Authentication method",
+                        "control": "radio",
+                        "required": true,
+                        "defaultValue": "Microsoft Entra authentication only",
+                        "options": [
+                          {
+                            "value": "Microsoft Entra authentication only",
+                            "label": "Microsoft Entra authentication only"
+                          },
+                          {
+                            "value": "Microsoft Entra and PostgreSQL authentication",
+                            "label": "Microsoft Entra and PostgreSQL authentication"
+                          },
+                          {
+                            "value": "PostgreSQL authentication only",
+                            "label": "PostgreSQL authentication only"
+                          }
+                        ],
+                        "help": "Prefer Microsoft Entra-based authentication so users do not share database passwords."
+                      },
+                      {
+                        "id": "entraAdmin",
+                        "label": "Microsoft Entra admin",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Data Platform Team",
+                        "options": [
+                          {
+                            "value": "Data Platform Team",
+                            "label": "Data Platform Team (data-platform@contoso.example)"
+                          },
+                          {
+                            "value": "Alex Training",
+                            "label": "Alex Training (alex@contoso.example)"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "networking",
+                    "label": "Networking",
+                    "fields": [
+                      {
+                        "id": "networking",
+                        "label": "Connectivity method",
+                        "control": "radio",
+                        "required": true,
+                        "defaultValue": "Public access (allowed IP addresses)",
+                        "options": [
+                          {
+                            "value": "Public access (allowed IP addresses)",
+                            "label": "Public access (allowed IP addresses)"
+                          },
+                          {
+                            "value": "Private access (virtual network integration)",
+                            "label": "Private access (virtual network integration)"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "firewallMode",
+                        "label": "Firewall rule",
+                        "control": "radio",
+                        "required": true,
+                        "defaultValue": "Add current client IP address",
+                        "visibleWhen": {
+                          "type": "equals",
+                          "path": "$form.networking",
+                          "value": "Public access (allowed IP addresses)"
+                        },
+                        "options": [
+                          {
+                            "value": "Add current client IP address",
+                            "label": "Add current client IP address"
+                          },
+                          {
+                            "value": "Allow all IPv4 addresses",
+                            "label": "Allow all IPv4 addresses (0.0.0.0 - 255.255.255.255)"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "firewallStart",
+                        "label": "Start IP address",
+                        "control": "text",
+                        "defaultValue": "203.0.113.24",
+                        "visibleWhen": {
+                          "type": "equals",
+                          "path": "$form.firewallMode",
+                          "value": "Add current client IP address"
+                        }
+                      },
+                      {
+                        "id": "firewallEnd",
+                        "label": "End IP address",
+                        "control": "text",
+                        "defaultValue": "203.0.113.24",
+                        "visibleWhen": {
+                          "type": "equals",
+                          "path": "$form.firewallMode",
+                          "value": "Add current client IP address"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "notEquals",
+                        "path": "$form.authentication",
+                        "value": "PostgreSQL authentication only"
+                      },
+                      "message": "Choose a Microsoft Entra-based authentication option. PostgreSQL-only authentication would require database passwords for this lab."
+                    },
+                    {
+                      "rule": {
+                        "type": "notEquals",
+                        "path": "$form.firewallMode",
+                        "value": "Allow all IPv4 addresses"
+                      },
+                      "message": "Do not allow all IPv4 addresses. Public access should be limited to the current lab client IP, or use private access."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.postgresVersion",
+                        "value": "16"
+                      },
+                      "message": "Use PostgreSQL version 16 for this lab."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "if",
+                      "when": {
+                        "type": "equals",
+                        "path": "$form.resourceGroup",
+                        "value": "create-new"
+                      },
+                      "then": [
+                        {
+                          "type": "append",
+                          "path": "resourceGroups",
+                          "unique": "name",
+                          "value": {
+                            "name": "{{$form.newResourceGroup}}",
+                            "location": "{{$form.region}}"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "append",
+                      "path": "postgresServers",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.serverName}}",
+                        "resourceGroup": "{{$form.newResourceGroup | or:$form.resourceGroup}}",
+                        "location": "{{$form.region}}",
+                        "postgresVersion": "{{$form.postgresVersion}}",
+                        "workloadType": "{{$form.workloadType}}",
+                        "computeTier": "{{$form.computeTier}}",
+                        "computeSize": "{{$form.computeSize}}",
+                        "storageSize": "{{$form.storageSize}}",
+                        "authentication": "{{$form.authentication}}",
+                        "entraAdmin": "{{$form.entraAdmin}}",
+                        "networking": "{{$form.networking}}",
+                        "firewallRule": "{{$form.firewallMode}}",
+                        "firewallStart": "{{$form.firewallStart}}",
+                        "firewallEnd": "{{$form.firewallEnd}}",
+                        "status": "Ready",
+                        "fqdn": "{{$form.serverName}}.postgres.database.azure.com"
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "sql.pgdb",
+                      "value": {
+                        "tables": {}
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Deployment succeeded",
+                      "message": "PostgreSQL flexible server {{$form.serverName}} was created."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "pg-deployment",
+                      "select": {
+                        "as": "server",
+                        "path": "postgresServers",
+                        "key": "name",
+                        "value": "{{$form.serverName}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "pg-deployment",
+            "title": "Create PostgreSQL flexible server",
+            "subtitle": "Deployment",
+            "icon": "Rocket",
+            "url": "/#view/HubsExtension/DeploymentDetailsBlade/postgresql",
+            "requires": "server",
+            "navItem": "postgres-servers",
+            "breadcrumb": [
+              "Home",
+              "Azure Database for PostgreSQL"
+            ],
+            "components": [
+              {
+                "kind": "deployment",
+                "title": "Your deployment is complete",
+                "status": "Succeeded",
+                "note": "Server: {{$sel.server.name}} · Resource group: {{$sel.server.resourceGroup}}",
+                "resources": [
+                  {
+                    "name": "{{$sel.server.name}}",
+                    "type": "Microsoft.DBforPostgreSQL/flexibleServers",
+                    "status": "OK"
+                  },
+                  {
+                    "name": "ClientIPAddress_203_0_113_24",
+                    "type": "Firewall rule",
+                    "status": "OK"
+                  }
+                ]
+              },
+              {
+                "kind": "button",
+                "id": "pg-go-to-resource",
+                "label": "Go to resource",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "pg-overview"
+                }
+              }
+            ]
+          },
+          {
+            "id": "pg-overview",
+            "title": "{{$sel.server.name}}",
+            "subtitle": "Azure Database for PostgreSQL flexible server",
+            "icon": "Database",
+            "url": "/#@contoso.example/resource/subscriptions/{{subscription.id}}/resourceGroups/{{$sel.server.resourceGroup}}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{{$sel.server.name}}/overview",
+            "requires": "server",
+            "navItem": "postgres-servers",
+            "breadcrumb": [
+              "Home",
+              "Azure Database for PostgreSQL"
+            ],
+            "menu": [
+              {
+                "page": "pg-overview",
+                "label": "Overview",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "pg-connect",
+                "label": "Connect",
+                "icon": "Plug"
+              },
+              {
+                "page": "pg-networking",
+                "label": "Networking",
+                "icon": "Network"
+              }
+            ],
+            "commands": [
+              {
+                "id": "open-connect",
+                "label": "Connect",
+                "icon": "Plug",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "pg-connect"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Essentials",
+                "items": [
+                  {
+                    "label": "Resource group",
+                    "value": "{{$sel.server.resourceGroup}}",
+                    "format": "link"
+                  },
+                  {
+                    "label": "Server name",
+                    "value": "{{$sel.server.fqdn}}"
+                  },
+                  {
+                    "label": "PostgreSQL version",
+                    "value": "{{$sel.server.postgresVersion}}"
+                  },
+                  {
+                    "label": "Authentication",
+                    "value": "{{$sel.server.authentication}}"
+                  },
+                  {
+                    "label": "Networking",
+                    "value": "{{$sel.server.networking}}"
+                  },
+                  {
+                    "label": "Status",
+                    "value": "{{$sel.server.status}}",
+                    "format": "status"
+                  }
+                ]
+              },
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "Azure Database for PostgreSQL flexible server is a managed service for open-source PostgreSQL. Azure manages infrastructure while you use PostgreSQL tools such as `psql` and portable SQL."
+              }
+            ]
+          },
+          {
+            "id": "pg-networking",
+            "title": "{{$sel.server.name}} | Networking",
+            "subtitle": "Flexible server",
+            "icon": "Network",
+            "requires": "server",
+            "navItem": "postgres-servers",
+            "breadcrumb": [
+              "Home",
+              "Azure Database for PostgreSQL",
+              "{{$sel.server.name}}"
+            ],
+            "menu": [
+              {
+                "page": "pg-overview",
+                "label": "Overview",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "pg-connect",
+                "label": "Connect",
+                "icon": "Plug"
+              },
+              {
+                "page": "pg-networking",
+                "label": "Networking",
+                "icon": "Network"
+              }
+            ],
+            "components": [
+              {
+                "kind": "properties",
+                "title": "Public access firewall",
+                "items": [
+                  {
+                    "label": "Connectivity method",
+                    "value": "{{$sel.server.networking}}"
+                  },
+                  {
+                    "label": "Firewall rule",
+                    "value": "{{$sel.server.firewallRule}}"
+                  },
+                  {
+                    "label": "Start IP address",
+                    "value": "{{$sel.server.firewallStart}}"
+                  },
+                  {
+                    "label": "End IP address",
+                    "value": "{{$sel.server.firewallEnd}}"
+                  },
+                  {
+                    "label": "Rejected option",
+                    "value": "Allow all IPv4 addresses would expose the server broadly and is blocked in this lab."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "pg-connect",
+            "title": "{{$sel.server.name}} | Connect",
+            "subtitle": "Cloud Shell and query worksheet",
+            "icon": "Terminal",
+            "url": "/#@contoso.example/resource/subscriptions/{{subscription.id}}/resourceGroups/{{$sel.server.resourceGroup}}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{{$sel.server.name}}/connect",
+            "requires": "server",
+            "navItem": "postgres-servers",
+            "breadcrumb": [
+              "Home",
+              "Azure Database for PostgreSQL",
+              "{{$sel.server.name}}"
+            ],
+            "menu": [
+              {
+                "page": "pg-overview",
+                "label": "Overview",
+                "icon": "LayoutDashboard"
+              },
+              {
+                "page": "pg-connect",
+                "label": "Connect",
+                "icon": "Plug"
+              },
+              {
+                "page": "pg-networking",
+                "label": "Networking",
+                "icon": "Network"
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "psql connection string",
+                "text": "Run `psql \"host=pg-flex-orders-01.postgres.database.azure.com port=5432 dbname=postgres user=alex@contoso.example sslmode=require\"` in Cloud Shell. The worksheet below represents SQL you run after the connection succeeds."
+              },
+              {
+                "kind": "terminal",
+                "id": "cloudshell",
+                "title": "Cloud Shell"
+              },
+              {
+                "kind": "sqlEditor",
+                "id": "pg-query-editor",
+                "title": "PostgreSQL query worksheet",
+                "database": "sql.pgdb",
+                "placeholder": "CREATE TABLE order_sales (order_id INT PRIMARY KEY, region VARCHAR(30), amount INT);",
+                "maxRows": 100,
+                "sampleQueries": [
+                  {
+                    "label": "Create table",
+                    "sql": "CREATE TABLE order_sales (order_id INT PRIMARY KEY, region VARCHAR(30), amount INT);"
+                  },
+                  {
+                    "label": "Insert rows",
+                    "sql": "INSERT INTO order_sales(order_id, region, amount) VALUES (1, 'North', 120), (2, 'South', 95), (3, 'North', 80), (4, 'West', 140);"
+                  },
+                  {
+                    "label": "Sales by region",
+                    "sql": "SELECT region, SUM(amount) AS total_amount FROM order_sales GROUP BY region ORDER BY total_amount DESC;"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "subscription": {
+            "name": "Contoso Learning (simulated)",
+            "id": "00000000-0000-4000-8000-000000000900"
+          },
+          "resourceGroups": [
+            {
+              "name": "rg-data-shared",
+              "location": "westeurope"
+            }
+          ],
+          "regions": [
+            {
+              "name": "westeurope",
+              "displayName": "(Europe) West Europe"
+            },
+            {
+              "name": "northeurope",
+              "displayName": "(Europe) North Europe"
+            },
+            {
+              "name": "swedencentral",
+              "displayName": "(Europe) Sweden Central"
+            }
+          ],
+          "postgresServers": [],
+          "psql": {
+            "connected": false
+          },
+          "sql": {}
+        }
+      },
+      "steps": [
+        {
+          "key": "open-create",
+          "title": "Open the flexible server create wizard",
+          "instruction": "In the portal menu, select **Azure Database for PostgreSQL**, then select **Create**.",
+          "hint": "The create command is in the flexible server list command bar.",
+          "explanation": "Azure Database for PostgreSQL flexible server is the Azure managed service for open-source PostgreSQL workloads.",
+          "targetId": "pg-create",
+          "rules": [
+            {
+              "key": "visited-create",
+              "description": "You opened the create wizard",
+              "rule": {
+                "type": "visited",
+                "page": "pg-create"
+              }
+            }
+          ]
+        },
+        {
+          "key": "basics",
+          "title": "Configure Basics",
+          "instruction": "Create resource group **rg-open-source-data**, set **Server name** to **pg-flex-orders-01**, choose **(Europe) West Europe**, **PostgreSQL version** **16**, and **Workload type** **Development**.",
+          "hint": "Server names become part of the host name, so use lowercase letters, numbers, and hyphens.",
+          "explanation": "Basics identify where the managed server lives and which PostgreSQL engine version it runs.",
+          "targetId": "pg-wizard",
+          "rules": [
+            {
+              "key": "rg-created",
+              "description": "Resource group exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "resourceGroups",
+                "match": {
+                  "name": "rg-open-source-data",
+                  "location": "westeurope"
+                }
+              },
+              "failureFeedback": "Create rg-open-source-data in West Europe."
+            },
+            {
+              "key": "server-basics",
+              "description": "The server uses the required name, version and workload type",
+              "rule": {
+                "type": "arrayContains",
+                "path": "postgresServers",
+                "match": {
+                  "name": "pg-flex-orders-01",
+                  "location": "westeurope",
+                  "postgresVersion": "16",
+                  "workloadType": "Development"
+                }
+              },
+              "failureFeedback": "Check server name, region, version and workload type."
+            }
+          ]
+        },
+        {
+          "key": "compute-auth",
+          "title": "Choose compute, storage and authentication",
+          "instruction": "On **Compute + storage**, use **Burstable**, **Small training profile**, and **Training storage profile**. On **Authentication**, choose **Microsoft Entra authentication only** and set **Microsoft Entra admin** to **Data Platform Team (data-platform@contoso.example)**.",
+          "hint": "Do not choose PostgreSQL authentication only; this lab avoids database passwords.",
+          "explanation": "Compute and storage size the managed service; Microsoft Entra authentication lets organizations use centralized identity instead of shared database passwords.",
+          "rules": [
+            {
+              "key": "compute-choice",
+              "description": "Training compute and storage profile selected",
+              "rule": {
+                "type": "arrayContains",
+                "path": "postgresServers",
+                "match": {
+                  "name": "pg-flex-orders-01",
+                  "computeTier": "Burstable",
+                  "computeSize": "Small training profile",
+                  "storageSize": "Training storage profile"
+                }
+              },
+              "failureFeedback": "Use the requested training compute and storage choices."
+            },
+            {
+              "key": "secure-auth",
+              "description": "Server uses Microsoft Entra-based authentication",
+              "rule": {
+                "type": "arrayContains",
+                "path": "postgresServers",
+                "match": {
+                  "name": "pg-flex-orders-01",
+                  "authentication": "Microsoft Entra authentication only",
+                  "entraAdmin": "Data Platform Team"
+                }
+              },
+              "failureFeedback": "Use Microsoft Entra authentication only with the Data Platform Team admin."
+            }
+          ]
+        },
+        {
+          "key": "networking",
+          "title": "Limit public access to the lab client IP",
+          "instruction": "On **Networking**, keep **Public access (allowed IP addresses)**, choose **Add current client IP address**, and keep both IP boxes as **203.0.113.24**. Do not choose **Allow all IPv4 addresses**. Select **Review + create** and **Create**.",
+          "hint": "A public endpoint can still be restricted to a specific client IP. Opening 0.0.0.0 through 255.255.255.255 is rejected.",
+          "explanation": "Firewall rules should permit only the client that needs access. Private access is also valid in real designs when clients are inside a virtual network.",
+          "rules": [
+            {
+              "key": "safe-firewall",
+              "description": "Public firewall is limited to the current client IP",
+              "rule": {
+                "type": "arrayContains",
+                "path": "postgresServers",
+                "match": {
+                  "name": "pg-flex-orders-01",
+                  "networking": "Public access (allowed IP addresses)",
+                  "firewallRule": "Add current client IP address",
+                  "firewallStart": "203.0.113.24",
+                  "firewallEnd": "203.0.113.24"
+                }
+              },
+              "failureFeedback": "Limit the firewall to the current client IP, not all IPv4 addresses."
+            }
+          ]
+        },
+        {
+          "key": "connect-psql",
+          "title": "Connect from Cloud Shell with psql",
+          "instruction": "When deployment completes, select **Go to resource**, then **Connect**. In **Cloud Shell**, run `psql \"host=pg-flex-orders-01.postgres.database.azure.com port=5432 dbname=postgres user=alex@contoso.example sslmode=require\"`.",
+          "hint": "Copy the full connection string, including `sslmode=require`.",
+          "explanation": "psql is the standard PostgreSQL command-line client. Managed PostgreSQL still uses familiar open-source tools.",
+          "targetId": "cloudshell",
+          "rules": [
+            {
+              "key": "psql-connected",
+              "description": "The psql connection command was used",
+              "rule": {
+                "type": "commandUsed",
+                "pattern": "^psql \"host=pg-flex-orders-01\\.postgres\\.database\\.azure\\.com port=5432 dbname=postgres user=alex@contoso\\.example sslmode=require\"$"
+              },
+              "failureFeedback": "Run the exact psql command from Cloud Shell."
+            }
+          ]
+        },
+        {
+          "key": "create-insert",
+          "title": "Create a table and insert rows",
+          "instruction": "In **PostgreSQL query worksheet**, run `CREATE TABLE order_sales (order_id INT PRIMARY KEY, region VARCHAR(30), amount INT);`, then run `INSERT INTO order_sales(order_id, region, amount) VALUES (1, 'North', 120), (2, 'South', 95), (3, 'North', 80), (4, 'West', 140);`.",
+          "hint": "The SQL is portable: a table definition followed by inserted rows.",
+          "explanation": "CREATE TABLE defines a relational schema. INSERT adds rows that can be filtered and aggregated with SQL.",
+          "targetId": "pg-query-editor",
+          "rules": [
+            {
+              "key": "table-created",
+              "description": "order_sales table exists",
+              "rule": {
+                "type": "exists",
+                "path": "sql.pgdb.tables.order_sales.columns.0.name"
+              },
+              "failureFeedback": "Run the CREATE TABLE statement."
+            },
+            {
+              "key": "rows-inserted",
+              "description": "Four order rows were inserted",
+              "rule": {
+                "type": "arrayLength",
+                "path": "sql.pgdb.tables.order_sales.rows",
+                "min": 4
+              },
+              "failureFeedback": "Run the INSERT statement with four rows."
+            }
+          ]
+        },
+        {
+          "key": "group-query",
+          "title": "Aggregate sales by region",
+          "instruction": "Run `SELECT region, SUM(amount) AS total_amount FROM order_sales GROUP BY region ORDER BY total_amount DESC;`.",
+          "hint": "GROUP BY produces one output row per region.",
+          "explanation": "Relational databases use SQL aggregates to answer business questions such as totals by region without duplicating summary data.",
+          "targetId": "pg-query-editor",
+          "rules": [
+            {
+              "key": "group-query-used",
+              "description": "A GROUP BY aggregate query was run",
+              "rule": {
+                "type": "commandUsed",
+                "pattern": "SELECT region, SUM\\(amount\\) AS total_amount FROM order_sales GROUP BY region ORDER BY total_amount DESC;?"
+              },
+              "failureFeedback": "Run the regional aggregate query exactly as written."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "no-allow-all",
+          "description": "Firewall is not open to all IPv4 addresses",
+          "rule": {
+            "type": "arrayNotContains",
+            "path": "postgresServers",
+            "match": {
+              "name": "pg-flex-orders-01",
+              "firewallRule": "Allow all IPv4 addresses"
+            }
+          },
+          "successFeedback": "The firewall is limited to the lab client IP.",
+          "failureFeedback": "Do not use an allow-all IPv4 firewall rule."
+        },
+        {
+          "key": "not-password-only",
+          "description": "Authentication is not PostgreSQL-only",
+          "rule": {
+            "type": "arrayNotContains",
+            "path": "postgresServers",
+            "match": {
+              "name": "pg-flex-orders-01",
+              "authentication": "PostgreSQL authentication only"
+            }
+          },
+          "successFeedback": "Microsoft Entra-based authentication is used.",
+          "failureFeedback": "Use Microsoft Entra authentication only or Microsoft Entra and PostgreSQL authentication."
+        }
+      ],
+      "solution": "1. Select **Azure Database for PostgreSQL**, then **Create**.\n2. **Basics**: Resource group **Create new** -> `rg-open-source-data`; Server name `pg-flex-orders-01`; Region **(Europe) West Europe**; PostgreSQL version **16**; Workload type **Development**.\n3. **Compute + storage**: **Burstable**, **Small training profile**, **Training storage profile**.\n4. **Authentication**: **Microsoft Entra authentication only**; Microsoft Entra admin **Data Platform Team (data-platform@contoso.example)**.\n5. **Networking**: **Public access (allowed IP addresses)**, **Add current client IP address**, IP range `203.0.113.24` to `203.0.113.24`; then **Review + create** -> **Create**.\n6. **Go to resource** -> **Connect**. In **Cloud Shell**, run `psql \"host=pg-flex-orders-01.postgres.database.azure.com port=5432 dbname=postgres user=alex@contoso.example sslmode=require\"`.\n7. Run `CREATE TABLE order_sales (order_id INT PRIMARY KEY, region VARCHAR(30), amount INT);` and `INSERT INTO order_sales(order_id, region, amount) VALUES (1, 'North', 120), (2, 'South', 95), (3, 'North', 80), (4, 'West', 140);`.\n8. Run `SELECT region, SUM(amount) AS total_amount FROM order_sales GROUP BY region ORDER BY total_amount DESC;`."
+    }
+  ]
+}

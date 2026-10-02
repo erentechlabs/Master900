@@ -297,7 +297,7 @@
                 "kind": "wizard",
                 "id": "storage-wizard",
                 "description": "Create an Azure Storage account. The Advanced tab contains Data Lake Storage Gen2 options such as hierarchical namespace.",
-                "reviewLabel": "Review",
+                "reviewLabel": "Review + create",
                 "tabs": [
                   {
                     "id": "basics",

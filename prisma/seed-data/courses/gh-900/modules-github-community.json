@@ -1,0 +1,405 @@
+{
+  "domainKey": "github-community",
+  "modules": [
+    {
+      "slug": "github-community-engagement",
+      "title": "Open-source and community engagement",
+      "summary": "Contribute respectfully, understand InnerSource, use community health files, and discover ecosystem resources.",
+      "lessons": [
+        {
+          "slug": "engage-with-github-community",
+          "title": "Open source, InnerSource, and the GitHub ecosystem",
+          "objectiveCode": "7.1",
+          "estimatedMinutes": 12,
+          "summary": "Explore open-source contribution, InnerSource practices, community health files, GitHub Sponsors, and GitHub Marketplace.",
+          "learningObjectives": [
+            "Differentiate open source and InnerSource",
+            "Describe forking and contribution etiquette",
+            "Identify community health files",
+            "Explain Sponsors and Marketplace at a high level"
+          ],
+          "explanation": "GitHub is a meeting place for communities, not only a place to store code. **Open source** projects make source code available under a license and often welcome contributions under project guidelines. A common contribution flow is to read guidance, find an issue, fork the repository, make a focused change, and open a pull request back to the upstream project.\n\n**Community health files** help contributors know how to participate. `CONTRIBUTING.md` explains how to propose changes. `CODE_OF_CONDUCT.md` sets behavior expectations. `SECURITY.md` explains vulnerability reporting. These files reduce confusion and make communities more welcoming. The `Fork an open-source repository and contribute with a pull request` lab practises reading community files, starring and watching, forking, committing to a fork branch, and opening an upstream pull request.\n\n**InnerSource** applies open-source practices inside an organization: discoverable repositories, contribution guidelines, pull requests, and shared ownership. **GitHub Sponsors** helps people financially support maintainers, and **GitHub Marketplace** helps users discover apps, actions, and integrations.",
+          "terminology": [
+            {
+              "term": "Open source",
+              "definition": "Development model where source code is available under a license."
+            },
+            {
+              "term": "InnerSource",
+              "definition": "Open-source practices used inside an organization."
+            },
+            {
+              "term": "Fork",
+              "definition": "A copy used to propose changes back to another repository."
+            },
+            {
+              "term": "Community health file",
+              "definition": "Guidance file such as CONTRIBUTING, CODE_OF_CONDUCT, or SECURITY."
+            },
+            {
+              "term": "GitHub Sponsors",
+              "definition": "Feature for financially supporting maintainers."
+            }
+          ],
+          "businessScenario": "Northwind Traders contributes a documentation fix to a public project and reuses the same habits internally.",
+          "technicalExample": "A contributor reads `CONTRIBUTING.md`, forks the repository, creates a branch in the fork, commits a focused change, and opens a pull request. Inside Northwind, an InnerSource repository uses similar templates and reviews.",
+          "misconception": {
+            "myth": "Open source means there are no rules and anyone can change the main project directly.",
+            "reality": "Maintainers define licenses, contribution guidelines, review processes, and conduct expectations."
+          },
+          "examTakeaway": "Public community contribution = open source; internal open-source practices = InnerSource; financial support = Sponsors; discover extensions = Marketplace.",
+          "recap": "Explore open-source contribution, InnerSource practices, community health files, GitHub Sponsors, and GitHub Marketplace.",
+          "simplerExplanation": "Open source is a public community garden with posted rules. InnerSource is the same gardening style inside a company. A fork is your own planting bed, and a pull request asks maintainers to bring your change into the main garden.",
+          "anotherExample": "An internal platform team can run InnerSource by publishing CONTRIBUTING guidance, marking beginner-friendly issues, accepting pull requests from other departments, and thanking repeat contributors in discussions.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Open source vs InnerSource",
+                "columns": [
+                  {
+                    "title": "Open source",
+                    "points": [
+                      "Public community",
+                      "External contributors",
+                      "Community files"
+                    ]
+                  },
+                  {
+                    "title": "InnerSource",
+                    "points": [
+                      "Inside an organization",
+                      "Cross-team contributions",
+                      "Shared internal practices"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Contribution etiquette",
+                "instructions": "Decide before checking the answer.",
+                "items": [
+                  {
+                    "prompt": "Read CONTRIBUTING before a pull request.",
+                    "answer": "Helpful."
+                  },
+                  {
+                    "prompt": "Submit many unrelated changes together.",
+                    "answer": "Usually unhelpful; focused changes are easier to review."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What is InnerSource?",
+              "back": "Open-source practices inside an organization."
+            },
+            {
+              "front": "Why read CONTRIBUTING.md?",
+              "back": "It explains how to prepare contributions."
+            },
+            {
+              "front": "What is Sponsors for?",
+              "back": "Financial support for maintainers."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Contributing to open source",
+              "url": "https://docs.github.com/get-started/exploring-projects-on-github/contributing-to-open-source",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "About GitHub Sponsors",
+              "url": "https://docs.github.com/sponsors/getting-started-with-github-sponsors/about-github-sponsors",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Manage an InnerSource program by using GitHub",
+              "url": "https://learn.microsoft.com/en-us/training/modules/manage-innersource-program-github/",
+              "kind": "LEARN_MODULE"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "gh900-com-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "github-community",
+              "objectiveCode": "7.1",
+              "difficulty": "EASY",
+              "stem": "What is a fork commonly used for in open-source contribution?",
+              "explanation": "A fork lets you make changes in your copy before proposing them upstream.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Make changes in your own copy before a pull request",
+                  "correct": true,
+                  "explanation": "This is a common contribution flow."
+                },
+                {
+                  "key": "B",
+                  "text": "Disable community files",
+                  "correct": false,
+                  "explanation": "Forking does not disable guidance."
+                },
+                {
+                  "key": "C",
+                  "text": "Replace a license automatically",
+                  "correct": false,
+                  "explanation": "Forking does not change licensing automatically."
+                },
+                {
+                  "key": "D",
+                  "text": "Run code scanning",
+                  "correct": false,
+                  "explanation": "Forking is not a scanner."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Contributing to open source",
+                  "url": "https://docs.github.com/get-started/exploring-projects-on-github/contributing-to-open-source",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "engage-with-github-community"
+            },
+            {
+              "ref": "gh900-com-002",
+              "type": "MATCHING",
+              "domainKey": "github-community",
+              "objectiveCode": "7.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each community item to its purpose.",
+              "explanation": "Community files and ecosystem features guide contributors, support maintainers, and extend GitHub.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "contrib",
+                    "text": "CONTRIBUTING.md"
+                  },
+                  {
+                    "id": "coc",
+                    "text": "CODE_OF_CONDUCT.md"
+                  },
+                  {
+                    "id": "sponsor",
+                    "text": "GitHub Sponsors"
+                  },
+                  {
+                    "id": "market",
+                    "text": "GitHub Marketplace"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a",
+                    "text": "Explains how to propose changes"
+                  },
+                  {
+                    "id": "b",
+                    "text": "Sets behavior expectations"
+                  },
+                  {
+                    "id": "c",
+                    "text": "Supports maintainers financially"
+                  },
+                  {
+                    "id": "d",
+                    "text": "Discovers apps, actions, and integrations"
+                  }
+                ],
+                "pairs": {
+                  "contrib": "a",
+                  "coc": "b",
+                  "sponsor": "c",
+                  "market": "d"
+                },
+                "explanations": {
+                  "contrib": "Contribution guidelines reduce uncertainty.",
+                  "coc": "A code of conduct sets participation expectations.",
+                  "sponsor": "Sponsors funds maintainers.",
+                  "market": "Marketplace helps discover extensions."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Contributing to open source",
+                  "url": "https://docs.github.com/get-started/exploring-projects-on-github/contributing-to-open-source",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "About GitHub Sponsors",
+                  "url": "https://docs.github.com/sponsors/getting-started-with-github-sponsors/about-github-sponsors",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "GitHub Marketplace",
+                  "url": "https://docs.github.com/apps/github-marketplace",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "engage-with-github-community"
+            },
+            {
+              "ref": "gh900-com-003",
+              "type": "CATEGORIZATION",
+              "domainKey": "github-community",
+              "objectiveCode": "7.1",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each collaboration model.",
+              "explanation": "Open source is public community collaboration; InnerSource applies open-source practices inside an organization.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "oss",
+                    "label": "Open source"
+                  },
+                  {
+                    "id": "inner",
+                    "label": "InnerSource"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Public project accepts community pull requests",
+                    "category": "oss",
+                    "explanation": "This is open-source participation."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Private company repository uses CONTRIBUTING.md for cross-team changes",
+                    "category": "inner",
+                    "explanation": "That is InnerSource."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Maintainer receives support through Sponsors",
+                    "category": "oss",
+                    "explanation": "Sponsors commonly supports open-source maintainers."
+                  },
+                  {
+                    "id": "i4",
+                    "text": "Internal repositories are discoverable for reuse",
+                    "category": "inner",
+                    "explanation": "Discoverability is an InnerSource practice."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Manage an InnerSource program by using GitHub",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/manage-innersource-program-github/",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "About GitHub Sponsors",
+                  "url": "https://docs.github.com/sponsors/getting-started-with-github-sponsors/about-github-sponsors",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "engage-with-github-community"
+            },
+            {
+              "ref": "gh900-com-004",
+              "type": "TRUE_FALSE",
+              "domainKey": "github-community",
+              "objectiveCode": "7.1",
+              "difficulty": "EASY",
+              "stem": "Reading CONTRIBUTING and CODE_OF_CONDUCT before contributing helps you understand project expectations.",
+              "explanation": "Community guidance explains process and behavior expectations.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. CONTRIBUTING explains how to participate, and CODE_OF_CONDUCT sets behavior expectations before contributing."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that these community files document process and conduct expectations for contributors."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Contributing to open source",
+                  "url": "https://docs.github.com/get-started/exploring-projects-on-github/contributing-to-open-source",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": false,
+              "lessonSlug": "engage-with-github-community"
+            },
+            {
+              "ref": "gh900-com-005",
+              "type": "CASE_STUDY",
+              "domainKey": "github-community",
+              "objectiveCode": "7.1",
+              "difficulty": "HARD",
+              "scenario": "Developers at Northwind Traders found a small bug in a popular open-source library that they use but do not maintain, and they want to contribute a fix.",
+              "stem": "For each statement about how the developers should contribute, select **Yes** if it follows good open-source practice. Otherwise, select **No**.",
+              "explanation": "Good open-source contributions follow the project's community files, use the fork and pull request flow, stay focused on one change, and report security problems privately.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Read the project's CONTRIBUTING.md and code of conduct before opening a pull request.",
+                    "answer": true,
+                    "explanation": "Community health files explain how maintainers want contributions made and how participants are expected to behave."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Bundle the fix with several unrelated refactors so the maintainers can review everything at once.",
+                    "answer": false,
+                    "explanation": "Focused pull requests are easier to review; unrelated changes slow the review down and are often declined."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Fork the repository, push the fix to a branch in the fork, and open a pull request to the upstream repository.",
+                    "answer": true,
+                    "explanation": "Contributors without write access to the upstream repository propose changes through a fork and a pull request."
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Describe a security vulnerability found during testing in a public issue.",
+                    "answer": false,
+                    "explanation": "Vulnerabilities should be reported privately, as the project's SECURITY.md or private vulnerability reporting describes, so they are not disclosed before a fix exists."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Contributing to open source",
+                  "url": "https://docs.github.com/get-started/exploring-projects-on-github/contributing-to-open-source",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Setting guidelines for repository contributors",
+                  "url": "https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/setting-guidelines-for-repository-contributors",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Privately reporting a security vulnerability",
+                  "url": "https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing-information-about-vulnerabilities/privately-reporting-a-security-vulnerability",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "engage-with-github-community"
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Re-check current GitHub UI labels, plan names, and feature availability before publishing."
+        }
+      ]
+    }
+  ]
+}

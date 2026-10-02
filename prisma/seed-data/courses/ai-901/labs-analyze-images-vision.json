@@ -1,0 +1,996 @@
+{
+  "labs": [
+    {
+      "slug": "analyze-images-vision",
+      "type": "UI_SIMULATION",
+      "title": "Analyze images with Azure Vision in Foundry Tools",
+      "summary": "Use Microsoft Foundry to run Image Analysis features, review OCR text from a label, choose the right feature for business requests, and avoid face identification.",
+      "scenario": "**Tailwind Traders** is preparing a catalog and operations proof of concept. In the simulated Microsoft Foundry portal, open **Azure Vision** in **Foundry Tools**, use the **Image analysis playground** on sample images, read captions, tags, objects, and OCR text from a shipping label, then choose the correct visual feature for three business requests. Done means the team has two analysis runs, a business-request feature map, and a responsible setting that avoids face identification.",
+      "domainKey": "foundry-solutions",
+      "moduleSlug": "foundry-vision-and-extraction",
+      "objectiveCode": "2.3",
+      "complexity": "BASIC",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Open Azure Vision in Foundry Tools and use the Image analysis playground",
+        "Select caption, dense caption, tag, object, and Read OCR features for realistic image scenarios",
+        "Interpret OCR text from a receipt or shipping label as structured text results",
+        "Choose responsible settings that avoid face identification when it is not required"
+      ],
+      "prerequisites": [
+        "Know that computer vision extracts information from images"
+      ],
+      "sources": [
+        {
+          "title": "What is Image Analysis? - Foundry Tools",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-image-analysis",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "OCR for images - Azure Vision in Foundry Tools",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/concept-ocr",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Microsoft Foundry Playgrounds",
+          "url": "https://learn.microsoft.com/en-us/azure/foundry/concepts/concept-playgrounds",
+          "kind": "DOCUMENTATION"
+        },
+        {
+          "title": "Study guide for Exam AI-901",
+          "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+          "kind": "STUDY_GUIDE"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Foundry",
+          "theme": "foundry",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://ai.azure.com",
+          "searchPlaceholder": "Search Foundry"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-10-02T09:00:00Z"
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "tools",
+            "label": "Tools",
+            "icon": "Wrench",
+            "section": "Build"
+          },
+          {
+            "page": "azure-vision",
+            "label": "Azure Vision",
+            "icon": "Eye",
+            "section": "Foundry Tools"
+          },
+          {
+            "page": "image-playground",
+            "label": "Image analysis playground",
+            "icon": "Image",
+            "section": "Foundry Tools"
+          },
+          {
+            "page": "responsible-settings",
+            "label": "Responsible AI settings",
+            "icon": "ShieldCheck",
+            "section": "Manage"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Microsoft Foundry",
+            "subtitle": "proj-retail-vision",
+            "url": "/build/projects/proj-retail-vision",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "home-tiles",
+                "title": "Foundry Tools",
+                "size": "md",
+                "items": [
+                  {
+                    "id": "open-tools",
+                    "label": "Tools",
+                    "description": "Browse ready-to-use AI services.",
+                    "icon": "Wrench",
+                    "action": {
+                      "type": "navigate",
+                      "page": "tools"
+                    }
+                  },
+                  {
+                    "id": "open-vision",
+                    "label": "Azure Vision",
+                    "description": "Analyze images with prebuilt vision capabilities.",
+                    "icon": "Eye",
+                    "action": {
+                      "type": "navigate",
+                      "page": "azure-vision"
+                    }
+                  },
+                  {
+                    "id": "open-settings",
+                    "label": "Responsible AI settings",
+                    "description": "Confirm allowed visual features.",
+                    "icon": "ShieldCheck",
+                    "action": {
+                      "type": "navigate",
+                      "page": "responsible-settings"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Simulation",
+                "text": "This lab imitates Microsoft Foundry structure with fictional data. It does not upload images or call an AI service."
+              }
+            ]
+          },
+          {
+            "id": "tools",
+            "title": "Tools",
+            "subtitle": "Build",
+            "icon": "Wrench",
+            "url": "/build/tools",
+            "breadcrumb": [
+              "Home"
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "tools-table",
+                "title": "Foundry Tools",
+                "source": "tools",
+                "rowKey": "name",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Tool",
+                    "format": "link"
+                  },
+                  {
+                    "key": "workload",
+                    "label": "Workload"
+                  },
+                  {
+                    "key": "bestFor",
+                    "label": "Best for"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "azure-vision",
+                  "select": {
+                    "as": "tool",
+                    "path": "tools",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "azure-vision",
+            "title": "Azure Vision",
+            "subtitle": "Foundry Tools",
+            "icon": "Eye",
+            "url": "/explore/vision",
+            "breadcrumb": [
+              "Home",
+              "Tools"
+            ],
+            "commands": [
+              {
+                "id": "open-image-playground",
+                "label": "Open image analysis playground",
+                "icon": "Play",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "image-playground"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "id": "vision-guidance",
+                "variant": "info",
+                "title": "Use the right visual feature",
+                "text": "Image Analysis extracts captions, dense captions, tags, objects, and Read OCR text from images. Document Intelligence is better for full document workflows; this lab uses lightweight image OCR for a label."
+              },
+              {
+                "kind": "table",
+                "id": "feature-table",
+                "title": "Available Image Analysis features",
+                "source": "features",
+                "rowKey": "id",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Feature"
+                  },
+                  {
+                    "key": "result",
+                    "label": "Result"
+                  },
+                  {
+                    "key": "useCase",
+                    "label": "Use when"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "image-playground",
+            "title": "Image analysis playground",
+            "subtitle": "Azure Vision",
+            "icon": "Image",
+            "url": "/explore/vision/image-analysis",
+            "breadcrumb": [
+              "Home",
+              "Tools",
+              "Azure Vision"
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "sample-images",
+                "title": "Sample images",
+                "source": "sampleImages",
+                "rowKey": "id",
+                "variant": "cards",
+                "columns": [
+                  {
+                    "key": "file",
+                    "label": "File",
+                    "format": "link"
+                  },
+                  {
+                    "key": "description",
+                    "label": "Description"
+                  },
+                  {
+                    "key": "recommended",
+                    "label": "Try features"
+                  }
+                ],
+                "rowAction": {
+                  "type": "select",
+                  "as": "image",
+                  "path": "sampleImages",
+                  "key": "id",
+                  "value": "{{$row.id}}"
+                }
+              },
+              {
+                "kind": "form",
+                "id": "analysis-form",
+                "title": "Analyze image",
+                "description": "Choose a sample image and the visual features to run.",
+                "fields": [
+                  {
+                    "id": "image",
+                    "label": "Image",
+                    "control": "select",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "sampleImages",
+                      "value": "id",
+                      "label": "file"
+                    }
+                  },
+                  {
+                    "id": "features",
+                    "label": "Visual features",
+                    "control": "checkboxes",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "caption",
+                        "label": "Caption"
+                      },
+                      {
+                        "value": "denseCaptions",
+                        "label": "Dense captions"
+                      },
+                      {
+                        "value": "tags",
+                        "label": "Tags"
+                      },
+                      {
+                        "value": "objects",
+                        "label": "Objects"
+                      },
+                      {
+                        "value": "read",
+                        "label": "Read (OCR)"
+                      },
+                      {
+                        "value": "faces",
+                        "label": "Face detection"
+                      }
+                    ],
+                    "help": "Choose only features that match the business request. Face detection is intentionally out of scope."
+                  },
+                  {
+                    "id": "notes",
+                    "label": "Reviewer note",
+                    "control": "textarea",
+                    "placeholder": "Why did you select these features?"
+                  }
+                ],
+                "submit": {
+                  "label": "Run analysis",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "not",
+                        "rule": {
+                          "type": "includes",
+                          "path": "$form.features",
+                          "value": "faces"
+                        }
+                      },
+                      "message": "Do not use face detection for this proof of concept. The business requests can be completed with captions, tags, objects, and OCR."
+                    },
+                    {
+                      "rule": {
+                        "type": "anyOf",
+                        "rules": [
+                          {
+                            "type": "textMinLength",
+                            "path": "$form.notes",
+                            "min": 12
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.features",
+                            "value": "read"
+                          }
+                        ]
+                      },
+                      "message": "Add a short reviewer note unless you are running OCR only."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "analysisRuns",
+                      "value": {
+                        "image": "{{$form.image}}",
+                        "features": "{{$form.features}}",
+                        "notes": "{{$form.notes}}"
+                      }
+                    },
+                    {
+                      "type": "set",
+                      "path": "analysis.lastImage",
+                      "value": "{{$form.image}}"
+                    },
+                    {
+                      "type": "set",
+                      "path": "analysis.lastFeatures",
+                      "value": "{{$form.features}}"
+                    },
+                    {
+                      "type": "if",
+                      "when": {
+                        "type": "allOf",
+                        "rules": [
+                          {
+                            "type": "equals",
+                            "path": "$form.image",
+                            "value": "store-aisle"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.features",
+                            "value": "caption"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.features",
+                            "value": "denseCaptions"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.features",
+                            "value": "tags"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.features",
+                            "value": "objects"
+                          }
+                        ]
+                      },
+                      "then": [
+                        {
+                          "type": "set",
+                          "path": "outcomes.storeAnalysis",
+                          "value": true
+                        }
+                      ]
+                    },
+                    {
+                      "type": "if",
+                      "when": {
+                        "type": "allOf",
+                        "rules": [
+                          {
+                            "type": "equals",
+                            "path": "$form.image",
+                            "value": "shipping-label"
+                          },
+                          {
+                            "type": "includes",
+                            "path": "$form.features",
+                            "value": "read"
+                          }
+                        ]
+                      },
+                      "then": [
+                        {
+                          "type": "set",
+                          "path": "outcomes.ocrAnalysis",
+                          "value": true
+                        }
+                      ]
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Analysis complete",
+                      "message": "The image analysis playground returned simulated results.",
+                      "tone": "success"
+                    }
+                  ],
+                  "successMessage": "Image analysis results are ready."
+                }
+              },
+              {
+                "kind": "properties",
+                "id": "caption-result",
+                "title": "Latest caption and dense captions",
+                "items": [
+                  {
+                    "label": "Caption",
+                    "value": "A retail store aisle with bikes, helmets, and boxed accessories."
+                  },
+                  {
+                    "label": "Dense caption 1",
+                    "value": "A row of bicycles near a product display."
+                  },
+                  {
+                    "label": "Dense caption 2",
+                    "value": "A shelf with helmets and repair kits."
+                  },
+                  {
+                    "label": "Tags",
+                    "value": "bicycle, helmet, retail, shelf, product, indoor"
+                  },
+                  {
+                    "label": "Objects",
+                    "value": "bicycle (3), helmet (5), shelf (2), box (8)"
+                  }
+                ],
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "analysis.lastImage",
+                  "value": "store-aisle"
+                }
+              },
+              {
+                "kind": "table",
+                "id": "ocr-results",
+                "title": "Read OCR text result",
+                "source": "ocrRows",
+                "rowKey": "line",
+                "columns": [
+                  {
+                    "key": "line",
+                    "label": "Line"
+                  },
+                  {
+                    "key": "text",
+                    "label": "Detected text"
+                  },
+                  {
+                    "key": "confidence",
+                    "label": "Confidence",
+                    "format": "badge"
+                  }
+                ],
+                "visibleWhen": {
+                  "type": "equals",
+                  "path": "analysis.lastImage",
+                  "value": "shipping-label"
+                }
+              },
+              {
+                "kind": "form",
+                "id": "request-map",
+                "title": "Choose the right feature for each request",
+                "fields": [
+                  {
+                    "id": "catalogSearch",
+                    "label": "Request A: Make product photos searchable by scene and concepts",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "tags-and-captions",
+                        "label": "Captions and tags"
+                      },
+                      {
+                        "value": "read-ocr",
+                        "label": "Read OCR"
+                      },
+                      {
+                        "value": "objects",
+                        "label": "Objects"
+                      },
+                      {
+                        "value": "face-identification",
+                        "label": "Face identification"
+                      },
+                      {
+                        "value": "speech-to-text",
+                        "label": "Speech to text"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "labelNumber",
+                    "label": "Request B: Capture the tracking number printed on a shipping label",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "tags-and-captions",
+                        "label": "Captions and tags"
+                      },
+                      {
+                        "value": "read-ocr",
+                        "label": "Read OCR"
+                      },
+                      {
+                        "value": "objects",
+                        "label": "Objects"
+                      },
+                      {
+                        "value": "face-identification",
+                        "label": "Face identification"
+                      },
+                      {
+                        "value": "speech-to-text",
+                        "label": "Speech to text"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "shelfAudit",
+                    "label": "Request C: Count visible products in shelf photos",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "tags-and-captions",
+                        "label": "Captions and tags"
+                      },
+                      {
+                        "value": "read-ocr",
+                        "label": "Read OCR"
+                      },
+                      {
+                        "value": "objects",
+                        "label": "Objects"
+                      },
+                      {
+                        "value": "face-identification",
+                        "label": "Face identification"
+                      },
+                      {
+                        "value": "speech-to-text",
+                        "label": "Speech to text"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Save choices",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.catalogSearch",
+                        "value": "tags-and-captions"
+                      },
+                      "message": "For searchable photo concepts, use captions, dense captions, and tags rather than OCR."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.labelNumber",
+                        "value": "read-ocr"
+                      },
+                      "message": "Printed tracking numbers require Read OCR, not object detection."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.shelfAudit",
+                        "value": "objects"
+                      },
+                      "message": "Counting visible products requires object detection results."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "set",
+                      "path": "requestChoices",
+                      "value": {
+                        "catalogSearch": "{{$form.catalogSearch}}",
+                        "labelNumber": "{{$form.labelNumber}}",
+                        "shelfAudit": "{{$form.shelfAudit}}"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Feature choices saved",
+                      "tone": "success"
+                    }
+                  ],
+                  "successMessage": "Business request choices saved."
+                }
+              }
+            ]
+          },
+          {
+            "id": "responsible-settings",
+            "title": "Responsible AI settings",
+            "subtitle": "Project controls",
+            "icon": "ShieldCheck",
+            "url": "/build/projects/proj-retail-vision/settings/responsible-ai",
+            "breadcrumb": [
+              "Home",
+              "Project settings"
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "warning",
+                "title": "Allowed use",
+                "text": "The proof of concept is for products and labels. Do not identify people or infer sensitive traits from images."
+              },
+              {
+                "kind": "settings",
+                "id": "responsible-vision-settings",
+                "title": "Allowed visual features",
+                "fields": [
+                  {
+                    "id": "allow-image-analysis",
+                    "label": "Allow Image Analysis features",
+                    "control": "toggle",
+                    "bindTo": "responsible.allowImageAnalysis"
+                  },
+                  {
+                    "id": "allow-read",
+                    "label": "Allow Read OCR for labels and receipts",
+                    "control": "toggle",
+                    "bindTo": "responsible.allowRead"
+                  },
+                  {
+                    "id": "face-identification",
+                    "label": "Allow face identification",
+                    "control": "toggle",
+                    "bindTo": "responsible.faceIdentification"
+                  },
+                  {
+                    "id": "review-note",
+                    "label": "Review note",
+                    "control": "text",
+                    "bindTo": "responsible.reviewNote",
+                    "placeholder": "Explain why face identification is not used"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "tools": [
+            {
+              "name": "Azure Vision",
+              "workload": "Vision",
+              "bestFor": "Image analysis, OCR, object detection, captions"
+            },
+            {
+              "name": "Azure Language",
+              "workload": "Text",
+              "bestFor": "Sentiment, entities, key phrases, PII"
+            },
+            {
+              "name": "Content Understanding",
+              "workload": "Extraction",
+              "bestFor": "Structured extraction from documents, images, audio, and video"
+            },
+            {
+              "name": "Azure Speech",
+              "workload": "Speech",
+              "bestFor": "Speech to text and text to speech"
+            }
+          ],
+          "features": [
+            {
+              "id": "caption",
+              "name": "Caption",
+              "result": "One sentence summary",
+              "useCase": "Describe an image for search or accessibility"
+            },
+            {
+              "id": "denseCaptions",
+              "name": "Dense captions",
+              "result": "Descriptions for regions",
+              "useCase": "Explain multiple parts of a rich image"
+            },
+            {
+              "id": "tags",
+              "name": "Tags",
+              "result": "Concept labels",
+              "useCase": "Categorize and search image libraries"
+            },
+            {
+              "id": "objects",
+              "name": "Objects",
+              "result": "Object names and locations",
+              "useCase": "Count or locate items in a scene"
+            },
+            {
+              "id": "read",
+              "name": "Read (OCR)",
+              "result": "Text lines",
+              "useCase": "Extract printed or handwritten text from lightweight image scenarios"
+            }
+          ],
+          "sampleImages": [
+            {
+              "id": "store-aisle",
+              "file": "tailwind-store-aisle.jpg",
+              "description": "Retail aisle with bikes, helmets, and accessory boxes",
+              "recommended": "Caption, dense captions, tags, objects"
+            },
+            {
+              "id": "shipping-label",
+              "file": "fabrikam-shipping-label.png",
+              "description": "Shipping label with address, order, and tracking text",
+              "recommended": "Read (OCR)"
+            },
+            {
+              "id": "receipt",
+              "file": "northwind-receipt.jpg",
+              "description": "Small receipt with line items and totals",
+              "recommended": "Read (OCR)"
+            },
+            {
+              "id": "team-photo",
+              "file": "contoso-store-team.jpg",
+              "description": "People standing near a storefront",
+              "recommended": "Avoid face identification"
+            }
+          ],
+          "ocrRows": [
+            {
+              "line": "1",
+              "text": "FABRIKAM FULFILLMENT",
+              "confidence": "High"
+            },
+            {
+              "line": "2",
+              "text": "SHIP TO: Tailwind Traders",
+              "confidence": "High"
+            },
+            {
+              "line": "3",
+              "text": "ORDER: TT-1048",
+              "confidence": "High"
+            },
+            {
+              "line": "4",
+              "text": "TRACKING: 1Z 203 045 889",
+              "confidence": "Medium"
+            },
+            {
+              "line": "5",
+              "text": "FRAGILE - CUSTOMER RETURN",
+              "confidence": "High"
+            }
+          ],
+          "analysis": {
+            "lastImage": "",
+            "lastFeatures": []
+          },
+          "analysisRuns": [],
+          "outcomes": {
+            "storeAnalysis": false,
+            "ocrAnalysis": false
+          },
+          "requestChoices": {},
+          "responsible": {
+            "allowImageAnalysis": false,
+            "allowRead": false,
+            "faceIdentification": true,
+            "reviewNote": ""
+          }
+        }
+      },
+      "steps": [
+        {
+          "key": "open-vision",
+          "title": "Open Azure Vision",
+          "instruction": "Open **Tools**, select **Azure Vision**, and then select **Open image analysis playground**.",
+          "hint": "The Foundry left navigation has **Tools** under **Build**. Azure Vision is one of the Foundry Tools.",
+          "explanation": "Foundry Tools provide ready-to-use AI capabilities. Azure Vision is the tool family for image analysis and OCR scenarios.",
+          "targetId": "tools-table",
+          "rules": [
+            {
+              "key": "playground-opened",
+              "description": "The Image analysis playground was opened",
+              "rule": {
+                "type": "visited",
+                "page": "image-playground"
+              }
+            }
+          ]
+        },
+        {
+          "key": "analyze-store-image",
+          "title": "Analyze a product image",
+          "instruction": "In **Analyze image**, choose **tailwind-store-aisle.jpg**, select **Caption**, **Dense captions**, **Tags**, and **Objects**, add a reviewer note, and select **Run analysis**.",
+          "hint": "Use captions and tags for searchable descriptions; use objects when the business cares about item locations or counts.",
+          "explanation": "Image Analysis can return both broad descriptions and object-level signals. Combining captions, tags, and objects supports search and inventory review without needing OCR.",
+          "targetId": "analysis-form",
+          "rules": [
+            {
+              "key": "store-analysis",
+              "description": "The store image was analyzed with captions, tags, and objects",
+              "rule": {
+                "type": "equals",
+                "path": "outcomes.storeAnalysis",
+                "value": true
+              },
+              "failureFeedback": "Run analysis on the store aisle image with Caption, Dense captions, Tags, and Objects."
+            }
+          ]
+        },
+        {
+          "key": "read-label-text",
+          "title": "Read text from a label",
+          "instruction": "Run **Analyze image** again for **fabrikam-shipping-label.png** with **Read (OCR)**, then review the **Read OCR text result** table.",
+          "hint": "Read OCR is the feature that extracts text lines from labels, receipts, screenshots, and similar images.",
+          "explanation": "OCR turns text inside an image into machine-readable text. For a shipping label, the useful output is a line-by-line text table, not a scene caption.",
+          "targetId": "ocr-results",
+          "rules": [
+            {
+              "key": "ocr-analysis",
+              "description": "The shipping label was analyzed with Read OCR",
+              "rule": {
+                "type": "equals",
+                "path": "outcomes.ocrAnalysis",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "key": "choose-features",
+          "title": "Choose features for business requests",
+          "instruction": "In **Choose the right feature for each request**, select **Captions and tags**, **Read OCR**, and **Objects** for the three requests, then select **Save choices**.",
+          "hint": "Searchable concepts need descriptions; printed numbers need OCR; visible product counts need object detection.",
+          "explanation": "AI-901 expects you to match the capability to the workload. The same image can support multiple features, but the business goal determines the right one.",
+          "targetId": "request-map",
+          "rules": [
+            {
+              "key": "request-map-correct",
+              "description": "Each request is mapped to the correct feature",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "equals",
+                    "path": "requestChoices.catalogSearch",
+                    "value": "tags-and-captions"
+                  },
+                  {
+                    "type": "equals",
+                    "path": "requestChoices.labelNumber",
+                    "value": "read-ocr"
+                  },
+                  {
+                    "type": "equals",
+                    "path": "requestChoices.shelfAudit",
+                    "value": "objects"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "key": "responsible-settings",
+          "title": "Configure responsible settings",
+          "instruction": "Open **Responsible AI settings**, turn on **Allow Image Analysis features** and **Allow Read OCR for labels and receipts**, turn off **Allow face identification**, and add a review note.",
+          "hint": "The scenario is about products and labels. It does not need to identify people.",
+          "explanation": "Responsible AI includes limiting a solution to the features that are necessary for the business purpose. Avoiding face identification reduces privacy risk when people are not the subject of the task.",
+          "targetId": "responsible-vision-settings",
+          "rules": [
+            {
+              "key": "responsible-controls",
+              "description": "Only allowed visual features are enabled",
+              "rule": {
+                "type": "allOf",
+                "rules": [
+                  {
+                    "type": "equals",
+                    "path": "responsible.allowImageAnalysis",
+                    "value": true
+                  },
+                  {
+                    "type": "equals",
+                    "path": "responsible.allowRead",
+                    "value": true
+                  },
+                  {
+                    "type": "equals",
+                    "path": "responsible.faceIdentification",
+                    "value": false
+                  },
+                  {
+                    "type": "textMinLength",
+                    "path": "responsible.reviewNote",
+                    "min": 18
+                  }
+                ]
+              },
+              "failureFeedback": "Allow image analysis and OCR, turn off face identification, and add a short reason."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "face-id-disabled",
+          "description": "Face identification remains disabled",
+          "rule": {
+            "type": "equals",
+            "path": "responsible.faceIdentification",
+            "value": false
+          }
+        }
+      ],
+      "solution": "1. Open **Tools** > **Azure Vision**, then select **Open image analysis playground**.\n2. In **Analyze image**, choose `tailwind-store-aisle.jpg`; select **Caption**, **Dense captions**, **Tags**, and **Objects**; add a note; select **Run analysis**.\n3. Run analysis again for `fabrikam-shipping-label.png` with **Read (OCR)** and review **Read OCR text result**.\n4. In **Choose the right feature for each request**, choose **Captions and tags**, **Read OCR**, and **Objects**.\n5. In **Responsible AI settings**, enable **Allow Image Analysis features** and **Allow Read OCR for labels and receipts**, disable **Allow face identification**, and add a note explaining that people are out of scope."
+    }
+  ]
+}

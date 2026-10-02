@@ -57,23 +57,37 @@ function NavLink({ item, active, compact, onNavigate }: { item: NavItem; active:
   const { t } = useI18n();
   const Icon = ICONS[item.key];
   const label = t(`nav.${item.key}`);
+  const accessibleLabel = item.badge ? `${label}, ${item.badge} due` : label;
   const link = (
     <Link
       href={item.href}
       onClick={onNavigate}
       aria-current={active ? "page" : undefined}
+      aria-label={accessibleLabel}
       className={cn(
-        "relative flex h-9 items-center gap-3 rounded-md text-sm text-foreground transition-colors duration-100 hover:bg-subtle-hover active:bg-subtle-pressed active:text-muted-foreground",
+        "relative flex h-9 items-center gap-3 rounded-md text-sm text-foreground transition-colors duration-150 ease-fluent hover:bg-subtle-hover active:bg-subtle-pressed active:text-muted-foreground",
         compact ? "w-10 justify-center" : "px-3",
-        active && "bg-subtle-hover",
+        active && "bg-subtle-hover font-medium",
       )}
     >
       <span
         aria-hidden="true"
         className={cn("absolute left-0 top-1/2 h-4 w-[3px] -translate-y-1/2 rounded-full bg-primary transition-opacity duration-150", active ? "opacity-100" : "opacity-0")}
       />
-      <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+      <span className="relative shrink-0">
+        <Icon className="h-4 w-4" aria-hidden="true" />
+        {compact && item.badge ? (
+          <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-semibold leading-none text-primary-foreground">
+            {item.badge > 9 ? "9+" : item.badge}
+          </span>
+        ) : null}
+      </span>
       <span className={compact ? "sr-only" : "truncate"}>{label}</span>
+      {!compact && item.badge ? (
+        <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-tint-brand px-1.5 text-xs font-semibold text-primary">
+          {item.badge}
+        </span>
+      ) : null}
     </Link>
   );
   return compact ? (
@@ -146,7 +160,7 @@ export function PaneToggleButton({ initialMode }: { initialMode: NavPaneMode }) 
   const { mode, toggle } = useNavPane(initialMode);
   const expanded = mode === "expanded";
   return (
-    <Button variant="ghost" size="icon" className="hidden w-10 lg:inline-flex" aria-expanded={expanded} aria-label={expanded ? t("common.collapseNavigation") : t("common.expandNavigation")} onClick={toggle}>
+    <Button data-pane-toggle variant="ghost" size="icon" className="hidden w-10 lg:inline-flex" aria-expanded={expanded} aria-label={expanded ? t("common.collapseNavigation") : t("common.expandNavigation")} onClick={toggle}>
       <Menu aria-hidden="true" />
     </Button>
   );

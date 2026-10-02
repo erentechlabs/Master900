@@ -37,6 +37,8 @@ export default async function SettingsPage() {
                 showTimerByDefault: user.preference.showTimerByDefault,
                 gamificationEnabled: user.preference.gamificationEnabled,
                 reducedMotion: user.preference.reducedMotion,
+                accentColor: user.preference.accentColor,
+                transparencyEffects: user.preference.transparencyEffects,
                 shareAnonymousAnalytics: user.preference.shareAnonymousAnalytics,
               }
             : null

@@ -1,0 +1,252 @@
+{
+  "terms": [
+    {
+      "slug": "virtual-machine-scale-sets",
+      "term": "Virtual Machine Scale Sets",
+      "kind": "SERVICE",
+      "definition": "An Azure compute capability for deploying and managing a group of virtual machine instances that can scale together.",
+      "attributes": {
+        "category": "Compute",
+        "serviceModel": "IaaS",
+        "useCases": [
+          "Scale VM-based applications"
+        ],
+        "keyFeatures": [
+          "Instance group management",
+          "Autoscale support"
+        ]
+      },
+      "source": {
+        "title": "Azure Virtual Machine Scale Sets overview",
+        "url": "https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Taslak Türkçe çeviri: An Azure compute capability for deploying and managing a group of virtual machine instances that can scale together.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "availability-set",
+      "term": "Availability set",
+      "kind": "CONCEPT",
+      "definition": "A logical grouping that helps place related Azure virtual machines across fault and update domains.",
+      "attributes": {
+        "category": "Compute resilience",
+        "useCases": [
+          "Improve VM resilience"
+        ],
+        "keyFeatures": [
+          "Fault domains",
+          "Update domains"
+        ]
+      },
+      "source": {
+        "title": "Availability sets overview",
+        "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Taslak Türkçe çeviri: A logical grouping that helps place related Azure virtual machines across fault and update domains.",
+          "status": "DRAFT",
+          "term": "Kullanılabilirlik kümesi"
+        }
+      }
+    },
+    {
+      "slug": "azure-virtual-desktop",
+      "term": "Azure Virtual Desktop",
+      "kind": "SERVICE",
+      "definition": "An Azure desktop and app virtualization service for delivering hosted Windows desktops or remote apps to users.",
+      "attributes": {
+        "category": "Compute",
+        "serviceModel": "PaaS",
+        "useCases": [
+          "Provide remote desktops"
+        ],
+        "keyFeatures": [
+          "Desktop virtualization",
+          "RemoteApp support"
+        ]
+      },
+      "source": {
+        "title": "What is Azure Virtual Desktop?",
+        "url": "https://learn.microsoft.com/en-us/azure/virtual-desktop/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Taslak Türkçe çeviri: An Azure desktop and app virtualization service for delivering hosted Windows desktops or remote apps to users.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "azure-container-instances",
+      "term": "Azure Container Instances",
+      "kind": "SERVICE",
+      "definition": "An Azure service for running isolated containers quickly without managing virtual machines or a full orchestration platform.",
+      "attributes": {
+        "category": "Compute",
+        "serviceModel": "PaaS",
+        "useCases": [
+          "Run simple containers"
+        ],
+        "keyFeatures": [
+          "Serverless container execution",
+          "No VM management"
+        ]
+      },
+      "source": {
+        "title": "Serverless containers in Azure",
+        "url": "https://learn.microsoft.com/en-us/azure/container-instances/container-instances-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Taslak Türkçe çeviri: An Azure service for running isolated containers quickly without managing virtual machines or a full orchestration platform.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "azure-dns",
+      "term": "Azure DNS",
+      "kind": "SERVICE",
+      "definition": "A hosting service for DNS zones and records that uses Azure infrastructure to resolve domain names.",
+      "attributes": {
+        "category": "Networking",
+        "serviceModel": "PaaS",
+        "useCases": [
+          "Host DNS records"
+        ],
+        "keyFeatures": [
+          "DNS zone hosting",
+          "Record management"
+        ]
+      },
+      "source": {
+        "title": "Azure DNS Overview",
+        "url": "https://learn.microsoft.com/en-us/azure/dns/dns-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Taslak Türkçe çeviri: A hosting service for DNS zones and records that uses Azure infrastructure to resolve domain names.",
+          "status": "DRAFT"
+        }
+      }
+    },
+    {
+      "slug": "private-endpoint",
+      "term": "Private endpoint",
+      "kind": "CONCEPT",
+      "definition": "A network interface that uses a private IP address from a virtual network to connect privately to a supported Azure service.",
+      "attributes": {
+        "category": "Networking",
+        "useCases": [
+          "Reduce public exposure"
+        ],
+        "keyFeatures": [
+          "Private IP address",
+          "VNet integration"
+        ]
+      },
+      "source": {
+        "title": "What is a private endpoint?",
+        "url": "https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Taslak Türkçe çeviri: A network interface that uses a private IP address from a virtual network to connect privately to a supported Azure service.",
+          "status": "DRAFT",
+          "term": "Özel uç nokta"
+        }
+      }
+    },
+    {
+      "slug": "capital-expenditure",
+      "term": "Capital expenditure",
+      "kind": "CONCEPT",
+      "definition": "Upfront spending to purchase assets such as servers, facilities, or hardware before business use.",
+      "attributes": {
+        "category": "Cloud economics",
+        "useCases": [
+          "Compare datacenter purchases with cloud spending"
+        ],
+        "keyFeatures": [
+          "Upfront purchase",
+          "Asset ownership"
+        ]
+      },
+      "source": {
+        "title": "Describe Cloud Computing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-compute/",
+        "kind": "LEARN_MODULE"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Taslak Türkçe çeviri: Upfront spending to purchase assets such as servers, facilities, or hardware before business use.",
+          "status": "DRAFT",
+          "term": "Sermaye gideri"
+        }
+      }
+    },
+    {
+      "slug": "operational-expenditure",
+      "term": "Operational expenditure",
+      "kind": "CONCEPT",
+      "definition": "Ongoing spending for services as they are consumed, commonly associated with pay-as-you-go cloud usage.",
+      "attributes": {
+        "category": "Cloud economics",
+        "useCases": [
+          "Explain pay-as-you-go spending"
+        ],
+        "keyFeatures": [
+          "Ongoing service cost",
+          "Usage aligned"
+        ]
+      },
+      "source": {
+        "title": "Describe Cloud Computing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-compute/",
+        "kind": "LEARN_MODULE"
+      },
+      "certifications": [
+        "AZ-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Taslak Türkçe çeviri: Ongoing spending for services as they are consumed, commonly associated with pay-as-you-go cloud usage.",
+          "status": "DRAFT",
+          "term": "Operasyonel gider"
+        }
+      }
+    }
+  ]
+}

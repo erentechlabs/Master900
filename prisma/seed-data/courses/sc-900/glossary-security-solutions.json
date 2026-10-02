@@ -1,0 +1,534 @@
+{
+  "terms": [
+    {
+      "slug": "ddos-protection",
+      "term": "DDoS Protection",
+      "kind": "SERVICE",
+      "definition": "Azure DDoS Protection helps protect Azure resources from distributed denial-of-service attacks.",
+      "attributes": {
+        "category": "Azure infrastructure security",
+        "useCases": [
+          "Protect public Azure endpoints",
+          "Improve availability during attack traffic"
+        ],
+        "keyFeatures": [
+          "Traffic monitoring",
+          "DDoS mitigation",
+          "Mitigation analytics"
+        ],
+        "serviceModel": "PaaS"
+      },
+      "source": {
+        "title": "Azure DDoS Protection overview",
+        "url": "https://learn.microsoft.com/en-us/azure/ddos-protection/ddos-protection-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Azure DDoS Protection helps protect Azure resources from distributed denial-of-service attacks.",
+          "status": "DRAFT",
+          "useCases": [
+            "Protect public Azure endpoints",
+            "Improve availability during attack traffic"
+          ],
+          "keyFeatures": [
+            "Traffic monitoring",
+            "DDoS mitigation",
+            "Mitigation analytics"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-firewall",
+      "term": "Azure Firewall",
+      "kind": "SERVICE",
+      "definition": "Azure Firewall is a cloud-native network firewall for centrally filtering and logging Azure traffic.",
+      "attributes": {
+        "category": "Azure infrastructure security",
+        "useCases": [
+          "Centralize network filtering",
+          "Control workload traffic paths"
+        ],
+        "keyFeatures": [
+          "Network and application rules",
+          "Threat intelligence filtering",
+          "Centralized logs"
+        ],
+        "serviceModel": "PaaS",
+        "comparesWith": [
+          "web-application-firewall",
+          "network-security-group"
+        ]
+      },
+      "source": {
+        "title": "What is Azure Firewall?",
+        "url": "https://learn.microsoft.com/en-us/azure/firewall/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Azure Firewall is a cloud-native network firewall for centrally filtering and logging Azure traffic.",
+          "status": "DRAFT",
+          "useCases": [
+            "Centralize network filtering",
+            "Control workload traffic paths"
+          ],
+          "keyFeatures": [
+            "Network and application rules",
+            "Threat intelligence filtering",
+            "Centralized logs"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "web-application-firewall",
+      "term": "Web Application Firewall",
+      "kind": "SERVICE",
+      "definition": "Azure Web Application Firewall helps protect web applications by inspecting HTTP and HTTPS traffic.",
+      "attributes": {
+        "category": "Application security",
+        "useCases": [
+          "Protect public web apps",
+          "Apply managed web attack rules"
+        ],
+        "keyFeatures": [
+          "HTTP/S inspection",
+          "Managed rules",
+          "Application delivery integration"
+        ],
+        "serviceModel": "PaaS",
+        "comparesWith": [
+          "azure-firewall"
+        ]
+      },
+      "source": {
+        "title": "Introduction to Azure Web Application Firewall",
+        "url": "https://learn.microsoft.com/en-us/azure/web-application-firewall/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Azure Web Application Firewall helps protect web applications by inspecting HTTP and HTTPS traffic.",
+          "status": "DRAFT",
+          "useCases": [
+            "Protect public web apps",
+            "Apply managed web attack rules"
+          ],
+          "keyFeatures": [
+            "HTTP/S inspection",
+            "Managed rules",
+            "Application delivery integration"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-bastion",
+      "term": "Azure Bastion",
+      "kind": "SERVICE",
+      "definition": "Azure Bastion provides managed RDP and SSH connectivity to virtual machines without public management ports.",
+      "attributes": {
+        "category": "Secure administration",
+        "useCases": [
+          "Administer private VMs",
+          "Reduce public port exposure"
+        ],
+        "keyFeatures": [
+          "Browser or client connectivity",
+          "No public RDP/SSH requirement",
+          "Managed service"
+        ],
+        "serviceModel": "PaaS"
+      },
+      "source": {
+        "title": "What is Azure Bastion?",
+        "url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Azure Bastion provides managed RDP and SSH connectivity to virtual machines without public management ports.",
+          "status": "DRAFT",
+          "useCases": [
+            "Administer private VMs",
+            "Reduce public port exposure"
+          ],
+          "keyFeatures": [
+            "Browser or client connectivity",
+            "No public RDP/SSH requirement",
+            "Managed service"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "azure-key-vault",
+      "term": "Azure Key Vault",
+      "kind": "SERVICE",
+      "definition": "Azure Key Vault is a secure store for application secrets, cryptographic keys, and certificates.",
+      "attributes": {
+        "category": "Secrets and key management",
+        "useCases": [
+          "Store app secrets outside code",
+          "Manage keys and certificates"
+        ],
+        "keyFeatures": [
+          "Secrets, keys, and certificates",
+          "Access control integration",
+          "HSM-backed key protection"
+        ],
+        "serviceModel": "PaaS"
+      },
+      "source": {
+        "title": "Azure Key Vault overview",
+        "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Azure Key Vault is a secure store for application secrets, cryptographic keys, and certificates.",
+          "status": "DRAFT",
+          "useCases": [
+            "Store app secrets outside code",
+            "Manage keys and certificates"
+          ],
+          "keyFeatures": [
+            "Secrets, keys, and certificates",
+            "Access control integration",
+            "HSM-backed key protection"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "network-security-group",
+      "term": "Network security group",
+      "kind": "SERVICE",
+      "definition": "A network security group filters inbound and outbound Azure network traffic with security rules.",
+      "attributes": {
+        "category": "Network segmentation",
+        "useCases": [
+          "Filter subnet traffic",
+          "Limit lateral movement"
+        ],
+        "keyFeatures": [
+          "Inbound and outbound rules",
+          "Subnet or NIC association",
+          "Priority-based processing"
+        ],
+        "serviceModel": "IaaS",
+        "comparesWith": [
+          "azure-firewall"
+        ]
+      },
+      "source": {
+        "title": "Azure network security groups overview",
+        "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "A network security group filters inbound and outbound Azure network traffic with security rules.",
+          "status": "DRAFT",
+          "term": "Ağ güvenlik grubu",
+          "useCases": [
+            "Filter subnet traffic",
+            "Limit lateral movement"
+          ],
+          "keyFeatures": [
+            "Inbound and outbound rules",
+            "Subnet or NIC association",
+            "Priority-based processing"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "secure-score",
+      "term": "Secure score",
+      "kind": "CONCEPT",
+      "definition": "Secure score is a Defender for Cloud posture measurement that helps prioritize recommendations.",
+      "attributes": {
+        "category": "Security posture",
+        "useCases": [
+          "Prioritize improvements",
+          "Track posture changes"
+        ],
+        "keyFeatures": [
+          "Recommendation-based score",
+          "Improvement tracking",
+          "Prioritization signal"
+        ],
+        "comparesWith": [
+          "cspm"
+        ]
+      },
+      "source": {
+        "title": "Cloud Secure Score in Microsoft Defender for Cloud",
+        "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/secure-score-security-controls",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Secure score is a Defender for Cloud posture measurement that helps prioritize recommendations.",
+          "status": "DRAFT",
+          "term": "Güvenlik puanı",
+          "useCases": [
+            "Prioritize improvements",
+            "Track posture changes"
+          ],
+          "keyFeatures": [
+            "Recommendation-based score",
+            "Improvement tracking",
+            "Prioritization signal"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "cspm",
+      "term": "Cloud Security Posture Management (CSPM)",
+      "kind": "CONCEPT",
+      "definition": "CSPM assesses cloud configuration risk, generates recommendations, and improves security posture.",
+      "attributes": {
+        "category": "Security posture",
+        "useCases": [
+          "Find risky configurations",
+          "Guide remediation"
+        ],
+        "keyFeatures": [
+          "Posture assessment",
+          "Recommendations",
+          "Risk visibility"
+        ],
+        "comparesWith": [
+          "secure-score"
+        ]
+      },
+      "source": {
+        "title": "What is Cloud Security Posture Management (CSPM)?",
+        "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/concept-cloud-security-posture-management",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "CSPM assesses cloud configuration risk, generates recommendations, and improves security posture.",
+          "status": "DRAFT",
+          "useCases": [
+            "Find risky configurations",
+            "Guide remediation"
+          ],
+          "keyFeatures": [
+            "Posture assessment",
+            "Recommendations",
+            "Risk visibility"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "microsoft-sentinel",
+      "term": "Microsoft Sentinel",
+      "kind": "SERVICE",
+      "definition": "Microsoft Sentinel is a cloud-native SIEM and SOAR service for security operations.",
+      "attributes": {
+        "category": "Security operations",
+        "useCases": [
+          "Centralize security data",
+          "Detect, investigate, hunt, and automate"
+        ],
+        "keyFeatures": [
+          "Data connectors",
+          "Analytics and incidents",
+          "Hunting and playbooks"
+        ],
+        "serviceModel": "SaaS",
+        "comparesWith": [
+          "microsoft-defender-xdr"
+        ]
+      },
+      "source": {
+        "title": "What is Microsoft Sentinel SIEM?",
+        "url": "https://learn.microsoft.com/en-us/azure/sentinel/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Microsoft Sentinel is a cloud-native SIEM and SOAR service for security operations.",
+          "status": "DRAFT",
+          "useCases": [
+            "Centralize security data",
+            "Detect, investigate, hunt, and automate"
+          ],
+          "keyFeatures": [
+            "Data connectors",
+            "Analytics and incidents",
+            "Hunting and playbooks"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "siem",
+      "term": "Security information and event management (SIEM)",
+      "kind": "CONCEPT",
+      "definition": "SIEM collects, correlates, and analyzes security data to detect and investigate threats.",
+      "attributes": {
+        "category": "Security operations",
+        "useCases": [
+          "Centralize logs and alerts",
+          "Correlate security events"
+        ],
+        "keyFeatures": [
+          "Data collection",
+          "Correlation",
+          "Incident investigation"
+        ],
+        "comparesWith": [
+          "soar"
+        ]
+      },
+      "source": {
+        "title": "What is Microsoft Sentinel SIEM?",
+        "url": "https://learn.microsoft.com/en-us/azure/sentinel/overview",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "SIEM collects, correlates, and analyzes security data to detect and investigate threats.",
+          "status": "DRAFT",
+          "useCases": [
+            "Centralize logs and alerts",
+            "Correlate security events"
+          ],
+          "keyFeatures": [
+            "Data collection",
+            "Correlation",
+            "Incident investigation"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "soar",
+      "term": "Security orchestration, automation, and response (SOAR)",
+      "kind": "CONCEPT",
+      "definition": "SOAR coordinates tools and automates repeatable security response actions.",
+      "attributes": {
+        "category": "Security operations",
+        "useCases": [
+          "Automate incident response",
+          "Orchestrate tool handoffs"
+        ],
+        "keyFeatures": [
+          "Playbooks",
+          "Automation rules",
+          "Repeatable workflows"
+        ],
+        "comparesWith": [
+          "siem"
+        ]
+      },
+      "source": {
+        "title": "Automation in Microsoft Sentinel",
+        "url": "https://learn.microsoft.com/en-us/azure/sentinel/automation/automation",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "SOAR coordinates tools and automates repeatable security response actions.",
+          "status": "DRAFT",
+          "useCases": [
+            "Automate incident response",
+            "Orchestrate tool handoffs"
+          ],
+          "keyFeatures": [
+            "Playbooks",
+            "Automation rules",
+            "Repeatable workflows"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "microsoft-defender-xdr",
+      "term": "Microsoft Defender XDR",
+      "kind": "SERVICE",
+      "definition": "Microsoft Defender XDR is coordinated threat protection that correlates signals across Defender services.",
+      "attributes": {
+        "category": "Threat protection",
+        "useCases": [
+          "Correlate email, endpoint, identity, and cloud app threats",
+          "Investigate multi-stage incidents"
+        ],
+        "keyFeatures": [
+          "Unified incidents",
+          "Cross-workload correlation",
+          "Microsoft Defender portal"
+        ],
+        "serviceModel": "SaaS",
+        "comparesWith": [
+          "microsoft-sentinel"
+        ]
+      },
+      "source": {
+        "title": "What is Microsoft Defender XDR?",
+        "url": "https://learn.microsoft.com/en-us/defender-xdr/microsoft-365-defender",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "SC-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Microsoft Defender XDR is coordinated threat protection that correlates signals across Defender services.",
+          "status": "DRAFT",
+          "useCases": [
+            "Correlate email, endpoint, identity, and cloud app threats",
+            "Investigate multi-stage incidents"
+          ],
+          "keyFeatures": [
+            "Unified incidents",
+            "Cross-workload correlation",
+            "Microsoft Defender portal"
+          ]
+        }
+      }
+    }
+  ]
+}

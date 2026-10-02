@@ -1,0 +1,1166 @@
+{
+  "labs": [
+    {
+      "slug": "deploy-web-app-service",
+      "type": "UI_SIMULATION",
+      "title": "Deploy and swap an Azure App Service web app",
+      "summary": "Create an App Service plan and Web App, verify the default site, deploy a new version to staging, and swap it into production.",
+      "scenario": "Tailwind Traders wants a web app without managing virtual machines. Create an App Service plan and Web App named **app-tailwind-portal**, open the **azurewebsites.net** default page, add a **staging** slot, deploy release v2 to staging, and swap it into production. Done means production shows the new version through a zero-downtime slot workflow.",
+      "domainKey": "azure-architecture-services",
+      "moduleSlug": "azure-compute-and-networking",
+      "objectiveCode": "2.2",
+      "complexity": "INTERMEDIATE",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Create an App Service plan and Web App in the portal",
+        "Explain why App Service is PaaS compared with IaaS virtual machines",
+        "Use a staging deployment slot to validate a release",
+        "Swap slots to update production with minimal downtime"
+      ],
+      "prerequisites": [
+        "Know what PaaS and IaaS mean at a fundamentals level"
+      ],
+      "sources": [
+        {
+          "title": "Quickstart: Deploy an ASP.NET web app to Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/quickstart-dotnetcore"
+        },
+        {
+          "title": "Set up staging environments in Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/deploy-staging-slots"
+        },
+        {
+          "title": "az webapp deployment slot",
+          "url": "https://learn.microsoft.com/en-us/cli/azure/webapp/deployment/slot?view=azure-cli-latest"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Microsoft Azure",
+          "theme": "azure",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (contoso.example)",
+          "url": "https://portal.azure.com",
+          "searchPlaceholder": "Search resources, services, and docs (G+/)"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser",
+            "terminal"
+          ]
+        },
+        "clock": {
+          "start": "2026-10-02T09:00:00Z"
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "app-services",
+            "label": "App Services",
+            "icon": "AppWindow",
+            "section": "Favorites"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "url": "/#home",
+            "components": [
+              {
+                "kind": "tiles",
+                "id": "services",
+                "title": "Azure services",
+                "size": "sm",
+                "items": [
+                  {
+                    "id": "app-services",
+                    "label": "App Services",
+                    "icon": "AppWindow",
+                    "action": {
+                      "type": "navigate",
+                      "page": "app-services"
+                    }
+                  },
+                  {
+                    "id": "cloud-shell",
+                    "label": "Cloud Shell",
+                    "icon": "Terminal",
+                    "action": {
+                      "type": "navigate",
+                      "page": "cloud-shell"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "cloud-shell",
+            "title": "Cloud Shell",
+            "icon": "Terminal",
+            "url": "/#cloudshell",
+            "components": [
+              {
+                "kind": "terminal",
+                "id": "cloud-shell-terminal",
+                "title": "Cloud Shell (Bash)"
+              }
+            ]
+          },
+          {
+            "id": "app-services",
+            "title": "App Services",
+            "icon": "AppWindow",
+            "url": "/#browse/Microsoft.Web%2Fsites",
+            "commands": [
+              {
+                "id": "app-create",
+                "label": "Create",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "webapp-create"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "app-list",
+                "source": "webApps",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "resourceGroup",
+                    "label": "Resource group"
+                  },
+                  {
+                    "key": "runtimeStack",
+                    "label": "Runtime stack"
+                  },
+                  {
+                    "key": "state",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "defaultHostName",
+                    "label": "Default domain"
+                  }
+                ],
+                "rowKey": "name",
+                "emptyText": "No App Services found.",
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "webapp-overview",
+                  "select": {
+                    "as": "app",
+                    "path": "webApps",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "webapp-create",
+            "title": "Create Web App",
+            "icon": "AppWindow",
+            "url": "/#create/Microsoft.WebSite",
+            "navItem": "app-services",
+            "breadcrumb": [
+              "Home",
+              "App Services"
+            ],
+            "components": [
+              {
+                "kind": "wizard",
+                "id": "webapp-wizard",
+                "description": "Create a Web App and an App Service plan. Prices are intentionally not shown.",
+                "reviewLabel": "Review + create",
+                "tabs": [
+                  {
+                    "id": "basics",
+                    "label": "Basics",
+                    "fields": [
+                      {
+                        "id": "subscription",
+                        "label": "Subscription",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Contoso Learning (simulated)",
+                        "options": [
+                          {
+                            "value": "Contoso Learning (simulated)",
+                            "label": "Contoso Learning (simulated)"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "resourceGroup",
+                        "label": "Resource group",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "create-new",
+                        "options": [
+                          {
+                            "value": "create-new",
+                            "label": "Create new"
+                          }
+                        ],
+                        "optionsFrom": {
+                          "path": "resourceGroups",
+                          "value": "name"
+                        }
+                      },
+                      {
+                        "id": "newResourceGroup",
+                        "label": "New resource group name",
+                        "control": "text",
+                        "required": true,
+                        "visibleWhen": {
+                          "type": "equals",
+                          "path": "$form.resourceGroup",
+                          "value": "create-new"
+                        }
+                      },
+                      {
+                        "id": "name",
+                        "label": "Name",
+                        "control": "text",
+                        "required": true,
+                        "pattern": "^[a-z0-9-]{2,60}$",
+                        "patternMessage": "Use lowercase letters, numbers, and hyphens."
+                      },
+                      {
+                        "id": "publish",
+                        "label": "Publish",
+                        "control": "radio",
+                        "required": true,
+                        "defaultValue": "Code",
+                        "options": [
+                          {
+                            "value": "Code",
+                            "label": "Code"
+                          },
+                          {
+                            "value": "Docker Container",
+                            "label": "Docker Container"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "runtimeStack",
+                        "label": "Runtime stack",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": ".NET 8 (LTS)",
+                        "options": [
+                          {
+                            "value": ".NET 8 (LTS)",
+                            "label": ".NET 8 (LTS)"
+                          },
+                          {
+                            "value": "Node 20 LTS",
+                            "label": "Node 20 LTS"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "operatingSystem",
+                        "label": "Operating System",
+                        "control": "radio",
+                        "required": true,
+                        "defaultValue": "Linux",
+                        "options": [
+                          {
+                            "value": "Linux",
+                            "label": "Linux"
+                          },
+                          {
+                            "value": "Windows",
+                            "label": "Windows"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "region",
+                        "label": "Region",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "westeurope",
+                        "optionsFrom": {
+                          "path": "regions",
+                          "value": "name",
+                          "label": "displayName"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "hosting",
+                    "label": "Hosting",
+                    "fields": [
+                      {
+                        "id": "appServicePlan",
+                        "label": "App Service Plan",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "create-new",
+                        "options": [
+                          {
+                            "value": "create-new",
+                            "label": "Create new"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "newPlanName",
+                        "label": "New App Service plan name",
+                        "control": "text",
+                        "required": true,
+                        "visibleWhen": {
+                          "type": "equals",
+                          "path": "$form.appServicePlan",
+                          "value": "create-new"
+                        }
+                      },
+                      {
+                        "id": "pricingPlan",
+                        "label": "Pricing plan",
+                        "control": "select",
+                        "required": true,
+                        "defaultValue": "Basic B1",
+                        "options": [
+                          {
+                            "value": "Free F1",
+                            "label": "Free F1"
+                          },
+                          {
+                            "value": "Basic B1",
+                            "label": "Basic B1"
+                          },
+                          {
+                            "value": "Standard S1",
+                            "label": "Standard S1"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Create",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.publish",
+                        "value": "Code"
+                      },
+                      "message": "Choose Code for this lab."
+                    },
+                    {
+                      "rule": {
+                        "type": "notEquals",
+                        "path": "$form.pricingPlan",
+                        "value": "Free F1"
+                      },
+                      "message": "Choose a plan that supports deployment slots."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "resourceGroups",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.newResourceGroup}}",
+                        "location": "{{$form.region}}"
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "appServicePlans",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.newPlanName}}",
+                        "resourceGroup": "{{$form.newResourceGroup}}",
+                        "location": "{{$form.region}}",
+                        "pricingPlan": "{{$form.pricingPlan}}",
+                        "os": "{{$form.operatingSystem}}"
+                      }
+                    },
+                    {
+                      "type": "append",
+                      "path": "webApps",
+                      "unique": "name",
+                      "value": {
+                        "name": "{{$form.name}}",
+                        "resourceGroup": "{{$form.newResourceGroup}}",
+                        "location": "{{$form.region}}",
+                        "publish": "{{$form.publish}}",
+                        "runtimeStack": "{{$form.runtimeStack}}",
+                        "operatingSystem": "{{$form.operatingSystem}}",
+                        "appServicePlan": "{{$form.newPlanName}}",
+                        "pricingPlan": "{{$form.pricingPlan}}",
+                        "state": "Running",
+                        "defaultHostName": "{{$form.name}}.azurewebsites.net",
+                        "productionVersion": "App Service default page",
+                        "stagingVersion": "No staging slot"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Deployment succeeded",
+                      "message": "Web App {{$form.name}} was created."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "webapp-deployment",
+                      "select": {
+                        "as": "app",
+                        "path": "webApps",
+                        "key": "name",
+                        "value": "{{$form.name}}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "webapp-deployment",
+            "title": "CreateWebApp-{{$sel.app.name}}",
+            "subtitle": "Deployment",
+            "icon": "Rocket",
+            "requires": "app",
+            "navItem": "app-services",
+            "components": [
+              {
+                "kind": "deployment",
+                "title": "Your deployment is complete",
+                "status": "Succeeded",
+                "resources": [
+                  {
+                    "name": "{{$sel.app.name}}",
+                    "type": "Microsoft.Web/sites",
+                    "status": "OK"
+                  },
+                  {
+                    "name": "{{$sel.app.appServicePlan}}",
+                    "type": "Microsoft.Web/serverfarms",
+                    "status": "OK"
+                  }
+                ]
+              },
+              {
+                "kind": "button",
+                "id": "go-to-webapp",
+                "label": "Go to resource",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "webapp-overview"
+                }
+              }
+            ]
+          },
+          {
+            "id": "webapp-overview",
+            "title": "{{$sel.app.name}}",
+            "subtitle": "App Service",
+            "icon": "AppWindow",
+            "url": "/#@contoso.example/resource/subscriptions/{{subscription.id}}/resourceGroups/{{$sel.app.resourceGroup}}/providers/Microsoft.Web/sites/{{$sel.app.name}}/appServices",
+            "requires": "app",
+            "navItem": "app-services",
+            "menu": [
+              {
+                "page": "webapp-overview",
+                "label": "Overview",
+                "icon": "AppWindow"
+              },
+              {
+                "page": "deployment-slots",
+                "label": "Deployment slots",
+                "icon": "Split",
+                "section": "Deployment"
+              },
+              {
+                "page": "deployment-center",
+                "label": "Deployment Center",
+                "icon": "Rocket",
+                "section": "Deployment"
+              }
+            ],
+            "commands": [
+              {
+                "id": "browse-webapp",
+                "label": "Browse",
+                "icon": "ExternalLink",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "production-site"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "PaaS hosting",
+                "text": "App Service runs your web app on a managed platform instead of a self-managed VM."
+              },
+              {
+                "kind": "properties",
+                "title": "Essentials",
+                "items": [
+                  {
+                    "label": "Default domain",
+                    "value": "https://{{$sel.app.defaultHostName}}",
+                    "format": "link"
+                  },
+                  {
+                    "label": "Runtime stack",
+                    "value": "{{$sel.app.runtimeStack}}"
+                  },
+                  {
+                    "label": "Production version",
+                    "value": "{{$sel.app.productionVersion}}"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "deployment-slots",
+            "title": "{{$sel.app.name}} | Deployment slots",
+            "subtitle": "App Service",
+            "icon": "Split",
+            "requires": "app",
+            "navItem": "app-services",
+            "menu": [
+              {
+                "page": "webapp-overview",
+                "label": "Overview",
+                "icon": "AppWindow"
+              },
+              {
+                "page": "deployment-slots",
+                "label": "Deployment slots",
+                "icon": "Split",
+                "section": "Deployment"
+              },
+              {
+                "page": "deployment-center",
+                "label": "Deployment Center",
+                "icon": "Rocket",
+                "section": "Deployment"
+              }
+            ],
+            "commands": [
+              {
+                "id": "add-slot",
+                "label": "Add Slot",
+                "icon": "Plus",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "add-slot"
+                }
+              },
+              {
+                "id": "swap-slots",
+                "label": "Swap",
+                "icon": "Merge",
+                "visibleWhen": {
+                  "type": "arrayContains",
+                  "path": "deploymentSlots",
+                  "match": {
+                    "name": "staging"
+                  }
+                },
+                "action": {
+                  "type": "navigate",
+                  "page": "swap-slots"
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "Deployment slots are live apps with their own host names."
+              },
+              {
+                "kind": "table",
+                "id": "slots-table",
+                "source": "deploymentSlots",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "state",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "hostName",
+                    "label": "Host name"
+                  },
+                  {
+                    "key": "version",
+                    "label": "Version"
+                  }
+                ],
+                "rowKey": "name",
+                "emptyText": "No deployment slots."
+              }
+            ]
+          },
+          {
+            "id": "add-slot",
+            "title": "Add a slot",
+            "icon": "Plus",
+            "requires": "app",
+            "navItem": "app-services",
+            "components": [
+              {
+                "kind": "form",
+                "id": "slot-form",
+                "title": "Add a slot",
+                "fields": [
+                  {
+                    "id": "name",
+                    "label": "Name",
+                    "control": "text",
+                    "required": true,
+                    "defaultValue": "staging"
+                  },
+                  {
+                    "id": "clone",
+                    "label": "Clone settings from",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "Production",
+                    "options": [
+                      {
+                        "value": "Production",
+                        "label": "Production"
+                      },
+                      {
+                        "value": "Do not clone settings",
+                        "label": "Do not clone settings"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Add",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.name",
+                        "value": "staging"
+                      },
+                      "message": "Name the slot staging."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "append",
+                      "path": "deploymentSlots",
+                      "unique": "name",
+                      "value": {
+                        "name": "staging",
+                        "state": "Running",
+                        "hostName": "{{$sel.app.name}}-staging.azurewebsites.net",
+                        "version": "App Service default page"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "webApps",
+                      "where": {
+                        "name": "{{$sel.app.name}}"
+                      },
+                      "set": {
+                        "stagingVersion": "App Service default page"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Deployment slot added"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "deployment-slots"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "deployment-center",
+            "title": "{{$sel.app.name}} | Deployment Center",
+            "subtitle": "App Service",
+            "icon": "Rocket",
+            "requires": "app",
+            "navItem": "app-services",
+            "menu": [
+              {
+                "page": "webapp-overview",
+                "label": "Overview",
+                "icon": "AppWindow"
+              },
+              {
+                "page": "deployment-slots",
+                "label": "Deployment slots",
+                "icon": "Split",
+                "section": "Deployment"
+              },
+              {
+                "page": "deployment-center",
+                "label": "Deployment Center",
+                "icon": "Rocket",
+                "section": "Deployment"
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "Run `az webapp deploy -g rg-app-service-demo -n app-tailwind-portal --slot staging --src-path site-v2.zip --type zip`."
+              },
+              {
+                "kind": "terminal",
+                "id": "deploy-terminal",
+                "title": "Cloud Shell (Bash)"
+              }
+            ]
+          },
+          {
+            "id": "swap-slots",
+            "title": "Swap",
+            "icon": "Merge",
+            "requires": "app",
+            "navItem": "app-services",
+            "components": [
+              {
+                "kind": "form",
+                "id": "swap-form",
+                "title": "Swap slots",
+                "fields": [
+                  {
+                    "id": "source",
+                    "label": "Source slot",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "staging",
+                    "options": [
+                      {
+                        "value": "staging",
+                        "label": "staging"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "target",
+                    "label": "Target slot",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "production",
+                    "options": [
+                      {
+                        "value": "production",
+                        "label": "production"
+                      }
+                    ]
+                  }
+                ],
+                "submit": {
+                  "label": "Swap",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "arrayContains",
+                        "path": "webApps",
+                        "match": {
+                          "name": "app-tailwind-portal",
+                          "stagingVersion": "Tailwind Traders release v2"
+                        }
+                      },
+                      "message": "Deploy release v2 to staging first."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "webApps",
+                      "where": {
+                        "name": "app-tailwind-portal"
+                      },
+                      "set": {
+                        "productionVersion": "Tailwind Traders release v2",
+                        "stagingVersion": "App Service default page",
+                        "lastSwap": "staging-to-production"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "deploymentSlots",
+                      "where": {
+                        "name": "staging"
+                      },
+                      "set": {
+                        "version": "App Service default page"
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Swap completed"
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "webapp-overview"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "production-site",
+            "title": "app-tailwind-portal",
+            "layout": "blank",
+            "url": "https://{{$sel.app.defaultHostName}}",
+            "requires": "app",
+            "components": [
+              {
+                "kind": "text",
+                "id": "production-site-content",
+                "text": "# {{$sel.app.productionVersion}}\n\nProduction slot at `https://{{$sel.app.defaultHostName}}`."
+              }
+            ]
+          },
+          {
+            "id": "staging-site",
+            "title": "app-tailwind-portal staging",
+            "layout": "blank",
+            "url": "https://{{$sel.app.name}}-staging.azurewebsites.net",
+            "requires": "app",
+            "components": [
+              {
+                "kind": "text",
+                "id": "staging-site-content",
+                "text": "# {{$sel.app.stagingVersion}}\n\nStaging slot at `https://{{$sel.app.name}}-staging.azurewebsites.net`."
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "subscription": {
+            "name": "Contoso Learning (simulated)",
+            "id": "00000000-0000-4000-8000-000000000900"
+          },
+          "resourceGroups": [],
+          "regions": [
+            {
+              "name": "westeurope",
+              "displayName": "(Europe) West Europe"
+            },
+            {
+              "name": "northeurope",
+              "displayName": "(Europe) North Europe"
+            }
+          ],
+          "appServicePlans": [],
+          "webApps": [],
+          "deploymentSlots": [],
+          "virtualMachines": []
+        },
+        "terminal": {
+          "title": "Cloud Shell (Bash)",
+          "prompt": "alex@Azure:~$",
+          "surface": "cloudshell",
+          "welcome": "Welcome to Azure Cloud Shell (simulation).",
+          "fallback": "{{$cmd}}: command not available in this simulated environment.",
+          "commands": [
+            {
+              "id": "deploy",
+              "pattern": "^az webapp deploy -g rg-app-service-demo -n app-tailwind-portal --slot staging --src-path site-v2\\.zip --type zip$",
+              "help": "az webapp deploy -g rg-app-service-demo -n app-tailwind-portal --slot staging --src-path site-v2.zip --type zip",
+              "actions": [
+                {
+                  "type": "update",
+                  "path": "webApps",
+                  "where": {
+                    "name": "app-tailwind-portal"
+                  },
+                  "set": {
+                    "stagingVersion": "Tailwind Traders release v2"
+                  }
+                },
+                {
+                  "type": "update",
+                  "path": "deploymentSlots",
+                  "where": {
+                    "name": "staging"
+                  },
+                  "set": {
+                    "version": "Tailwind Traders release v2"
+                  }
+                },
+                {
+                  "type": "notify",
+                  "title": "Deployment to staging completed"
+                }
+              ],
+              "output": "Deployment successful to slot staging."
+            },
+            {
+              "id": "swap",
+              "pattern": "^az webapp deployment slot swap -g rg-app-service-demo -n app-tailwind-portal --slot staging --target-slot production$",
+              "help": "az webapp deployment slot swap -g rg-app-service-demo -n app-tailwind-portal --slot staging --target-slot production",
+              "when": {
+                "type": "arrayContains",
+                "path": "webApps",
+                "match": {
+                  "name": "app-tailwind-portal",
+                  "stagingVersion": "Tailwind Traders release v2"
+                }
+              },
+              "actions": [
+                {
+                  "type": "update",
+                  "path": "webApps",
+                  "where": {
+                    "name": "app-tailwind-portal"
+                  },
+                  "set": {
+                    "productionVersion": "Tailwind Traders release v2",
+                    "stagingVersion": "App Service default page",
+                    "lastSwap": "staging-to-production"
+                  }
+                },
+                {
+                  "type": "update",
+                  "path": "deploymentSlots",
+                  "where": {
+                    "name": "staging"
+                  },
+                  "set": {
+                    "version": "App Service default page"
+                  }
+                },
+                {
+                  "type": "notify",
+                  "title": "Swap completed"
+                }
+              ],
+              "output": "Swap completed. Source slot: staging. Target slot: production."
+            }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "key": "open-create",
+          "title": "Open the Web App create experience",
+          "instruction": "Select **App Services**, then select **Create**.",
+          "hint": "App Services is in the Favorites navigation.",
+          "explanation": "App Service is a managed PaaS web hosting option. You configure the app and runtime while Azure manages the underlying web servers.",
+          "targetId": "app-create",
+          "rules": [
+            {
+              "key": "visited-create",
+              "description": "Create Web App page is open",
+              "rule": {
+                "type": "visited",
+                "page": "webapp-create"
+              }
+            }
+          ]
+        },
+        {
+          "key": "create-app",
+          "title": "Create the App Service plan and Web App",
+          "instruction": "Create resource group **rg-app-service-demo**, name the app **app-tailwind-portal**, choose **Code**, **.NET 8 (LTS)**, **Linux**, **(Europe) West Europe**, plan **asp-tailwind-demo**, and **Basic B1**. Select **Review + create**, then **Create**.",
+          "hint": "Choose a plan that supports slots; no prices are shown.",
+          "explanation": "An App Service plan defines managed compute capacity. The Web App hosts your code without requiring you to patch a VM web server.",
+          "targetId": "webapp-wizard",
+          "rules": [
+            {
+              "key": "plan-created",
+              "description": "App Service plan exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "appServicePlans",
+                "match": {
+                  "name": "asp-tailwind-demo",
+                  "pricingPlan": "Basic B1"
+                }
+              }
+            },
+            {
+              "key": "app-created",
+              "description": "Web App exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "webApps",
+                "match": {
+                  "name": "app-tailwind-portal",
+                  "runtimeStack": ".NET 8 (LTS)",
+                  "operatingSystem": "Linux"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "open-production",
+          "title": "Open the default production app",
+          "instruction": "Select **Go to resource**, then **Browse** or open `https://app-tailwind-portal.azurewebsites.net`.",
+          "hint": "The default domain is shown in Essentials.",
+          "explanation": "Opening the default host proves production is running before any staged release changes it.",
+          "targetId": "go-to-webapp",
+          "rules": [
+            {
+              "key": "visited-production",
+              "description": "Production site opened",
+              "rule": {
+                "type": "visited",
+                "page": "production-site"
+              }
+            }
+          ]
+        },
+        {
+          "key": "add-slot",
+          "title": "Add a staging deployment slot",
+          "instruction": "Open **Deployment slots**, select **Add Slot**, set **Name** to `staging`, **Clone settings from** **Production**, and select **Add**.",
+          "hint": "Deployment slots are under Deployment in the app menu.",
+          "explanation": "A staging slot is a live app with its own host name. You can test a new version there before users see it.",
+          "targetId": "add-slot",
+          "rules": [
+            {
+              "key": "slot-created",
+              "description": "Staging slot exists",
+              "rule": {
+                "type": "arrayContains",
+                "path": "deploymentSlots",
+                "match": {
+                  "name": "staging",
+                  "hostName": "app-tailwind-portal-staging.azurewebsites.net"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "key": "deploy-staging",
+          "title": "Deploy release v2 to staging",
+          "instruction": "Open **Deployment Center** and run `az webapp deploy -g rg-app-service-demo -n app-tailwind-portal --slot staging --src-path site-v2.zip --type zip`. Then open `https://app-tailwind-portal-staging.azurewebsites.net`.",
+          "hint": "The command deploys only to staging.",
+          "explanation": "Deploying to staging validates new code without changing the production host name.",
+          "targetId": "deploy-terminal",
+          "rules": [
+            {
+              "key": "staging-v2",
+              "description": "Release v2 was deployed to staging",
+              "rule": {
+                "type": "commandUsed",
+                "pattern": "^az webapp deploy .*--slot staging .*site-v2\\.zip"
+              }
+            },
+            {
+              "key": "visited-staging",
+              "description": "Staging site opened",
+              "rule": {
+                "type": "visited",
+                "page": "staging-site"
+              }
+            }
+          ]
+        },
+        {
+          "key": "swap",
+          "title": "Swap staging into production",
+          "instruction": "Use **Deployment slots** > **Swap** with **Source slot** `staging` and **Target slot** `production`, or run `az webapp deployment slot swap -g rg-app-service-demo -n app-tailwind-portal --slot staging --target-slot production`. Then open production again.",
+          "hint": "Staging is the source because it has the validated release.",
+          "explanation": "A slot swap exchanges content behind host names, supporting releases with little or no downtime and an easy rollback path.",
+          "targetId": "swap-slots",
+          "rules": [
+            {
+              "key": "production-v2",
+              "description": "Production has v2",
+              "rule": {
+                "type": "arrayContains",
+                "path": "webApps",
+                "match": {
+                  "name": "app-tailwind-portal",
+                  "productionVersion": "Tailwind Traders release v2",
+                  "lastSwap": "staging-to-production"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "paas-not-iaas",
+          "description": "No VM was created",
+          "rule": {
+            "type": "arrayLength",
+            "path": "virtualMachines",
+            "max": 0
+          }
+        },
+        {
+          "key": "slot-release",
+          "description": "Release was deployed and swapped",
+          "rule": {
+            "type": "allOf",
+            "rules": [
+              {
+                "type": "commandUsed",
+                "pattern": "az webapp deploy .*--slot staging"
+              },
+              {
+                "type": "arrayContains",
+                "path": "webApps",
+                "match": {
+                  "name": "app-tailwind-portal",
+                  "productionVersion": "Tailwind Traders release v2"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "solution": "1. Select **App Services** > **Create**.\n2. Use resource group `rg-app-service-demo`, name `app-tailwind-portal`, **Code**, **.NET 8 (LTS)**, **Linux**, **(Europe) West Europe**, plan `asp-tailwind-demo`, and **Basic B1**.\n3. **Review + create** > **Create**, then **Go to resource** and browse `https://app-tailwind-portal.azurewebsites.net`.\n4. Open **Deployment slots**, **Add Slot**, name `staging`, clone from **Production**, and **Add**.\n5. Run `az webapp deploy -g rg-app-service-demo -n app-tailwind-portal --slot staging --src-path site-v2.zip --type zip` and open `https://app-tailwind-portal-staging.azurewebsites.net`.\n6. **Swap** source `staging` to target `production`, then open production again."
+    }
+  ]
+}

@@ -1,0 +1,1832 @@
+{
+  "domainKey": "core-data-concepts",
+  "modules": [
+    {
+      "slug": "core-data-representation-and-storage",
+      "title": "Core data representation and storage",
+      "summary": "Classify data by structure, choose common file formats, and decide when files or databases fit a scenario.",
+      "lessons": [
+        {
+          "slug": "represent-structured-semi-unstructured-data",
+          "title": "Represent structured, semi-structured, and unstructured data",
+          "objectiveCode": "1.1",
+          "estimatedMinutes": 12,
+          "summary": "Learn how schema, flexibility, and media type affect the way data is represented before storage or analysis.",
+          "learningObjectives": [
+            "Distinguish structured, semi-structured, and unstructured data by schema and format",
+            "Identify rows, JSON documents, images, and documents by their data shape",
+            "Choose a storage approach based on data shape and flexibility needs"
+          ],
+          "explanation": "Before choosing an Azure service, Contoso Cycling asks a simpler question: what shape is the data? **Structured data** follows a fixed schema, usually rows and columns such as `OrderId`, `Date`, and `Amount`. **Semi-structured data** has labels and hierarchy but allows variation, such as JSON customer profiles where one customer has two email addresses and another has none. **Unstructured data** includes documents, images, audio, video, and other files that do not expose a consistent row or field schema by themselves. The data shape is not the same as the storage location. A file can contain structured CSV, semi-structured JSON, or unstructured media. A database can store relational rows or flexible documents depending on its model. For beginner scenarios, read for clues: consistent columns mean structured; optional named fields mean semi-structured; media and free-form documents mean unstructured.",
+          "terminology": [
+            {
+              "term": "Structured data",
+              "definition": "Data with a fixed schema, often rows and columns."
+            },
+            {
+              "term": "Semi-structured data",
+              "definition": "Data with labels or hierarchy that can vary by record."
+            },
+            {
+              "term": "Unstructured data",
+              "definition": "Documents, images, audio, video, and other files without a fixed record schema."
+            },
+            {
+              "term": "Schema",
+              "definition": "A definition of fields, structure, and data types."
+            },
+            {
+              "term": "Entity",
+              "definition": "A business thing represented in data, such as a customer or order."
+            }
+          ],
+          "businessScenario": "Contoso Cycling receives point-of-sale rows, JSON customer preferences, and supplier product photos. The team classifies each source before choosing storage.",
+          "technicalExample": "Structured row: `OrderId,CustomerId,Amount`. JSON profile: `{ \"customerId\": \"C-25\", \"contacts\": [{ \"type\": \"email\" }] }`. Unstructured item: `helmet-photo.jpg` with metadata.",
+          "misconception": {
+            "myth": "If data is stored in a file, it must be unstructured.",
+            "reality": "Files can contain structured CSV, semi-structured JSON, or unstructured media."
+          },
+          "examTakeaway": "Watch for schema clues: fixed rows point to structured data, varying named fields to semi-structured data, and media/free-form documents to unstructured data.",
+          "recap": "Learn how schema, flexibility, and media type affect the way data is represented before storage or analysis.",
+          "simplerExplanation": "Picture three containers at Contoso Cycling. A printed order form with the same boxes every time is structured. A sticky-note packet where some notes add extra details is semi-structured. A product photo is unstructured until someone tags what is in it.",
+          "anotherExample": "A travel agency might store booking rows in a table, passport-check responses as JSON documents with optional fields, and scanned visa documents as unstructured files.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Data representation clues",
+                "columns": [
+                  {
+                    "title": "Structured",
+                    "points": [
+                      "Fixed schema",
+                      "Rows and columns",
+                      "Good for relational tables"
+                    ]
+                  },
+                  {
+                    "title": "Semi-structured",
+                    "points": [
+                      "Named fields or tags",
+                      "Records can vary",
+                      "JSON and XML are common"
+                    ]
+                  },
+                  {
+                    "title": "Unstructured",
+                    "points": [
+                      "No fixed record schema",
+                      "Documents, images, audio, video",
+                      "Often needs metadata or extraction"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Classify the item",
+                "instructions": "Choose the representation before checking the answer.",
+                "items": [
+                  {
+                    "prompt": "A CSV order export with the same fields in every row.",
+                    "answer": "Structured data."
+                  },
+                  {
+                    "prompt": "A JSON customer document with optional contact methods.",
+                    "answer": "Semi-structured data."
+                  },
+                  {
+                    "prompt": "A folder of product photos.",
+                    "answer": "Unstructured data."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Structured data",
+              "back": "Data with a fixed schema, often rows and columns."
+            },
+            {
+              "front": "Semi-structured data",
+              "back": "Data with labels or hierarchy that can vary by record."
+            },
+            {
+              "front": "Unstructured data",
+              "back": "Documents, images, audio, video, and other files without a fixed record schema."
+            },
+            {
+              "front": "Schema",
+              "back": "A definition of fields, structure, and data types."
+            },
+            {
+              "front": "Entity",
+              "back": "A business thing represented in data, such as a customer or order."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Explore core data concepts",
+              "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/",
+              "kind": "LEARN_MODULE"
+            },
+            {
+              "title": "Identify data formats",
+              "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/2-data-formats",
+              "kind": "LEARN_MODULE"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "dp900-cdc-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "EASY",
+              "stem": "Which description best fits structured data?",
+              "explanation": "Structured data follows a fixed schema.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Rows with the same columns and data types",
+                  "correct": true,
+                  "explanation": "A fixed tabular schema is structured."
+                },
+                {
+                  "key": "B",
+                  "text": "A video file",
+                  "correct": false,
+                  "explanation": "Video is unstructured."
+                },
+                {
+                  "key": "C",
+                  "text": "A JSON document with optional fields",
+                  "correct": false,
+                  "explanation": "That is semi-structured."
+                },
+                {
+                  "key": "D",
+                  "text": "An audio recording",
+                  "correct": false,
+                  "explanation": "Audio is unstructured."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Identify data formats",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/2-data-formats",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "represent-structured-semi-unstructured-data"
+            },
+            {
+              "ref": "dp900-cdc-002",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** examples are semi-structured data?",
+              "explanation": "Semi-structured data has labels or hierarchy while allowing variation.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "A JSON order document",
+                  "correct": true,
+                  "explanation": "JSON is a common semi-structured format."
+                },
+                {
+                  "key": "B",
+                  "text": "An XML supplier message",
+                  "correct": true,
+                  "explanation": "XML uses tags and can vary."
+                },
+                {
+                  "key": "C",
+                  "text": "A relational table with required columns",
+                  "correct": false,
+                  "explanation": "That is structured."
+                },
+                {
+                  "key": "D",
+                  "text": "A product photograph",
+                  "correct": false,
+                  "explanation": "That is unstructured."
+                },
+                {
+                  "key": "E",
+                  "text": "A video clip",
+                  "correct": false,
+                  "explanation": "That is unstructured."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Identify data formats",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/2-data-formats",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "represent-structured-semi-unstructured-data",
+              "selectCount": 2
+            },
+            {
+              "ref": "dp900-cdc-003",
+              "type": "TRUE_FALSE",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "EASY",
+              "stem": "Unstructured files can become easier to search when metadata or AI extraction is added.",
+              "explanation": "Metadata and extraction help make unstructured content searchable.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "True: metadata such as tags, extracted text, or labels can make otherwise unstructured files easier to search and organize."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that tags, extracted text, and labels add searchable signals to files that do not have a fixed schema."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Identify data formats",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/2-data-formats",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "represent-structured-semi-unstructured-data"
+            },
+            {
+              "ref": "dp900-cdc-004",
+              "type": "CATEGORIZATION",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each data item.",
+              "explanation": "Fixed columns, optional JSON fields, and media files identify structured, semi-structured, and unstructured data respectively.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "structured",
+                    "label": "Structured"
+                  },
+                  {
+                    "id": "semi",
+                    "label": "Semi-structured"
+                  },
+                  {
+                    "id": "unstructured",
+                    "label": "Unstructured"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Sales table with fixed columns",
+                    "category": "structured",
+                    "explanation": "Fixed columns indicate structured data."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "JSON profile with optional fields",
+                    "category": "semi",
+                    "explanation": "JSON with variation is semi-structured."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Supplier product image",
+                    "category": "unstructured",
+                    "explanation": "An image has no inherent row schema."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Identify data formats",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/2-data-formats",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "represent-structured-semi-unstructured-data"
+            },
+            {
+              "ref": "dp900-cdc-005",
+              "type": "SCENARIO",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "HARD",
+              "stem": "Which classification fits the events?",
+              "explanation": "The events have named JSON fields but can vary by event type.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Semi-structured",
+                  "correct": true,
+                  "explanation": "Flexible JSON events are semi-structured."
+                },
+                {
+                  "key": "B",
+                  "text": "Structured",
+                  "correct": false,
+                  "explanation": "The fields are not fixed."
+                },
+                {
+                  "key": "C",
+                  "text": "Unstructured",
+                  "correct": false,
+                  "explanation": "The data has named fields."
+                },
+                {
+                  "key": "D",
+                  "text": "OLAP",
+                  "correct": false,
+                  "explanation": "OLAP is an analytical processing style."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Identify data formats",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/2-data-formats",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "represent-structured-semi-unstructured-data",
+              "scenario": "A mobile app sends JSON events. New event types add fields without changing older events."
+            }
+          ]
+        },
+        {
+          "slug": "choose-data-file-formats",
+          "title": "Choose common file formats and understand their trade-offs",
+          "objectiveCode": "1.1",
+          "estimatedMinutes": 12,
+          "summary": "Compare CSV, JSON, Parquet, and Avro so you can pick a format for readability, flexibility, or analytics efficiency.",
+          "learningObjectives": [
+            "Compare CSV, JSON, Parquet, and Avro by readability, nesting, and analytics efficiency",
+            "Choose CSV for flat readable data and JSON for hierarchical app messages",
+            "Recognize why Parquet fits columnar analytical queries"
+          ],
+          "explanation": "File formats are packaging choices. **CSV** is simple delimited text for flat rows and is easy to open in spreadsheets or scripts, but it is weak for nested data and data types. **JSON** uses name/value pairs, objects, and arrays, so it is useful for semi-structured app events and API messages. **Parquet** is an optimized columnar format: analytics engines can scan only the columns they need and compress repeated column values efficiently, which is why it is common in data lakes and lakehouses. **Avro** is a row-based binary format with schema information, useful for compact event or pipeline exchange. Choose readability for small human exchange, flexibility for nested messages, and optimized binary formats for large-scale processing.",
+          "terminology": [
+            {
+              "term": "CSV",
+              "definition": "Delimited text for simple flat rows."
+            },
+            {
+              "term": "JSON",
+              "definition": "Text format for objects, arrays, and name/value pairs."
+            },
+            {
+              "term": "Parquet",
+              "definition": "Columnar optimized file format for analytical storage."
+            },
+            {
+              "term": "Avro",
+              "definition": "Row-based optimized binary format with schema information."
+            },
+            {
+              "term": "Columnar format",
+              "definition": "A layout that stores values from the same column together."
+            }
+          ],
+          "businessScenario": "Contoso chooses CSV for supplier spreadsheets, JSON for mobile events, and Parquet for curated lakehouse tables practised in the Fabric lakehouse lab.",
+          "technicalExample": "CSV: `ProductId,Color,Price`. JSON: `{ \"productId\": \"P-10\", \"tags\": [\"helmet\"] }`. Parquet: a curated sales table read by analytics engines.",
+          "misconception": {
+            "myth": "Parquet is always the best choice because it is optimized.",
+            "reality": "Parquet is excellent for analytics, but CSV is better for simple human exchange and JSON is better for flexible nested messages."
+          },
+          "examTakeaway": "Human-readable flat rows suggest CSV, flexible nested messages suggest JSON, large analytical scans suggest Parquet, and compact row-based exchange can suggest Avro.",
+          "recap": "Compare CSV, JSON, Parquet, and Avro so you can pick a format for readability, flexibility, or analytics efficiency.",
+          "simplerExplanation": "Choosing a file format is like choosing how to send a packed lunch. CSV is a clear list on paper, JSON is a lunchbox with labeled compartments, Parquet is a warehouse-ready crate optimized for scanners, and Avro is a compact sealed packet with its packing slip inside.",
+          "anotherExample": "A bike-share company could send station names to a partner as CSV, publish live bike-status messages as JSON, store daily ride facts as Parquet for analytics, and pass compact event records between pipeline stages as Avro.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Format trade-offs",
+                "columns": [
+                  {
+                    "title": "CSV",
+                    "points": [
+                      "Flat rows",
+                      "Human-readable",
+                      "Widely supported"
+                    ]
+                  },
+                  {
+                    "title": "JSON",
+                    "points": [
+                      "Objects and arrays",
+                      "Flexible fields",
+                      "Verbose for large scans"
+                    ]
+                  },
+                  {
+                    "title": "Parquet / Avro",
+                    "points": [
+                      "Optimized binary formats",
+                      "Parquet is columnar",
+                      "Avro is row-based"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "CSV",
+              "back": "Delimited text for simple flat rows."
+            },
+            {
+              "front": "JSON",
+              "back": "Text format for objects, arrays, and name/value pairs."
+            },
+            {
+              "front": "Parquet",
+              "back": "Columnar optimized file format for analytical storage."
+            },
+            {
+              "front": "Avro",
+              "back": "Row-based optimized binary format with schema information."
+            },
+            {
+              "front": "Columnar format",
+              "back": "A layout that stores values from the same column together."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Explore file storage",
+              "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/3-file-storage",
+              "kind": "LEARN_MODULE"
+            },
+            {
+              "title": "What is a lakehouse in Microsoft Fabric?",
+              "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "dp900-cdc-006",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "EASY",
+              "stem": "Which format is commonly used for simple comma-delimited rows?",
+              "explanation": "CSV is a common delimited text format.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "CSV",
+                  "correct": true,
+                  "explanation": "CSV is comma-separated values."
+                },
+                {
+                  "key": "B",
+                  "text": "JPEG",
+                  "correct": false,
+                  "explanation": "JPEG is an image format."
+                },
+                {
+                  "key": "C",
+                  "text": "MP4",
+                  "correct": false,
+                  "explanation": "MP4 is a video format."
+                },
+                {
+                  "key": "D",
+                  "text": "OLTP",
+                  "correct": false,
+                  "explanation": "OLTP is a workload pattern."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Explore file storage",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/3-file-storage",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "choose-data-file-formats"
+            },
+            {
+              "ref": "dp900-cdc-007",
+              "type": "MATCHING",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each format to its strongest fit.",
+              "explanation": "CSV is best for simple delimited rows, JSON for nested flexible records, and Parquet for analytical column scans.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "csv",
+                    "text": "CSV"
+                  },
+                  {
+                    "id": "json",
+                    "text": "JSON"
+                  },
+                  {
+                    "id": "parquet",
+                    "text": "Parquet"
+                  },
+                  {
+                    "id": "avro",
+                    "text": "Avro"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "flat",
+                    "text": "Flat human-readable rows"
+                  },
+                  {
+                    "id": "nested",
+                    "text": "Flexible nested objects"
+                  },
+                  {
+                    "id": "col",
+                    "text": "Columnar analytics"
+                  },
+                  {
+                    "id": "row",
+                    "text": "Row-based binary records with schema"
+                  }
+                ],
+                "pairs": {
+                  "csv": "flat",
+                  "json": "nested",
+                  "parquet": "col",
+                  "avro": "row"
+                },
+                "explanations": {
+                  "csv": "CSV is delimited text.",
+                  "json": "JSON supports objects and arrays.",
+                  "parquet": "Parquet is columnar.",
+                  "avro": "Avro is row-based with schema."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Explore file storage",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/3-file-storage",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "choose-data-file-formats"
+            },
+            {
+              "ref": "dp900-cdc-008",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Complete the sentence about the file format that makes analytical lakehouse queries efficient.",
+              "explanation": "Parquet is the columnar file format in the word bank, making it a common choice for analytical lakehouse queries that scan selected columns.",
+              "fillInBlank": {
+                "template": "{{b1}} is a columnar optimized file format commonly used for analytical data in lakehouses.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "Parquet"
+                    ],
+                    "explanation": "Parquet is correct because it stores data by column, which is efficient for many analytical scans over large datasets."
+                  }
+                ],
+                "wordBank": [
+                  "Parquet",
+                  "CSV",
+                  "JSON",
+                  "XML"
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Explore file storage",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/3-file-storage",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "What is a lakehouse in Microsoft Fabric?",
+                  "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "choose-data-file-formats"
+            },
+            {
+              "ref": "dp900-cdc-009",
+              "type": "SCENARIO",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which format best fits the requirement?",
+              "explanation": "CSV is simple, flat, readable, and broadly supported.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "CSV",
+                  "correct": true,
+                  "explanation": "CSV is simple and spreadsheet-friendly."
+                },
+                {
+                  "key": "B",
+                  "text": "Parquet",
+                  "correct": false,
+                  "explanation": "Parquet is efficient but not intended for spreadsheet editing."
+                },
+                {
+                  "key": "C",
+                  "text": "Avro",
+                  "correct": false,
+                  "explanation": "Avro is binary."
+                },
+                {
+                  "key": "D",
+                  "text": "Raw video",
+                  "correct": false,
+                  "explanation": "Video is unrelated."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Explore file storage",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/3-file-storage",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "choose-data-file-formats",
+              "scenario": "A supplier needs a small product list that can be opened in a spreadsheet."
+            },
+            {
+              "ref": "dp900-cdc-010",
+              "type": "CASE_STUDY",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.1",
+              "difficulty": "HARD",
+              "scenario": "Fabrikam is designing a data lake with raw nested app events, curated tables for analysts, and small finance extracts.",
+              "stem": "For each statement about choosing JSON, Parquet, and CSV in Fabrikam's data lake, select **Yes** if it is true. Otherwise, select **No**.",
+              "explanation": "Fabrikam should use JSON for variable events, Parquet for analytics scans, and CSV only where simple tabular interchange is enough.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Use JSON for raw nested app events.",
+                    "answer": true,
+                    "explanation": "JSON fits nested semi-structured data."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Use Parquet for curated analytical tables.",
+                    "answer": true,
+                    "explanation": "Parquet is efficient for analytics."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Use Avro as the most spreadsheet-friendly finance extract.",
+                    "answer": false,
+                    "explanation": "CSV is more spreadsheet-friendly."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Explore file storage",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/3-file-storage",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "What is a data lake?",
+                  "url": "https://learn.microsoft.com/en-us/azure/architecture/data-guide/scenarios/data-lake",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "choose-data-file-formats"
+            }
+          ]
+        },
+        {
+          "slug": "choose-files-and-databases",
+          "title": "Choose between files, databases, and common data stores",
+          "objectiveCode": "1.2",
+          "estimatedMinutes": 12,
+          "summary": "Identify when data belongs in files, relational databases, or non-relational databases.",
+          "learningObjectives": [
+            "Distinguish file stores, relational databases, and non-relational databases",
+            "Choose files for raw media or extracts and databases for managed records",
+            "Identify transactional clues that point to relational tables and keys"
+          ],
+          "explanation": "Storage choices follow the workload. A **file store** keeps data as files and is ideal for raw extracts, images, documents, and large analytical datasets in a data lake. A **database** manages records with query, indexing, security, and reliability features. A **relational database** stores structured data in tables connected by keys and is a strong fit for orders, customers, payments, and other transactional records. A **non-relational database** does not require a relational table model; common models include key-value, document, column-family, and graph. At fundamentals level, read the scenario before naming a product: raw or media files point to file storage; structured records with relationships point to relational databases; flexible JSON, key lookups, or graph traversal point to non-relational stores.",
+          "terminology": [
+            {
+              "term": "File store",
+              "definition": "Storage that keeps data as files."
+            },
+            {
+              "term": "Database",
+              "definition": "A system for storing, querying, securing, and managing records."
+            },
+            {
+              "term": "Relational database",
+              "definition": "A database that stores structured data in related tables."
+            },
+            {
+              "term": "Non-relational database",
+              "definition": "A database using models such as document, key-value, column-family, or graph."
+            },
+            {
+              "term": "Primary key",
+              "definition": "A value that uniquely identifies a row or record."
+            }
+          ],
+          "businessScenario": "Contoso lands supplier CSV files in a lake, stores checkout orders in relational tables, and keeps flexible customer preferences in documents. The data lake and Azure SQL labs reinforce these choices.",
+          "technicalExample": "Relational: `Orders(OrderId, CustomerId, Amount)`. Document: `{ \"customerId\": \"C-25\", \"preferences\": { \"sizes\": [\"M\"] } }`. File path: `/raw/sales/2026/09/sales.csv`.",
+          "misconception": {
+            "myth": "Databases are always better than files.",
+            "reality": "Files are often best for raw, large, or diverse data; databases are best for managed record queries and updates."
+          },
+          "examTakeaway": "Files fit raw and analytical file storage; relational databases fit structured transactional records; non-relational databases fit flexible or specialized access patterns.",
+          "recap": "Identify when data belongs in files, relational databases, or non-relational databases.",
+          "simplerExplanation": "A file store is like a storage room for envelopes and boxes. A relational database is a carefully indexed binder where every order references the right customer page. A non-relational database is a set of purpose-built organizers, such as folders for documents or maps for connected things.",
+          "anotherExample": "A museum might keep artwork photos in file storage, ticket purchases in relational tables, and flexible exhibit descriptions in document records because each exhibit has different details.",
+          "extraBlocks": [
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Storage decision flow",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "shape",
+                    "label": "Workload clues"
+                  },
+                  {
+                    "id": "files",
+                    "label": "Files"
+                  },
+                  {
+                    "id": "rel",
+                    "label": "Relational database"
+                  },
+                  {
+                    "id": "non",
+                    "label": "Non-relational database"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "shape",
+                    "to": "files",
+                    "label": "raw/media"
+                  },
+                  {
+                    "from": "shape",
+                    "to": "rel",
+                    "label": "tables/keys"
+                  },
+                  {
+                    "from": "shape",
+                    "to": "non",
+                    "label": "documents/graph/key"
+                  }
+                ],
+                "caption": "Use workload clues to choose files, relational databases, or non-relational databases."
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "File store",
+              "back": "Storage that keeps data as files."
+            },
+            {
+              "front": "Database",
+              "back": "A system for storing, querying, securing, and managing records."
+            },
+            {
+              "front": "Relational database",
+              "back": "A database that stores structured data in related tables."
+            },
+            {
+              "front": "Non-relational database",
+              "back": "A database using models such as document, key-value, column-family, or graph."
+            },
+            {
+              "front": "Primary key in a relational store",
+              "back": "A value that uniquely identifies a row, such as an OrderId in an Orders table."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Explore databases",
+              "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/4-databases",
+              "kind": "LEARN_MODULE"
+            },
+            {
+              "title": "What is a data lake?",
+              "url": "https://learn.microsoft.com/en-us/azure/architecture/data-guide/scenarios/data-lake",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "dp900-cdc-011",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "EASY",
+              "stem": "Which option is usually best for raw image files and monthly CSV extracts before transformation?",
+              "explanation": "File stores are natural landing zones for raw and diverse files.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "File storage or a data lake",
+                  "correct": true,
+                  "explanation": "Raw files naturally land in file storage."
+                },
+                {
+                  "key": "B",
+                  "text": "Only a normalized relational schema",
+                  "correct": false,
+                  "explanation": "That may be used later, not as the raw landing zone."
+                },
+                {
+                  "key": "C",
+                  "text": "A graph database",
+                  "correct": false,
+                  "explanation": "Graph databases model relationships."
+                },
+                {
+                  "key": "D",
+                  "text": "A semantic model",
+                  "correct": false,
+                  "explanation": "Semantic models support reporting."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Explore file storage",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/3-file-storage",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "What is a data lake?",
+                  "url": "https://learn.microsoft.com/en-us/azure/architecture/data-guide/scenarios/data-lake",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "choose-files-and-databases"
+            },
+            {
+              "ref": "dp900-cdc-012",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** requirements point to a relational database?",
+              "explanation": "Relational databases are strong for structured tables, keys, SQL, and transactional consistency.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Store orders in tables related to customers by keys",
+                  "correct": true,
+                  "explanation": "Tables and keys are relational clues."
+                },
+                {
+                  "key": "B",
+                  "text": "Run consistent transactional updates",
+                  "correct": true,
+                  "explanation": "Relational systems commonly support transactions."
+                },
+                {
+                  "key": "C",
+                  "text": "Store product videos",
+                  "correct": false,
+                  "explanation": "Videos fit file storage."
+                },
+                {
+                  "key": "D",
+                  "text": "Allow each document to have unrelated optional fields",
+                  "correct": false,
+                  "explanation": "That suggests document storage."
+                },
+                {
+                  "key": "E",
+                  "text": "Traverse social network relationships",
+                  "correct": false,
+                  "explanation": "That suggests graph storage."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Explore databases",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/4-databases",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "Explore transactional data processing",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/5-transactional-data-processing",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "choose-files-and-databases",
+              "selectCount": 2
+            },
+            {
+              "ref": "dp900-cdc-013",
+              "type": "MATCHING",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "MEDIUM",
+              "stem": "Match each store type to a typical use case.",
+              "explanation": "The matches distinguish raw files, relational tables, and flexible document databases by their typical access patterns.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "file",
+                    "text": "File store"
+                  },
+                  {
+                    "id": "rel",
+                    "text": "Relational database"
+                  },
+                  {
+                    "id": "doc",
+                    "text": "Document database"
+                  },
+                  {
+                    "id": "graph",
+                    "text": "Graph database"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "raw",
+                    "text": "Landing raw files"
+                  },
+                  {
+                    "id": "orders",
+                    "text": "Structured orders with keys"
+                  },
+                  {
+                    "id": "json",
+                    "text": "Flexible JSON profiles"
+                  },
+                  {
+                    "id": "network",
+                    "text": "Connected entities and relationships"
+                  }
+                ],
+                "pairs": {
+                  "file": "raw",
+                  "rel": "orders",
+                  "doc": "json",
+                  "graph": "network"
+                },
+                "explanations": {
+                  "file": "Files fit raw landing.",
+                  "rel": "Relational tables use keys.",
+                  "doc": "Documents fit flexible JSON.",
+                  "graph": "Graphs focus on relationships."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Explore databases",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/4-databases",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "Explore file storage",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/3-file-storage",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "choose-files-and-databases"
+            },
+            {
+              "ref": "dp900-cdc-014",
+              "type": "UI_SIMULATION",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "HARD",
+              "stem": "Configure the simulated recommendation for a checkout app that keeps customers and orders in related tables with consistent updates.",
+              "explanation": "Related customer and order rows with consistent updates call for the relational database selections in the simulated chooser.",
+              "uiSimulation": {
+                "title": "Data decision screen (simulated)",
+                "description": "A fictional simplified settings screen for practice; it is not a real portal page.",
+                "fields": [
+                  {
+                    "id": "store",
+                    "label": "Recommended store type",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "file",
+                        "label": "File storage"
+                      },
+                      {
+                        "value": "relational",
+                        "label": "Relational database"
+                      },
+                      {
+                        "value": "document",
+                        "label": "Document database"
+                      }
+                    ],
+                    "correct": "relational",
+                    "explanation": "Related tables and consistent updates point to a relational database."
+                  },
+                  {
+                    "id": "reason",
+                    "label": "Primary reason",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "transactions",
+                        "label": "Transactions and relationships"
+                      },
+                      {
+                        "value": "media",
+                        "label": "Unstructured media"
+                      },
+                      {
+                        "value": "freeform",
+                        "label": "No consistent schema"
+                      }
+                    ],
+                    "correct": "transactions",
+                    "explanation": "The scenario needs relationships and transactional consistency."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Explore databases",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/4-databases",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "Explore transactional data processing",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/5-transactional-data-processing",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "choose-files-and-databases"
+            },
+            {
+              "ref": "dp900-cdc-015",
+              "type": "TRUE_FALSE",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.2",
+              "difficulty": "EASY",
+              "stem": "A non-relational database can use models such as key-value, document, column-family, or graph.",
+              "explanation": "These are common non-relational data models.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "True: key-value, document, column-family, and graph are common non-relational models because they do not require the relational table-and-join design."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that these models are standard NoSQL patterns used without a required relational schema."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Explore databases",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/4-databases",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "choose-files-and-databases"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "core-data-workloads-and-roles",
+      "title": "Core data workloads and roles",
+      "summary": "Compare transactional and analytical workloads, then map responsibilities to common data roles.",
+      "lessons": [
+        {
+          "slug": "compare-transactional-and-analytical-workloads",
+          "title": "Compare transactional and analytical workloads",
+          "objectiveCode": "1.3",
+          "estimatedMinutes": 12,
+          "summary": "Distinguish OLTP from analytical processing, including OLAP-style summaries and batch versus streaming.",
+          "learningObjectives": [
+            "Distinguish OLTP transactions from analytical queries over historical data",
+            "Identify batch summaries and streaming events in data workload scenarios",
+            "Compare operational updates with OLAP-style reporting needs"
+          ],
+          "explanation": "Transactional and analytical workloads use data differently. **Transactional workloads**, often called **OLTP**, record business events such as purchases, payments, reservations, or account updates. They optimize for fast reads and writes, many users, and reliable units of work. **Analytical workloads** read large amounts of historical or curated data to answer questions such as which region is growing fastest. They are read-mostly and optimized for summaries, trends, reports, dashboards, and semantic models. **OLAP** describes analysis over measures and dimensions, such as sales by product, date, and region. Data movement may be **batch**, such as a nightly load, or **streaming**, such as processing each sensor event as it arrives. A common pattern is to keep live OLTP systems separate from heavy analytics so operational apps remain responsive.",
+          "terminology": [
+            {
+              "term": "Transactional workload",
+              "definition": "A workload that records reliable business events."
+            },
+            {
+              "term": "OLTP",
+              "definition": "Online Transactional Processing for fast operational reads and writes."
+            },
+            {
+              "term": "Analytical workload",
+              "definition": "A workload that summarizes data for reporting and decisions."
+            },
+            {
+              "term": "OLAP",
+              "definition": "Online Analytical Processing for aggregations across dimensions."
+            },
+            {
+              "term": "Batch processing",
+              "definition": "Processing data in scheduled or grouped sets."
+            }
+          ],
+          "businessScenario": "Contoso records checkout orders in an OLTP system, loads sales into a lakehouse for reports, and may stream warehouse events for live alerts.",
+          "technicalExample": "OLTP action: create an order and reserve inventory. Analytical query: `SELECT Region, SUM(SalesAmount) FROM Sales GROUP BY Region`. Batch: nightly sales load. Streaming: every scanner event processed as it arrives.",
+          "misconception": {
+            "myth": "Analytics should always run against the busiest transactional database because it is current.",
+            "reality": "Heavy reporting can affect live applications, so data is often copied to analytical stores designed for large reads."
+          },
+          "examTakeaway": "Checkout, payment, and update imply OLTP; trends, dashboards, and aggregation imply analytics; scheduled groups imply batch; arriving events imply streaming.",
+          "recap": "Distinguish OLTP from analytical processing, including OLAP-style summaries and batch versus streaming.",
+          "simplerExplanation": "A checkout till is transactional: it must record this purchase correctly right now. The manager's end-of-quarter review is analytical: it studies many purchases together. Batch is counting the receipts after closing; streaming is watching each receipt appear as it prints.",
+          "anotherExample": "An online game records each item purchase with OLTP, then loads months of player activity into analytics to find popular levels; live fraud alerts use streaming when suspicious events arrive.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Workload clues",
+                "columns": [
+                  {
+                    "title": "Transactional / OLTP",
+                    "points": [
+                      "Checkout, payment, update",
+                      "Many small reads and writes",
+                      "Integrity matters"
+                    ]
+                  },
+                  {
+                    "title": "Analytical / OLAP",
+                    "points": [
+                      "Reports and dashboards",
+                      "Historical trends",
+                      "Aggregations over dimensions"
+                    ]
+                  },
+                  {
+                    "title": "Batch / streaming",
+                    "points": [
+                      "Batch processes groups",
+                      "Streaming processes events as they arrive",
+                      "Both can feed analytics"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Transactional workload",
+              "back": "A workload that records reliable business events."
+            },
+            {
+              "front": "OLTP",
+              "back": "Online Transactional Processing for fast operational reads and writes."
+            },
+            {
+              "front": "Analytical workload",
+              "back": "A workload that summarizes data for reporting and decisions."
+            },
+            {
+              "front": "OLAP",
+              "back": "Online Analytical Processing for aggregations across dimensions."
+            },
+            {
+              "front": "Batch processing",
+              "back": "Processing data in scheduled or grouped sets."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Explore transactional data processing",
+              "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/5-transactional-data-processing",
+              "kind": "LEARN_MODULE"
+            },
+            {
+              "title": "Explore analytical data processing",
+              "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/6-analytical-processing",
+              "kind": "LEARN_MODULE"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "dp900-cdc-016",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "EASY",
+              "stem": "Which scenario is most clearly transactional?",
+              "explanation": "Transactional workloads record small reliable units of business work.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Recording a customer purchase and updating inventory",
+                  "correct": true,
+                  "explanation": "This is an operational transaction."
+                },
+                {
+                  "key": "B",
+                  "text": "Summarizing five years of revenue",
+                  "correct": false,
+                  "explanation": "That is analytical."
+                },
+                {
+                  "key": "C",
+                  "text": "Building a monthly dashboard",
+                  "correct": false,
+                  "explanation": "That is analytical."
+                },
+                {
+                  "key": "D",
+                  "text": "Training on historical files",
+                  "correct": false,
+                  "explanation": "That is analytical or data science work."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Explore transactional data processing",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/5-transactional-data-processing",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "compare-transactional-and-analytical-workloads"
+            },
+            {
+              "ref": "dp900-cdc-017",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** features are typical of analytical workloads?",
+              "explanation": "Analytical workloads summarize and explore historical or consolidated data.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Aggregating sales by month and region",
+                  "correct": true,
+                  "explanation": "Aggregations are analytical."
+                },
+                {
+                  "key": "B",
+                  "text": "Reading large volumes of historical data",
+                  "correct": true,
+                  "explanation": "Historical reads are analytical."
+                },
+                {
+                  "key": "C",
+                  "text": "Updating one order during checkout",
+                  "correct": false,
+                  "explanation": "That is transactional."
+                },
+                {
+                  "key": "D",
+                  "text": "Committing an account transfer as one unit",
+                  "correct": false,
+                  "explanation": "That is transactional integrity."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Explore analytical data processing",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/6-analytical-processing",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "compare-transactional-and-analytical-workloads",
+              "selectCount": 2
+            },
+            {
+              "ref": "dp900-cdc-018",
+              "type": "ORDERING",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "MEDIUM",
+              "stem": "Place the common analytics flow in order.",
+              "explanation": "A typical analytics flow ingests data, transforms it, models curated data, and then presents reports.",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Operational app records transactions"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Pipeline extracts or loads data"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Data is curated for analysis"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Reports and dashboards summarize data"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "Operational transactions occur first because business applications create the source records that analytics later consumes.",
+                  "s2": "A pipeline then extracts or loads those source records into an analytical environment.",
+                  "s3": "Curating data after ingestion prepares reliable tables, files, or models for analysis.",
+                  "s4": "Reports and dashboards come last because they summarize the prepared analytical data for users."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Explore analytical data processing",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/6-analytical-processing",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "compare-transactional-and-analytical-workloads"
+            },
+            {
+              "ref": "dp900-cdc-019",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about operational transaction processing.",
+              "explanation": "OLTP describes systems that handle many small operational transactions, such as checkout inserts, updates, and lookups.",
+              "fillInBlank": {
+                "template": "A checkout system that quickly creates, retrieves, updates, and deletes operational records is an {{b1}} workload.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "OLTP",
+                      "Online Transactional Processing"
+                    ],
+                    "explanation": "OLTP is correct because the scenario focuses on day-to-day transactional record changes rather than historical aggregations."
+                  }
+                ],
+                "wordBank": [
+                  "OLTP",
+                  "OLAP",
+                  "batch",
+                  "dashboard"
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Explore transactional data processing",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/5-transactional-data-processing",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "compare-transactional-and-analytical-workloads"
+            },
+            {
+              "ref": "dp900-cdc-020",
+              "type": "CASE_STUDY",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.3",
+              "difficulty": "HARD",
+              "scenario": "Tailwind Traders refreshes a sales dashboard each morning, but warehouse temperature alerts must appear as readings arrive.",
+              "stem": "For each statement about batch dashboard refreshes and streaming warehouse alerts, select **Yes** if it is true. Otherwise, select **No**.",
+              "explanation": "Batch refreshes process grouped data on a schedule, while streaming handles warehouse events as they arrive.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "The scheduled dashboard refresh is a batch pattern.",
+                    "answer": true,
+                    "explanation": "Batch handles grouped data on a schedule."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "The live temperature alerts are a streaming pattern.",
+                    "answer": true,
+                    "explanation": "Streaming processes events as they arrive."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "The dashboard requirement must use OLTP because it is a report.",
+                    "answer": false,
+                    "explanation": "Reports are analytical outputs."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Explore analytical data processing",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/6-analytical-processing",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "compare-transactional-and-analytical-workloads"
+            }
+          ]
+        },
+        {
+          "slug": "map-data-roles-and-tools",
+          "title": "Map data roles, responsibilities, and tools",
+          "objectiveCode": "1.4",
+          "estimatedMinutes": 12,
+          "summary": "Learn how DBAs, data engineers, and data analysts collaborate and which tool families they commonly use.",
+          "learningObjectives": [
+            "Identify DBA, data engineer, and data analyst responsibilities",
+            "Match backup, pipeline, modeling, and visualization tasks to the right data role",
+            "Recognize common tools used for databases, engineering, and Power BI analysis"
+          ],
+          "explanation": "Data work has distinct responsibilities. A **database administrator (DBA)** operates databases: permissions, backup and restore, availability, performance, and secure configuration. A **data engineer** builds the paths data travels: ingestion, cleansing, transformation, quality checks, pipeline monitoring, and analytical stores such as lakes, warehouses, and lakehouses. A **data analyst** turns prepared data into insight: semantic models, measures, reports, dashboards, visual choices, and explanation for business users. The same person may cover multiple roles in a small organization, but DP-900 scenarios usually reveal the role through verbs. Backup, restore, access, and performance point to DBA. Ingest, transform, pipeline, and prepare point to data engineer. Visualize, model, report, and explain trends point to data analyst.",
+          "terminology": [
+            {
+              "term": "Database administrator",
+              "definition": "Role focused on database security, availability, performance, backup, and recovery."
+            },
+            {
+              "term": "Data engineer",
+              "definition": "Role focused on ingestion, transformation, pipelines, and analytical data stores."
+            },
+            {
+              "term": "Data analyst",
+              "definition": "Role focused on exploring data, modeling it, and creating reports and visualizations."
+            },
+            {
+              "term": "Pipeline",
+              "definition": "A repeatable process that moves and transforms data."
+            },
+            {
+              "term": "Semantic model",
+              "definition": "A business-friendly analytical model used for reporting."
+            }
+          ],
+          "businessScenario": "At Contoso, Priya secures the database, Mehmet builds the pipeline into a Fabric lakehouse, and Alex creates a Power BI report like the report lab.",
+          "technicalExample": "DBA task: verify backups and permissions. Engineer task: clean sales CSVs and publish curated tables. Analyst task: create measures and regional visuals.",
+          "misconception": {
+            "myth": "The analyst owns every step because the report is the final output.",
+            "reality": "Reports depend on reliable databases and pipelines; each role owns different responsibilities."
+          },
+          "examTakeaway": "Backup/security/performance means DBA; ingestion/transformation/pipelines means data engineer; reports/visualizations/insights means data analyst.",
+          "recap": "Learn how DBAs, data engineers, and data analysts collaborate and which tool families they commonly use.",
+          "simplerExplanation": "Think of a concert. The DBA keeps the stage power and safety systems reliable, the data engineer routes every microphone signal to the mixing desk, and the data analyst turns the final sound levels into a chart the producer can understand.",
+          "anotherExample": "For a loyalty campaign, a DBA secures the customer database, a data engineer prepares purchase and web-click data, and a data analyst builds a Power BI report showing which offers perform best.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Role responsibility map",
+                "columns": [
+                  {
+                    "title": "Database administrator",
+                    "points": [
+                      "Permissions",
+                      "Backup and recovery",
+                      "Performance and availability"
+                    ]
+                  },
+                  {
+                    "title": "Data engineer",
+                    "points": [
+                      "Ingestion pipelines",
+                      "Cleaning and transformation",
+                      "Analytical stores"
+                    ]
+                  },
+                  {
+                    "title": "Data analyst",
+                    "points": [
+                      "Semantic models",
+                      "Reports and dashboards",
+                      "Business insights"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Database administrator",
+              "back": "Role focused on database security, availability, performance, backup, and recovery."
+            },
+            {
+              "front": "Data engineer",
+              "back": "Role focused on ingestion, transformation, pipelines, and analytical data stores."
+            },
+            {
+              "front": "Data analyst",
+              "back": "Role focused on exploring data, modeling it, and creating reports and visualizations."
+            },
+            {
+              "front": "Pipeline",
+              "back": "A repeatable process that moves and transforms data."
+            },
+            {
+              "front": "Semantic model",
+              "back": "A business-friendly analytical model used for reporting."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam DP-900: Microsoft Azure Data Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Explore job roles in the world of data",
+              "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/2-explore-job-roles",
+              "kind": "LEARN_MODULE"
+            },
+            {
+              "title": "Explore data roles and services",
+              "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/",
+              "kind": "LEARN_MODULE"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "dp900-cdc-021",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.4",
+              "difficulty": "EASY",
+              "stem": "Which role is primarily responsible for database backup and recovery planning?",
+              "explanation": "Backup and recovery are database administrator responsibilities.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Database administrator",
+                  "correct": true,
+                  "explanation": "DBAs manage database operations including backup and recovery."
+                },
+                {
+                  "key": "B",
+                  "text": "Data analyst",
+                  "correct": false,
+                  "explanation": "Analysts focus on reports and insights."
+                },
+                {
+                  "key": "C",
+                  "text": "Data engineer",
+                  "correct": false,
+                  "explanation": "Engineers focus on pipelines."
+                },
+                {
+                  "key": "D",
+                  "text": "Business sponsor",
+                  "correct": false,
+                  "explanation": "Sponsors set priorities, not backups."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Explore job roles in the world of data",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/2-explore-job-roles",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "map-data-roles-and-tools"
+            },
+            {
+              "ref": "dp900-cdc-022",
+              "type": "CATEGORIZATION",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.4",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each task by the most likely data role.",
+              "explanation": "Operational database care maps to a DBA, pipelines to a data engineer, and reporting insights to a data analyst.",
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "dba",
+                    "label": "Database administrator"
+                  },
+                  {
+                    "id": "eng",
+                    "label": "Data engineer"
+                  },
+                  {
+                    "id": "analyst",
+                    "label": "Data analyst"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "Grant least-privilege database access",
+                    "category": "dba",
+                    "explanation": "Access and security are DBA tasks."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Build a pipeline that cleans sales files",
+                    "category": "eng",
+                    "explanation": "Pipelines are data engineering tasks."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Create a Power BI report",
+                    "category": "analyst",
+                    "explanation": "Reports and visuals are analyst tasks."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Explore job roles in the world of data",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/2-explore-job-roles",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "map-data-roles-and-tools"
+            },
+            {
+              "ref": "dp900-cdc-023",
+              "type": "MATCHING",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.4",
+              "difficulty": "MEDIUM",
+              "stem": "Match each role to a common tool family.",
+              "explanation": "Administration tools support DBAs, pipeline tools support engineers, and visualization tools support analysts.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "dba",
+                    "text": "Database administrator"
+                  },
+                  {
+                    "id": "eng",
+                    "text": "Data engineer"
+                  },
+                  {
+                    "id": "analyst",
+                    "text": "Data analyst"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "sql",
+                    "text": "Database management, monitoring, backup, and security tools"
+                  },
+                  {
+                    "id": "pipe",
+                    "text": "Pipelines, notebooks, Spark, and lakehouse tools"
+                  },
+                  {
+                    "id": "viz",
+                    "text": "Power BI reports, semantic models, and visualization tools"
+                  }
+                ],
+                "pairs": {
+                  "dba": "sql",
+                  "eng": "pipe",
+                  "analyst": "viz"
+                },
+                "explanations": {
+                  "dba": "DBAs operate and secure databases.",
+                  "eng": "Engineers move and transform data.",
+                  "analyst": "Analysts model and visualize data."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Explore job roles in the world of data",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/2-explore-job-roles",
+                  "kind": "LEARN_MODULE"
+                },
+                {
+                  "title": "Explore data roles and services",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "map-data-roles-and-tools"
+            },
+            {
+              "ref": "dp900-cdc-024",
+              "type": "SCENARIO",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.4",
+              "difficulty": "MEDIUM",
+              "stem": "Which role is the best fit?",
+              "explanation": "Data engineers build ingestion and transformation pipelines.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Data engineer",
+                  "correct": true,
+                  "explanation": "The work is ingestion, cleaning, and transformation."
+                },
+                {
+                  "key": "B",
+                  "text": "Database administrator",
+                  "correct": false,
+                  "explanation": "A DBA may secure databases but does not primarily own analytical pipelines."
+                },
+                {
+                  "key": "C",
+                  "text": "Data analyst",
+                  "correct": false,
+                  "explanation": "An analyst consumes prepared data for reports."
+                },
+                {
+                  "key": "D",
+                  "text": "Help desk technician",
+                  "correct": false,
+                  "explanation": "This is data platform work."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Explore job roles in the world of data",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/2-explore-job-roles",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "map-data-roles-and-tools",
+              "scenario": "A team needs someone to combine sales files, remove duplicates, standardize product codes, and load a curated table."
+            },
+            {
+              "ref": "dp900-cdc-025",
+              "type": "TRUE_FALSE",
+              "domainKey": "core-data-concepts",
+              "objectiveCode": "1.4",
+              "difficulty": "EASY",
+              "stem": "In some organizations one person may perform more than one data role, but the responsibilities can still be described separately.",
+              "explanation": "The roles describe responsibilities even when one person wears multiple hats.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Data roles describe responsibilities, so a small team can have one person act as engineer, analyst, or administrator at different times."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False assumes roles must map one-to-one to people, but DP-900 separates responsibilities even when one person performs several."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Explore job roles in the world of data",
+                  "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/2-explore-job-roles",
+                  "kind": "LEARN_MODULE"
+                }
+              ],
+              "lessonSlug": "map-data-roles-and-tools"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

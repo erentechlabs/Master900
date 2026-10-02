@@ -1,0 +1,1237 @@
+{
+  "domainKey": "copilot-agent-administration",
+  "modules": [
+    {
+      "slug": "copilot-agent-basic-administration",
+      "title": "Copilot and agent basic administration",
+      "summary": "Relecloud Marketing scenarios for Copilot capabilities, licensing, settings, reports, prompts, and agent governance.",
+      "lessons": [
+        {
+          "slug": "copilot-and-agent-capabilities",
+          "title": "Copilot and agent capabilities",
+          "objectiveCode": "3.1",
+          "estimatedMinutes": 11,
+          "summary": "Compare Copilot Chat, Microsoft 365 Copilot, Researcher, Analyst, custom agents, and monthly versus pay-as-you-go models.",
+          "learningObjectives": [
+            "Compare Copilot Chat, Microsoft 365 Copilot, Researcher, and Analyst",
+            "Describe how custom agents extend Microsoft 365 Copilot experiences",
+            "Distinguish monthly licenses from pay-as-you-go agent usage",
+            "Choose the Copilot or agent capability for a business scenario"
+          ],
+          "explanation": "Relecloud Marketing compares Copilot experiences. Microsoft Copilot Chat is a managed chat experience. Microsoft 365 Copilot capabilities add licensed work-context experiences in Microsoft 365 apps and services, respecting permissions and policies. Agents are focused AI experiences for a task, process, or knowledge source; they can come from Microsoft, the organization, or third parties. Researcher supports research and synthesis scenarios. Analyst supports data analysis-style work. Administrators compare monthly per-user Copilot licensing with pay-as-you-go scenarios, including SharePoint-related consumption, without memorizing prices. Admins ask who needs the capability, which settings can be enabled or disabled, what billing policy applies, and how usage will be monitored.",
+          "terminology": [
+            {
+              "term": "Copilot Chat",
+              "definition": "A managed chat experience for organizational users."
+            },
+            {
+              "term": "Microsoft 365 Copilot",
+              "definition": "Licensed work-context Copilot capabilities in Microsoft 365."
+            },
+            {
+              "term": "Agent",
+              "definition": "A focused AI experience for a task or knowledge source."
+            },
+            {
+              "term": "Researcher",
+              "definition": "A capability for research and synthesis."
+            },
+            {
+              "term": "Analyst",
+              "definition": "A capability for data analysis-style tasks."
+            }
+          ],
+          "businessScenario": "Relecloud Marketing is planning a product launch. Nia wants everyday chat, Priya wants work-context help in Word and Teams, and Alex wants a launch FAQ agent grounded in approved campaign material.",
+          "technicalExample": "Capability picker: `Brainstorm tagline=Copilot Chat`; `Summarize Teams decisions=licensed Microsoft 365 Copilot`; `Analyze campaign data=Analyst`; `Research market themes=Researcher`; `Answer launch FAQ=custom agent`.",
+          "misconception": {
+            "myth": "Copilot Chat, Microsoft 365 Copilot, Researcher, Analyst, and agents are interchangeable names for one feature.",
+            "reality": "They represent different experiences, licensing and billing considerations, data context, and governance decisions."
+          },
+          "examTakeaway": "Choose by job: general chat for everyday prompts, licensed Copilot for Microsoft 365 work context, Researcher for synthesis, Analyst for data reasoning, and custom agents for a focused process or knowledge source.",
+          "recap": "Compare Copilot Chat, Microsoft 365 Copilot, Researcher, Analyst, custom agents, and monthly versus pay-as-you-go models.",
+          "simplerExplanation": "Think of a newsroom: Copilot Chat is the whiteboard, Microsoft 365 Copilot is the editor with access to approved drafts, Researcher is the librarian, Analyst is the data desk, and an agent is a beat-specific assistant.",
+          "anotherExample": "Litware uses Copilot Chat for first drafts, Microsoft 365 Copilot for meeting and document workflows, Analyst for survey patterns, and a partner-policy agent for sellers.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Which Copilot experience fits?",
+                "columns": [
+                  {
+                    "title": "Chat",
+                    "points": [
+                      "General prompts",
+                      "Managed organization access",
+                      "Good for brainstorming"
+                    ]
+                  },
+                  {
+                    "title": "Licensed Copilot",
+                    "points": [
+                      "Microsoft 365 app context",
+                      "Work data permissions",
+                      "Monthly user planning"
+                    ]
+                  },
+                  {
+                    "title": "Agents and specialists",
+                    "points": [
+                      "Custom workflow",
+                      "Researcher or Analyst use cases",
+                      "Approval and lifecycle needs"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Launch-team capability match",
+                "instructions": "Pick the Copilot or agent capability that best fits each launch task.",
+                "items": [
+                  {
+                    "prompt": "Summarize market sources into a brief.",
+                    "answer": "Researcher."
+                  },
+                  {
+                    "prompt": "Find patterns in campaign metrics.",
+                    "answer": "Analyst."
+                  },
+                  {
+                    "prompt": "Answer from approved launch FAQ content.",
+                    "answer": "Custom agent."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Copilot Chat",
+              "back": "A managed chat experience for organizational users."
+            },
+            {
+              "front": "Microsoft 365 Copilot",
+              "back": "Licensed work-context Copilot capabilities in Microsoft 365."
+            },
+            {
+              "front": "Agent",
+              "back": "A focused AI experience for a task or knowledge source."
+            },
+            {
+              "front": "Researcher",
+              "back": "A capability for research and synthesis."
+            },
+            {
+              "front": "Analyst",
+              "back": "A capability for data analysis-style tasks."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Microsoft Copilot?",
+              "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Manage Microsoft Copilot Chat",
+              "url": "https://learn.microsoft.com/en-us/copilot/manage",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ab900-adm-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "copilot-agent-administration",
+              "objectiveCode": "3.1",
+              "difficulty": "EASY",
+              "stem": "Which statement best separates Copilot Chat and Microsoft 365 Copilot?",
+              "explanation": "Copilot Chat and Microsoft 365 Copilot differ by experience, licensing, and work-context capabilities.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Copilot Chat provides managed chat; Microsoft 365 Copilot adds licensed work-context experiences in Microsoft 365 apps and services.",
+                  "correct": true,
+                  "explanation": "This distinguishes the general chat experience from licensed Microsoft 365 Copilot capabilities that use work context."
+                },
+                {
+                  "key": "B",
+                  "text": "Copilot Chat is only an Exchange distribution feature.",
+                  "correct": false,
+                  "explanation": "Copilot Chat is not an Exchange mail routing object."
+                },
+                {
+                  "key": "C",
+                  "text": "Microsoft 365 Copilot requires every user to be a Global Administrator.",
+                  "correct": false,
+                  "explanation": "End users of licensed Copilot experiences do not need broad tenant administrator roles."
+                },
+                {
+                  "key": "D",
+                  "text": "There are no settings or licensing decisions for either experience.",
+                  "correct": false,
+                  "explanation": "Admins still manage eligibility, licenses, settings, and governance for Copilot experiences."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Microsoft Copilot?",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-overview",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Manage Microsoft Copilot Chat",
+                  "url": "https://learn.microsoft.com/en-us/copilot/manage",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "copilot-and-agent-capabilities"
+            },
+            {
+              "ref": "ab900-adm-002",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "copilot-agent-administration",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** are custom agent use cases?",
+              "explanation": "Custom agents are appropriate when the organization needs a focused AI experience for approved content or a repeatable process.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "An approved launch FAQ agent grounded in campaign material",
+                  "correct": true,
+                  "explanation": "A custom agent can focus on a specific knowledge source and task for the launch team."
+                },
+                {
+                  "key": "B",
+                  "text": "A policy assistant that answers HR questions from approved HR content",
+                  "correct": true,
+                  "explanation": "This is another focused agent use case with a defined audience and source."
+                },
+                {
+                  "key": "C",
+                  "text": "A permanent Global Administrator role for every marketer",
+                  "correct": false,
+                  "explanation": "Admin role assignment is not a custom agent use case and would be excessive."
+                },
+                {
+                  "key": "D",
+                  "text": "An Exchange distribution list for campaign announcements",
+                  "correct": false,
+                  "explanation": "A distribution list sends email; it is not an AI agent for a workflow or knowledge source."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Manage agents in the Microsoft 365 admin center",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/manage-copilot-agents-integrated-apps?view=o365-worldwide",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "copilot-and-agent-capabilities",
+              "selectCount": 2,
+              "needsVerification": true
+            },
+            {
+              "ref": "ab900-adm-003",
+              "type": "SCENARIO",
+              "domainKey": "copilot-agent-administration",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which capability best fits analysis of campaign performance data?",
+              "explanation": "Analyst is the closest fit when the task is to reason over campaign performance data.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Analyst",
+                  "correct": true,
+                  "explanation": "Analyst is the Copilot capability described for data analysis-style work."
+                },
+                {
+                  "key": "B",
+                  "text": "Researcher",
+                  "correct": false,
+                  "explanation": "Researcher is better suited to research and synthesis, not the primary campaign-metrics analysis task."
+                },
+                {
+                  "key": "C",
+                  "text": "Exchange distribution group",
+                  "correct": false,
+                  "explanation": "A distribution group routes email and does not analyze campaign performance data."
+                },
+                {
+                  "key": "D",
+                  "text": "Permanent Global Administrator access",
+                  "correct": false,
+                  "explanation": "Broad admin access does not provide a data analysis capability and would be unnecessary."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Microsoft Copilot?",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "copilot-and-agent-capabilities",
+              "scenario": "A marketing team wants help finding patterns in campaign data.",
+              "needsVerification": true
+            },
+            {
+              "ref": "ab900-adm-004",
+              "type": "CATEGORIZATION",
+              "domainKey": "copilot-agent-administration",
+              "objectiveCode": "3.1",
+              "difficulty": "MEDIUM",
+              "stem": "Classify each Relecloud AI capability as Copilot Chat, licensed Copilot, or an agent.",
+              "explanation": "General chat, licensed Microsoft 365 work-context assistance, and purpose-built agents are governed differently, so each item belongs in a separate category.",
+              "lessonSlug": "copilot-and-agent-capabilities",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Microsoft Copilot?",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "categorization": {
+                "categories": [
+                  {
+                    "id": "chat",
+                    "label": "Chat"
+                  },
+                  {
+                    "id": "licensed",
+                    "label": "Licensed Copilot"
+                  },
+                  {
+                    "id": "agent",
+                    "label": "Agent"
+                  }
+                ],
+                "items": [
+                  {
+                    "id": "i1",
+                    "text": "General managed chat",
+                    "category": "chat",
+                    "explanation": "That is Copilot Chat."
+                  },
+                  {
+                    "id": "i2",
+                    "text": "Work-context app assistance",
+                    "category": "licensed",
+                    "explanation": "That is licensed Copilot."
+                  },
+                  {
+                    "id": "i3",
+                    "text": "Sales FAQ assistant",
+                    "category": "agent",
+                    "explanation": "That is a focused agent."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "ab900-adm-005",
+              "type": "CASE_STUDY",
+              "domainKey": "copilot-agent-administration",
+              "objectiveCode": "3.1",
+              "difficulty": "HARD",
+              "scenario": "Relecloud compares monthly user licensing with pay-as-you-go controls, including SharePoint-related scenarios.",
+              "stem": "For each statement about Relecloud's Copilot licensing and pay-as-you-go comparison, select **Yes** if it is correct. Otherwise, select **No**.",
+              "explanation": "Licensing and pay-as-you-go decisions should match the capability, scope, and reporting need.",
+              "lessonSlug": "copilot-and-agent-capabilities",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Manage Microsoft Copilot Settings",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-page",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Use monthly user licensing for people who need licensed Microsoft 365 Copilot capabilities.",
+                    "answer": true,
+                    "explanation": "User licensing should match people who need the work-context Copilot experience."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Choose pay-as-you-go or related policies without monitoring consumption or scope.",
+                    "answer": false,
+                    "explanation": "Consumption-based scenarios still need scope, policy, and monitoring."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Review usage and adoption before expanding beyond the pilot.",
+                    "answer": true,
+                    "explanation": "Reports provide evidence for rollout decisions."
+                  }
+                ]
+              }
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Admin center labels, Copilot features, agent controls, or reporting names can change; re-check the cited Microsoft Learn pages before publishing."
+        },
+        {
+          "slug": "basic-copilot-administration",
+          "title": "Basic Copilot administration",
+          "objectiveCode": "3.2",
+          "estimatedMinutes": 11,
+          "summary": "Assign Copilot licenses, configure settings, monitor billing policies, review usage and adoption, and manage prompts.",
+          "learningObjectives": [
+            "Describe how admins assign Copilot licenses and configure tenant settings",
+            "Identify billing policies, usage reports, and adoption insights for Copilot",
+            "Explain how prompt management supports responsible Copilot use",
+            "Order steps for a basic Copilot pilot rollout"
+          ],
+          "explanation": "Basic Copilot administration begins with scope. Decide pilot users, assign licenses directly or through groups, and review Copilot settings in the Microsoft 365 admin center. The existing 'Assign Microsoft Copilot licenses for a Sales pilot' lab gives hands-on practice with license assignment, settings, and usage reporting. Admins also monitor pay-as-you-go billing policies where used, review Copilot usage and adoption through Copilot Analytics and Microsoft 365 admin center reports, and manage prompts such as saving, sharing, scheduling, and deleting. The goal is a governed rollout, not a surprise tenant-wide enablement.",
+          "terminology": [
+            {
+              "term": "Copilot license",
+              "definition": "An entitlement assigned to enable licensed Copilot capabilities."
+            },
+            {
+              "term": "Group-based licensing",
+              "definition": "Using group membership to manage license assignment."
+            },
+            {
+              "term": "Copilot settings",
+              "definition": "Admin controls for available Copilot experiences."
+            },
+            {
+              "term": "Usage report",
+              "definition": "A report used to monitor adoption."
+            },
+            {
+              "term": "Prompt management",
+              "definition": "Saving, sharing, scheduling, and deleting prompts."
+            }
+          ],
+          "businessScenario": "Relecloud starts with a Sales pilot. Nia must assign licenses to the pilot group, review Copilot settings, monitor adoption, and make sure prompt sharing does not become an unmanaged shortcut.",
+          "technicalExample": "Pilot checklist: `Group=Sales-Copilot-Pilot`; `Assignment=Copilot licenses via group`; `Settings=review admin center controls`; `Reports=usage and adoption after two weeks`; `Prompt governance=owner and sharing review`.",
+          "misconception": {
+            "myth": "Assigning a Copilot license is the entire rollout plan.",
+            "reality": "Licensing enables eligible experiences, but admins still manage settings, billing policies, reports, adoption, and prompt lifecycle."
+          },
+          "examTakeaway": "For Copilot admin scenarios, look for the lifecycle: scope users, assign licenses, configure settings, manage pay-as-you-go policies where used, monitor usage/adoption, and govern prompts.",
+          "recap": "Assign Copilot licenses, configure settings, monitor billing policies, review usage and adoption, and manage prompts.",
+          "simplerExplanation": "A Copilot rollout is like lending demo equipment: licenses are the checkout tags, settings are the operating rules, usage reports are the sign-out sheet, billing policies are spending limits, and prompt governance is the shared instruction binder.",
+          "anotherExample": "Contoso practises the Sales pilot in the course lab, fixes a missing usage location, assigns licenses to the pilot group, reviews Copilot settings, and opens the usage report before expanding.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Copilot rollout evidence",
+                "columns": [
+                  {
+                    "title": "Before access",
+                    "points": [
+                      "Eligible users",
+                      "Pilot group",
+                      "License assignment"
+                    ]
+                  },
+                  {
+                    "title": "During rollout",
+                    "points": [
+                      "Copilot settings",
+                      "Pay-as-you-go billing policy",
+                      "Prompt sharing rules"
+                    ]
+                  },
+                  {
+                    "title": "After rollout",
+                    "points": [
+                      "Usage reports",
+                      "Copilot Analytics",
+                      "Adoption follow-up"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Sales pilot readiness check",
+                "instructions": "Decide what Nia should verify before expanding the pilot.",
+                "items": [
+                  {
+                    "prompt": "Pilot users are approved but cannot use licensed features.",
+                    "answer": "Check Copilot license assignment and prerequisites."
+                  },
+                  {
+                    "prompt": "Leaders ask whether the pilot is being used.",
+                    "answer": "Review Copilot usage/adoption reports."
+                  },
+                  {
+                    "prompt": "A scheduled prompt has no owner.",
+                    "answer": "Apply prompt management and ownership review."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Copilot license",
+              "back": "An entitlement assigned to enable licensed Copilot capabilities."
+            },
+            {
+              "front": "Group-based licensing",
+              "back": "Using group membership to manage license assignment."
+            },
+            {
+              "front": "Copilot settings",
+              "back": "Admin controls for available Copilot experiences."
+            },
+            {
+              "front": "Usage report",
+              "back": "A report used to monitor adoption."
+            },
+            {
+              "front": "Prompt management",
+              "back": "Saving, sharing, scheduling, and deleting prompts."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Set Up Microsoft Copilot and Assign Licenses",
+              "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-setup",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Manage Microsoft Copilot Settings",
+              "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-page",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ab900-adm-006",
+              "type": "ORDERING",
+              "domainKey": "copilot-agent-administration",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Place the Copilot Sales pilot rollout steps in the order that uses each step's result for the next step.",
+              "explanation": "Define the pilot group, license that exact group, apply settings to the licensed pilot audience, and then review usage for that audience.",
+              "lessonSlug": "basic-copilot-administration",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Set Up Microsoft Copilot and Assign Licenses",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-setup",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Assign or unassign licenses to a group in the Microsoft 365 admin center",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/manage-group-licenses?view=o365-worldwide",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Define the pilot group and confirm its users meet Copilot Sales prerequisites"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Assign Copilot Sales licenses to that confirmed pilot group"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Configure Copilot settings for the licensed pilot audience"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Review usage reports for the configured pilot audience"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "The confirmed pilot group is needed before licenses can be assigned accurately.",
+                  "s2": "License assignment creates the enabled audience that the Copilot settings should target.",
+                  "s3": "The configured audience defines whose adoption should be measured.",
+                  "s4": "Usage reports are meaningful after the licensed and configured pilot audience starts using the service."
+                }
+              }
+            },
+            {
+              "ref": "ab900-adm-007",
+              "type": "UI_SIMULATION",
+              "domainKey": "copilot-agent-administration",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Configure the simulated Copilot pilot settings for Relecloud's Sales group.",
+              "explanation": "The simulated Copilot pilot settings keep access scoped to Sales and preserve visibility through reporting.",
+              "lessonSlug": "basic-copilot-administration",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Manage Microsoft Copilot Settings",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-page",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Assign or unassign licenses to a group in the Microsoft 365 admin center",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/manage-group-licenses?view=o365-worldwide",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "needsVerification": true,
+              "uiSimulation": {
+                "title": "Copilot pilot settings (simulated)",
+                "description": "Fictional simplified screen; not a real portal.",
+                "fields": [
+                  {
+                    "id": "scope",
+                    "label": "Audience",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "pilot",
+                        "label": "Approved pilot group"
+                      },
+                      {
+                        "value": "everyone",
+                        "label": "Everyone without review"
+                      }
+                    ],
+                    "correct": "pilot",
+                    "explanation": "Use the approved Sales pilot group so licensed Copilot access is not expanded unexpectedly."
+                  },
+                  {
+                    "id": "monitor",
+                    "label": "Enable monitoring",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "Usage monitoring shows whether the pilot is working before expansion."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "ab900-adm-008",
+              "type": "SCENARIO",
+              "domainKey": "copilot-agent-administration",
+              "objectiveCode": "3.2",
+              "difficulty": "EASY",
+              "stem": "Which task should happen first for the approved pilot user?",
+              "explanation": "A missing or mis-scoped Copilot license is the first item to verify for an approved user who cannot use licensed features.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Confirm the user is in the approved pilot group and has the required Copilot license assigned",
+                  "correct": true,
+                  "explanation": "Licensed Copilot features require eligible users and an assigned license before use."
+                },
+                {
+                  "key": "B",
+                  "text": "Create a distribution list for the Sales pilot",
+                  "correct": false,
+                  "explanation": "A distribution list can send mail to the pilot group, but it does not assign or enable Microsoft 365 Copilot features."
+                },
+                {
+                  "key": "C",
+                  "text": "Make the user a permanent Global Administrator",
+                  "correct": false,
+                  "explanation": "The user needs licensing and prerequisites checked, not a broad administrator role."
+                },
+                {
+                  "key": "D",
+                  "text": "Ignore the issue until usage reports appear",
+                  "correct": false,
+                  "explanation": "If the user cannot access the feature, the admin should verify licensing and prerequisites rather than wait."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Set Up Microsoft Copilot and Assign Licenses",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-setup",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "basic-copilot-administration",
+              "scenario": "An approved pilot user cannot access licensed Copilot features."
+            },
+            {
+              "ref": "ab900-adm-009",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "copilot-agent-administration",
+              "objectiveCode": "3.2",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** are Copilot admin tasks?",
+              "explanation": "Copilot administrators manage rollout evidence such as usage reports and prompt lifecycle controls.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Review Copilot usage and adoption reports after rollout",
+                  "correct": true,
+                  "explanation": "Usage and adoption reporting helps administrators monitor whether the pilot is being used."
+                },
+                {
+                  "key": "B",
+                  "text": "Manage prompt sharing, scheduling, ownership, or deletion where available",
+                  "correct": true,
+                  "explanation": "Prompt lifecycle governance is part of basic Copilot administration in this course."
+                },
+                {
+                  "key": "C",
+                  "text": "Assign permanent Global Administrator to every pilot user",
+                  "correct": false,
+                  "explanation": "Copilot pilot participants can use the experience without being made tenant administrators."
+                },
+                {
+                  "key": "D",
+                  "text": "Replace Copilot settings review with an Exchange distribution list",
+                  "correct": false,
+                  "explanation": "Distribution lists handle email membership and do not replace reviewing Copilot administrative settings."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Manage Microsoft Copilot Settings",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-page",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "basic-copilot-administration",
+              "selectCount": 2,
+              "needsVerification": true
+            },
+            {
+              "ref": "ab900-adm-010",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "copilot-agent-administration",
+              "objectiveCode": "3.2",
+              "difficulty": "EASY",
+              "stem": "Complete the sentence about what Copilot reports show after license assignment.",
+              "explanation": "Usage reports provide rollout evidence after license assignment.",
+              "lessonSlug": "basic-copilot-administration",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Manage Microsoft Copilot Settings",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-page",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "fillInBlank": {
+                "template": "After licenses are assigned, Copilot {{b1}} reports help admins evaluate adoption before expanding the pilot.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "usage"
+                    ],
+                    "explanation": "Usage reports are used to review adoption and activity after rollout."
+                  }
+                ],
+                "wordBank": [
+                  "usage",
+                  "distribution list",
+                  "shared mailbox",
+                  "folder"
+                ]
+              }
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Admin center labels, Copilot features, agent controls, or reporting names can change; re-check the cited Microsoft Learn pages before publishing."
+        },
+        {
+          "slug": "basic-agent-administration",
+          "title": "Basic agent administration",
+          "objectiveCode": "3.3",
+          "estimatedMinutes": 11,
+          "summary": "Manage agent inventory, user access, creation, approval, blocking, sharing, ownership, usage, operational insights, and lifecycle.",
+          "learningObjectives": [
+            "Identify agent inventory details such as owner, sharing, usage, and status",
+            "Describe controls for agent creation, approval, blocking, and user access",
+            "Explain how operational insights support agent lifecycle management",
+            "Choose admin actions for risky or unmanaged agents"
+          ],
+          "explanation": "Basic agent administration keeps agents useful and safe. Admins use agent inventory or registry views to review agents, owners, source, status, usage, and lifecycle signals. They configure user access to agents, create or review agents, approve or reject requests, block risky agents, and manage sharing and ownership. The existing 'Manage Microsoft 365 Copilot agent inventory' lab practises publishing an approved agent to Sales, blocking a risky third-party agent, setting allowed categories, limiting sharing, and viewing usage. Monitoring may involve the Microsoft 365 admin center and Microsoft Power Platform admin center, so UI details should be verified often.",
+          "terminology": [
+            {
+              "term": "Agent inventory",
+              "definition": "An admin view of agents and governance details."
+            },
+            {
+              "term": "Agent approval",
+              "definition": "A process to approve, reject, update, or publish agents."
+            },
+            {
+              "term": "Agent blocking",
+              "definition": "Restricting an agent that should not be used."
+            },
+            {
+              "term": "Agent ownership",
+              "definition": "Accountability for quality and lifecycle."
+            },
+            {
+              "term": "Agent sharing",
+              "definition": "Controls for who can discover or use an agent."
+            }
+          ],
+          "businessScenario": "Relecloud's agent list contains a polished Sales FAQ agent, a broad third-party research agent, and an abandoned demo agent. Alex must decide what to approve, restrict, own, monitor, or retire.",
+          "technicalExample": "Agent inventory row: `Agent=Sales FAQ`; `Source=org-built`; `Owner=Sales Enablement`; `Audience=Sales pilot`; `Status=pending approval`; `Action=publish to scoped users`; `Follow-up=usage and lifecycle review`.",
+          "misconception": {
+            "myth": "After an agent is created, ownership and sharing no longer matter.",
+            "reality": "Agents need accountable owners, scoped availability, approval decisions, blocking when necessary, monitoring, and lifecycle review."
+          },
+          "examTakeaway": "Agent admin questions usually turn on governance verbs: inventory, configure user access, create or review, approve, reject, block, share, assign owner, monitor usage, and manage lifecycle.",
+          "recap": "Manage agent inventory, user access, creation, approval, blocking, sharing, ownership, usage, operational insights, and lifecycle.",
+          "simplerExplanation": "Agents are like self-service kiosks in a store. Inventory tells you which kiosks exist, approval decides which open, sharing controls who can use them, ownership says who fixes them, and monitoring shows whether they should stay.",
+          "anotherExample": "Wide World Importers approves a Procurement FAQ agent only for buyers, blocks an unreviewed vendor agent, and retires a test agent that has no owner or usage.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Agent governance action table",
+                "columns": [
+                  {
+                    "title": "Approve",
+                    "points": [
+                      "Clear purpose",
+                      "Named owner",
+                      "Scoped audience"
+                    ]
+                  },
+                  {
+                    "title": "Restrict or block",
+                    "points": [
+                      "Unknown source",
+                      "Broad sharing",
+                      "No review"
+                    ]
+                  },
+                  {
+                    "title": "Review lifecycle",
+                    "points": [
+                      "Low usage",
+                      "No owner",
+                      "Operational insight flags"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Agent inventory stand-up",
+                "instructions": "Choose the next action for each inventory finding.",
+                "items": [
+                  {
+                    "prompt": "Sales FAQ agent has owner and pilot scope.",
+                    "answer": "Approve or publish to Sales pilot."
+                  },
+                  {
+                    "prompt": "Third-party agent is broadly available with no review.",
+                    "answer": "Block or restrict pending review."
+                  },
+                  {
+                    "prompt": "Demo agent has no owner and no usage.",
+                    "answer": "Find an owner or retire it."
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Agent inventory",
+              "back": "An admin view of agents and governance details."
+            },
+            {
+              "front": "Agent approval",
+              "back": "A process to approve, reject, update, or publish agents."
+            },
+            {
+              "front": "Agent blocking",
+              "back": "Restricting an agent that should not be used."
+            },
+            {
+              "front": "Agent ownership",
+              "back": "Accountability for quality and lifecycle."
+            },
+            {
+              "front": "Agent sharing",
+              "back": "Controls for who can discover or use an agent."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Manage agents in the Microsoft 365 admin center",
+              "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/manage-copilot-agents-integrated-apps?view=o365-worldwide",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Agent Registry in Microsoft 365 admin center",
+              "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-registry?view=o365-worldwide",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "ab900-adm-011",
+              "type": "MATCHING",
+              "domainKey": "copilot-agent-administration",
+              "objectiveCode": "3.3",
+              "difficulty": "MEDIUM",
+              "stem": "Match each agent administration area to how Alex uses it in the Relecloud inventory.",
+              "explanation": "Inventory, requests, and settings represent separate agent governance views and decisions.",
+              "lessonSlug": "basic-agent-administration",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Agent Registry in Microsoft 365 admin center",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-registry?view=o365-worldwide",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Agent Requests in Microsoft 365 Admin Center",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-requests?view=o365-worldwide",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Agent inventory"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Agent requests"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Agent settings"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Review known agents and owners"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Approve or reject submissions"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Configure availability and sharing"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "Agent inventory is where admins review known agents, owners, sharing, and lifecycle status.",
+                  "p2": "Agent requests are submissions that need an approve, reject, or block decision.",
+                  "p3": "Agent settings control availability, sharing, and other governance choices."
+                }
+              }
+            },
+            {
+              "ref": "ab900-adm-012",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "copilot-agent-administration",
+              "objectiveCode": "3.3",
+              "difficulty": "EASY",
+              "stem": "A third-party agent is not approved. What should an admin do?",
+              "explanation": "Unapproved or risky agents should be blocked or restricted until reviewed.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Block or restrict the agent while it is reviewed",
+                  "correct": true,
+                  "explanation": "An unapproved third-party agent should be restricted until its purpose, source, audience, and risk are reviewed."
+                },
+                {
+                  "key": "B",
+                  "text": "Create a distribution list for everyone who might use it",
+                  "correct": false,
+                  "explanation": "A distribution list does not govern whether an agent is approved or available."
+                },
+                {
+                  "key": "C",
+                  "text": "Give the agent owner permanent Global Administrator access",
+                  "correct": false,
+                  "explanation": "Giving the owner a broad administrator role would not make the third-party agent approved and would add unnecessary risk."
+                },
+                {
+                  "key": "D",
+                  "text": "Assume Microsoft 365 approves every third-party agent automatically",
+                  "correct": false,
+                  "explanation": "Agent governance still requires admin review, settings, blocking, and lifecycle decisions."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Manage agents in the Microsoft 365 admin center",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/manage-copilot-agents-integrated-apps?view=o365-worldwide",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "basic-agent-administration",
+              "needsVerification": true
+            },
+            {
+              "ref": "ab900-adm-013",
+              "type": "UI_SIMULATION",
+              "domainKey": "copilot-agent-administration",
+              "objectiveCode": "3.3",
+              "difficulty": "MEDIUM",
+              "stem": "Configure the simulated agent request so the Sales FAQ agent is approved only for its pilot audience.",
+              "explanation": "The simulated agent request approves only the intended Sales audience and keeps lifecycle monitoring enabled.",
+              "lessonSlug": "basic-agent-administration",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Agent Requests in Microsoft 365 Admin Center",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-requests?view=o365-worldwide",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Agent settings in Microsoft 365 admin center",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-settings?view=o365-worldwide",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "needsVerification": true,
+              "uiSimulation": {
+                "title": "Agent request review (simulated)",
+                "description": "Fictional simplified screen; not a real portal.",
+                "fields": [
+                  {
+                    "id": "scope",
+                    "label": "Audience",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "pilot",
+                        "label": "Approved pilot group"
+                      },
+                      {
+                        "value": "everyone",
+                        "label": "Everyone without review"
+                      }
+                    ],
+                    "correct": "pilot",
+                    "explanation": "Approve the agent only for the intended pilot audience rather than everyone."
+                  },
+                  {
+                    "id": "monitor",
+                    "label": "Enable monitoring",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "Monitoring supports agent lifecycle and adoption review."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "ab900-adm-014",
+              "type": "CASE_STUDY",
+              "domainKey": "copilot-agent-administration",
+              "objectiveCode": "3.3",
+              "difficulty": "HARD",
+              "scenario": "Relecloud has a pending Sales FAQ agent, an abandoned test agent, and a risky third-party agent.",
+              "stem": "For each statement about Relecloud agent inventory governance, select **Yes** if it is correct. Otherwise, select **No**.",
+              "explanation": "Agent inventory governance balances approval, blocking, ownership, and lifecycle monitoring.",
+              "lessonSlug": "basic-agent-administration",
+              "sources": [
+                {
+                  "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Agent Registry in Microsoft 365 admin center",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-registry?view=o365-worldwide",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Approve the Sales FAQ agent only after confirming owner, purpose, and scoped audience.",
+                    "answer": true,
+                    "explanation": "Those checks support governed publication."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Leave the abandoned demo agent available even though it has no owner or usage.",
+                    "answer": false,
+                    "explanation": "No owner and no usage are lifecycle signals to review, reassign, or retire."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Block or restrict the broad third-party agent until review is complete.",
+                    "answer": true,
+                    "explanation": "Unreviewed broad availability should be restricted before users rely on it."
+                  }
+                ]
+              }
+            },
+            {
+              "ref": "ab900-adm-015",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "copilot-agent-administration",
+              "objectiveCode": "3.3",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** checks matter before broad agent approval?",
+              "explanation": "Agent approval should verify accountable ownership and an appropriate sharing scope.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "A named accountable owner for the agent",
+                  "correct": true,
+                  "explanation": "Ownership matters because someone must maintain content quality and lifecycle decisions."
+                },
+                {
+                  "key": "B",
+                  "text": "A scoped audience that matches the business purpose",
+                  "correct": true,
+                  "explanation": "Sharing scope should fit the agent purpose before broad approval."
+                },
+                {
+                  "key": "C",
+                  "text": "A permanent Global Administrator assignment for all agent users",
+                  "correct": false,
+                  "explanation": "Agent users do not need broad tenant administration permissions."
+                },
+                {
+                  "key": "D",
+                  "text": "No usage or lifecycle monitoring after approval",
+                  "correct": false,
+                  "explanation": "Monitoring and lifecycle review are part of keeping agents governed."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Agent Requests in Microsoft 365 Admin Center",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-requests?view=o365-worldwide",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Agent settings in Microsoft 365 admin center",
+                  "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-settings?view=o365-worldwide",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "basic-agent-administration",
+              "selectCount": 2,
+              "needsVerification": true
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Admin center labels, Copilot features, agent controls, or reporting names can change; re-check the cited Microsoft Learn pages before publishing."
+        }
+      ]
+    }
+  ]
+}

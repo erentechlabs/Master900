@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import { toast } from "sonner";
-import { Download, RotateCcw } from "lucide-react";
+import { Check, Download, Palette, RotateCcw, Sparkles, SunMedium, SwatchBook } from "lucide-react";
+import { useTheme } from "next-themes";
 import { useI18n } from "@/i18n/client";
 import type { MessageKey } from "@/i18n/translator";
 import { resetLearningProgressAction, updateSettingsAction } from "@/app/(app)/settings/actions";
@@ -10,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox, Field, Input, Select } from "@/components/ui/form";
 import { Spinner } from "@/components/ui/misc";
+import { Switch } from "@/components/ui/radix";
+import { accentOptions, parseAccentColor, type AccentKey } from "./personalization-options";
 
 type SettingsFormsProps = {
   user: { id: string; email: string; name: string | null; locale: string; isDemo: boolean; createdAt: string; roles: string[] };
@@ -23,6 +26,8 @@ type SettingsFormsProps = {
     showTimerByDefault: boolean;
     gamificationEnabled: boolean;
     reducedMotion: boolean;
+    accentColor: string;
+    transparencyEffects: boolean;
     shareAnonymousAnalytics: boolean;
   } | null;
 };
@@ -39,9 +44,13 @@ function errorText(t: ReturnType<typeof useI18n>["t"], code: string) {
 
 export function SettingsForms({ user, preference }: SettingsFormsProps) {
   const { t, fmt } = useI18n();
+  const { theme, setTheme } = useTheme();
   const [pending, startTransition] = React.useTransition();
   const detectedZone = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
   const [studyDays, setStudyDays] = React.useState<number[]>(preference?.studyDays.length ? preference.studyDays : [1, 3, 5]);
+  const [accent, setAccent] = React.useState<AccentKey>(() => parseAccentColor(preference?.accentColor));
+  const [transparencyEffects, setTransparencyEffects] = React.useState(preference?.transparencyEffects ?? true);
+  const [animationEffects, setAnimationEffects] = React.useState(!(preference?.reducedMotion ?? false));
   const pref = {
     timezone: preference?.timezone ?? (TIME_ZONES.includes(detectedZone) ? detectedZone : "UTC"),
     sessionMinutes: preference?.sessionMinutes ?? 30,
@@ -51,8 +60,22 @@ export function SettingsForms({ user, preference }: SettingsFormsProps) {
     showTimerByDefault: preference?.showTimerByDefault ?? true,
     gamificationEnabled: preference?.gamificationEnabled ?? true,
     reducedMotion: preference?.reducedMotion ?? false,
+    accentColor: parseAccentColor(preference?.accentColor),
+    transparencyEffects: preference?.transparencyEffects ?? true,
     shareAnonymousAnalytics: preference?.shareAnonymousAnalytics ?? true,
   };
+
+  React.useEffect(() => {
+    document.documentElement.dataset.accent = accent;
+  }, [accent]);
+
+  React.useEffect(() => {
+    document.documentElement.classList.toggle("no-transparency", !transparencyEffects);
+  }, [transparencyEffects]);
+
+  React.useEffect(() => {
+    document.documentElement.classList.toggle("reduce-motion", !animationEffects);
+  }, [animationEffects]);
 
   const onSettings = (formData: FormData) => {
     startTransition(async () => {
@@ -67,7 +90,9 @@ export function SettingsForms({ user, preference }: SettingsFormsProps) {
         experienceLevel: formData.get("experienceLevel") ?? "",
         showTimerByDefault: formData.get("showTimerByDefault") === "on",
         gamificationEnabled: formData.get("gamificationEnabled") === "on",
-        reducedMotion: formData.get("reducedMotion") === "on",
+        reducedMotion: !animationEffects,
+        accentColor: accent,
+        transparencyEffects,
         shareAnonymousAnalytics: formData.get("shareAnonymousAnalytics") === "on",
       });
       if (!result.ok) toast.error(errorText(t, result.error));
@@ -87,6 +112,31 @@ export function SettingsForms({ user, preference }: SettingsFormsProps) {
   return (
     <div className="space-y-6">
       <form action={onSettings} className="space-y-6">
+        <Card id="personalization">
+          <CardHeader>
+            <CardTitle>{t("settings.personalization")}</CardTitle>
+            <CardDescription>{t("settings.personalizationBody")}</CardDescription>
+          </CardHeader>
+          <CardContent className="divide-y divide-stroke-divider p-0">
+            <SettingsRow icon={SunMedium} title={t("settings.theme")} description={t("settings.themeHint")}>
+              <Select aria-label={t("settings.theme")} value={theme ?? "system"} onChange={(event) => setTheme(event.target.value)}>
+                <option value="light">{t("common.themeLight")}</option>
+                <option value="dark">{t("common.themeDark")}</option>
+                <option value="system">{t("common.themeSystem")}</option>
+              </Select>
+            </SettingsRow>
+            <SettingsRow icon={Palette} title={t("settings.accentColor")} description={t("settings.accentColorHint")}>
+              <AccentSwatches value={accent} onChange={setAccent} label={t("settings.accentColor")} />
+            </SettingsRow>
+            <SettingsRow icon={SwatchBook} title={t("settings.transparencyEffects")} description={t("settings.transparencyEffectsHint")}>
+              <Switch checked={transparencyEffects} onCheckedChange={setTransparencyEffects} aria-label={t("settings.transparencyEffects")} />
+            </SettingsRow>
+            <SettingsRow icon={Sparkles} title={t("settings.animationEffects")} description={t("settings.animationEffectsHint")}>
+              <Switch checked={animationEffects} onCheckedChange={setAnimationEffects} aria-label={t("settings.animationEffects")} />
+            </SettingsRow>
+          </CardContent>
+        </Card>
+
         <Card id="profile">
           <CardHeader>
             <CardTitle>{t("settings.profile")}</CardTitle>
@@ -164,7 +214,6 @@ export function SettingsForms({ user, preference }: SettingsFormsProps) {
             </Field>
             <Toggle name="showTimerByDefault" defaultChecked={pref.showTimerByDefault} label={t("settings.showTimer")} />
             <Toggle name="gamificationEnabled" defaultChecked={pref.gamificationEnabled} label={t("settings.gamification")} hint={t("settings.gamificationHint")} />
-            <Toggle name="reducedMotion" defaultChecked={pref.reducedMotion} label={t("settings.reducedMotion")} hint={t("settings.reducedMotionHint")} />
           </CardContent>
         </Card>
 
@@ -213,6 +262,77 @@ export function SettingsForms({ user, preference }: SettingsFormsProps) {
           </form>
         </CardContent>
       </Card>
+    </div>
+  );
+}
+
+function SettingsRow({
+  icon: Icon,
+  title,
+  description,
+  children,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  description: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex min-w-0 items-start gap-3">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-tint-brand text-primary">
+          <Icon className="h-5 w-5" aria-hidden="true" />
+        </span>
+        <span>
+          <span className="block font-medium">{title}</span>
+          <span className="block text-sm text-muted-foreground">{description}</span>
+        </span>
+      </div>
+      <div className="sm:max-w-[24rem]">{children}</div>
+    </div>
+  );
+}
+
+function AccentSwatches({ value, onChange, label }: { value: AccentKey; onChange: (value: AccentKey) => void; label: string }) {
+  const activeIndex = accentOptions.findIndex((accent) => accent.key === value);
+  const refs = React.useRef<Array<HTMLButtonElement | null>>([]);
+  const move = (delta: number) => {
+    const next = (activeIndex + delta + accentOptions.length) % accentOptions.length;
+    onChange(accentOptions[next]!.key);
+    refs.current[next]?.focus();
+  };
+  return (
+    <div role="radiogroup" aria-label={label} className="grid grid-cols-5 gap-2">
+      {accentOptions.map((accent, index) => (
+        <button
+          key={accent.key}
+          ref={(node) => {
+            refs.current[index] = node;
+          }}
+          type="button"
+          role="radio"
+          aria-checked={value === accent.key}
+          aria-label={accent.name}
+          className="relative h-9 w-9 rounded-md border border-control-stroke shadow-sm outline-offset-2 transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring"
+          style={{ backgroundColor: accent.light.primary }}
+          onClick={() => onChange(accent.key)}
+          onKeyDown={(event) => {
+            if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+              event.preventDefault();
+              move(1);
+            } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+              event.preventDefault();
+              move(-1);
+            }
+          }}
+        >
+          {value === accent.key ? (
+            <span className="absolute inset-0 grid place-items-center text-white drop-shadow">
+              <Check className="h-4 w-4" aria-hidden="true" />
+            </span>
+          ) : null}
+        </button>
+      ))}
     </div>
   );
 }

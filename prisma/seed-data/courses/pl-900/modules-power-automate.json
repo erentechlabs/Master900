@@ -1,0 +1,847 @@
+{
+  "domainKey": "power-automate",
+  "modules": [
+    {
+      "slug": "power-automate-automation-fundamentals",
+      "title": "Power Automate automation fundamentals",
+      "summary": "Learn how Power Automate uses cloud flows, desktop flows, connectors, approvals, process mining, and AI-assisted creation.",
+      "lessons": [
+        {
+          "slug": "power-automate-flow-capabilities",
+          "title": "Power Automate capabilities: cloud, desktop, process, and AI",
+          "objectiveCode": "4.1",
+          "estimatedMinutes": 12,
+          "summary": "Choose the right Power Automate capability for event-driven cloud workflows, desktop RPA, approvals, process insights, and AI-assisted creation.",
+          "learningObjectives": [
+            "Compare cloud flows, desktop flows, process mining, approvals, and AI Builder",
+            "Identify scheduled, automated, and instant cloud flow triggers",
+            "Explain when desktop RPA is useful for legacy apps",
+            "Choose the right Power Automate capability for a workflow scenario"
+          ],
+          "explanation": "Ever feel like your workday is made of tiny copy-paste chores? **Power Automate** turns repeated steps into automations. At Contoso Facilities, one request might arrive from Microsoft Forms, another from SharePoint, and a third from Dataverse. Instead of asking a coordinator to watch every inbox, a cloud flow can start from an event, run on demand, or run on a schedule.\n\n**Cloud flows** run in the Power Automate service. An automated cloud flow starts when an event happens, an instant cloud flow starts when a user selects a button, and a scheduled cloud flow starts on a timer. Cloud flows use **connectors** for services such as Outlook, Teams, SharePoint, Forms, and Dataverse.\n\n**Desktop flows** add robotic process automation for rule-based tasks on a workstation, especially where a legacy app has no modern API. Use desktop flows when the work is repetitive and UI-based; use cloud flows when work is event-driven across connected services.\n\nPower Automate also includes approvals for human decisions, **process mining** for discovering bottlenecks from event data, document automation scenarios, and Copilot experiences that help makers describe or modify flows in natural language. You will practise this foundation in the **Build an approval cloud flow in Power Automate** lab.",
+          "terminology": [
+            {
+              "term": "Cloud flow",
+              "definition": "An automation that runs in the Power Automate cloud service."
+            },
+            {
+              "term": "Desktop flow",
+              "definition": "A desktop automation for workstation tasks."
+            },
+            {
+              "term": "Robotic process automation",
+              "definition": "Automation of repetitive, rule-based user-interface tasks."
+            },
+            {
+              "term": "Connector",
+              "definition": "An integration that supplies triggers and actions."
+            },
+            {
+              "term": "Process mining",
+              "definition": "Analysis of process event data to find bottlenecks."
+            }
+          ],
+          "businessScenario": "Contoso Facilities wants cloud flows for Dataverse requests, desktop flows for a legacy label app, and process mining to identify repair bottlenecks.",
+          "technicalExample": "Choose automated for Dataverse row created, instant for a manager button, scheduled for Friday summaries, desktop for legacy UI, and process mining for event-log analysis.",
+          "misconception": {
+            "myth": "Every Power Automate scenario should be solved with an automated cloud flow.",
+            "reality": "Automated cloud flows are great for service events, but instant flows, scheduled flows, desktop flows, approvals, and process mining each solve different problems."
+          },
+          "examTakeaway": "If the clue is a clock, choose scheduled; if it is a user button, choose instant; if it is a service event, choose automated; if it is a legacy desktop screen, choose desktop flow/RPA; if it is bottleneck discovery, choose process mining.",
+          "recap": "Choose the right Power Automate capability for event-driven cloud workflows, desktop RPA, approvals, process insights, and AI-assisted creation.",
+          "simplerExplanation": "Think of Power Automate like a transport hub: some trains leave on a timetable, some taxis are called by a person, some alarms dispatch automatically, and a courier handles awkward old routes that have no modern connection.",
+          "anotherExample": "Litware uses an automated flow when a SharePoint request is created, an instant flow for a supervisor reminder button, a scheduled flow for Friday summaries, a desktop flow for a legacy badge printer, and process mining to find approval delays.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Choosing the automation style",
+                "columns": [
+                  {
+                    "title": "Automated cloud flow",
+                    "points": [
+                      "Starts from a connector event",
+                      "Best for emails, Dataverse rows, Forms responses, or SharePoint items"
+                    ]
+                  },
+                  {
+                    "title": "Instant cloud flow",
+                    "points": [
+                      "Starts from a user action",
+                      "Best for buttons and user-triggered shortcuts"
+                    ]
+                  },
+                  {
+                    "title": "Scheduled cloud flow",
+                    "points": [
+                      "Starts on a recurrence",
+                      "Best for reminders, summaries, and timed checks"
+                    ]
+                  },
+                  {
+                    "title": "Desktop flow",
+                    "points": [
+                      "Automates workstation UI",
+                      "Best for legacy applications without connectors"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Spot the starting signal",
+                "instructions": "Read each Contoso Facilities clue and name the Power Automate capability.",
+                "items": [
+                  {
+                    "prompt": "New Dataverse request row appears",
+                    "answer": "Automated cloud flow"
+                  },
+                  {
+                    "prompt": "Coordinator chooses Run from a phone button",
+                    "answer": "Instant cloud flow"
+                  },
+                  {
+                    "prompt": "Every Monday morning report",
+                    "answer": "Scheduled cloud flow"
+                  },
+                  {
+                    "prompt": "Open a Windows-only label app and type values",
+                    "answer": "Desktop flow"
+                  },
+                  {
+                    "prompt": "Find why approvals loop between teams",
+                    "answer": "Process mining"
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Automated cloud flow clue",
+              "back": "A service event such as an email arrival, Forms response, SharePoint item, or Dataverse row starts the automation."
+            },
+            {
+              "front": "Instant cloud flow clue",
+              "back": "A person intentionally starts the flow from a button or manual command."
+            },
+            {
+              "front": "Scheduled cloud flow clue",
+              "back": "A recurrence or time of day is the starting signal."
+            },
+            {
+              "front": "Desktop flow clue",
+              "back": "The task happens in a desktop or legacy UI where RPA is appropriate."
+            },
+            {
+              "front": "Process mining clue",
+              "back": "The goal is to discover bottlenecks or variations from event logs."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Overview of cloud flows",
+              "url": "https://learn.microsoft.com/en-us/power-automate/overview-cloud",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Introduction to desktop flows",
+              "url": "https://learn.microsoft.com/en-us/power-automate/desktop-flows/introduction",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Overview of process mining and task mining in Power Automate",
+              "url": "https://learn.microsoft.com/en-us/power-automate/process-advisor-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Create your first cloud flow using Copilot",
+              "url": "https://learn.microsoft.com/en-us/power-automate/create-cloud-flow-using-copilot",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Get started with Copilot in Power Automate for desktop",
+              "url": "https://learn.microsoft.com/en-us/power-automate/desktop-flows/copilot-in-power-automate-for-desktop",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "pl900-aut-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "power-automate",
+              "objectiveCode": "4.1",
+              "difficulty": "EASY",
+              "stem": "Which flow type runs on a time-based schedule?",
+              "explanation": "Scheduled cloud flows run based on time.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Scheduled cloud flow",
+                  "correct": true,
+                  "explanation": "Correct: Scheduled cloud flows run based on time."
+                },
+                {
+                  "key": "B",
+                  "text": "Instant cloud flow",
+                  "correct": false,
+                  "explanation": "Instant flows start manually."
+                },
+                {
+                  "key": "C",
+                  "text": "Desktop flow",
+                  "correct": false,
+                  "explanation": "Desktop flows automate workstation tasks."
+                },
+                {
+                  "key": "D",
+                  "text": "Process mining",
+                  "correct": false,
+                  "explanation": "Process mining analyzes processes."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Overview of cloud flows",
+                  "url": "https://learn.microsoft.com/en-us/power-automate/overview-cloud",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "power-automate-flow-capabilities"
+            },
+            {
+              "ref": "pl900-aut-002",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "power-automate",
+              "objectiveCode": "4.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** scenarios fit desktop flows and RPA?",
+              "explanation": "Desktop flows automate repetitive desktop or legacy app tasks.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Copy values into a legacy Windows app",
+                  "correct": true,
+                  "explanation": "This is UI automation."
+                },
+                {
+                  "key": "B",
+                  "text": "Start when a Dataverse row is added",
+                  "correct": false,
+                  "explanation": "That is an automated cloud flow."
+                },
+                {
+                  "key": "C",
+                  "text": "Click through the same desktop screens each morning",
+                  "correct": true,
+                  "explanation": "This is repetitive desktop work."
+                },
+                {
+                  "key": "D",
+                  "text": "Analyze order event logs",
+                  "correct": false,
+                  "explanation": "That is process mining."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "Introduction to desktop flows",
+                  "url": "https://learn.microsoft.com/en-us/power-automate/desktop-flows/introduction",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "power-automate-flow-capabilities",
+              "selectCount": 2
+            },
+            {
+              "ref": "pl900-aut-003",
+              "type": "MATCHING",
+              "domainKey": "power-automate",
+              "objectiveCode": "4.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each Power Automate capability to the Contoso scenario it supports.",
+              "explanation": "Process mining analyzes event logs, cloud flows respond to connected service events, and desktop flows automate legacy UI work.",
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "Analyze event logs"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Run when a form arrives"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Automate a legacy UI"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Process mining"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Cloud flow"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Desktop flow"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "Process mining finds bottlenecks.",
+                  "p2": "A connector trigger starts a cloud flow.",
+                  "p3": "Desktop flows automate UI tasks."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Overview of cloud flows",
+                  "url": "https://learn.microsoft.com/en-us/power-automate/overview-cloud",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Introduction to desktop flows",
+                  "url": "https://learn.microsoft.com/en-us/power-automate/desktop-flows/introduction",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Overview of process mining and task mining in Power Automate",
+                  "url": "https://learn.microsoft.com/en-us/power-automate/process-advisor-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "power-automate-flow-capabilities"
+            },
+            {
+              "ref": "pl900-aut-004",
+              "type": "TRUE_FALSE",
+              "domainKey": "power-automate",
+              "objectiveCode": "4.1",
+              "difficulty": "EASY",
+              "stem": "Connectors provide triggers and actions for cloud flows.",
+              "explanation": "Connectors integrate services with flows.",
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Connectors expose triggers that start cloud flows and actions that let the flow work with connected services."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that triggers and actions are the connector capabilities a cloud flow uses to start and perform work."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Overview of cloud flows",
+                  "url": "https://learn.microsoft.com/en-us/power-automate/overview-cloud",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "power-automate-flow-capabilities"
+            },
+            {
+              "ref": "pl900-aut-005",
+              "type": "FILL_IN_BLANK",
+              "domainKey": "power-automate",
+              "objectiveCode": "4.1",
+              "difficulty": "MEDIUM",
+              "stem": "Complete the sentence about what starts an event-driven cloud flow.",
+              "explanation": "A trigger starts a flow.",
+              "fillInBlank": {
+                "template": "An event that starts a cloud flow is a {{b1}}.",
+                "blanks": [
+                  {
+                    "id": "b1",
+                    "accepted": [
+                      "trigger"
+                    ],
+                    "explanation": "A trigger starts a flow."
+                  }
+                ],
+                "wordBank": [
+                  "trigger",
+                  "action",
+                  "topic",
+                  "channel"
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Overview of cloud flows",
+                  "url": "https://learn.microsoft.com/en-us/power-automate/overview-cloud",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "power-automate-flow-capabilities"
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Copilot and desktop-flow AI details change quickly; verify current availability and preview status."
+        },
+        {
+          "slug": "build-basic-cloud-flow",
+          "title": "Build a basic cloud flow with triggers, actions, and testing",
+          "objectiveCode": "4.2",
+          "estimatedMinutes": 12,
+          "summary": "Learn the parts of a basic cloud flow: triggers, actions, dynamic content, conditions, approvals, testing, and run history.",
+          "learningObjectives": [
+            "Identify triggers, actions, dynamic content, conditions, and approvals in a cloud flow",
+            "Describe how run history and testing help troubleshoot a flow",
+            "Explain how branches handle approval outcomes",
+            "Choose flow steps for a basic event-driven business process"
+          ],
+          "explanation": "A good cloud flow feels like a tiny assembly line: something starts it, each station does a job, and the run history tells you what happened. In Contoso's approval-flow lab, a new equipment request row in Dataverse is the **trigger**.\n\nThe trigger is the starting event. A connector provides triggers and actions. **Actions** are the steps after the trigger: create an approval, post a Teams message, send an email, update a row, or call another service. Many actions use **dynamic content**, which is data from the trigger or earlier steps.\n\nConditions make flows useful for real business logic. If the approval outcome is Approve, update Status to Approved; otherwise, update Status to Rejected. Copilot can help create and modify cloud flows from natural language, but you still need to review the design.\n\nTesting is not optional. Use the flow checker where available, run a test with realistic data, and inspect **run history** to see status, start time, duration, and failed steps. You will practise these ideas in the **Build an approval cloud flow in Power Automate** lab.",
+          "terminology": [
+            {
+              "term": "Trigger",
+              "definition": "The event or schedule that starts a cloud flow."
+            },
+            {
+              "term": "Action",
+              "definition": "A step that performs work after the trigger."
+            },
+            {
+              "term": "Dynamic content",
+              "definition": "Values from previous steps used later."
+            },
+            {
+              "term": "Condition",
+              "definition": "A branch based on data."
+            },
+            {
+              "term": "Approval",
+              "definition": "A human decision step."
+            },
+            {
+              "term": "Run history",
+              "definition": "Records used to review and troubleshoot runs."
+            }
+          ],
+          "businessScenario": "Contoso Facilities wants every equipment request approved before purchasing acts.",
+          "technicalExample": "Trigger: Dataverse row added; Action: Start and wait for approval; Condition: Outcome equals Approve; Update status; Send email; Test; Review run history.",
+          "misconception": {
+            "myth": "A saved cloud flow is ready for production because the designer accepted it.",
+            "reality": "A saved design can still fail because of missing connections, wrong dynamic content, bad branch logic, or unexpected data; testing and run history prove behavior."
+          },
+          "examTakeaway": "For build questions, separate the parts: the trigger starts, actions do work, dynamic content carries values, conditions branch, approvals wait for people, and run history explains each run.",
+          "recap": "Learn the parts of a basic cloud flow: triggers, actions, dynamic content, conditions, approvals, testing, and run history.",
+          "simplerExplanation": "A cloud flow is like a parcel route: the pickup request starts it, labels carry information from stop to stop, a sorting gate chooses the lane, and the tracking page shows where the parcel got stuck.",
+          "anotherExample": "Proseware builds a purchase request flow that starts from a Microsoft Forms response, uses the requester name in a Teams approval, branches on Approve or Reject, and checks run history after a test submission.",
+          "extraBlocks": [
+            {
+              "type": "DIAGRAM",
+              "data": {
+                "title": "Approval cloud flow path",
+                "kind": "flow",
+                "nodes": [
+                  {
+                    "id": "trigger",
+                    "label": "Dataverse trigger",
+                    "detail": "Equipment request row added"
+                  },
+                  {
+                    "id": "approval",
+                    "label": "Approval action",
+                    "detail": "Manager responds"
+                  },
+                  {
+                    "id": "condition",
+                    "label": "Condition",
+                    "detail": "Outcome equals Approve?"
+                  },
+                  {
+                    "id": "update",
+                    "label": "Update status",
+                    "detail": "Approved or Rejected"
+                  },
+                  {
+                    "id": "history",
+                    "label": "Run history",
+                    "detail": "Review inputs and outputs"
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "trigger",
+                    "to": "approval"
+                  },
+                  {
+                    "from": "approval",
+                    "to": "condition"
+                  },
+                  {
+                    "from": "condition",
+                    "to": "update"
+                  },
+                  {
+                    "from": "update",
+                    "to": "history"
+                  }
+                ],
+                "caption": "The equipment request flow starts with a Dataverse trigger, waits for manager approval, branches on the outcome, updates status, and uses run history to confirm each step."
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Debug the approval run",
+                "instructions": "Choose the most useful place to look for each symptom.",
+                "items": [
+                  {
+                    "prompt": "Approval never started",
+                    "answer": "Check trigger and connection details in run history"
+                  },
+                  {
+                    "prompt": "Email went to the wrong person",
+                    "answer": "Inspect dynamic content used in the email action"
+                  },
+                  {
+                    "prompt": "Rejected requests became Approved",
+                    "answer": "Review the condition that checks approval outcome"
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Trigger versus action",
+              "back": "The trigger starts the flow; actions run after it and perform the work."
+            },
+            {
+              "front": "Dynamic content in approvals",
+              "back": "Requester, request title, and approval outcome can be passed from earlier steps into later actions."
+            },
+            {
+              "front": "Condition after approval",
+              "back": "A condition can route Approve and Reject outcomes to different updates."
+            },
+            {
+              "front": "Run history evidence",
+              "back": "Run history shows step status, inputs, outputs, start time, duration, and failures."
+            },
+            {
+              "front": "Flow testing habit",
+              "back": "Test with realistic data before trusting a flow for business work."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "Overview of cloud flows",
+              "url": "https://learn.microsoft.com/en-us/power-automate/overview-cloud",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Create and test an approval workflow with Power Automate",
+              "url": "https://learn.microsoft.com/en-us/power-automate/modern-approvals",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Troubleshoot a cloud flow",
+              "url": "https://learn.microsoft.com/en-us/power-automate/fix-flow-failures",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Create your first cloud flow using Copilot",
+              "url": "https://learn.microsoft.com/en-us/power-automate/create-cloud-flow-using-copilot",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "pl900-aut-006",
+              "type": "SCENARIO",
+              "domainKey": "power-automate",
+              "objectiveCode": "4.2",
+              "difficulty": "MEDIUM",
+              "stem": "A flow waits for an approval and must branch on Approve or Reject. What should be added next?",
+              "explanation": "A condition branches the flow based on the approval outcome.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Condition",
+                  "correct": true,
+                  "explanation": "Correct: A condition branches the flow based on the approval outcome."
+                },
+                {
+                  "key": "B",
+                  "text": "Trigger",
+                  "correct": false,
+                  "explanation": "The trigger already started the flow."
+                },
+                {
+                  "key": "C",
+                  "text": "Process map",
+                  "correct": false,
+                  "explanation": "Process maps are analysis artifacts."
+                },
+                {
+                  "key": "D",
+                  "text": "Agent channel",
+                  "correct": false,
+                  "explanation": "Channels publish agents."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Create and test an approval workflow with Power Automate",
+                  "url": "https://learn.microsoft.com/en-us/power-automate/modern-approvals",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "build-basic-cloud-flow",
+              "scenario": "Contoso is automating equipment requests so each new request is sent to a manager for an Approve or Reject decision."
+            },
+            {
+              "ref": "pl900-aut-007",
+              "type": "ORDERING",
+              "domainKey": "power-automate",
+              "objectiveCode": "4.2",
+              "difficulty": "MEDIUM",
+              "stem": "Order the basic cloud-flow build steps.",
+              "explanation": "The flow build sequence starts with the trigger, adds approval and branch actions, uses dynamic content, and then tests run history.",
+              "ordering": {
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "Choose the trigger"
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Add actions and dynamic content"
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Add approval or condition logic"
+                  },
+                  {
+                    "id": "s4",
+                    "text": "Test and inspect run history"
+                  }
+                ],
+                "correctOrder": [
+                  "s1",
+                  "s2",
+                  "s3",
+                  "s4"
+                ],
+                "explanations": {
+                  "s1": "The trigger starts the flow.",
+                  "s2": "Actions perform work.",
+                  "s3": "Business logic branches the process.",
+                  "s4": "Run history verifies behavior."
+                }
+              },
+              "sources": [
+                {
+                  "title": "Overview of cloud flows",
+                  "url": "https://learn.microsoft.com/en-us/power-automate/overview-cloud",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Troubleshoot a cloud flow",
+                  "url": "https://learn.microsoft.com/en-us/power-automate/fix-flow-failures",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "build-basic-cloud-flow"
+            },
+            {
+              "ref": "pl900-aut-008",
+              "type": "UI_SIMULATION",
+              "domainKey": "power-automate",
+              "objectiveCode": "4.2",
+              "difficulty": "MEDIUM",
+              "stem": "Configure the simulated approval flow for a new Dataverse request.",
+              "explanation": "The simulated approval flow should start from the new Dataverse request and wait for the assigned approver before updating status.",
+              "uiSimulation": {
+                "title": "Configuration screen (simulated)",
+                "description": "A fictional simplified screen, not a real portal.",
+                "fields": [
+                  {
+                    "id": "trigger",
+                    "label": "Trigger",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "dataverse",
+                        "label": "When a Dataverse row is added"
+                      },
+                      {
+                        "value": "button",
+                        "label": "Manual button"
+                      }
+                    ],
+                    "correct": "dataverse",
+                    "explanation": "The flow starts from a new request row."
+                  },
+                  {
+                    "id": "approval",
+                    "label": "Approval",
+                    "control": "select",
+                    "options": [
+                      {
+                        "value": "startwait",
+                        "label": "Start and wait for an approval"
+                      },
+                      {
+                        "value": "email",
+                        "label": "Send email only"
+                      }
+                    ],
+                    "correct": "startwait",
+                    "explanation": "The scenario needs a human response."
+                  },
+                  {
+                    "id": "branch",
+                    "label": "Branch on outcome",
+                    "control": "toggle",
+                    "correct": true,
+                    "explanation": "Approved and rejected requests need different status updates."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Create and test an approval workflow with Power Automate",
+                  "url": "https://learn.microsoft.com/en-us/power-automate/modern-approvals",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "build-basic-cloud-flow"
+            },
+            {
+              "ref": "pl900-aut-009",
+              "type": "CASE_STUDY",
+              "domainKey": "power-automate",
+              "objectiveCode": "4.2",
+              "difficulty": "HARD",
+              "scenario": "A cloud flow fails before an approval appears.",
+              "stem": "For each troubleshooting statement about a failed approval cloud flow, select **Yes** if it is appropriate. Otherwise, select **No**.",
+              "explanation": "Troubleshooting a failed approval flow starts with run history and dynamic content before turning to broader process-analysis tools.",
+              "caseStudy": {
+                "statements": [
+                  {
+                    "id": "s1",
+                    "text": "Open run history to identify the failed trigger or action.",
+                    "answer": true,
+                    "explanation": "Run history shows failed steps."
+                  },
+                  {
+                    "id": "s2",
+                    "text": "Delete all conditions before checking the failure.",
+                    "answer": false,
+                    "explanation": "Troubleshoot before removing logic."
+                  },
+                  {
+                    "id": "s3",
+                    "text": "Check required connections and dynamic content.",
+                    "answer": true,
+                    "explanation": "Missing inputs or connections can fail a run."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "title": "Troubleshoot a cloud flow",
+                  "url": "https://learn.microsoft.com/en-us/power-automate/fix-flow-failures",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "lessonSlug": "build-basic-cloud-flow"
+            },
+            {
+              "ref": "pl900-aut-010",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "power-automate",
+              "objectiveCode": "4.2",
+              "difficulty": "EASY",
+              "stem": "What is dynamic content used for in a flow?",
+              "explanation": "Dynamic content passes values from earlier steps into later actions.",
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Use values such as requester email or approval outcome in later steps",
+                  "correct": true,
+                  "explanation": "Correct: Dynamic content passes values from earlier steps into later actions."
+                },
+                {
+                  "key": "B",
+                  "text": "Publish an agent",
+                  "correct": false,
+                  "explanation": "That is a channel task."
+                },
+                {
+                  "key": "C",
+                  "text": "Analyze logs",
+                  "correct": false,
+                  "explanation": "That is process mining."
+                },
+                {
+                  "key": "D",
+                  "text": "Replace all conditions",
+                  "correct": false,
+                  "explanation": "Dynamic content does not replace branching."
+                }
+              ],
+              "sources": [
+                {
+                  "title": "Overview of cloud flows",
+                  "url": "https://learn.microsoft.com/en-us/power-automate/overview-cloud",
+                  "kind": "DOCUMENTATION"
+                },
+                {
+                  "title": "Create and test an approval workflow with Power Automate",
+                  "url": "https://learn.microsoft.com/en-us/power-automate/modern-approvals",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "shuffleOptions": true,
+              "lessonSlug": "build-basic-cloud-flow"
+            }
+          ],
+          "needsVerification": true,
+          "verificationNote": "Copilot-assisted flow design changes quickly; verify current UI labels and availability."
+        }
+      ]
+    }
+  ]
+}

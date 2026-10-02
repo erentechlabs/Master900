@@ -35,3 +35,9 @@ export function crossedWarnings(previousMs: number | null, currentMs: number, th
   if (previousMs === null || currentMs <= 0) return [];
   return thresholds.filter((m) => previousMs > m * 60_000 && currentMs <= m * 60_000);
 }
+
+/** Time warnings (in seconds) for short timers such as lightning rounds. */
+export function crossedSecondWarnings(previousMs: number | null, currentMs: number, thresholds: readonly number[] = [60, 30, 10]): number[] {
+  if (previousMs === null || currentMs <= 0) return [];
+  return thresholds.filter((seconds) => previousMs > seconds * 1000 && currentMs <= seconds * 1000);
+}

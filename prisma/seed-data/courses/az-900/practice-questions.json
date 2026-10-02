@@ -26,13 +26,13 @@
           "key": "TRUE",
           "text": "True",
           "correct": true,
-          "explanation": "Customer data, identities, and access choices remain customer responsibilities across cloud models."
+          "explanation": "Correct. The customer remains responsible for its business data, identities, and access decisions across cloud service models."
         },
         {
           "key": "FALSE",
           "text": "False",
           "correct": false,
-          "explanation": "The provider does not take ownership of the customer's business data or access decisions simply because the workload runs in the cloud."
+          "explanation": "Choosing False misses that a cloud provider operates platform layers but does not take ownership of customer data or access choices."
         }
       ],
       "translations": {
@@ -42,11 +42,11 @@
           "options": {
             "TRUE": {
               "text": "Doğru",
-              "explanation": "Müşteri verileri, kimlikler ve erişim seçimleri tüm bulut modellerinde müşterinin sorumluluğunda kalır."
+              "explanation": "Doğru. Müşteri; iş verileri, kimlikleri ve erişim kararlarından tüm cloud hizmet modellerinde sorumlu kalır."
             },
             "FALSE": {
               "text": "Yanlış",
-              "explanation": "Bir iş yükü bulutta çalıştığı için sağlayıcı müşterinin iş verilerinin veya erişim kararlarının sahibi olmaz."
+              "explanation": "False seçeneği, cloud sağlayıcısının platform katmanlarını işlettiğini ancak müşteri verilerinin veya erişim seçimlerinin sahibi olmadığını gözden kaçırır."
             }
           },
           "status": "DRAFT"
@@ -633,8 +633,8 @@
       "domainKey": "azure-architecture-services",
       "objectiveCode": "2.2",
       "difficulty": "EASY",
-      "stem": "Which Azure CLI command creates a resource group named `rg-demo` in the `eastus` location?",
-      "explanation": "The `az group create` command creates a resource group and accepts `--name` and `--location` parameters.",
+      "stem": "Which Azure CLI command displays the currently selected subscription context?",
+      "explanation": "`az account show` displays details for the active Azure subscription, which helps confirm the CLI context before running management commands.",
       "lessonSlug": "tools-for-managing-azure",
       "sources": [
         {
@@ -646,27 +646,27 @@
       "options": [
         {
           "key": "A",
-          "text": "`az group create --name rg-demo --location eastus`",
+          "text": "`az account show`",
           "correct": true,
-          "explanation": "This is valid Azure CLI syntax for creating a resource group in a location."
+          "explanation": "This command displays the active subscription and account context."
         },
         {
           "key": "B",
-          "text": "`az group list --name rg-demo --location eastus`",
+          "text": "`az group list`",
           "correct": false,
-          "explanation": "`az group list` lists resource groups and does not create one."
+          "explanation": "This lists resource groups, but it does not show which subscription context is currently selected."
         },
         {
           "key": "C",
-          "text": "`az vm create --resource-group eastus --name rg-demo`",
+          "text": "`az vm create --name rg-practice-cli`",
           "correct": false,
-          "explanation": "This command would attempt to create a VM, and the parameters are not creating a resource group."
+          "explanation": "This starts a virtual machine creation operation rather than displaying account context."
         },
         {
           "key": "D",
-          "text": "`az account set --name rg-demo --location eastus`",
+          "text": "`az monitor metrics list --resource rg-practice-cli`",
           "correct": false,
-          "explanation": "`az account set` selects a subscription; it does not create resource groups."
+          "explanation": "This reads metrics for a resource and is not used to confirm the active subscription."
         }
       ],
       "shuffleOptions": true
@@ -727,7 +727,7 @@
           "key": "E",
           "text": "Microsoft Purview",
           "correct": false,
-          "explanation": "Microsoft Purview focuses on data governance and compliance, not container hosting."
+          "explanation": "Microsoft Purview is for data governance, catalog, risk, and compliance scenarios; it is not a compute runtime for containers."
         }
       ]
     },
@@ -758,7 +758,7 @@
           "key": "A",
           "text": "Azure App Service",
           "correct": true,
-          "explanation": "App Service hosts web apps as a managed platform."
+          "explanation": "App Service provides a managed web hosting platform for custom web applications."
         },
         {
           "key": "B",
@@ -914,13 +914,13 @@
           "key": "TRUE",
           "text": "True",
           "correct": true,
-          "explanation": "Azure RBAC uses role assignments at scopes to control access to Azure resources."
+          "explanation": "Correct. Azure RBAC grants roles to users, groups, service principals, or managed identities at scopes such as a subscription or resource group."
         },
         {
           "key": "FALSE",
           "text": "False",
           "correct": false,
-          "explanation": "Azure RBAC is specifically for access control to Azure resources; the statement correctly describes it."
+          "explanation": "Choosing False misses that Azure RBAC is the Azure resource authorization system based on principals, roles, and scopes."
         }
       ]
     },
@@ -930,7 +930,7 @@
       "domainKey": "azure-architecture-services",
       "objectiveCode": "2.4",
       "difficulty": "HARD",
-      "stem": "For each statement, select **Yes** if it is true. Otherwise, select **No**.",
+      "stem": "For each Woodgrove identity and security statement, select **Yes** if it is true. Otherwise, select **No**.",
       "explanation": "Identity, RBAC, Zero Trust, and Defender for Cloud address different layers of access and security posture.",
       "lessonSlug": "rbac-zero-trust-defender",
       "sources": [
@@ -1324,7 +1324,7 @@
       "domainKey": "azure-management-governance",
       "objectiveCode": "3.4",
       "difficulty": "HARD",
-      "stem": "For each statement, select **Yes** if it is true. Otherwise, select **No**.",
+      "stem": "For each Relecloud monitoring and service-health statement, select **Yes** if it is true. Otherwise, select **No**.",
       "explanation": "Azure Monitor, Advisor, and Service Health serve complementary monitoring and operational-awareness purposes.",
       "lessonSlug": "azure-monitor-basics",
       "sources": [
@@ -1411,7 +1411,7 @@
           "key": "C",
           "text": "Virtual network peering",
           "correct": false,
-          "explanation": "Peering connects virtual networks; it does not categorize spending."
+          "explanation": "Virtual network peering links VNets for network traffic; it does not label resources for financial reporting."
         },
         {
           "key": "D",

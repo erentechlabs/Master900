@@ -1,0 +1,1099 @@
+{
+  "labs": [
+    {
+      "slug": "build-canvas-app-power-fx",
+      "type": "UI_SIMULATION",
+      "title": "Improve a canvas app with Power Fx",
+      "summary": "Use Power Apps Studio to connect a canvas app to Dataverse, configure Power Fx formulas for search, counts, and save behavior, test in Preview, then save and publish.",
+      "scenario": "Contoso service coordinators use a draft canvas app to triage service requests, but it still contains placeholder formulas. In the simulated Power Apps Studio, connect it to the Dataverse Service Requests table, configure a searchable sorted gallery, show a count, add edit-form save behavior, and publish after testing. Done means the app uses realistic Power Fx and a Preview save succeeds.",
+      "domainKey": "power-apps",
+      "objectiveCode": "3.2",
+      "complexity": "INTERMEDIATE",
+      "estimatedMinutes": 30,
+      "learningObjectives": [
+        "Connect a canvas app to a Dataverse table",
+        "Use Filter or Search, SortByColumns, and CountRows in Power Fx",
+        "Configure an edit form with SubmitForm and Notify",
+        "Test in Preview before saving and publishing"
+      ],
+      "prerequisites": [
+        "Know that canvas apps use controls and Power Fx formulas"
+      ],
+      "sources": [
+        {
+          "title": "Get started with formulas in canvas apps",
+          "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/working-with-formulas"
+        },
+        {
+          "title": "Filter, Search, and LookUp functions",
+          "url": "https://learn.microsoft.com/en-us/power-platform/power-fx/reference/function-filter-lookup"
+        },
+        {
+          "title": "Show, edit, or add a record in a canvas app",
+          "url": "https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/add-form"
+        }
+      ],
+      "config": {
+        "portal": {
+          "name": "Power Apps",
+          "theme": "power-apps",
+          "user": "alex@contoso.example",
+          "tenant": "Contoso (default)",
+          "url": "https://make.powerapps.com",
+          "searchPlaceholder": "Search"
+        },
+        "vm": {
+          "name": "LAB-VM-01",
+          "os": "windows",
+          "apps": [
+            "browser"
+          ]
+        },
+        "clock": {
+          "start": "2026-10-02T08:00:00Z"
+        },
+        "startPage": "home",
+        "navigation": [
+          {
+            "page": "home",
+            "label": "Home",
+            "icon": "Home"
+          },
+          {
+            "page": "apps",
+            "label": "Apps",
+            "icon": "AppWindow",
+            "section": "Build"
+          },
+          {
+            "page": "tables",
+            "label": "Tables",
+            "icon": "Table",
+            "section": "Data"
+          }
+        ],
+        "pages": [
+          {
+            "id": "home",
+            "title": "Home",
+            "subtitle": "Contoso (default)",
+            "url": "/",
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "title": "Canvas app mission",
+                "text": "Canvas apps let makers control screen layout and behavior. Here you edit control properties with Power Fx formulas in a simulated Studio."
+              },
+              {
+                "kind": "tiles",
+                "id": "home-tiles",
+                "title": "Start",
+                "size": "md",
+                "items": [
+                  {
+                    "id": "apps",
+                    "label": "Apps",
+                    "description": "Open canvas apps.",
+                    "icon": "AppWindow",
+                    "action": {
+                      "type": "navigate",
+                      "page": "apps"
+                    }
+                  },
+                  {
+                    "id": "tables",
+                    "label": "Tables",
+                    "description": "Review Dataverse tables.",
+                    "icon": "Table",
+                    "action": {
+                      "type": "navigate",
+                      "page": "tables"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "tables",
+            "title": "Tables",
+            "subtitle": "Dataverse",
+            "icon": "Table",
+            "url": "/environments/contoso-default/tables",
+            "breadcrumb": [
+              "Home"
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "table-list",
+                "source": "dataverseTables",
+                "rowKey": "displayName",
+                "columns": [
+                  {
+                    "key": "displayName",
+                    "label": "Display name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "primaryColumn",
+                    "label": "Primary column"
+                  },
+                  {
+                    "key": "columns",
+                    "label": "Columns",
+                    "format": "tags"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "apps",
+            "title": "Apps",
+            "subtitle": "Contoso (default)",
+            "icon": "AppWindow",
+            "url": "/environments/contoso-default/apps",
+            "breadcrumb": [
+              "Home"
+            ],
+            "components": [
+              {
+                "kind": "table",
+                "id": "apps-list",
+                "title": "Apps",
+                "source": "canvasApps",
+                "rowKey": "name",
+                "searchable": true,
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Name",
+                    "format": "link"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Type"
+                  },
+                  {
+                    "key": "dataSource",
+                    "label": "Data source"
+                  },
+                  {
+                    "key": "published",
+                    "label": "Published",
+                    "format": "bool"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "studio",
+                  "select": {
+                    "as": "app",
+                    "path": "canvasApps",
+                    "key": "name",
+                    "value": "{{$row.name}}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "studio",
+            "title": "{{$sel.app.name}}",
+            "subtitle": "Power Apps Studio",
+            "icon": "AppWindow",
+            "url": "/environments/contoso-default/apps/service-requests-mobile/studio",
+            "requires": "app",
+            "navItem": "apps",
+            "breadcrumb": [
+              "Home",
+              "Apps"
+            ],
+            "commands": [
+              {
+                "id": "studio-data",
+                "label": "Data",
+                "icon": "Database",
+                "action": {
+                  "type": "navigate",
+                  "page": "data-pane"
+                }
+              },
+              {
+                "id": "studio-tree",
+                "label": "Tree view",
+                "icon": "ListTodo",
+                "action": {
+                  "type": "navigate",
+                  "page": "formulas"
+                }
+              },
+              {
+                "id": "studio-preview",
+                "label": "Preview",
+                "icon": "Play",
+                "variant": "primary",
+                "action": {
+                  "type": "navigate",
+                  "page": "preview"
+                }
+              },
+              {
+                "id": "studio-save",
+                "label": "Save",
+                "icon": "Save",
+                "action": {
+                  "type": "if",
+                  "when": {
+                    "type": "arrayContains",
+                    "path": "canvasApps",
+                    "match": {
+                      "name": "Service Requests Mobile",
+                      "galleryConfigured": true,
+                      "countConfigured": true,
+                      "formConfigured": true,
+                      "previewTested": true
+                    }
+                  },
+                  "then": [
+                    {
+                      "type": "update",
+                      "path": "canvasApps",
+                      "where": {
+                        "name": "Service Requests Mobile"
+                      },
+                      "set": {
+                        "saved": true
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Saved",
+                      "message": "Service Requests Mobile was saved."
+                    }
+                  ],
+                  "else": [
+                    {
+                      "type": "fail",
+                      "message": "Connect data, configure formulas, and test in Preview before saving."
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "studio-publish",
+                "label": "Publish",
+                "icon": "Upload",
+                "action": {
+                  "type": "if",
+                  "when": {
+                    "type": "arrayContains",
+                    "path": "canvasApps",
+                    "match": {
+                      "name": "Service Requests Mobile",
+                      "saved": true
+                    }
+                  },
+                  "then": [
+                    {
+                      "type": "update",
+                      "path": "canvasApps",
+                      "where": {
+                        "name": "Service Requests Mobile"
+                      },
+                      "set": {
+                        "published": true
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Published",
+                      "message": "The canvas app is published."
+                    }
+                  ],
+                  "else": [
+                    {
+                      "type": "fail",
+                      "message": "Save the canvas app before publishing."
+                    }
+                  ]
+                }
+              }
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "Power Apps formulas do not start with an equals sign. Select a control property and enter Power Fx in the formula bar."
+              },
+              {
+                "kind": "properties",
+                "title": "App status",
+                "items": [
+                  {
+                    "label": "Data source",
+                    "value": "{{$sel.app.dataSource}}"
+                  },
+                  {
+                    "label": "Gallery Items",
+                    "value": "{{$sel.app.galleryItems}}",
+                    "format": "code"
+                  },
+                  {
+                    "label": "Count label Text",
+                    "value": "{{$sel.app.countText}}",
+                    "format": "code"
+                  },
+                  {
+                    "label": "Save button OnSelect",
+                    "value": "{{$sel.app.saveOnSelect}}",
+                    "format": "code"
+                  },
+                  {
+                    "label": "Published",
+                    "value": "{{$sel.app.published}}",
+                    "format": "bool"
+                  }
+                ]
+              },
+              {
+                "kind": "table",
+                "id": "controls-list",
+                "title": "Controls on BrowseScreen",
+                "source": "$sel.app.controls",
+                "rowKey": "name",
+                "variant": "list",
+                "columns": [
+                  {
+                    "key": "name",
+                    "label": "Control"
+                  },
+                  {
+                    "key": "type",
+                    "label": "Type"
+                  },
+                  {
+                    "key": "purpose",
+                    "label": "Purpose"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "data-pane",
+            "title": "Data",
+            "subtitle": "Power Apps Studio",
+            "icon": "Database",
+            "url": "/environments/contoso-default/apps/service-requests-mobile/studio/data",
+            "requires": "app",
+            "navItem": "apps",
+            "breadcrumb": [
+              "Apps",
+              "Service Requests Mobile"
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "connect-data-form",
+                "title": "Add data",
+                "description": "Add a Dataverse table as a data source.",
+                "fields": [
+                  {
+                    "id": "connector",
+                    "label": "Connector",
+                    "control": "select",
+                    "required": true,
+                    "options": [
+                      {
+                        "value": "Microsoft Dataverse",
+                        "label": "Microsoft Dataverse"
+                      },
+                      {
+                        "value": "SharePoint",
+                        "label": "SharePoint"
+                      },
+                      {
+                        "value": "Excel Online",
+                        "label": "Excel Online"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "table",
+                    "label": "Table",
+                    "control": "select",
+                    "required": true,
+                    "optionsFrom": {
+                      "path": "dataverseTables",
+                      "value": "displayName",
+                      "label": "displayName"
+                    }
+                  }
+                ],
+                "submit": {
+                  "label": "Connect",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.connector",
+                        "value": "Microsoft Dataverse"
+                      },
+                      "message": "Use Microsoft Dataverse because the request data is stored in Dataverse."
+                    },
+                    {
+                      "rule": {
+                        "type": "equals",
+                        "path": "$form.table",
+                        "value": "Service Requests"
+                      },
+                      "message": "Connect the Service Requests table."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "canvasApps",
+                      "where": {
+                        "name": "Service Requests Mobile"
+                      },
+                      "set": {
+                        "dataSource": "Service Requests",
+                        "connected": true
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Data source added",
+                      "message": "Service Requests was added."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "studio"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "formulas",
+            "title": "Tree view",
+            "subtitle": "BrowseScreen",
+            "icon": "ListTodo",
+            "url": "/environments/contoso-default/apps/service-requests-mobile/studio/tree",
+            "requires": "app",
+            "navItem": "apps",
+            "breadcrumb": [
+              "Apps",
+              "Service Requests Mobile"
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "gallery-formula-form",
+                "title": "Configure galRequests",
+                "description": "Set the Items property to return filtered and sorted Dataverse rows.",
+                "fields": [
+                  {
+                    "id": "items",
+                    "label": "galRequests.Items",
+                    "control": "code",
+                    "required": true,
+                    "language": "powerfx",
+                    "defaultValue": "SortByColumns(Filter('Service Requests', IsBlank(txtSearch.Text) || StartsWith(Title, txtSearch.Text) || StartsWith(Status, txtSearch.Text)), \"DueDate\", Ascending)",
+                    "pattern": "^(?!\\s*=)(?=.*(Filter|Search)\\s*\\()(?=.*SortByColumns\\s*\\()(?=.*'Service Requests')(?=.*txtSearch\\.Text).{40,260}$",
+                    "patternMessage": "Use Filter or Search over 'Service Requests', reference txtSearch.Text, wrap it in SortByColumns, and do not start with =."
+                  }
+                ],
+                "submit": {
+                  "label": "Apply Items formula",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "arrayContains",
+                        "path": "canvasApps",
+                        "match": {
+                          "name": "Service Requests Mobile",
+                          "connected": true
+                        }
+                      },
+                      "message": "Connect the Service Requests Dataverse table first."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "canvasApps",
+                      "where": {
+                        "name": "Service Requests Mobile"
+                      },
+                      "set": {
+                        "galleryItems": "{{$form.items}}",
+                        "galleryConfigured": true
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Formula updated",
+                      "message": "galRequests.Items now filters and sorts rows."
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "form",
+                "id": "count-formula-form",
+                "title": "Configure lblCount",
+                "description": "Set Text to count visible gallery rows.",
+                "fields": [
+                  {
+                    "id": "text",
+                    "label": "lblCount.Text",
+                    "control": "code",
+                    "required": true,
+                    "language": "powerfx",
+                    "defaultValue": "CountRows(galRequests.AllItems) & \" requests\"",
+                    "pattern": "^(?!\\s*=)\\s*(\\\".*\\\"\\s*&\\s*)?CountRows\\s*\\(\\s*galRequests\\.AllItems\\s*\\)(\\s*&\\s*\\\".*\\\")?\\s*$",
+                    "patternMessage": "Use CountRows(galRequests.AllItems), optionally joined to text with &. Do not count the whole table or start with =."
+                  }
+                ],
+                "submit": {
+                  "label": "Apply Text formula",
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "canvasApps",
+                      "where": {
+                        "name": "Service Requests Mobile"
+                      },
+                      "set": {
+                        "countText": "{{$form.text}}",
+                        "countConfigured": true
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Count label updated",
+                      "message": "lblCount.Text shows the number of gallery items."
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "form",
+                "id": "edit-form-formula-form",
+                "title": "Configure frmRequest and btnSave",
+                "description": "Bind the edit form to the selected gallery row and save with a notification.",
+                "fields": [
+                  {
+                    "id": "dataSource",
+                    "label": "frmRequest.DataSource",
+                    "control": "code",
+                    "required": true,
+                    "language": "powerfx",
+                    "defaultValue": "'Service Requests'",
+                    "pattern": "^\\s*'Service Requests'\\s*$",
+                    "patternMessage": "Set DataSource to 'Service Requests'."
+                  },
+                  {
+                    "id": "item",
+                    "label": "frmRequest.Item",
+                    "control": "code",
+                    "required": true,
+                    "language": "powerfx",
+                    "defaultValue": "galRequests.Selected",
+                    "pattern": "^\\s*galRequests\\.Selected\\s*$",
+                    "patternMessage": "Set Item to galRequests.Selected."
+                  },
+                  {
+                    "id": "onSelect",
+                    "label": "btnSave.OnSelect",
+                    "control": "code",
+                    "required": true,
+                    "language": "powerfx",
+                    "defaultValue": "SubmitForm(frmRequest); Notify(\"Request saved\", NotificationType.Success)",
+                    "pattern": "^(?!\\s*=)(?=.*SubmitForm\\s*\\(\\s*frmRequest\\s*\\))(?=.*Notify\\s*\\().{20,220}$",
+                    "patternMessage": "Use SubmitForm(frmRequest) and a success Notify. Do not start with =."
+                  }
+                ],
+                "submit": {
+                  "label": "Apply form formulas",
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "canvasApps",
+                      "where": {
+                        "name": "Service Requests Mobile"
+                      },
+                      "set": {
+                        "formDataSource": "{{$form.dataSource}}",
+                        "formItem": "{{$form.item}}",
+                        "saveOnSelect": "{{$form.onSelect}}",
+                        "formConfigured": true
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Form configured",
+                      "message": "frmRequest and btnSave are ready for Preview."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "studio"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "preview",
+            "title": "Preview",
+            "subtitle": "Service Requests Mobile",
+            "icon": "Play",
+            "url": "/environments/contoso-default/apps/service-requests-mobile/play",
+            "requires": "app",
+            "navItem": "apps",
+            "breadcrumb": [
+              "Apps",
+              "Service Requests Mobile"
+            ],
+            "components": [
+              {
+                "kind": "callout",
+                "variant": "info",
+                "text": "Preview runs the app as a user would see it. Test search, selection, and save behavior before publishing."
+              },
+              {
+                "kind": "table",
+                "id": "preview-requests",
+                "title": "galRequests",
+                "source": "serviceRequests",
+                "rowKey": "title",
+                "searchable": true,
+                "columns": [
+                  {
+                    "key": "title",
+                    "label": "Title",
+                    "format": "link"
+                  },
+                  {
+                    "key": "status",
+                    "label": "Status",
+                    "format": "status"
+                  },
+                  {
+                    "key": "owner",
+                    "label": "Owner"
+                  },
+                  {
+                    "key": "dueDate",
+                    "label": "Due date"
+                  }
+                ],
+                "rowAction": {
+                  "type": "navigate",
+                  "page": "preview-edit",
+                  "select": {
+                    "as": "request",
+                    "path": "serviceRequests",
+                    "key": "title",
+                    "value": "{{$row.title}}"
+                  }
+                }
+              },
+              {
+                "kind": "properties",
+                "title": "lblCount",
+                "items": [
+                  {
+                    "label": "Text",
+                    "value": "{{serviceRequests | count}} requests"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "preview-edit",
+            "title": "frmRequest",
+            "subtitle": "{{$sel.request.title}}",
+            "icon": "SquarePen",
+            "url": "/environments/contoso-default/apps/service-requests-mobile/play/edit",
+            "requires": "request",
+            "navItem": "apps",
+            "breadcrumb": [
+              "Preview",
+              "galRequests"
+            ],
+            "components": [
+              {
+                "kind": "form",
+                "id": "preview-edit-form",
+                "title": "Edit request",
+                "fields": [
+                  {
+                    "id": "status",
+                    "label": "Status",
+                    "control": "select",
+                    "required": true,
+                    "defaultValue": "{{$sel.request.status}}",
+                    "options": [
+                      {
+                        "value": "New",
+                        "label": "New"
+                      },
+                      {
+                        "value": "In progress",
+                        "label": "In progress"
+                      },
+                      {
+                        "value": "Completed",
+                        "label": "Completed"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "notes",
+                    "label": "Coordinator notes",
+                    "control": "textarea",
+                    "defaultValue": "{{$sel.request.notes}}",
+                    "minLength": 8
+                  }
+                ],
+                "submit": {
+                  "label": "Save",
+                  "checks": [
+                    {
+                      "rule": {
+                        "type": "arrayContains",
+                        "path": "canvasApps",
+                        "match": {
+                          "name": "Service Requests Mobile",
+                          "galleryConfigured": true,
+                          "countConfigured": true,
+                          "formConfigured": true
+                        }
+                      },
+                      "message": "Configure the gallery, count label, and edit form before Preview."
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "update",
+                      "path": "serviceRequests",
+                      "where": {
+                        "title": "{{$sel.request.title}}"
+                      },
+                      "set": {
+                        "status": "{{$form.status}}",
+                        "notes": "{{$form.notes}}"
+                      }
+                    },
+                    {
+                      "type": "update",
+                      "path": "canvasApps",
+                      "where": {
+                        "name": "Service Requests Mobile"
+                      },
+                      "set": {
+                        "previewTested": true
+                      }
+                    },
+                    {
+                      "type": "notify",
+                      "title": "Request saved",
+                      "message": "SubmitForm saved the selected Dataverse row."
+                    },
+                    {
+                      "type": "navigate",
+                      "page": "studio"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "initialState": {
+          "dataverseTables": [
+            {
+              "displayName": "Service Requests",
+              "primaryColumn": "Title",
+              "columns": [
+                "Title",
+                "Status",
+                "Priority",
+                "DueDate",
+                "Owner",
+                "Notes"
+              ]
+            },
+            {
+              "displayName": "Accounts",
+              "primaryColumn": "Account name",
+              "columns": [
+                "Account name",
+                "City"
+              ]
+            },
+            {
+              "displayName": "Equipment",
+              "primaryColumn": "Asset tag",
+              "columns": [
+                "Asset tag",
+                "Category"
+              ]
+            }
+          ],
+          "canvasApps": [
+            {
+              "name": "Service Requests Mobile",
+              "type": "Canvas",
+              "dataSource": "Not connected",
+              "connected": false,
+              "galleryItems": "Table({Title: \"Placeholder\"})",
+              "countText": "\"0 requests\"",
+              "formDataSource": "",
+              "formItem": "",
+              "saveOnSelect": "",
+              "galleryConfigured": false,
+              "countConfigured": false,
+              "formConfigured": false,
+              "previewTested": false,
+              "saved": false,
+              "published": false,
+              "controls": [
+                {
+                  "name": "txtSearch",
+                  "type": "Text input",
+                  "purpose": "Search text"
+                },
+                {
+                  "name": "galRequests",
+                  "type": "Vertical gallery",
+                  "purpose": "List service requests"
+                },
+                {
+                  "name": "lblCount",
+                  "type": "Text label",
+                  "purpose": "Show visible count"
+                },
+                {
+                  "name": "frmRequest",
+                  "type": "Edit form",
+                  "purpose": "Edit selected request"
+                },
+                {
+                  "name": "btnSave",
+                  "type": "Button",
+                  "purpose": "Submit form"
+                }
+              ]
+            }
+          ],
+          "serviceRequests": [
+            {
+              "title": "Replace lobby badge printer",
+              "status": "New",
+              "priority": "High",
+              "owner": "Priya",
+              "dueDate": "2026-10-02",
+              "notes": "Printer jams."
+            },
+            {
+              "title": "Reset conference room display",
+              "status": "In progress",
+              "priority": "Medium",
+              "owner": "Alex",
+              "dueDate": "2026-10-03",
+              "notes": "Wrong room."
+            },
+            {
+              "title": "Prepare visitor tablets",
+              "status": "New",
+              "priority": "Low",
+              "owner": "Mehmet",
+              "dueDate": "2026-10-05",
+              "notes": "Need kiosk mode."
+            },
+            {
+              "title": "Repair loading dock scanner",
+              "status": "New",
+              "priority": "High",
+              "owner": "Sam",
+              "dueDate": "2026-10-01",
+              "notes": "Battery does not charge."
+            }
+          ]
+        }
+      },
+      "steps": [
+        {
+          "key": "open-app",
+          "title": "Open the canvas app in Power Apps Studio",
+          "instruction": "Go to **Apps**, open **Service Requests Mobile**, and review the Studio command bar.",
+          "hint": "Select the app name in the Apps list.",
+          "explanation": "Canvas apps are edited in Power Apps Studio, where each control has properties driven by Power Fx.",
+          "targetId": "apps-list",
+          "rules": [
+            {
+              "key": "visited-studio",
+              "description": "Power Apps Studio is open",
+              "rule": {
+                "type": "visited",
+                "page": "studio"
+              }
+            }
+          ]
+        },
+        {
+          "key": "connect-dataverse",
+          "title": "Connect the Dataverse table",
+          "instruction": "Select **Data**, choose connector **Microsoft Dataverse**, choose table **Service Requests**, and select **Connect**.",
+          "hint": "Use the Dataverse table containing request rows.",
+          "explanation": "Dataverse provides structured business data and security for apps without a custom database connection.",
+          "targetId": "studio-data",
+          "rules": [
+            {
+              "key": "data-connected",
+              "description": "The Service Requests table is connected",
+              "rule": {
+                "type": "arrayContains",
+                "path": "canvasApps",
+                "match": {
+                  "name": "Service Requests Mobile",
+                  "dataSource": "Service Requests",
+                  "connected": true
+                }
+              },
+              "failureFeedback": "Connect the Service Requests table through the Data pane."
+            }
+          ]
+        },
+        {
+          "key": "gallery-powerfx",
+          "title": "Configure gallery search and sorting",
+          "instruction": "Select **Tree view** and set **galRequests.Items** to a formula that uses **Filter** or **Search** with **txtSearch.Text** and wraps the result in **SortByColumns** for **DueDate**.",
+          "hint": "A valid example starts with `SortByColumns(Filter('Service Requests', ... txtSearch.Text ...), \"DueDate\", Ascending)`.",
+          "explanation": "Filter and Search return a table for the gallery; SortByColumns controls order without changing Dataverse rows.",
+          "targetId": "gallery-formula-form",
+          "rules": [
+            {
+              "key": "gallery-configured",
+              "description": "Gallery Items uses a validated formula",
+              "rule": {
+                "type": "arrayContains",
+                "path": "canvasApps",
+                "match": {
+                  "name": "Service Requests Mobile",
+                  "galleryConfigured": true
+                }
+              },
+              "failureFeedback": "Set galRequests.Items with a real Filter/Search + SortByColumns formula."
+            }
+          ]
+        },
+        {
+          "key": "count-and-form",
+          "title": "Add count and edit-form behavior",
+          "instruction": "Set **lblCount.Text** to **CountRows(galRequests.AllItems) & \" requests\"**. Configure **frmRequest.DataSource** as **'Service Requests'**, **frmRequest.Item** as **galRequests.Selected**, and **btnSave.OnSelect** with **SubmitForm(frmRequest)** plus **Notify**.",
+          "hint": "The count should use the gallery rows, not the whole table.",
+          "explanation": "CountRows summarizes visible records, while SubmitForm writes form changes and Notify gives user feedback.",
+          "targetId": "count-formula-form",
+          "rules": [
+            {
+              "key": "count-configured",
+              "description": "Count label is configured",
+              "rule": {
+                "type": "arrayContains",
+                "path": "canvasApps",
+                "match": {
+                  "name": "Service Requests Mobile",
+                  "countConfigured": true
+                }
+              },
+              "failureFeedback": "Configure CountRows(galRequests.AllItems)."
+            },
+            {
+              "key": "form-configured",
+              "description": "Edit form and save button are configured",
+              "rule": {
+                "type": "arrayContains",
+                "path": "canvasApps",
+                "match": {
+                  "name": "Service Requests Mobile",
+                  "formConfigured": true
+                }
+              },
+              "failureFeedback": "Configure frmRequest and btnSave.OnSelect."
+            }
+          ]
+        },
+        {
+          "key": "preview-save-publish",
+          "title": "Test, save, and publish",
+          "instruction": "Select **Preview**, open a request, change **Status** and **Coordinator notes**, then select **Save**. Return to Studio, select **Save**, and then **Publish**.",
+          "hint": "Preview catches formula and form behavior problems before users see the app.",
+          "explanation": "Publishing makes the saved version available to users; testing first reduces broken formulas reaching users.",
+          "targetId": "studio-preview",
+          "rules": [
+            {
+              "key": "preview-tested",
+              "description": "A request was edited in Preview",
+              "rule": {
+                "type": "arrayContains",
+                "path": "canvasApps",
+                "match": {
+                  "name": "Service Requests Mobile",
+                  "previewTested": true
+                }
+              },
+              "failureFeedback": "Use Preview to edit and save a request."
+            },
+            {
+              "key": "published",
+              "description": "The app is saved and published",
+              "rule": {
+                "type": "arrayContains",
+                "path": "canvasApps",
+                "match": {
+                  "name": "Service Requests Mobile",
+                  "saved": true,
+                  "published": true
+                }
+              },
+              "failureFeedback": "Save and publish the app after testing."
+            }
+          ]
+        }
+      ],
+      "finalRules": [
+        {
+          "key": "complete-canvas-app",
+          "description": "The app has Dataverse data, Power Fx formulas, preview verification, and a published version",
+          "rule": {
+            "type": "arrayContains",
+            "path": "canvasApps",
+            "match": {
+              "name": "Service Requests Mobile",
+              "connected": true,
+              "galleryConfigured": true,
+              "countConfigured": true,
+              "formConfigured": true,
+              "previewTested": true,
+              "published": true
+            }
+          },
+          "successFeedback": "The canvas app is connected, formula-driven, tested, and published.",
+          "failureFeedback": "Complete the data connection, formulas, Preview test, Save, and Publish."
+        }
+      ],
+      "solution": "1. Select **Apps**, then open **Service Requests Mobile**.\n2. Select **Data**. Choose **Microsoft Dataverse**, table **Service Requests**, then **Connect**.\n3. Select **Tree view**. Set **galRequests.Items** to `SortByColumns(Filter('Service Requests', IsBlank(txtSearch.Text) || StartsWith(Title, txtSearch.Text) || StartsWith(Status, txtSearch.Text)), \"DueDate\", Ascending)`.\n4. Set **lblCount.Text** to `CountRows(galRequests.AllItems) & \" requests\"`.\n5. Set **frmRequest.DataSource** to `'Service Requests'`, **frmRequest.Item** to `galRequests.Selected`, and **btnSave.OnSelect** to `SubmitForm(frmRequest); Notify(\"Request saved\", NotificationType.Success)`.\n6. Select **Preview**, open a row, update **Status** and **Coordinator notes**, and select **Save**.\n7. Select **Save**, then **Publish**."
+    }
+  ]
+}

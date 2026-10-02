@@ -1,0 +1,546 @@
+{
+  "terms": [
+    {
+      "slug": "git",
+      "term": "Git",
+      "definition": "A distributed version control system that tracks changes to files and supports local commits, branches, and merges.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Git basics",
+        "useCases": [
+          "Track project history",
+          "Work locally before synchronizing"
+        ],
+        "keyFeatures": [
+          "Distributed history",
+          "Commits and branches"
+        ]
+      },
+      "source": {
+        "title": "About Git",
+        "url": "https://docs.github.com/en/get-started/using-git/about-git",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Dosyalardaki değişiklikleri izleyen; yerel commit, branch ve merge işlemlerini destekleyen dağıtık version control sistemi.",
+          "status": "DRAFT",
+          "useCases": [
+            "Track project history",
+            "Work locally before synchronizing"
+          ],
+          "keyFeatures": [
+            "Distributed history",
+            "Commits and branches"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "version-control",
+      "term": "Version control",
+      "definition": "The practice and tooling for recording file changes over time so teams can compare, recover, and collaborate safely.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Git basics",
+        "useCases": [
+          "Audit changes",
+          "Recover earlier versions"
+        ],
+        "keyFeatures": [
+          "History",
+          "Attribution"
+        ]
+      },
+      "source": {
+        "title": "About Git",
+        "url": "https://docs.github.com/en/get-started/using-git/about-git",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Ekiplerin güvenli biçimde karşılaştırma, geri alma ve birlikte çalışma yapabilmesi için dosya değişikliklerini zaman içinde kaydetme yaklaşımı ve araçları.",
+          "status": "DRAFT",
+          "useCases": [
+            "Audit changes",
+            "Recover earlier versions"
+          ],
+          "keyFeatures": [
+            "History",
+            "Attribution"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "repository",
+      "term": "Repository",
+      "definition": "A project container that stores files, revision history, and collaboration context on GitHub.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Repositories",
+        "useCases": [
+          "Store code and documentation",
+          "Collaborate with others"
+        ],
+        "keyFeatures": [
+          "Files",
+          "History",
+          "Collaborators"
+        ]
+      },
+      "source": {
+        "title": "About repositories",
+        "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "GitHub üzerinde dosyaları, değişiklik geçmişini ve iş birliği bağlamını saklayan proje kapsayıcısı.",
+          "status": "DRAFT",
+          "useCases": [
+            "Store code and documentation",
+            "Collaborate with others"
+          ],
+          "keyFeatures": [
+            "Files",
+            "History",
+            "Collaborators"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "commit",
+      "term": "Commit",
+      "definition": "A saved snapshot of staged changes in Git, usually with an author, timestamp, and message explaining the change.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Git basics",
+        "useCases": [
+          "Record a focused change"
+        ],
+        "keyFeatures": [
+          "Message",
+          "Snapshot"
+        ]
+      },
+      "source": {
+        "title": "Introduction to Git",
+        "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/",
+        "kind": "LEARN_MODULE"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Git içinde staged değişikliklerin; genellikle yazar, zaman bilgisi ve açıklama mesajıyla kaydedilmiş anlık görüntüsü.",
+          "status": "DRAFT",
+          "useCases": [
+            "Record a focused change"
+          ],
+          "keyFeatures": [
+            "Message",
+            "Snapshot"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "branch",
+      "term": "Branch",
+      "definition": "A separate line of work in a repository, commonly used to isolate a feature, fix, or documentation update before merge.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Git basics",
+        "useCases": [
+          "Isolate work",
+          "Prepare pull requests"
+        ],
+        "keyFeatures": [
+          "Independent commits",
+          "Can be merged"
+        ]
+      },
+      "source": {
+        "title": "About Git",
+        "url": "https://docs.github.com/en/get-started/using-git/about-git",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir repository içinde feature, düzeltme veya dokümantasyon güncellemesini merge öncesi izole etmek için kullanılan ayrı çalışma çizgisi.",
+          "status": "DRAFT",
+          "useCases": [
+            "Isolate work",
+            "Prepare pull requests"
+          ],
+          "keyFeatures": [
+            "Independent commits",
+            "Can be merged"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "merge",
+      "term": "Merge",
+      "definition": "The act of combining changes from one branch into another branch.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Git basics",
+        "useCases": [
+          "Bring reviewed work into main"
+        ],
+        "keyFeatures": [
+          "Combines histories"
+        ]
+      },
+      "source": {
+        "title": "About Git",
+        "url": "https://docs.github.com/en/get-started/using-git/about-git",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir branch'teki değişiklikleri başka bir branch ile birleştirme işlemi.",
+          "status": "DRAFT",
+          "useCases": [
+            "Bring reviewed work into main"
+          ],
+          "keyFeatures": [
+            "Combines histories"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "clone",
+      "term": "Clone",
+      "definition": "A local copy of a remote repository created so you can work with files and history on your computer.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Git basics",
+        "useCases": [
+          "Start local work from GitHub"
+        ],
+        "keyFeatures": [
+          "Copies files and history"
+        ]
+      },
+      "source": {
+        "title": "Cloning a repository",
+        "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bilgisayarınızda dosyalar ve geçmişle çalışabilmeniz için oluşturulan remote repository'nin yerel kopyası.",
+          "status": "DRAFT",
+          "useCases": [
+            "Start local work from GitHub"
+          ],
+          "keyFeatures": [
+            "Copies files and history"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "pull-request",
+      "term": "Pull request",
+      "definition": "A GitHub collaboration feature for proposing, discussing, reviewing, and merging changes from one branch into another.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Collaboration",
+        "useCases": [
+          "Review proposed changes",
+          "Discuss a diff"
+        ],
+        "keyFeatures": [
+          "Conversation",
+          "Files changed",
+          "Merge decision"
+        ]
+      },
+      "source": {
+        "title": "About pull requests",
+        "url": "https://docs.github.com/en/pull-requests/get-started/about-pull-requests",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir branch'ten diğerine değişiklikleri önermek, tartışmak, incelemek ve merge etmek için kullanılan GitHub iş birliği özelliği.",
+          "status": "DRAFT",
+          "useCases": [
+            "Review proposed changes",
+            "Discuss a diff"
+          ],
+          "keyFeatures": [
+            "Conversation",
+            "Files changed",
+            "Merge decision"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "issue",
+      "term": "Issue",
+      "definition": "A GitHub item used to track ideas, tasks, feedback, bugs, and other work that needs discussion or follow-up.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Collaboration",
+        "useCases": [
+          "Track bugs",
+          "Plan tasks"
+        ],
+        "keyFeatures": [
+          "Labels",
+          "Assignments",
+          "Comments"
+        ]
+      },
+      "source": {
+        "title": "About issues",
+        "url": "https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/about-issues",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Fikirleri, işleri, geri bildirimleri, hataları ve takip gerektiren konuları izlemek için kullanılan GitHub öğesi.",
+          "status": "DRAFT",
+          "useCases": [
+            "Track bugs",
+            "Plan tasks"
+          ],
+          "keyFeatures": [
+            "Labels",
+            "Assignments",
+            "Comments"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "gitignore",
+      "term": ".gitignore",
+      "definition": "A file containing patterns for files and directories Git should ignore when preparing commits.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Repositories",
+        "useCases": [
+          "Avoid generated files in commits"
+        ],
+        "keyFeatures": [
+          "Shared ignore rules"
+        ]
+      },
+      "source": {
+        "title": "Ignoring files",
+        "url": "https://docs.github.com/en/get-started/git-basics/ignoring-files",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Commit hazırlarken Git'in yok sayması gereken dosya ve klasör kalıplarını içeren dosya.",
+          "status": "DRAFT",
+          "useCases": [
+            "Avoid generated files in commits"
+          ],
+          "keyFeatures": [
+            "Shared ignore rules"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "readme",
+      "term": "README",
+      "definition": "A repository file that introduces a project, explains what it does, and often describes setup or usage.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "Repositories",
+        "useCases": [
+          "Onboard visitors",
+          "Explain usage"
+        ],
+        "keyFeatures": [
+          "Project overview",
+          "Setup notes"
+        ]
+      },
+      "source": {
+        "title": "About READMEs",
+        "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Bir projeyi tanıtan, ne yaptığını açıklayan ve çoğunlukla kurulum veya kullanım bilgisini içeren repository dosyası.",
+          "status": "DRAFT",
+          "useCases": [
+            "Onboard visitors",
+            "Explain usage"
+          ],
+          "keyFeatures": [
+            "Project overview",
+            "Setup notes"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "branch-protection-rule",
+      "term": "Branch protection rule",
+      "definition": "A repository rule that can require conditions such as reviews or checks before changes are made to an important branch.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Repositories",
+        "useCases": [
+          "Protect main branch",
+          "Require review"
+        ],
+        "keyFeatures": [
+          "Requirements",
+          "Protected branches"
+        ]
+      },
+      "source": {
+        "title": "About protected branches",
+        "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Önemli bir branch'e değişiklik yapılmadan önce review veya check gibi koşullar isteyebilen repository kuralı.",
+          "status": "DRAFT",
+          "useCases": [
+            "Protect main branch",
+            "Require review"
+          ],
+          "keyFeatures": [
+            "Requirements",
+            "Protected branches"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "github-flow",
+      "term": "GitHub flow",
+      "definition": "A lightweight branch-based workflow where changes are made on a branch, proposed in a pull request, reviewed, and merged.",
+      "kind": "CONCEPT",
+      "attributes": {
+        "category": "Collaboration",
+        "useCases": [
+          "Collaborate on changes",
+          "Keep main stable"
+        ],
+        "keyFeatures": [
+          "Branch",
+          "Pull request",
+          "Review"
+        ]
+      },
+      "source": {
+        "title": "GitHub flow",
+        "url": "https://docs.github.com/en/get-started/using-github/github-flow",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "Değişikliklerin branch üzerinde yapıldığı, pull request ile önerildiği, incelendiği ve merge edildiği hafif branch tabanlı iş akışı.",
+          "status": "DRAFT",
+          "useCases": [
+            "Collaborate on changes",
+            "Keep main stable"
+          ],
+          "keyFeatures": [
+            "Branch",
+            "Pull request",
+            "Review"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "markdown",
+      "term": "Markdown",
+      "definition": "A plain-text formatting syntax used on GitHub for readable issues, pull request descriptions, comments, README files, and documentation.",
+      "kind": "TERM",
+      "attributes": {
+        "category": "GitHub basics",
+        "useCases": [
+          "Format communication",
+          "Write documentation"
+        ],
+        "keyFeatures": [
+          "Headings",
+          "Lists",
+          "Code blocks"
+        ]
+      },
+      "source": {
+        "title": "About writing and formatting on GitHub",
+        "url": "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/about-writing-and-formatting-on-github",
+        "kind": "DOCUMENTATION"
+      },
+      "certifications": [
+        "GH-900"
+      ],
+      "translations": {
+        "tr": {
+          "definition": "GitHub üzerinde issue, pull request açıklaması, yorum, README ve dokümantasyonu okunabilir biçimde yazmak için kullanılan düz metin biçimlendirme sözdizimi.",
+          "status": "DRAFT",
+          "useCases": [
+            "Format communication",
+            "Write documentation"
+          ],
+          "keyFeatures": [
+            "Headings",
+            "Lists",
+            "Code blocks"
+          ]
+        }
+      }
+    }
+  ]
+}

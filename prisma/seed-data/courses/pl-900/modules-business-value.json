@@ -1,0 +1,369 @@
+{
+  "domainKey": "business-value",
+  "modules": [
+    {
+      "slug": "pl900-platform-business-value",
+      "title": "Power Platform business value",
+      "summary": "Introduces low-code services, integration, fusion teams, and Copilot-assisted creation.",
+      "lessons": [
+        {
+          "slug": "pl900-business-value",
+          "title": "Business value of Microsoft Power Platform",
+          "objectiveCode": "1.1",
+          "estimatedMinutes": 12,
+          "summary": "Understand how Power Platform creates business value with apps, automation, Dataverse, connectors, websites, agents, and Copilot-assisted creation.",
+          "learningObjectives": [
+            "Describe how Power Platform creates apps, automations, sites, and agents",
+            "Identify Dataverse and connectors as shared data integration pieces",
+            "Explain how Copilot assists makers in building solutions",
+            "Choose a Power Platform service for a basic business need"
+          ],
+          "explanation": "A stuck spreadsheet is often where Power Platform begins. **Power Apps** builds custom business apps, **Power Automate** automates processes, **Microsoft Dataverse** organizes shared business data, **connectors** integrate Microsoft 365, Dynamics 365, Azure, and external services, **Power Pages** creates external business websites, and **Copilot Studio** creates agents. Low-code lets business experts build useful solutions while professional developers extend them with APIs, custom connectors, and Azure services. Copilot features can draft apps, flows, tables, and agent topics, but people still validate business fit, security, accessibility, and data policies.",
+          "terminology": [
+            {
+              "term": "Low-code",
+              "definition": "Visual development with less handwritten code."
+            },
+            {
+              "term": "Connector",
+              "definition": "A wrapper around an API used by apps, flows, and agents."
+            },
+            {
+              "term": "Fusion team",
+              "definition": "Business and developer roles building together."
+            },
+            {
+              "term": "Copilot",
+              "definition": "AI assistance for drafting or changing solution assets."
+            }
+          ],
+          "businessScenario": "Tailwind Traders replaces email-based equipment requests with Power Apps, Dataverse, Power Automate, connectors, and a Copilot Studio help agent.",
+          "technicalExample": "A canvas app writes Equipment Request rows to Dataverse, a flow sends Outlook approvals, and a custom connector calls a legacy inventory API.",
+          "misconception": {
+            "myth": "Power Platform is only for tiny personal tools.",
+            "reality": "It can start small but supports environments, roles, data policies, ALM, and developer extensibility."
+          },
+          "examTakeaway": "Apps suggest Power Apps, process steps suggest Power Automate, structured shared data suggests Dataverse, external sites suggest Power Pages, and conversational assistants suggest Copilot Studio.",
+          "recap": "Power Platform combines low-code services, connectors, Dataverse, AI assistance, and governance to create business solutions faster.",
+          "simplerExplanation": "Think of a workshop: apps are tools, Dataverse is the cabinet, connectors are adapters, automation is the conveyor belt, and governance is the safety checklist.",
+          "anotherExample": "A school could use Power Pages for a parent portal, Dataverse for cases, Power Automate for routing, and Copilot Studio for FAQs.",
+          "extraBlocks": [
+            {
+              "type": "COMPARISON",
+              "data": {
+                "title": "Service value",
+                "columns": [
+                  {
+                    "title": "Create experiences",
+                    "points": [
+                      "Power Apps for internal apps",
+                      "Power Pages for external sites"
+                    ]
+                  },
+                  {
+                    "title": "Connect and automate",
+                    "points": [
+                      "Connectors integrate services",
+                      "Power Automate coordinates steps"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ACTIVITY",
+              "data": {
+                "title": "Choose the service",
+                "instructions": "Name the likely service.",
+                "items": [
+                  {
+                    "prompt": "Mobile inspection form",
+                    "answer": "Power Apps"
+                  },
+                  {
+                    "prompt": "Partner-facing request website",
+                    "answer": "Power Pages"
+                  }
+                ]
+              }
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Power Apps value",
+              "back": "Build custom business apps quickly."
+            },
+            {
+              "front": "Dataverse value",
+              "back": "Secure shared business data."
+            },
+            {
+              "front": "Connector value",
+              "back": "Integrate services without writing every API call."
+            },
+            {
+              "front": "Fusion team",
+              "back": "Business experts and developers collaborate."
+            }
+          ],
+          "sources": [
+            {
+              "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+              "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+              "kind": "STUDY_GUIDE"
+            },
+            {
+              "title": "What is Power Apps?",
+              "url": "https://learn.microsoft.com/en-us/power-apps/powerapps-overview",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "Copilot Studio, Power Platform, and Azure Logic Apps connectors documentation",
+              "url": "https://learn.microsoft.com/en-us/connectors/",
+              "kind": "DOCUMENTATION"
+            },
+            {
+              "title": "What is Power Pages?",
+              "url": "https://learn.microsoft.com/en-us/power-pages/introduction",
+              "kind": "DOCUMENTATION"
+            }
+          ],
+          "knowledgeCheck": [
+            {
+              "ref": "pl900-biz-001",
+              "type": "SINGLE_CHOICE",
+              "domainKey": "business-value",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Tailwind Traders needs a mobile inspection form that writes results to governed business data and can call existing services. Which Power Platform choice should start the solution?",
+              "explanation": "Power Apps is the right starting point because the need is an interactive custom business app, while Dataverse and connectors provide shared data and integrations.",
+              "lessonSlug": "pl900-business-value",
+              "sources": [
+                {
+                  "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Power Apps?",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/powerapps-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Power Apps with Dataverse and connectors",
+                  "correct": true,
+                  "explanation": "This builds a custom app over governed business data."
+                },
+                {
+                  "key": "B",
+                  "text": "A static PDF",
+                  "correct": false,
+                  "explanation": "A PDF does not create an integrated app."
+                },
+                {
+                  "key": "C",
+                  "text": "A personal email thread",
+                  "correct": false,
+                  "explanation": "Email alone does not provide structured app behavior."
+                }
+              ]
+            },
+            {
+              "ref": "pl900-biz-002",
+              "type": "MULTIPLE_RESPONSE",
+              "domainKey": "business-value",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Which **two** statements describe business value that Microsoft Power Platform can provide to a fusion team?",
+              "explanation": "The value comes from faster low-code delivery and connector-based integration; governance and professional developers are still part of the platform story.",
+              "lessonSlug": "pl900-business-value",
+              "sources": [
+                {
+                  "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Power Apps?",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/powerapps-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "selectCount": 2,
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Low-code makers can create apps faster.",
+                  "correct": true,
+                  "explanation": "Low-code speeds common app scenarios."
+                },
+                {
+                  "key": "B",
+                  "text": "Connectors integrate Microsoft and external services.",
+                  "correct": true,
+                  "explanation": "Connectors reduce custom integration work."
+                },
+                {
+                  "key": "C",
+                  "text": "Governance becomes unnecessary.",
+                  "correct": false,
+                  "explanation": "Governance remains essential."
+                },
+                {
+                  "key": "D",
+                  "text": "Only professional developers can build anything.",
+                  "correct": false,
+                  "explanation": "Makers and developers can collaborate."
+                }
+              ]
+            },
+            {
+              "ref": "pl900-biz-003",
+              "type": "MATCHING",
+              "domainKey": "business-value",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "Match each Tailwind Traders business need to the Power Platform service that addresses it.",
+              "explanation": "Power Pages fits external sites, Dataverse stores shared business data, and Copilot Studio creates conversational agents.",
+              "lessonSlug": "pl900-business-value",
+              "sources": [
+                {
+                  "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Power Apps?",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/powerapps-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "matching": {
+                "prompts": [
+                  {
+                    "id": "p1",
+                    "text": "External website"
+                  },
+                  {
+                    "id": "p2",
+                    "text": "Shared business data"
+                  },
+                  {
+                    "id": "p3",
+                    "text": "Agent"
+                  }
+                ],
+                "answers": [
+                  {
+                    "id": "a1",
+                    "text": "Power Pages"
+                  },
+                  {
+                    "id": "a2",
+                    "text": "Dataverse"
+                  },
+                  {
+                    "id": "a3",
+                    "text": "Copilot Studio"
+                  }
+                ],
+                "pairs": {
+                  "p1": "a1",
+                  "p2": "a2",
+                  "p3": "a3"
+                },
+                "explanations": {
+                  "p1": "Power Pages builds sites.",
+                  "p2": "Dataverse stores data.",
+                  "p3": "Copilot Studio builds agents."
+                }
+              }
+            },
+            {
+              "ref": "pl900-biz-004",
+              "type": "TRUE_FALSE",
+              "domainKey": "business-value",
+              "objectiveCode": "1.1",
+              "difficulty": "EASY",
+              "stem": "Fusion teams combine business expertise with professional development skills when creating Power Platform solutions.",
+              "explanation": "The statement is true because fusion teams bring makers who know the process together with developers who can extend and govern the solution.",
+              "lessonSlug": "pl900-business-value",
+              "sources": [
+                {
+                  "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Power Apps?",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/powerapps-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "TRUE",
+                  "text": "True",
+                  "correct": true,
+                  "explanation": "Correct. Fusion teams bring business experts together with professional developers so Power Platform solutions reflect process knowledge and technical governance."
+                },
+                {
+                  "key": "FALSE",
+                  "text": "False",
+                  "correct": false,
+                  "explanation": "Choosing False misses that fusion teams intentionally combine business expertise with developer skills."
+                }
+              ]
+            },
+            {
+              "ref": "pl900-biz-005",
+              "type": "SCENARIO",
+              "domainKey": "business-value",
+              "objectiveCode": "1.1",
+              "difficulty": "MEDIUM",
+              "stem": "What Power Platform pattern is shown when Tailwind Traders replaces an equipment-request spreadsheet with an app, shared tables, and service integrations?",
+              "explanation": "The pattern is a Power Apps solution that uses Dataverse for governed data and connectors for integration, not a static document or email-only process.",
+              "lessonSlug": "pl900-business-value",
+              "sources": [
+                {
+                  "title": "Study guide for Exam PL-900: Microsoft Power Platform Fundamentals",
+                  "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-900",
+                  "kind": "STUDY_GUIDE"
+                },
+                {
+                  "title": "What is Power Apps?",
+                  "url": "https://learn.microsoft.com/en-us/power-apps/powerapps-overview",
+                  "kind": "DOCUMENTATION"
+                }
+              ],
+              "options": [
+                {
+                  "key": "A",
+                  "text": "Power Apps with Dataverse and connectors",
+                  "correct": true,
+                  "explanation": "This builds a custom app over governed business data."
+                },
+                {
+                  "key": "B",
+                  "text": "A static PDF",
+                  "correct": false,
+                  "explanation": "A PDF does not create an integrated app."
+                },
+                {
+                  "key": "C",
+                  "text": "A personal email thread",
+                  "correct": false,
+                  "explanation": "Email alone does not provide structured app behavior."
+                }
+              ],
+              "scenario": "Tailwind Traders wants to replace a manual spreadsheet process."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

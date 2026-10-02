@@ -1,0 +1,93 @@
+{
+  "certification": "AB-900",
+  "lab": "manage-groups-teams-mailboxes",
+  "note": "Create Project Phoenix as a private Teams-connected Microsoft 365 group, compare object types, create and delegate a shared mailbox.",
+  "events": [
+    {
+      "type": "navigate",
+      "page": "groups"
+    },
+    {
+      "type": "click",
+      "componentId": "add-group"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "group-wizard",
+      "values": {
+        "name": "Project Phoenix",
+        "description": "Private collaboration workspace for Project Phoenix.",
+        "owners": [
+          "alex@contoso.example",
+          "miriam@contoso.example"
+        ],
+        "members": [
+          "jordan@contoso.example",
+          "nina@contoso.example"
+        ],
+        "email": "project-phoenix",
+        "privacy": "Private",
+        "createTeam": true
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "group-settings-form",
+      "values": {
+        "guestAccess": "Guests must be approved",
+        "externalSenders": false
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "compare"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "object-choice-form",
+      "values": {
+        "collaboration": "Microsoft 365 group",
+        "resourceAccess": "Security group",
+        "announcements": "Distribution list"
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "mailboxes"
+    },
+    {
+      "type": "click",
+      "componentId": "add-mailbox"
+    },
+    {
+      "type": "submitForm",
+      "componentId": "mailbox-form",
+      "values": {
+        "name": "Project Phoenix Contracts",
+        "email": "project-phoenix-contracts"
+      }
+    },
+    {
+      "type": "submitForm",
+      "componentId": "delegation-form",
+      "values": {
+        "readManage": [
+          "alex@contoso.example",
+          "miriam@contoso.example"
+        ],
+        "sendAs": [
+          "alex@contoso.example",
+          "miriam@contoso.example"
+        ]
+      }
+    },
+    {
+      "type": "navigate",
+      "page": "groups"
+    },
+    {
+      "type": "navigate",
+      "page": "mailboxes"
+    }
+  ]
+}
